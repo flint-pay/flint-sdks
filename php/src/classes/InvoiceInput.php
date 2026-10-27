@@ -94,7 +94,7 @@ final class InvoiceInput extends Model {
      */
     public function getCreditMoney(): mixed { return $this->get('credit_money'); }
     public function hasCreditMoney(): bool { return $this->has('credit_money'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due time has arrived and that still has a balance, or 0 when there is none. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see MoneyValueInput}. The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due time has arrived and that still has a balance, or 0 when there is none. It is the amount the next collect call or checkout session charges. To total everything past due, add the outstanding_money of the entries whose status is due or overdue. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When currently_due_money is omitted; use hasCurrentlyDueMoney() or valueOrDefault().
      */
@@ -124,13 +124,13 @@ final class InvoiceInput extends Model {
      */
     public function getDueAt(): string|\DateTimeInterface { return $this->get('due_at'); }
     public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** Shape $ (Value): string or null. Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Shape $ (Value): string or null. Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice. null when unset. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): string or null. Fine print at the bottom of the invoice and PDF. It cannot change after issue.
+    /** Shape $ (Value): string or null. Fine print at the bottom of the invoice and PDF. It cannot change after issue. null when unset.
      * @return string|null
      * @throws SdkError When footer is omitted; use hasFooter() or valueOrDefault().
      */
@@ -172,7 +172,7 @@ final class InvoiceInput extends Model {
      */
     public function getLateFees(): array { return $this->get('late_fees'); }
     public function hasLateFees(): bool { return $this->has('late_fees'); }
-    /** Shape $ (Value): string or null. Message to the customer, shown on the invoice. It cannot change after issue.
+    /** Shape $ (Value): string or null. Message to the customer, printed on the invoice and PDF. It cannot change after issue. null when unset.
      * @return string|null
      * @throws SdkError When memo is omitted; use hasMemo() or valueOrDefault().
      */
@@ -232,25 +232,25 @@ final class InvoiceInput extends Model {
      */
     public function getPaymentTermsSnapshot(): mixed { return $this->get('payment_terms_snapshot'); }
     public function hasPaymentTermsSnapshot(): bool { return $this->has('payment_terms_snapshot'); }
-    /** Shape $ (Value): string or null. The buyer's purchase order number.
+    /** Shape $ (Value): string or null. The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. null when unset.
      * @return string|null
      * @throws SdkError When po_number is omitted; use hasPoNumber() or valueOrDefault().
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
-    /** Shape $ (Value): string. The hosted invoice link where the buyer views and pays the invoice. Present after issue on API reads; webhook payloads leave it out. regenerate-public-link replaces it. Anyone with the link can open the invoice, so treat it as a secret.
+    /** Shape $ (Value): string. The hosted invoice link where the buyer views and pays the invoice. Present after issue on API reads, except a list filtered by idempotency_key; webhook payloads leave it out. regenerate-public-link replaces it. Anyone with the link can open the invoice, so treat it as a secret.
      * @return string
      * @throws SdkError When public_url is omitted; use hasPublicUrl() or valueOrDefault().
      */
     public function getPublicUrl(): string { return $this->get('public_url'); }
     public function hasPublicUrl(): bool { return $this->has('public_url'); }
-    /** Shape $ (Value): string or null. Where invoice email goes. Email delivery requires it at issue.
+    /** Shape $ (Value): string or null. Where Flint emails the invoice and its reminders. Email delivery requires it at issue. null when unset.
      * @return string|null
      * @throws SdkError When recipient_email is omitted; use hasRecipientEmail() or valueOrDefault().
      */
     public function getRecipientEmail(): string|null { return $this->get('recipient_email'); }
     public function hasRecipientEmail(): bool { return $this->has('recipient_email'); }
-    /** Shape $ (Value): string or null. Customer-facing reference shown on the invoice and PDF. It cannot change after issue.
+    /** Shape $ (Value): string or null. Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. null when unset.
      * @return string|null
      * @throws SdkError When reference is omitted; use hasReference() or valueOrDefault().
      */
@@ -292,13 +292,13 @@ final class InvoiceInput extends Model {
      */
     public function getScheduleEntries(): array { return $this->get('schedule_entries'); }
     public function hasScheduleEntries(): bool { return $this->has('schedule_entries'); }
-    /** Shape $ (Value): string or null. When Flint will issue and deliver this draft. Cleared when the draft is issued or voided, or when you send null. Format: date-time.
+    /** Shape $ (Value): string or null. When Flint will issue and deliver this draft. null when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. Format: date-time.
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_issue_at is omitted; use hasScheduledIssueAt() or valueOrDefault().
      */
     public function getScheduledIssueAt(): string|\DateTimeInterface|null { return $this->get('scheduled_issue_at'); }
     public function hasScheduledIssueAt(): bool { return $this->has('scheduled_issue_at'); }
-    /** Shape $ (Value): string or null. The calendar service date shown on the invoice, in YYYY-MM-DD format. Format: date.
+    /** Shape $ (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. null when unset. Format: date.
      * @return string|null
      * @throws SdkError When service_date is omitted; use hasServiceDate() or valueOrDefault().
      */
@@ -316,7 +316,7 @@ final class InvoiceInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string or null. Subscription of the backing order, copied when the draft is created. Null for orders without a subscription.
+    /** Shape $ (Value): string or null. The subscription the backing order belongs to, copied when the draft is created and never changed. null when the order isn't part of a subscription.
      * @return string|null
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

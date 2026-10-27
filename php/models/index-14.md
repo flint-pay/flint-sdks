@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# ModifierSetGroupInputInlineInput – PackageCreateInputShippedInput
+# ModifierSetGroupExistingInput – PackageItemInput
 
+- [ModifierSetGroupExistingInput](ModifierSetGroupExistingInput.md)
+- [ModifierSetGroupInlineInput](ModifierSetGroupInlineInput.md)
+- [ModifierSetGroupInputExistingInput](ModifierSetGroupInputExistingInput.md)
 - [ModifierSetGroupInputInlineInput](ModifierSetGroupInputInlineInput.md)
 - [ModifierSetGroupRequestInput](ModifierSetGroupRequestInput.md)
 - [ModifierSetListResponseInput](ModifierSetListResponseInput.md)
@@ -13,9 +16,6 @@
 - [NextActionInput](NextActionInput.md)
 - [NextActionMerchantAccountSessionInput](NextActionMerchantAccountSessionInput.md)
 - [OnboardingAdvanceRequestInput](OnboardingAdvanceRequestInput.md)
-- [OnboardingLaunchRecommendedPolicyInput](OnboardingLaunchRecommendedPolicyInput.md)
-- [OnboardingLaunchReferenceInput](OnboardingLaunchReferenceInput.md)
-- [OnboardingNextStepInput](OnboardingNextStepInput.md)
 - [OnboardingProfileInput](OnboardingProfileInput.md)
 - [OnboardingProfileRequestInput](OnboardingProfileRequestInput.md)
 - [OnboardingStartRequestInput](OnboardingStartRequestInput.md)
@@ -70,8 +70,6 @@
 - [OrderPaymentAttemptPaymentMethodSaveInput](OrderPaymentAttemptPaymentMethodSaveInput.md)
 - [OrderPaymentAttemptResponseInput](OrderPaymentAttemptResponseInput.md)
 - [OrderPaymentIntentSelectionInput](OrderPaymentIntentSelectionInput.md)
-- [OrderPaymentLifecycleResponseInput](OrderPaymentLifecycleResponseInput.md)
-- [OrderPaymentLifecycleResultInput](OrderPaymentLifecycleResultInput.md)
 - [OrderPaymentSourceCardSelectionInput](OrderPaymentSourceCardSelectionInput.md)
 - [OrderPaymentSourceSelectionInput](OrderPaymentSourceSelectionInput.md)
 - [OrderResponseInput](OrderResponseInput.md)
@@ -102,4 +100,6 @@
 - [PackageInput](PackageInput.md)
 - [PackageCreateInputCreatedInput](PackageCreateInputCreatedInput.md)
 - [PackageCreateInputShippedInput](PackageCreateInputShippedInput.md)
+- [PackageCreateRequestInput](PackageCreateRequestInput.md)
+- [PackageItemInput](PackageItemInput.md)
 

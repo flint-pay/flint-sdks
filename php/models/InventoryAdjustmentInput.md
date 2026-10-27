@@ -10,7 +10,7 @@ Request input.
 | --- | --- | --- | --- |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `external_actor_id` | Optional | string | Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: `255`. |
-| `idempotency_key` | Required | string |  |
+| `idempotency_key` | Optional | string | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. |
 | `inventory_adjustment_id` | Required | string |  |
 | `lines` | Required | Array of [InventoryAdjustmentLineInput](../models/InventoryAdjustmentLineInput.md#inventoryadjustmentlineinput) |  |
 | `note` | Optional | string |  |

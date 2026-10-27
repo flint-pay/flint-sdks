@@ -22,6 +22,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->organizations->create([
   'name' => 'example',
+  'parent_organization_id' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->organization_id . PHP_EOL;
 echo $result->status . PHP_EOL;

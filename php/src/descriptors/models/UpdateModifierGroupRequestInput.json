@@ -1,1 +1,1 @@
-{"shared":"UpdateModifierGroupRequest","dependencies":["ModifierRequest","MoneyValue","SharedCodec1188","SharedCodec1195","TextModifierConfigPatchRequest","UpdateModifierGroupRequest"]}
+{"shared":"UpdateModifierGroupRequest","dependencies":["ModifierRequest","MoneyValue","SharedCodec1199","SharedCodec1206","TextModifierConfigPatchRequest","UpdateModifierGroupRequest"]}

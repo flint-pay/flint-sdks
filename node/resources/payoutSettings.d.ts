@@ -12,9 +12,9 @@ import type {
     PayoutSettingsUpdatePayoutDestinationInput
 } from '../declarations/types-37.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { UpdatePayoutDestinationRequestInput, UpdatePayoutSettingsRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { UpdatePayoutDestinationRequestInput, UpdatePayoutSettingsRequestInput } from '../declarations/types-49.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,8 +29,8 @@ export type {
 } from '../runtime.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type { PayoutDestination, PayoutDestinationResponse, PayoutDestinationListResponse } from '../declarations/types-36.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type {
     PayoutSettings,
     PayoutSettingsResponse,
@@ -41,11 +41,7 @@ export type {
     PayoutSettingsUpdatePayoutDestinationInput,
     PayoutSettingsUpdateInput
 } from '../declarations/types-37.js';
-export type {
-    UpdatePayoutDestinationRequestInput,
-    UpdatePayoutSettingsRequestInput,
-    UpdatePayoutDestinationRequest
-} from '../declarations/types-48.js';
+export type { UpdatePayoutDestinationRequestInput, UpdatePayoutSettingsRequestInput } from '../declarations/types-49.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -59,39 +55,41 @@ export type {
     MoneyValueInput
 } from '../declarations/types-31.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdatePayoutDestinationRequest, makeUpdatePayoutSettingsRequest } from '../declarations/types-72.js';
+export { makeUpdatePayoutDestinationRequest, makeUpdatePayoutSettingsRequest } from '../declarations/types-73.js';
 export interface PayoutSettingsResource {
     /**
- * Disables an eligible payout destination and returns its final state. Safe to retry with the same
- * Idempotency-Key.
+ * Archives the payout destination and returns it with `status: archived`. It stays readable by ID.
+ * You can't delete the active default destination. Safe to retry with the same Idempotency-Key.
  * @see reference/payoutSettings.md#payoutsettingsdeletepayoutdestination
- * DELETE /v1/payout-settings/destinations/{payout_destination_id}
+ * DELETE /v1/payout-destinations/{payout_destination_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.payoutSettings.deletePayoutDestination("example", {}, { idempotencyKey: idempotencyKey })
  */
     deletePayoutDestination(payout_destination_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PayoutDestination>;
+    }, options?: RequestOptions<"merchant">): Promise<PayoutDestination>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/payoutSettings.md#payoutsettingsdeletepayoutdestination
      */
     deletePayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutDestinationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PayoutDestinationResponse>>;
     /**
  * Returns one payout destination by ID.
  * @see reference/payoutSettings.md#payoutsettingsgetpayoutdestination
- * GET /v1/payout-settings/destinations/{payout_destination_id}
+ * GET /v1/payout-destinations/{payout_destination_id}
  * @example
  * client.payoutSettings.getPayoutDestination("example")
  */
-    getPayoutDestination(payout_destination_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PayoutDestination>;
+    getPayoutDestination(payout_destination_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PayoutDestination>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/payoutSettings.md#payoutsettingsgetpayoutdestination
      */
-    getPayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutDestinationResponse>>;
+    getPayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PayoutDestinationResponse>>;
     /**
  * Returns payout settings that control default payout behavior for the authenticated merchant.
  * @see reference/payoutSettings.md#payoutsettingsget
@@ -99,15 +97,15 @@ export interface PayoutSettingsResource {
  * @example
  * client.payoutSettings.get()
  */
-    get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PayoutSettings>;
+    get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PayoutSettings>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/payoutSettings.md#payoutsettingsget
      */
-    getWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutSettingsResponse>>;
+    getWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PayoutSettingsResponse>>;
     /**
  * Returns a paginated list of payout destinations available to the authenticated merchant.
  * @see reference/payoutSettings.md#payoutsettingslistpayoutdestinations
- * GET /v1/payout-settings/destinations
+ * GET /v1/payout-destinations
  * @example
  * client.payoutSettings.listPayoutDestinations()
  */
@@ -115,11 +113,11 @@ export interface PayoutSettingsResource {
         "currency"?: InputValue<string>;
         "type"?: InputValue<Array<"bank_account" | "debit_card">>;
         "status"?: InputValue<Array<"pending" | "active" | "verification_required" | "disabled" | "archived" | "failed">>;
-        "available_payout_method"?: InputValue<Array<"standard">>;
+        "available_payout_methods"?: InputValue<Array<"standard">>;
         "default_for_currency"?: InputValue<boolean>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PayoutDestinationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PayoutDestinationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/payoutSettings.md#payoutsettingslistpayoutdestinations
      */
@@ -127,11 +125,11 @@ export interface PayoutSettingsResource {
         "currency"?: InputValue<string>;
         "type"?: InputValue<Array<"bank_account" | "debit_card">>;
         "status"?: InputValue<Array<"pending" | "active" | "verification_required" | "disabled" | "archived" | "failed">>;
-        "available_payout_method"?: InputValue<Array<"standard">>;
+        "available_payout_methods"?: InputValue<Array<"standard">>;
         "default_for_currency"?: InputValue<boolean>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PayoutDestinationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PayoutDestinationListResponse>>;
     /** Iterate pages lazily.
      * @see reference/payoutSettings.md#payoutsettingslistpayoutdestinations
      */
@@ -139,11 +137,11 @@ export interface PayoutSettingsResource {
         "currency"?: InputValue<string>;
         "type"?: InputValue<Array<"bank_account" | "debit_card">>;
         "status"?: InputValue<Array<"pending" | "active" | "verification_required" | "disabled" | "archived" | "failed">>;
-        "available_payout_method"?: InputValue<Array<"standard">>;
+        "available_payout_methods"?: InputValue<Array<"standard">>;
         "default_for_currency"?: InputValue<boolean>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PayoutDestinationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PayoutDestinationListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/payoutSettings.md#payoutsettingslistpayoutdestinations
      */
@@ -151,11 +149,11 @@ export interface PayoutSettingsResource {
         "currency"?: InputValue<string>;
         "type"?: InputValue<Array<"bank_account" | "debit_card">>;
         "status"?: InputValue<Array<"pending" | "active" | "verification_required" | "disabled" | "archived" | "failed">>;
-        "available_payout_method"?: InputValue<Array<"standard">>;
+        "available_payout_methods"?: InputValue<Array<"standard">>;
         "default_for_currency"?: InputValue<boolean>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PayoutDestinationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PayoutDestinationListResponse>>;
     /** Iterate items lazily.
      * @see reference/payoutSettings.md#payoutsettingslistpayoutdestinations
      */
@@ -163,16 +161,16 @@ export interface PayoutSettingsResource {
         "currency"?: InputValue<string>;
         "type"?: InputValue<Array<"bank_account" | "debit_card">>;
         "status"?: InputValue<Array<"pending" | "active" | "verification_required" | "disabled" | "archived" | "failed">>;
-        "available_payout_method"?: InputValue<Array<"standard">>;
+        "available_payout_methods"?: InputValue<Array<"standard">>;
         "default_for_currency"?: InputValue<boolean>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PayoutDestination>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PayoutDestination>;
     /**
  * Updates mutable metadata and settings for a payout destination. Safe to retry with the same
  * Idempotency-Key.
  * @see reference/payoutSettings.md#payoutsettingsupdatepayoutdestination
- * PATCH /v1/payout-settings/destinations/{payout_destination_id}
+ * PATCH /v1/payout-destinations/{payout_destination_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
@@ -181,14 +179,14 @@ export interface PayoutSettingsResource {
     updatePayoutDestination(payout_destination_id: InputValue<string>, params: (InputValue<UpdatePayoutDestinationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PayoutDestination>;
+    }, options?: RequestOptions<"merchant">): Promise<PayoutDestination>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/payoutSettings.md#payoutsettingsupdatepayoutdestination
      */
     updatePayoutDestinationWithResponse(payout_destination_id: InputValue<string>, params: (InputValue<UpdatePayoutDestinationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutDestinationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PayoutDestinationResponse>>;
     /**
  * Updates mutable payout settings for the authenticated merchant. Safe to retry with the same
  * Idempotency-Key.
@@ -202,14 +200,14 @@ export interface PayoutSettingsResource {
     update(params: (InputValue<UpdatePayoutSettingsRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PayoutSettings>;
+    }, options?: RequestOptions<"merchant">): Promise<PayoutSettings>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/payoutSettings.md#payoutsettingsupdate
      */
     updateWithResponse(params: (InputValue<UpdatePayoutSettingsRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PayoutSettingsResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PayoutSettingsResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

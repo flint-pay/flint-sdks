@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $payment_intent_id
- * @property-read array{'payment_source_token': string, 'save_payment_method'?: bool}|object|array{'payment_method_id': string, 'save_payment_method'?: bool}|object|array{'save_payment_method'?: bool, 'stripe': array{'confirmation_token': string}|object}|object|array{'save_payment_method'?: bool}|object $body
+ * @property-read array{'expected_version'?: string, 'payment_source_token': string, 'save_payment_method'?: bool}|object|array{'expected_version'?: string, 'payment_method_id': string, 'save_payment_method'?: bool}|object|array{'expected_version'?: string, 'save_payment_method'?: bool, 'stripe': array{'confirmation_token': string}|object}|object|array{'expected_version'?: string, 'save_payment_method'?: bool}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsConfirmInput extends Model {
-    /** @param array{'payment_intent_id': string, 'Flint-Buyer-Device'?: string, 'Idempotency-Key'?: string, 'body'?: array{'payment_source_token': string, 'save_payment_method'?: bool}|object|array{'payment_method_id': string, 'save_payment_method'?: bool}|object|array{'save_payment_method'?: bool, 'stripe': array{'confirmation_token': string}|object}|object|array{'save_payment_method'?: bool}|object}|object $values */
+    /** @param array{'payment_intent_id': string, 'Flint-Buyer-Device'?: string, 'Idempotency-Key'?: string, 'body'?: array{'expected_version'?: string, 'payment_source_token': string, 'save_payment_method'?: bool}|object|array{'expected_version'?: string, 'payment_method_id': string, 'save_payment_method'?: bool}|object|array{'expected_version'?: string, 'save_payment_method'?: bool, 'stripe': array{'confirmation_token': string}|object}|object|array{'expected_version'?: string, 'save_payment_method'?: bool}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsConfirmInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -27,7 +27,7 @@ final class PaymentIntentsConfirmInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): Alternative shapes (see declared variants). The request body for: Confirm payment intent.
-     * @return array{'payment_source_token': string, 'save_payment_method'?: bool}|object|array{'payment_method_id': string, 'save_payment_method'?: bool}|object|array{'save_payment_method'?: bool, 'stripe': array{'confirmation_token': string}|object}|object|array{'save_payment_method'?: bool}|object
+     * @return array{'expected_version'?: string, 'payment_source_token': string, 'save_payment_method'?: bool}|object|array{'expected_version'?: string, 'payment_method_id': string, 'save_payment_method'?: bool}|object|array{'expected_version'?: string, 'save_payment_method'?: bool, 'stripe': array{'confirmation_token': string}|object}|object|array{'expected_version'?: string, 'save_payment_method'?: bool}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): mixed { return $this->get('body'); }

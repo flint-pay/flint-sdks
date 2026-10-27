@@ -23,7 +23,7 @@ Request input.
 | `merchant_id` | Required | string |  |
 | `metadata` | Optional | Map of string |  |
 | `organization` | Optional | [ExpandedOrganizationSummaryInput](../models/ExpandedOrganizationSummaryInput.md#expandedorganizationsummaryinput) or null |  |
-| `organization_id` | Optional | string |  |
+| `organization_id` | Required | string | The organization this merchant belongs to. Flint creates it with the merchant, and it can't be changed through the API. |
 | `phone` | Optional | string |  |
 | `readiness` | Required | [MerchantReadinessInput](../models/MerchantReadinessInput.md#merchantreadinessinput) | A merchant's readiness to accept payments and receive payouts, with per-capability status and outstanding requirements. |
 | `reporting_timezone` | Optional | string |  |

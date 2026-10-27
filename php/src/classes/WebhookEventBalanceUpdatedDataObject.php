@@ -27,7 +27,7 @@ final class WebhookEventBalanceUpdatedDataObject extends Model {
      */
     public function getAvailableMoney(): SignedMoney { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Stable identifier of this currency's balance.
      * @return string
      */
     public function getBalanceId(): string { return $this->get('balance_id'); }
@@ -42,7 +42,7 @@ final class WebhookEventBalanceUpdatedDataObject extends Model {
      */
     public function getHeldMoney(): MoneyValue { return $this->get('held_money'); }
     public function hasHeldMoney(): bool { return $this->has('held_money'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Merchant whose balance this is.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
@@ -52,7 +52,7 @@ final class WebhookEventBalanceUpdatedDataObject extends Model {
      */
     public function getObservedAt(): string { return $this->get('observed_at'); }
     public function hasObservedAt(): bool { return $this->has('observed_at'); }
-    /** Shape $ (Value): boolean.
+    /** Shape $ (Value): boolean. Whether your account can receive payouts. While it is false, payments can still succeed, and their funds wait in your balance.
      * @return bool
      */
     public function getPayoutsEnabled(): bool { return $this->get('payouts_enabled'); }

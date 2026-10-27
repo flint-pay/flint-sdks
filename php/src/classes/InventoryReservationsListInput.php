@@ -71,7 +71,7 @@ final class InventoryReservationsListInput extends Model {
      */
     public function getOwnerKey(): string { return $this->get('owner_key'); }
     public function hasOwnerKey(): bool { return $this->has('owner_key'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

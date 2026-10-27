@@ -1,30 +1,62 @@
 import type {
+    Webhook_payment_review_reopened_installed_merchants,
+    Webhook_payment_review_reopened_merchant,
     Webhook_payment_intent_requires_action_installed_merchants,
     Webhook_payment_intent_requires_action_merchant,
     Webhook_payment_method_activated_installed_merchants,
     Webhook_payment_method_activated_merchant,
-    Webhook_product_variant_archived_installed_merchants,
-    Webhook_product_variant_archived_merchant,
-    Webhook_promotion_created_installed_merchants,
-    Webhook_promotion_created_merchant,
-    Webhook_payout_reversed_merchant,
-    Webhook_product_archived_installed_merchants,
-    Webhook_product_archived_merchant,
-    Webhook_product_updated_installed_merchants,
-    Webhook_product_updated_merchant,
-    Webhook_payment_intent_requires_capture_installed_merchants,
-    Webhook_payment_intent_requires_capture_merchant,
-    Webhook_payout_destination_updated_merchant
-} from './types-59.js';
-import type {
-    Webhook_invoice_payment_attempt_settled_installed_merchants,
-    Webhook_invoice_payment_attempt_settled_merchant,
     Webhook_order_updated_installed_merchants,
     Webhook_order_updated_merchant,
     Webhook_package_created_installed_merchants,
     Webhook_package_created_merchant,
-    Webhook_merchant_billing_invoice_issued_merchant,
     Webhook_partner_app_install_created_partner_app,
+    Webhook_payout_reversed_merchant,
+    Webhook_payment_intent_requires_capture_installed_merchants,
+    Webhook_payment_intent_requires_capture_merchant
+} from './types-59.js';
+import type {
+    Webhook_dispute_prevented_merchant,
+    Webhook_environment_grant_created_partner_app,
+    Webhook_delivery_rate_callback_created_installed_merchants,
+    Webhook_delivery_rate_callback_created_merchant,
+    Webhook_environment_grant_revoked_partner_app,
+    Webhook_delivery_profile_updated_installed_merchants,
+    Webhook_delivery_profile_updated_merchant,
+    Webhook_delivery_zone_updated_installed_merchants,
+    Webhook_delivery_zone_updated_merchant,
+    Webhook_delivery_zone_deactivated_installed_merchants,
+    Webhook_delivery_zone_deactivated_merchant,
+    Webhook_fraud_warning_created_installed_merchants,
+    Webhook_fraud_warning_created_merchant
+} from './types-56.js';
+import type {
+    Webhook_inventory_reservation_committed_installed_merchants,
+    Webhook_inventory_reservation_committed_merchant,
+    Webhook_gift_card_transaction_created_installed_merchants,
+    Webhook_gift_card_transaction_created_merchant,
+    Webhook_gift_card_redemption_updated_installed_merchants,
+    Webhook_gift_card_redemption_updated_merchant,
+    Webhook_inventory_transfer_lost_installed_merchants,
+    Webhook_inventory_transfer_lost_merchant,
+    Webhook_inventory_reservation_action_required_installed_merchants,
+    Webhook_inventory_reservation_action_required_merchant,
+    Webhook_invoice_issued_installed_merchants,
+    Webhook_invoice_issued_merchant,
+    Webhook_inventory_transfer_returned_installed_merchants,
+    Webhook_inventory_transfer_returned_merchant,
+    Webhook_gift_card_updated_installed_merchants,
+    Webhook_gift_card_updated_merchant
+} from './types-57.js';
+import type {
+    Webhook_invoice_payment_attempt_settled_installed_merchants,
+    Webhook_invoice_payment_attempt_settled_merchant,
+    Webhook_invoice_paid_installed_merchants,
+    Webhook_invoice_paid_merchant,
+    Webhook_invoice_overdue_installed_merchants,
+    Webhook_invoice_overdue_merchant,
+    Webhook_merchant_billing_invoice_issued_merchant,
+    Webhook_invoice_marked_uncollectible_installed_merchants,
+    Webhook_invoice_marked_uncollectible_merchant,
     Webhook_merchant_readiness_updated_merchant,
     Webhook_invoice_payment_attempt_processing_installed_merchants,
     Webhook_invoice_payment_attempt_processing_merchant,
@@ -39,87 +71,19 @@ import type {
     Webhook_custom_domain_archived_merchant,
     Webhook_checkout_session_invalidated_installed_merchants,
     Webhook_checkout_session_invalidated_merchant,
-    Webhook_bundle_created_installed_merchants,
-    Webhook_bundle_created_merchant,
-    Webhook_credit_note_updated_installed_merchants,
-    Webhook_credit_note_updated_merchant,
-    Webhook_balance_updated_merchant,
-    Webhook_credit_note_voided_installed_merchants,
-    Webhook_credit_note_voided_merchant
-} from './types-54.js';
-import type {
-    Webhook_gift_card_transaction_created_installed_merchants,
-    Webhook_gift_card_transaction_created_merchant,
-    Webhook_environment_grant_created_partner_app,
-    Webhook_gift_card_redemption_updated_installed_merchants,
-    Webhook_gift_card_redemption_updated_merchant,
-    Webhook_inventory_reservation_action_required_installed_merchants,
-    Webhook_inventory_reservation_action_required_merchant,
-    Webhook_environment_grant_revoked_partner_app,
-    Webhook_delivery_zone_updated_installed_merchants,
-    Webhook_delivery_zone_updated_merchant,
-    Webhook_delivery_zone_deactivated_installed_merchants,
-    Webhook_delivery_zone_deactivated_merchant,
-    Webhook_fraud_warning_created_installed_merchants,
-    Webhook_fraud_warning_created_merchant,
-    Webhook_gift_card_updated_installed_merchants,
-    Webhook_gift_card_updated_merchant,
-    Webhook_gift_card_notification_updated_installed_merchants,
-    Webhook_gift_card_notification_updated_merchant
-} from './types-56.js';
-import type {
-    Webhook_delivery_rate_callback_created_installed_merchants,
-    Webhook_delivery_rate_callback_created_merchant,
     Webhook_delivery_location_set_archived_installed_merchants,
     Webhook_delivery_location_set_archived_merchant,
-    Webhook_delivery_profile_updated_installed_merchants,
-    Webhook_delivery_profile_updated_merchant,
+    Webhook_credit_note_updated_installed_merchants,
+    Webhook_credit_note_updated_merchant,
     Webhook_delivery_method_updated_installed_merchants,
     Webhook_delivery_method_updated_merchant,
     Webhook_delivery_method_created_installed_merchants,
-    Webhook_delivery_method_created_merchant,
-    Webhook_delivery_profile_activated_installed_merchants,
-    Webhook_delivery_profile_activated_merchant
+    Webhook_delivery_method_created_merchant
 } from './types-55.js';
 import type {
     Webhook_subscription_canceled_installed_merchants,
     Webhook_subscription_canceled_merchant,
-    Webhook_refund_partially_succeeded_installed_merchants,
-    Webhook_refund_partially_succeeded_merchant,
-    Webhook_return_canceled_installed_merchants,
-    Webhook_return_canceled_merchant,
-    Webhook_return_reopened_installed_merchants,
     Webhook_return_reopened_merchant,
-    Webhook_refund_updated_installed_merchants,
-    Webhook_refund_updated_merchant,
-    Webhook_return_receipt_verified_installed_merchants,
-    Webhook_return_receipt_verified_merchant,
-    Webhook_subscription_activated_installed_merchants,
-    Webhook_subscription_activated_merchant,
-    Webhook_refund_failed_installed_merchants,
-    Webhook_refund_failed_merchant,
-    Webhook_shipment_created_installed_merchants,
-    Webhook_shipment_created_merchant,
-    Webhook_subscription_cancellation_scheduled_installed_merchants,
-    Webhook_subscription_cancellation_scheduled_merchant
-} from './types-60.js';
-import type {
-    Webhook_invoice_paid_installed_merchants,
-    Webhook_invoice_paid_merchant,
-    Webhook_inventory_transfer_lost_installed_merchants,
-    Webhook_inventory_transfer_lost_merchant,
-    Webhook_invoice_overdue_installed_merchants,
-    Webhook_invoice_overdue_merchant,
-    Webhook_invoice_issued_installed_merchants,
-    Webhook_invoice_issued_merchant,
-    Webhook_inventory_transfer_returned_installed_merchants,
-    Webhook_inventory_transfer_returned_merchant,
-    Webhook_invoice_marked_uncollectible_installed_merchants,
-    Webhook_invoice_marked_uncollectible_merchant,
-    Webhook_invoice_payment_attempt_expired_installed_merchants,
-    Webhook_invoice_payment_attempt_expired_merchant
-} from './types-57.js';
-import type {
     Webhook_subscription_trial_ending_installed_merchants,
     Webhook_subscription_trial_ending_merchant,
     Webhook_subscription_delivery_pause_upcoming_installed_merchants,
@@ -128,11 +92,167 @@ import type {
     Webhook_subscription_payment_succeeded_merchant,
     Webhook_subscription_delivery_migration_completed_installed_merchants,
     Webhook_subscription_delivery_migration_completed_merchant,
+    Webhook_subscription_activated_installed_merchants,
+    Webhook_subscription_activated_merchant,
     Webhook_subscription_payment_retry_succeeded_installed_merchants,
     Webhook_subscription_payment_retry_succeeded_merchant,
-    Webhook_subscription_reactivated_installed_merchants,
-    Webhook_subscription_reactivated_merchant
+    Webhook_shipment_created_installed_merchants,
+    Webhook_shipment_created_merchant
 } from './types-61.js';
+import type {
+    Webhook_product_variant_archived_installed_merchants,
+    Webhook_product_variant_archived_merchant,
+    Webhook_refund_partially_succeeded_installed_merchants,
+    Webhook_refund_partially_succeeded_merchant,
+    Webhook_return_canceled_installed_merchants,
+    Webhook_return_canceled_merchant,
+    Webhook_return_reopened_installed_merchants,
+    Webhook_promotion_created_installed_merchants,
+    Webhook_promotion_created_merchant,
+    Webhook_refund_updated_installed_merchants,
+    Webhook_refund_updated_merchant,
+    Webhook_return_receipt_verified_installed_merchants,
+    Webhook_return_receipt_verified_merchant,
+    Webhook_refund_failed_installed_merchants,
+    Webhook_refund_failed_merchant,
+    Webhook_product_archived_installed_merchants,
+    Webhook_product_archived_merchant,
+    Webhook_product_updated_installed_merchants,
+    Webhook_product_updated_merchant
+} from './types-60.js';
+import type {
+    Webhook_bundle_created_installed_merchants,
+    Webhook_bundle_created_merchant,
+    Webhook_balance_updated_merchant
+} from './types-54.js';
+/**
+ * Shape $ (Value): {@link ImageReferenceRequest}. A reference to an image by `url`, with optional
+ * `alt` text, used on an order line item.
+ */
+export type ImageReferenceRequest = {
+    /**
+     * Shape $ (Value): string. Alternative text describing the image for accessibility. minLength:
+     * 1.
+     */
+    "alt"?: string;
+    /** Shape $ (Value): string. URL of the image. minLength: 1. */
+    "url": string;
+};
+/**
+ * Shape $ (Value): {@link ImageReferenceRequestInput}. A reference to an image by `url`, with
+ * optional `alt` text, used on an order line item.
+ */
+export type ImageReferenceRequestInput = ImageReferenceRequest;
+/**
+ * Shape $ (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional `alt`
+ * text and external reference.
+ */
+export type ImageRequest = ({
+    /**
+     * Shape $ (Value): string. Alternative text describing the image for accessibility. minLength:
+     * 1. maxLength: 512.
+     */
+    "alt"?: string;
+    /**
+     * Shape $ (Value): string. The ID of a ready file uploaded with POST /v1/files. Send exactly
+     * one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "file_id"?: string;
+    /**
+     * Shape $ (Value): string. An opaque reference for this attachment, unique within its gallery.
+     * Whitespace and case are preserved. minLength: 1. maxLength: 255.
+     */
+    "source_reference"?: string;
+    /**
+     * Shape $ (Value): string. A public image URL for Flint to fetch, or an untransformed
+     * canonical image.url returned by Flint. Send exactly one of source_url or file_id. Canonical
+     * Flint URLs attach without another fetch. Flint doesn't download a source_url again while the
+     * image it produced is still in this field. minLength: 1. maxLength: 8192.
+     */
+    "source_url"?: string;
+})
+    & (({
+    /**
+     * Shape $ (Value): string. A public image URL for Flint to fetch, or an untransformed
+     * canonical image.url returned by Flint. Send exactly one of source_url or file_id. Canonical
+     * Flint URLs attach without another fetch. Flint doesn't download a source_url again while the
+     * image it produced is still in this field. minLength: 1. maxLength: 8192.
+     */
+    "source_url": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. The ID of a ready file uploaded with POST /v1/files. Send exactly
+     * one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "file_id": string;
+})
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with optional
+ * `alt` text and external reference.
+ */
+export type ImageRequestInput = {
+    /**
+     * Shape $ (Value): string. Alternative text describing the image for accessibility. minLength:
+     * 1. maxLength: 512.
+     */
+    "alt"?: string;
+    /**
+     * Shape $ (Value): string. The ID of a ready file uploaded with POST /v1/files. Send exactly
+     * one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "file_id"?: string;
+    /**
+     * Shape $ (Value): string. An opaque reference for this attachment, unique within its gallery.
+     * Whitespace and case are preserved. minLength: 1. maxLength: 255.
+     */
+    "source_reference"?: string;
+    /**
+     * Shape $ (Value): string. A public image URL for Flint to fetch, or an untransformed
+     * canonical image.url returned by Flint. Send exactly one of source_url or file_id. Canonical
+     * Flint URLs attach without another fetch. Flint doesn't download a source_url again while the
+     * image it produced is still in this field. minLength: 1. maxLength: 8192.
+     */
+    "source_url": string;
+}
+    | {
+    /**
+     * Shape $ (Value): string. Alternative text describing the image for accessibility. minLength:
+     * 1. maxLength: 512.
+     */
+    "alt"?: string;
+    /**
+     * Shape $ (Value): string. The ID of a ready file uploaded with POST /v1/files. Send exactly
+     * one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "file_id": string;
+    /**
+     * Shape $ (Value): string. An opaque reference for this attachment, unique within its gallery.
+     * Whitespace and case are preserved. minLength: 1. maxLength: 255.
+     */
+    "source_reference"?: string;
+    /**
+     * Shape $ (Value): string. A public image URL for Flint to fetch, or an untransformed
+     * canonical image.url returned by Flint. Send exactly one of source_url or file_id. Canonical
+     * Flint URLs attach without another fetch. Flint doesn't download a source_url again while the
+     * image it produced is still in this field. minLength: 1. maxLength: 8192.
+     */
+    "source_url"?: string;
+};
+/** Shape $ (Value): {@link IncomingWebhook019a504a3353Payload}. */
+export type IncomingWebhook019a504a3353Payload = ((Webhook_payment_review_reopened_merchant)
+    | (Webhook_payment_review_reopened_installed_merchants)
+    | (unknown));
+/**
+ * Shape $ (Value): {@link Webhook_dispute_prevented_merchant}. The `dispute.prevented` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type IncomingWebhook04494e8bd1b3Payload = Webhook_dispute_prevented_merchant;
+/** Shape $ (Value): {@link IncomingWebhook0452cf0e91f7Payload}. */
+export type IncomingWebhook0452cf0e91f7Payload = ((Webhook_inventory_reservation_committed_merchant)
+    | (Webhook_inventory_reservation_committed_installed_merchants)
+    | (unknown));
 /** Shape $ (Value): {@link IncomingWebhook0480be55a902Payload}. */
 export type IncomingWebhook0480be55a902Payload = ((Webhook_payment_intent_requires_action_merchant)
     | (Webhook_payment_intent_requires_action_installed_merchants)
@@ -342,31 +462,3 @@ export type IncomingWebhook426f6ee2e99fPayload = ((Webhook_invoice_reopened_merc
 export type IncomingWebhook426fd79260ecPayload = ((Webhook_shipment_created_merchant) | (Webhook_shipment_created_installed_merchants) | (unknown));
 /** Shape $ (Value): {@link IncomingWebhook42d1750d6349Payload}. */
 export type IncomingWebhook42d1750d6349Payload = ((Webhook_gift_card_updated_merchant) | (Webhook_gift_card_updated_installed_merchants) | (unknown));
-/** Shape $ (Value): {@link IncomingWebhook42dd85c73d6bPayload}. */
-export type IncomingWebhook42dd85c73d6bPayload = ((Webhook_subscription_reactivated_merchant)
-    | (Webhook_subscription_reactivated_installed_merchants)
-    | (unknown));
-/** Shape $ (Value): {@link IncomingWebhook43a17bfb8144Payload}. */
-export type IncomingWebhook43a17bfb8144Payload = ((Webhook_credit_note_voided_merchant) | (Webhook_credit_note_voided_installed_merchants) | (unknown));
-/** Shape $ (Value): {@link IncomingWebhook44764240a51fPayload}. */
-export type IncomingWebhook44764240a51fPayload = ((Webhook_subscription_cancellation_scheduled_merchant)
-    | (Webhook_subscription_cancellation_scheduled_installed_merchants)
-    | (unknown));
-/**
- * Shape $ (Value): {@link Webhook_payout_destination_updated_merchant}. The
- * `payout_destination.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type IncomingWebhook44e6923a1369Payload = Webhook_payout_destination_updated_merchant;
-/** Shape $ (Value): {@link IncomingWebhook45be12e0c91dPayload}. */
-export type IncomingWebhook45be12e0c91dPayload = ((Webhook_gift_card_notification_updated_merchant)
-    | (Webhook_gift_card_notification_updated_installed_merchants)
-    | (unknown));
-/** Shape $ (Value): {@link IncomingWebhook46209f173440Payload}. */
-export type IncomingWebhook46209f173440Payload = ((Webhook_delivery_profile_activated_merchant)
-    | (Webhook_delivery_profile_activated_installed_merchants)
-    | (unknown));
-/** Shape $ (Value): {@link IncomingWebhook480c3be91770Payload}. */
-export type IncomingWebhook480c3be91770Payload = ((Webhook_invoice_payment_attempt_expired_merchant)
-    | (Webhook_invoice_payment_attempt_expired_installed_merchants)
-    | (unknown));

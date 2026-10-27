@@ -4,18 +4,19 @@
 
 ### payoutSettings.deletePayoutDestination
 
-Disables an eligible payout destination and returns its final state. Safe to retry with the same Idempotency-Key.
+Archives the payout destination and returns it with `status: archived`. It stays readable by ID. You can't delete the active default destination. Safe to retry with the same Idempotency-Key.
 
-`DELETE /v1/payout-settings/destinations/{payout_destination_id}`
+`DELETE /v1/payout-destinations/{payout_destination_id}`
 
 Signature:
 
 ```typescript
 deletePayoutDestination(payout_destination_id: InputValue<string>,
  params?: {
+  "expected_version"?: InputValue<`${bigint}` | bigint>;
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -23,6 +24,7 @@ deletePayoutDestination(payout_destination_id: InputValue<string>,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payout_destination_id` | Required | string |  |
+| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 
 #### Response
@@ -54,7 +56,7 @@ Complete body and metadata: `deletePayoutDestinationWithResponse`. See [response
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -73,7 +75,7 @@ Returns payout settings that control default payout behavior for the authenticat
 
 `GET /v1/payout-settings`
 
-Signature: `get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -103,7 +105,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -117,16 +119,9 @@ const result = await client.payoutSettings.get({}, {  });
 
 Returns one payout destination by ID.
 
-`GET /v1/payout-settings/destinations/{payout_destination_id}`
+`GET /v1/payout-destinations/{payout_destination_id}`
 
-Signature:
-
-```typescript
-getPayoutDestination(payout_destination_id: InputValue<string>,
- params?: {
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
-```
+Signature: `getPayoutDestination(payout_destination_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -159,7 +154,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getPayoutDestinationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -173,7 +168,7 @@ const result = await client.payoutSettings.getPayoutDestination("example", {}, {
 
 Returns a paginated list of payout destinations available to the authenticated merchant.
 
-`GET /v1/payout-settings/destinations`
+`GET /v1/payout-destinations`
 
 Signature:
 
@@ -187,12 +182,12 @@ listPayoutDestinations(params?: {
     "disabled" |
     "archived" |
     "failed">>;
-  "available_payout_method"?: InputValue<Array<"standard">>;
+  "available_payout_methods"?: InputValue<Array<"standard">>;
   "default_for_currency"?: InputValue<boolean>;
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -202,7 +197,7 @@ listPayoutDestinations(params?: {
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `type` | Optional | Array of string | minItems: `1`. Items values: `"bank_account"`, `"debit_card"`. |
 | `status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"active"`, `"verification_required"`, `"disabled"`, `"archived"`, `"failed"`. |
-| `available_payout_method` | Optional | Array of string | minItems: `1`. Items values: `"standard"`. |
+| `available_payout_methods` | Optional | Array of string | minItems: `1`. Items values: `"standard"`. |
 | `default_for_currency` | Optional | boolean |  |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
@@ -231,7 +226,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listPayoutDestinationsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listPayoutDestinationsItems`, `listPayoutDestinationsPages`, `listPayoutDestinationsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -255,7 +250,7 @@ Signature:
 update(params: (InputValue<UpdatePayoutSettingsRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -271,13 +266,13 @@ Body model: [UpdatePayoutSettingsRequestInput](../models/UpdatePayoutSettingsReq
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `default_payout_destinations` | Optional | Map of string | Map values: minLength: `1`. |
-| `delay_days_override` | Optional | integer or null | Format: `int32`. |
-| `interval` | Optional | string | Values: `"manual"`, `"daily"`, `"weekly"`, `"monthly"`. |
-| `minimum_balance_by_currency` | Optional | Map of ([MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null) |  |
-| `monthly_payout_days` | Optional | Array of integer | Items: Format: `int32`. |
-| `statement_descriptor` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `weekly_payout_days` | Optional | Array of string | Weekdays on which weekly payouts are sent. Allowed values are monday, tuesday, wednesday, thursday, and friday. Items values: `"monday"`, `"tuesday"`, `"wednesday"`, `"thursday"`, `"friday"`. |
+| `delay_days_override` | Optional | integer or null | Days, 0 through 31, a payment stays pending before its funds become available, in place of the account's default. Send null to go back to the default. Format: `int32`. |
+| `expected_version` | Optional | integer string | Expected version of the payout settings. Required when sending minimum_balance_by_currency, monthly_payout_days, or weekly_payout_days, including empty collections and supported null clears. A stale value returns 409 VERSION_CONFLICT; retrieve the settings and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `interval` | Optional | string | When Flint sends available funds: daily, weekly on weekly_payout_days, monthly on monthly_payout_days, or manual, which sends nothing until you create a payout. weekly and monthly need their day list in the same request. Values: `"manual"`, `"daily"`, `"weekly"`, `"monthly"`. |
+| `minimum_balance_by_currency` | Optional | Map of ([MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null) | Amount to keep in your balance instead of paying it out, keyed by currency code. Each value's currency must match its key and its amount can't be negative. Set a currency to null to remove its minimum. |
+| `monthly_payout_days` | Optional | Array of integer | Days of the month, 1 through 31, on which monthly payouts are sent. Send it with interval monthly; it is rejected with any other interval. Items: Format: `int32`. |
+| `statement_descriptor` | Optional | string or null | Text shown on your bank statement for payouts, 22 characters or fewer. Send null to clear it. minLength: `1`. |
+| `weekly_payout_days` | Optional | Array of string | Weekdays on which weekly payouts are sent, monday through friday. Send it with interval weekly; it is rejected with any other interval. Items values: `"monday"`, `"tuesday"`, `"wednesday"`, `"thursday"`, `"friday"`. |
 
 #### Response
 
@@ -310,7 +305,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -327,7 +322,7 @@ const result = await client.payoutSettings.update({}, { idempotencyKey: idempote
 
 Updates mutable metadata and settings for a payout destination. Safe to retry with the same Idempotency-Key.
 
-`PATCH /v1/payout-settings/destinations/{payout_destination_id}`
+`PATCH /v1/payout-destinations/{payout_destination_id}`
 
 Signature:
 
@@ -336,7 +331,7 @@ updatePayoutDestination(payout_destination_id: InputValue<string>,
  params: (InputValue<UpdatePayoutDestinationRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -384,7 +379,7 @@ Complete body and metadata: `updatePayoutDestinationWithResponse`. See [response
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

@@ -2,6 +2,8 @@
 
 ## ReportsGetResponse200DataFailedDownload
 
+Link to download the generated report. Present only when status is succeeded.
+
 A temporary link for downloading a generated report.
 
 Response model.

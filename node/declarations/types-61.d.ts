@@ -1,32 +1,651 @@
-import type { PartnerWebhookEnvelope } from './types-35.js';
-import type { SubscriptionDeliveryMigration, SubscriptionPaymentRetry } from './types-45.js';
 import type { MerchantWebhookEnvelope } from './types-31.js';
-import type { Subscription } from './types-44.js';
-import type { InputValue, Model } from '../runtime.js';
+import type { ReturnResource, ReturnResolution } from './types-42.js';
+import type { PartnerWebhookEnvelope } from './types-35.js';
+import type { Shipment, Subscription } from './types-44.js';
+import type { SubscriptionDeliveryMigration, SubscriptionPaymentRetry } from './types-45.js';
+import type { InputValue } from '../runtime.js';
 import type { CreateWorkloadIdentityRequestInput } from './types-9.js';
-import type { UpdateWorkloadIdentityRequestInput } from './types-49.js';
-import type { ResourceReference, ResponseMeta } from './types-40.js';
-import type {
-    AddLineItemsRequestInput,
-    AddOrderChargeRequestInput,
-    AddReturnLineItemRequestInput,
-    AddRiskListItemsRequestInput,
-    AddressRequestInput,
-    AdjustGiftCardBalanceRequestInput,
-    ApplyDiscountRequestInput,
-    ApplyOrderGiftCardRequestInput,
-    AssessInvoiceLateFeeRequestInput,
-    AssignToUnconfiguredDeliveryProfileRequestInput,
-    BrandingSettingsRequestInput
-} from './types-0.js';
-import type {
-    BuyerCapabilitiesInput,
-    BuyerCreateReturnPreviewRequestInput,
-    BuyerCreateReturnRequestInput,
-    BuyerCreateReturnResolutionPreviewRequestInput,
-    BuyerInstructionsConfigInput,
-    BuyerPauseCapabilityInput
-} from './types-1.js';
+import type { UpdateWorkloadIdentityRequestInput } from './types-50.js';
+import type { ResourceReference } from './types-40.js';
+/**
+ * Shape $ (Value): {@link Webhook_return_reopened_merchant}. The `return.reopened` webhook payload
+ * for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_return_reopened_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link ReturnResource}. A request to
+     * send purchased items back.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link ReturnResource}. A request to send purchased items back. */
+        "object": ReturnResource;
+    };
+    /** Shape $ (Value): string.  Value enum: "return.reopened". */
+    "event_type"?: "return.reopened" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_return_resolution_created_installed_merchants}. The
+ * `return_resolution.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type Webhook_return_resolution_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link ReturnResolution}. The refund,
+     * exchange, or other outcome of a return.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a
+         * return.
+         */
+        "object": ReturnResolution;
+    };
+    /** Shape $ (Value): string.  Value enum: "return_resolution.created". */
+    "event_type"?: "return_resolution.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_return_resolution_created_merchant}. The
+ * `return_resolution.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type Webhook_return_resolution_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link ReturnResolution}. The refund,
+     * exchange, or other outcome of a return.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a
+         * return.
+         */
+        "object": ReturnResolution;
+    };
+    /** Shape $ (Value): string.  Value enum: "return_resolution.created". */
+    "event_type"?: "return_resolution.created" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_return_resolution_updated_installed_merchants}. The
+ * `return_resolution.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type Webhook_return_resolution_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link ReturnResolution}. The refund,
+     * exchange, or other outcome of a return.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a
+         * return.
+         */
+        "object": ReturnResolution;
+    };
+    /** Shape $ (Value): string.  Value enum: "return_resolution.updated". */
+    "event_type"?: "return_resolution.updated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_return_resolution_updated_merchant}. The
+ * `return_resolution.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type Webhook_return_resolution_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link ReturnResolution}. The refund,
+     * exchange, or other outcome of a return.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a
+         * return.
+         */
+        "object": ReturnResolution;
+    };
+    /** Shape $ (Value): string.  Value enum: "return_resolution.updated". */
+    "event_type"?: "return_resolution.updated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_return_updated_installed_merchants}. The `return.updated`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_return_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link ReturnResource}. A request to
+     * send purchased items back.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link ReturnResource}. A request to send purchased items back. */
+        "object": ReturnResource;
+    };
+    /** Shape $ (Value): string.  Value enum: "return.updated". */
+    "event_type"?: "return.updated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_return_updated_merchant}. The `return.updated` webhook payload
+ * for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_return_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link ReturnResource}. A request to
+     * send purchased items back.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link ReturnResource}. A request to send purchased items back. */
+        "object": ReturnResource;
+    };
+    /** Shape $ (Value): string.  Value enum: "return.updated". */
+    "event_type"?: "return.updated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_shipment_created_installed_merchants}. The `shipment.created`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_shipment_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Shipment}. A shipment carrying
+     * fulfilled order items.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Shipment}. A shipment carrying fulfilled order items. */
+        "object": Shipment;
+    };
+    /** Shape $ (Value): string.  Value enum: "shipment.created". */
+    "event_type"?: "shipment.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_shipment_created_merchant}. The `shipment.created` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_shipment_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Shipment}. A shipment carrying
+     * fulfilled order items.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Shipment}. A shipment carrying fulfilled order items. */
+        "object": Shipment;
+    };
+    /** Shape $ (Value): string.  Value enum: "shipment.created". */
+    "event_type"?: "shipment.created" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_shipment_updated_installed_merchants}. The `shipment.updated`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_shipment_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Shipment}. A shipment carrying
+     * fulfilled order items.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Shipment}. A shipment carrying fulfilled order items. */
+        "object": Shipment;
+    };
+    /** Shape $ (Value): string.  Value enum: "shipment.updated". */
+    "event_type"?: "shipment.updated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_shipment_updated_merchant}. The `shipment.updated` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_shipment_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Shipment}. A shipment carrying
+     * fulfilled order items.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Shipment}. A shipment carrying fulfilled order items. */
+        "object": Shipment;
+    };
+    /** Shape $ (Value): string.  Value enum: "shipment.updated". */
+    "event_type"?: "shipment.updated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_activated_installed_merchants}. The
+ * `subscription.activated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type Webhook_subscription_activated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.activated". */
+    "event_type"?: "subscription.activated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_activated_merchant}. The `subscription.activated`
+ * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_subscription_activated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.activated". */
+    "event_type"?: "subscription.activated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_canceled_installed_merchants}. The
+ * `subscription.canceled` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type Webhook_subscription_canceled_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.canceled". */
+    "event_type"?: "subscription.canceled" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_canceled_merchant}. The `subscription.canceled`
+ * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_subscription_canceled_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.canceled". */
+    "event_type"?: "subscription.canceled" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_cancellation_scheduled_installed_merchants}. The
+ * `subscription.cancellation_scheduled` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type Webhook_subscription_cancellation_scheduled_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.cancellation_scheduled". */
+    "event_type"?: "subscription.cancellation_scheduled" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_cancellation_scheduled_merchant}. The
+ * `subscription.cancellation_scheduled` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type Webhook_subscription_cancellation_scheduled_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.cancellation_scheduled". */
+    "event_type"?: "subscription.cancellation_scheduled" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_created_installed_merchants}. The
+ * `subscription.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type Webhook_subscription_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.created". */
+    "event_type"?: "subscription.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_created_merchant}. The `subscription.created`
+ * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_subscription_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.created". */
+    "event_type"?: "subscription.created" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_cycle_skipped_installed_merchants}. The
+ * `subscription.cycle_skipped` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type Webhook_subscription_cycle_skipped_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.cycle_skipped". */
+    "event_type"?: "subscription.cycle_skipped" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_cycle_skipped_merchant}. The
+ * `subscription.cycle_skipped` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type Webhook_subscription_cycle_skipped_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.cycle_skipped". */
+    "event_type"?: "subscription.cycle_skipped" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_delivery_action_required_installed_merchants}. The
+ * `subscription.delivery_action_required` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type Webhook_subscription_delivery_action_required_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.delivery_action_required". */
+    "event_type"?: "subscription.delivery_action_required" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_subscription_delivery_action_required_merchant}. The
+ * `subscription.delivery_action_required` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type Webhook_subscription_delivery_action_required_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Subscription}. A customer's
+     * recurring purchase.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+        "object": Subscription;
+    };
+    /** Shape $ (Value): string.  Value enum: "subscription.delivery_action_required". */
+    "event_type"?: "subscription.delivery_action_required" | (string & {});
+});
 /**
  * Shape $ (Value): {@link Webhook_subscription_delivery_migration_completed_installed_merchants}.
  * The `subscription_delivery_migration.completed` webhook payload for the `installed_merchants`
@@ -1128,98 +1747,3 @@ export type WorkloadIdentityClaimCondition = {
     /** Shape $ (Value): string. */
     "value": string;
 };
-/**
- * Shape $ (Value): {@link WorkloadIdentityClaimConditionRequest}. A condition to match one
- * top-level scalar claim in the workload's identity token. Omitted match defaults to exact.
- */
-export type WorkloadIdentityClaimConditionRequest = {
-    /**
-     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
-     * reserved. minLength: 1.
-     */
-    "claim": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "match"?: "exact" | "glob" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "value": string;
-};
-/**
- * Shape $ (Value): {@link WorkloadIdentityClaimConditionRequestInput}. A condition to match one
- * top-level scalar claim in the workload's identity token. Omitted match defaults to exact.
- */
-export type WorkloadIdentityClaimConditionRequestInput = {
-    /**
-     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
-     * reserved. minLength: 1.
-     */
-    "claim": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "match"?: "exact" | "glob";
-    /** Shape $ (Value): string. minLength: 1. */
-    "value": string;
-};
-/** Shape $ (Value): {@link WorkloadIdentityListResponse}. A page of `WorkloadIdentity` objects. */
-export type WorkloadIdentityListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link WorkloadIdentity}. Shape $[] (Value): {@link
-     * WorkloadIdentity}. A policy that grants API access to a workload authenticated by an
-     * external identity provider.
-     */
-    "data": Array<WorkloadIdentity>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link WorkloadIdentityResponse}. A response containing `WorkloadIdentity`
- * data.
- */
-export type WorkloadIdentityResponse = {
-    /**
-     * Shape $ (Value): {@link WorkloadIdentity}. A policy that grants API access to a workload
-     * authenticated by an external identity provider.
-     */
-    "data": WorkloadIdentity;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-export type _SdkRequiredIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
-    idempotencyKey: string;
-} : never;
-export type _SdkWithoutIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
-    idempotencyKey?: never;
-} : never;
-export declare function makeAddLineItemsRequest(value: InputValue<AddLineItemsRequestInput>): Model<AddLineItemsRequestInput>;
-export declare function makeAddOrderChargeRequest(value: InputValue<AddOrderChargeRequestInput>): Model<AddOrderChargeRequestInput>;
-export declare function makeAddReturnLineItemRequest(value: InputValue<AddReturnLineItemRequestInput>): Model<AddReturnLineItemRequestInput>;
-export declare function makeAddRiskListItemsRequest(value: InputValue<AddRiskListItemsRequestInput>): Model<AddRiskListItemsRequestInput>;
-export declare function makeAddressRequest(value: InputValue<AddressRequestInput>): Model<AddressRequestInput>;
-export declare function makeAdjustGiftCardBalanceRequest(value: InputValue<AdjustGiftCardBalanceRequestInput>): Model<AdjustGiftCardBalanceRequestInput>;
-export declare function makeApplyDiscountRequest(value: InputValue<ApplyDiscountRequestInput>): Model<ApplyDiscountRequestInput>;
-export declare function makeApplyOrderGiftCardRequest(value: InputValue<ApplyOrderGiftCardRequestInput>): Model<ApplyOrderGiftCardRequestInput>;
-export declare function makeAssessInvoiceLateFeeRequest(value: InputValue<AssessInvoiceLateFeeRequestInput>): Model<AssessInvoiceLateFeeRequestInput>;
-export declare function makeAssignToUnconfiguredDeliveryProfileRequest(value: InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>): Model<AssignToUnconfiguredDeliveryProfileRequestInput>;
-export declare function makeBrandingSettingsRequest(value: InputValue<BrandingSettingsRequestInput>): Model<BrandingSettingsRequestInput>;
-export declare function makeBuyerCapabilities(value: InputValue<BuyerCapabilitiesInput>): Model<BuyerCapabilitiesInput>;
-export declare function makeBuyerCreateReturnPreviewRequest(value: InputValue<BuyerCreateReturnPreviewRequestInput>): Model<BuyerCreateReturnPreviewRequestInput>;
-export declare function makeBuyerCreateReturnRequest(value: InputValue<BuyerCreateReturnRequestInput>): Model<BuyerCreateReturnRequestInput>;
-export declare function makeBuyerCreateReturnResolutionPreviewRequest(value: InputValue<BuyerCreateReturnResolutionPreviewRequestInput>): Model<BuyerCreateReturnResolutionPreviewRequestInput>;
-export declare function makeBuyerInstructionsConfig(value: InputValue<BuyerInstructionsConfigInput>): Model<BuyerInstructionsConfigInput>;
-export declare function makeBuyerPauseCapability(value: InputValue<BuyerPauseCapabilityInput>): Model<BuyerPauseCapabilityInput>;

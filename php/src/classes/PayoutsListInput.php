@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string $idempotency_key
  * @property-read string $currency
  * @property-read list<string> $expand
  * @property-read list<string> $method
@@ -18,8 +19,14 @@ namespace Flint;
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsListInput extends Model {
-    /** @param array{'currency'?: string, 'expand'?: list<string>, 'method'?: list<string>, 'balance_source_type'?: list<string>, 'payout_destination_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: list<string>, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'arrival_date_from'?: string, 'arrival_date_to'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
+    /** @param array{'idempotency_key'?: string, 'currency'?: string, 'expand'?: list<string>, 'method'?: list<string>, 'balance_source_type'?: list<string>, 'payout_destination_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: list<string>, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'arrival_date_from'?: string, 'arrival_date_to'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutsListInput')); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
@@ -32,7 +39,7 @@ final class PayoutsListInput extends Model {
      */
     public function getExpand(): array { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
-    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "standard". Shape $[] (Value): string.  Value enum: "standard".
+    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "standard", "instant", "other". Shape $[] (Value): string.  Value enum: "standard", "instant", "other".
      * @return list<string>
      * @throws SdkError When method is omitted; use hasMethod() or valueOrDefault().
      */

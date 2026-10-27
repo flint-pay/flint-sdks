@@ -16,6 +16,7 @@ test("Node and PHP support apiKey, direct payloads, and full response access", a
     payment_options: ["card"],
     status: "succeeded",
     support_reference: "support_test",
+    version: 1,
     metadata: {},
     supported_actions: [],
     // The contract requires both fields; the API sends null when they do not apply.

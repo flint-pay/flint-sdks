@@ -12,12 +12,8 @@ Response model.
 | `country` | Optional | string | Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Values: `"US"`. |
 | `default_sandbox_id` | Optional | string |  |
 | `merchant_id` | Required | string |  |
-| `next_step` | Optional | [OnboardingNextStep](../models/OnboardingNextStep.md#onboardingnextstep) | The next step to move onboarding forward, with who owns it, whether a machine can complete it, and the endpoint to submit to. |
+| `next_step` | Optional | [ReadinessAction](../models/ReadinessAction.md#readinessaction) | A step that moves a merchant capability or readiness axis forward, with the party that must do it (`owner`) and any required fields. |
 | `profile` | Required | [OnboardingProfile](../models/OnboardingProfile.md#onboardingprofile) | Contact and website details recorded for a merchant during onboarding. |
-| `requested_capabilities` | Optional | Array of string | Canonical Flint capability intent persisted on the selected stable provider-account target. The initial merchant-account configuration always includes accept_card_payments and receive_payouts and may also include accept_ach_debit_payments. Items values: `"accept_card_payments"`, `"receive_payouts"`, `"accept_ach_debit_payments"`. `requested_capabilities`: [declared alternatives](../models/OnboardingAdvanceResponse200.md#onboardingadvanceresponse200datarequested_capabilities). |
+| `requested_capabilities` | Optional | Array of string | Canonical Flint capability intent persisted on the selected stable provider-account target. The initial merchant-account configuration always includes accept_card_payments and receive_payouts and may also include accept_ach_debit_payments. minItems: `2`. maxItems: `3`. uniqueItems: `true`. Items values: `"accept_card_payments"`, `"receive_payouts"`, `"accept_ach_debit_payments"`. |
 | `status` | Required | string | Onboarding workflow status for activation and remediation, not a durable account-readiness boolean. Values: `"complete"`, `"waiting_for_review"`, `"needs_external_action"`, `"needs_input"`. |
-
-### OnboardingState.requested_capabilities
-
-Declared alternatives: [OnboardingAdvanceResponse200.data.requested_capabilities](../models/OnboardingAdvanceResponse200.md#onboardingadvanceresponse200datarequested_capabilities).
 

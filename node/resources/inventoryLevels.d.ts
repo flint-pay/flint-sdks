@@ -1,17 +1,11 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type {
-    InventoryLevel,
-    InventoryLevelListResponse,
-    InventoryLevelResponse,
-    InventoryLevelsGetInput,
-    InventoryLevelsListInput,
-    InventoryLevelsUpdateInput
-} from '../declarations/types-24.js';
+import type { InventoryLevel, InventoryLevelListResponse, InventoryLevelResponse, InventoryLevelsGetInput } from '../declarations/types-24.js';
+import type { InventoryLevelsListInput, InventoryLevelsUpdateInput } from '../declarations/types-25.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateInventoryLevelRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -24,19 +18,18 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     InventoryLevel,
     InventoryLevelResponse,
     InventoryLevelListResponse,
     InventoryLevelsGetInput,
-    InventoryLevelsListInput,
-    InventoryLevelsUpdateInput,
     InventoryItem
 } from '../declarations/types-24.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { UpdateInventoryLevelRequestInput } from '../declarations/types-48.js';
+export type { InventoryLevelsListInput, InventoryLevelsUpdateInput } from '../declarations/types-25.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -53,13 +46,13 @@ export interface InventoryLevelsResource {
  */
     get(inventory_level_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryLevel>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryLevel>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryLevels.md#inventorylevelsget
      */
     getWithResponse(inventory_level_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryLevelResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryLevelResponse>>;
     /**
  * List inventory levels. Send expand=inventory_item to render each level's inventory item inline,
  * so a stock table needs no read per row. Filter by inventory_item_status to see only the levels
@@ -85,7 +78,7 @@ export interface InventoryLevelsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryLevelListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryLevelListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryLevels.md#inventorylevelslist
      */
@@ -104,7 +97,7 @@ export interface InventoryLevelsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryLevelListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryLevelListResponse>>;
     /** Iterate pages lazily.
      * @see reference/inventoryLevels.md#inventorylevelslist
      */
@@ -123,7 +116,7 @@ export interface InventoryLevelsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryLevelListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryLevelListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/inventoryLevels.md#inventorylevelslist
      */
@@ -142,7 +135,7 @@ export interface InventoryLevelsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryLevelListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InventoryLevelListResponse>>;
     /** Iterate items lazily.
      * @see reference/inventoryLevels.md#inventorylevelslist
      */
@@ -161,7 +154,7 @@ export interface InventoryLevelsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryLevel>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryLevel>;
     /**
  * Set one inventory level's safety_stock_quantity. expected_version is optional and enforced when
  * sent. The version changes on every quantity or claim change, including holds and commits, so
@@ -180,14 +173,14 @@ export interface InventoryLevelsResource {
     update(inventory_level_id: InputValue<string>, params: (InputValue<UpdateInventoryLevelRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryLevel>;
+    }, options?: RequestOptions<"merchant">): Promise<InventoryLevel>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryLevels.md#inventorylevelsupdate
      */
     updateWithResponse(inventory_level_id: InputValue<string>, params: (InputValue<UpdateInventoryLevelRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryLevelResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryLevelResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

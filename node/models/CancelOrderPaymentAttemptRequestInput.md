@@ -2,13 +2,5 @@
 
 ## CancelOrderPaymentAttemptRequestInput
 
-Request input. Response: [CancelPaymentIntentRequest](../models/CancelPaymentIntentRequest.md#cancelpaymentintentrequest).
-
-The request body for: Cancel order payment attempt.
-
-
-
-
-
-Fields, types, descriptions and enum values: [CancelPaymentIntentRequest](../models/CancelPaymentIntentRequest.md#cancelpaymentintentrequest).
+Request input. Response: [CancelOrderPaymentAttemptRequest](../models/CancelOrderPaymentAttemptRequest.md#cancelorderpaymentattemptrequest). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
 

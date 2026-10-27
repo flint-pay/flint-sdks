@@ -3,7 +3,7 @@ import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateDemoSessionRequestInput } from '../declarations/types-6.js';
 import type { DemoSession, DemoSessionResponse, DemoSessionsCreateInput, DemoSessionsResetInput } from '../declarations/types-15.js';
 import type { RequestOptions, ResetDemoSessionRequestInput } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,7 +25,7 @@ export type {
     DemoSessionsResetInput,
     DemoSessionAPIKey
 } from '../declarations/types-15.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -43,11 +43,12 @@ export interface DemoSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.demoSessions.create({}, { idempotencyKey: idempotencyKey })
+ * client.demoSessions.create({"Flint-Challenge-Token": "example"}, { idempotencyKey:
+ * idempotencyKey })
  */
     create(params: (InputValue<CreateDemoSessionRequestInput>)
         & {
-        "X-Turnstile-Token"?: InputValue<string>;
+        "Flint-Challenge-Token": InputValue<string>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<never>): Promise<DemoSession>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
@@ -55,7 +56,7 @@ export interface DemoSessionsResource {
      */
     createWithResponse(params: (InputValue<CreateDemoSessionRequestInput>)
         & {
-        "X-Turnstile-Token"?: InputValue<string>;
+        "Flint-Challenge-Token": InputValue<string>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<never>): Promise<SdkResponse<DemoSessionResponse>>;
     /**
@@ -71,11 +72,12 @@ export interface DemoSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.demoSessions.reset({demo_session_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.demoSessions.reset({demo_session_id: "example", "Flint-Challenge-Token": "example"}, {
+ * idempotencyKey: idempotencyKey })
  */
     reset(params: (InputValue<ResetDemoSessionRequestInput>)
         & {
-        "X-Turnstile-Token"?: InputValue<string>;
+        "Flint-Challenge-Token": InputValue<string>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<never>): Promise<DemoSession>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
@@ -83,7 +85,7 @@ export interface DemoSessionsResource {
      */
     resetWithResponse(params: (InputValue<ResetDemoSessionRequestInput>)
         & {
-        "X-Turnstile-Token"?: InputValue<string>;
+        "Flint-Challenge-Token": InputValue<string>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<never>): Promise<SdkResponse<DemoSessionResponse>>;
 }

@@ -28,7 +28,7 @@ final class InvoicesListPaymentAttemptsInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

@@ -2,7 +2,7 @@ import type { Result, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { RequestOptions } from '../declarations/types-40.js';
 import type { SpecificationGetInput, SpecificationGetResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -15,7 +15,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions } from '../declarations/types-40.js';
 export type { SpecificationGetResponse, SpecificationGetInput } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';

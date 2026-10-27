@@ -13,30 +13,34 @@ Request input.
 | `name` | Conditional | string | minLength: `1`. |
 | `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `sku` | Optional | string | minLength: `1`. |
+| `type` | Required | string | The source of the replacement merchandise: variant, bundle, or custom. Values: `"variant"`, `"bundle"`, `"custom"`. |
 | `unit_price_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Conditional | string | minLength: `1`. |
 
-### ReturnReplacementLineItemRequestInput variant 1
+### ReturnReplacementLineItemRequestInput variant 1: `type` = `"variant"`
 
-oneOf variant 1.
+oneOf variant 1: The `variant` variant of `ReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`))).
 - Required: `variant_id`.
 - Optional: `bundle_id`, `name`.
+- Constraints for `type`: Values: `"variant"`.
 
-### ReturnReplacementLineItemRequestInput variant 2
+### ReturnReplacementLineItemRequestInput variant 2: `type` = `"bundle"`
 
-oneOf variant 2.
+oneOf variant 2: The `bundle` variant of `ReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`))).
 - Required: `bundle_id`.
 - Optional: `name`, `variant_id`.
+- Constraints for `type`: Values: `"bundle"`.
 
-### ReturnReplacementLineItemRequestInput variant 3
+### ReturnReplacementLineItemRequestInput variant 3: `type` = `"custom"`
 
-oneOf variant 3.
+oneOf variant 3: The `custom` variant of `ReturnReplacementLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`.
 - Optional: `bundle_id`, `variant_id`.
+- Constraints for `type`: Values: `"custom"`.
 

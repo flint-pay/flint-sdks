@@ -1,6 +1,6 @@
 import type { Result, InputValue, WebhookHeaders as _SdkWebhookHeaders } from '../runtime.js';
 import type { ClientOptions } from './types-4.js';
-import type { VerifiedWebhook } from './types-49.js';
+import type { VerifiedWebhook } from './types-50.js';
 import type { verifyWebhook } from './types-73.js';
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

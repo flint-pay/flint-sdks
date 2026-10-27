@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# ReturnPreviewsCreateResponse200 – FilesGetResponse200
+# ReturnsCreateResponse201 – DeveloperGetAuthContextResponse200
 
+- [ReturnsCreateResponse201](ReturnsCreateResponse201.md)
+- [ReturnsCreateAccessLinkResponse201](ReturnsCreateAccessLinkResponse201.md)
+- [ReturnsCreateDispositionResponse201](ReturnsCreateDispositionResponse201.md)
+- [ReturnsCreateInspectionResponse201](ReturnsCreateInspectionResponse201.md)
+- [ReturnsAddLineItemResponse200](ReturnsAddLineItemResponse200.md)
+- [ReturnPoliciesCreateResponse201](ReturnPoliciesCreateResponse201.md)
+- [ReturnPoliciesPublishRevisionResponse200](ReturnPoliciesPublishRevisionResponse200.md)
 - [ReturnPreviewsCreateResponse200](ReturnPreviewsCreateResponse200.md)
 - [ReturnReasonsCreateResponse201](ReturnReasonsCreateResponse201.md)
 - [ReturnsCreateReceiptResponse201](ReturnsCreateReceiptResponse201.md)
@@ -11,6 +18,7 @@
 - [RiskListsAddItemsResponse201](RiskListsAddItemsResponse201.md)
 - [RiskPreviewsCreateResponse200](RiskPreviewsCreateResponse200.md)
 - [RiskRulesCreateResponse201](RiskRulesCreateResponse201.md)
+- [DeveloperCreateSandboxAPIKeyResponse201](DeveloperCreateSandboxAPIKeyResponse201.md)
 - [FulfillmentsCreateShipmentResponse201](FulfillmentsCreateShipmentResponse201.md)
 - [SubscriptionsCreateResponse201](SubscriptionsCreateResponse201.md)
 - [SubscriptionsCreateAccessLinkResponse201](SubscriptionsCreateAccessLinkResponse201.md)
@@ -94,12 +102,4 @@
 - [DeliveryRevocationsGetResponse200](DeliveryRevocationsGetResponse200.md)
 - [DeliveryZonesGetResponse200](DeliveryZonesGetResponse200.md)
 - [DeveloperGetAuthContextResponse200](DeveloperGetAuthContextResponse200.md)
-- [DeveloperGetPartnerAppResponse200](DeveloperGetPartnerAppResponse200.md)
-- [DeveloperGetPartnerAppInstallResponse200](DeveloperGetPartnerAppInstallResponse200.md)
-- [DeveloperGetSandboxResponse200](DeveloperGetSandboxResponse200.md)
-- [DevicesGetResponse200](DevicesGetResponse200.md)
-- [DisputesGetResponse200](DisputesGetResponse200.md)
-- [SettingsGetEffectiveResponse200](SettingsGetEffectiveResponse200.md)
-- [FeedbackReportsGetResponse200](FeedbackReportsGetResponse200.md)
-- [FilesGetResponse200](FilesGetResponse200.md)
 

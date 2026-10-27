@@ -10,8 +10,8 @@ import type {
     GiftCardFundingDispositionsListInput
 } from '../declarations/types-18.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,7 +25,7 @@ export type {
     SdkErrorDetails
 } from '../runtime.js';
 export type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-6.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     GiftCardFundingDisposition,
@@ -35,7 +35,7 @@ export type {
     GiftCardFundingDispositionsGetInput,
     GiftCardFundingDispositionsListInput
 } from '../declarations/types-18.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -60,14 +60,14 @@ export interface GiftCardFundingDispositionsResource {
     create(params: (InputValue<CreateGiftCardFundingDispositionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardFundingDisposition>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<GiftCardFundingDisposition>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardFundingDispositions.md#giftcardfundingdispositionscreate
      */
     createWithResponse(params: (InputValue<CreateGiftCardFundingDispositionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardFundingDispositionResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardFundingDispositionResponse>>;
     /**
  * Retrieves a committed funding disposition within the authenticated merchant and environment.
  * @see reference/giftCardFundingDispositions.md#giftcardfundingdispositionsget
@@ -75,11 +75,11 @@ export interface GiftCardFundingDispositionsResource {
  * @example
  * client.giftCardFundingDispositions.get("example")
  */
-    get(gift_card_funding_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardFundingDisposition>;
+    get(gift_card_funding_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardFundingDisposition>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardFundingDispositions.md#giftcardfundingdispositionsget
      */
-    getWithResponse(gift_card_funding_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardFundingDispositionResponse>>;
+    getWithResponse(gift_card_funding_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardFundingDispositionResponse>>;
     /**
  * Lists funding dispositions in descending ID order within the authenticated merchant and
  * environment. Filter by idempotency_key to recover a committed command.
@@ -95,7 +95,7 @@ export interface GiftCardFundingDispositionsResource {
         "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardFundingDispositionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardFundingDispositionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardFundingDispositions.md#giftcardfundingdispositionslist
      */
@@ -106,7 +106,7 @@ export interface GiftCardFundingDispositionsResource {
         "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardFundingDispositionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardFundingDispositionListResponse>>;
     /** Iterate pages lazily.
      * @see reference/giftCardFundingDispositions.md#giftcardfundingdispositionslist
      */
@@ -117,7 +117,7 @@ export interface GiftCardFundingDispositionsResource {
         "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardFundingDispositionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardFundingDispositionListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/giftCardFundingDispositions.md#giftcardfundingdispositionslist
      */
@@ -128,7 +128,7 @@ export interface GiftCardFundingDispositionsResource {
         "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<GiftCardFundingDispositionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<GiftCardFundingDispositionListResponse>>;
     /** Iterate items lazily.
      * @see reference/giftCardFundingDispositions.md#giftcardfundingdispositionslist
      */
@@ -139,7 +139,7 @@ export interface GiftCardFundingDispositionsResource {
         "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardFundingDisposition>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardFundingDisposition>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -1,8 +1,9 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateInventoryTransferRequestInput } from '../declarations/types-7.js';
-import type { InventoryTransfer, InventoryTransferListResponse } from '../declarations/types-25.js';
+import type { InventoryTransfer } from '../declarations/types-25.js';
 import type {
+    InventoryTransferListResponse,
     InventoryTransferResponse,
     InventoryTransferResult,
     InventoryTransferResultResponse,
@@ -13,9 +14,9 @@ import type {
     InventoryTransfersUpdateInput
 } from '../declarations/types-26.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateInventoryTransferRequestInput } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,19 +30,12 @@ export type {
     SdkErrorDetails
 } from '../runtime.js';
 export type { CreateInventoryTransferRequestInput } from '../declarations/types-7.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type {
-    InventoryTransfer,
-    InventoryTransferListResponse,
-    InventoryTransferLineRequestInput,
-    InventoryTransferLine,
-    InventoryProvenanceRequestInput,
-    InventorySourceSystemRequestInput
-} from '../declarations/types-25.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { InventoryTransfer, InventoryProvenanceRequestInput, InventorySourceSystemRequestInput } from '../declarations/types-25.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type {
     InventoryTransferResponse,
+    InventoryTransferListResponse,
     InventoryTransfersTransitionInput,
     InventoryTransferResult,
     InventoryTransferResultResponse,
@@ -49,6 +43,8 @@ export type {
     InventoryTransfersGetInput,
     InventoryTransfersListInput,
     InventoryTransfersUpdateInput,
+    InventoryTransferLineRequestInput,
+    InventoryTransferLine,
     InventoryTransferTransitionRequestInput,
     InventoryTransferTransitionRequestDepartInput,
     InventoryTransferTransitionRequestReceiveInput,
@@ -56,13 +52,14 @@ export type {
     InventoryTransferTransitionRequestReportLossInput,
     InventoryTransferTransitionRequestCancelInput
 } from '../declarations/types-26.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateInventoryTransferRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
 export type { InventoryLevel, InventoryItem } from '../declarations/types-24.js';
-export { makeCreateInventoryTransferRequest } from '../declarations/types-63.js';
+export { makeCreateInventoryTransferRequest } from '../declarations/types-64.js';
 export {
     makeInventoryProvenanceRequest,
     makeInventorySourceSystemRequest,
@@ -71,17 +68,17 @@ export {
     makeInventoryTransferTransitionRequestCancel,
     makeInventoryTransferTransitionRequestDepart,
     makeInventoryTransferTransitionRequestReceive,
-    makeInventoryTransferTransitionRequestReportLoss,
-    makeInventoryTransferTransitionRequestReturnToOrigin
+    makeInventoryTransferTransitionRequestReportLoss
 } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeInventoryTransferTransitionRequestReturnToOrigin, makeMoneyValue } from '../declarations/types-68.js';
 export { makeUpdateInventoryTransferRequest } from '../declarations/types-72.js';
 export interface InventoryTransfersResource {
     /**
- * Create a planned stock transfer between two Locations. Idempotency is scoped to the
- * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, read the relevant resource
- * or inventory movement list.
+ * Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so
+ * the Idempotency-Key is optional: each request without a key creates a separate draft. With a
+ * key, idempotency is scoped to the authenticated merchant, environment, and endpoint, and the
+ * fingerprint includes the canonical request body. To recover a keyed create after a lost
+ * response, list inventory transfers with idempotency_key.
  * @see reference/inventoryTransfers.md#inventorytransferscreate
  * POST /v1/inventory-transfers
  * @example
@@ -94,14 +91,14 @@ export interface InventoryTransfersResource {
     create(params: (InputValue<CreateInventoryTransferRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryTransfer>;
+    }, options?: RequestOptions<"merchant">): Promise<InventoryTransfer>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryTransfers.md#inventorytransferscreate
      */
     createWithResponse(params: (InputValue<CreateInventoryTransferRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryTransferResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryTransferResponse>>;
     /**
  * Retrieve an inventory transfer, its lines, and supported_actions by ID.
  * @see reference/inventoryTransfers.md#inventorytransfersget
@@ -109,11 +106,11 @@ export interface InventoryTransfersResource {
  * @example
  * client.inventoryTransfers.get("example")
  */
-    get(inventory_transfer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryTransfer>;
+    get(inventory_transfer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryTransfer>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryTransfers.md#inventorytransfersget
      */
-    getWithResponse(inventory_transfer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryTransferResponse>>;
+    getWithResponse(inventory_transfer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryTransferResponse>>;
     /**
  * List inventory transfers.
  * @see reference/inventoryTransfers.md#inventorytransferslist
@@ -138,7 +135,7 @@ export interface InventoryTransfersResource {
         "departed_before"?: InputValue<string | globalThis.Date>;
         "received_after"?: InputValue<string | globalThis.Date>;
         "received_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryTransferListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryTransferListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryTransfers.md#inventorytransferslist
      */
@@ -159,7 +156,7 @@ export interface InventoryTransfersResource {
         "departed_before"?: InputValue<string | globalThis.Date>;
         "received_after"?: InputValue<string | globalThis.Date>;
         "received_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryTransferListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryTransferListResponse>>;
     /** Iterate pages lazily.
      * @see reference/inventoryTransfers.md#inventorytransferslist
      */
@@ -180,7 +177,7 @@ export interface InventoryTransfersResource {
         "departed_before"?: InputValue<string | globalThis.Date>;
         "received_after"?: InputValue<string | globalThis.Date>;
         "received_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryTransferListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryTransferListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/inventoryTransfers.md#inventorytransferslist
      */
@@ -201,7 +198,7 @@ export interface InventoryTransfersResource {
         "departed_before"?: InputValue<string | globalThis.Date>;
         "received_after"?: InputValue<string | globalThis.Date>;
         "received_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryTransferListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InventoryTransferListResponse>>;
     /** Iterate items lazily.
      * @see reference/inventoryTransfers.md#inventorytransferslist
      */
@@ -222,7 +219,7 @@ export interface InventoryTransfersResource {
         "departed_before"?: InputValue<string | globalThis.Date>;
         "received_after"?: InputValue<string | globalThis.Date>;
         "received_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryTransfer>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryTransfer>;
     /**
  * Run one action from supported_actions using cumulative line targets. Send expected_version to
  * reject the request if the transfer changed after you read it. The response includes the updated
@@ -240,11 +237,11 @@ export interface InventoryTransfersResource {
  * lines: [{inventory_transfer_line_id: "example", target_departed_quantity: "0"}]}}, {
  * idempotencyKey: idempotencyKey })
  */
-    transition(input: InventoryTransfersTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryTransferResult>;
+    transition(input: InventoryTransfersTransitionInput, options?: RequestOptions<"merchant">): Promise<InventoryTransferResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryTransfers.md#inventorytransferstransition
      */
-    transitionWithResponse(input: InventoryTransfersTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryTransferResultResponse>>;
+    transitionWithResponse(input: InventoryTransfersTransitionInput, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryTransferResultResponse>>;
     /**
  * Update an open transfer's planning details. Sending lines replaces the owned collection
  * atomically and requires expected_version. For metadata-only edits, expected_version is optional
@@ -260,14 +257,14 @@ export interface InventoryTransfersResource {
     update(inventory_transfer_id: InputValue<string>, params: (InputValue<UpdateInventoryTransferRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryTransfer>;
+    }, options?: RequestOptions<"merchant">): Promise<InventoryTransfer>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryTransfers.md#inventorytransfersupdate
      */
     updateWithResponse(inventory_transfer_id: InputValue<string>, params: (InputValue<UpdateInventoryTransferRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryTransferResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryTransferResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -1243,6 +1243,7 @@ Signature:
 ```typescript
 deleteAddress(customer_address_id: InputValue<string>,
  params?: {
+  "expected_version"?: InputValue<`${bigint}` | bigint>;
   "Idempotency-Key"?: InputValue<string>
 },
  options?: RequestOptions<"customer">)
@@ -1253,6 +1254,7 @@ deleteAddress(customer_address_id: InputValue<string>,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `customer_address_id` | Required | string |  |
+| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 
 #### Response
@@ -3490,6 +3492,7 @@ listReturns(params?: {
   "created_after"?: InputValue<string | globalThis.Date>;
   "created_before"?: InputValue<string | globalThis.Date>;
   "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
+  "idempotency_key"?: InputValue<string>;
   "merchandise_status"?: InputValue<Array<"not_required" |
     "awaiting_handoff" |
     "in_transit" |
@@ -3525,6 +3528,7 @@ listReturns(params?: {
 | `created_after` | Optional | string | Format: `date-time`. |
 | `created_before` | Optional | string | Format: `date-time`. |
 | `decision_status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `merchandise_status` | Optional | Array of string | minItems: `1`. Items values: [10 declared values](#melistreturns-input-merchandise_status--values). |
 | `order_id` | Optional | string |  |
 | `page_size` | Optional | integer | Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
@@ -3660,6 +3664,70 @@ const result = await client.me.listShipments({}, {  });
 ```
 
 [Complete runnable example](../examples/me-listShipments.mjs)
+
+### me.listSubscriptionPaymentRetries
+
+Returns a subscription's manual payment retries, newest first.
+
+`GET /v1/me/subscriptions/{subscription_id}/payment-retries`
+
+Signature:
+
+```typescript
+listSubscriptionPaymentRetries(subscription_id: InputValue<string>,
+ params?: {
+  "page_size"?: InputValue<number>;
+  "page_token"?: InputValue<string>;
+  "idempotency_key"?: InputValue<string>
+},
+ options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string |  |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
+
+#### Response
+
+Returned payload: [BuyerSubscriptionPaymentRetryListResponse](../models/BuyerSubscriptionPaymentRetryListResponse.md#buyersubscriptionpaymentretrylistresponse).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
+| 410 | ApiError | api |
+| 413 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `listSubscriptionPaymentRetriesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listSubscriptionPaymentRetriesItems`, `listSubscriptionPaymentRetriesPages`, `listSubscriptionPaymentRetriesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```typescript
+const result = await client.me.listSubscriptionPaymentRetries("example", {}, {  });
+```
+
+[Complete runnable example](../examples/me-listSubscriptionPaymentRetries.mjs)
 
 ### me.listSubscriptions
 
@@ -4110,7 +4178,7 @@ resumeSubscription(subscription_id: InputValue<string>,
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-57). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](#request-fields-58). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 

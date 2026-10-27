@@ -9,7 +9,7 @@ import type {
     MerchantAccountSessionsRefreshInput
 } from '../declarations/types-30.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,7 +38,7 @@ export type {
     MerchantAccountSessionRefreshRequest
 } from '../declarations/types-30.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -51,11 +51,11 @@ export {
 } from '../declarations/types-68.js';
 export interface MerchantAccountSessionsResource {
     /**
- * Creates an embedded browser handoff for one or more allowlisted account components. An
- * onboarding session is limited to the merchant's default sandbox unless sandbox_id in the JSON
- * body names another sandbox of the same merchant. Live onboarding requires a live API key. A
- * completed retry with the same Idempotency-Key creates a fresh launch session instead of
- * replaying a prior client secret.
+ * Creates an embedded browser handoff for one or more allowlisted account components. The
+ * credential selects the environment; the onboarding session token acts in the merchant's default
+ * sandbox. A same-key, same-input retry replays the encrypted original result for 24 hours,
+ * including its original credentials and expiries. Replay may return an expired credential. Use a
+ * new key for a new launch or refresh.
  * @see reference/merchantAccountSessions.md#merchantaccountsessionscreate
  * POST /v1/merchant-account-sessions
  * @example
@@ -67,24 +67,25 @@ export interface MerchantAccountSessionsResource {
     create(params: (InputValue<MerchantAccountSessionCreateRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<MerchantAccountSession>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<MerchantAccountSession>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/merchantAccountSessions.md#merchantaccountsessionscreate
      */
     createWithResponse(params: (InputValue<MerchantAccountSessionCreateRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionResponse>>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionResponse>>;
     /**
  * Creates a fresh provider session from a signed launch token after rechecking the authenticated
  * principal, merchant environment, account controller, and component grant. An onboarding session
  * can refresh only sandbox launch tokens created by the same user with an onboarding session. The
- * sandbox is pinned by the launch token, using the merchant's default sandbox unless sandbox_id
- * named another sandbox of the same merchant at creation. Live onboarding requires a live API key,
- * and refresh requires the same API key that created the launch token. A completed retry with the
- * same Idempotency-Key creates a fresh launch session instead of replaying a prior client secret.
+ * sandbox is pinned by the launch token, which is the merchant's default sandbox for an onboarding
+ * session. Live onboarding requires a live API key or live CLI login, and refresh requires the
+ * same credential that created the launch token. A same-key, same-input retry replays the
+ * encrypted original result for 24 hours, including its original credentials and expiries. Replay
+ * may return an expired credential. Use a new key for a new launch or refresh.
  * @see reference/merchantAccountSessions.md#merchantaccountsessionsrefresh
- * POST /v1/merchant-account-sessions/refresh
+ * POST /v1/merchant-account-session-refreshes
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
@@ -94,14 +95,14 @@ export interface MerchantAccountSessionsResource {
     refresh(params: (InputValue<MerchantAccountSessionRefreshRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<MerchantAccountSession>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<MerchantAccountSession>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/merchantAccountSessions.md#merchantaccountsessionsrefresh
      */
     refreshWithResponse(params: (InputValue<MerchantAccountSessionRefreshRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionResponse>>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

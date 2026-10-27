@@ -12,9 +12,9 @@ import type {
     DeliveryZonesUpdateInput
 } from '../declarations/types-15.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { UpdateDeliveryZoneRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { UpdateDeliveryZoneRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,18 +43,13 @@ export type {
     DeliveryZoneConfiguration,
     DeliveryStateCondition
 } from '../declarations/types-15.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-47.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { UpdateDeliveryZoneRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { DeliveryCountryConditionInput, DeliveryDistanceInput, DeliveryDistance } from '../declarations/types-11.js';
-export type {
-    DeliveryPostalCodeConditionInput,
-    DeliveryPostalCodeValueInput,
-    DeliveryPostalCodeCondition,
-    DeliveryPostalCodeValue,
-    DeliveryLocationSetsListInput
-} from '../declarations/types-12.js';
+export type { DeliveryPostalCodeConditionInput, DeliveryPostalCodeCondition, DeliveryLocationSetsListInput } from '../declarations/types-12.js';
+export type { DeliveryPostalCodeValueInput, DeliveryPostalCodeValue } from '../declarations/types-13.js';
 export type {
     DeliveryRadiusConditionInput,
     DeliveryRadiusOriginInput,
@@ -65,13 +60,10 @@ export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
 export { makeCreateDeliveryZoneRequest } from '../declarations/types-63.js';
+export { makeDeliveryCountryCondition, makeDeliveryDistance } from '../declarations/types-65.js';
 export {
-    makeDeliveryCountryCondition,
-    makeDeliveryDistance,
     makeDeliveryPostalCodeCondition,
-    makeDeliveryPostalCodeValue
-} from '../declarations/types-65.js';
-export {
+    makeDeliveryPostalCodeValue,
     makeDeliveryRadiusCondition,
     makeDeliveryRadiusOrigin,
     makeDeliveryStateCondition,
@@ -94,14 +86,14 @@ export interface DeliveryZonesResource {
     create(params: (InputValue<CreateDeliveryZoneRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryZone>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryZone>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryZones.md#deliveryzonescreate
      */
     createWithResponse(params: (InputValue<CreateDeliveryZoneRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryZoneResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryZoneResponse>>;
     /**
  * Retires the delivery zone after checking current dependencies. The retired resource remains
  * available by ID for historical records. Deleting an already archived resource returns it without
@@ -116,14 +108,14 @@ export interface DeliveryZonesResource {
     remove(delivery_zone_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryZone>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryZone>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryZones.md#deliveryzonesremove
      */
     removeWithResponse(delivery_zone_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryZoneResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryZoneResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery zone.
  * @see reference/deliveryZones.md#deliveryzonesget
@@ -131,11 +123,11 @@ export interface DeliveryZonesResource {
  * @example
  * client.deliveryZones.get("example")
  */
-    get(delivery_zone_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryZone>;
+    get(delivery_zone_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryZone>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryZones.md#deliveryzonesget
      */
-    getWithResponse(delivery_zone_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryZoneResponse>>;
+    getWithResponse(delivery_zone_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryZoneResponse>>;
     /**
  * Returns delivery zones in a stable, cursor-paginated order. Archived resources are excluded by
  * default.
@@ -151,7 +143,7 @@ export interface DeliveryZonesResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryZoneListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryZoneListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryZones.md#deliveryzoneslist
      */
@@ -162,7 +154,7 @@ export interface DeliveryZonesResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryZoneListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryZoneListResponse>>;
     /** Iterate pages lazily.
      * @see reference/deliveryZones.md#deliveryzoneslist
      */
@@ -173,7 +165,7 @@ export interface DeliveryZonesResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryZoneListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryZoneListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/deliveryZones.md#deliveryzoneslist
      */
@@ -184,7 +176,7 @@ export interface DeliveryZonesResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryZoneListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliveryZoneListResponse>>;
     /** Iterate items lazily.
      * @see reference/deliveryZones.md#deliveryzoneslist
      */
@@ -195,7 +187,7 @@ export interface DeliveryZonesResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryZone>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryZone>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable
  * revision and requires expected_version. Archived resources can't be changed; create a new
@@ -210,14 +202,14 @@ export interface DeliveryZonesResource {
     update(delivery_zone_id: InputValue<string>, params: (InputValue<UpdateDeliveryZoneRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryZone>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryZone>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryZones.md#deliveryzonesupdate
      */
     updateWithResponse(delivery_zone_id: InputValue<string>, params: (InputValue<UpdateDeliveryZoneRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryZoneResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryZoneResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

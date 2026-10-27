@@ -2,7 +2,7 @@
 
 ## ResendWebhookDeliveryRequestInput
 
-Request input. Response: [CloseCheckoutSessionRequest](../models/CloseCheckoutSessionRequest.md#closecheckoutsessionrequest).
+Request input. Response: [ResendWebhookDeliveryRequest](../models/ResendWebhookDeliveryRequest.md#resendwebhookdeliveryrequest).
 
 The request body for: Resend webhook delivery.
 

@@ -13,7 +13,6 @@ Creates an embedded account session for a non-empty unique set of Flint componen
 | `collection_strategy` | Optional | string | Values: `"upfront"`, `"incremental"`. |
 | `components` | Required | Array of string | minItems: `1`. maxItems: `6`. uniqueItems: `true`. Items values: `"account_onboarding"`, `"account_management"`, `"payouts"`, `"balances"`, `"tax_documents"`, `"notification_banner"`. |
 | `future_requirements` | Optional | string | Values: `"omit"`, `"include"`. |
-| `sandbox_id` | Optional | string | minLength: `1`. |
 | `targeted_requirements` | Optional | Array of string | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. Items values: [32 declared values](#merchantaccountsessioncreaterequest-targeted_requirements--values). |
 
 #### MerchantAccountSessionCreateRequest targeted_requirements [] values

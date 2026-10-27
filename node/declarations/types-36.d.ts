@@ -15,10 +15,36 @@ import type {
     ExpandedPayoutDestinationSummary,
     ExpandedPayoutSummary
 } from './types-16.js';
-import type { StripeClientSetup } from './types-44.js';
+import type { StripeClientSetup, SavePaymentMethodRequestInput } from './types-44.js';
 import type { MeRemovePaymentMethodInput } from './types-30.js';
-import type { SavePaymentMethodRequestInput } from './types-43.js';
 import type { PayoutTraceID } from './types-37.js';
+/**
+ * Shape $ (Value): {@link PaymentLinkEventConfigPatchRequestInput}. Changes to an event payment
+ * link's settings. Send null on a nullable field to clear it.
+ */
+export type PaymentLinkEventConfigPatchRequestInput = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "event_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): integer or null. Most tickets the event sells across all orders. Absent
+     * means no limit. On update, send null to remove the limit; a value below the tickets already
+     * sold or held by payments in progress returns MAX_TOTAL_QUANTITY_BELOW_SOLD. Whole-number
+     * quantity; fractional quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Shape $ (Value): boolean. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Shape $ (Value): string or null. Prefix for ticket numbers, up to 5 characters. It cannot
+     * change after the event has issued tickets. Send null to clear it. minLength: 1. maxLength:
+     * 5.
+     */
+    "ticket_prefix"?: string | null;
+    /** Shape $ (Value): string. minLength: 1. */
+    "timezone"?: string;
+    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 500. */
+    "venue"?: string | null;
+};
 /**
  * Shape $ (Value): {@link PaymentLinkEventConfigRequestInput}. Event settings you supply when
  * creating an event payment link.
@@ -1096,6 +1122,12 @@ export type PaymentMethodDomain = {
     "updated_at": string;
     /** Shape $ (Value): string.  Value enum: "active", "action_required", "unavailable". */
     "validation_status": "active" | "action_required" | "unavailable" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link PaymentMethodDomainListResponse}. A page of `PaymentMethodDomain`
@@ -1818,8 +1850,8 @@ export type PaymentVolumeTimeseriesResponse = {
 /** Shape $ (Value): {@link Payout}. Funds sent from a merchant balance to a payout destination. */
 export type Payout = {
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. Amount sent to your bank. Always positive. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValue;
     /**
@@ -1833,14 +1865,17 @@ export type Payout = {
      * future releases. Value enum: "card", "bank_account".
      */
     "balance_source_type": "card" | "bank_account" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the payout was created. Format: date-time. */
     "created_at": string;
     /**
      * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
      * ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. Description sent when the payout was created. Absent when there is
+     * none.
+     */
     "description"?: string;
     /**
      * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
@@ -1885,19 +1920,28 @@ export type Payout = {
      */
     "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
     /**
-     * Shape $ (Value): {@link MoneyValue} or null. Shape $.anyOf[1] (Value): {@link MoneyValue}.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape
-     * $.anyOf[2] (Value): null.
+     * Shape $ (Value): {@link MoneyValue} or null. Fee for this payout, never negative. Payouts
+     * carry no fee, so this is 0 once your processor records the payout, and null until then.
+     * Shape $.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code. Shape $.anyOf[2] (Value): null.
      */
     "fee_money": ((MoneyValue) | (null));
     /**
-     * Shape $ (Value): string. What started the payout. Unmapped sources are returned as other.
-     * Value enum: "manual", "scheduled", "platform", "other".
+     * Shape $ (Value): string. What started the payout. A payout imported from your processor
+     * follows the processor: scheduled when it sent the payout automatically, otherwise manual.
+     * Only scheduled payouts list their balance transactions through GET
+     * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
+     * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
+     * "other".
      */
     "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Merchant receiving the payout. */
     "merchant_id": string;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
+    /**
+     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
+     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
+     * the public API. Shape $.* (Value): string.
+     */
     "metadata"?: Record<string, string>;
     /**
      * Shape $ (Value): string. Payout method. instant can appear on imported payouts; unmapped
@@ -1905,52 +1949,83 @@ export type Payout = {
      */
     "method": "standard" | "instant" | "other" | (string & {});
     /**
-     * Shape $ (Value): {@link MoneyValue} or null. Shape $.anyOf[1] (Value): {@link MoneyValue}.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * Shape $.anyOf[2] (Value): null.
+     * Shape $ (Value): {@link MoneyValue} or null. Signed effect of this payout on your Flint
+     * balance. It is negative because the payout takes money out: a 25000 payout with no fee has
+     * net_money -25000. Null until your processor records the payout. Shape $.anyOf[1] (Value):
+     * {@link MoneyValue}. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. Shape $.anyOf[2] (Value): null.
      */
     "net_money": ((MoneyValue) | (null));
     /**
-     * Shape $ (Value): {@link ExpandedPayoutSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
+     * Shape $ (Value): {@link ExpandedPayoutSummary} or null. The payout this one reverses,
+     * inlined when you request expand=original_payout. null when expanded and original_payout_id
+     * is absent. Shape $.anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary
+     * fields, including amount, method, status, and arrival date, returned when the payout is
+     * expanded. Shape $.anyOf[2] (Value): null.
      */
     "original_payout"?: ((ExpandedPayoutSummary) | (null));
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. On a payout that reverses another payout, the payout it reverses. A
+     * payout has at most one of original_payout_id and reversed_by_payout_id.
+     */
     "original_payout_id"?: string;
     /**
-     * Shape $ (Value): {@link ExpandedPayoutDestinationSummary} or null. Shape $.anyOf[1] (Value):
-     * {@link ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as
-     * type, bank name, last four digits, and status, returned when the destination is expanded.
-     * Shape $.anyOf[2] (Value): null.
+     * Shape $ (Value): {@link ExpandedPayoutDestinationSummary} or null. The payout destination,
+     * inlined when you request expand=payout_destination. null when expanded and
+     * payout_destination_id is absent. Shape $.anyOf[1] (Value): {@link
+     * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type, bank
+     * name, last four digits, and status, returned when the destination is expanded. Shape
+     * $.anyOf[2] (Value): null.
      */
     "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. Bank account or debit card receiving the payout. Absent when Flint
+     * can't match your processor's destination to a payout destination.
+     */
     "payout_destination_id"?: string;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Stable identifier of the payout. */
     "payout_id": string;
-    /** Shape $ (Value): string.  Value enum: "none", "reversing", "reversed". */
+    /**
+     * Shape $ (Value): string. Whether Flint has pulled a paid payout back from your bank: none,
+     * reversing while a reversal is in progress, or reversed once it completes and a
+     * payout_reversal balance transaction returns the money. status stays paid throughout. Value
+     * enum: "none", "reversing", "reversed".
+     */
     "reversal_status": "none" | "reversing" | "reversed" | (string & {});
     /**
-     * Shape $ (Value): {@link ExpandedPayoutSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
+     * Shape $ (Value): {@link ExpandedPayoutSummary} or null. The payout that reversed this one,
+     * inlined when you request expand=reversed_by_payout. null when expanded and
+     * reversed_by_payout_id is absent. Shape $.anyOf[1] (Value): {@link ExpandedPayoutSummary}. A
+     * payout's summary fields, including amount, method, status, and arrival date, returned when
+     * the payout is expanded. Shape $.anyOf[2] (Value): null.
      */
     "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. On a reversed payout, the separate payout that reversed it, when
+     * there is one. A payout has at most one of original_payout_id and reversed_by_payout_id.
+     */
     "reversed_by_payout_id"?: string;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. Text shown on your bank statement for the deposit, when one was
+     * set.
+     */
     "statement_descriptor"?: string;
     /**
-     * Shape $ (Value): string. Value enum: "pending", "in_transit", "paid", "failed", "canceled".
+     * Shape $ (Value): string. Where the payout is: pending until it is sent, in_transit on its
+     * way to your bank, then paid or failed. A paid payout can still become failed if the bank
+     * returns the deposit, and canceled means a manual payout was canceled while pending. Value
+     * enum: "pending", "in_transit", "paid", "failed", "canceled".
      */
     "status": "pending" | "in_transit" | "paid" | "failed" | "canceled" | (string & {});
     /**
-     * Shape $ (Value): {@link PayoutTraceID}. A payout's bank trace ID, with whether it is
-     * pending, available, or unsupported.
+     * Shape $ (Value): {@link PayoutTraceID}. The bank's trace number for the deposit, which your
+     * bank can use to locate a late deposit. Its status says whether the number is pending,
+     * available, or unsupported, and value holds the number when Flint has it. Absent when Flint
+     * has no trace information. A payout's bank trace ID, with whether it is pending, available,
+     * or unsupported.
      */
     "trace_id"?: PayoutTraceID;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the payout last changed. Format: date-time. */
     "updated_at": string;
 };
 /** Shape $ (Value): {@link PayoutDestination}. The account that receives merchant payouts. */
@@ -1961,23 +2036,30 @@ export type PayoutDestination = {
      * string. Value enum: "standard".
      */
     "available_payout_methods": Array<"standard" | (string & {})>;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Name of the bank, when your processor reports it. */
     "bank_name"?: string;
     /**
      * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
      * pattern: ^[A-Z]{2}$. Example: "US".
      */
     "country"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the destination was added. Format: date-time. */
     "created_at": string;
     /**
      * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
      * ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
-    /** Shape $ (Value): boolean. */
+    /**
+     * Shape $ (Value): boolean. Whether this is the default destination for its currency.
+     * Scheduled payouts, and payouts created without payout_destination_id, go to the default, and
+     * only an active destination can be it.
+     */
     "default_for_currency": boolean;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. When the destination was last disabled or archived. Absent if it
+     * never was. Format: date-time.
+     */
     "disabled_at"?: string;
     /**
      * Shape $ (Value): string. Flint-normalized reason the payout destination cannot currently be
@@ -1997,28 +2079,41 @@ export type PayoutDestination = {
         | "requirements_pending_verification"
         | "superseded_destination_session_completed"
         | (string & {});
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Last four digits of the account or card number. */
     "last4"?: string;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Merchant that owns the destination. */
     "merchant_id": string;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
+    /**
+     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
+     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
+     * the public API. Shape $.* (Value): string.
+     */
     "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Stable identifier of the payout destination. */
     "payout_destination_id": string;
     /**
      * Shape $ (Value): string. Current status. Archived: deleted, and still readable by ID. Value
      * enum: "pending", "active", "verification_required", "disabled", "archived", "failed".
      */
     "status": "pending" | "active" | "verification_required" | "disabled" | "archived" | "failed" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. When Flint last recorded the destination's status. Format:
+     * date-time.
+     */
     "status_updated_at"?: string;
     /**
      * Shape $ (Value): string. Destination type. Unmapped destination types are returned as other.
      * Value enum: "bank_account", "debit_card", "other".
      */
     "type": "bank_account" | "debit_card" | "other" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the destination last changed. Format: date-time. */
     "updated_at": string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link PayoutDestinationListResponse}. A page of `PayoutDestination` objects.
@@ -2074,23 +2169,6 @@ export type PayoutListResponse = {
     "meta"?: MoneyMovementListMeta;
     /** Shape $ (Value): string. */
     "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link PayoutResponse}. A response containing `Payout` data. */
-export type PayoutResponse = {
-    /**
-     * Shape $ (Value): {@link Payout}. Funds sent from a merchant balance to a payout destination.
-     */
-    "data": Payout;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
     /**
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".

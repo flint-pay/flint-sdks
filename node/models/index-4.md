@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CreateCheckoutDeliveryQuoteRequestInput – CreateGiftCardRedemptionRequestInput
+# CreateCategoryRequestInput – CreateGiftCardNotificationRequestInput
 
+- [CreateCategoryRequestInput](CreateCategoryRequestInput.md)
+- [CreateCheckoutDeliveryQuoteRequest](CreateCheckoutDeliveryQuoteRequest.md)
 - [CreateCheckoutDeliveryQuoteRequestInput](CreateCheckoutDeliveryQuoteRequestInput.md)
 - [CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest](CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest.md)
 - [CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput](CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput.md)
@@ -100,6 +102,4 @@
 - [CreateGiftCardLoadResultResponse](CreateGiftCardLoadResultResponse.md)
 - [CreateGiftCardNotificationRequest](CreateGiftCardNotificationRequest.md)
 - [CreateGiftCardNotificationRequestInput](CreateGiftCardNotificationRequestInput.md)
-- [CreateGiftCardRedemptionRequest](CreateGiftCardRedemptionRequest.md)
-- [CreateGiftCardRedemptionRequestInput](CreateGiftCardRedemptionRequestInput.md)
 

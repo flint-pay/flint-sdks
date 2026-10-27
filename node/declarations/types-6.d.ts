@@ -1,25 +1,22 @@
+import type { DeliveryBuyerLocationRequest, DeliveryDistance, DeliveryBuyerLocationRequestInput } from './types-11.js';
+import type { DeliveryPickupAvailabilityMaximumDistanceRequestInput } from './types-12.js';
 import type {
     CreateDeliveryOptionsPreviewRequest,
-    CreateDeliveryPickupLocationsPreviewRequest,
     CreateDeliveryOptionsPreviewRequestInput,
-    CreateDeliveryPickupLocationsPreviewRequestInput,
     CreateDeliveryFulfillmentDetails,
     CreateDeliveryFulfillmentDetailsInput
 } from './types-5.js';
 import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-13.js';
+import type { DeliveryRateCallbackConfiguration, DeliveryRateCallbackConfigurationInput } from './types-14.js';
 import type {
-    DeliveryRateCallbackConfiguration,
-    DeliveryRateCallbackConfigurationInput,
     DeliverySelectionInstructionsRequest,
     DeliverySelectionInstructionsRequestInput,
-    DeliverySelectionRecipientRequest
-} from './types-14.js';
-import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
-import type {
+    DeliverySelectionRecipientRequest,
     DeliverySelectionRecipientRequestInput,
     DeliveryZoneConfiguration,
     DeliveryZoneConfigurationInput
 } from './types-15.js';
+import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
 import type { DeveloperSandbox } from './types-16.js';
 import type {
     FeedbackReportingClient,
@@ -33,24 +30,88 @@ import type {
 } from './types-17.js';
 import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-8.js';
 import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-9.js';
-import type { GiftCardFundingSource, GiftCardFundingSourceInput, GiftCard, GiftCardLoad } from './types-18.js';
+import type { GiftCardFundingSource, GiftCardFundingSourceInput, GiftCard } from './types-18.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type {
+    GiftCardLoad,
     GiftCardTransaction,
     GiftCardPurchaseRecipient,
     GiftCardNotificationRecipientInput,
     GiftCardNotification
 } from './types-19.js';
 import type { ResponseMeta } from './types-40.js';
-import type {
-    InitialGiftCardFunding,
-    InitialGiftCardFundingInput,
-    InventoryAdjustmentConditionChangeLineRequest,
-    InventoryAdjustmentConditionChangeLineRequestInput
-} from './types-23.js';
+import type { InitialGiftCardFunding, InitialGiftCardFundingInput } from './types-23.js';
 import type { CreateModifierRequestInput } from './types-7.js';
 import type { TextModifierConfigRequestInput } from './types-47.js';
-import type { InventorySourceSystemRequest, InventorySourceSystemRequestInput } from './types-25.js';
+/**
+ * Shape $ (Value): {@link CreateDeliveryPickupLocationsPreviewRequest}. The `pickup_locations`
+ * variant of `CreateDeliveryPreviewRequest`.
+ */
+export type CreateDeliveryPickupLocationsPreviewRequest = {
+    /**
+     * Shape $ (Value): {@link DeliveryBuyerLocationRequest}. The buyer's location for pickup or
+     * local delivery, supplied as an address or a coordinate, chosen by `type`.
+     */
+    "buyer_location"?: DeliveryBuyerLocationRequest;
+    /**
+     * Shape $ (Value): string. Checkout session whose pickup locations to evaluate. Checkout
+     * credentials must identify their own session. minLength: 1.
+     */
+    "checkout_session_id": string;
+    /**
+     * Shape $ (Value): string or null. ID of the checkout's current delivery selection, as GET
+     * /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null
+     * when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The
+     * search does not change or release the selection. minLength: 1.
+     */
+    "expected_delivery_selection_id"?: string | null;
+    /**
+     * Shape $ (Value): {@link DeliveryDistance}. A maximum distance from the buyer location, as a
+     * value and unit, that limits which pickup locations a preview returns.
+     */
+    "maximum_distance"?: DeliveryDistance;
+    /**
+     * Shape $ (Value): string. The delivery question this preview answers. - `pickup_locations`:
+     * Lists the checkout session's pickup locations and whether each can supply its items. Value
+     * enum: "pickup_locations".
+     */
+    "mode": "pickup_locations" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link CreateDeliveryPickupLocationsPreviewRequestInput}. The
+ * `pickup_locations` variant of `CreateDeliveryPreviewRequest`.
+ */
+export type CreateDeliveryPickupLocationsPreviewRequestInput = {
+    /**
+     * Shape $ (Value): {@link DeliveryBuyerLocationRequestInput}. The buyer's location for pickup
+     * or local delivery, supplied as an address or a coordinate, chosen by `type`.
+     */
+    "buyer_location"?: DeliveryBuyerLocationRequestInput;
+    /**
+     * Shape $ (Value): string. Checkout session whose pickup locations to evaluate. Checkout
+     * credentials must identify their own session. minLength: 1.
+     */
+    "checkout_session_id": string;
+    /**
+     * Shape $ (Value): string or null. ID of the checkout's current delivery selection, as GET
+     * /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null
+     * when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The
+     * search does not change or release the selection. minLength: 1.
+     */
+    "expected_delivery_selection_id"?: string | null;
+    /**
+     * Shape $ (Value): {@link DeliveryPickupAvailabilityMaximumDistanceRequestInput}. A maximum
+     * distance from the buyer location, as a value and unit, that limits which pickup locations a
+     * preview returns.
+     */
+    "maximum_distance"?: DeliveryPickupAvailabilityMaximumDistanceRequestInput;
+    /**
+     * Shape $ (Value): string. The delivery question this preview answers. - `pickup_locations`:
+     * Lists the checkout session's pickup locations and whether each can supply its items. Value
+     * enum: "pickup_locations".
+     */
+    "mode": "pickup_locations";
+};
 /**
  * Shape $ (Value): {@link CreateDeliveryPreviewRequest}. The request body for: Create delivery
  * preview.
@@ -2940,69 +3001,3 @@ export type CreateInlineModifierGroupRequestInput = {
      */
     "text"?: TextModifierConfigRequestInput;
 };
-/**
- * Shape $ (Value): {@link CreateInventoryAdjustmentConditionChangeRequest}. The
- * `condition_changed` variant of `CreateInventoryAdjustmentRequest`.
- */
-export type CreateInventoryAdjustmentConditionChangeRequest = ({
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link InventoryAdjustmentConditionChangeLineRequest}. minItems:
-     * 1. maxItems: 100. Shape $[] (Value): {@link InventoryAdjustmentConditionChangeLineRequest}.
-     * One line of an inventory condition change: moves a `quantity` of an item at a Location from
-     * one condition to another.
-     */
-    "lines": Array<InventoryAdjustmentConditionChangeLineRequest>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "note"?: string;
-    /**
-     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
-     * when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
-     */
-    "occurred_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "condition_changed". */
-    "reason": "condition_changed" | (string & {});
-    /**
-     * Shape $ (Value): {@link InventorySourceSystemRequest}. The source system you report for an
-     * inventory event, such as manual, pos, wms, erp, or other, with your identifier when it
-     * applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-});
-/**
- * Shape $ (Value): {@link CreateInventoryAdjustmentConditionChangeRequestInput}. The
- * `condition_changed` variant of `CreateInventoryAdjustmentRequest`.
- */
-export type CreateInventoryAdjustmentConditionChangeRequestInput = ({
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link InventoryAdjustmentConditionChangeLineRequestInput}.
-     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link
-     * InventoryAdjustmentConditionChangeLineRequestInput}. One line of an inventory condition
-     * change: moves a `quantity` of an item at a Location from one condition to another.
-     */
-    "lines": Array<InventoryAdjustmentConditionChangeLineRequestInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "note"?: string;
-    /**
-     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
-     * when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "condition_changed". */
-    "reason": "condition_changed";
-    /**
-     * Shape $ (Value): {@link InventorySourceSystemRequestInput}. The source system you report for
-     * an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it
-     * applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-});

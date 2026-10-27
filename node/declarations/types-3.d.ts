@@ -1,16 +1,194 @@
-import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-15.js';
+import type { Address } from './types-0.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
+import type { TipPaymentIntentAllocation, TipValueSettlementAllocation, UpdateCategoryRequestInput } from './types-47.js';
+import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-15.js';
 import type { ReadinessAction, ReadinessRequirements } from './types-39.js';
 import type { GiftCard } from './types-18.js';
 import type { GiftCardTransaction } from './types-19.js';
-import type { ResponseMeta, ResourceReference } from './types-40.js';
+import type { ResponseMeta } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateCategoryRequestInput } from './types-5.js';
-import type { UpdateCategoryRequestInput } from './types-47.js';
 import type { SubscriptionDeliveryRequest, SubscriptionDeliveryRequestInput } from './types-45.js';
-import type { Address } from './types-0.js';
-import type { DeliveryInputRequirement, DeliveryMerchantDiagnostic } from './types-12.js';
-import type { DeliveryQuoteChoiceGroupResource } from './types-14.js';
+/**
+ * Shape $ (Value): {@link BuyerSubscriptionServiceLocation}. The customer address reference or
+ * address used as the buyer's subscription service location.
+ */
+export type BuyerSubscriptionServiceLocation = {
+    /**
+     * Shape $ (Value): {@link Address}. A postal address, as returned on customers, invoices, tax
+     * locations, and fulfillment recipients.
+     */
+    "address"?: Address;
+};
+/**
+ * Shape $ (Value): {@link BuyerTip}. A tip on a buyer's order, with its requested, effective,
+ * settled, and refunded amounts and how it was allocated to payments.
+ */
+export type BuyerTip = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /** Shape $ (Value): string. */
+    "description"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "effective_amount_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "name"?: string;
+    /** Shape $ (Value): string. */
+    "order_tip_id": string;
+    /**
+     * Shape $ (Value): Array of {@link TipPaymentIntentAllocation}. Shape $[] (Value): {@link
+     * TipPaymentIntentAllocation}. The part of a tip paid through one payment intent.
+     */
+    "payment_intent_allocations": Array<TipPaymentIntentAllocation>;
+    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    "percent"?: number;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "settled_amount_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. Value enum: "requested", "settled", "partially_refunded",
+     * "refunded", "canceled".
+     */
+    "status": "requested" | "settled" | "partially_refunded" | "refunded" | "canceled" | (string & {});
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /**
+     * Shape $ (Value): Array of {@link TipValueSettlementAllocation}. Shape $[] (Value): {@link
+     * TipValueSettlementAllocation}. The part of a tip paid through one value settlement.
+     */
+    "value_settlement_allocations": Array<TipValueSettlementAllocation>;
+};
+/**
+ * Shape $ (Value): {@link CallerSuppliedDeliveryMethodResultRequest}. The rate result you supply
+ * for one delivery method and choice group when creating a delivery quote with caller-supplied
+ * pricing.
+ */
+export type CallerSuppliedDeliveryMethodResultRequest = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_choice_group_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id": string;
+    /**
+     * Shape $ (Value): {@link CallerSuppliedDeliveryOutcomeRequest}. Your outcome for a
+     * caller-priced delivery method, selected by `type`: available with a price and windows,
+     * unavailable with a reason, or cannot calculate.
+     */
+    "outcome": CallerSuppliedDeliveryOutcomeRequest;
+};
+/**
+ * Shape $ (Value): {@link CallerSuppliedDeliveryMethodResultRequestInput}. The rate result you
+ * supply for one delivery method and choice group when creating a delivery quote with
+ * caller-supplied pricing.
+ */
+export type CallerSuppliedDeliveryMethodResultRequestInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_choice_group_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id": string;
+    /**
+     * Shape $ (Value): {@link CallerSuppliedDeliveryOutcomeRequestInput}. Your outcome for a
+     * caller-priced delivery method, selected by `type`: available with a price and windows,
+     * unavailable with a reason, or cannot calculate.
+     */
+    "outcome": CallerSuppliedDeliveryOutcomeRequestInput;
+};
+/**
+ * Shape $ (Value): {@link CallerSuppliedDeliveryOutcomeRequest}. Your outcome for a caller-priced
+ * delivery method, selected by `type`: available with a price and windows, unavailable with a
+ * reason, or cannot calculate.
+ */
+export type CallerSuppliedDeliveryOutcomeRequest = ({
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "expires_at"?: string;
+    /**
+     * Shape $ (Value): string. Why Flint could not calculate the method and the action that can
+     * make calculation succeed. - `dependency_failure`: Retry after the dependent service
+     * recovers. - `timeout`: Retry after the timed-out dependency recovers. -
+     * `malformed_response`: Fix the callback response so it matches the documented response
+     * schema, then retry. - `pricing_failure`: Fix the method pricing configuration or matching
+     * rate, then retry. - `schedule_failure`: Fix the method schedule, timezone, or requested
+     * window, then retry. - `geography_failure`: Fix the destination, origin, or geographic
+     * configuration, then retry. - `routing_failure`: Fix inventory routing or origin assignment,
+     * then retry. - `address_verification_failed`: Correct the address fields rejected by
+     * verification, then retry. - `address_could_not_be_verified`: Confirm or correct the address,
+     * or retry when address verification is available. Value enum: "dependency_failure",
+     * "timeout", "malformed_response", "pricing_failure", "schedule_failure", "geography_failure",
+     * "routing_failure", "address_verification_failed", "address_could_not_be_verified".
+     */
+    "failure_category"?: "dependency_failure"
+        | "timeout"
+        | "malformed_response"
+        | "pricing_failure"
+        | "schedule_failure"
+        | "geography_failure"
+        | "routing_failure"
+        | "address_verification_failed"
+        | "address_could_not_be_verified"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. maxLength: 500. */
+    "merchant_reference"?: string;
+    /**
+     * Shape $ (Value): Array of {@link DeliveryWindowRequest}. Shape $[] (Value): {@link
+     * DeliveryWindowRequest}. A delivery window you supply in a caller-supplied delivery outcome,
+     * with its time range, price, and the last moment a buyer can choose it.
+     */
+    "offered_windows"?: Array<DeliveryWindowRequest>;
+    /** Shape $ (Value): boolean. */
+    "retryable"?: boolean;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "selection_guarantee_expires_at"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "service_level"?: string;
+    /** Shape $ (Value): string.  Value enum: "available", "unavailable", "cannot_calculate". */
+    "type": "available" | "unavailable" | "cannot_calculate" | (string & {});
+    /**
+     * Shape $ (Value): string. Why the method is unavailable and the action that can make it
+     * eligible. - `destination_not_served`: Use a destination covered by this method or choose
+     * another method. - `pickup_unavailable`: Choose an available pickup method or location. -
+     * `no_window_available`: Choose another offered window or a method with availability for the
+     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
+     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
+     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`:
+     * Choose an origin or method backed by available inventory. Value enum:
+     * "destination_not_served", "pickup_unavailable", "no_window_available",
+     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
+     */
+    "unavailable_reason"?: "destination_not_served"
+        | "pickup_unavailable"
+        | "no_window_available"
+        | "eligibility_no_match"
+        | "pricing_unavailable"
+        | "inventory_unavailable"
+        | (string & {});
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_end_at"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_start_at"?: string;
+})
+    & ((Exclude<CallerSuppliedDeliveryOutcomeRequestAvailable & object, readonly unknown[]>)
+    | (Exclude<CallerSuppliedDeliveryOutcomeRequestUnavailable & object, readonly unknown[]>)
+    | (Exclude<CallerSuppliedDeliveryOutcomeRequestCannotCalculate & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /**
  * Shape $ (Value): {@link CallerSuppliedDeliveryOutcomeRequestAvailable}. The `available` variant
  * of `CallerSuppliedDeliveryOutcomeRequest`.
@@ -689,6 +867,17 @@ export type CancelGiftCardNotificationRequest = {};
  */
 export type CancelGiftCardNotificationRequestInput = {};
 /**
+ * Shape $ (Value): {@link CancelOrderPaymentAttemptRequest}. The request body for: Cancel order
+ * payment attempt.
+ */
+export type CancelOrderPaymentAttemptRequest = {
+    /**
+     * Shape $ (Value): string. Optional merchant-supplied cancellation reason. Value enum:
+     * "requested_by_customer", "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned" | (string & {});
+};
+/**
  * Shape $ (Value): {@link CancelOrderPaymentAttemptRequestInput}. The request body for: Cancel
  * order payment attempt.
  */
@@ -700,38 +889,6 @@ export type CancelOrderPaymentAttemptRequestInput = {
     "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned";
 };
 /**
- * Shape $ (Value): {@link CancelOrderPaymentRequest}. The request body for: Cancel order payment
- * leg.
- */
-export type CancelOrderPaymentRequest = {
-    /**
-     * Shape $ (Value): string. Optional merchant-supplied cancellation reason. Value enum:
-     * "requested_by_customer", "duplicate", "fraudulent", "abandoned".
-     */
-    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned" | (string & {});
-    /**
-     * Shape $ (Value): string. Owning Flint payment attempt ID. Required while the payment leg
-     * belongs to an active attempt. minLength: 1.
-     */
-    "order_payment_attempt_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CancelOrderPaymentRequestInput}. The request body for: Cancel order
- * payment leg.
- */
-export type CancelOrderPaymentRequestInput = {
-    /**
-     * Shape $ (Value): string. Optional merchant-supplied cancellation reason. Value enum:
-     * "requested_by_customer", "duplicate", "fraudulent", "abandoned".
-     */
-    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned";
-    /**
-     * Shape $ (Value): string. Owning Flint payment attempt ID. Required while the payment leg
-     * belongs to an active attempt. minLength: 1.
-     */
-    "order_payment_attempt_id"?: string;
-};
-/**
  * Shape $ (Value): {@link CancelPaymentIntentRequest}. The request body for: Cancel payment
  * intent.
  */
@@ -741,12 +898,32 @@ export type CancelPaymentIntentRequest = {
      * "requested_by_customer", "duplicate", "fraudulent", "abandoned".
      */
     "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link CancelPaymentIntentRequestInput}. The request body for: Cancel payment
  * intent.
  */
-export type CancelPaymentIntentRequestInput = CancelOrderPaymentAttemptRequestInput;
+export type CancelPaymentIntentRequestInput = {
+    /**
+     * Shape $ (Value): string. Optional merchant-supplied cancellation reason. Value enum:
+     * "requested_by_customer", "duplicate", "fraudulent", "abandoned".
+     */
+    "cancellation_reason"?: "requested_by_customer" | "duplicate" | "fraudulent" | "abandoned";
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+};
 /** Shape $ (Value): {@link CancelPayoutRequest}. The request body for: Cancel a payout. */
 export type CancelPayoutRequest = {
     [key: string]: unknown;
@@ -1060,38 +1237,6 @@ export type CapabilityReadiness = {
         | (string & {});
 };
 /**
- * Shape $ (Value): {@link CaptureOrderPaymentRequest}. The request body for: Capture order
- * payment.
- */
-export type CaptureOrderPaymentRequest = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Owning Flint payment attempt ID. Required while the authorization
-     * belongs to an active attempt. minLength: 1.
-     */
-    "order_payment_attempt_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CaptureOrderPaymentRequestInput}. The request body for: Capture order
- * payment.
- */
-export type CaptureOrderPaymentRequestInput = {
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Owning Flint payment attempt ID. Required while the authorization
-     * belongs to an active attempt. minLength: 1.
-     */
-    "order_payment_attempt_id"?: string;
-};
-/**
  * Shape $ (Value): {@link CapturePaymentIntentRequest}. The request body for: Capture payment
  * intent.
  */
@@ -1104,6 +1249,13 @@ export type CapturePaymentIntentRequest = {
      * full. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link CapturePaymentIntentRequestInput}. The request body for: Capture payment
@@ -1118,6 +1270,13 @@ export type CapturePaymentIntentRequestInput = {
      * in full. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValueInput;
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
 };
 /**
  * Shape $ (Value): {@link CardDetails}. Card details on a payment method: brand, expiration month
@@ -1720,76 +1879,4 @@ export type CheckoutCustomerPrefill = {
      * without a saved recipient.
      */
     "shipping_recipient_name"?: string;
-};
-/**
- * Shape $ (Value): {@link CheckoutDeliveryPinnedDependency}. A delivery dependency pinned to a
- * checkout, such as the assigned method, eligibility, or pricing callback, with the revision it
- * was pinned at.
- */
-export type CheckoutDeliveryPinnedDependency = {
-    /**
-     * Shape $ (Value): string. Value enum: "assigned_method", "eligibility", "method_origin",
-     * "pickup_collection", "pricing_callback", "origin".
-     */
-    "delivery_dependency_role": "assigned_method"
-        | "eligibility"
-        | "method_origin"
-        | "pickup_collection"
-        | "pricing_callback"
-        | "origin"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link ResourceReference} or null. Shape $.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * Shape $.anyOf[2] (Value): null.
-     */
-    "dependency": ((ResourceReference) | (null));
-    /**
-     * Shape $ (Value): integer string. Version of the Location geography used by this assignment
-     * or dependency. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "location_geography_version"?: `${bigint}`;
-    /** Shape $ (Value): string. */
-    "revision_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CheckoutDerivedDeliveryResource}. The delivery options Flint derived for
- * a checkout as a buyer sees them: choice groups, input requirements, and evaluation status.
- */
-export type CheckoutDerivedDeliveryResource = {
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "buyer_reasons": Array<string>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryQuoteChoiceGroupResource}. Shape $[] (Value):
-     * {@link DeliveryQuoteChoiceGroupResource}. One group of order items in a delivery quote, with
-     * the delivery options the buyer can choose, its availability status, and any input still
-     * needed.
-     */
-    "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
-    /** Shape $ (Value): string. */
-    "delivery_quote_id"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "complete", "incomplete", "degraded",
-     * "requires_explicit_quote".
-     */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | "requires_explicit_quote" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "expires_at"?: string;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryInputRequirement}. Inputs the checkout's delivery
-     * methods need. Once the checkout has a delivery quote, these are the quote's
-     * input_requirements. Before that, they come from the methods alone and name no choice group:
-     * the fields in each method's quote_input_fields, and each recipient field a method requires.
-     * Shape $[] (Value): {@link DeliveryInputRequirement}. An input a delivery method needs, such
-     * as an address field or time window, with its `field_path`, purpose, and constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryMerchantDiagnostic}. Always present with an API key
-     * or dashboard credential. Shape $[] (Value): {@link DeliveryMerchantDiagnostic}. A
-     * merchant-only diagnostic explaining why a delivery method produced no option, with its
-     * outcome, recommended action, and eligibility mismatches.
-     */
-    "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
 };

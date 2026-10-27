@@ -8,14 +8,7 @@ Returns the authenticated merchant.
 
 `GET /v1/merchant`
 
-Signature:
-
-```typescript
-get(params?: {
-  "expand"?: InputValue<Array<"organization">>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>)
-```
+Signature: `get(params?: { "expand"?: InputValue<Array<"organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)`
 
 #### Request fields
 
@@ -48,7 +41,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -64,14 +57,7 @@ Applies a sparse update to the authenticated merchant's public business profile 
 
 `PATCH /v1/merchant`
 
-Signature:
-
-```typescript
-update(params: (InputValue<UpdateMerchantRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "merchantKey">)
-```
+Signature: `update(params: (InputValue<UpdateMerchantRequestInput>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
@@ -94,7 +80,6 @@ Body model: [UpdateMerchantRequestInput](../models/UpdateMerchantRequest.md#upda
 | `icon` | Optional | [ImageRequestInput](../models/ImageRequest.md#imagerequest) or null | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
 | `logo` | Optional | [ImageRequestInput](../models/ImageRequest.md#imagerequest) or null |  |
 | `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
-| `organization_id` | Optional | string | minLength: `1`. |
 | `phone` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `reporting_timezone` | Optional | string | minLength: `1`. |
 | `support_email` | Optional | string or null | Send null to clear it. minLength: `1`. |
@@ -132,7 +117,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

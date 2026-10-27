@@ -130,7 +130,7 @@ The API key or user that created this key. An API key creator can belong to anot
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the referenced resource. |
-| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [134 declared values](#apikeycreated_by-resource_type-values). |
+| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](#apikeycreated_by-resource_type-values). |
 
 #### APIKey.created_by resource_type values
 
@@ -149,6 +149,7 @@ The API key or user that created this key. An API key creator can belong to anot
 - `"customer"`
 - `"customer_address"`
 - `"customer_deletion_request"`
+- `"customer_email_preferences"`
 - `"customer_session"`
 - `"customer_verification"`
 - `"delivery_location_set"`

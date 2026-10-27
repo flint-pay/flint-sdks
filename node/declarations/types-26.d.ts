@@ -1,5 +1,10 @@
-import type { ErrorEnvelope, ExpandedCustomerSummary, ExpandedOrderSummary } from './types-16.js';
-import type { InventoryTransfer, InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-25.js';
+import type { ErrorObject, ErrorEnvelope, ExpandedCustomerSummary, ExpandedOrderSummary } from './types-16.js';
+import type {
+    InventoryTransferActionConflictErrorDetail,
+    InventoryTransfer,
+    InventoryProvenanceRequest,
+    InventoryProvenanceRequestInput
+} from './types-25.js';
 import type { ResponseMeta } from './types-40.js';
 import type { InventoryLevel } from './types-24.js';
 import type { InputValue } from '../runtime.js';
@@ -9,18 +14,211 @@ import type { Address, BundleComponent } from './types-0.js';
 import type {
     InvoicePaymentDue,
     InvoicePaymentTermsSnapshot,
-    InvoiceScheduleEntry,
+    InvoicePaymentAttempt,
     InvoicePaymentPolicy,
     InvoicePaymentPolicyInput
 } from './types-27.js';
-import type { InvoiceSnapshot } from './types-28.js';
+import type { InvoiceScheduleEntry, InvoiceSnapshot } from './types-28.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type { CheckoutRedirects, CheckoutRedirectsRequestInput, CheckoutSession } from './types-4.js';
 import type { CategoryReference } from './types-3.js';
 import type { Image } from './types-19.js';
 import type { OrderLineItemModifier } from './types-32.js';
-import type { SelectedProductOption } from './types-43.js';
-import type { PaymentErrorSummary } from './types-35.js';
+import type { SelectedProductOption } from './types-44.js';
+/**
+ * Shape $ (Value): {@link InventoryTransferActionConflictErrorEnvelope}. An error response
+ * containing `InventoryTransferActionConflictErrorObject`.
+ */
+export type InventoryTransferActionConflictErrorEnvelope = {
+    /**
+     * Shape $ (Value): {@link InventoryTransferActionConflictErrorObject}. An error returned when
+     * an inventory transfer action conflicts with the transfer's current state. The error returned
+     * for a failed request: `type`, `code`, `message`, `remediation`, `request_id`, and a list of
+     * `details` for individual failures.
+     */
+    "error": InventoryTransferActionConflictErrorObject;
+};
+/**
+ * Shape $ (Value): {@link InventoryTransferActionConflictErrorObject}. An error returned when an
+ * inventory transfer action conflicts with the transfer's current state. The error returned for a
+ * failed request: `type`, `code`, `message`, `remediation`, `request_id`, and a list of `details`
+ * for individual failures.
+ */
+export type InventoryTransferActionConflictErrorObject = (Exclude<ErrorObject & object, readonly unknown[]>)
+    & ({
+    /** Shape $ (Value): string.  Value enum: "ACTION_NOT_ALLOWED". */
+    "code": "ACTION_NOT_ALLOWED" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link InventoryTransferActionConflictErrorDetail}. minItems: 1.
+     * Shape $[] (Value): {@link InventoryTransferActionConflictErrorDetail}. An error detail
+     * returned when an inventory transfer action conflicts with the transfer's current state. One
+     * specific failure within an error, with a `code` and `message` plus fields that depend on the
+     * code, such as the `param`, resource, quantity, or amount involved.
+     */
+    "details": Array<InventoryTransferActionConflictErrorDetail>;
+    /** Shape $ (Value): string.  Value enum: "action". */
+    "param": "action" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "conflict_error". */
+    "type": "conflict_error" | (string & {});
+    /**
+     * Shape $ (Value): string. Human-readable explanation for your logs. The wording can change,
+     * so branch on code, and do not show it to buyers as is.
+     */
+    "message": string;
+    /**
+     * Shape $ (Value): string. Error reference at https://developers.withflintpay.com/docs/errors#
+     * followed by the lowercase error code.
+     */
+    "doc_url": string;
+    /**
+     * Shape $ (Value): string. System boundary responsible for correcting the failure. Value enum:
+     * "merchant", "integration", "flint".
+     */
+    "error_source": "merchant" | "integration" | "flint" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link InventoryTransferConflictErrorEnvelope}. The response for: Transition
+ * inventory transfer.
+ */
+export type InventoryTransferConflictErrorEnvelope = ((InventoryTransferActionConflictErrorEnvelope)
+    | (InventoryTransferOtherConflictErrorEnvelope)
+    | (unknown));
+/**
+ * Shape $ (Value): {@link InventoryTransferLine}. One line of an inventory transfer, with the
+ * requested quantity and how much has departed, been received by condition, canceled, lost, or
+ * returned.
+ */
+export type InventoryTransferLine = {
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "canceled_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined".
+     */
+    "condition": "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "departed_quantity": `${bigint}`;
+    /** Shape $ (Value): string. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_transfer_line_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "lost_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_damaged_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_quality_control_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_quarantined_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_sellable_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "requested_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "returned_quantity": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryTransferLineRequest}. One line of an inventory transfer you
+ * create: an item and the requested quantity.
+ */
+export type InventoryTransferLineRequest = {
+    /**
+     * Shape $ (Value): string. Default: "sellable". Value enum: "sellable", "quality_control",
+     * "damaged", "quarantined".
+     */
+    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1.
+     */
+    "requested_quantity": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryTransferLineRequestInput}. One line of an inventory transfer
+ * you create: an item and the requested quantity.
+ */
+export type InventoryTransferLineRequestInput = {
+    /**
+     * Shape $ (Value): string. Default: "sellable". Value enum: "sellable", "quality_control",
+     * "damaged", "quarantined".
+     */
+    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1.
+     */
+    "requested_quantity": `${bigint}` | bigint;
+};
+/**
+ * Shape $ (Value): {@link InventoryTransferListResponse}. A page of `InventoryTransfer` objects.
+ */
+export type InventoryTransferListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryTransfer}. Shape $[] (Value): {@link
+     * InventoryTransfer}. Stock moving between locations.
+     */
+    "data": Array<InventoryTransfer>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
 /**
  * Shape $ (Value): {@link InventoryTransferOtherConflictErrorEnvelope}. The response for:
  * Transition inventory transfer. An error response containing `ErrorObject`.
@@ -594,7 +792,7 @@ export type InventoryTransfersListInput = {
      * "in_transit", "partially_resolved", "closed".
      */
     "status"?: InputValue<Array<"draft" | "in_transit" | "partially_resolved" | "closed">>;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "external_reference_id"?: InputValue<string>;
@@ -678,7 +876,9 @@ export type Invoice = {
      * Shape $ (Value): {@link MoneyValue}. The part of the balance due now. Without
      * schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding
      * amount of the first entry, in schedule order, whose due time has arrived and that still has
-     * a balance, or 0 when there is none. Always 0 unless the invoice is open or partially_paid.
+     * a balance, or 0 when there is none. It is the amount the next collect call or checkout
+     * session charges. To total everything past due, add the outstanding_money of the entries
+     * whose status is due or overdue. Always 0 unless the invoice is open or partially_paid.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "currently_due_money": MoneyValue;
@@ -707,12 +907,13 @@ export type Invoice = {
     "due_at"?: string;
     /**
      * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. minLength: 1. maxLength: 255.
+     * system. Use it as your sync key: it isn't printed on the invoice. null when unset.
+     * minLength: 1. maxLength: 255.
      */
     "external_reference_id": string | null;
     /**
      * Shape $ (Value): string or null. Fine print at the bottom of the invoice and PDF. It cannot
-     * change after issue.
+     * change after issue. null when unset.
      */
     "footer": string | null;
     /** Shape $ (Value): string. Flint invoice ID. */
@@ -746,8 +947,8 @@ export type Invoice = {
      */
     "late_fees": Array<InvoiceLateFee>;
     /**
-     * Shape $ (Value): string or null. Message to the customer, shown on the invoice. It cannot
-     * change after issue.
+     * Shape $ (Value): string or null. Message to the customer, printed on the invoice and PDF. It
+     * cannot change after issue. null when unset.
      */
     "memo": string | null;
     /** Shape $ (Value): string. Merchant that owns this invoice. */
@@ -799,22 +1000,27 @@ export type Invoice = {
      * date calculation, and late fee policy.
      */
     "payment_terms_snapshot"?: InvoicePaymentTermsSnapshot;
-    /** Shape $ (Value): string or null. The buyer's purchase order number. */
+    /**
+     * Shape $ (Value): string or null. The buyer's purchase order number, printed on the invoice
+     * and PDF. It cannot change after issue. null when unset.
+     */
     "po_number": string | null;
     /**
      * Shape $ (Value): string. The hosted invoice link where the buyer views and pays the invoice.
-     * Present after issue on API reads; webhook payloads leave it out. regenerate-public-link
-     * replaces it. Anyone with the link can open the invoice, so treat it as a secret.
+     * Present after issue on API reads, except a list filtered by idempotency_key; webhook
+     * payloads leave it out. regenerate-public-link replaces it. Anyone with the link can open the
+     * invoice, so treat it as a secret.
      */
     "public_url"?: string;
     /**
-     * Shape $ (Value): string or null. Where invoice email goes. Email delivery requires it at
-     * issue.
+     * Shape $ (Value): string or null. Where Flint emails the invoice and its reminders. Email
+     * delivery requires it at issue. null when unset.
      */
     "recipient_email": string | null;
     /**
-     * Shape $ (Value): string or null. Customer-facing reference shown on the invoice and PDF. It
-     * cannot change after issue.
+     * Shape $ (Value): string or null. Your reference for the invoice, printed on the invoice and
+     * PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. null
+     * when unset.
      */
     "reference": string | null;
     /**
@@ -852,13 +1058,15 @@ export type Invoice = {
      */
     "schedule_entries": Array<InvoiceScheduleEntry>;
     /**
-     * Shape $ (Value): string or null. When Flint will issue and deliver this draft. Cleared when
-     * the draft is issued or voided, or when you send null. Format: date-time.
+     * Shape $ (Value): string or null. When Flint will issue and deliver this draft. null when no
+     * issue is scheduled. Cleared when the draft is issued or voided, or when you send null.
+     * Format: date-time.
      */
     "scheduled_issue_at": string | null;
     /**
-     * Shape $ (Value): string or null. The calendar service date shown on the invoice, in
-     * YYYY-MM-DD format. Format: date.
+     * Shape $ (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
+     * format. The invoice and PDF print it as written, without timezone conversion. null when
+     * unset. Format: date.
      */
     "service_date": string | null;
     /**
@@ -878,8 +1086,8 @@ export type Invoice = {
      */
     "status": "draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited" | (string & {});
     /**
-     * Shape $ (Value): string or null. Subscription of the backing order, copied when the draft is
-     * created. Null for orders without a subscription.
+     * Shape $ (Value): string or null. The subscription the backing order belongs to, copied when
+     * the draft is created and never changed. null when the order isn't part of a subscription.
      */
     "subscription_id": string | null;
     /**
@@ -1027,11 +1235,6 @@ export type InvoiceActivity = {
      * ISO 4217 currency code.
      */
     "expected_amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. When the processing payment is expected to settle. Present on
-     * payment_processing when known. Format: date-time.
-     */
-    "expected_settlement_at"?: string;
     /** Shape $ (Value): string. Flint invoice activity ID. IDs begin with inevt_. */
     "invoice_activity_id": string;
     /**
@@ -1265,12 +1468,20 @@ export type InvoiceCheckoutSessionResult = {
  * time. The object can be sent back when updating a draft.
  */
 export type InvoiceCollection = ({
-    /** Shape $ (Value): string.  Value enum: "buyer_initiated", "automatic", "external". */
+    /**
+     * Shape $ (Value): string. How the invoice is collected, resolved when the draft was written.
+     * Value enum: "buyer_initiated", "automatic", "external".
+     */
     "mode": "buyer_initiated" | "automatic" | "external" | (string & {});
-    /** Shape $ (Value): string or null. */
+    /**
+     * Shape $ (Value): string or null. The saved card Flint charges. Present only with automatic.
+     * On a draft, null means Flint charges the customer's default card, selected at issue. After
+     * issue it is the selected card.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
      * per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicy;
@@ -1284,12 +1495,20 @@ export type InvoiceCollection = ({
  * `InvoiceCollection`.
  */
 export type InvoiceCollectionAutomatic = ({
-    /** Shape $ (Value): string.  Value enum: "automatic". */
+    /**
+     * Shape $ (Value): string. How the invoice is collected, resolved when the draft was written.
+     * Value enum: "automatic".
+     */
     "mode": "automatic" | (string & {});
-    /** Shape $ (Value): string or null. */
+    /**
+     * Shape $ (Value): string or null. The saved card Flint charges. Present only with automatic.
+     * On a draft, null means Flint charges the customer's default card, selected at issue. After
+     * issue it is the selected card.
+     */
     "payment_method_id": string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
      * per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicy;
@@ -1305,12 +1524,20 @@ export type InvoiceCollectionAutomatic = ({
  * `InvoiceCollection`.
  */
 export type InvoiceCollectionBuyerInitiated = ({
-    /** Shape $ (Value): string.  Value enum: "buyer_initiated". */
+    /**
+     * Shape $ (Value): string. How the invoice is collected, resolved when the draft was written.
+     * Value enum: "buyer_initiated".
+     */
     "mode": "buyer_initiated" | (string & {});
-    /** Shape $ (Value): string or null. */
+    /**
+     * Shape $ (Value): string or null. The saved card Flint charges. Present only with automatic.
+     * On a draft, null means Flint charges the customer's default card, selected at issue. After
+     * issue it is the selected card.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
      * per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy": InvoicePaymentPolicy;
@@ -1319,7 +1546,8 @@ export type InvoiceCollectionBuyerInitiated = ({
     /** Shape $ (Value): string.  Value enum: "buyer_initiated". */
     "mode"?: "buyer_initiated" | (string & {});
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
      * per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy": InvoicePaymentPolicy;
@@ -1329,12 +1557,20 @@ export type InvoiceCollectionBuyerInitiated = ({
  * `InvoiceCollection`.
  */
 export type InvoiceCollectionExternal = ({
-    /** Shape $ (Value): string.  Value enum: "external". */
+    /**
+     * Shape $ (Value): string. How the invoice is collected, resolved when the draft was written.
+     * Value enum: "external".
+     */
     "mode": "external" | (string & {});
-    /** Shape $ (Value): string or null. */
+    /**
+     * Shape $ (Value): string or null. The saved card Flint charges. Present only with automatic.
+     * On a draft, null means Flint charges the customer's default card, selected at issue. After
+     * issue it is the selected card.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
      * per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicy;
@@ -1349,15 +1585,21 @@ export type InvoiceCollectionExternal = ({
  */
 export type InvoiceCollectionInputAutomatic = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "automatic".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "automatic".
      */
     "mode": "automatic" | (string & {});
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicy;
 })
@@ -1371,15 +1613,21 @@ export type InvoiceCollectionInputAutomatic = ({
  */
 export type InvoiceCollectionInputAutomaticInput = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "automatic".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "automatic".
      */
     "mode": "automatic";
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. Which payment options an invoice
-     * accepts, any per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
+     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicyInput;
 })
@@ -1396,15 +1644,21 @@ export type InvoiceCollectionInputAutomaticInput = ({
  */
 export type InvoiceCollectionInputBuyerInitiated = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "buyer_initiated".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "buyer_initiated".
      */
     "mode": "buyer_initiated" | (string & {});
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicy;
 })
@@ -1418,15 +1672,21 @@ export type InvoiceCollectionInputBuyerInitiated = ({
  */
 export type InvoiceCollectionInputBuyerInitiatedInput = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "buyer_initiated".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "buyer_initiated".
      */
     "mode": "buyer_initiated";
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. Which payment options an invoice
-     * accepts, any per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
+     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicyInput;
 })
@@ -1443,15 +1703,21 @@ export type InvoiceCollectionInputBuyerInitiatedInput = ({
  */
 export type InvoiceCollectionInputExternalInput = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "external".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "external".
      */
     "mode": "external";
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. Which payment options an invoice
-     * accepts, any per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
+     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicyInput;
 })
@@ -1470,15 +1736,21 @@ export type InvoiceCollectionInputExternalInput = ({
  */
 export type InvoiceCollectionInputMerchantDefault = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "merchant_default".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "merchant_default".
      */
     "mode": "merchant_default" | (string & {});
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicy;
 })
@@ -1492,15 +1764,21 @@ export type InvoiceCollectionInputMerchantDefault = ({
  */
 export type InvoiceCollectionInputMerchantDefaultInput = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "merchant_default".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "merchant_default".
      */
     "mode": "merchant_default";
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. Which payment options an invoice
-     * accepts, any per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
+     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicyInput;
 })
@@ -1520,16 +1798,22 @@ export type InvoiceCollectionInputMerchantDefaultInput = ({
  */
 export type InvoiceCollectionRequest = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "merchant_default", "buyer_initiated", "automatic",
-     * "external".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "merchant_default",
+     * "buyer_initiated", "automatic", "external".
      */
     "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external" | (string & {});
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
+     * offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicy;
 })
@@ -1545,16 +1829,22 @@ export type InvoiceCollectionRequest = ({
  */
 export type InvoiceCollectionRequestInput = ({
     /**
-     * Shape $ (Value): string. merchant_default resolves the merchant setting at write time. Reads
-     * return the resolved mode. Value enum: "merchant_default", "buyer_initiated", "automatic",
-     * "external".
+     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
+     * draft is written, and reads return the resolved mode. Value enum: "merchant_default",
+     * "buyer_initiated", "automatic", "external".
      */
     "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external";
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
+     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
+     * is issued. Send null to clear it. minLength: 1.
+     */
     "payment_method_id"?: string | null;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. Which payment options an invoice
-     * accepts, any per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
+     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
+     * payment_policy, or the checkout payment options when that isn't set. Which payment options
+     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      */
     "payment_policy"?: InvoicePaymentPolicyInput;
 })
@@ -1567,26 +1857,38 @@ export type InvoiceCollectionRequestInput = ({
  * either the original send or a reminder, with its recipients and status.
  */
 export type InvoiceDeliveryAttempt = ({
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    /**
+     * Shape $ (Value): Array of string. Addresses copied on this email. Absent when none were
+     * copied. Shape $[] (Value): string.
+     */
     "cc_emails"?: Array<string>;
-    /** Shape $ (Value): string.  Value enum: "email". */
+    /** Shape $ (Value): string. How Flint delivered the invoice. Value enum: "email". */
     "channel": "email" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the attempt was created. Format: date-time. */
     "created_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "send", "reminder". */
+    /**
+     * Shape $ (Value): string. Whether this attempt is the invoice email sent at issue or a
+     * reminder. Value enum: "send", "reminder".
+     */
     "delivery_type": "send" | "reminder" | (string & {});
     /**
      * Shape $ (Value): string. Present only when status is failed. Legacy failed attempts without
      * a stored reason return rejected. Value enum: "rejected", "delivery_unknown", "canceled".
      */
     "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Flint invoice delivery attempt ID. */
     "invoice_delivery_attempt_id": string;
     /** Shape $ (Value): string. ID of the invoice this delivery attempt belongs to. */
     "invoice_id": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. When the email service accepted the message. Absent until it does.
+     * Format: date-time.
+     */
     "sent_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "pending", "sent", "failed", "suppressed". */
+    /**
+     * Shape $ (Value): string. The outcome of this attempt. sent means the email service accepted
+     * the message. Value enum: "pending", "sent", "failed", "suppressed".
+     */
     "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
     /**
      * Shape $ (Value): string. Present only when status is suppressed. Value enum:
@@ -2180,214 +2482,4 @@ export type InvoiceManualPayment = {
      * enum: "recorded", "reversed".
      */
     "status": "recorded" | "reversed" | (string & {});
-};
-/**
- * Shape $ (Value): {@link InvoiceManualPaymentListResponse}. A page of `InvoiceManualPayment`
- * objects.
- */
-export type InvoiceManualPaymentListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InvoiceManualPayment}. Shape $[] (Value): {@link
-     * InvoiceManualPayment}. A recorded offline payment against an invoice. Its amount contributes
-     * to invoice paid_money while recorded; reversing it returns its full amount to
-     * outstanding_money. A payment can cover principal and late fees. Manual payments are separate
-     * from online payment attempts.
-     */
-    "data": Array<InvoiceManualPayment>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InvoiceManualPaymentResponse}. A response containing
- * `InvoiceManualPayment` data.
- */
-export type InvoiceManualPaymentResponse = {
-    /**
-     * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
-     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
-     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
-     * payments are separate from online payment attempts.
-     */
-    "data": InvoiceManualPayment;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InvoiceManualPaymentResult}. The recorded or reversed payment and the
- * updated invoice. expected_version on either write fences the invoice; use the returned invoice
- * version for the next write.
- */
-export type InvoiceManualPaymentResult = {
-    /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-    "invoice": Invoice;
-    /**
-     * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
-     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
-     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
-     * payments are separate from online payment attempts.
-     */
-    "invoice_manual_payment": InvoiceManualPayment;
-};
-/**
- * Shape $ (Value): {@link InvoiceManualPaymentResultResponse}. A response containing
- * `InvoiceManualPaymentResult` data.
- */
-export type InvoiceManualPaymentResultResponse = {
-    /**
-     * Shape $ (Value): {@link InvoiceManualPaymentResult}. The recorded or reversed payment and
-     * the updated invoice. expected_version on either write fences the invoice; use the returned
-     * invoice version for the next write.
-     */
-    "data": InvoiceManualPaymentResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an invoice. */
-export type InvoicePaymentAttempt = {
-    /**
-     * Shape $ (Value): string. When the attempt was canceled. An attempt canceled with its
-     * checkout session before payment started may not have it. Format: date-time.
-     */
-    "canceled_at"?: string;
-    /**
-     * Shape $ (Value): string. When cancellation of this attempt was last requested. It stays set
-     * when the payment processor refuses the cancellation or the payment settles first, so read
-     * status and canceled_at for the outcome. Format: date-time.
-     */
-    "cancellation_requested_at"?: string;
-    /**
-     * Shape $ (Value): string. The hosted or embedded checkout session the buyer pays through.
-     * Absent for automatic charges.
-     */
-    "checkout_session_id"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount this attempt collects: the outstanding
-     * balance, or the targeted schedule entry's outstanding amount. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "expected_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. When an ACH debit is expected to settle, when Flint has an
-     * estimate. Format: date-time.
-     */
-    "expected_settlement_at"?: string;
-    /**
-     * Shape $ (Value): string. When a checkout attempt expires, matching its checkout session.
-     * Absent for automatic charges. Format: date-time.
-     */
-    "expires_at"?: string;
-    /** Shape $ (Value): string. The invoice this attempt collects. */
-    "invoice_id": string;
-    /** Shape $ (Value): string. Flint invoice payment attempt ID. */
-    "invoice_payment_attempt_id": string;
-    /**
-     * Shape $ (Value): string. The schedule entry this attempt collects. Absent when the attempt
-     * collects the invoice balance.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Shape $ (Value): {@link PaymentErrorSummary}. Why the payment failed. Present only when
-     * status is failed. A summary of why a payment attempt failed, with a normalized error code, a
-     * message, the failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * Shape $ (Value): string. The payment intent behind this attempt. Absent until payment
-     * starts, such as a hosted attempt the buyer hasn't paid yet.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. How the attempt collects: card, including Apple Pay, Google Pay,
-     * and Affirm, or ACH debit. Value enum: "card", "ach_debit".
-     */
-    "rail": "card" | "ach_debit" | (string & {});
-    /**
-     * Shape $ (Value): string. When this attempt first settled successfully. Duplicate payment
-     * notifications preserve this timestamp. Format: date-time.
-     */
-    "settled_at"?: string;
-    /** Shape $ (Value): string. When the attempt was created. Format: date-time. */
-    "started_at"?: string;
-    /**
-     * Shape $ (Value): string. Current payment attempt status. settled means this attempt
-     * completed successfully, even if the invoice still has an outstanding balance.
-     * invoice_payment_attempt.settled reports that completion. Value enum: "open", "settled",
-     * "failed", "canceled", "expired", "processing".
-     */
-    "status": "open" | "settled" | "failed" | "canceled" | "expired" | "processing" | (string & {});
-    /**
-     * Shape $ (Value): string. When this attempt last changed. Duplicate payment notifications
-     * preserve this timestamp. Format: date-time.
-     */
-    "updated_at"?: string;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentAttemptListResponse}. A page of `InvoicePaymentAttempt`
- * objects.
- */
-export type InvoicePaymentAttemptListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InvoicePaymentAttempt}. Shape $[] (Value): {@link
-     * InvoicePaymentAttempt}. An attempt to collect payment for an invoice.
-     */
-    "data": Array<InvoicePaymentAttempt>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentAttemptResponse}. A response containing
- * `InvoicePaymentAttempt` data.
- */
-export type InvoicePaymentAttemptResponse = {
-    /**
-     * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-     * invoice.
-     */
-    "data": InvoicePaymentAttempt;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
 };

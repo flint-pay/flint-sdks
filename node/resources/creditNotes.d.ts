@@ -11,10 +11,10 @@ import type {
     CreditNoteAllocationListResponse,
     CreditNoteAllocationResponse,
     CreditNoteAllocationResult,
-    CreditNoteAllocationResultResponse,
-    CreditNoteListResponse
+    CreditNoteAllocationResultResponse
 } from '../declarations/types-9.js';
 import type {
+    CreditNoteListResponse,
     CreditNoteResponse,
     CreditNotesCreateAllocationInput,
     CreditNotesCreateInput,
@@ -34,9 +34,9 @@ import type {
 import type { IssueCreditNoteRequestInput, IssueCreditNoteResponse, IssueCreditNoteResult } from '../declarations/types-28.js';
 import type { Refund, RefundListResponse, RefundResponse } from '../declarations/types-39.js';
 import type { RequestOptions, ResourceVersionRequestInput } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateCreditNoteRequestInput } from '../declarations/types-47.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -63,22 +63,18 @@ export type {
     CreditNoteAllocation,
     CreditNoteAllocationResponse,
     CreditNoteAllocationListResponse,
-    CreditNoteListResponse,
-    CreditNoteLineItemRequestInput,
     CreditNoteCorrectionRequestInput,
-    CreditNoteCorrectionRequestQuantityInput,
     CreditNoteCorrectionRequestAmountInput,
     Credentials,
-    CreditNoteLineItem,
     CreditNoteCorrectionRequest,
     CreditNoteCorrectionRequestQuantity,
-    CreditNoteCorrectionRequestAmount,
-    CreditNoteIssueAllocationRequestInput
+    CreditNoteCorrectionRequestAmount
 } from '../declarations/types-9.js';
-export type { SdkResponse, SelectedProductOption } from '../declarations/types-43.js';
+export type { SdkResponse, SettlementAmounts, SelectedProductOption } from '../declarations/types-44.js';
 export type {
     CreditNoteResponse,
     CreditNotesGetPDFResponse,
+    CreditNoteListResponse,
     CreditNotesCreateInput,
     CreditNotesCreateAllocationInput,
     CreditNotesCreateRefundInput,
@@ -92,9 +88,13 @@ export type {
     CreditNotesReverseAllocationInput,
     CreditNotesUpdateInput,
     CreditNotesVoidResourceInput,
+    CreditNoteLineItemRequestInput,
+    CreditNoteCorrectionRequestQuantityInput,
+    CreditNoteLineItem,
+    CreditNoteIssueAllocationRequestInput,
     CreditNoteRefundRequestInput
 } from '../declarations/types-10.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type {
     Refund,
     RefundResponse,
@@ -113,14 +113,22 @@ export type {
     IssueCreditNoteRequestInput,
     IssueCreditNoteResult,
     IssueCreditNoteResponse,
+    InvoiceScheduleEntry,
     InvoiceSnapshot,
     InvoiceTip
 } from '../declarations/types-28.js';
-export type { UpdateCreditNoteRequestInput, TextModifierRequest } from '../declarations/types-47.js';
+export type {
+    UpdateCreditNoteRequestInput,
+    TaxIdentity,
+    TextModifierRequest,
+    TaxBreakdown,
+    TaxJurisdiction,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount
+} from '../declarations/types-47.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { AuthMode, Address, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-0.js';
-export type { TaxIdentity, TaxBreakdown, TaxJurisdiction, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-46.js';
 export type {
     DocumentTaxID,
     ExpandedInvoiceSummary,
@@ -155,7 +163,6 @@ export type {
     InvoicePaymentTermCalculationDaysAfterMonthEnd,
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth,
-    InvoiceScheduleEntry,
     InvoiceScheduleAmountSpecification,
     InvoiceScheduleAmountSpecificationFixed,
     InvoiceScheduleAmountSpecificationPercentage,
@@ -167,16 +174,15 @@ export type {
 } from '../declarations/types-27.js';
 export type { CheckoutBuyerContact, CategoryReference } from '../declarations/types-3.js';
 export type { PricingAmounts } from '../declarations/types-37.js';
-export type { SettlementAmounts } from '../declarations/types-44.js';
 export type { OrderCharge, OrderCalculatedChargeTax, OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-32.js';
 export type { Image } from '../declarations/types-19.js';
 export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-36.js';
 export {
     makeConfirmReturnResolutionRequest,
     makeCreateCreditNoteAllocationRequest,
-    makeCreateCreditNoteRefundRequest
-} from '../declarations/types-62.js';
-export { makeCreateCreditNoteRequest } from '../declarations/types-63.js';
+    makeCreateCreditNoteRefundRequest,
+    makeCreateCreditNoteRequest
+} from '../declarations/types-63.js';
 export {
     makeCreditNoteCorrectionRequest,
     makeCreditNoteCorrectionRequestAmount,
@@ -197,9 +203,7 @@ export {
     makeInvoicePaymentTermCalculationDayOfNextMonth,
     makeInvoicePaymentTermCalculationDaysAfterMonthEnd,
     makeInvoicePaymentTermCalculationNetDays,
-    makeInvoicePaymentTermCalculationOnReceipt
-} from '../declarations/types-67.js';
-export {
+    makeInvoicePaymentTermCalculationOnReceipt,
     makeInvoiceScheduleAmountSpecification,
     makeInvoiceScheduleAmountSpecificationFixed,
     makeInvoiceScheduleAmountSpecificationPercentage,
@@ -209,8 +213,7 @@ export {
     makeOrderCalculatedChargeTax
 } from '../declarations/types-68.js';
 export { makeResourceVersionRequest } from '../declarations/types-70.js';
-export { makeTaxJurisdiction, makeTextModifierRequest } from '../declarations/types-71.js';
-export { makeUpdateCreditNoteRequest } from '../declarations/types-72.js';
+export { makeTaxJurisdiction, makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-72.js';
 export interface CreditNotesResource {
     /**
  * Creates a draft credit note against an invoice that has been issued and not voided. Include
@@ -227,13 +230,13 @@ export interface CreditNotesResource {
  */
     create(params: (InputValue<CreateCreditNoteRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CreditNote>;
+    }, options?: RequestOptions<"merchant">): Promise<CreditNote>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotescreate
      */
     createWithResponse(params: (InputValue<CreateCreditNoteRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNoteResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CreditNoteResponse>>;
     /**
  * Applies credit from an issued credit note to its invoice, reducing outstanding_money. The amount
  * cannot exceed the credit note's available_money or the invoice's outstanding balance. Closing
@@ -252,14 +255,14 @@ export interface CreditNotesResource {
     createAllocation(credit_note_id: InputValue<string>, params: (InputValue<CreateCreditNoteAllocationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteAllocationResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<CreditNoteAllocationResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotescreateallocation
      */
     createAllocationWithResponse(credit_note_id: InputValue<string>, params: (InputValue<CreateCreditNoteAllocationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNoteAllocationResultResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CreditNoteAllocationResultResponse>>;
     /**
  * Creates a refund against an issued credit note on a paid invoice. Omit amount_money to refund
  * all available credit. Refunds use the source invoice's original payments and do not reopen its
@@ -278,14 +281,14 @@ export interface CreditNotesResource {
     createRefund(credit_note_id: InputValue<string>, params: (InputValue<CreateCreditNoteRefundRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Refund>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<Refund>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotescreaterefund
      */
     createRefundWithResponse(credit_note_id: InputValue<string>, params: (InputValue<CreateCreditNoteRefundRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RefundResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RefundResponse>>;
     /**
  * Returns one credit note with its lines, total, and the credit still available to allocate.
  * @see reference/creditNotes.md#creditnotesget
@@ -295,13 +298,13 @@ export interface CreditNotesResource {
  */
     get(credit_note_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"invoice">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNote>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CreditNote>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotesget
      */
     getWithResponse(credit_note_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"invoice">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNoteResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CreditNoteResponse>>;
     /**
  * Returns one allocation. A non-null reversed_at means the credit was returned to the credit note
  * and the invoice balance reopened.
@@ -310,11 +313,11 @@ export interface CreditNotesResource {
  * @example
  * client.creditNotes.getAllocation("example", "example")
  */
-    getAllocation(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteAllocation>;
+    getAllocation(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CreditNoteAllocation>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotesgetallocation
      */
-    getAllocationWithResponse(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNoteAllocationResponse>>;
+    getAllocationWithResponse(credit_note_id: InputValue<string>, credit_note_allocation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CreditNoteAllocationResponse>>;
     /**
  * Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists
  * from issue onward and carries your branding, the credited lines, and the invoice it corrects.
@@ -323,7 +326,7 @@ export interface CreditNotesResource {
  * @example
  * client.creditNotes.getPDF("example")
  */
-    getPDF(credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<CreditNotesGetPDFResponse>>;
+    getPDF(credit_note_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Result<CreditNotesGetPDFResponse>>;
     /**
  * Issues a draft credit note and freezes its PDF. Provide allocation to issue and apply credit to
  * its invoice atomically, or refund to initiate a linked refund on a paid invoice. Allocation and
@@ -359,7 +362,7 @@ export interface CreditNotesResource {
         & {
         "Idempotency-Key"?: InputValue<string>;
     }
-        | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<IssueCreditNoteResult>;
+        | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<IssueCreditNoteResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotesissue
      */
@@ -372,7 +375,7 @@ export interface CreditNotesResource {
         & {
         "Idempotency-Key"?: InputValue<string>;
     }
-        | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<IssueCreditNoteResponse>>;
+        | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<IssueCreditNoteResponse>>;
     /**
  * Returns every allocation made from a credit note, including reversed ones. Filter by
  * idempotency_key to find the allocation a given request produced.
@@ -385,7 +388,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteAllocationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CreditNoteAllocationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnoteslistallocations
      */
@@ -393,7 +396,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNoteAllocationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CreditNoteAllocationListResponse>>;
     /** Iterate pages lazily.
      * @see reference/creditNotes.md#creditnoteslistallocations
      */
@@ -401,7 +404,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteAllocationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CreditNoteAllocationListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/creditNotes.md#creditnoteslistallocations
      */
@@ -409,7 +412,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CreditNoteAllocationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<CreditNoteAllocationListResponse>>;
     /** Iterate items lazily.
      * @see reference/creditNotes.md#creditnoteslistallocations
      */
@@ -417,7 +420,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteAllocation>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CreditNoteAllocation>;
     /**
  * Lists linked refunds, including failed attempts, newest first. Filter by idempotency_key to
  * recover a refund after a lost response.
@@ -430,7 +433,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RefundListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RefundListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnoteslistrefunds
      */
@@ -438,7 +441,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RefundListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RefundListResponse>>;
     /** Iterate pages lazily.
      * @see reference/creditNotes.md#creditnoteslistrefunds
      */
@@ -446,7 +449,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RefundListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RefundListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/creditNotes.md#creditnoteslistrefunds
      */
@@ -454,7 +457,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RefundListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<RefundListResponse>>;
     /** Iterate items lazily.
      * @see reference/creditNotes.md#creditnoteslistrefunds
      */
@@ -462,7 +465,7 @@ export interface CreditNotesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Refund>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Refund>;
     /**
  * Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see
  * everything credited against one invoice.
@@ -483,7 +486,7 @@ export interface CreditNotesResource {
         "query"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "issued" | "void">>;
         "expand"?: InputValue<Array<"invoice">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreditNoteListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CreditNoteListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnoteslist
      */
@@ -499,7 +502,7 @@ export interface CreditNotesResource {
         "query"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "issued" | "void">>;
         "expand"?: InputValue<Array<"invoice">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreditNoteListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CreditNoteListResponse>>;
     /** Iterate pages lazily.
      * @see reference/creditNotes.md#creditnoteslist
      */
@@ -515,7 +518,7 @@ export interface CreditNotesResource {
         "query"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "issued" | "void">>;
         "expand"?: InputValue<Array<"invoice">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNoteListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CreditNoteListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/creditNotes.md#creditnoteslist
      */
@@ -531,7 +534,7 @@ export interface CreditNotesResource {
         "query"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "issued" | "void">>;
         "expand"?: InputValue<Array<"invoice">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CreditNoteListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<CreditNoteListResponse>>;
     /** Iterate items lazily.
      * @see reference/creditNotes.md#creditnoteslist
      */
@@ -547,7 +550,7 @@ export interface CreditNotesResource {
         "query"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "issued" | "void">>;
         "expand"?: InputValue<Array<"invoice">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CreditNote>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CreditNote>;
     /**
  * Reverses an allocation and reopens that much of the invoice balance. The original allocation
  * keeps its row and gains reversed_at, so the history stays append-only. Reversing the allocation
@@ -565,7 +568,7 @@ export interface CreditNotesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CreditNoteAllocationResult>;
+    }, options?: RequestOptions<"merchant">): Promise<CreditNoteAllocationResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotesreverseallocation
      */
@@ -574,7 +577,7 @@ export interface CreditNotesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNoteAllocationResultResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CreditNoteAllocationResultResponse>>;
     /**
  * Updates draft credit note fields and corrections atomically. Omitted fields are unchanged, a
  * null memo clears it, and line_items requires expected_version. Replacing lines recalculates
@@ -589,13 +592,13 @@ export interface CreditNotesResource {
  */
     update(credit_note_id: InputValue<string>, params: (InputValue<UpdateCreditNoteRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CreditNote>;
+    }, options?: RequestOptions<"merchant">): Promise<CreditNote>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotesupdate
      */
     updateWithResponse(credit_note_id: InputValue<string>, params: (InputValue<UpdateCreditNoteRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNoteResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CreditNoteResponse>>;
     /**
  * Voids an issued credit note. Every allocation has to be reversed first. Void is terminal, and an
  * invoice cannot be voided while an issued credit note stands against it.
@@ -611,7 +614,7 @@ export interface CreditNotesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CreditNote>;
+    }, options?: RequestOptions<"merchant">): Promise<CreditNote>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/creditNotes.md#creditnotesvoidresource
      */
@@ -620,7 +623,7 @@ export interface CreditNotesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreditNoteResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CreditNoteResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

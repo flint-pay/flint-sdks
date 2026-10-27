@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CheckoutGiftCardChallengeInput – CreateGiftCardFundingDispositionRequestInput
+# CheckoutDerivedDeliveryResourceInput – CreateFulfillmentRequestShipmentInput
 
+- [CheckoutDerivedDeliveryResourceInput](CheckoutDerivedDeliveryResourceInput.md)
 - [CheckoutGiftCardChallengeInput](CheckoutGiftCardChallengeInput.md)
 - [CheckoutLegalConfigInput](CheckoutLegalConfigInput.md)
 - [CheckoutLegalConfigRequestInput](CheckoutLegalConfigRequestInput.md)
@@ -101,5 +102,4 @@
 - [CreateFulfillmentRequestPickupInput](CreateFulfillmentRequestPickupInput.md)
 - [CreateFulfillmentRequestServiceInput](CreateFulfillmentRequestServiceInput.md)
 - [CreateFulfillmentRequestShipmentInput](CreateFulfillmentRequestShipmentInput.md)
-- [CreateGiftCardFundingDispositionRequestInput](CreateGiftCardFundingDispositionRequestInput.md)
 

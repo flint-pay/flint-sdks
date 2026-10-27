@@ -10,7 +10,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `due_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `invoice_payment_term_id` | Required | string |  |
-| `type` | Required | string | Values: `"payment_terms"`. |
+| `due_at` | Optional | string | The due date set with type date. Present only with date. The top-level due_at is the effective due date for every type. Format: `date-time`. |
+| `invoice_payment_term_id` | Required | string | The payment term applied, captured in payment_terms_snapshot. Present only with payment_terms. |
+| `type` | Required | string | How the due date was set. Values: `"payment_terms"`. |
 

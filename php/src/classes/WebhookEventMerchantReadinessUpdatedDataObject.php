@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read ExpandedOrganizationSummary|null $organization
- * @property-read ?string $organization_id
+ * @property-read string $organization_id
  * @property-read ?string $phone
  * @property-read MerchantReadiness $readiness
  * @property-read ?string $reporting_timezone
@@ -30,7 +30,7 @@ namespace Flint;
  * @property-read ?string $website_url
  * Presence-aware response; omitted optional fields return null. */
 final class WebhookEventMerchantReadinessUpdatedDataObject extends Model {
-    /** @param array{'address'?: mixed, 'api_version'?: string, 'api_version_changed_at'?: string, 'api_version_pinned_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'business_name'?: string, 'business_type'?: string, 'created_at'?: string, 'email': string|null, 'icon'?: mixed, 'logo'?: mixed, 'merchant_id': string, 'metadata'?: \stdClass, 'organization'?: mixed, 'organization_id'?: string, 'phone'?: string, 'readiness': mixed, 'reporting_timezone'?: string, 'status': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'updated_at'?: string, 'version': string, 'website_url'?: string, ...}|object $values */
+    /** @param array{'address'?: mixed, 'api_version'?: string, 'api_version_changed_at'?: string, 'api_version_pinned_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'business_name'?: string, 'business_type'?: string, 'created_at'?: string, 'email': string|null, 'icon'?: mixed, 'logo'?: mixed, 'merchant_id': string, 'metadata'?: \stdClass, 'organization'?: mixed, 'organization_id': string, 'phone'?: string, 'readiness': mixed, 'reporting_timezone'?: string, 'status': string, 'support_email'?: string, 'support_phone'?: string, 'support_url'?: string, 'updated_at'?: string, 'version': string, 'website_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventMerchantReadinessUpdatedDataObject')); }
     /** Shape $ (Value): {@see Address}. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
      * @return ?Address
@@ -107,10 +107,10 @@ final class WebhookEventMerchantReadinessUpdatedDataObject extends Model {
      */
     public function getOrganization(): ExpandedOrganizationSummary|null { return $this->get('organization'); }
     public function hasOrganization(): bool { return $this->has('organization'); }
-    /** Shape $ (Value): string.
-     * @return ?string
+    /** Shape $ (Value): string. The organization this merchant belongs to. Flint creates it with the merchant, and it can't be changed through the API.
+     * @return string
      */
-    public function getOrganizationId(): ?string { return $this->get('organization_id'); }
+    public function getOrganizationId(): string { return $this->get('organization_id'); }
     public function hasOrganizationId(): bool { return $this->has('organization_id'); }
     /** Shape $ (Value): string.
      * @return ?string

@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# OrderChargeTaxAssignmentInput – PackageItemResponse
+# OrderCharge – PackageItem
 
+- [OrderCharge](OrderCharge.md)
+- [OrderChargeRequest](OrderChargeRequest.md)
+- [OrderChargeRequestInput](OrderChargeRequestInput.md)
+- [OrderChargeTaxAssignment](OrderChargeTaxAssignment.md)
 - [OrderChargeTaxAssignmentInput](OrderChargeTaxAssignmentInput.md)
 - [OrderDeliveryDestination](OrderDeliveryDestination.md)
 - [OrderDeliveryDestinationAddress](OrderDeliveryDestinationAddress.md)
@@ -47,8 +51,6 @@
 - [OrderPaymentAttemptResponse](OrderPaymentAttemptResponse.md)
 - [OrderPaymentIntentSelection](OrderPaymentIntentSelection.md)
 - [OrderPaymentIntentSelectionInput](OrderPaymentIntentSelectionInput.md)
-- [OrderPaymentLifecycleResponse](OrderPaymentLifecycleResponse.md)
-- [OrderPaymentLifecycleResult](OrderPaymentLifecycleResult.md)
 - [OrderPaymentSourceCardSelection](OrderPaymentSourceCardSelection.md)
 - [OrderPaymentSourceCardSelectionInput](OrderPaymentSourceCardSelectionInput.md)
 - [OrderPaymentSourceSelection](OrderPaymentSourceSelection.md)
@@ -100,6 +102,4 @@
 - [PackageCreateRequest](PackageCreateRequest.md)
 - [PackageCreateRequestInput](PackageCreateRequestInput.md)
 - [PackageItem](PackageItem.md)
-- [PackageItemListResponse](PackageItemListResponse.md)
-- [PackageItemResponse](PackageItemResponse.md)
 

@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateCallbackSigningKeyRotationInput – FeedbackReportInput
+# DeliveryRateCallbackConnectionCheckResponseInput – ExpandedShipmentSummaryInput
 
+- [DeliveryRateCallbackConnectionCheckResponseInput](DeliveryRateCallbackConnectionCheckResponseInput.md)
+- [DeliveryRateCallbackListResponseInput](DeliveryRateCallbackListResponseInput.md)
+- [DeliveryRateCallbackResponseInput](DeliveryRateCallbackResponseInput.md)
 - [DeliveryRateCallbackSigningKeyRotationInput](DeliveryRateCallbackSigningKeyRotationInput.md)
 - [DeliveryRateCallbackSigningKeyRotationResponseInput](DeliveryRateCallbackSigningKeyRotationResponseInput.md)
 - [DeliveryRateCallbackTestDeliveryInput](DeliveryRateCallbackTestDeliveryInput.md)
@@ -99,7 +102,4 @@
 - [ExpandedPayoutDestinationSummaryInput](ExpandedPayoutDestinationSummaryInput.md)
 - [ExpandedPayoutSummaryInput](ExpandedPayoutSummaryInput.md)
 - [ExpandedShipmentSummaryInput](ExpandedShipmentSummaryInput.md)
-- [ExpandedSubscriptionPlanSummaryInput](ExpandedSubscriptionPlanSummaryInput.md)
-- [ExpandedSubscriptionSummaryInput](ExpandedSubscriptionSummaryInput.md)
-- [FeedbackReportInput](FeedbackReportInput.md)
 

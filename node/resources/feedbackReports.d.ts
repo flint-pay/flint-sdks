@@ -1,16 +1,17 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateFeedbackReportRequestInput } from '../declarations/types-6.js';
-import type { FeedbackReport, FeedbackReportListResponse } from '../declarations/types-16.js';
 import type {
+    FeedbackReport,
+    FeedbackReportListResponse,
     FeedbackReportResponse,
     FeedbackReportsCreateInput,
     FeedbackReportsGetInput,
     FeedbackReportsListInput
 } from '../declarations/types-17.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,17 +30,20 @@ export type {
     CreateFeedbackReportNarrativeInput
 } from '../declarations/types-6.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { FeedbackReport, FeedbackReportListResponse, FeedbackReportRating, FeedbackReportNarrative } from '../declarations/types-16.js';
-export type { SdkResponse } from '../declarations/types-43.js';
 export type {
+    FeedbackReport,
     FeedbackReportResponse,
+    FeedbackReportListResponse,
     FeedbackReportsCreateInput,
     FeedbackReportsGetInput,
     FeedbackReportsListInput,
     FeedbackReportingClientInput,
-    FeedbackReportingClient
+    FeedbackReportingClient,
+    FeedbackReportRating,
+    FeedbackReportNarrative
 } from '../declarations/types-17.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -66,14 +70,14 @@ export interface FeedbackReportsResource {
     create(params: (InputValue<CreateFeedbackReportRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<FeedbackReport>;
+    }, options?: RequestOptions<"merchant">): Promise<FeedbackReport>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/feedbackReports.md#feedbackreportscreate
      */
     createWithResponse(params: (InputValue<CreateFeedbackReportRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<FeedbackReportResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<FeedbackReportResponse>>;
     /**
  * Returns one immutable feedback report in the credential's merchant and environment.
  * @see reference/feedbackReports.md#feedbackreportsget
@@ -81,11 +85,11 @@ export interface FeedbackReportsResource {
  * @example
  * client.feedbackReports.get("example")
  */
-    get(feedback_report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FeedbackReport>;
+    get(feedback_report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<FeedbackReport>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/feedbackReports.md#feedbackreportsget
      */
-    getWithResponse(feedback_report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FeedbackReportResponse>>;
+    getWithResponse(feedback_report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<FeedbackReportResponse>>;
     /**
  * Lists feedback reports in descending creation order for the credential's merchant and
  * environment.
@@ -97,35 +101,35 @@ export interface FeedbackReportsResource {
     list(params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FeedbackReportListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<FeedbackReportListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/feedbackReports.md#feedbackreportslist
      */
     listWithResponse(params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FeedbackReportListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<FeedbackReportListResponse>>;
     /** Iterate pages lazily.
      * @see reference/feedbackReports.md#feedbackreportslist
      */
     listPages(params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FeedbackReportListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<FeedbackReportListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/feedbackReports.md#feedbackreportslist
      */
     listPagesWithResponse(params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<FeedbackReportListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<FeedbackReportListResponse>>;
     /** Iterate items lazily.
      * @see reference/feedbackReports.md#feedbackreportslist
      */
     listItems(params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FeedbackReport>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<FeedbackReport>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

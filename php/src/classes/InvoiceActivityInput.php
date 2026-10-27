@@ -16,7 +16,6 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $due_at
  * @property-read string $error_code
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_amount_money
- * @property-read string|\DateTimeInterface $expected_settlement_at
  * @property-read string $invoice_activity_id
  * @property-read string $invoice_delivery_attempt_id
  * @property-read string $invoice_late_fee_id
@@ -30,7 +29,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $written_off_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceActivityInput extends Model {
-    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string|\DateTimeInterface, 'credit_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_note_id'?: string, 'description': string, 'due_at'?: string|\DateTimeInterface, 'error_code'?: string, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_settlement_at'?: string|\DateTimeInterface, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string|\DateTimeInterface, 'credit_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_note_id'?: string, 'description': string, 'due_at'?: string|\DateTimeInterface, 'error_code'?: string, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceActivityInput')); }
     /** Shape $ (Value): string. What happened. other means an activity this API version doesn't describe yet. New values may be added; treat an unrecognized value like `other`. Value enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "other".
      * @return string
@@ -116,12 +115,6 @@ final class InvoiceActivityInput extends Model {
      */
     public function getExpectedAmountMoney(): mixed { return $this->get('expected_amount_money'); }
     public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
-    /** Shape $ (Value): string. When the processing payment is expected to settle. Present on payment_processing when known. Format: date-time.
-     * @return string|\DateTimeInterface
-     * @throws SdkError When expected_settlement_at is omitted; use hasExpectedSettlementAt() or valueOrDefault().
-     */
-    public function getExpectedSettlementAt(): string|\DateTimeInterface { return $this->get('expected_settlement_at'); }
-    public function hasExpectedSettlementAt(): bool { return $this->has('expected_settlement_at'); }
     /** Shape $ (Value): string. Flint invoice activity ID. IDs begin with inevt_.
      * @return string
      * @throws SdkError When invoice_activity_id is omitted; use hasInvoiceActivityId() or valueOrDefault().

@@ -1,12 +1,12 @@
-import { d226 as c0 } from '../descriptors/data/13.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
-import { d3000 as c1 } from '../descriptors/data/114.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
-import { d5005 as c2 } from '../descriptors/data/228.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
-import { d5007 as c3, d5008 as c4, d5009 as c5, d5010 as c6, d5011 as c7, d5012 as c8, d5013 as c9, d5014 as c10, d5015 as c11, d5016 as c12, d5017 as c13, d5018 as c14, d5019 as c15, d5020 as c16 } from '../descriptors/data/229.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
-import { d226 as d226 } from '../descriptors/data/13.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d227 as c0 } from '../descriptors/data/13.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
+import { d3013 as c1 } from '../descriptors/data/116.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
+import { d5034 as c2 } from '../descriptors/data/230.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
+import { d5036 as c3, d5037 as c4, d5038 as c5, d5039 as c6, d5040 as c7, d5041 as c8, d5042 as c9, d5043 as c10, d5044 as c11, d5045 as c12, d5046 as c13, d5047 as c14, d5048 as c15, d5049 as c16 } from '../descriptors/data/231.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
+import { d227 as d227 } from '../descriptors/data/13.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d226;
+const read = d227;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateRiskRuleRequest"]:c0(),["MoneyValue"]:c1(),["RiskPredicateNode"]:c2(),["SharedCodec1119"]:c3(),["SharedCodec1120"]:c4(),["SharedCodec1121"]:c5(),["SharedCodec1122"]:c6(),["SharedCodec208"]:c7(),["SharedCodec209"]:c8(),["SharedCodec210"]:c9(),["SharedCodec211"]:c10(),["SharedCodec212"]:c11(),["SharedCodec213"]:c12(),["SharedCodec214"]:c13(),["SharedCodec215"]:c14(),["SharedCodec216"]:c15(),["SharedCodec217"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateRiskRuleRequest"]:c0(),["MoneyValue"]:c1(),["RiskPredicateNode"]:c2(),["SharedCodec1130"]:c3(),["SharedCodec1131"]:c4(),["SharedCodec1132"]:c5(),["SharedCodec1133"]:c6(),["SharedCodec213"]:c7(),["SharedCodec214"]:c8(),["SharedCodec215"]:c9(),["SharedCodec216"]:c10(),["SharedCodec217"]:c11(),["SharedCodec218"]:c12(),["SharedCodec219"]:c13(),["SharedCodec220"]:c14(),["SharedCodec221"]:c15(),["SharedCodec222"]:c16()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateRiskRuleRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

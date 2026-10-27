@@ -1,8 +1,9 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateGiftCardRequestInput, CreateGiftCardResult, CreateGiftCardResultResponse } from '../declarations/types-6.js';
-import type { GiftCard, GiftCardListResponse } from '../declarations/types-18.js';
+import type { GiftCard } from '../declarations/types-18.js';
 import type {
+    GiftCardListResponse,
     GiftCardResponse,
     GiftCardsCreateInput,
     GiftCardsGetInput,
@@ -14,14 +15,11 @@ import type {
 } from '../declarations/types-19.js';
 import type { LookupGiftCardRequestInput } from '../declarations/types-29.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type {
-    RotateGiftCardCodeRequestInput,
-    RotateGiftCardCodeResult,
-    RotateGiftCardCodeResultResponse,
-    SdkResponse
-} from '../declarations/types-43.js';
-import type { TransitionGiftCardRequestInput, UpdateGiftCardRequestInput } from '../declarations/types-47.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RotateGiftCardCodeRequestInput, RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { TransitionGiftCardRequestInput } from '../declarations/types-47.js';
+import type { UpdateGiftCardRequestInput } from '../declarations/types-48.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,17 +33,11 @@ export type {
     SdkErrorDetails
 } from '../runtime.js';
 export type { CreateGiftCardRequestInput, CreateGiftCardResult, CreateGiftCardResultResponse } from '../declarations/types-6.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type {
-    SdkResponse,
-    RotateGiftCardCodeRequestInput,
-    RotateGiftCardCodeResult,
-    RotateGiftCardCodeResultResponse
-} from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type {
     GiftCard,
-    GiftCardListResponse,
     GiftCardFundingSourceInput,
     GiftCardFundingSourceExternalPaymentInput,
     GiftCardFundingSourceFlintPaymentInput,
@@ -55,7 +47,6 @@ export type {
     GiftCardFundingSourceGiftCardRefundInput,
     GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput,
     GiftCardFundingSourceStoreCreditInput,
-    GiftCardLoad,
     GiftCardFundingDispute,
     GiftCardFundingLossResolution,
     GiftCardFundingSource,
@@ -70,6 +61,7 @@ export type {
 } from '../declarations/types-18.js';
 export type {
     GiftCardResponse,
+    GiftCardListResponse,
     GiftCardsCreateInput,
     GiftCardsGetInput,
     GiftCardsListInput,
@@ -78,6 +70,7 @@ export type {
     GiftCardsTransitionInput,
     GiftCardsUpdateInput,
     GiftCardNotificationRecipientInput,
+    GiftCardLoad,
     GiftCardPurchaseRefundValueHold,
     GiftCardPurchaseRefundAllocation,
     GiftCardPurchaseRefundRecovery,
@@ -94,18 +87,19 @@ export type {
     GiftCardRestriction
 } from '../declarations/types-19.js';
 export type { LookupGiftCardRequestInput, LookupGiftCardRequest } from '../declarations/types-29.js';
+export type { RotateGiftCardCodeRequestInput, RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse } from '../declarations/types-43.js';
 export type {
     TransitionGiftCardRequestInput,
-    UpdateGiftCardRequestInput,
     TransitionGiftCardRequestFreezeInput,
     TransitionGiftCardRequestWithoutReasonInput
 } from '../declarations/types-47.js';
+export type { UpdateGiftCardRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { InitialGiftCardFundingInput } from '../declarations/types-23.js';
 export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
-export { makeCreateGiftCardRequest } from '../declarations/types-63.js';
+export { makeCreateGiftCardRequest } from '../declarations/types-64.js';
 export {
     makeGiftCardFundingSource,
     makeGiftCardFundingSourceAdjustment,
@@ -116,17 +110,17 @@ export {
     makeGiftCardFundingSourceGiftCardRefund,
     makeGiftCardFundingSourceImport,
     makeGiftCardFundingSourceStoreCredit,
-    makeGiftCardNotificationRecipient
-} from '../declarations/types-66.js';
-export { makeInitialGiftCardFunding } from '../declarations/types-67.js';
+    makeGiftCardNotificationRecipient,
+    makeInitialGiftCardFunding
+} from '../declarations/types-67.js';
 export { makeLookupGiftCardRequest, makeMoneyValue } from '../declarations/types-68.js';
+export { makeRotateGiftCardCodeRequest } from '../declarations/types-71.js';
 export {
-    makeRotateGiftCardCodeRequest,
     makeTransitionGiftCardRequest,
     makeTransitionGiftCardRequestFreeze,
-    makeTransitionGiftCardRequestWithoutReason
-} from '../declarations/types-71.js';
-export { makeUpdateGiftCardRequest } from '../declarations/types-72.js';
+    makeTransitionGiftCardRequestWithoutReason,
+    makeUpdateGiftCardRequest
+} from '../declarations/types-72.js';
 export interface GiftCardsResource {
     /**
  * Creates a merchant-issued USD gift card with optional paid funding or imported opening value.
@@ -143,13 +137,13 @@ export interface GiftCardsResource {
  */
     create(params: (InputValue<CreateGiftCardRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreateGiftCardResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<CreateGiftCardResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCards.md#giftcardscreate
      */
     createWithResponse(params: (InputValue<CreateGiftCardRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreateGiftCardResultResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CreateGiftCardResultResponse>>;
     /**
  * Retrieves the current gift card, including supported lifecycle actions and balance projections.
  * A gift card ID does not authorize a buyer to spend it.
@@ -158,11 +152,11 @@ export interface GiftCardsResource {
  * @example
  * client.giftCards.get("example")
  */
-    get(gift_card_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCard>;
+    get(gift_card_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCard>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCards.md#giftcardsget
      */
-    getWithResponse(gift_card_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardResponse>>;
+    getWithResponse(gift_card_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardResponse>>;
     /**
  * Lists gift cards in descending ID order within the authenticated merchant and environment. Reads
  * include masked codes, posted balance, reserved value and available value. Purchased cards have
@@ -177,10 +171,11 @@ export interface GiftCardsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "customer_id"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCards.md#giftcardslist
      */
@@ -189,10 +184,11 @@ export interface GiftCardsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "customer_id"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardListResponse>>;
     /** Iterate pages lazily.
      * @see reference/giftCards.md#giftcardslist
      */
@@ -201,10 +197,11 @@ export interface GiftCardsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "customer_id"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/giftCards.md#giftcardslist
      */
@@ -213,10 +210,11 @@ export interface GiftCardsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "customer_id"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<GiftCardListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<GiftCardListResponse>>;
     /** Iterate items lazily.
      * @see reference/giftCards.md#giftcardslist
      */
@@ -225,10 +223,11 @@ export interface GiftCardsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "customer_id"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCard>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCard>;
     /**
  * Evaluates a full bearer code in a request body. Codes contain 16 ASCII Crockford base32
  * characters, accept lowercase and hyphens, and normalize O to 0 and I/L to 1. Lookup is
@@ -239,11 +238,11 @@ export interface GiftCardsResource {
  * @example
  * client.giftCards.lookup({code: "example"})
  */
-    lookup(params: (InputValue<LookupGiftCardRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCard>;
+    lookup(params: (InputValue<LookupGiftCardRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCard>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCards.md#giftcardslookup
      */
-    lookupWithResponse(params: (InputValue<LookupGiftCardRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardResponse>>;
+    lookupWithResponse(params: (InputValue<LookupGiftCardRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardResponse>>;
     /**
  * Invalidates the old bearer credential and generates a new code for the same gift card. Balances,
  * funding, reservations and refund history are preserved. Requires
@@ -261,14 +260,14 @@ export interface GiftCardsResource {
     rotateCode(gift_card_id: InputValue<string>, params: (InputValue<RotateGiftCardCodeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RotateGiftCardCodeResult>;
+    }, options?: RequestOptions<"merchant">): Promise<RotateGiftCardCodeResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCards.md#giftcardsrotatecode
      */
     rotateCodeWithResponse(gift_card_id: InputValue<string>, params: (InputValue<RotateGiftCardCodeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RotateGiftCardCodeResultResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RotateGiftCardCodeResultResponse>>;
     /**
  * Freezes spending, removes a merchant freeze, or closes a card after all value and restrictions
  * are resolved. Unfreezing cannot remove unresolved funding-dispute restrictions. Freezing does
@@ -284,14 +283,14 @@ export interface GiftCardsResource {
     transition(gift_card_id: InputValue<string>, params: (InputValue<TransitionGiftCardRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<GiftCard>;
+    }, options?: RequestOptions<"merchant">): Promise<GiftCard>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCards.md#giftcardstransition
      */
     transitionWithResponse(gift_card_id: InputValue<string>, params: (InputValue<TransitionGiftCardRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GiftCardResponse>>;
     /**
  * Updates descriptive associations. Omitted fields are preserved; null clears
  * external_reference_id or customer_id. This operation cannot change balances, currency, code or
@@ -305,13 +304,13 @@ export interface GiftCardsResource {
  */
     update(gift_card_id: InputValue<string>, params: (InputValue<UpdateGiftCardRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<GiftCard>;
+    }, options?: RequestOptions<"merchant">): Promise<GiftCard>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCards.md#giftcardsupdate
      */
     updateWithResponse(gift_card_id: InputValue<string>, params: (InputValue<UpdateGiftCardRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GiftCardResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

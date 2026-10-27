@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/payouts.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import r0 from '../descriptors/resources/payouts.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import settings from '../descriptors/settings.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPayout"]:r0,["createPayout"]:r0,["getPayout"]:r0,["listPayouts"]:r0});
 export class Client {
@@ -39,6 +39,7 @@ this.payouts = Object.freeze({
   "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listPayouts", _sdkRequestInput([], [], [
+  "idempotency_key",
   "currency",
   "expand",
   "method",
@@ -55,6 +56,7 @@ this.payouts = Object.freeze({
   "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPayouts", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listPayouts", _sdkRequestInput([], [], [
+  "idempotency_key",
   "currency",
   "expand",
   "method",
@@ -71,6 +73,7 @@ this.payouts = Object.freeze({
   "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPayouts", _sdkRequestInput([], [], [
+  "idempotency_key",
   "currency",
   "expand",
   "method",
@@ -87,6 +90,7 @@ this.payouts = Object.freeze({
   "page_token"
 ], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPayouts", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPayouts", _sdkRequestInput([], [], [
+  "idempotency_key",
   "currency",
   "expand",
   "method",
@@ -103,6 +107,7 @@ this.payouts = Object.freeze({
   "page_token"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPayouts", _sdkRequestInput([], [], [
+  "idempotency_key",
   "currency",
   "expand",
   "method",

@@ -19,7 +19,7 @@ Node ESM consumers need Node.js 22.3 or later; CommonJS consumers need 22.12 or 
 
 ## Credentials, errors and webhooks
 
-Replace checkout ID/secret credentials with `checkoutToken`, or the explicit `checkout` mode with `CheckoutSessionBearer`. The production `apiKey` shortcut continues to send a merchant bearer credential. Method params no longer carry credential or API-version headers.
+Replace checkout ID/secret credentials with `checkoutToken`, or the explicit `checkout` mode with `CheckoutSessionBearer`. The `apiKey` shortcut continues to send a merchant bearer credential. Flint no longer accepts secret keys in `X-API-Key`, so the `merchantKey` mode and its `ApiKeyHeader` credential are removed; use `apiKey`, or `authMode: "merchant"` with `BearerAuth`. Method params no longer carry credential or API-version headers.
 
 ```js
 await client.orders.get(orderId, undefined, { checkoutToken });
@@ -31,7 +31,7 @@ $client->orders->get($orderId, null, new \Flint\RequestOptions(checkoutToken: $c
 
 `checkoutSessions.create` now returns the `CheckoutSessionWithSecret` session directly. Read `url` and `checkout_auth_token` on that session instead of the retired `CheckoutAccess` / `CheckoutSessionLaunchResult` wrapper. Follow the generated result models for invoice, payment-link and Return checkout launches.
 
-Read resources from verified webhook `event.data.object`, rather than resource-specific fields such as `event.data.payment_intent`. Amounts are exact int64 strings, including values larger than JavaScript's safe integer range. Event names and required payload fields follow the pinned production contract; older stored events can return `known: false`, so retain an unknown-event path.
+Read resources from verified webhook `event.data.object`, rather than resource-specific fields such as `event.data.payment_intent`. Amounts are exact int64 strings, including values larger than JavaScript's safe integer range. Event names and required payload fields follow the pinned contract; older stored events can return `known: false`, so retain an unknown-event path.
 
 Node error `code` offers known code completions with future strings. Narrow optional `details` before reading it: malformed or incompatible API details are `undefined`, while explicit `raw` recovery remains available. PHP error messages append HTTP status, provider code and request ID; use structured fields instead of exact message matching. PHP `getCode()` returns the HTTP status, or 0 without a response; `errorCode` remains the provider code. Errors and response metadata expose available idempotency keys, and errors expose a valid server wait as `retryAfterMs`.
 
@@ -64,9 +64,9 @@ All requests keep a single attempt by default, with caller-supplied idempotency 
 
 ## Moved operations
 
-Except for the five removed inventory names mapped above, the SDK preserves these published names while calling the production routes. Parameters, result types and validation follow the new contract; a preserved method name is not a promise of the old request shape.
+Except for the five removed inventory names mapped above, the SDK preserves these published names while calling the current routes. Parameters, result types and validation follow the new contract; a preserved method name is not a promise of the old request shape.
 
-| Published SDK method                | Production operation and consumer change                                                                                                                                |
+| Published SDK method                | Current operation and consumer change                                                                                                                                   |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `inventoryCounts.apply`             | Legacy name removed; use `inventoryCounts.transition` with `body.action: "apply"`.                                                                                      |
 | `inventoryCounts.cancel`            | Legacy name removed; use `inventoryCounts.transition` with `body.action: "cancel"`.                                                                                     |
@@ -91,13 +91,16 @@ These methods are removed without aliases:
 
 | Removed method                    | Replacement                                                                                       |
 | --------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `capabilities.list`               | Read `readiness` from `merchant.get()`.                                                           |
+| `capabilities.list`               | Read `readiness` from `merchants.get()`.                                                          |
 | `payouts.listEntries`             | Use `balanceTransactions.list({ payout_id })`; results are newest first rather than oldest first. |
 | `paymentMethods.setDefault`       | Set `default_payment_method_id` through `customers.update`; send null to clear it.                |
 | `me.setDefaultPaymentMethod`      | Set `default_payment_method_id` through `me.update`; send null to clear it.                       |
 | `organizations.transferOwnership` | Removed from the API. Account ownership changes are reserved for Flint.                           |
+| `orders.capturePayment`           | Use `paymentIntents.capture` with the payment intent ID.                                          |
+| `orders.cancelPayment`            | Use `paymentIntents.cancel` with the payment intent ID.                                           |
+| `developer.issueSandboxTestKey`   | Use `developer.createSandboxAPIKey`, which creates a sandbox API key.                             |
 
-`oauth.exchangePartnerInstallToken` is also no longer generated: the production OAuth token exchange now requires form encoding. It remains an API operation (`exchangeOAuthToken`), but form-only CLI/OAuth flows are outside these SDKs. Use a form-capable HTTP client for that exchange. Partner authorization entry is anonymous and requires PKCE `code_challenge` and `code_challenge_method`.
+`oauth.exchangePartnerInstallToken` is also no longer generated: the OAuth token exchange now requires form encoding. It remains an API operation (`exchangeOAuthToken`), but form-only CLI/OAuth flows are outside these SDKs. Use a form-capable HTTP client for that exchange. Partner authorization entry is anonymous and requires PKCE `code_challenge` and `code_challenge_method`.
 
 ## Routes with unchanged operation IDs
 
@@ -118,6 +121,8 @@ Order responses no longer include `requested_tip`. Read it from the relevant `ti
 Promotion rule values and request exclusivity are typed and request enums are closed. Promotion application requests accept only the fields appropriate to their variant. Risk-list additions require plural `values`; singular `value` is rejected. Return decisions use current override reasons and nullable `automatic_resolution_type` instead of `decision_basis` and `selected_resolution_type`; Return policies use `release_timing` instead of `refund_timing`.
 
 Payment-intent create/get results expose payment fields directly. Creation requires `payment_collection`; reads can omit it. Handle optional nullable `risk` and nullable `last_payment_error`. Capture/cancel/update return a payment intent; confirm uses the current action-bearing result. Payment methods use `archived` instead of `removed`; ordinary lists now include non-active unarchived methods, so card pickers should filter `status: ["active"]`.
+
+New methods since the production contract this release was first prepared from include `developer.createSandboxAPIKey` and `me.listSubscriptionPaymentRetries`. Payout destination methods and `merchantAccountSessions.refresh` keep their names and call the moved `/v1/payout-destinations` and `/v1/merchant-account-session-refreshes` routes. `inventoryTransfers.create` no longer requires an idempotency key; a key you send still makes retries safe.
 
 The contract also updates version fences, required response fields, request bounds, nullable fields, list filters and error envelopes across resources. Rebuild typed callers and review the affected generated resource/model references. Shared error codes now describe generic categories with facts and remediation in the error envelope; replace checks for retired codes with the current structured error contract. This includes the earlier retirement of `AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS`, `CHECKOUT_PAYMENT_RESOLVING`, `PAYMENT_ATTEMPT_FROZEN`, `PAYMENT_ATTEMPT_IN_PROGRESS`, `PAYMENT_ATTEMPT_STILL_PROCESSING` and `PROMOTION_NO_ACTIVE_CODES`.
 

@@ -16,22 +16,22 @@ namespace Flint;
 final class ReportsGetResponse200DataFailed extends Model {
     /** @param array{'created_at': string, 'currency': string, 'download'?: mixed, 'failure_reason': string, 'interval_end_at': string, 'interval_start_at': string, 'report_id': string, 'report_type': string, 'status': string, 'timezone': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReportsGetResponse200DataFailed')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the report was requested. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+    /** Shape $ (Value): string. Currency the report covers. A report never combines currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
      * @return string
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Shape $ (Value): {@see ReportsGetResponse200DataFailedDownload}. A temporary link for downloading a generated report.
+    /** Shape $ (Value): {@see ReportsGetResponse200DataFailedDownload}. Link to download the generated report. Present only when status is succeeded. A temporary link for downloading a generated report.
      * @return ?ReportsGetResponse200DataFailedDownload
      */
     public function getDownload(): ?ReportsGetResponse200DataFailedDownload { return $this->get('download'); }
     public function hasDownload(): bool { return $this->has('download'); }
-    /** Shape $ (Value): string.  Value enum: "generation_failed", "data_unavailable", "limit_exceeded".
+    /** Shape $ (Value): string. Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Value enum: "generation_failed", "data_unavailable", "limit_exceeded".
      * @return string
      */
     public function getFailureReason(): string { return $this->get('failure_reason'); }
@@ -46,7 +46,7 @@ final class ReportsGetResponse200DataFailed extends Model {
      */
     public function getIntervalStartAt(): string { return $this->get('interval_start_at'); }
     public function hasIntervalStartAt(): bool { return $this->has('interval_start_at'); }
-    /** Shape $ (Value): string. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Shape $ (Value): string. Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getReportId(): string { return $this->get('report_id'); }
@@ -56,7 +56,7 @@ final class ReportsGetResponse200DataFailed extends Model {
      */
     public function getReportType(): string { return $this->get('report_type'); }
     public function hasReportType(): bool { return $this->has('report_type'); }
-    /** Shape $ (Value): string.  Value enum: "failed".
+    /** Shape $ (Value): string. pending while Flint generates the report, then succeeded with a download or failed with a failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum: "failed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

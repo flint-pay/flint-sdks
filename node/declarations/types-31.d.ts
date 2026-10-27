@@ -1,11 +1,318 @@
+import type { ResponseMeta, ResponseWarning } from './types-40.js';
+import type { CapabilityReadiness } from './types-3.js';
+import type { ReadinessAxis, ReadinessRequirements } from './types-39.js';
+import type { Merchant } from './types-30.js';
 import type { InputValue } from '../runtime.js';
 import type { UpdateMerchantRequestInput, UpdateModifierGroupRequestInput, UpdateModifierSetRequestInput } from './types-48.js';
 import type { TextModifierConfig } from './types-47.js';
-import type { ResponseMeta, ResponseWarning } from './types-40.js';
 import type { CreateModifierGroupRequestInput, CreateModifierSetRequestInput } from './types-7.js';
 import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-23.js';
 import type { DeveloperInitialAPIKeyRequestInput } from './types-15.js';
-import type { OnboardingVerifyEmailRequestInput } from './types-32.js';
+/**
+ * Shape $ (Value): {@link MerchantBillingEntry}. An immutable merchant billing charge, credit,
+ * collection, correction, or write-off.
+ */
+export type MerchantBillingEntry = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Signed change in available billing credit.
+     * credit_issued increases it; credit_applied and credit_refunded decrease it. Other entry
+     * types do not change it. Signed monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "available_credit_effect_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. Balance transaction for this collection or collection reversal,
+     * when present.
+     */
+    "balance_transaction_id"?: string;
+    /**
+     * Shape $ (Value): string. When Flint recorded the entry. Use created_after to pick up new
+     * entries, including late arrivals. Format: date-time.
+     */
+    "created_at": string;
+    /** Shape $ (Value): string. Human-readable description of the billing event. */
+    "description": string;
+    /** Shape $ (Value): string. Related dispute, when the entry is associated with a dispute. */
+    "dispute_id"?: string;
+    /**
+     * Shape $ (Value): string. Event fee category. Present only for event_fee entries. Value enum:
+     * "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute".
+     */
+    "event_fee_type"?: "bank_verification" | "failed_ach_payment" | "ach_dispute" | "card_dispute" | (string & {});
+    /** Shape $ (Value): string. Stable entry ID. Re-reading an entry returns the same values. */
+    "merchant_billing_entry_id": string;
+    /** Shape $ (Value): string. Related invoice issued by Flint, when applicable. */
+    "merchant_billing_invoice_id"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Signed outstanding effect minus the available credit
+     * effect. Charges and collection_reversal are positive; credit_issued, collection,
+     * custom_domain_collection, and write_off are negative; credit_refunded is positive;
+     * credit_applied is zero; correction may be positive or negative. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "net_billing_effect_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. When the billing event happened. An entry can be recorded after
+     * entries that occurred later. Format: date-time.
+     */
+    "occurred_at": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Signed change in the amount owed Flint. Charges
+     * (event_fee, invoice, custom_domain) and collection_reversal increase it; credit_applied,
+     * collection, custom_domain_collection, and write_off decrease it; correction may increase or
+     * decrease it. Credit issuance and refund do not change it. Signed monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
+    "outstanding_effect_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. Related payment intent, when the entry is associated with a
+     * payment.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Entry corrected, credited, collected, reversed, or written off by
+     * this entry, when applicable.
+     */
+    "related_merchant_billing_entry_id"?: string;
+    /**
+     * Shape $ (Value): string. The billing event represented by this entry. Value enum:
+     * "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction",
+     * "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal",
+     * "write_off".
+     */
+    "type": "event_fee"
+        | "invoice"
+        | "custom_domain"
+        | "custom_domain_collection"
+        | "correction"
+        | "credit_issued"
+        | "credit_applied"
+        | "credit_refunded"
+        | "collection"
+        | "collection_reversal"
+        | "write_off"
+        | (string & {});
+};
+/**
+ * Shape $ (Value): {@link MerchantBillingEntryListResponse}. A page of `MerchantBillingEntry`
+ * objects.
+ */
+export type MerchantBillingEntryListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link MerchantBillingEntry}. Shape $[] (Value): {@link
+     * MerchantBillingEntry}. An immutable merchant billing charge, credit, collection, correction,
+     * or write-off.
+     */
+    "data": Array<MerchantBillingEntry>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link MerchantBillingInvoice}. A Flint invoice for the merchant's Flint
+ * subscription.
+ */
+export type MerchantBillingInvoice = {
+    /** Shape $ (Value): string. When Flint created the invoice. Format: date-time. */
+    "created_at": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Credit applied to the invoice: the sum of its credit
+     * line items. Never more than subtotal_money. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "credit_money": MoneyValue;
+    /** Shape $ (Value): string. When payment of the invoice is due. Format: date-time. */
+    "due_at": string;
+    /** Shape $ (Value): string. Human-readable invoice number. */
+    "invoice_number": string;
+    /** Shape $ (Value): string. When Flint issued the invoice. Format: date-time. */
+    "issued_at"?: string;
+    /**
+     * Shape $ (Value): Array of {@link MerchantBillingInvoiceLineItem}. Invoice-owned line items.
+     * Subscription totals sum to subtotal_money; credit totals sum to credit_money. Shape $[]
+     * (Value): {@link MerchantBillingInvoiceLineItem}. One line on a merchant billing invoice,
+     * either a subscription charge or a credit, with quantity, unit price, and total.
+     */
+    "line_items": Array<MerchantBillingInvoiceLineItem>;
+    /** Shape $ (Value): string. Stable identifier of the invoice. */
+    "merchant_billing_invoice_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Part of total_money Flint still has to collect.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "outstanding_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. When the invoice was paid. Removed if a reversed collection reopens
+     * it. Format: date-time.
+     */
+    "paid_at"?: string;
+    /**
+     * Shape $ (Value): string. Exclusive invoice billing period end as an RFC 3339 UTC instant.
+     * Format: date-time.
+     */
+    "period_end_at": string;
+    /**
+     * Shape $ (Value): string. Inclusive invoice billing period start as an RFC 3339 UTC instant.
+     * Format: date-time.
+     */
+    "period_start_at": string;
+    /**
+     * Shape $ (Value): string. Collection state of the invoice. Flint issues an invoice as open
+     * and marks it paid once collected; a reversed collection returns it to open, and written_off
+     * means Flint stopped collecting it. Value enum: "draft", "open", "collecting", "paid",
+     * "delinquent", "void", "written_off".
+     */
+    "status": "draft" | "open" | "collecting" | "paid" | "delinquent" | "void" | "written_off" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Sum of the subscription line items, before credit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. What the invoice charges: subtotal_money minus
+     * credit_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "total_money": MoneyValue;
+    /** Shape $ (Value): string. When the invoice last changed. Format: date-time. */
+    "updated_at": string;
+    /**
+     * Shape $ (Value): string. When the invoice was voided. Absent on invoices that weren't.
+     * Format: date-time.
+     */
+    "voided_at"?: string;
+};
+/**
+ * Shape $ (Value): {@link MerchantBillingInvoiceLineItem}. One line on a merchant billing invoice,
+ * either a subscription charge or a credit, with quantity, unit price, and total.
+ */
+export type MerchantBillingInvoiceLineItem = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /** Shape $ (Value): string. */
+    "merchant_billing_invoice_line_item_id": string;
+    /** Shape $ (Value): string. Name of the subscription charge or credit. */
+    "name": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Unsigned line total, calculated as quantity multiplied
+     * by unit_price_money. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. Whether the line adds a subscription charge or applies credit.
+     * Value enum: "subscription", "credit".
+     */
+    "type": "subscription" | "credit" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link MerchantBillingInvoiceListResponse}. A page of `MerchantBillingInvoice`
+ * objects.
+ */
+export type MerchantBillingInvoiceListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link MerchantBillingInvoice}. Shape $[] (Value): {@link
+     * MerchantBillingInvoice}. A Flint invoice for the merchant's Flint subscription.
+     */
+    "data": Array<MerchantBillingInvoice>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link MerchantBillingInvoiceResponse}. A response containing
+ * `MerchantBillingInvoice` data.
+ */
+export type MerchantBillingInvoiceResponse = {
+    /**
+     * Shape $ (Value): {@link MerchantBillingInvoice}. A Flint invoice for the merchant's Flint
+     * subscription.
+     */
+    "data": MerchantBillingInvoice;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link MerchantReadiness}. A merchant's readiness to accept payments and
+ * receive payouts, with per-capability status and outstanding requirements.
+ */
+export type MerchantReadiness = {
+    /**
+     * Shape $ (Value): Array of {@link CapabilityReadiness}. Shape $[] (Value): {@link
+     * CapabilityReadiness}. Merchant capability readiness for a payment or money movement
+     * capability.
+     */
+    "capabilities": Array<CapabilityReadiness>;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "observed_at": string;
+    /**
+     * Shape $ (Value): {@link ReadinessAxis}. Readiness for one area of a merchant account, with
+     * its `status`, the reason for it, and the actions that would advance it.
+     */
+    "payments": ReadinessAxis;
+    /**
+     * Shape $ (Value): {@link ReadinessAxis}. Readiness for one area of a merchant account, with
+     * its `status`, the reason for it, and the actions that would advance it.
+     */
+    "payouts": ReadinessAxis;
+    /**
+     * Shape $ (Value): {@link ReadinessRequirements}. Account information requirements for a
+     * merchant, grouped as currently due, eventually due, past due, and pending verification.
+     */
+    "requirements": ReadinessRequirements;
+};
+/** Shape $ (Value): {@link MerchantResponse}. A response containing `Merchant` data. */
+export type MerchantResponse = {
+    /** Shape $ (Value): {@link Merchant}. The business accepting payments. */
+    "data": Merchant;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
 export type MerchantSubscriptionInvoicesGetInput = {
     /** Shape $ (Value): string. */
     "merchant_billing_invoice_id": InputValue<string>;
@@ -1902,11 +2209,23 @@ export type MoneyMovementBlockedReason = {
  * list is, with the earliest available and latest reconciled times.
  */
 export type MoneyMovementHistoryMeta = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. Earliest time Flint's history for this list covers, when Flint
+     * knows it. Format: date-time.
+     */
     "earliest_available_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. When Flint last finished reconciling this list's history with your
+     * processor. Absent until a reconciliation finishes. Format: date-time.
+     */
     "latest_reconciled_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "backfilling", "partial", "unavailable". */
+    /**
+     * Shape $ (Value): string. Why the history may be incomplete: backfilling while Flint is still
+     * importing older history from your processor, partial when Flint has records from your
+     * processor but hasn't imported its full history, and unavailable when Flint can't say, such
+     * as before any import or after one fails. The list still returns every record Flint has.
+     * Value enum: "backfilling", "partial", "unavailable".
+     */
     "status": "backfilling" | "partial" | "unavailable" | (string & {});
 };
 /**
@@ -1914,26 +2233,30 @@ export type MoneyMovementHistoryMeta = {
  * including request and trace IDs, warnings, and the state of the available history.
  */
 export type MoneyMovementListMeta = {
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. API version used to produce this response. */
     "api_version"?: string;
     /**
-     * Shape $ (Value): {@link MoneyMovementHistoryMeta}. How complete the history in a money
-     * movement list is, with the earliest available and latest reconciled times.
+     * Shape $ (Value): {@link MoneyMovementHistoryMeta}. How complete Flint's history for this
+     * list is. history is omitted when Flint's history for this list is complete. How complete the
+     * history in a money movement list is, with the earliest available and latest reconciled
+     * times.
      */
     "history"?: MoneyMovementHistoryMeta;
-    /** Shape $ (Value): boolean. */
+    /**
+     * Shape $ (Value): boolean. Whether this response replays a stored result for the supplied
+     * Idempotency-Key.
+     */
     "idempotency_replayed"?: boolean;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Shape $ (Value): string. Trace identifier to include when contacting Flint about this
+     * request.
      */
-    "request_id"?: string;
-    /** Shape $ (Value): string. */
     "trace_id"?: string;
     /**
-     * Shape $ (Value): Array of {@link ResponseWarning}. Shape $[] (Value): {@link
-     * ResponseWarning}. A non-blocking condition reported with a response. The `code` identifies
-     * the condition and `severity` says how urgent it is.
+     * Shape $ (Value): Array of {@link ResponseWarning}. Conditions that need attention even
+     * though the request succeeded. Shape $[] (Value): {@link ResponseWarning}. A non-blocking
+     * condition reported with a response. The `code` identifies the condition and `severity` says
+     * how urgent it is.
      */
     "warnings"?: Array<ResponseWarning>;
 };
@@ -1980,13 +2303,12 @@ export type NextAction = {
      * Shape $ (Value): string. Action to take next. Use its target resource and required_fields to
      * prepare the request. Value enum: "get_operation", "get_checkout_session",
      * "get_payment_intent", "confirm_payment_intent", "capture_payment_intent",
-     * "cancel_payment_intent", "get_order", "capture_order_payment", "cancel_order_payment",
-     * "pay_order", "close_order", "add_line_items", "update_checkout_session",
-     * "close_checkout_session", "create_refund", "get_refund", "get_dispute",
-     * "review_onboarding_state", "review_merchant_readiness", "recreate_delivery_quote",
-     * "create_merchant_account_session", "issue_developer_sandbox_test_key",
-     * "start_new_image_ingestion", "get_payout_settings", "payment_authentication",
-     * "complete_gift_card_challenge".
+     * "cancel_payment_intent", "get_order", "pay_order", "close_order", "add_line_items",
+     * "update_checkout_session", "close_checkout_session", "create_refund", "get_refund",
+     * "get_dispute", "review_onboarding_state", "review_merchant_readiness",
+     * "recreate_delivery_quote", "create_merchant_account_session",
+     * "issue_developer_sandbox_test_key", "start_new_image_ingestion", "get_payout_settings",
+     * "payment_authentication", "complete_gift_card_challenge".
      */
     "action_type": "get_operation"
         | "get_checkout_session"
@@ -1995,8 +2317,6 @@ export type NextAction = {
         | "capture_payment_intent"
         | "cancel_payment_intent"
         | "get_order"
-        | "capture_order_payment"
-        | "cancel_order_payment"
         | "pay_order"
         | "close_order"
         | "add_line_items"
@@ -2288,20 +2608,12 @@ export type OnboardingAdvanceRequest = {
     /**
      * Shape $ (Value): Array of string. Exact initial Flint capability set. Include
      * accept_card_payments and receive_payouts together. Optionally include
-     * accept_ach_debit_payments, or omit the field to use the card and payout default set. []
-     * enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". Shape
-     * $.oneOf[1] (Value): Array of string. minItems: 2. maxItems: 2. uniqueItems: true. [] enum:
-     * "accept_card_payments", "receive_payouts". Shape $.oneOf[1][] (Value): string. Value enum:
-     * "accept_card_payments", "receive_payouts". Shape $.oneOf[2] (Value): Array of string.
-     * minItems: 3. maxItems: 3. uniqueItems: true. [] enum: "accept_ach_debit_payments",
-     * "accept_card_payments", "receive_payouts". Shape $.oneOf[2][] (Value): string. Value enum:
-     * "accept_ach_debit_payments", "accept_card_payments", "receive_payouts".
+     * accept_ach_debit_payments, or omit the field to use the card and payout default set.
+     * minItems: 2. maxItems: 3. uniqueItems: true. [] enum: "accept_card_payments",
+     * "receive_payouts", "accept_ach_debit_payments". Shape $[] (Value): string. Value enum:
+     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
      */
-    "requested_capabilities"?: ((Array<"accept_card_payments" | "receive_payouts" | (string & {})>)
-        | (Array<"accept_ach_debit_payments" | "accept_card_payments" | "receive_payouts" | (string & {})>)
-        | (unknown));
-    /** Shape $ (Value): string. minLength: 1. */
-    "sandbox_id"?: string;
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
 };
 /**
  * Shape $ (Value): {@link OnboardingAdvanceRequestInput}. The request body for: Advance onboarding
@@ -2321,19 +2633,12 @@ export type OnboardingAdvanceRequestInput = {
     /**
      * Shape $ (Value): Array of string. Exact initial Flint capability set. Include
      * accept_card_payments and receive_payouts together. Optionally include
-     * accept_ach_debit_payments, or omit the field to use the card and payout default set. []
-     * enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". Shape
-     * $.oneOf[1] (Value): Array of string. minItems: 2. maxItems: 2. uniqueItems: true. [] enum:
-     * "accept_card_payments", "receive_payouts". Shape $.oneOf[1][] (Value): string. Value enum:
-     * "accept_card_payments", "receive_payouts". Shape $.oneOf[2] (Value): Array of string.
-     * minItems: 3. maxItems: 3. uniqueItems: true. [] enum: "accept_ach_debit_payments",
-     * "accept_card_payments", "receive_payouts". Shape $.oneOf[2][] (Value): string. Value enum:
-     * "accept_ach_debit_payments", "accept_card_payments", "receive_payouts".
+     * accept_ach_debit_payments, or omit the field to use the card and payout default set.
+     * minItems: 2. maxItems: 3. uniqueItems: true. [] enum: "accept_card_payments",
+     * "receive_payouts", "accept_ach_debit_payments". Shape $[] (Value): string. Value enum:
+     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
      */
-    "requested_capabilities"?: ((Array<"accept_card_payments" | "receive_payouts">)
-        | (Array<"accept_ach_debit_payments" | "accept_card_payments" | "receive_payouts">));
-    /** Shape $ (Value): string. minLength: 1. */
-    "sandbox_id"?: string;
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments">);
 };
 export type OnboardingCreateAPIKeyInput = {
     /** Shape $ (Value): string. maxLength: 255. */
@@ -2344,75 +2649,7 @@ export type OnboardingCreateAPIKeyInput = {
      */
     "body": InputValue<DeveloperInitialAPIKeyRequestInput>;
 };
-export type OnboardingGetStateInput = {
-    /** Shape $ (Value): string. */
-    "sandbox_id"?: InputValue<string>;
-};
-/**
- * Shape $ (Value): {@link OnboardingLaunchRecommendedPolicy}. The recommended collection strategy
- * and future-requirement behavior for launching embedded onboarding.
- */
-export type OnboardingLaunchRecommendedPolicy = {
-    /** Shape $ (Value): string.  Value enum: "upfront", "incremental". */
-    "collection_strategy": "upfront" | "incremental" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "omit", "include". */
-    "future_requirements": "omit" | "include" | (string & {});
-};
-/**
- * Shape $ (Value): {@link OnboardingLaunchReference}. How to launch the embedded onboarding
- * component: the endpoint and method to call, and the recommended policy to send.
- */
-export type OnboardingLaunchReference = {
-    /** Shape $ (Value): string.  Value enum: "account_onboarding". */
-    "component": "account_onboarding" | (string & {});
-    /**
-     * Shape $ (Value): string. Endpoint for creating the browser session. Uses the same public API
-     * base URL as submit_endpoint: absolute when configured, relative otherwise.
-     */
-    "endpoint": string;
-    /** Shape $ (Value): string.  Value enum: "POST". */
-    "method": "POST" | (string & {});
-    /**
-     * Shape $ (Value): {@link OnboardingLaunchRecommendedPolicy}. The recommended collection
-     * strategy and future-requirement behavior for launching embedded onboarding.
-     */
-    "recommended_policy": OnboardingLaunchRecommendedPolicy;
-    /** Shape $ (Value): string. */
-    "sandbox_id"?: string;
-};
-/**
- * Shape $ (Value): {@link OnboardingNextStep}. The next step to move onboarding forward, with who
- * owns it, whether a machine can complete it, and the endpoint to submit to.
- */
-export type OnboardingNextStep = {
-    /**
-     * Shape $ (Value): string. Value enum: "check_onboarding_state", "start_onboarding",
-     * "complete_business_profile", "complete_verification_step", "wait_for_review",
-     * "create_api_key".
-     */
-    "code": "check_onboarding_state"
-        | "start_onboarding"
-        | "complete_business_profile"
-        | "complete_verification_step"
-        | "wait_for_review"
-        | "create_api_key"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link OnboardingLaunchReference}. How to launch the embedded onboarding
-     * component: the endpoint and method to call, and the recommended policy to send.
-     */
-    "launch"?: OnboardingLaunchReference;
-    /** Shape $ (Value): boolean. */
-    "machine_completable": boolean;
-    /** Shape $ (Value): string.  Value enum: "agent", "human", "system". */
-    "owner": "agent" | "human" | "system" | (string & {});
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "required_fields"?: Array<string>;
-    /** Shape $ (Value): string. */
-    "submit_endpoint"?: string;
-    /** Shape $ (Value): string. HTTP method for submit_endpoint. */
-    "submit_method"?: string;
-};
+export type OnboardingGetStateInput = {};
 /**
  * Shape $ (Value): {@link OnboardingProfile}. Contact and website details recorded for a merchant
  * during onboarding.
@@ -2473,115 +2710,3 @@ export type OnboardingStartRequest = {
  * flow.
  */
 export type OnboardingStartRequestInput = OnboardingStartRequest;
-/**
- * Shape $ (Value): {@link OnboardingStartResponse}. A response containing `OnboardingStartResult`
- * data.
- */
-export type OnboardingStartResponse = {
-    /**
-     * Shape $ (Value): {@link OnboardingStartResult}. The result of starting onboarding: whether
-     * email verification began, plus the verification token and its expiry.
-     */
-    "data": OnboardingStartResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link OnboardingStartResult}. The result of starting onboarding: whether email
- * verification began, plus the verification token and its expiry.
- */
-export type OnboardingStartResult = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "expires_at": string;
-    /** Shape $ (Value): boolean. */
-    "verification_started": boolean;
-    /** Shape $ (Value): string. */
-    "verification_token": string;
-};
-/**
- * Shape $ (Value): {@link OnboardingState}. A merchant's onboarding status, profile, next step,
- * requested capabilities, and whether an API key can be issued.
- */
-export type OnboardingState = {
-    /** Shape $ (Value): boolean. */
-    "can_issue_api_key": boolean;
-    /**
-     * Shape $ (Value): string. Immutable business country for the selected stable provider-account
-     * target. Omitted until the target has selected an effective country. minLength: 2. maxLength:
-     * 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
-     */
-    "country"?: "US" | (string & {});
-    /** Shape $ (Value): string. */
-    "default_sandbox_id"?: string;
-    /** Shape $ (Value): string. */
-    "merchant_id": string;
-    /**
-     * Shape $ (Value): {@link OnboardingNextStep}. The next step to move onboarding forward, with
-     * who owns it, whether a machine can complete it, and the endpoint to submit to.
-     */
-    "next_step"?: OnboardingNextStep;
-    /**
-     * Shape $ (Value): {@link OnboardingProfile}. Contact and website details recorded for a
-     * merchant during onboarding.
-     */
-    "profile": OnboardingProfile;
-    /**
-     * Shape $ (Value): Array of string. Canonical Flint capability intent persisted on the
-     * selected stable provider-account target. The initial merchant-account configuration always
-     * includes accept_card_payments and receive_payouts and may also include
-     * accept_ach_debit_payments. [] enum: "accept_card_payments", "receive_payouts",
-     * "accept_ach_debit_payments". Shape $.oneOf[1] (Value): Array of string. minItems: 2.
-     * maxItems: 2. uniqueItems: true. [] enum: "accept_card_payments", "receive_payouts". Shape
-     * $.oneOf[1][] (Value): string. Value enum: "accept_card_payments", "receive_payouts". Shape
-     * $.oneOf[2] (Value): Array of string. minItems: 3. maxItems: 3. uniqueItems: true. [] enum:
-     * "accept_ach_debit_payments", "accept_card_payments", "receive_payouts". Shape $.oneOf[2][]
-     * (Value): string. Value enum: "accept_ach_debit_payments", "accept_card_payments",
-     * "receive_payouts".
-     */
-    "requested_capabilities"?: ((Array<"accept_card_payments" | "receive_payouts" | (string & {})>)
-        | (Array<"accept_ach_debit_payments" | "accept_card_payments" | "receive_payouts" | (string & {})>)
-        | (unknown));
-    /**
-     * Shape $ (Value): string. Onboarding workflow status for activation and remediation, not a
-     * durable account-readiness boolean. Value enum: "complete", "waiting_for_review",
-     * "needs_external_action", "needs_input".
-     */
-    "status": "complete" | "waiting_for_review" | "needs_external_action" | "needs_input" | (string & {});
-};
-/**
- * Shape $ (Value): {@link OnboardingStateResponse}. A response containing `OnboardingState` data.
- */
-export type OnboardingStateResponse = {
-    /**
-     * Shape $ (Value): {@link OnboardingState}. A merchant's onboarding status, profile, next
-     * step, requested capabilities, and whether an API key can be issued.
-     */
-    "data": OnboardingState;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-export type OnboardingVerifyEmailCodeInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link OnboardingVerifyEmailRequestInput}. The request body for: Verify
-     * onboarding email.
-     */
-    "body": InputValue<OnboardingVerifyEmailRequestInput>;
-};

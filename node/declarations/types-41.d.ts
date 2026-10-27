@@ -1,18 +1,14 @@
+import type { InputValue } from '../runtime.js';
 import type { BundleComponent } from './types-0.js';
 import type { Fulfillment } from './types-17.js';
 import type { Image } from './types-19.js';
 import type { OrderLineItemModifier } from './types-32.js';
-import type { ReturnActor, ReturnDisposition, ReturnInspection, ResourceReference } from './types-40.js';
-import type { SelectedProductOption } from './types-43.js';
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { InputValue } from '../runtime.js';
+import type { ReturnActor, ReturnDisposition, ReturnInspection } from './types-40.js';
+import type { SelectedProductOption } from './types-44.js';
+import type { MoneyValue } from './types-31.js';
 import type { CreateReturnPolicyRequestInput, CreateReturnPreviewRequestInput, CreateReturnReasonRequestInput } from './types-8.js';
-import type { PublishReturnPolicyRevisionRequestInput } from './types-38.js';
-import type {
-    UpdateReturnPolicyRequestInput,
-    UpdateReturnReasonRequestInput,
-    VerifyReturnReceiptLineItemRequestInput
-} from './types-49.js';
+import type { PublishReturnPolicyRevisionRequestInput } from './types-39.js';
+import type { UpdateReturnPolicyRequestInput, UpdateReturnReasonRequestInput } from './types-49.js';
 import type {
     ReturnRestockingFeePolicy,
     ReturnShippingPolicy,
@@ -22,12 +18,215 @@ import type {
     ReturnWindowInput,
     ReturnSourceSystem,
     ReturnSourceSystemInput,
+    ReturnReplacementLineItemRequest,
+    ReturnReplacementLineItemRequestInput,
+    ReturnResolution,
     ReturnResource,
     ReturnUnverifiedItem,
     ReturnUnverifiedItemInput
 } from './types-42.js';
-import type { ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-16.js';
-import type { Refund } from './types-39.js';
+export type ReturnInspectionsListInput = {
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "accepted", "rejected",
+     * "review_required". Shape $[] (Value): string. Value enum: "accepted", "rejected",
+     * "review_required".
+     */
+    "acceptance_status"?: InputValue<Array<"accepted" | "rejected" | "review_required">>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "external_reference_id"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "inspected_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "inspected_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. */
+    "inspection_location_id"?: InputValue<string>;
+    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "query"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "return_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "return_line_item_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "return_receipt_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp",
+     * "other", "flint". Shape $[] (Value): string. Value enum: "manual", "pos", "wms", "erp",
+     * "other", "flint".
+     */
+    "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "other" | "flint">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "current", "superseded". Shape $[]
+     * (Value): string. Value enum: "current", "superseded".
+     */
+    "status"?: InputValue<Array<"current" | "superseded">>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+};
+/**
+ * Shape $ (Value): {@link ReturnLineDecision}. Start from the pinned policy proposal recomputed
+ * for approved_quantity when the line has a policy evaluation and the proposal can be built.
+ * Otherwise start with return_required_quantity equal to approved_quantity,
+ * allowed_resolution_types containing refund, exchange, replacement, no_monetary_action, and
+ * store_credit in that order regardless of whether the original payment is refundable, no
+ * automatic_resolution_type, is_inspection_required false, and no receiving_location_id. Each
+ * supplied field replaces its starting value; allowed_resolution_types replaces the whole list.
+ * Omit automatic_resolution_type to keep its starting value, or send null to resolve manually.
+ * Then fill an omitted release_timing with after_inspection when merchandise is required and
+ * inspection is required, after_receipt when merchandise is required without inspection, or
+ * after_approval when no merchandise is required. Validate the merged decision for quantity
+ * bounds, allowed resolution types, and reachable timing and inspection requirements. A pinned
+ * policy always requires override_reason when approved_quantity exceeds evaluated
+ * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
+ * other decision fields use these defaults and override_reason is otherwise optional. Example:
+ * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
+ */
+export type ReturnLineDecision = ({
+    /**
+     * Shape $ (Value): Array of string. Optional replacement for the entire starting list.
+     * Defaults to the buildable pinned policy proposal; otherwise refund, exchange, replacement,
+     * no_monetary_action, and store_credit in that order, independent of the original payment's
+     * refundability. The resulting list must be valid and non-empty when approved_quantity is
+     * above zero. [] enum: "refund", "exchange", "replacement", "no_monetary_action",
+     * "store_credit". Shape $[] (Value): string. Value enum: "refund", "exchange", "replacement",
+     * "no_monetary_action", "store_credit".
+     */
+    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
+    /**
+     * Shape $ (Value): integer string. Required whole-number quantity from zero through the line's
+     * requested_quantity; fractional quantities are not supported. When approved_quantity is below
+     * requested_quantity, send decline_reason; decline_reason_message is optional. Both decline
+     * fields are forbidden when all requested quantity is approved. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 0.
+     */
+    "approved_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string or null. Optional refund, store_credit, or no_monetary_action that
+     * Flint creates and confirms automatically. Omit to keep the policy proposal's value, or the
+     * absent value from no-policy defaults. Send null to resolve the line manually; clearing a
+     * policy proposal's automatic value requires override_reason. Must be in the resulting
+     * allowed_resolution_types. Exchange and replacement cannot be automated. An unavailable
+     * automatic refund or store credit fails with 409 ACTION_NOT_ALLOWED and reason
+     * refund_unavailable or store_credit_unavailable. Value enum: "refund", "store_credit",
+     * "no_monetary_action", null.
+     */
+    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null | (string & {}) | null;
+    /**
+     * Shape $ (Value): string. Value enum: "not_eligible", "quantity_unavailable",
+     * "evidence_missing", "suspected_abuse", "merchant_discretion", "other".
+     */
+    "decline_reason"?: "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Optional explanation accompanying decline_reason, up to 2048
+     * characters (Unicode code points), counted before normalization. Requires decline_reason and
+     * is forbidden when all requested quantity is approved. minLength: 1. maxLength: 2048.
+     */
+    "decline_reason_message"?: string;
+    /**
+     * Shape $ (Value): boolean. Optional inspection requirement. Defaults to the buildable pinned
+     * policy proposal or false when no proposal can be built. The resulting requirement must be
+     * reachable with the merged merchandise quantity and release timing.
+     */
+    "is_inspection_required"?: boolean;
+    /**
+     * Shape $ (Value): string. Required when a decision differs from a buildable pinned policy
+     * proposal. With a pinned policy, also required whenever approved_quantity exceeds evaluated
+     * eligible_quantity, even when no proposal can be built. The release timing fill also applies
+     * to the proposal and does not count as a deviation. Otherwise optional when a pinned policy
+     * proposal cannot be built or no deviation exists. Forbidden without a pinned policy. Value
+     * enum: "customer_service_exception", "policy_correction", "risk_review",
+     * "merchant_discretion", "other".
+     */
+    "override_reason"?: "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Optional explanation accompanying override_reason. Requires
+     * override_reason and is forbidden without a pinned policy. minLength: 1.
+     */
+    "override_reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Optional receiving Location with a postal address. Defaults to the
+     * buildable pinned policy proposal or no location when no proposal can be built. Required when
+     * the resulting return_required_quantity is above zero and there is no starting location. A
+     * process receipt does not supply the decision's location. minLength: 1.
+     */
+    "receiving_location_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional gate for every resolution type. Defaults to the policy
+     * proposal's timing when set. After merging supplied fields, an unset timing becomes
+     * after_inspection when return_required_quantity is above zero and inspection is required,
+     * after_receipt when return_required_quantity is above zero without inspection, or
+     * after_approval when return_required_quantity is zero. Applies to every resolution type,
+     * including exchanges and replacements. manual is held until a merchant calls POST
+     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
+     * "after_receipt", "after_inspection", "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_line_item_id": string;
+    /**
+     * Shape $ (Value): integer string. How much of the approved quantity the buyer must physically
+     * send back; fractional quantities are not supported. Set 0 for a returnless refund, where the
+     * buyer keeps the merchandise and the Return still settles the money. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+     */
+    "return_required_quantity"?: `${bigint}`;
+})
+    & (((unknown)
+    | ({
+    /**
+     * Shape $ (Value): string. Value enum: "not_eligible", "quantity_unavailable",
+     * "evidence_missing", "suspected_abuse", "merchant_discretion", "other".
+     */
+    "decline_reason": "not_eligible"
+        | "quantity_unavailable"
+        | "evidence_missing"
+        | "suspected_abuse"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)))
+    & (((unknown)
+    | ({
+    /**
+     * Shape $ (Value): string. Required when a decision differs from a buildable pinned policy
+     * proposal. With a pinned policy, also required whenever approved_quantity exceeds evaluated
+     * eligible_quantity, even when no proposal can be built. The release timing fill also applies
+     * to the proposal and does not count as a deviation. Otherwise optional when a pinned policy
+     * proposal cannot be built or no deviation exists. Forbidden without a pinned policy. Value
+     * enum: "customer_service_exception", "policy_correction", "risk_review",
+     * "merchant_discretion", "other".
+     */
+    "override_reason": "customer_service_exception"
+        | "policy_correction"
+        | "risk_review"
+        | "merchant_discretion"
+        | "other"
+        | (string & {});
+})
+    | (Record<string, unknown>)));
 /**
  * Shape $ (Value): {@link ReturnLineDecisionInput}. Start from the pinned policy proposal
  * recomputed for approved_quantity when the line has a policy evaluation and the proposal can be
@@ -1799,14 +1998,40 @@ export type ReturnPolicyScope = ({
     "channel_types"?: Array<string>;
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
     "location_ids"?: Array<string>;
-    /** Shape $ (Value): string.  Value enum: "all", "include". */
-    "match_type"?: "all" | "include" | (string & {});
+    /**
+     * Shape $ (Value): string. all covers every item and requires every selector to be empty.
+     * include covers only what the selectors name and requires at least one nonempty selector.
+     * Value enum: "all", "include".
+     */
+    "match_type": "all" | "include" | (string & {});
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
     "product_ids"?: Array<string>;
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
     "variant_ids"?: Array<string>;
 })
-    & (({
+    & ((Exclude<ReturnPolicyScopeAll & object, readonly unknown[]>)
+    | (Exclude<ReturnPolicyScopeInclude & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** Shape $ (Value): {@link ReturnPolicyScopeAll}. The `all` variant of `ReturnPolicyScope`. */
+export type ReturnPolicyScopeAll = ({
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "category_handles"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "channel_types"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "location_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. all covers every item and requires every selector to be empty.
+     * include covers only what the selectors name and requires at least one nonempty selector.
+     * Value enum: "all".
+     */
+    "match_type": "all" | (string & {});
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "product_ids"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "variant_ids"?: Array<string>;
+})
+    & ({
     /** Shape $ (Value): any. maxItems: 0. */
     "category_handles"?: unknown;
     /** Shape $ (Value): any. maxItems: 0. */
@@ -1814,15 +2039,69 @@ export type ReturnPolicyScope = ({
     /** Shape $ (Value): any. maxItems: 0. */
     "location_ids"?: unknown;
     /** Shape $ (Value): any.  Value enum: "all". */
-    "match_type"?: unknown;
+    "match_type": unknown;
     /** Shape $ (Value): any. maxItems: 0. */
     "product_ids"?: unknown;
     /** Shape $ (Value): any. maxItems: 0. */
     "variant_ids"?: unknown;
+});
+/** Shape $ (Value): {@link ReturnPolicyScopeAllInput}. The `all` variant of `ReturnPolicyScope`. */
+export type ReturnPolicyScopeAllInput = ({
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "category_handles"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "channel_types"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "location_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. all covers every item and requires every selector to be empty.
+     * include covers only what the selectors name and requires at least one nonempty selector.
+     * Value enum: "all".
+     */
+    "match_type": "all";
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "product_ids"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "variant_ids"?: Array<string>;
 })
-    | (({
+    & ({
+    /** Shape $ (Value): any. maxItems: 0. */
+    "category_handles"?: unknown;
+    /** Shape $ (Value): any. maxItems: 0. */
+    "channel_types"?: unknown;
+    /** Shape $ (Value): any. maxItems: 0. */
+    "location_ids"?: unknown;
+    /** Shape $ (Value): any.  Value enum: "all". */
+    "match_type": "all";
+    /** Shape $ (Value): any. maxItems: 0. */
+    "product_ids"?: unknown;
+    /** Shape $ (Value): any. maxItems: 0. */
+    "variant_ids"?: unknown;
+});
+/**
+ * Shape $ (Value): {@link ReturnPolicyScopeInclude}. The `include` variant of `ReturnPolicyScope`.
+ */
+export type ReturnPolicyScopeInclude = ({
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "category_handles"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "channel_types"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "location_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. all covers every item and requires every selector to be empty.
+     * include covers only what the selectors name and requires at least one nonempty selector.
+     * Value enum: "include".
+     */
+    "match_type": "include" | (string & {});
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "product_ids"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "variant_ids"?: Array<string>;
+})
+    & (({
     /** Shape $ (Value): any.  Value enum: "include". */
-    "match_type"?: unknown;
+    "match_type": unknown;
 })
     & (({
     /** Shape $ (Value): any. minItems: 1. */
@@ -1844,8 +2123,53 @@ export type ReturnPolicyScope = ({
     /** Shape $ (Value): any. minItems: 1. */
     "channel_types": unknown;
 })
-    | (Record<string, unknown>)))
-    | (Record<string, unknown>));
+    | (Record<string, unknown>)));
+/**
+ * Shape $ (Value): {@link ReturnPolicyScopeIncludeInput}. The `include` variant of
+ * `ReturnPolicyScope`.
+ */
+export type ReturnPolicyScopeIncludeInput = ({
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "category_handles"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "channel_types"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "location_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. all covers every item and requires every selector to be empty.
+     * include covers only what the selectors name and requires at least one nonempty selector.
+     * Value enum: "include".
+     */
+    "match_type": "include";
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "product_ids"?: Array<string>;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "include". */
+    "match_type": "include";
+})
+    & (({
+    /** Shape $ (Value): any. minItems: 1. */
+    "product_ids": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. minItems: 1. */
+    "variant_ids": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. minItems: 1. */
+    "category_handles": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. minItems: 1. */
+    "location_ids": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. minItems: 1. */
+    "channel_types": unknown;
+})));
 /**
  * Shape $ (Value): {@link ReturnPolicyScopeInput}. The products, variants, categories, channels,
  * or locations a return policy revision applies to, or all of them.
@@ -1857,51 +2181,19 @@ export type ReturnPolicyScopeInput = ({
     "channel_types"?: Array<string>;
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
     "location_ids"?: Array<string>;
-    /** Shape $ (Value): string.  Value enum: "all", "include". */
-    "match_type"?: "all" | "include";
+    /**
+     * Shape $ (Value): string. all covers every item and requires every selector to be empty.
+     * include covers only what the selectors name and requires at least one nonempty selector.
+     * Value enum: "all", "include".
+     */
+    "match_type": "all" | "include";
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
     "product_ids"?: Array<string>;
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
     "variant_ids"?: Array<string>;
 })
-    & (({
-    /** Shape $ (Value): any. maxItems: 0. */
-    "category_handles"?: unknown;
-    /** Shape $ (Value): any. maxItems: 0. */
-    "channel_types"?: unknown;
-    /** Shape $ (Value): any. maxItems: 0. */
-    "location_ids"?: unknown;
-    /** Shape $ (Value): any.  Value enum: "all". */
-    "match_type"?: "all";
-    /** Shape $ (Value): any. maxItems: 0. */
-    "product_ids"?: unknown;
-    /** Shape $ (Value): any. maxItems: 0. */
-    "variant_ids"?: unknown;
-})
-    | (({
-    /** Shape $ (Value): any.  Value enum: "include". */
-    "match_type"?: "include";
-})
-    & (({
-    /** Shape $ (Value): any. minItems: 1. */
-    "product_ids": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. minItems: 1. */
-    "variant_ids": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. minItems: 1. */
-    "category_handles": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. minItems: 1. */
-    "location_ids": unknown;
-})
-    | ({
-    /** Shape $ (Value): any. minItems: 1. */
-    "channel_types": unknown;
-}))));
+    & ((Exclude<ReturnPolicyScopeAllInput & object, readonly unknown[]>)
+    | (Exclude<ReturnPolicyScopeIncludeInput & object, readonly unknown[]>));
 export type ReturnPreviewsCreateInput = {
     /**
      * Shape $ (Value): {@link CreateReturnPreviewRequestInput}. The request body for: Create
@@ -2788,6 +3080,239 @@ export type ReturnReceiptLineItem = {
     "verified_by"?: ReturnActor;
 };
 /**
+ * Shape $ (Value): {@link ReturnReceiptLineItemInputExcess}. The `excess` variant of
+ * `ReturnReceiptLineItemInput`.
+ */
+export type ReturnReceiptLineItemInputExcess = ({
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id": string;
+    /**
+     * Shape $ (Value): string. Whether this observation matches a Return line, is unverified
+     * merchandise, or is known excess merchandise. Value enum: "excess".
+     */
+    "type": "excess" | (string & {});
+    /**
+     * Shape $ (Value): {@link ReturnUnverifiedItem}. A buyer or catalog identity observation that
+     * has not been matched to a Return line. Merchandise received in a return that does not match
+     * an expected return line, described by name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItem;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "excess". */
+    "type": unknown;
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id": string;
+}));
+/**
+ * Shape $ (Value): {@link ReturnReceiptLineItemInputExcessInput}. The `excess` variant of
+ * `ReturnReceiptLineItemInput`.
+ */
+export type ReturnReceiptLineItemInputExcessInput = ({
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id": string;
+    /**
+     * Shape $ (Value): string. Whether this observation matches a Return line, is unverified
+     * merchandise, or is known excess merchandise. Value enum: "excess".
+     */
+    "type": "excess";
+    /**
+     * Shape $ (Value): {@link ReturnUnverifiedItemInput}. A buyer or catalog identity observation
+     * that has not been matched to a Return line. Merchandise received in a return that does not
+     * match an expected return line, described by name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItemInput;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "excess". */
+    "type": "excess";
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id": string;
+})
+    & ({
+    "unverified_item"?: never;
+}));
+/**
+ * Shape $ (Value): {@link ReturnReceiptLineItemInputMatched}. The `matched` variant of
+ * `ReturnReceiptLineItemInput`.
+ */
+export type ReturnReceiptLineItemInputMatched = ({
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id": string;
+    /**
+     * Shape $ (Value): string. Whether this observation matches a Return line, is unverified
+     * merchandise, or is known excess merchandise. Value enum: "matched".
+     */
+    "type": "matched" | (string & {});
+    /**
+     * Shape $ (Value): {@link ReturnUnverifiedItem}. A buyer or catalog identity observation that
+     * has not been matched to a Return line. Merchandise received in a return that does not match
+     * an expected return line, described by name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItem;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "matched". */
+    "type": unknown;
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id": string;
+}));
+/**
+ * Shape $ (Value): {@link ReturnReceiptLineItemInputMatchedInput}. The `matched` variant of
+ * `ReturnReceiptLineItemInput`.
+ */
+export type ReturnReceiptLineItemInputMatchedInput = ({
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id": string;
+    /**
+     * Shape $ (Value): string. Whether this observation matches a Return line, is unverified
+     * merchandise, or is known excess merchandise. Value enum: "matched".
+     */
+    "type": "matched";
+    /**
+     * Shape $ (Value): {@link ReturnUnverifiedItemInput}. A buyer or catalog identity observation
+     * that has not been matched to a Return line. Merchandise received in a return that does not
+     * match an expected return line, described by name, SKU, and description.
+     */
+    "unverified_item"?: ReturnUnverifiedItemInput;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "matched". */
+    "type": "matched";
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id": string;
+})
+    & ({
+    "unverified_item"?: never;
+}));
+/**
+ * Shape $ (Value): {@link ReturnReceiptLineItemInputUnverified}. The `unverified` variant of
+ * `ReturnReceiptLineItemInput`.
+ */
+export type ReturnReceiptLineItemInputUnverified = ({
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id"?: string;
+    /**
+     * Shape $ (Value): string. Whether this observation matches a Return line, is unverified
+     * merchandise, or is known excess merchandise. Value enum: "unverified".
+     */
+    "type": "unverified" | (string & {});
+    /**
+     * Shape $ (Value): {@link ReturnUnverifiedItem}. A buyer or catalog identity observation that
+     * has not been matched to a Return line. Merchandise received in a return that does not match
+     * an expected return line, described by name, SKU, and description.
+     */
+    "unverified_item": ReturnUnverifiedItem;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "unverified". */
+    "type": unknown;
+    /**
+     * Shape $ (Value): {@link ReturnUnverifiedItem}. A buyer or catalog identity observation that
+     * has not been matched to a Return line. Merchandise received in a return that does not match
+     * an expected return line, described by name, SKU, and description.
+     */
+    "unverified_item": ReturnUnverifiedItem;
+}));
+/**
+ * Shape $ (Value): {@link ReturnReceiptLineItemInputUnverifiedInput}. The `unverified` variant of
+ * `ReturnReceiptLineItemInput`.
+ */
+export type ReturnReceiptLineItemInputUnverifiedInput = ({
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
+     */
+    "return_line_item_id"?: string;
+    /**
+     * Shape $ (Value): string. Whether this observation matches a Return line, is unverified
+     * merchandise, or is known excess merchandise. Value enum: "unverified".
+     */
+    "type": "unverified";
+    /**
+     * Shape $ (Value): {@link ReturnUnverifiedItemInput}. A buyer or catalog identity observation
+     * that has not been matched to a Return line. Merchandise received in a return that does not
+     * match an expected return line, described by name, SKU, and description.
+     */
+    "unverified_item": ReturnUnverifiedItemInput;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "unverified". */
+    "type": "unverified";
+    /**
+     * Shape $ (Value): {@link ReturnUnverifiedItemInput}. A buyer or catalog identity observation
+     * that has not been matched to a Return line. Merchandise received in a return that does not
+     * match an expected return line, described by name, SKU, and description.
+     */
+    "unverified_item": ReturnUnverifiedItemInput;
+})
+    & ({
+    "return_line_item_id"?: never;
+}));
+/**
  * Shape $ (Value): {@link ReturnReceiptLineItemRequest}. One line of received merchandise: a
  * matched return line, excess quantity, or an unverified item.
  */
@@ -2799,47 +3324,25 @@ export type ReturnReceiptLineItemRequest = ({
      */
     "quantity": `${bigint}`;
     /**
-     * Shape $ (Value): string. The expected Return line. Required for matched and explicitly
-     * excess merchandise. minLength: 1.
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
      */
     "return_line_item_id"?: string;
+    /**
+     * Shape $ (Value): string. Whether this observation matches a Return line, is unverified
+     * merchandise, or is known excess merchandise. Value enum: "matched", "unverified", "excess".
+     */
+    "type": "matched" | "unverified" | "excess" | (string & {});
     /**
      * Shape $ (Value): {@link ReturnUnverifiedItem}. A buyer or catalog identity observation that
      * has not been matched to a Return line. Merchandise received in a return that does not match
      * an expected return line, described by name, SKU, and description.
      */
     "unverified_item"?: ReturnUnverifiedItem;
-    /**
-     * Shape $ (Value): string. Set to excess only when the merchandise is known to exceed the
-     * committed handback quantity for return_line_item_id. Omit for matched or unverified
-     * merchandise. Value enum: "excess".
-     */
-    "verification_status"?: "excess" | (string & {});
 })
-    & ((({
-    /**
-     * Shape $ (Value): string. The expected Return line. Required for matched and explicitly
-     * excess merchandise. minLength: 1.
-     */
-    "return_line_item_id": string;
-}))
-    | (({
-    /**
-     * Shape $ (Value): {@link ReturnUnverifiedItem}. A buyer or catalog identity observation that
-     * has not been matched to a Return line. Merchandise received in a return that does not match
-     * an expected return line, described by name, SKU, and description.
-     */
-    "unverified_item": ReturnUnverifiedItem;
-}))
-    | (({
-    /** Shape $ (Value): any.  Value enum: "excess". */
-    "verification_status": unknown;
-    /**
-     * Shape $ (Value): string. The expected Return line. Required for matched and explicitly
-     * excess merchandise. minLength: 1.
-     */
-    "return_line_item_id": string;
-}))
+    & ((Exclude<ReturnReceiptLineItemInputMatched & object, readonly unknown[]>)
+    | (Exclude<ReturnReceiptLineItemInputUnverified & object, readonly unknown[]>)
+    | (Exclude<ReturnReceiptLineItemInputExcess & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /**
  * Shape $ (Value): {@link ReturnReceiptLineItemRequestInput}. One line of received merchandise: a
@@ -2853,737 +3356,26 @@ export type ReturnReceiptLineItemRequestInput = ({
      */
     "quantity": `${bigint}` | bigint;
     /**
-     * Shape $ (Value): string. The expected Return line. Required for matched and explicitly
-     * excess merchandise. minLength: 1.
+     * Shape $ (Value): string. The expected Return line. Required for matched and excess
+     * merchandise. minLength: 1.
      */
     "return_line_item_id"?: string;
+    /**
+     * Shape $ (Value): string. Whether this observation matches a Return line, is unverified
+     * merchandise, or is known excess merchandise. Value enum: "matched", "unverified", "excess".
+     */
+    "type": "matched" | "unverified" | "excess";
     /**
      * Shape $ (Value): {@link ReturnUnverifiedItemInput}. A buyer or catalog identity observation
      * that has not been matched to a Return line. Merchandise received in a return that does not
      * match an expected return line, described by name, SKU, and description.
      */
     "unverified_item"?: ReturnUnverifiedItemInput;
-    /**
-     * Shape $ (Value): string. Set to excess only when the merchandise is known to exceed the
-     * committed handback quantity for return_line_item_id. Omit for matched or unverified
-     * merchandise. Value enum: "excess".
-     */
-    "verification_status"?: "excess";
 })
-    & ((({
-    /**
-     * Shape $ (Value): string. The expected Return line. Required for matched and explicitly
-     * excess merchandise. minLength: 1.
-     */
-    "return_line_item_id": string;
-})
-    & (({
-    "unverified_item"?: never;
-}) & ({
-    "verification_status"?: never;
-})))
-    | (({
-    /**
-     * Shape $ (Value): {@link ReturnUnverifiedItemInput}. A buyer or catalog identity observation
-     * that has not been matched to a Return line. Merchandise received in a return that does not
-     * match an expected return line, described by name, SKU, and description.
-     */
-    "unverified_item": ReturnUnverifiedItemInput;
-})
-    & (({
-    "return_line_item_id"?: never;
-}) & ({
-    "verification_status"?: never;
-})))
-    | (({
-    /** Shape $ (Value): any.  Value enum: "excess". */
-    "verification_status": "excess";
-    /**
-     * Shape $ (Value): string. The expected Return line. Required for matched and explicitly
-     * excess merchandise. minLength: 1.
-     */
-    "return_line_item_id": string;
-})
-    & ({
-    "unverified_item"?: never;
-})));
+    & ((Exclude<ReturnReceiptLineItemInputMatchedInput & object, readonly unknown[]>)
+    | (Exclude<ReturnReceiptLineItemInputUnverifiedInput & object, readonly unknown[]>)
+    | (Exclude<ReturnReceiptLineItemInputExcessInput & object, readonly unknown[]>));
 export type ReturnReceiptsGetInput = {
     /** Shape $ (Value): string. */
     "return_receipt_id": InputValue<string>;
-};
-export type ReturnReceiptsListInput = {
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "received_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "received_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. */
-    "receiving_location_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "return_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "return_line_item_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "shipment_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp",
-     * "other", "flint". Shape $[] (Value): string. Value enum: "manual", "pos", "wms", "erp",
-     * "other", "flint".
-     */
-    "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "other" | "flint">>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "current", "superseded". Shape $[]
-     * (Value): string. Value enum: "current", "superseded".
-     */
-    "status"?: InputValue<Array<"current" | "superseded">>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "matched", "unverified", "excess".
-     * Shape $[] (Value): string. Value enum: "matched", "unverified", "excess".
-     */
-    "verification_status"?: InputValue<Array<"matched" | "unverified" | "excess">>;
-};
-export type ReturnReceiptsVerifyLineItemInput = {
-    /** Shape $ (Value): string. */
-    "return_receipt_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "return_receipt_line_item_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link VerifyReturnReceiptLineItemRequestInput}. The request body for:
-     * Verify return receipt line item.
-     */
-    "body": InputValue<VerifyReturnReceiptLineItemRequestInput>;
-};
-/**
- * Shape $ (Value): {@link ReturnReplacementLineItem}. A replacement item added to a return
- * resolution, with its quantity and price totals.
- */
-export type ReturnReplacementLineItem = {
-    /** Shape $ (Value): string. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "discount_money": MoneyValue;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /** Shape $ (Value): string. */
-    "return_replacement_line_item_id": string;
-    /** Shape $ (Value): string. */
-    "return_resolution_id": string;
-    /** Shape $ (Value): string. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-    /** Shape $ (Value): string. */
-    "variant_id"?: string;
-};
-/**
- * Shape $ (Value): {@link ReturnReplacementLineItemRequest}. A replacement item to include in a
- * return resolution, from a variant, a bundle, or a custom name and price.
- */
-export type ReturnReplacementLineItemRequest = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-}))
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in
- * a return resolution, from a variant, a bundle, or a custom name and price.
- */
-export type ReturnReplacementLineItemRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-}) & ({
-    "name"?: never;
-})))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-}) & ({
-    "name"?: never;
-})))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-})
-    & (({
-    "variant_id"?: never;
-}) & ({
-    "bundle_id"?: never;
-}))));
-/**
- * Shape $ (Value): {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
- */
-export type ReturnResolution = {
-    /**
-     * Shape $ (Value): string. Value enum: "buyer_payment", "buyer_selection", "merchant_review",
-     * "manual_release", "linked_effect_retry", "other".
-     */
-    "action_reason"?: "buyer_payment"
-        | "buyer_selection"
-        | "merchant_review"
-        | "manual_release"
-        | "linked_effect_retry"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string.  Value enum: "buyer", "merchant", "integration". */
-    "action_required_by"?: "buyer" | "merchant" | "integration" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustment}. Shape $[] (Value): {@link
-     * ReturnResolutionAdjustment}. A fee or credit applied to a return resolution, such as a
-     * restocking fee, with the assessed and applied amounts and any waiver.
-     */
-    "adjustments": Array<ReturnResolutionAdjustment>;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "buyer_payment_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Value returned to the buyer. For store_credit, the
-     * value issued on new gift cards. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "buyer_refund_amount_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "canceled_at"?: string;
-    /**
-     * Shape $ (Value): {@link ReturnActor}. Who performed a return action: a buyer, merchant,
-     * integration, or the system, with an optional ID.
-     */
-    "canceled_by"?: ReturnActor;
-    /**
-     * Shape $ (Value): string. Value enum: "buyer_request", "merchant_request", "duplicate",
-     * "expired", "created_in_error", "other".
-     */
-    "cancellation_reason"?: "buyer_request"
-        | "merchant_request"
-        | "duplicate"
-        | "expired"
-        | "created_in_error"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. */
-    "cancellation_reason_message"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "confirmed_at"?: string;
-    /**
-     * Shape $ (Value): {@link ReturnActor}. Who performed a return action: a buyer, merchant,
-     * integration, or the system, with an optional ID.
-     */
-    "confirmed_by"?: ReturnActor;
-    /** Shape $ (Value): string. */
-    "corrects_return_resolution_id"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): {@link ReturnActor}. Who performed a return action: a buyer, merchant,
-     * integration, or the system, with an optional ID.
-     */
-    "created_by": ReturnActor;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "credit_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "deduction_money": MoneyValue;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionExecutionBlocker}. Shape $[] (Value):
-     * {@link ReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution
-     * can finish.
-     */
-    "execution_blockers": Array<ReturnResolutionExecutionBlocker>;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Reason code for a failed Return resolution, when available.
-     * refund_line_value_unavailable means another refund already returned part of an order line,
-     * so retrying cannot succeed; cancel the resolution and resolve the line for fewer units or
-     * without a refund. replacement_fulfillment_canceled means the replacement Order's fulfillment
-     * was canceled, so it won't be sent. gift_card_refund_destination_required means the original
-     * gift card cannot accept the refund; retry with gift_card_refund_destination set to
-     * new_gift_card. store_credit_unavailable means the original payment cannot fund store credit;
-     * cancel the resolution and create a refund resolution. Value enum:
-     * "gift_card_refund_destination_required", "store_credit_unavailable",
-     * "refund_creation_failed", "refund_failed", "refund_line_value_unavailable",
-     * "payment_intent_creation_failed", "payment_failed", "replacement_order_creation_failed",
-     * "replacement_fulfillment_canceled", "resolution_effect_failed".
-     */
-    "failure_code"?: "gift_card_refund_destination_required"
-        | "store_credit_unavailable"
-        | "refund_creation_failed"
-        | "refund_failed"
-        | "refund_line_value_unavailable"
-        | "payment_intent_creation_failed"
-        | "payment_failed"
-        | "replacement_order_creation_failed"
-        | "replacement_fulfillment_canceled"
-        | "resolution_effect_failed"
-        | (string & {});
-    /** Shape $ (Value): string. Explanation of a failed Return resolution, when available. */
-    "failure_message"?: string;
-    /** Shape $ (Value): string. When the resolution became fulfilled. Format: date-time. */
-    "fulfilled_at"?: string;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItem}. Shape $[] (Value): {@link
-     * ReturnResolutionLineItem}. A return line included in a resolution, with its quantity and
-     * returned total.
-     */
-    "line_items": Array<ReturnResolutionLineItem>;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
-    "metadata": Record<string, string>;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "payment_intent_ids": Array<string>;
-    /**
-     * Shape $ (Value): Array of {@link ExpandedPaymentIntentSummary}. Shape $[] (Value): {@link
-     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
-     * and capture method, returned when the payment intent is expanded.
-     */
-    "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "refund_ids": Array<string>;
-    /**
-     * Shape $ (Value): Array of {@link Refund}. Shape $[] (Value): {@link Refund}. Money returned
-     * against a collected payment.
-     */
-    "refunds"?: Array<Refund>;
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItem}. Shape $[] (Value): {@link
-     * ReturnReplacementLineItem}. A replacement item added to a return resolution, with its
-     * quantity and price totals.
-     */
-    "replacement_line_items": Array<ReturnReplacementLineItem>;
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "replacement_order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. */
-    "replacement_order_id"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "replacement_total_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
-     * "no_monetary_action", "correction".
-     */
-    "resolution_type": "refund"
-        | "exchange"
-        | "replacement"
-        | "store_credit"
-        | "no_monetary_action"
-        | "correction"
-        | (string & {});
-    /** Shape $ (Value): string. */
-    "return_id": string;
-    /** Shape $ (Value): string. */
-    "return_policy_revision_id"?: string;
-    /** Shape $ (Value): string. */
-    "return_resolution_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "returned_total_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. fulfilled means the buyer has the value: every linked Refund
-     * succeeded, any balance was collected, and any replacement Order's fulfillment_status is
-     * fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action",
-     * "fulfilled", "failed", "canceled".
-     */
-    "status": "proposed" | "pending" | "requires_action" | "fulfilled" | "failed" | "canceled" | (string & {});
-    /**
-     * Shape $ (Value): Array of string. Actions that can succeed now. Empty unless the parent
-     * Return is open, except checkout_session. A failed resolution lists retry while it has a
-     * failed effect and its failure code permits retry. It lists cancel when it never created a
-     * Refund, PaymentIntent, or Order. [] enum: "cancel", "checkout_session", "confirm",
-     * "release", "retry". Shape $[] (Value): string. Value enum: "cancel", "checkout_session",
-     * "confirm", "release", "retry".
-     */
-    "supported_actions": Array<"cancel" | "checkout_session" | "confirm" | "release" | "retry" | (string & {})>;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0.
-     */
-    "version": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link ReturnResolutionAdjustment}. A fee or credit applied to a return
- * resolution, such as a restocking fee, with the assessed and applied amounts and any waiver.
- */
-export type ReturnResolutionAdjustment = {
-    /**
-     * Shape $ (Value): string. Value enum: "return_shipping_fee", "restocking_fee", "other_fee",
-     * "goodwill_credit", "price_correction", "other".
-     */
-    "adjustment_type": "return_shipping_fee"
-        | "restocking_fee"
-        | "other_fee"
-        | "goodwill_credit"
-        | "price_correction"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "applied_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "assessed_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Value enum: "return_policy", "inspection_result",
-     * "return_shipping_cost", "customer_service", "manual_correction", "other".
-     */
-    "reason": "return_policy"
-        | "inspection_result"
-        | "return_shipping_cost"
-        | "customer_service"
-        | "manual_correction"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. */
-    "return_line_item_id"?: string;
-    /** Shape $ (Value): string. */
-    "return_policy_revision_id"?: string;
-    /** Shape $ (Value): string. */
-    "return_resolution_adjustment_id": string;
-    /** Shape $ (Value): string.  Value enum: "applied", "waived". */
-    "status": "applied" | "waived" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "deduction", "credit". */
-    "value_effect": "deduction" | "credit" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "waived_at"?: string;
-    /**
-     * Shape $ (Value): {@link ReturnActor}. Who performed a return action: a buyer, merchant,
-     * integration, or the system, with an optional ID.
-     */
-    "waived_by"?: ReturnActor;
-    /**
-     * Shape $ (Value): string. Value enum: "policy_override", "merchant_review",
-     * "customer_service", "other".
-     */
-    "waiver_reason"?: "policy_override" | "merchant_review" | "customer_service" | "other" | (string & {});
-    /** Shape $ (Value): string. */
-    "waiver_reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return
- * resolution, with the assessed and applied amounts and whether it is applied or waived.
- */
-export type ReturnResolutionAdjustmentRequest = {
-    /**
-     * Shape $ (Value): string. Value enum: "return_shipping_fee", "restocking_fee", "other_fee",
-     * "goodwill_credit", "price_correction", "other".
-     */
-    "adjustment_type": "return_shipping_fee"
-        | "restocking_fee"
-        | "other_fee"
-        | "goodwill_credit"
-        | "price_correction"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "applied_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "assessed_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Value enum: "return_policy", "inspection_result",
-     * "return_shipping_cost", "customer_service", "manual_correction", "other".
-     */
-    "reason": "return_policy"
-        | "inspection_result"
-        | "return_shipping_cost"
-        | "customer_service"
-        | "manual_correction"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "applied", "waived". */
-    "status"?: "applied" | "waived" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "deduction", "credit". */
-    "value_effect": "deduction" | "credit" | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "policy_override", "merchant_review",
-     * "customer_service", "other".
-     */
-    "waiver_reason"?: "policy_override" | "merchant_review" | "customer_service" | "other" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "waiver_reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a
- * return resolution, with the assessed and applied amounts and whether it is applied or waived.
- */
-export type ReturnResolutionAdjustmentRequestInput = {
-    /**
-     * Shape $ (Value): string. Value enum: "return_shipping_fee", "restocking_fee", "other_fee",
-     * "goodwill_credit", "price_correction", "other".
-     */
-    "adjustment_type": "return_shipping_fee"
-        | "restocking_fee"
-        | "other_fee"
-        | "goodwill_credit"
-        | "price_correction"
-        | "other";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "applied_amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "assessed_amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Value enum: "return_policy", "inspection_result",
-     * "return_shipping_cost", "customer_service", "manual_correction", "other".
-     */
-    "reason": "return_policy"
-        | "inspection_result"
-        | "return_shipping_cost"
-        | "customer_service"
-        | "manual_correction"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "applied", "waived". */
-    "status"?: "applied" | "waived";
-    /** Shape $ (Value): string.  Value enum: "deduction", "credit". */
-    "value_effect": "deduction" | "credit";
-    /**
-     * Shape $ (Value): string. Value enum: "policy_override", "merchant_review",
-     * "customer_service", "other".
-     */
-    "waiver_reason"?: "policy_override" | "merchant_review" | "customer_service" | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "waiver_reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link ReturnResolutionExecutionBlocker}. Work that must complete before a
- * Return resolution can finish.
- */
-export type ReturnResolutionExecutionBlocker = {
-    /**
-     * Shape $ (Value): string. handoff_pending: The buyer has not handed off the required
-     * merchandise. receipt_pending: Required merchandise has not been received.
-     * inspection_pending: Required inspection is incomplete. manual_release_pending: The merchant
-     * must release the resolution. buyer_payment_pending: The buyer's balance has not been
-     * collected. refund_pending: A linked Refund has not succeeded. replacement_order_pending: The
-     * replacement Order has not been created. fulfillment_pending: The replacement Order, in
-     * linked_resource, has units not yet fulfilled. Value enum: "handoff_pending",
-     * "receipt_pending", "inspection_pending", "manual_release_pending", "buyer_payment_pending",
-     * "refund_pending", "replacement_order_pending", "fulfillment_pending".
-     */
-    "code": "handoff_pending"
-        | "receipt_pending"
-        | "inspection_pending"
-        | "manual_release_pending"
-        | "buyer_payment_pending"
-        | "refund_pending"
-        | "replacement_order_pending"
-        | "fulfillment_pending"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link ResourceReference}. A reference to another resource by
-     * `resource_type` and `resource_id`.
-     */
-    "linked_resource"?: ResourceReference;
-    /** Shape $ (Value): string. */
-    "return_line_item_id"?: string;
-};
-/**
- * Shape $ (Value): {@link ReturnResolutionLineItem}. A return line included in a resolution, with
- * its quantity and returned total.
- */
-export type ReturnResolutionLineItem = {
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): string. Release gate for every resolution type, including exchanges and
-     * replacements. Released after the Return is approved. Released after the buyer hands back the
-     * required merchandise. Released after the required merchandise is received. Released after
-     * the required merchandise passes inspection. Held until a merchant calls POST
-     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
-     * "after_receipt", "after_inspection", "manual".
-     */
-    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
-    /** Shape $ (Value): string. */
-    "return_line_item_id": string;
-    /** Shape $ (Value): string. */
-    "return_resolution_id": string;
-    /** Shape $ (Value): string. */
-    "return_resolution_line_item_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "returned_total_money": MoneyValue;
-};
-/**
- * Shape $ (Value): {@link ReturnResolutionLineItemRequest}. A return line and quantity to include
- * in a return resolution.
- */
-export type ReturnResolutionLineItemRequest = {
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id": string;
 };

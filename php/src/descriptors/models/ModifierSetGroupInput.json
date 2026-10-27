@@ -1,1 +1,1 @@
-{"shared":"ModifierSetGroup","dependencies":["Modifier","ModifierGroup","ModifierOverride","ModifierSetGroup","MoneyValue","SharedCodec160","SharedCodec958","SharedCodec959","SharedCodec960","TextModifierConfig"]}
+{"shared":"ModifierSetGroup","dependencies":["Modifier","ModifierGroup","ModifierOverride","ModifierSetGroup","MoneyValue","SharedCodec165","SharedCodec963","SharedCodec964","SharedCodec965","TextModifierConfig"]}

@@ -12,7 +12,7 @@ Signature:
 
 ```typescript
 create(params: (InputValue<CreateDemoSessionRequestInput>) & {
-  "X-Turnstile-Token"?: InputValue<string>;
+  "Flint-Challenge-Token": InputValue<string>;
   "Idempotency-Key"?: InputValue<string>
 },
  options?: RequestOptions<never>)
@@ -22,7 +22,7 @@ create(params: (InputValue<CreateDemoSessionRequestInput>) & {
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `X-Turnstile-Token` | Optional | string |  |
+| `Flint-Challenge-Token` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateDemoSessionRequestInput](../models/CreateDemoSessionRequest.md#createdemosessionrequest) | The request body for: Create demo session. |
 
@@ -70,7 +70,7 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.demoSessions.create({}, { idempotencyKey: idempotencyKey });
+const result = await client.demoSessions.create({"Flint-Challenge-Token": "example"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/demoSessions-create.mjs)
@@ -85,7 +85,7 @@ Signature:
 
 ```typescript
 reset(params: (InputValue<ResetDemoSessionRequestInput>) & {
-  "X-Turnstile-Token"?: InputValue<string>;
+  "Flint-Challenge-Token": InputValue<string>;
   "Idempotency-Key"?: InputValue<string>
 },
  options?: RequestOptions<never>)
@@ -95,7 +95,7 @@ reset(params: (InputValue<ResetDemoSessionRequestInput>) & {
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `X-Turnstile-Token` | Optional | string |  |
+| `Flint-Challenge-Token` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [ResetDemoSessionRequestInput](../models/ResetDemoSessionRequest.md#resetdemosessionrequest) | The request body for: Reset demo session. |
 
@@ -141,7 +141,7 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.demoSessions.reset({demo_session_id: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.demoSessions.reset({demo_session_id: "example", "Flint-Challenge-Token": "example"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/demoSessions-reset.mjs)

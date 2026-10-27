@@ -26,7 +26,7 @@ Request input.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [134 declared values](#apirequestloginput-resource_type-values). |
+| `resource_type` | Optional | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](#apirequestloginput-resource_type-values). |
 | `retry` | Optional | string | How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Required | string |  |
 | `served_api_version` | Optional | string |  |
@@ -63,6 +63,7 @@ Request input.
 - `"customer"`
 - `"customer_address"`
 - `"customer_deletion_request"`
+- `"customer_email_preferences"`
 - `"customer_session"`
 - `"customer_verification"`
 - `"delivery_location_set"`

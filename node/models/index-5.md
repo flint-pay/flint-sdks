@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CreateGiftCardRedemptionRequestAutomatic – CreateRefundRequestTargets
+# CreateGiftCardRedemptionRequest – CreateRefundRequestFull
 
+- [CreateGiftCardRedemptionRequest](CreateGiftCardRedemptionRequest.md)
+- [CreateGiftCardRedemptionRequestInput](CreateGiftCardRedemptionRequestInput.md)
 - [CreateGiftCardRedemptionRequestAutomatic](CreateGiftCardRedemptionRequestAutomatic.md)
 - [CreateGiftCardRedemptionRequestAutomaticInput](CreateGiftCardRedemptionRequestAutomaticInput.md)
 - [CreateGiftCardRedemptionRequestManual](CreateGiftCardRedemptionRequestManual.md)
@@ -100,6 +102,4 @@
 - [CreateRefundRequestAmount](CreateRefundRequestAmount.md)
 - [CreateRefundRequestAmountInput](CreateRefundRequestAmountInput.md)
 - [CreateRefundRequestFull](CreateRefundRequestFull.md)
-- [CreateRefundRequestFullInput](CreateRefundRequestFullInput.md)
-- [CreateRefundRequestTargets](CreateRefundRequestTargets.md)
 

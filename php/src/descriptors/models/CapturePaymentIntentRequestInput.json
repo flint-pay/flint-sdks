@@ -1,1 +1,1 @@
-{"shared":"CreditNoteIssueAllocationRequest","dependencies":["CreditNoteIssueAllocationRequest","MoneyValue"]}
+{"shared":"CapturePaymentIntentRequest","dependencies":["CapturePaymentIntentRequest","MoneyValue"]}

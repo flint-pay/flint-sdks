@@ -8,8 +8,8 @@ import type {
     FulfillmentNotificationsListInput
 } from '../declarations/types-17.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -22,7 +22,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     FulfillmentNotification,
@@ -31,7 +31,7 @@ export type {
     FulfillmentNotificationsGetInput,
     FulfillmentNotificationsListInput
 } from '../declarations/types-17.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse, SettlementAmounts } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -39,7 +39,6 @@ export type { ExpandedOrderSummary } from '../declarations/types-16.js';
 export type { CheckoutBuyerContact } from '../declarations/types-3.js';
 export type { PricingAmounts } from '../declarations/types-37.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export type { SettlementAmounts } from '../declarations/types-44.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface FulfillmentNotificationsResource {
     /**
@@ -51,13 +50,13 @@ export interface FulfillmentNotificationsResource {
  */
     get(fulfillment_notification_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FulfillmentNotification>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<FulfillmentNotification>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/fulfillmentNotifications.md#fulfillmentnotificationsget
      */
     getWithResponse(fulfillment_notification_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FulfillmentNotificationResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<FulfillmentNotificationResponse>>;
     /**
  * Returns persisted fulfillment notification audit records. Results default to newest created
  * first.
@@ -89,7 +88,7 @@ export interface FulfillmentNotificationsResource {
             | "shipment_returned"
             | "shipment_shipped">>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FulfillmentNotificationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<FulfillmentNotificationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
      */
@@ -116,7 +115,7 @@ export interface FulfillmentNotificationsResource {
             | "shipment_returned"
             | "shipment_shipped">>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FulfillmentNotificationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<FulfillmentNotificationListResponse>>;
     /** Iterate pages lazily.
      * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
      */
@@ -143,7 +142,7 @@ export interface FulfillmentNotificationsResource {
             | "shipment_returned"
             | "shipment_shipped">>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FulfillmentNotificationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<FulfillmentNotificationListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
      */
@@ -170,7 +169,7 @@ export interface FulfillmentNotificationsResource {
             | "shipment_returned"
             | "shipment_shipped">>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<FulfillmentNotificationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<FulfillmentNotificationListResponse>>;
     /** Iterate items lazily.
      * @see reference/fulfillmentNotifications.md#fulfillmentnotificationslist
      */
@@ -197,7 +196,7 @@ export interface FulfillmentNotificationsResource {
             | "shipment_returned"
             | "shipment_shipped">>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FulfillmentNotification>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<FulfillmentNotification>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

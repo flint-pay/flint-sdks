@@ -1,9 +1,4 @@
-import type {
-    InventoryAdjustmentSetLineRequest,
-    InventoryAdjustmentSetLineRequestInput,
-    InventoryAllocationConfigurationValue,
-    InventoryAllocationConfigurationValueInput
-} from './types-24.js';
+import type { InventoryAdjustmentConditionChangeLineRequest } from './types-23.js';
 import type {
     InventorySourceSystemRequest,
     InventorySourceSystemRequestInput,
@@ -15,23 +10,26 @@ import type {
     InventoryReservationOwnerRequestInput,
     InventoryRoutingDemandInput,
     InventoryRoutingSourceRequestInput,
-    InventoryTransferLineRequest,
-    InventoryTransferLineRequestInput,
     InventoryRoutingSource
 } from './types-25.js';
-import type { InventoryAdjustmentQuantityLineRequest, InventoryAdjustmentQuantityLineRequestInput } from './types-23.js';
 import type {
-    CreateInventoryAdjustmentConditionChangeRequest,
-    CreateInventoryAdjustmentConditionChangeRequestInput,
-    CreateInlineModifierGroupRequestInput
-} from './types-6.js';
-import type { MoneyValue, MoneyValueInput, ModifierOverride, ModifierOverrideInput } from './types-31.js';
+    InventoryAdjustmentConditionChangeLineRequestInput,
+    InventoryAdjustmentSetLineRequest,
+    InventoryAdjustmentSetLineRequestInput,
+    InventoryAdjustmentQuantityLineRequest,
+    InventoryAdjustmentQuantityLineRequestInput,
+    InventoryAllocationConfigurationValue,
+    InventoryAllocationConfigurationValueInput
+} from './types-24.js';
 import type {
+    InventoryTransferLineRequest,
+    InventoryTransferLineRequestInput,
     InvoiceLateFeePolicy,
     InvoiceLateFeePolicyInput,
     InvoiceCollectionRequest,
     InvoiceCollectionRequestInput
 } from './types-26.js';
+import type { MoneyValue, MoneyValueInput, ModifierOverride, ModifierOverrideInput } from './types-31.js';
 import type {
     InvoicePaymentTermCalculation,
     InvoicePaymentTermCalculationInput,
@@ -72,18 +70,80 @@ import type {
 } from './types-29.js';
 import type { SubscriptionDeliveryDestinationRequest, SubscriptionDeliveryDestinationRequestInput } from './types-45.js';
 import type { TextModifierConfigRequest } from './types-47.js';
+import type { CreateInlineModifierGroupRequestInput } from './types-6.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-38.js';
 import type { Dimensions, DimensionsInput } from './types-16.js';
-import type {
-    GiftCardPurchaseRequest,
-    ImageReferenceRequest,
-    GiftCardPurchaseDetailsRequestInput,
-    ImageReferenceRequestInput
-} from './types-19.js';
+import type { GiftCardPurchaseRequest, GiftCardPurchaseDetailsRequestInput } from './types-19.js';
+import type { ImageReferenceRequest, ImageReferenceRequestInput } from './types-20.js';
 import type { SubscribedLineRequest, SubscribedLineRequestInput } from './types-44.js';
 import type { Weight, WeightInput } from './types-61.js';
-import type { PartnerAppPermissionManifestEntry } from './types-34.js';
-import type { PartnerAppPermissionManifestEntryInput } from './types-35.js';
+import type { PartnerAppPermissionManifestEntry, PartnerAppPermissionManifestEntryInput } from './types-35.js';
+/**
+ * Shape $ (Value): {@link CreateInventoryAdjustmentConditionChangeRequest}. The
+ * `condition_changed` variant of `CreateInventoryAdjustmentRequest`.
+ */
+export type CreateInventoryAdjustmentConditionChangeRequest = ({
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. minLength: 1. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link InventoryAdjustmentConditionChangeLineRequest}. minItems:
+     * 1. maxItems: 100. Shape $[] (Value): {@link InventoryAdjustmentConditionChangeLineRequest}.
+     * One line of an inventory condition change: moves a `quantity` of an item at a Location from
+     * one condition to another.
+     */
+    "lines": Array<InventoryAdjustmentConditionChangeLineRequest>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "note"?: string;
+    /**
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
+     * when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
+     */
+    "occurred_at"?: string;
+    /** Shape $ (Value): string.  Value enum: "condition_changed". */
+    "reason": "condition_changed" | (string & {});
+    /**
+     * Shape $ (Value): {@link InventorySourceSystemRequest}. The source system you report for an
+     * inventory event, such as manual, pos, wms, erp, or other, with your identifier when it
+     * applies.
+     */
+    "source_system"?: InventorySourceSystemRequest;
+});
+/**
+ * Shape $ (Value): {@link CreateInventoryAdjustmentConditionChangeRequestInput}. The
+ * `condition_changed` variant of `CreateInventoryAdjustmentRequest`.
+ */
+export type CreateInventoryAdjustmentConditionChangeRequestInput = ({
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. minLength: 1. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link InventoryAdjustmentConditionChangeLineRequestInput}.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link
+     * InventoryAdjustmentConditionChangeLineRequestInput}. One line of an inventory condition
+     * change: moves a `quantity` of an item at a Location from one condition to another.
+     */
+    "lines": Array<InventoryAdjustmentConditionChangeLineRequestInput>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "note"?: string;
+    /**
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
+     * when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /** Shape $ (Value): string.  Value enum: "condition_changed". */
+    "reason": "condition_changed";
+    /**
+     * Shape $ (Value): {@link InventorySourceSystemRequestInput}. The source system you report for
+     * an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it
+     * applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+});
 /**
  * Shape $ (Value): {@link CreateInventoryAdjustmentCorrectionRequest}. The `correction` variant of
  * `CreateInventoryAdjustmentRequest`.
@@ -677,9 +737,8 @@ export type CreateInventoryTransferRequestInput = {
  */
 export type CreateInvoiceIssueRequest = {
     /**
-     * Shape $ (Value): string. merchant_default uses the merchant invoice delivery setting; email
-     * sends the invoice to its recipient; caller_managed returns the buyer-access link for you to
-     * deliver. Default: "merchant_default". Value enum: "merchant_default", "email",
+     * Shape $ (Value): string. How the invoice reaches its recipient. Omit it to use
+     * merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email",
      * "caller_managed".
      */
     "delivery_mode"?: "merchant_default" | "email" | "caller_managed" | (string & {});
@@ -690,9 +749,8 @@ export type CreateInvoiceIssueRequest = {
  */
 export type CreateInvoiceIssueRequestInput = {
     /**
-     * Shape $ (Value): string. merchant_default uses the merchant invoice delivery setting; email
-     * sends the invoice to its recipient; caller_managed returns the buyer-access link for you to
-     * deliver. Default: "merchant_default". Value enum: "merchant_default", "email",
+     * Shape $ (Value): string. How the invoice reaches its recipient. Omit it to use
+     * merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email",
      * "caller_managed".
      */
     "delivery_mode"?: "merchant_default" | "email" | "caller_managed";
@@ -804,22 +862,33 @@ export type CreateInvoicePaymentTermRequestInput = {
  * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
  */
 export type CreateInvoiceQuickPayRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. A note to the buyer on the backing order, captured in
+     * snapshot.buyer_note. minLength: 1.
+     */
     "buyer_note"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The customer to bill. The invoice shows their name and billing
+     * details, and GET /v1/invoices?customer_id= finds it. minLength: 1.
+     */
     "customer_id"?: string;
     /**
-     * Shape $ (Value): {@link OrderDeliveryDestinationRequest}. The delivery destination you set
-     * when creating or updating an order, with an address and an optional recipient.
+     * Shape $ (Value): {@link OrderDeliveryDestinationRequest}. Where the backing order's items
+     * are shipped or delivered, the same as order creation accepts. The delivery destination you
+     * set when creating or updating an order, with an address and an optional recipient.
      */
     "delivery_destination"?: OrderDeliveryDestinationRequest;
     /**
-     * Shape $ (Value): Array of {@link CreateOrderDiscount}. Shape $[] (Value): {@link
-     * CreateOrderDiscount}. A discount to apply when creating an order: either a manual discount
-     * or a reference to a promotion.
+     * Shape $ (Value): Array of {@link CreateOrderDiscount}. Discounts to apply to the backing
+     * order, in the shape order creation accepts. Shape $[] (Value): {@link CreateOrderDiscount}.
+     * A discount to apply when creating an order: either a manual discount or a reference to a
+     * promotion.
      */
     "discounts"?: Array<CreateOrderDiscount>;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. A note for your team on the backing order. Buyer reads leave it
+     * out. minLength: 1.
+     */
     "internal_note"?: string;
     /**
      * Shape $ (Value): {@link InventoryRoutingSource}. Where this invoice backing order's tracked
@@ -829,19 +898,24 @@ export type CreateInvoiceQuickPayRequest = {
      */
     "inventory_routing_source"?: InventoryRoutingSource;
     /**
-     * Shape $ (Value): Array of {@link CreateOrderLineItem}. minItems: 1. Shape $[] (Value):
-     * {@link CreateOrderLineItem}. A line item to add to an order: a catalog variant, a bundle, or
-     * a custom item with a name and unit price.
+     * Shape $ (Value): Array of {@link CreateOrderLineItem}. The items to bill, at least one, in
+     * the shape order creation accepts. A custom line without variant_id or bundle_id must set
+     * fulfillment.requirement. minItems: 1. Shape $[] (Value): {@link CreateOrderLineItem}. A line
+     * item to add to an order: a catalog variant, a bundle, or a custom item with a name and unit
+     * price.
      */
     "line_items": Array<CreateOrderLineItem>;
     /**
-     * Shape $ (Value): {@link CreateOrderTip}. Requested tip expressed as either a flat amount or
-     * a percentage. Send exactly one of amount_money or percent.
+     * Shape $ (Value): {@link CreateOrderTip}. A tip to request from the buyer on the backing
+     * order. Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+     * amount_money or percent.
      */
     "requested_tip"?: CreateOrderTip;
     /**
-     * Shape $ (Value): {@link OrderTaxRequest}. Tax settings you supply when creating an order:
-     * whether tax is enabled, how it is calculated, and the tax location.
+     * Shape $ (Value): {@link OrderTaxRequest}. Tax inputs for the backing order, the same as
+     * order creation accepts. Validation errors name fields under quick_pay.tax. Tax settings you
+     * supply when creating an order: whether tax is enabled, how it is calculated, and the tax
+     * location.
      */
     "tax"?: OrderTaxRequest;
 };
@@ -850,22 +924,33 @@ export type CreateInvoiceQuickPayRequest = {
  * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
  */
 export type CreateInvoiceQuickPayRequestInput = {
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. A note to the buyer on the backing order, captured in
+     * snapshot.buyer_note. minLength: 1.
+     */
     "buyer_note"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The customer to bill. The invoice shows their name and billing
+     * details, and GET /v1/invoices?customer_id= finds it. minLength: 1.
+     */
     "customer_id"?: string;
     /**
-     * Shape $ (Value): {@link OrderDeliveryDestinationRequestInput}. The delivery destination you
-     * set when creating or updating an order, with an address and an optional recipient.
+     * Shape $ (Value): {@link OrderDeliveryDestinationRequestInput}. Where the backing order's
+     * items are shipped or delivered, the same as order creation accepts. The delivery destination
+     * you set when creating or updating an order, with an address and an optional recipient.
      */
     "delivery_destination"?: OrderDeliveryDestinationRequestInput;
     /**
-     * Shape $ (Value): Array of {@link CreateOrderDiscountInput}. Shape $[] (Value): {@link
+     * Shape $ (Value): Array of {@link CreateOrderDiscountInput}. Discounts to apply to the
+     * backing order, in the shape order creation accepts. Shape $[] (Value): {@link
      * CreateOrderDiscountInput}. A discount to apply when creating an order: either a manual
      * discount or a reference to a promotion.
      */
     "discounts"?: Array<CreateOrderDiscountInput>;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. A note for your team on the backing order. Buyer reads leave it
+     * out. minLength: 1.
+     */
     "internal_note"?: string;
     /**
      * Shape $ (Value): {@link OrderInventoryRoutingSourceRequestInput}. Where this invoice backing
@@ -875,38 +960,51 @@ export type CreateInvoiceQuickPayRequestInput = {
      */
     "inventory_routing_source"?: OrderInventoryRoutingSourceRequestInput;
     /**
-     * Shape $ (Value): Array of {@link CreateOrderLineItemRequestInput}. minItems: 1. Shape $[]
-     * (Value): {@link CreateOrderLineItemRequestInput}. A line item to add to an order: a catalog
-     * variant, a bundle, or a custom item with a name and unit price.
+     * Shape $ (Value): Array of {@link CreateOrderLineItemRequestInput}. The items to bill, at
+     * least one, in the shape order creation accepts. A custom line without variant_id or
+     * bundle_id must set fulfillment.requirement. minItems: 1. Shape $[] (Value): {@link
+     * CreateOrderLineItemRequestInput}. A line item to add to an order: a catalog variant, a
+     * bundle, or a custom item with a name and unit price.
      */
     "line_items": Array<CreateOrderLineItemRequestInput>;
     /**
-     * Shape $ (Value): {@link CreateOrderTipInput}. Requested tip expressed as either a flat
-     * amount or a percentage. Send exactly one of amount_money or percent.
+     * Shape $ (Value): {@link CreateOrderTipInput}. A tip to request from the buyer on the backing
+     * order. Requested tip expressed as either a flat amount or a percentage. Send exactly one of
+     * amount_money or percent.
      */
     "requested_tip"?: CreateOrderTipInput;
     /**
-     * Shape $ (Value): {@link OrderTaxRequestInput}. Tax settings you supply when creating an
-     * order: whether tax is enabled, how it is calculated, and the tax location.
+     * Shape $ (Value): {@link OrderTaxRequestInput}. Tax inputs for the backing order, the same as
+     * order creation accepts. Validation errors name fields under quick_pay.tax. Tax settings you
+     * supply when creating an order: whether tax is enabled, how it is calculated, and the tax
+     * location.
      */
     "tax"?: OrderTaxRequestInput;
 };
 /** Shape $ (Value): {@link CreateInvoiceRequest}. The request body for: Create invoice. */
 export type CreateInvoiceRequest = ({
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): Array of string. Additional addresses copied on the invoice email and every
+     * reminder. Shape $[] (Value): string. minLength: 1.
+     */
     "cc_emails"?: Array<string>;
     /**
-     * Shape $ (Value): {@link InvoiceCollectionRequest}. How an invoice is collected, used when
-     * creating or updating an invoice: a `mode`, an optional saved payment method, and a payment
-     * policy.
+     * Shape $ (Value): {@link InvoiceCollectionRequest}. How the invoice is collected. Omit it to
+     * use merchant_default. The invoice's collection object returns the resolved mode, and you can
+     * send it back unchanged on update. How an invoice is collected, used when creating or
+     * updating an invoice: a `mode`, an optional saved payment method, and a payment policy.
      */
     "collection"?: InvoiceCollectionRequest;
     /**
      * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
+     * Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it
+     * by exact match. minLength: 1. maxLength: 255.
      */
     "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Fine print at the bottom of the invoice and PDF. Omit it to use the
+     * invoice settings default_footer. minLength: 1.
+     */
     "footer"?: string;
     /**
      * Shape $ (Value): {@link CreateInvoiceIssueRequest}. Issue the invoice immediately after
@@ -915,7 +1013,10 @@ export type CreateInvoiceRequest = ({
      * `delivery_mode` chooses how the invoice reaches its recipient.
      */
     "issue"?: CreateInvoiceIssueRequest;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Message to the customer, printed on the invoice and PDF. Omit it to
+     * use the invoice settings default_memo. minLength: 1.
+     */
     "memo"?: string;
     /**
      * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
@@ -923,30 +1024,46 @@ export type CreateInvoiceRequest = ({
      * the public API. Shape $.* (Value): string. minLength: 1.
      */
     "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The open order to bill. It must have no payments, refunds, or other
+     * active invoice. Send exactly one of order_id or quick_pay. minLength: 1.
+     */
     "order_id"?: string;
     /**
-     * Shape $ (Value): {@link InvoicePaymentDueRequest}. When an invoice is due, used when
-     * creating or updating an invoice: no due date, a fixed time, payment terms, or a default.
-     * Default: {"type":"merchant_default"}. When an invoice is due, used when creating or updating
-     * an invoice: no due date, a fixed time, payment terms, or a default.
+     * Shape $ (Value): {@link InvoicePaymentDueRequest}. When the invoice is due. Omit it to use
+     * merchant_default. The invoice's payment_due object returns the resolved type, and you can
+     * send it back unchanged on update. Default: {"type":"merchant_default"}. When an invoice is
+     * due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or
+     * a default.
      */
     "payment_due"?: InvoicePaymentDueRequest;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The buyer's purchase order number, printed on the invoice and PDF.
+     * minLength: 1.
+     */
     "po_number"?: string;
     /**
-     * Shape $ (Value): {@link CreateInvoiceQuickPayRequest}. Inline order details for creating an
-     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
+     * Shape $ (Value): {@link CreateInvoiceQuickPayRequest}. Order details for an invoice with no
+     * existing order. Flint creates the backing order from them. Send exactly one of order_id or
+     * quick_pay. Inline order details for creating an invoice as `quick_pay`: line items,
+     * discounts, notes, customer, tip, and inventory routing.
      */
     "quick_pay"?: CreateInvoiceQuickPayRequest;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Where Flint emails the invoice and its reminders. Required at issue
+     * when delivery resolves to email, and when you schedule the issue. minLength: 1.
+     */
     "recipient_email"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Your reference for the invoice, printed on the invoice and PDF. Put
+     * the buyer's purchase order number in po_number instead. minLength: 1.
+     */
     "reference"?: string;
     /**
-     * Shape $ (Value): {@link AddressRequest}. A postal address you supply when creating or
-     * updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to
-     * clear it.
+     * Shape $ (Value): {@link AddressRequest}. Where the buyer sends offline payments, printed on
+     * the invoice. Omit it to use the invoice settings remit-to address. A postal address you
+     * supply when creating or updating a customer, invoice, fulfillment, or delivery selection.
+     * Send null for `line2` to clear it.
      */
     "remit_to_address"?: AddressRequest;
     /**
@@ -961,41 +1078,60 @@ export type CreateInvoiceRequest = ({
      */
     "schedule_entries"?: Array<InvoiceScheduleEntryWrite>;
     /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
+     * Shape $ (Value): string or null. When Flint issues and delivers this draft, as an RFC 3339
+     * timestamp in the future. A scheduled issue delivers by email, so the draft needs
+     * recipient_email. Cannot be combined with issue. null is the same as omitting it. Format:
      * date-time. minLength: 1.
      */
     "scheduled_issue_at"?: string | null;
-    /** Shape $ (Value): string. Calendar date in YYYY-MM-DD format. Format: date. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The
+     * invoice and PDF print it as written, without timezone conversion. Format: date. minLength:
+     * 1.
+     */
     "service_date"?: string;
 })
     & ((({
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The open order to bill. It must have no payments, refunds, or other
+     * active invoice. Send exactly one of order_id or quick_pay. minLength: 1.
+     */
     "order_id": string;
 }))
     | (({
     /**
-     * Shape $ (Value): {@link CreateInvoiceQuickPayRequest}. Inline order details for creating an
-     * invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing.
+     * Shape $ (Value): {@link CreateInvoiceQuickPayRequest}. Order details for an invoice with no
+     * existing order. Flint creates the backing order from them. Send exactly one of order_id or
+     * quick_pay. Inline order details for creating an invoice as `quick_pay`: line items,
+     * discounts, notes, customer, tip, and inventory routing.
      */
     "quick_pay": CreateInvoiceQuickPayRequest;
 }))
     | (Record<string, unknown>));
 /** Shape $ (Value): {@link CreateInvoiceRequestInput}. The request body for: Create invoice. */
 export type CreateInvoiceRequestInput = ({
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): Array of string. Additional addresses copied on the invoice email and every
+     * reminder. Shape $[] (Value): string. minLength: 1.
+     */
     "cc_emails"?: Array<string>;
     /**
-     * Shape $ (Value): {@link InvoiceCollectionRequestInput}. How an invoice is collected, used
-     * when creating or updating an invoice: a `mode`, an optional saved payment method, and a
-     * payment policy.
+     * Shape $ (Value): {@link InvoiceCollectionRequestInput}. How the invoice is collected. Omit
+     * it to use merchant_default. The invoice's collection object returns the resolved mode, and
+     * you can send it back unchanged on update. How an invoice is collected, used when creating or
+     * updating an invoice: a `mode`, an optional saved payment method, and a payment policy.
      */
     "collection"?: InvoiceCollectionRequestInput;
     /**
      * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
+     * Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it
+     * by exact match. minLength: 1. maxLength: 255.
      */
     "external_reference_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Fine print at the bottom of the invoice and PDF. Omit it to use the
+     * invoice settings default_footer. minLength: 1.
+     */
     "footer"?: string;
     /**
      * Shape $ (Value): {@link CreateInvoiceIssueRequestInput}. Issue the invoice immediately after
@@ -1004,7 +1140,10 @@ export type CreateInvoiceRequestInput = ({
      * `delivery_mode` chooses how the invoice reaches its recipient.
      */
     "issue"?: CreateInvoiceIssueRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Message to the customer, printed on the invoice and PDF. Omit it to
+     * use the invoice settings default_memo. minLength: 1.
+     */
     "memo"?: string;
     /**
      * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
@@ -1012,31 +1151,46 @@ export type CreateInvoiceRequestInput = ({
      * the public API. Shape $.* (Value): string. minLength: 1.
      */
     "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The open order to bill. It must have no payments, refunds, or other
+     * active invoice. Send exactly one of order_id or quick_pay. minLength: 1.
+     */
     "order_id"?: string;
     /**
-     * Shape $ (Value): {@link InvoicePaymentDueRequestInput}. When an invoice is due, used when
-     * creating or updating an invoice: no due date, a fixed time, payment terms, or a default.
-     * Default: {"type":"merchant_default"}. When an invoice is due, used when creating or updating
-     * an invoice: no due date, a fixed time, payment terms, or a default.
+     * Shape $ (Value): {@link InvoicePaymentDueRequestInput}. When the invoice is due. Omit it to
+     * use merchant_default. The invoice's payment_due object returns the resolved type, and you
+     * can send it back unchanged on update. Default: {"type":"merchant_default"}. When an invoice
+     * is due, used when creating or updating an invoice: no due date, a fixed time, payment terms,
+     * or a default.
      */
     "payment_due"?: InvoicePaymentDueRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The buyer's purchase order number, printed on the invoice and PDF.
+     * minLength: 1.
+     */
     "po_number"?: string;
     /**
-     * Shape $ (Value): {@link CreateInvoiceQuickPayRequestInput}. Inline order details for
-     * creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and
-     * inventory routing.
+     * Shape $ (Value): {@link CreateInvoiceQuickPayRequestInput}. Order details for an invoice
+     * with no existing order. Flint creates the backing order from them. Send exactly one of
+     * order_id or quick_pay. Inline order details for creating an invoice as `quick_pay`: line
+     * items, discounts, notes, customer, tip, and inventory routing.
      */
     "quick_pay"?: CreateInvoiceQuickPayRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Where Flint emails the invoice and its reminders. Required at issue
+     * when delivery resolves to email, and when you schedule the issue. minLength: 1.
+     */
     "recipient_email"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Your reference for the invoice, printed on the invoice and PDF. Put
+     * the buyer's purchase order number in po_number instead. minLength: 1.
+     */
     "reference"?: string;
     /**
-     * Shape $ (Value): {@link AddressRequestInput}. A postal address you supply when creating or
-     * updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to
-     * clear it.
+     * Shape $ (Value): {@link AddressRequestInput}. Where the buyer sends offline payments,
+     * printed on the invoice. Omit it to use the invoice settings remit-to address. A postal
+     * address you supply when creating or updating a customer, invoice, fulfillment, or delivery
+     * selection. Send null for `line2` to clear it.
      */
     "remit_to_address"?: AddressRequestInput;
     /**
@@ -1051,15 +1205,24 @@ export type CreateInvoiceRequestInput = ({
      */
     "schedule_entries"?: Array<InvoiceScheduleEntryWriteInput>;
     /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
+     * Shape $ (Value): string or null. When Flint issues and delivers this draft, as an RFC 3339
+     * timestamp in the future. A scheduled issue delivers by email, so the draft needs
+     * recipient_email. Cannot be combined with issue. null is the same as omitting it. Format:
      * date-time. minLength: 1.
      */
     "scheduled_issue_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string. Calendar date in YYYY-MM-DD format. Format: date. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The calendar date of the billed service, in YYYY-MM-DD format. The
+     * invoice and PDF print it as written, without timezone conversion. Format: date. minLength:
+     * 1.
+     */
     "service_date"?: string;
 })
     & ((({
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The open order to bill. It must have no payments, refunds, or other
+     * active invoice. Send exactly one of order_id or quick_pay. minLength: 1.
+     */
     "order_id": string;
 })
     & (({
@@ -1067,9 +1230,10 @@ export type CreateInvoiceRequestInput = ({
 })))
     | (({
     /**
-     * Shape $ (Value): {@link CreateInvoiceQuickPayRequestInput}. Inline order details for
-     * creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and
-     * inventory routing.
+     * Shape $ (Value): {@link CreateInvoiceQuickPayRequestInput}. Order details for an invoice
+     * with no existing order. Flint creates the backing order from them. Send exactly one of
+     * order_id or quick_pay. Inline order details for creating an invoice as `quick_pay`: line
+     * items, discounts, notes, customer, tip, and inventory routing.
      */
     "quick_pay": CreateInvoiceQuickPayRequestInput;
 })
@@ -2718,8 +2882,11 @@ export type CreateOrganizationRequest = {
     "metadata"?: Record<string, string>;
     /** Shape $ (Value): string. minLength: 1. */
     "name": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "parent_organization_id"?: string;
+    /**
+     * Shape $ (Value): string. The organization to create this one under. It must be an active
+     * organization you can manage. minLength: 1.
+     */
+    "parent_organization_id": string;
 };
 /**
  * Shape $ (Value): {@link CreateOrganizationRequestInput}. The request body for: Create
@@ -2799,125 +2966,3 @@ export type CreatePartnerAppRequestInput = {
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
     "redirect_uris": Array<string>;
 };
-/**
- * Shape $ (Value): {@link CreatePaymentIntentRequest}. The request body for: Create standalone
- * payment intent.
- */
-export type CreatePaymentIntentRequest = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Amount to request from the buyer, including any
-     * tip_money. With capture_method manual, this is the hold amount, and you can capture less of
-     * it later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. automatic collects the payment when it is confirmed. manual places
-     * a hold at confirmation that you capture or cancel later. Defaults to automatic. Default:
-     * "automatic". Value enum: "automatic", "manual".
-     */
-    "capture_method"?: "automatic" | "manual" | (string & {});
-    /** Shape $ (Value): string. Customer to link to this payment intent. minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): Array of string. Payment options the buyer can use. Name at least one.
-     * minItems: 1. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[]
-     * (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm. Required when payment_options includes affirm. It can't
-     * contain credentials, a query string, or a fragment. Test mode also accepts http loopback
-     * URLs. minLength: 1. pattern: \S.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Shape $ (Value): string. Email address for this payment's receipt. When omitted, Flint uses
-     * the customer's email. Format: email. minLength: 1. maxLength: 255.
-     */
-    "receipt_email"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Portion of amount_money that is a tip. Uses
-     * amount_money's currency and is at most amount_money. Not accepted on order-linked payment
-     * intents. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Why the bank debit is taken. Required when payment_options includes
-     * ach_debit, and rejected with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose
-     * otherwise. Value enum: "goods", "services", "other".
-     */
-    "transaction_purpose"?: "goods" | "services" | "other" | (string & {});
-});
-/**
- * Shape $ (Value): {@link CreatePaymentIntentRequestInput}. The request body for: Create
- * standalone payment intent.
- */
-export type CreatePaymentIntentRequestInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Amount to request from the buyer, including any
-     * tip_money. With capture_method manual, this is the hold amount, and you can capture less of
-     * it later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): string. automatic collects the payment when it is confirmed. manual places
-     * a hold at confirmation that you capture or cancel later. Defaults to automatic. Default:
-     * "automatic". Value enum: "automatic", "manual".
-     */
-    "capture_method"?: "automatic" | "manual";
-    /** Shape $ (Value): string. Customer to link to this payment intent. minLength: 1. */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): Array of string. Payment options the buyer can use. Name at least one.
-     * minItems: 1. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[]
-     * (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS URL on your site where Flint sends the buyer after a
-     * redirect payment such as Affirm. Required when payment_options includes affirm. It can't
-     * contain credentials, a query string, or a fragment. Test mode also accepts http loopback
-     * URLs. minLength: 1. pattern: \S.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Shape $ (Value): string. Email address for this payment's receipt. When omitted, Flint uses
-     * the customer's email. Format: email. minLength: 1. maxLength: 255.
-     */
-    "receipt_email"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Portion of amount_money that is a tip. Uses
-     * amount_money's currency and is at most amount_money. Not accepted on order-linked payment
-     * intents. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Why the bank debit is taken. Required when payment_options includes
-     * ach_debit, and rejected with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose
-     * otherwise. Value enum: "goods", "services", "other".
-     */
-    "transaction_purpose"?: "goods" | "services" | "other";
-});

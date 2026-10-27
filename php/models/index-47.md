@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# WebhookEventMerchantReadinessUpdatedData – WebhookEventPayoutUpdatedRequest
+# WebhookEventMerchantBillingInvoiceIssuedRequest – WebhookEventPayoutUpdatedRequest
 
+- [WebhookEventMerchantBillingInvoiceIssuedRequest](WebhookEventMerchantBillingInvoiceIssuedRequest.md)
+- [WebhookEventMerchantBillingInvoiceUpdatedDataObject](WebhookEventMerchantBillingInvoiceUpdatedDataObject.md)
+- [WebhookEventMerchantBillingInvoiceUpdatedData](WebhookEventMerchantBillingInvoiceUpdatedData.md)
+- [WebhookEventMerchantBillingInvoiceUpdatedRequest](WebhookEventMerchantBillingInvoiceUpdatedRequest.md)
+- [WebhookEventMerchantReadinessUpdatedDataObject](WebhookEventMerchantReadinessUpdatedDataObject.md)
 - [WebhookEventMerchantReadinessUpdatedData](WebhookEventMerchantReadinessUpdatedData.md)
 - [WebhookEventMerchantReadinessUpdatedRequest](WebhookEventMerchantReadinessUpdatedRequest.md)
 - [WebhookEventMerchantUpdatedDataObject](WebhookEventMerchantUpdatedDataObject.md)

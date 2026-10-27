@@ -11,7 +11,7 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `due_at` | Required | string | Format: `date-time`. |
-| `type` | Required | string | Values: `"date"`. |
+| `type` | Required | string | How the entry's due time is set. Values: `"date"`. |
 
 ### InvoiceScheduleDueDate variant 1: `type` = `"date"`
 

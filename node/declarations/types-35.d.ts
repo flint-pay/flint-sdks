@@ -1,4 +1,4 @@
-import type { PartnerAppPermissionManifestEntry, PartnerApp } from './types-34.js';
+import type { PartnerApp } from './types-34.js';
 import type { ResponseMeta } from './types-40.js';
 import type {
     CheckoutBuyerContactRequest,
@@ -11,12 +11,11 @@ import type {
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type {
     OrderGiftCardAllocationAcceptance,
-    OrderPaymentIntentSelection,
     OrderGiftCardAllocationAcceptanceInput,
-    OrderPaymentIntentSelectionInput,
     Order,
     OrderPaymentAttempt
 } from './types-32.js';
+import type { OrderPaymentIntentSelection, OrderPaymentIntentSelectionInput, OrdersCreatePaymentIntentResponse } from './types-33.js';
 import type {
     PaymentSourceCredential,
     PaymentSourceCredentialInput,
@@ -25,20 +24,12 @@ import type {
     PaymentLinkLineItem,
     PaymentLinkSalesSummary
 } from './types-36.js';
-import type { StripePaymentClientAction, SendPaymentIntentReceiptRequestInput } from './types-44.js';
-import type { SelectableOrderPaymentIntent } from './types-43.js';
-import type {
-    ErrorRemediation,
-    ExpandedCustomerSummary,
-    ExpandedInvoiceSummary,
-    ExpandedOrderSummary,
-    ExpandedSubscriptionPlanSummary
-} from './types-16.js';
+import type { StripePaymentClientAction, SelectableOrderPaymentIntent, SendPaymentIntentReceiptRequestInput } from './types-44.js';
+import type { ErrorRemediation, ExpandedCustomerSummary, ExpandedInvoiceSummary, ExpandedOrderSummary } from './types-16.js';
 import type { PendingPaymentAction } from './types-37.js';
 import type { InputValue } from '../runtime.js';
 import type { ConfirmPaymentIntentRequestInput } from './types-5.js';
-import type { CreatePaymentIntentRequestInput } from './types-7.js';
-import type { OrdersCreatePaymentIntentResponse } from './types-33.js';
+import type { CreatePaymentIntentRequestInput } from './types-8.js';
 import type { UpdatePaymentIntentRequestInput } from './types-48.js';
 import type {
     CheckoutPaymentConfig,
@@ -47,10 +38,27 @@ import type {
     CheckoutTaxConfig,
     CheckoutTipConfig
 } from './types-4.js';
+import type { ExpandedSubscriptionPlanSummary } from './types-17.js';
 import type { ImageAttachment } from './types-19.js';
 import type { InventoryRoutingSource } from './types-25.js';
 import type { LegalSettings } from './types-28.js';
 import type { ThemeConfig } from './types-47.js';
+/**
+ * Shape $ (Value): {@link PartnerAppPermissionManifestEntry}. One permission a partner app can
+ * request, with a title, a description, and the Flint scopes it grants.
+ */
+export type PartnerAppPermissionManifestEntry = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "description": string;
+    /** Shape $ (Value): boolean. */
+    "optional"?: boolean;
+    /** Shape $ (Value): string. minLength: 1. */
+    "permission_id": string;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "required_scopes": Array<string>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "title": string;
+};
 /**
  * Shape $ (Value): {@link PartnerAppPermissionManifestEntryInput}. One permission a partner app
  * can request, with a title, a description, and the Flint scopes it grants.
@@ -1791,6 +1799,12 @@ export type PaymentIntent = {
     "transaction_purpose"?: "goods" | "services" | "other" | (string & {});
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "updated_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link PaymentIntentActivity}. A read-only entry in a payment intent's
@@ -2105,6 +2119,8 @@ export type PaymentIntentsListActivitiesInput = {
         | "receipt_sent">>;
 };
 export type PaymentIntentsListInput = {
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
@@ -2772,33 +2788,6 @@ export type PaymentLinkEventConfig = {
 export type PaymentLinkEventConfigPatchRequest = {
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
     "event_at"?: string;
-    /**
-     * Shape $ (Value): integer or null. Most tickets the event sells across all orders. Absent
-     * means no limit. On update, send null to remove the limit; a value below the tickets already
-     * sold or held by payments in progress returns MAX_TOTAL_QUANTITY_BELOW_SOLD. Whole-number
-     * quantity; fractional quantities are not supported. Format: int32.
-     */
-    "max_total_quantity"?: number | null;
-    /** Shape $ (Value): boolean. */
-    "send_ticket_emails"?: boolean;
-    /**
-     * Shape $ (Value): string or null. Prefix for ticket numbers, up to 5 characters. It cannot
-     * change after the event has issued tickets. Send null to clear it. minLength: 1. maxLength:
-     * 5.
-     */
-    "ticket_prefix"?: string | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 500. */
-    "venue"?: string | null;
-};
-/**
- * Shape $ (Value): {@link PaymentLinkEventConfigPatchRequestInput}. Changes to an event payment
- * link's settings. Send null on a nullable field to clear it.
- */
-export type PaymentLinkEventConfigPatchRequestInput = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "event_at"?: string | globalThis.Date;
     /**
      * Shape $ (Value): integer or null. Most tickets the event sells across all orders. Absent
      * means no limit. On update, send null to remove the limit; a value below the tickets already

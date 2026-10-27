@@ -5,10 +5,11 @@ namespace Flint;
  * @property-read string $bundle_id
  * @property-read string $expected_version
  * @property-read int $quantity
+ * @property-read string $type
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateSubscriptionLineItemRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'bundle_id'?: string, 'expected_version'?: string, 'quantity': int, 'type': string, 'variant_id': string}|object|array{'bundle_id': string, 'expected_version'?: string, 'quantity': int, 'type': string, 'variant_id'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionLineItemRequestInput')); }
     /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
@@ -28,6 +29,12 @@ final class CreateSubscriptionLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum: "variant", "bundle".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().

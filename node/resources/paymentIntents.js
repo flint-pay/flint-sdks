@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import settings from '../descriptors/settings.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntentActivities"]:r0,["listPaymentIntents"]:r0,["sendPaymentIntentReceipt"]:r0,["updatePaymentIntent"]:r0});
 export class Client {
@@ -91,6 +91,7 @@ this.paymentIntents = Object.freeze({
   "activity_type"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listPaymentIntents", _sdkRequestInput([], [], [
+  "idempotency_key",
   "page_size",
   "page_token",
   "order_id",
@@ -118,6 +119,7 @@ this.paymentIntents = Object.freeze({
   "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPaymentIntents", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentIntents", _sdkRequestInput([], [], [
+  "idempotency_key",
   "page_size",
   "page_token",
   "order_id",
@@ -145,6 +147,7 @@ this.paymentIntents = Object.freeze({
   "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentIntents", _sdkRequestInput([], [], [
+  "idempotency_key",
   "page_size",
   "page_token",
   "order_id",
@@ -172,6 +175,7 @@ this.paymentIntents = Object.freeze({
   "expand"
 ], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPaymentIntents", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentIntents", _sdkRequestInput([], [], [
+  "idempotency_key",
   "page_size",
   "page_token",
   "order_id",
@@ -199,6 +203,7 @@ this.paymentIntents = Object.freeze({
   "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentIntents", _sdkRequestInput([], [], [
+  "idempotency_key",
   "page_size",
   "page_token",
   "order_id",
@@ -250,7 +255,6 @@ this.paymentIntents = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeCancelOrderPaymentAttemptRequest } from '../models/CancelOrderPaymentAttemptRequest.js';
 export { makeCancelPaymentIntentRequest } from '../models/CancelPaymentIntentRequest.js';
 export { makeCapturePaymentIntentRequest } from '../models/CapturePaymentIntentRequest.js';
 export { makeConfirmPaymentIntentRequest } from '../models/ConfirmPaymentIntentRequest.js';

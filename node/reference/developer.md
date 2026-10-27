@@ -14,7 +14,7 @@ Signature:
 createPartnerApp(params: (InputValue<CreatePartnerAppRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)
+ options?: RequestOptions<"merchant" | "onboarding">)
 ```
 
 #### Request fields
@@ -66,7 +66,7 @@ Complete body and metadata: `createPartnerAppWithResponse`. See [response modes]
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -91,7 +91,7 @@ Signature:
 createSandbox(params: (InputValue<CreateSandboxRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)
+ options?: RequestOptions<"merchant" | "onboarding">)
 ```
 
 #### Request fields
@@ -199,7 +199,7 @@ Complete body and metadata: `createSandboxWithResponse`. See [response modes](..
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -211,6 +211,107 @@ const result = await client.developer.createSandbox({name: "example", issue_test
 ```
 
 [Complete runnable example](../examples/developer-createSandbox.mjs)
+
+### developer.createSandboxAPIKey
+
+Creates a new test API key that is bound to the target sandbox.
+
+`POST /v1/developer/sandboxes/{sandbox_id}/api-keys`
+
+Signature:
+
+```typescript
+createSandboxAPIKey(sandbox_id: InputValue<string>,
+ params: (InputValue<IssueSandboxAPIKeyRequestInput>) & {
+  "Idempotency-Key"?: InputValue<string>
+},
+ options?: RequestOptions<"merchant" | "onboarding">)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `sandbox_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `body` | Required | [IssueSandboxAPIKeyRequestInput](../models/IssueSandboxAPIKeyRequest.md#issuesandboxapikeyrequest) | The request body for: Issue sandbox test key. |
+
+Body model: [IssueSandboxAPIKeyRequestInput](../models/IssueSandboxAPIKeyRequest.md#issuesandboxapikeyrequest).
+
+#### developer.createSandboxAPIKey body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `name` | Required | string | minLength: `1`. maxLength: `100`. |
+| `scope_preset` | Optional | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
+| `scopes` | Optional | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKey.md#apikey-scopes--values). |
+
+#### developer.createSandboxAPIKey body oneOf variant 1
+
+
+
+#### developer.createSandboxAPIKey body oneOf variant 1 fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `name` | Required | string | minLength: `1`. maxLength: `100`. |
+| `scope_preset` | Optional | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
+| `scopes` | Required | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKey.md#apikey-scopes--values). |
+
+#### developer.createSandboxAPIKey body oneOf variant 2
+
+
+
+#### developer.createSandboxAPIKey body oneOf variant 2 fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `name` | Required | string | minLength: `1`. maxLength: `100`. |
+| `scope_preset` | Required | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
+| `scopes` | Optional | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKey.md#apikey-scopes--values). |
+
+#### Response
+
+Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsecret).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 403 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
+| 409 | ConflictError | conflict |
+| 410 | ApiError | api |
+| 413 | ApiError | api |
+| 415 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `createSandboxAPIKeyWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.developer.createSandboxAPIKey("example", {name: "example", scopes: []}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/developer-createSandboxAPIKey.mjs)
 
 ### developer.deletePartnerApp
 
@@ -226,7 +327,7 @@ deletePartnerApp(partner_app_id: InputValue<string>,
   "expected_version"?: InputValue<`${bigint}` | bigint>;
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -265,7 +366,7 @@ Complete body and metadata: `deletePartnerAppWithResponse`. See [response modes]
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -291,7 +392,7 @@ deleteSandbox(sandbox_id: InputValue<string>,
  params?: {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)
+ options?: RequestOptions<"merchant" | "onboarding">)
 ```
 
 #### Request fields
@@ -329,7 +430,7 @@ Complete body and metadata: `deleteSandboxWithResponse`. See [response modes](..
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -348,7 +449,7 @@ Returns non-secret metadata for an API key or CLI OAuth access token, including 
 
 `GET /v1/developer/auth-context`
 
-Signature: `getAuthContext(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `getAuthContext(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -378,7 +479,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getAuthContextWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -400,7 +501,7 @@ Signature:
 getCurrentAPIKeyRequestLog(api_request_log_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -434,7 +535,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getCurrentAPIKeyRequestLogWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -450,14 +551,7 @@ Returns a single partner app owned by the authenticated merchant.
 
 `GET /v1/developer/partner/apps/{partner_app_id}`
 
-Signature:
-
-```typescript
-getPartnerApp(partner_app_id: InputValue<string>,
- params?: {
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>)
-```
+Signature: `getPartnerApp(partner_app_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)`
 
 #### Request fields
 
@@ -490,7 +584,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getPartnerAppWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -513,7 +607,7 @@ getPartnerAppInstall(partner_app_id: InputValue<string>,
  partner_app_install_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)
 ```
 
 #### Request fields
@@ -548,7 +642,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getPartnerAppInstallWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -623,7 +717,7 @@ getResourceTimeline(resource_id: InputValue<string>,
   "occurred_after"?: InputValue<string | globalThis.Date>;
   "occurred_before"?: InputValue<string | globalThis.Date>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -714,7 +808,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getResourceTimelineWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -730,14 +824,7 @@ Returns a single sandbox by ID.
 
 `GET /v1/developer/sandboxes/{sandbox_id}`
 
-Signature:
-
-```typescript
-getSandbox(sandbox_id: InputValue<string>,
- params?: {
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>)
-```
+Signature: `getSandbox(sandbox_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)`
 
 #### Request fields
 
@@ -770,7 +857,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getSandboxWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -779,107 +866,6 @@ const result = await client.developer.getSandbox("example", {}, {  });
 ```
 
 [Complete runnable example](../examples/developer-getSandbox.mjs)
-
-### developer.issueSandboxTestKey
-
-Creates a new test API key that is bound to the target sandbox.
-
-`POST /v1/developer/sandboxes/{sandbox_id}/test-key`
-
-Signature:
-
-```typescript
-issueSandboxTestKey(sandbox_id: InputValue<string>,
- params: (InputValue<IssueSandboxAPIKeyRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `sandbox_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [IssueSandboxAPIKeyRequestInput](../models/IssueSandboxAPIKeyRequest.md#issuesandboxapikeyrequest) | The request body for: Issue sandbox test key. |
-
-Body model: [IssueSandboxAPIKeyRequestInput](../models/IssueSandboxAPIKeyRequest.md#issuesandboxapikeyrequest).
-
-#### developer.issueSandboxTestKey body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scope_preset` | Optional | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKey.md#apikey-scopes--values). |
-
-#### developer.issueSandboxTestKey body oneOf variant 1
-
-
-
-#### developer.issueSandboxTestKey body oneOf variant 1 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scope_preset` | Optional | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
-| `scopes` | Required | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKey.md#apikey-scopes--values). |
-
-#### developer.issueSandboxTestKey body oneOf variant 2
-
-
-
-#### developer.issueSandboxTestKey body oneOf variant 2 fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scope_preset` | Required | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKey.md#apikey-scopes--values). |
-
-#### Response
-
-Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsecret).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `issueSandboxTestKeyWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.developer.issueSandboxTestKey("example", {name: "example", scopes: []}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/developer-issueSandboxTestKey.mjs)
 
 ### developer.listCurrentAPIKeyRequestLogs
 
@@ -929,6 +915,7 @@ listCurrentAPIKeyRequestLogs(params?: {
     "customer" |
     "customer_address" |
     "customer_deletion_request" |
+    "customer_email_preferences" |
     "customer_session" |
     "customer_verification" |
     "delivery_location_set" |
@@ -1053,7 +1040,7 @@ listCurrentAPIKeyRequestLogs(params?: {
   "created_after"?: InputValue<string | globalThis.Date>;
   "created_before"?: InputValue<string | globalThis.Date>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -1069,7 +1056,7 @@ listCurrentAPIKeyRequestLogs(params?: {
 | `client_trace_id` | Optional | string | pattern: `^[0-9a-f]{32}$`. |
 | `http_method` | Optional | Array of string | minItems: `1`. Items values: `"GET"`, `"HEAD"`, `"POST"`, `"PUT"`, `"PATCH"`, `"DELETE"`, `"OPTIONS"`, `"CONNECT"`, `"TRACE"`. |
 | `path_query` | Optional | string |  |
-| `resource_type` | Optional | Array of string | minItems: `1`. Items values: [134 declared values](../models/APIKey.md#apikeycreated_by-resource_type-values). |
+| `resource_type` | Optional | Array of string | minItems: `1`. Items values: [135 declared values](../models/APIKey.md#apikeycreated_by-resource_type-values). |
 | `resource_id` | Optional | string |  |
 | `status_bucket` | Optional | Array of string | minItems: `1`. Items values: `"success"`, `"client_error"`, `"server_error"`. |
 | `created_after` | Optional | string | Format: `date-time`. |
@@ -1099,7 +1086,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listCurrentAPIKeyRequestLogsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listCurrentAPIKeyRequestLogsItems`, `listCurrentAPIKeyRequestLogsPages`, `listCurrentAPIKeyRequestLogsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1127,7 +1114,7 @@ listPartnerAppInstalls(partner_app_id: InputValue<string>,
   "merchant_id"?: InputValue<string>;
   "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)
 ```
 
 #### Request fields
@@ -1165,7 +1152,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listPartnerAppInstallsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listPartnerAppInstallsItems`, `listPartnerAppInstallsPages`, `listPartnerAppInstallsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1191,7 +1178,7 @@ listPartnerApps(params?: {
   "page_token"?: InputValue<string>;
   "status"?: InputValue<Array<"active" | "archived">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)
 ```
 
 #### Request fields
@@ -1227,7 +1214,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listPartnerAppsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listPartnerAppsItems`, `listPartnerAppsPages`, `listPartnerAppsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1254,7 +1241,7 @@ listPartnerInstalls(params?: {
   "partner_app_id"?: InputValue<string>;
   "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)
 ```
 
 #### Request fields
@@ -1290,7 +1277,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listPartnerInstallsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listPartnerInstallsItems`, `listPartnerInstallsPages`, `listPartnerInstallsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1316,7 +1303,7 @@ listSandboxes(params?: {
   "page_token"?: InputValue<string>;
   "status"?: InputValue<Array<"active" | "archived">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)
 ```
 
 #### Request fields
@@ -1348,7 +1335,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listSandboxesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listSandboxesItems`, `listSandboxesPages`, `listSandboxesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1373,7 +1360,7 @@ resetSandbox(sandbox_id: InputValue<string>,
  params?: {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)
+ options?: RequestOptions<"merchant" | "onboarding">)
 ```
 
 #### Request fields
@@ -1411,7 +1398,7 @@ Complete body and metadata: `resetSandboxWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1438,7 +1425,7 @@ revokePartnerAppInstall(partner_app_id: InputValue<string>,
  params?: {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1477,7 +1464,7 @@ Complete body and metadata: `revokePartnerAppInstallWithResponse`. See [response
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1505,7 +1492,7 @@ revokePartnerEnvironmentGrant(partner_app_id: InputValue<string>,
  params?: {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1545,7 +1532,7 @@ Complete body and metadata: `revokePartnerEnvironmentGrantWithResponse`. See [re
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1575,7 +1562,7 @@ rotatePartnerAppSecret(partner_app_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1622,7 +1609,7 @@ Complete body and metadata: `rotatePartnerAppSecretWithResponse`. See [response 
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1648,7 +1635,7 @@ updatePartnerApp(partner_app_id: InputValue<string>,
  params: (InputValue<UpdatePartnerAppRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">)
+ options?: RequestOptions<"merchant" | "onboarding">)
 ```
 
 #### Request fields
@@ -1785,7 +1772,7 @@ Complete body and metadata: `updatePartnerAppWithResponse`. See [response modes]
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

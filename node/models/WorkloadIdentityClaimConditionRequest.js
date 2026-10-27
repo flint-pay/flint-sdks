@@ -1,7 +1,7 @@
-import { d5220 as c0 } from '../descriptors/data/240.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
-import { d5220 as d5220 } from '../descriptors/data/240.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d5249 as c0 } from '../descriptors/data/242.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
+import { d5249 as d5249 } from '../descriptors/data/242.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5220;
+const read = d5249;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["WorkloadIdentityClaimConditionRequest"]:c0()}); }
 export { codec as _validate };

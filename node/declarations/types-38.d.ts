@@ -3,7 +3,7 @@ import type { Promotion } from './types-37.js';
 import type { ResponseMeta } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type { CreatePromotionCodeRequestInput, CreatePromotionRequestInput } from './types-8.js';
-import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from './types-48.js';
+import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from './types-49.js';
 import type { CheckoutCustomTextConfig } from './types-3.js';
 import type { CheckoutPaymentConfig, CheckoutTheme } from './types-4.js';
 import type { Image } from './types-19.js';
@@ -11,8 +11,103 @@ import type { LegalSettings } from './types-28.js';
 import type { PaymentLinkCustomField, PaymentLinkEventConfig } from './types-35.js';
 import type { PaymentLinkLineItem, PaymentLinkSubscriptionPreview } from './types-36.js';
 import type { ThemeConfig, TextModifierConfigRequest } from './types-47.js';
-import type { SelectedProductOption } from './types-43.js';
-import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-41.js';
+import type { SelectedProductOption } from './types-44.js';
+import type { ReturnPolicyRevisionRequest } from './types-41.js';
+/**
+ * Shape $ (Value): {@link PromotionBuyXGetYMethodRequest}. The `buy_x_get_y` variant of
+ * `PromotionApplicationMethodInput`.
+ */
+export type PromotionBuyXGetYMethodRequest = {
+    /**
+     * Shape $ (Value): string. How the effect is applied across the matched items or charges. each
+     * applies the effect to every matched item independently: a fixed amount_off is charged per
+     * item (10 USD off 3 items discounts 30 USD, each capped at the item price), and a percent_off
+     * is taken from each item. across applies the effect once to the matched set as a whole: a
+     * fixed amount_off is the whole amount one time (10 USD off the group total, not prorated per
+     * item), and a percent_off is taken from the combined subtotal. For percent_off the two
+     * produce the same total and differ only in how the discount is attributed to individual line
+     * items; for amount_off they differ by the number of matched items, so set it deliberately.
+     * Defaults to each for line_item and service_charge promotions and across for order
+     * promotions. max_discounted_quantity requires each. Value enum: "each", "across".
+     */
+    "allocation"?: "each" | "across" | (string & {});
+    /**
+     * Shape $ (Value): integer. Number of qualifying units needed for one application of a
+     * buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported.
+     * Format: int32. minimum: 1.
+     */
+    "buy_min_quantity": number;
+    /**
+     * Shape $ (Value): string. Basis for merchandise promotion calculations. Omit for
+     * service_charge promotions because service-charge discounts are calculated from the targeted
+     * charges. Value enum: "subtotal_pre_tax", "subtotal_post_tax".
+     */
+    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
+    /**
+     * Shape $ (Value): {@link PromotionRuleGroupRequest}. Which line items receive the discount.
+     * Required for service_charge promotions, and for line_item promotions whose eligibility_rules
+     * include any non-line-item condition (for example order.subtotal or a customer condition). It
+     * is optional only when eligibility_rules consist entirely of line_item.* conditions (plus
+     * matched_items.subtotal), in which case the matched items are used as the target. Omitting it
+     * otherwise returns DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one
+     * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a
+     * rules key are invalid. Omit the field for no rules, or send null where the field is
+     * clearable. Responses list rules before nested groups. Under any, a nested group containing
+     * only one rule reads back as that rule. Under all, nested groups keep their boundaries to
+     * preserve matched_items.subtotal scope. These deterministic normalizations stabilize after
+     * one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
+     * in the same all group, including its nested groups.
+     */
+    "discounted_item_rules": PromotionRuleGroupRequest;
+    /**
+     * Shape $ (Value): number. Percentage to discount from reward items, from 1 to 100. Use 100 to
+     * make the reward items free. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "get_percent_off": number;
+    /**
+     * Shape $ (Value): integer. Maximum number of reward units discounted per application of a
+     * buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported.
+     * Format: int32. minimum: 1.
+     */
+    "get_quantity": number;
+    /**
+     * Shape $ (Value): integer. Maximum number of times the buy_x_get_y promotion can apply to one
+     * order. Omit for no limit beyond the qualifying and reward quantities. Format: int32.
+     * minimum: 1.
+     */
+    "max_applications_per_order"?: number;
+    /**
+     * Shape $ (Value): {@link PromotionRuleGroupRequest}. Rules that identify the items counted
+     * toward buy_min_quantity for a buy_x_get_y promotion. A rule group is an object with exactly
+     * one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups,
+     * and a rules key are invalid. Omit the field for no rules, or send null where the field is
+     * clearable. Responses list rules before nested groups. Under any, a nested group containing
+     * only one rule reads back as that rule. Under all, nested groups keep their boundaries to
+     * preserve matched_items.subtotal scope. These deterministic normalizations stabilize after
+     * one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
+     * in the same all group, including its nested groups.
+     */
+    "qualifying_item_rules": PromotionRuleGroupRequest;
+    /**
+     * Shape $ (Value): {@link PromotionRecurrence}. Optional recurrence for subscription payments:
+     * once applies to the first charged payment, repeating applies for period_count charged
+     * payments, and forever applies to every payment. One-time orders apply the promotion once.
+     * How often a promotion's discount repeats on a subscription: once, for a number of charged
+     * payments, or forever.
+     */
+    "recurrence"?: PromotionRecurrence;
+    /**
+     * Shape $ (Value): string. Which matching reward items receive the discount: the cheapest, the
+     * highest priced, or those added first to the order. Defaults to cheapest. Default:
+     * "cheapest". Value enum: "cheapest", "highest_price", "first_added".
+     */
+    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
+    /**
+     * Shape $ (Value): string. Selects the buy_x_get_y discount effect and its allowed fields.
+     * Value enum: "buy_x_get_y".
+     */
+    "type": "buy_x_get_y" | (string & {});
+};
 /**
  * Shape $ (Value): {@link PromotionBuyXGetYMethodRequestInput}. The `buy_x_get_y` variant of
  * `PromotionApplicationMethodInput`.
@@ -1936,22 +2031,4 @@ export type PublishReturnPolicyRevisionRequest = {
      * restocking fee.
      */
     "revision": ReturnPolicyRevisionRequest;
-};
-/**
- * Shape $ (Value): {@link PublishReturnPolicyRevisionRequestInput}. The request body for: Publish
- * return policy revision.
- */
-export type PublishReturnPolicyRevisionRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Required current version of the Return policy. A stale
-     * value returns RETURN_VERSION_CONFLICT. Publishing increments the policy version. Use an
-     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version": `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): {@link ReturnPolicyRevisionRequestInput}. The rules for a return policy
-     * revision: scope, eligibility, return window, approval and resolution modes, shipping, and
-     * restocking fee.
-     */
-    "revision": ReturnPolicyRevisionRequestInput;
 };

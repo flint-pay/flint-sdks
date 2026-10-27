@@ -28,13 +28,13 @@ final class BalanceTransactionInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the funds become, or became, available to pay out. Present on pending transactions as the expected time; status says whether they are available now. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When available_at is omitted; use hasAvailableAt() or valueOrDefault().
      */
     public function getAvailableAt(): string|\DateTimeInterface { return $this->get('available_at'); }
     public function hasAvailableAt(): bool { return $this->has('available_at'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Stable identifier of this balance transaction.
      * @return string
      * @throws SdkError When balance_transaction_id is omitted; use hasBalanceTransactionId() or valueOrDefault().
      */
@@ -46,7 +46,7 @@ final class BalanceTransactionInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Short text describing the movement, from Flint or your processor. Use it for display, not for matching.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -58,7 +58,7 @@ final class BalanceTransactionInput extends Model {
      */
     public function getFeeMoney(): mixed { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Merchant whose balance this transaction moved.
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -70,19 +70,19 @@ final class BalanceTransactionInput extends Model {
      */
     public function getNetMoney(): mixed { return $this->get('net_money'); }
     public function hasNetMoney(): bool { return $this->has('net_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the balance movement happened. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Shape $ (Value): {@see ExpandedOrderSummaryInput} or null. Shape $.anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
+    /** Shape $ (Value): {@see ExpandedOrderSummaryInput} or null. The order, inlined when you request expand=order. null when expanded and the transaction has no order_id. Shape $.anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
      * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. The Flint order this movement relates to, such as the order a payment was for. Absent when the movement isn't tied to an order.
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -94,19 +94,19 @@ final class BalanceTransactionInput extends Model {
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /** Shape $ (Value): Array of string. Earlier balance transactions this one is linked to, such as the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. Shape $[] (Value): string.
      * @return list<string>
      * @throws SdkError When related_balance_transaction_ids is omitted; use hasRelatedBalanceTransactionIds() or valueOrDefault().
      */
     public function getRelatedBalanceTransactionIds(): array { return $this->get('related_balance_transaction_ids'); }
     public function hasRelatedBalanceTransactionIds(): bool { return $this->has('related_balance_transaction_ids'); }
-    /** Shape $ (Value): {@see ResourceReferenceInput}. A reference to another resource by `resource_type` and `resource_id`.
+    /** Shape $ (Value): {@see ResourceReferenceInput}. The Flint resource behind this movement: a payment_intent, refund, dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement has none. A reference to another resource by `resource_type` and `resource_id`.
      * @return ResourceReferenceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When related_resource is omitted; use hasRelatedResource() or valueOrDefault().
      */
     public function getRelatedResource(): mixed { return $this->get('related_resource'); }
     public function hasRelatedResource(): bool { return $this->has('related_resource'); }
-    /** Shape $ (Value): string.  Value enum: "pending", "available".
+    /** Shape $ (Value): string. Whether the funds can be paid out yet: pending until they become available, then available. Only these two values appear, and the change to available sends balance_transaction.updated. Value enum: "pending", "available".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

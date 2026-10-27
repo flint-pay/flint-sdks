@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# CreateSubscriptionPreviewRequestCreateInput – DeliveryFixedPricingStrategyRequestInput
+# CreateSubscriptionOfferRequestInput – DeliveryEstimateRuleRequestInput
 
+- [CreateSubscriptionOfferRequestInput](CreateSubscriptionOfferRequestInput.md)
+- [CreateSubscriptionPlanRequestInput](CreateSubscriptionPlanRequestInput.md)
+- [CreateSubscriptionPreviewRequestInput](CreateSubscriptionPreviewRequestInput.md)
 - [CreateSubscriptionPreviewRequestCreateInput](CreateSubscriptionPreviewRequestCreateInput.md)
 - [CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput](CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput.md)
 - [CreateSubscriptionPreviewRequestDeliveryOptionsInput](CreateSubscriptionPreviewRequestDeliveryOptionsInput.md)
@@ -99,7 +102,4 @@
 - [DeliveryEligibilityMismatchInput](DeliveryEligibilityMismatchInput.md)
 - [DeliveryEstimateRuleInput](DeliveryEstimateRuleInput.md)
 - [DeliveryEstimateRuleRequestInput](DeliveryEstimateRuleRequestInput.md)
-- [DeliveryExternalPricingStrategyInput](DeliveryExternalPricingStrategyInput.md)
-- [DeliveryFixedPricingStrategyInput](DeliveryFixedPricingStrategyInput.md)
-- [DeliveryFixedPricingStrategyRequestInput](DeliveryFixedPricingStrategyRequestInput.md)
 

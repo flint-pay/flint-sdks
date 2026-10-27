@@ -8,8 +8,8 @@ import type {
 } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -22,7 +22,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     BalanceTransaction,
@@ -32,7 +32,7 @@ export type {
     BalanceTransactionsListInput,
     AuthMode
 } from '../declarations/types-0.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse, SettlementAmounts } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type {
@@ -45,7 +45,6 @@ export type {
 export type { ExpandedOrderSummary } from '../declarations/types-16.js';
 export type { CheckoutBuyerContact } from '../declarations/types-3.js';
 export type { PricingAmounts } from '../declarations/types-37.js';
-export type { SettlementAmounts } from '../declarations/types-44.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface BalanceTransactionsResource {
     /**
@@ -57,13 +56,13 @@ export interface BalanceTransactionsResource {
  */
     get(balance_transaction_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BalanceTransaction>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<BalanceTransaction>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/balanceTransactions.md#balancetransactionsget
      */
     getWithResponse(balance_transaction_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BalanceTransactionResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BalanceTransactionResponse>>;
     /**
  * Returns a paginated ledger of balance-affecting transactions, including availability timing and
  * related public resources.
@@ -108,7 +107,7 @@ export interface BalanceTransactionsResource {
         "available_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BalanceTransactionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<BalanceTransactionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/balanceTransactions.md#balancetransactionslist
      */
@@ -148,7 +147,7 @@ export interface BalanceTransactionsResource {
         "available_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BalanceTransactionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BalanceTransactionListResponse>>;
     /** Iterate pages lazily.
      * @see reference/balanceTransactions.md#balancetransactionslist
      */
@@ -188,7 +187,7 @@ export interface BalanceTransactionsResource {
         "available_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BalanceTransactionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BalanceTransactionListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/balanceTransactions.md#balancetransactionslist
      */
@@ -228,7 +227,7 @@ export interface BalanceTransactionsResource {
         "available_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<BalanceTransactionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<BalanceTransactionListResponse>>;
     /** Iterate items lazily.
      * @see reference/balanceTransactions.md#balancetransactionslist
      */
@@ -268,7 +267,7 @@ export interface BalanceTransactionsResource {
         "available_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BalanceTransaction>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BalanceTransaction>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

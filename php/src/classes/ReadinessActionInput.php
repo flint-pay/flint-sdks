@@ -10,7 +10,7 @@ namespace Flint;
 final class ReadinessActionInput extends Model {
     /** @param array{'action_type': string, 'merchant_account_session'?: ReadinessMerchantAccountSessionInput|array<array-key, mixed>|\stdClass, 'owner': string, 'required_fields'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReadinessActionInput')); }
-    /** Shape $ (Value): string.  Value enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "contact_support", "other".
+    /** Shape $ (Value): string.  Value enum: "advance_onboarding", "create_api_key", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "contact_support", "other".
      * @return string
      * @throws SdkError When action_type is omitted; use hasActionType() or valueOrDefault().
      */

@@ -2,15 +2,5 @@
 
 ## CloseCheckoutSessionRequestInput
 
-Request input. Response: [CloseCheckoutSessionRequest](../models/CloseCheckoutSessionRequest.md#closecheckoutsessionrequest).
-
-The request body for: Close checkout session.
-
-
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `reason_message` | Optional | string | Your note explaining why you are closing the checkout session. It is not shown to the buyer. minLength: `1`. |
+Request input. Response: [CloseCheckoutSessionRequest](../models/CloseCheckoutSessionRequest.md#closecheckoutsessionrequest). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
 

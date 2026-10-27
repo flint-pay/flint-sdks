@@ -13,11 +13,11 @@ import type {
     RiskRulesGetInput,
     RiskRulesListInput,
     RiskRulesRemoveInput,
-    RiskRulesUpdateInput,
-    SdkResponse
+    RiskRulesUpdateInput
 } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateRiskRuleRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,7 +34,6 @@ export type { CreateRiskRuleRequestInput, Credentials } from '../declarations/ty
 export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     RiskRule,
-    SdkResponse,
     RiskRuleResponse,
     RiskAttributeRegistry,
     RiskAttributeRegistryResponse,
@@ -50,15 +49,16 @@ export type {
     RiskPredicateNode,
     RiskAttribute
 } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateRiskRuleRequestInput } from '../declarations/types-49.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export { makeCreateRiskRuleRequest } from '../declarations/types-64.js';
+export { makeCreateRiskRuleRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeRiskPredicateNode } from '../declarations/types-71.js';
-export { makeUpdateRiskRuleRequest } from '../declarations/types-72.js';
+export { makeUpdateRiskRuleRequest } from '../declarations/types-73.js';
 export interface RiskRulesResource {
     /**
  * Creates a rule that applies from the next payment attempt. Flint validates the predicate and
@@ -76,13 +76,13 @@ export interface RiskRulesResource {
  */
     create(params: (InputValue<CreateRiskRuleRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskRule>;
+    }, options?: RequestOptions<"merchant">): Promise<RiskRule>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskRules.md#riskrulescreate
      */
     createWithResponse(params: (InputValue<CreateRiskRuleRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRuleResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RiskRuleResponse>>;
     /**
  * Archives a rule. It stops running at once and can't be changed or restored. Flint's default
  * rules can't be archived; set them inactive instead.
@@ -96,14 +96,14 @@ export interface RiskRulesResource {
     remove(risk_rule_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskRule>;
+    }, options?: RequestOptions<"merchant">): Promise<RiskRule>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskRules.md#riskrulesremove
      */
     removeWithResponse(risk_rule_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRuleResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RiskRuleResponse>>;
     /**
  * Retrieves a risk rule. The issues array lists anything that stops Flint from evaluating it.
  * @see reference/riskRules.md#riskrulesget
@@ -111,11 +111,11 @@ export interface RiskRulesResource {
  * @example
  * client.riskRules.get("example")
  */
-    get(risk_rule_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskRule>;
+    get(risk_rule_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskRule>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskRules.md#riskrulesget
      */
-    getWithResponse(risk_rule_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskRuleResponse>>;
+    getWithResponse(risk_rule_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskRuleResponse>>;
     /**
  * Lists the attributes a predicate can read in this environment, with each one's value type,
  * operators, and the stage it becomes available. An attribute with is_available: false can't be
@@ -126,11 +126,11 @@ export interface RiskRulesResource {
  * @example
  * client.riskRules.getAttributeRegistry()
  */
-    getAttributeRegistry(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskAttributeRegistry>;
+    getAttributeRegistry(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskAttributeRegistry>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskRules.md#riskrulesgetattributeregistry
      */
-    getAttributeRegistryWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskAttributeRegistryResponse>>;
+    getAttributeRegistryWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskAttributeRegistryResponse>>;
     /**
  * Lists risk rules, newest first, including Flint's default rules. By default, includes active and
  * inactive rules. Archived rules appear only when status includes archived. This isn't the order
@@ -144,7 +144,7 @@ export interface RiskRulesResource {
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskRuleListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskRuleListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskRules.md#riskruleslist
      */
@@ -152,7 +152,7 @@ export interface RiskRulesResource {
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskRuleListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskRuleListResponse>>;
     /** Iterate pages lazily.
      * @see reference/riskRules.md#riskruleslist
      */
@@ -160,7 +160,7 @@ export interface RiskRulesResource {
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskRuleListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RiskRuleListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/riskRules.md#riskruleslist
      */
@@ -168,7 +168,7 @@ export interface RiskRulesResource {
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskRuleListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<RiskRuleListResponse>>;
     /** Iterate items lazily.
      * @see reference/riskRules.md#riskruleslist
      */
@@ -176,7 +176,7 @@ export interface RiskRulesResource {
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskRule>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RiskRule>;
     /**
  * Changes a rule's action, predicate, description, or status, and increases its version. Send
  * expected_version to avoid overwriting another edit. Flint's default rules accept only status.
@@ -190,13 +190,13 @@ export interface RiskRulesResource {
  */
     update(risk_rule_id: InputValue<string>, params: (InputValue<UpdateRiskRuleRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskRule>;
+    }, options?: RequestOptions<"merchant">): Promise<RiskRule>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskRules.md#riskrulesupdate
      */
     updateWithResponse(risk_rule_id: InputValue<string>, params: (InputValue<UpdateRiskRuleRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRuleResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RiskRuleResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

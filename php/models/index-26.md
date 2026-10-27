@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# CustomerVerificationsConfirmResponse200 – ReturnPoliciesPublishRevisionResponse200
+# DeliveryRateCallbacksCheckConnectionResponse200 – ReportsCreateResponse201
 
+- [DeliveryRateCallbacksCheckConnectionResponse200](DeliveryRateCallbacksCheckConnectionResponse200.md)
+- [CheckoutSessionsCloseSessionResponse200](CheckoutSessionsCloseSessionResponse200.md)
+- [OrdersCloseSessionResponse200](OrdersCloseSessionResponse200.md)
+- [InvoicesCollectResponse200](InvoicesCollectResponse200.md)
+- [FilesCompleteResponse200](FilesCompleteResponse200.md)
+- [ReturnsCompleteResponse200](ReturnsCompleteResponse200.md)
+- [CheckoutSessionsConfirmCustomerVerificationResponse200](CheckoutSessionsConfirmCustomerVerificationResponse200.md)
 - [CustomerVerificationsConfirmResponse200](CustomerVerificationsConfirmResponse200.md)
 - [MeConfirmEmailChangeRequestResponse200](MeConfirmEmailChangeRequestResponse200.md)
 - [PaymentIntentsConfirmResponse200](PaymentIntentsConfirmResponse200.md)
@@ -68,7 +75,7 @@
 - [MeCreateInvoiceCheckoutSessionResponse200](MeCreateInvoiceCheckoutSessionResponse200.md)
 - [MeCreateInvoiceCheckoutSessionResponse201](MeCreateInvoiceCheckoutSessionResponse201.md)
 - [MeSavePaymentMethodResponse201](MeSavePaymentMethodResponse201.md)
-- [MerchantAccountSessionsCreateResponse201](MerchantAccountSessionsCreateResponse201.md)
+- [MerchantAccountSessionsCreateResponse200](MerchantAccountSessionsCreateResponse200.md)
 - [MeCreateReturnResponse201](MeCreateReturnResponse201.md)
 - [MeCreateReturnPreviewResponse200](MeCreateReturnPreviewResponse200.md)
 - [MeCreateReturnResolutionCheckoutSessionResponse200](MeCreateReturnResolutionCheckoutSessionResponse200.md)
@@ -95,11 +102,4 @@
 - [PromotionsCreateCodeResponse201](PromotionsCreateCodeResponse201.md)
 - [RefundsCreateResponse201](RefundsCreateResponse201.md)
 - [ReportsCreateResponse201](ReportsCreateResponse201.md)
-- [ReturnsCreateResponse201](ReturnsCreateResponse201.md)
-- [ReturnsCreateAccessLinkResponse201](ReturnsCreateAccessLinkResponse201.md)
-- [ReturnsCreateDispositionResponse201](ReturnsCreateDispositionResponse201.md)
-- [ReturnsCreateInspectionResponse201](ReturnsCreateInspectionResponse201.md)
-- [ReturnsAddLineItemResponse200](ReturnsAddLineItemResponse200.md)
-- [ReturnPoliciesCreateResponse201](ReturnPoliciesCreateResponse201.md)
-- [ReturnPoliciesPublishRevisionResponse200](ReturnPoliciesPublishRevisionResponse200.md)
 

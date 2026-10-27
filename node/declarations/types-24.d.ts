@@ -1,5 +1,5 @@
-import type { InventoryAdjustmentResult } from './types-23.js';
-import type { ResponseMeta, ResourceReference } from './types-40.js';
+import type { InventoryAdjustment } from './types-23.js';
+import type { ResponseMeta } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type {
     CreateInventoryAdjustmentRequestInput,
@@ -7,9 +7,184 @@ import type {
     CreateInventoryCountRequestInput,
     CreateInventoryItemRequestInput
 } from './types-7.js';
-import type { UpdateInventoryAllocationPolicyRequestInput, UpdateInventoryCountRequestInput } from './types-47.js';
+import type {
+    UpdateInventoryAllocationPolicyRequestInput,
+    UpdateInventoryCountRequestInput,
+    UpdateInventoryItemRequestInput
+} from './types-48.js';
 import type { InventorySourceSystem } from './types-25.js';
-import type { UpdateInventoryItemRequestInput, UpdateInventoryLevelRequestInput } from './types-48.js';
+/**
+ * Shape $ (Value): {@link InventoryAdjustmentConditionChangeLineRequestInput}. One line of an
+ * inventory condition change: moves a `quantity` of an item at a Location from one condition to
+ * another.
+ */
+export type InventoryAdjustmentConditionChangeLineRequestInput = ({
+    /**
+     * Shape $ (Value): string. Condition the units leave. Defaults to `sellable`. Default:
+     * "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
+     */
+    "from_condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id": string;
+    /**
+     * Shape $ (Value): integer string. Units this line records. Must be at least 1. Whole-number
+     * quantity; fractional quantities are not supported. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. Condition the units move to. Must differ from `from_condition`.
+     * Value enum: "sellable", "quality_control", "damaged", "quarantined".
+     */
+    "to_condition": "sellable" | "quality_control" | "damaged" | "quarantined";
+})
+    & ((unknown) & (unknown) & (unknown) & (unknown));
+/**
+ * Shape $ (Value): {@link InventoryAdjustmentLine}. One line of an inventory adjustment, with the
+ * item, Location, movement written, and the change in on-hand and each non-sellable quantity.
+ */
+export type InventoryAdjustmentLine = {
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "damaged_quantity_delta": `${bigint}`;
+    /** Shape $ (Value): string. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): string or null. Movement this line wrote, or `null` when the line changed
+     * nothing.
+     */
+    "inventory_movement_id": string | null;
+    /** Shape $ (Value): string. */
+    "location_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "on_hand_quantity_delta": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quality_control_quantity_delta": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quarantined_quantity_delta": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryAdjustmentListResponse}. A page of `InventoryAdjustment`
+ * objects.
+ */
+export type InventoryAdjustmentListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryAdjustment}. Shape $[] (Value): {@link
+     * InventoryAdjustment}. A recorded stock change with its reason and the quantity changes Flint
+     * computed.
+     */
+    "data": Array<InventoryAdjustment>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link InventoryAdjustmentQuantityLineRequest}. One line of an inventory
+ * quantity adjustment: a `quantity` of an item at a Location, in the given `condition`.
+ */
+export type InventoryAdjustmentQuantityLineRequest = {
+    /**
+     * Shape $ (Value): string. Condition of the units. Defaults to `sellable`. Default:
+     * "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
+     */
+    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id": string;
+    /**
+     * Shape $ (Value): integer string. Units this line records. Must be at least 1. Whole-number
+     * quantity; fractional quantities are not supported. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1.
+     */
+    "quantity": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryAdjustmentQuantityLineRequestInput}. One line of an inventory
+ * quantity adjustment: a `quantity` of an item at a Location, in the given `condition`.
+ */
+export type InventoryAdjustmentQuantityLineRequestInput = {
+    /**
+     * Shape $ (Value): string. Condition of the units. Defaults to `sellable`. Default:
+     * "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
+     */
+    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id": string;
+    /**
+     * Shape $ (Value): integer string. Units this line records. Must be at least 1. Whole-number
+     * quantity; fractional quantities are not supported. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1.
+     */
+    "quantity": `${bigint}` | bigint;
+};
+/**
+ * Shape $ (Value): {@link InventoryAdjustmentResponse}. A response containing
+ * `InventoryAdjustment` data.
+ */
+export type InventoryAdjustmentResponse = {
+    /**
+     * Shape $ (Value): {@link InventoryAdjustment}. A recorded stock change with its reason and
+     * the quantity changes Flint computed.
+     */
+    "data": InventoryAdjustment;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link InventoryAdjustmentResult}. Inventory adjustment and the levels it
+ * changed. inventory_adjustment is the primary resource and expected_version target.
+ */
+export type InventoryAdjustmentResult = {
+    /**
+     * Shape $ (Value): {@link InventoryAdjustment}. A recorded stock change with its reason and
+     * the quantity changes Flint computed.
+     */
+    "inventory_adjustment": InventoryAdjustment;
+    /**
+     * Shape $ (Value): Array of {@link InventoryLevel}. Post-commit state of every level this
+     * command touched, one entry per level. A replay returns the levels the original command
+     * produced. Empty when no levels changed. Shape $[] (Value): {@link InventoryLevel}. The
+     * quantity state of one inventory item at one Location.
+     */
+    "inventory_levels": Array<InventoryLevel>;
+};
 /**
  * Shape $ (Value): {@link InventoryAdjustmentResultResponse}. A response containing
  * `InventoryAdjustmentResult` data.
@@ -222,7 +397,7 @@ export type InventoryAdjustmentsListInput = {
      * "correction".
      */
     "reason"?: InputValue<Array<"received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction">>;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
     /**
      * Shape $ (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp",
@@ -583,8 +758,11 @@ export type InventoryCount = {
     "applied_at"?: string;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "created_at": string;
-    /** Shape $ (Value): string. */
-    "idempotency_key": string;
+    /**
+     * Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
+     */
+    "idempotency_key"?: string;
     /** Shape $ (Value): string. */
     "inventory_count_id": string;
     /**
@@ -1016,7 +1194,7 @@ export type InventoryCountsListInput = {
      * Shape $[] (Value): string. Value enum: "draft", "applied", "canceled".
      */
     "status"?: InputValue<Array<"draft" | "applied" | "canceled">>;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_after"?: InputValue<string | globalThis.Date>;
@@ -1362,373 +1540,4 @@ export type InventoryLevelsGetInput = {
     "expand"?: InputValue<Array<"inventory_item">>;
     /** Shape $ (Value): string. */
     "inventory_level_id": InputValue<string>;
-};
-export type InventoryLevelsListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "inventory_item_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "location_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived".
-     * Shape $[] (Value): string. Value enum: "active", "inactive", "archived".
-     */
-    "inventory_item_status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    /** Shape $ (Value): boolean. */
-    "has_available_quantity"?: InputValue<boolean>;
-    /** Shape $ (Value): boolean. */
-    "has_unavailable_condition"?: InputValue<boolean>;
-    /** Shape $ (Value): boolean. */
-    "has_shortage"?: InputValue<boolean>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "query"?: InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0.
-     */
-    "min_available_quantity"?: InputValue<`${bigint}` | bigint>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0.
-     */
-    "max_available_quantity"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "inventory_item". Shape $[] (Value): string.
-     * Value enum: "inventory_item".
-     */
-    "expand"?: InputValue<Array<"inventory_item">>;
-};
-export type InventoryLevelsUpdateInput = {
-    /** Shape $ (Value): string. */
-    "inventory_level_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateInventoryLevelRequestInput}. The request body for: Update
-     * inventory level.
-     */
-    "body": InputValue<UpdateInventoryLevelRequestInput>;
-};
-/**
- * Shape $ (Value): {@link InventoryMovement}. An immutable record of a single quantity change,
- * including the level state it produced.
- */
-export type InventoryMovement = {
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "committed_quantity_delta": `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): {@link ResourceReference} or null. The credential that recorded this
-     * movement. null when Flint recorded it on its own, such as an expired hold or a fulfillment
-     * handoff. Shape $.anyOf[1] (Value): {@link ResourceReference}. A reference to another
-     * resource by `resource_type` and `resource_id`. Shape $.anyOf[2] (Value): null.
-     */
-    "created_by": ((ResourceReference) | (null));
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "damaged_quantity_delta": `${bigint}`;
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "held_quantity_delta": `${bigint}`;
-    /** Shape $ (Value): string. */
-    "idempotency_key"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "incoming_quantity_delta": `${bigint}`;
-    /**
-     * Shape $ (Value): {@link InventoryItem}. The inventory item this movement is about. Present
-     * only when the list request asked for expand=inventory_item. A stock-keeping unit that
-     * inventory quantities are tracked against. Catalog variants reference an inventory item
-     * rather than carrying their own counter.
-     */
-    "inventory_item"?: InventoryItem;
-    /** Shape $ (Value): string. */
-    "inventory_item_id": string;
-    /**
-     * Shape $ (Value): integer string. Claim version of the inventory level after this movement.
-     * Advances when held or committed quantities change. Use an integer string (decimal digits),
-     * not a floating-point number. Format: uint64. minimum: 0.
-     */
-    "inventory_level_claim_version": `${bigint}`;
-    /** Shape $ (Value): string. */
-    "inventory_level_id": string;
-    /**
-     * Shape $ (Value): integer string. Physical version of the inventory level after this
-     * movement. Advances when on-hand or condition quantities change. Use an integer string
-     * (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
-     */
-    "inventory_level_physical_version": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Version of the inventory level after this movement. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
-     */
-    "inventory_level_version": `${bigint}`;
-    /** Shape $ (Value): string. */
-    "inventory_movement_id": string;
-    /** Shape $ (Value): string. */
-    "location_id": string;
-    /** Shape $ (Value): string. */
-    "note"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "occurred_at": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "on_hand_quantity_delta": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quality_control_quantity_delta": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quarantined_quantity_delta": `${bigint}`;
-    /**
-     * Shape $ (Value): string. The adjustment's reason. Present only on adjustment movements;
-     * other movement types already describe what happened. Value enum: "received", "returned",
-     * "sold", "theft", "loss", "condition_changed", "counted", "correction".
-     */
-    "reason"?: "received"
-        | "returned"
-        | "sold"
-        | "theft"
-        | "loss"
-        | "condition_changed"
-        | "counted"
-        | "correction"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link InventoryLevel}. The quantity state of one inventory item at one
-     * Location.
-     */
-    "resulting_inventory_level": InventoryLevel;
-    /** Shape $ (Value): string. */
-    "return_disposition_id"?: string;
-    /** Shape $ (Value): string. */
-    "return_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "safety_stock_quantity_delta": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "source_observation_sequence"?: `${bigint}`;
-    /**
-     * Shape $ (Value): {@link ResourceReference}. The GET-able resource whose write recorded this
-     * movement. A reference to another resource by `resource_type` and `resource_id`.
-     */
-    "source_reference": ResourceReference;
-    /**
-     * Shape $ (Value): {@link InventorySourceSystem} or null. Shape $.anyOf[1] (Value): {@link
-     * InventorySourceSystem}. The system an inventory event came from, such as manual entry, a
-     * point of sale, a warehouse system, or Flint, with your source identifier when it applies.
-     * Shape $.anyOf[2] (Value): null.
-     */
-    "source_system": ((InventorySourceSystem) | (null));
-    /**
-     * Shape $ (Value): string. Value enum: "adjustment", "count_applied", "reservation_consumed",
-     * "reservation_committed", "reservation_commitment_released", "reservation_expired",
-     * "reservation_held", "reservation_hold_released", "reservation_reallocated_in",
-     * "reservation_reallocated_out", "return_received", "safety_stock_change",
-     * "transfer_departed", "transfer_received", "transfer_returned", "transfer_lost".
-     */
-    "type": "adjustment"
-        | "count_applied"
-        | "reservation_consumed"
-        | "reservation_committed"
-        | "reservation_commitment_released"
-        | "reservation_expired"
-        | "reservation_held"
-        | "reservation_hold_released"
-        | "reservation_reallocated_in"
-        | "reservation_reallocated_out"
-        | "return_received"
-        | "safety_stock_change"
-        | "transfer_departed"
-        | "transfer_received"
-        | "transfer_returned"
-        | "transfer_lost"
-        | (string & {});
-};
-/**
- * Shape $ (Value): {@link InventoryMovementListResponse}. A page of `InventoryMovement` objects.
- */
-export type InventoryMovementListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InventoryMovement}. Shape $[] (Value): {@link
-     * InventoryMovement}. An immutable record of a single quantity change, including the level
-     * state it produced.
-     */
-    "data": Array<InventoryMovement>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InventoryMovementResponse}. A response containing `InventoryMovement`
- * data.
- */
-export type InventoryMovementResponse = {
-    /**
-     * Shape $ (Value): {@link InventoryMovement}. An immutable record of a single quantity change,
-     * including the level state it produced.
-     */
-    "data": InventoryMovement;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-export type InventoryMovementsGetInput = {
-    /**
-     * Shape $ (Value): Array of string. [] enum: "inventory_item". Shape $[] (Value): string.
-     * Value enum: "inventory_item".
-     */
-    "expand"?: InputValue<Array<"inventory_item">>;
-    /** Shape $ (Value): string. */
-    "inventory_movement_id": InputValue<string>;
-};
-export type InventoryMovementsListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "inventory_item_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "location_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "adjustment", "count_applied",
-     * "reservation_consumed", "reservation_committed", "reservation_commitment_released",
-     * "reservation_expired", "reservation_held", "reservation_hold_released",
-     * "reservation_reallocated_in", "reservation_reallocated_out", "return_received",
-     * "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned",
-     * "transfer_lost". Shape $[] (Value): string. Value enum: "adjustment", "count_applied",
-     * "reservation_consumed", "reservation_committed", "reservation_commitment_released",
-     * "reservation_expired", "reservation_held", "reservation_hold_released",
-     * "reservation_reallocated_in", "reservation_reallocated_out", "return_received",
-     * "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned",
-     * "transfer_lost".
-     */
-    "type"?: InputValue<Array<"adjustment"
-        | "count_applied"
-        | "reservation_consumed"
-        | "reservation_committed"
-        | "reservation_commitment_released"
-        | "reservation_expired"
-        | "reservation_held"
-        | "reservation_hold_released"
-        | "reservation_reallocated_in"
-        | "reservation_reallocated_out"
-        | "return_received"
-        | "safety_stock_change"
-        | "transfer_departed"
-        | "transfer_received"
-        | "transfer_returned"
-        | "transfer_lost">>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "received", "returned", "sold",
-     * "theft", "loss", "condition_changed", "counted", "correction". Shape $[] (Value): string.
-     * Value enum: "received", "returned", "sold", "theft", "loss", "condition_changed", "counted",
-     * "correction".
-     */
-    "reason"?: InputValue<Array<"received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction">>;
-    /** Shape $ (Value): string. */
-    "idempotency_key"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "return_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "return_disposition_id"?: InputValue<string>;
-    /** Shape $ (Value): string. Default: "asc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "inventory_item". Shape $[] (Value): string.
-     * Value enum: "inventory_item".
-     */
-    "expand"?: InputValue<Array<"inventory_item">>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp",
-     * "flint", "other". Shape $[] (Value): string. Value enum: "manual", "pos", "wms", "erp",
-     * "flint", "other".
-     */
-    "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
-    /** Shape $ (Value): string. */
-    "external_source_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "external_actor_id"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "occurred_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "fulfillment",
-     * "inventory_adjustment", "inventory_count", "inventory_level", "inventory_receipt",
-     * "inventory_reservation", "inventory_transfer". Shape $[] (Value): string. Value enum:
-     * "fulfillment", "inventory_adjustment", "inventory_count", "inventory_level",
-     * "inventory_receipt", "inventory_reservation", "inventory_transfer".
-     */
-    "source_reference_type"?: InputValue<Array<"fulfillment"
-        | "inventory_adjustment"
-        | "inventory_count"
-        | "inventory_level"
-        | "inventory_receipt"
-        | "inventory_reservation"
-        | "inventory_transfer">>;
-    /** Shape $ (Value): string. */
-    "source_reference_id"?: InputValue<string>;
 };

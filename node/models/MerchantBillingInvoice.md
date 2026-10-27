@@ -10,36 +10,36 @@ A Flint invoice for the merchant's Flint subscription.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `credit_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
-| `due_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `invoice_number` | Required | string |  |
-| `issued_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `created_at` | Required | string | When Flint created the invoice. Format: `date-time`. |
+| `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `credit_money`: [field definitions](../models/IncomingWebhook1e0bfe58cccePayload.md#incomingwebhook1e0bfe58cccepayloaddataobjectcredit_money). |
+| `due_at` | Required | string | When payment of the invoice is due. Format: `date-time`. |
+| `invoice_number` | Required | string | Human-readable invoice number. |
+| `issued_at` | Optional | string | When Flint issued the invoice. Format: `date-time`. |
 | `line_items` | Required | Array of [MerchantBillingInvoiceLineItem](../models/MerchantBillingInvoiceLineItem.md#merchantbillinginvoicelineitem) | Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to credit_money. |
-| `merchant_billing_invoice_id` | Required | string |  |
-| `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `outstanding_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
-| `paid_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `merchant_billing_invoice_id` | Required | string | Stable identifier of the invoice. |
+| `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Part of total_money Flint still has to collect. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `outstanding_money`: [field definitions](../models/IncomingWebhook1e0bfe58cccePayload.md#incomingwebhook1e0bfe58cccepayloaddataobjectoutstanding_money). |
+| `paid_at` | Optional | string | When the invoice was paid. Removed if a reversed collection reopens it. Format: `date-time`. |
 | `period_end_at` | Required | string | Exclusive invoice billing period end as an RFC 3339 UTC instant. Format: `date-time`. |
 | `period_start_at` | Required | string | Inclusive invoice billing period start as an RFC 3339 UTC instant. Format: `date-time`. |
-| `status` | Required | string | Values: `"draft"`, `"open"`, `"collecting"`, `"paid"`, `"delinquent"`, `"void"`, `"written_off"`. |
-| `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `subtotal_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
-| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `total_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
-| `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `voided_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `status` | Required | string | Collection state of the invoice. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. Values: `"draft"`, `"open"`, `"collecting"`, `"paid"`, `"delinquent"`, `"void"`, `"written_off"`. |
+| `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Sum of the subscription line items, before credit. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `subtotal_money`: [field definitions](../models/IncomingWebhook1e0bfe58cccePayload.md#incomingwebhook1e0bfe58cccepayloaddataobjectsubtotal_money). |
+| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What the invoice charges: subtotal_money minus credit_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `total_money`: [field definitions](../models/IncomingWebhook1e0bfe58cccePayload.md#incomingwebhook1e0bfe58cccepayloaddataobjecttotal_money). |
+| `updated_at` | Required | string | When the invoice last changed. Format: `date-time`. |
+| `voided_at` | Optional | string | When the invoice was voided. Absent on invoices that weren't. Format: `date-time`. |
 
 ### MerchantBillingInvoice.credit_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [IncomingWebhook1e0bfe58cccePayload.data.object.credit_money](../models/IncomingWebhook1e0bfe58cccePayload.md#incomingwebhook1e0bfe58cccepayloaddataobjectcredit_money).
 
 ### MerchantBillingInvoice.outstanding_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [IncomingWebhook1e0bfe58cccePayload.data.object.outstanding_money](../models/IncomingWebhook1e0bfe58cccePayload.md#incomingwebhook1e0bfe58cccepayloaddataobjectoutstanding_money).
 
 ### MerchantBillingInvoice.subtotal_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [IncomingWebhook1e0bfe58cccePayload.data.object.subtotal_money](../models/IncomingWebhook1e0bfe58cccePayload.md#incomingwebhook1e0bfe58cccepayloaddataobjectsubtotal_money).
 
 ### MerchantBillingInvoice.total_money
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+Field definitions: [IncomingWebhook1e0bfe58cccePayload.data.object.total_money](../models/IncomingWebhook1e0bfe58cccePayload.md#incomingwebhook1e0bfe58cccepayloaddataobjecttotal_money).
 

@@ -1,12 +1,588 @@
-import type { InvoiceDeliveryAttempt, Invoice, InvoiceManualPayment, InvoicePaymentAttempt } from './types-26.js';
-import type { MerchantWebhookEnvelope, ModifierGroup, ModifierSet } from './types-31.js';
-import type { PartnerWebhookEnvelope, PaymentIntent, PaymentLink } from './types-35.js';
+import type { InventoryCount, InventoryLevel } from './types-24.js';
+import type { MerchantWebhookEnvelope, MerchantBillingInvoice, ModifierGroup, ModifierSet } from './types-31.js';
+import type { PartnerWebhookEnvelope } from './types-35.js';
+import type { InventoryReceipt, InventoryReservation, InventoryTransfer } from './types-25.js';
+import type { Invoice, InvoiceDeliveryAttempt, InvoiceManualPayment } from './types-26.js';
+import type { InvoicePaymentAttempt } from './types-27.js';
 import type { ResponseMeta } from './types-40.js';
 import type { WebhookEvent } from './types-50.js';
-import type { MerchantBillingBalance, MerchantBillingInvoice, Merchant } from './types-30.js';
+import type { MerchantBillingBalance, Merchant } from './types-30.js';
 import type { Order } from './types-32.js';
-import type { Package, PartnerAppInstall } from './types-34.js';
-import type { PaymentMethod } from './types-36.js';
+export type WebhookEventInventoryCountApplied = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryCount;
+    };
+    "event_type"?: "inventory_count.applied" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryCount;
+    };
+    "event_type"?: "inventory_count.applied" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_count.applied";
+});
+export type WebhookEventInventoryLevelShortageDetected = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryLevel;
+    };
+    "event_type"?: "inventory_level.shortage_detected" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryLevel;
+    };
+    "event_type"?: "inventory_level.shortage_detected" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_level.shortage_detected";
+});
+export type WebhookEventInventoryLevelUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryLevel;
+    };
+    "event_type"?: "inventory_level.updated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryLevel;
+    };
+    "event_type"?: "inventory_level.updated" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_level.updated";
+});
+export type WebhookEventInventoryReceiptCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReceipt;
+    };
+    "event_type"?: "inventory_receipt.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReceipt;
+    };
+    "event_type"?: "inventory_receipt.created" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_receipt.created";
+});
+export type WebhookEventInventoryReservationActionRequired = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.action_required" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.action_required" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.action_required";
+});
+export type WebhookEventInventoryReservationAtRisk = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.at_risk" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.at_risk" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.at_risk";
+});
+export type WebhookEventInventoryReservationClosed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.closed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.closed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.closed";
+});
+export type WebhookEventInventoryReservationCommitted = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.committed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.committed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.committed";
+});
+export type WebhookEventInventoryReservationConsumed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.consumed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.consumed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.consumed";
+});
+export type WebhookEventInventoryReservationCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.created" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.created";
+});
+export type WebhookEventInventoryReservationHoldExpired = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.hold_expired" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.hold_expired" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.hold_expired";
+});
+export type WebhookEventInventoryReservationReleased = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.released" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryReservation;
+    };
+    "event_type"?: "inventory_reservation.released" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.released";
+});
+export type WebhookEventInventoryTransferClosed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.closed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.closed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_transfer.closed";
+});
+export type WebhookEventInventoryTransferDeparted = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.departed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.departed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_transfer.departed";
+});
+export type WebhookEventInventoryTransferLost = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.lost" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.lost" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_transfer.lost";
+});
+export type WebhookEventInventoryTransferReceived = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.received" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.received" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_transfer.received";
+});
+export type WebhookEventInventoryTransferReturned = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.returned" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InventoryTransfer;
+    };
+    "event_type"?: "inventory_transfer.returned" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "inventory_transfer.returned";
+});
+export type WebhookEventInvoiceCollectionBlockResolved = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.collection_block_resolved" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.collection_block_resolved" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.collection_block_resolved";
+});
+export type WebhookEventInvoiceCollectionBlocked = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.collection_blocked" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.collection_blocked" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.collection_blocked";
+});
+export type WebhookEventInvoiceCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.created" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.created";
+});
+export type WebhookEventInvoiceCredited = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.credited" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Invoice;
+    };
+    "event_type"?: "invoice.credited" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice.credited";
+});
+export type WebhookEventInvoiceDeliveryAttemptFailed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.failed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.failed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_delivery_attempt.failed";
+});
+export type WebhookEventInvoiceDeliveryAttemptSent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.sent" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": InvoiceDeliveryAttempt;
+    };
+    "event_type"?: "invoice_delivery_attempt.sent" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "invoice_delivery_attempt.sent";
+});
 export type WebhookEventInvoiceDeliveryAttemptSuppressed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -951,539 +1527,4 @@ export type WebhookEventOrderPaid = ((((Exclude<MerchantWebhookEnvelope & object
 })))
     & {
     "event_type": "order.paid";
-});
-export type WebhookEventOrderPartiallyPaid = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.partially_paid" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.partially_paid" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "order.partially_paid";
-});
-export type WebhookEventOrderPartiallyRefunded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.partially_refunded" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.partially_refunded" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "order.partially_refunded";
-});
-export type WebhookEventOrderRefunded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.refunded" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.refunded" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "order.refunded";
-});
-export type WebhookEventOrderUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.updated" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Order;
-    };
-    "event_type"?: "order.updated" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "order.updated";
-});
-export type WebhookEventPackageCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Package;
-    };
-    "event_type"?: "package.created" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Package;
-    };
-    "event_type"?: "package.created" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "package.created";
-});
-export type WebhookEventPackageUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Package;
-    };
-    "event_type"?: "package.updated" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": Package;
-    };
-    "event_type"?: "package.updated" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "package.updated";
-});
-export type WebhookEventPartnerAppInstallCreated = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PartnerAppInstall;
-    };
-    "event_type"?: "partner_app_install.created" | (string & {});
-    "source"?: {
-        "merchant_id": string;
-        "partner_app_install_id": string;
-        "type": "partner_app" | (string & {});
-    };
-})
-    & {
-    "event_type": "partner_app_install.created";
-});
-export type WebhookEventPartnerAppInstallPermissionsUpdated = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PartnerAppInstall;
-    };
-    "event_type"?: "partner_app_install.permissions_updated" | (string & {});
-    "source"?: {
-        "merchant_id": string;
-        "partner_app_install_id": string;
-        "type": "partner_app" | (string & {});
-    };
-})
-    & {
-    "event_type": "partner_app_install.permissions_updated";
-});
-export type WebhookEventPartnerAppInstallRevoked = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PartnerAppInstall;
-    };
-    "event_type"?: "partner_app_install.revoked" | (string & {});
-    "source"?: {
-        "merchant_id": string;
-        "partner_app_install_id": string;
-        "type": "partner_app" | (string & {});
-    };
-})
-    & {
-    "event_type": "partner_app_install.revoked";
-});
-export type WebhookEventPartnerAppInstallUpdated = ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PartnerAppInstall;
-    };
-    "event_type"?: "partner_app_install.updated" | (string & {});
-    "source"?: {
-        "merchant_id": string;
-        "partner_app_install_id": string;
-        "type": "partner_app" | (string & {});
-    };
-})
-    & {
-    "event_type": "partner_app_install.updated";
-});
-export type WebhookEventPaymentIntentCanceled = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.canceled" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.canceled" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.canceled";
-});
-export type WebhookEventPaymentIntentCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.created" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.created" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.created";
-});
-export type WebhookEventPaymentIntentExpired = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.expired" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.expired" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.expired";
-});
-export type WebhookEventPaymentIntentFulfillmentHoldUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.fulfillment_hold_updated" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.fulfillment_hold_updated" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.fulfillment_hold_updated";
-});
-export type WebhookEventPaymentIntentPaymentFailed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.payment_failed" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.payment_failed" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.payment_failed";
-});
-export type WebhookEventPaymentIntentProcessing = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.processing" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.processing" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.processing";
-});
-export type WebhookEventPaymentIntentRequiresAction = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.requires_action" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.requires_action" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.requires_action";
-});
-export type WebhookEventPaymentIntentRequiresCapture = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.requires_capture" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.requires_capture" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.requires_capture";
-});
-export type WebhookEventPaymentIntentSucceeded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.succeeded" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.succeeded" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.succeeded";
-});
-export type WebhookEventPaymentIntentUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.updated" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentIntent;
-    };
-    "event_type"?: "payment_intent.updated" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_intent.updated";
-});
-export type WebhookEventPaymentLinkCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentLink;
-    };
-    "event_type"?: "payment_link.created" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentLink;
-    };
-    "event_type"?: "payment_link.created" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_link.created";
-});
-export type WebhookEventPaymentLinkUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentLink;
-    };
-    "event_type"?: "payment_link.updated" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentLink;
-    };
-    "event_type"?: "payment_link.updated" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_link.updated";
-});
-export type WebhookEventPaymentMethodActivated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentMethod;
-    };
-    "event_type"?: "payment_method.activated" | (string & {});
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": PaymentMethod;
-    };
-    "event_type"?: "payment_method.activated" | (string & {});
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-        "type": "installed_merchants" | (string & {});
-    });
-})))
-    & {
-    "event_type": "payment_method.activated";
 });

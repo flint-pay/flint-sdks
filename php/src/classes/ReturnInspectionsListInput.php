@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_after
  * @property-read string|\DateTimeInterface $created_before
  * @property-read string $external_reference_id
+ * @property-read string $idempotency_key
  * @property-read string|\DateTimeInterface $inspected_after
  * @property-read string|\DateTimeInterface $inspected_before
  * @property-read string $inspection_location_id
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnInspectionsListInput extends Model {
-    /** @param array{'acceptance_status'?: list<string>, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'inspected_after'?: string|\DateTimeInterface, 'inspected_before'?: string|\DateTimeInterface, 'inspection_location_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'return_id'?: string, 'return_line_item_id'?: string, 'return_receipt_id'?: string, 'source_system_type'?: list<string>, 'status'?: list<string>, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'acceptance_status'?: list<string>, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'external_reference_id'?: string, 'idempotency_key'?: string, 'inspected_after'?: string|\DateTimeInterface, 'inspected_before'?: string|\DateTimeInterface, 'inspection_location_id'?: string, 'page_size'?: int, 'page_token'?: string, 'query'?: string, 'return_id'?: string, 'return_line_item_id'?: string, 'return_receipt_id'?: string, 'source_system_type'?: list<string>, 'status'?: list<string>, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionsListInput')); }
     /** Shape $ (Value): Array of string. minItems: 1. [] enum: "accepted", "rejected", "review_required". Shape $[] (Value): string.  Value enum: "accepted", "rejected", "review_required".
      * @return list<string>
@@ -47,6 +48,12 @@ final class ReturnInspectionsListInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When inspected_after is omitted; use hasInspectedAfter() or valueOrDefault().

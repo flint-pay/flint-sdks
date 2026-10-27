@@ -14,7 +14,7 @@ Signature:
 create(params: (InputValue<CreateRefundRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -690,7 +690,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -719,7 +719,7 @@ get(refund_id: InputValue<string>,
     "payment_intent" |
     "payment_refunds.payment_intent">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -754,7 +754,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -774,6 +774,7 @@ Signature:
 
 ```typescript
 list(params?: {
+  "idempotency_key"?: InputValue<string>;
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>;
   "order_id"?: InputValue<string>;
@@ -807,13 +808,14 @@ list(params?: {
   "updated_before"?: InputValue<string | globalThis.Date>;
   "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
 | `order_id` | Optional | string |  |
@@ -860,7 +862,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -885,7 +887,7 @@ update(refund_id: InputValue<string>,
  params: (InputValue<UpdateRefundRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -894,13 +896,13 @@ update(refund_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `refund_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [UpdateRefundRequestInput](../models/UpdateRefundRequest.md#updaterefundrequest) | The request body for: Update refund. |
+| `body` | Required | [UpdateRefundRequestInput](../models/UpdateRefundRequestInput.md#updaterefundrequestinput) | The request body for: Update refund. |
 
-Body model: [UpdateRefundRequestInput](../models/UpdateRefundRequest.md#updaterefundrequest).
+Body model: [UpdateRefundRequestInput](../models/UpdateRefundRequestInput.md#updaterefundrequestinput).
 
 #### refunds.update body fields
 
-Field definitions: [shared fields](../models/UpdateRefundRequest.md#updaterefundrequest).
+Field definitions: [shared fields](../models/UpdateRefundRequestInput.md#updaterefundrequestinput).
 
 #### Response
 
@@ -932,7 +934,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

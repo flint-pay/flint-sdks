@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# FraudWarningsGetResponse200 – WebhookEndpointsGetResponse200
+# DeveloperGetPartnerAppResponse200 – ShipmentsGetResponse200
 
+- [DeveloperGetPartnerAppResponse200](DeveloperGetPartnerAppResponse200.md)
+- [DeveloperGetPartnerAppInstallResponse200](DeveloperGetPartnerAppInstallResponse200.md)
+- [DeveloperGetSandboxResponse200](DeveloperGetSandboxResponse200.md)
+- [DevicesGetResponse200](DevicesGetResponse200.md)
+- [DisputesGetResponse200](DisputesGetResponse200.md)
+- [SettingsGetEffectiveResponse200](SettingsGetEffectiveResponse200.md)
+- [FeedbackReportsGetResponse200](FeedbackReportsGetResponse200.md)
+- [FilesGetResponse200](FilesGetResponse200.md)
 - [FraudWarningsGetResponse200](FraudWarningsGetResponse200.md)
 - [FulfillmentsGetResponse200](FulfillmentsGetResponse200.md)
 - [FulfillmentEventsGetResponse200](FulfillmentEventsGetResponse200.md)
@@ -94,12 +102,4 @@
 - [RiskRulesGetAttributeRegistryResponse200](RiskRulesGetAttributeRegistryResponse200.md)
 - [SettingsGetResponse200](SettingsGetResponse200.md)
 - [ShipmentsGetResponse200](ShipmentsGetResponse200.md)
-- [SubscriptionsGetResponse200](SubscriptionsGetResponse200.md)
-- [AnalyticsGetSubscriptionResponse200](AnalyticsGetSubscriptionResponse200.md)
-- [SubscriptionDeliveryMigrationsGetResponse200](SubscriptionDeliveryMigrationsGetResponse200.md)
-- [SubscriptionOffersGetResponse200](SubscriptionOffersGetResponse200.md)
-- [SubscriptionsGetPaymentRetryResponse200](SubscriptionsGetPaymentRetryResponse200.md)
-- [SubscriptionPlansGetResponse200](SubscriptionPlansGetResponse200.md)
-- [WebhookDeliveriesGetResponse200](WebhookDeliveriesGetResponse200.md)
-- [WebhookEndpointsGetResponse200](WebhookEndpointsGetResponse200.md)
 

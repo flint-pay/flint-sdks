@@ -12,9 +12,9 @@ import type {
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateCategoryRequestInput } from '../declarations/types-5.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateCategoryRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,14 +39,14 @@ export type {
     CategoriesListInput,
     CategoriesUpdateInput
 } from '../declarations/types-3.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateCategoryRequestInput } from '../declarations/types-47.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateCategoryRequest } from '../declarations/types-62.js';
+export { makeCreateCategoryRequest } from '../declarations/types-63.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeUpdateCategoryRequest } from '../declarations/types-72.js';
 export interface CategoriesResource {
@@ -62,13 +62,13 @@ export interface CategoriesResource {
  */
     create(params: (InputValue<CreateCategoryRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Category>;
+    }, options?: RequestOptions<"merchant">): Promise<Category>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/categories.md#categoriescreate
      */
     createWithResponse(params: (InputValue<CreateCategoryRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoryResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CategoryResponse>>;
     /**
  * Permanently deletes an unreferenced category and returns it with status deleted. Deleted
  * categories cannot be retrieved or listed. Remove all product, bundle, promotion, and return
@@ -83,14 +83,14 @@ export interface CategoriesResource {
     remove(category_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Category>;
+    }, options?: RequestOptions<"merchant">): Promise<Category>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/categories.md#categoriesremove
      */
     removeWithResponse(category_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoryResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CategoryResponse>>;
     /**
  * Get category.
  * @see reference/categories.md#categoriesget
@@ -98,11 +98,11 @@ export interface CategoriesResource {
  * @example
  * client.categories.get("example")
  */
-    get(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Category>;
+    get(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Category>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/categories.md#categoriesget
      */
-    getWithResponse(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoryResponse>>;
+    getWithResponse(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CategoryResponse>>;
     /**
  * List categories.
  * @see reference/categories.md#categorieslist
@@ -122,7 +122,7 @@ export interface CategoriesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CategoryListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CategoryListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/categories.md#categorieslist
      */
@@ -138,7 +138,7 @@ export interface CategoriesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoryListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CategoryListResponse>>;
     /** Iterate pages lazily.
      * @see reference/categories.md#categorieslist
      */
@@ -154,7 +154,7 @@ export interface CategoriesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CategoryListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CategoryListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/categories.md#categorieslist
      */
@@ -170,7 +170,7 @@ export interface CategoriesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CategoryListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<CategoryListResponse>>;
     /** Iterate items lazily.
      * @see reference/categories.md#categorieslist
      */
@@ -186,7 +186,7 @@ export interface CategoriesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Category>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Category>;
     /**
  * Update category.
  * @see reference/categories.md#categoriesupdate
@@ -198,13 +198,13 @@ export interface CategoriesResource {
  */
     update(category_id: InputValue<string>, params: (InputValue<UpdateCategoryRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Category>;
+    }, options?: RequestOptions<"merchant">): Promise<Category>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/categories.md#categoriesupdate
      */
     updateWithResponse(category_id: InputValue<string>, params: (InputValue<UpdateCategoryRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoryResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CategoryResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

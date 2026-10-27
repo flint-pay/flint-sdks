@@ -1,1 +1,1 @@
-{"shared":"InventorySourceSystem","phpRepresentation":{"kind":"record","fields":{"external_source_id":{"kind":"value","type":"string"},"type":{"kind":"value","type":"string"}}},"dependencies":["InventorySourceSystem","SharedCodec145","SharedCodec832","SharedCodec833","SharedCodec834"]}
+{"shared":"InventorySourceSystem","phpRepresentation":{"kind":"record","fields":{"external_source_id":{"kind":"value","type":"string"},"type":{"kind":"value","type":"string"}}},"dependencies":["InventorySourceSystem","SharedCodec150","SharedCodec837","SharedCodec838","SharedCodec839"]}

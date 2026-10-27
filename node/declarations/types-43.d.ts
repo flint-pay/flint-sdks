@@ -1,5 +1,6 @@
+import type { InputValue } from '../runtime.js';
+import type { DeclinePaymentReviewRequestInput } from './types-11.js';
 import type { ResponseMeta, ResourceReference, ResponseWarning } from './types-40.js';
-import type { InputValue, Result } from '../runtime.js';
 import type { AddRiskListItemsRequestInput } from './types-0.js';
 import type { CreateRiskListRequestInput, CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput } from './types-9.js';
 import type { UpdateRiskListRequestInput, UpdateRiskRuleRequestInput } from './types-49.js';
@@ -7,9 +8,632 @@ import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type { GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput, GiftCardNotification } from './types-19.js';
 import type { GiftCard } from './types-18.js';
 import type { DeveloperSandbox } from './types-16.js';
-import type { CreateDeveloperSandboxResult } from './types-6.js';
-import type { PaymentMethodWithSetup } from './types-36.js';
-import type { PaymentCollection, PaymentErrorSummary } from './types-35.js';
+export type ReviewsApproveInput = {
+    /** Shape $ (Value): string. */
+    "payment_review_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+};
+export type ReviewsDeclineInput = {
+    /** Shape $ (Value): string. */
+    "payment_review_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link DeclinePaymentReviewRequestInput}. The request body for: Decline a
+     * payment review.
+     */
+    "body"?: InputValue<DeclinePaymentReviewRequestInput>;
+};
+export type ReviewsGetInput = {
+    /** Shape $ (Value): string. */
+    "payment_review_id": InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. [] enum: "customer", "order", "payment_intent". Shape $[]
+     * (Value): string. Value enum: "customer", "order", "payment_intent".
+     */
+    "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
+};
+export type ReviewsListInput = {
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "open", "resolving", "closed". Shape
+     * $[] (Value): string. Value enum: "open", "resolving", "closed".
+     */
+    "status"?: InputValue<Array<"open" | "resolving" | "closed">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "normal", "elevated", "highest",
+     * "not_assessed". Shape $[] (Value): string. Value enum: "normal", "elevated", "highest",
+     * "not_assessed".
+     */
+    "risk_level"?: InputValue<Array<"normal" | "elevated" | "highest" | "not_assessed">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "checkout", "payment_link",
+     * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api". Shape
+     * $[] (Value): string. Value enum: "checkout", "payment_link", "invoice",
+     * "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+     */
+    "payment_flow"?: InputValue<Array<"checkout"
+        | "payment_link"
+        | "invoice"
+        | "subscription_initial"
+        | "subscription_renewal"
+        | "virtual_terminal"
+        | "api">>;
+    /** Shape $ (Value): string. */
+    "payment_intent_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "order_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "customer_id"?: InputValue<string>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "opened_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "opened_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. [] enum: "customer", "order", "payment_intent". Shape $[]
+     * (Value): string. Value enum: "customer", "order", "payment_intent".
+     */
+    "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
+};
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyRequest}. The request body for: Revoke delivery
+ * dependency.
+ */
+export type RevokeDeliveryDependencyRequest = ({
+    /**
+     * Shape $ (Value): integer string. Required when target.target_type is delivery_method or
+     * delivery_rate_callback. The version of the stable resource whose current revision will be
+     * revoked. Omit it for exact revision, geography, and signing-key targets. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 2048. */
+    "merchant_note"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other".
+     */
+    "reason": "unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link RevokeDeliveryDependencyTarget}. A typed revocation target. Each
+     * target_type accepts only its resource-specific fields.
+     */
+    "target": RevokeDeliveryDependencyTarget;
+});
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyRequestInput}. The request body for: Revoke
+ * delivery dependency.
+ */
+export type RevokeDeliveryDependencyRequestInput = ({
+    /**
+     * Shape $ (Value): integer string. Required when target.target_type is delivery_method or
+     * delivery_rate_callback. The version of the stable resource whose current revision will be
+     * revoked. Omit it for exact revision, geography, and signing-key targets. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 2048. */
+    "merchant_note"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other".
+     */
+    "reason": "unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other";
+    /**
+     * Shape $ (Value): {@link RevokeDeliveryDependencyTargetInput}. A typed revocation target.
+     * Each target_type accepts only its resource-specific fields.
+     */
+    "target": RevokeDeliveryDependencyTargetInput;
+});
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTarget}. A typed revocation target. Each
+ * target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTarget = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "location_geography",
+     * "delivery_rate_callback_signing_key", "delivery_rate_callback",
+     * "delivery_rate_callback_revision", "delivery_method", "delivery_method_revision".
+     */
+    "target_type": "location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback"
+        | "delivery_rate_callback_revision"
+        | "delivery_method"
+        | "delivery_method_revision"
+        | (string & {});
+})
+    & ((Exclude<RevokeDeliveryDependencyTargetLocationGeography & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKey & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallback & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallbackRevision & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryMethod & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryMethodRevision & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryMethod}. A typed revocation
+ * target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryMethod = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_method". */
+    "target_type": "delivery_method" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_method". */
+    "target_type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id": string;
+}));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryMethodInput}. A typed revocation
+ * target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryMethodInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_method". */
+    "target_type": "delivery_method";
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_method". */
+    "target_type": "delivery_method";
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_revision_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_signing_key_id"?: never;
+})
+    & ({
+    "delivery_method_revision_id"?: never;
+})));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryMethodRevision}. A typed
+ * revocation target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryMethodRevision = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_method_revision". */
+    "target_type": "delivery_method_revision" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_method_revision". */
+    "target_type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id": string;
+}));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput}. A typed
+ * revocation target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_method_revision". */
+    "target_type": "delivery_method_revision";
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_method_revision". */
+    "target_type": "delivery_method_revision";
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_revision_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_signing_key_id"?: never;
+})));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryRateCallback}. A typed revocation
+ * target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallback = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_rate_callback". */
+    "target_type": "delivery_rate_callback" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_rate_callback". */
+    "target_type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id": string;
+}));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryRateCallbackInput}. A typed
+ * revocation target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_rate_callback". */
+    "target_type": "delivery_rate_callback";
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_rate_callback". */
+    "target_type": "delivery_rate_callback";
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_revision_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_signing_key_id"?: never;
+})
+    & ({
+    "delivery_method_id"?: never;
+})
+    & ({
+    "delivery_method_revision_id"?: never;
+})));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryRateCallbackRevision}. A typed
+ * revocation target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackRevision = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_rate_callback_revision". */
+    "target_type": "delivery_rate_callback_revision" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_rate_callback_revision". */
+    "target_type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id": string;
+}));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput}. A
+ * typed revocation target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_rate_callback_revision". */
+    "target_type": "delivery_rate_callback_revision";
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_rate_callback_revision". */
+    "target_type": "delivery_rate_callback_revision";
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_signing_key_id"?: never;
+})
+    & ({
+    "delivery_method_id"?: never;
+})
+    & ({
+    "delivery_method_revision_id"?: never;
+})));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKey}. A typed
+ * revocation target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKey = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": "delivery_rate_callback_signing_key" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id": string;
+}));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKeyInput}. A
+ * typed revocation target. Each target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKeyInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": "delivery_rate_callback_signing_key";
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "delivery_rate_callback_signing_key". */
+    "target_type": "delivery_rate_callback_signing_key";
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id": string;
+})
+    & (({
+    "location_id"?: never;
+})
+    & ({
+    "location_geography_version"?: never;
+})
+    & ({
+    "delivery_rate_callback_id"?: never;
+})
+    & ({
+    "delivery_rate_callback_revision_id"?: never;
+})
+    & ({
+    "delivery_method_id"?: never;
+})
+    & ({
+    "delivery_method_revision_id"?: never;
+})));
+/**
+ * Shape $ (Value): {@link RevokeDeliveryDependencyTargetInput}. A typed revocation target. Each
+ * target_type accepts only its resource-specific fields.
+ */
+export type RevokeDeliveryDependencyTargetInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_method_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_revision_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Exact version of the Location geography to revoke. Required
+     * for location_geography targets. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "location_geography",
+     * "delivery_rate_callback_signing_key", "delivery_rate_callback",
+     * "delivery_rate_callback_revision", "delivery_method", "delivery_method_revision".
+     */
+    "target_type": "location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback"
+        | "delivery_rate_callback_revision"
+        | "delivery_method"
+        | "delivery_method_revision";
+})
+    & ((Exclude<RevokeDeliveryDependencyTargetLocationGeographyInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallbackSigningKeyInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallbackInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryRateCallbackRevisionInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryMethodInput & object, readonly unknown[]>)
+    | (Exclude<RevokeDeliveryDependencyTargetDeliveryMethodRevisionInput & object, readonly unknown[]>));
 /**
  * Shape $ (Value): {@link RevokeDeliveryDependencyTargetLocationGeography}. A typed revocation
  * target. Each target_type accepts only its resource-specific fields.
@@ -991,315 +1615,4 @@ export type SandboxResponse = {
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link SandboxWithAPIKeyResponse}. A response containing
- * `CreateDeveloperSandboxResult` data.
- */
-export type SandboxWithAPIKeyResponse = {
-    /**
-     * Shape $ (Value): {@link CreateDeveloperSandboxResult}. The created sandbox is the primary
-     * resource, with the API key and one-time secret_key when issue_test_key is true.
-     */
-    "data": CreateDeveloperSandboxResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link SaveMeGiftCardRequest}. The request body for: Save a gift card to your
- * account.
- */
-export type SaveMeGiftCardRequest = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "code"?: string;
-    /** Shape $ (Value): string.  Value enum: "code", "recipient_access". */
-    "credential_type": "code" | "recipient_access" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "grant_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
-    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link SaveMeGiftCardRequestCode}. The `code` variant of
- * `SaveMeGiftCardRequest`.
- */
-export type SaveMeGiftCardRequestCode = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "code": string;
-    /** Shape $ (Value): string.  Value enum: "code". */
-    "credential_type": "code" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "grant_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "code". */
-    "credential_type": unknown;
-    /** Shape $ (Value): string. minLength: 1. */
-    "code": string;
-}));
-/**
- * Shape $ (Value): {@link SaveMeGiftCardRequestCodeInput}. The `code` variant of
- * `SaveMeGiftCardRequest`.
- */
-export type SaveMeGiftCardRequestCodeInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "code": string;
-    /** Shape $ (Value): string.  Value enum: "code". */
-    "credential_type": "code";
-    /** Shape $ (Value): string. minLength: 1. */
-    "grant_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "code". */
-    "credential_type": ("code") & ("code");
-    /** Shape $ (Value): string. minLength: 1. */
-    "code": string;
-})
-    & (({
-    "grant_id"?: never;
-}) & ({
-    "recipient_access_token"?: never;
-})));
-/**
- * Shape $ (Value): {@link SaveMeGiftCardRequestInput}. The request body for: Save a gift card to
- * your account.
- */
-export type SaveMeGiftCardRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "code"?: string;
-    /** Shape $ (Value): string.  Value enum: "code", "recipient_access". */
-    "credential_type": "code" | "recipient_access";
-    /** Shape $ (Value): string. minLength: 1. */
-    "grant_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & ((Exclude<SaveMeGiftCardRequestCodeInput & object, readonly unknown[]>)
-    | (Exclude<SaveMeGiftCardRequestRecipientAccessInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link SaveMeGiftCardRequestRecipientAccess}. The `recipient_access` variant of
- * `SaveMeGiftCardRequest`.
- */
-export type SaveMeGiftCardRequestRecipientAccess = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "code"?: string;
-    /** Shape $ (Value): string.  Value enum: "recipient_access". */
-    "credential_type": "recipient_access" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "grant_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "recipient_access_token": string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "recipient_access". */
-    "credential_type": unknown;
-    /** Shape $ (Value): string. minLength: 1. */
-    "grant_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "recipient_access_token": string;
-}));
-/**
- * Shape $ (Value): {@link SaveMeGiftCardRequestRecipientAccessInput}. The `recipient_access`
- * variant of `SaveMeGiftCardRequest`.
- */
-export type SaveMeGiftCardRequestRecipientAccessInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "code"?: string;
-    /** Shape $ (Value): string.  Value enum: "recipient_access". */
-    "credential_type": "recipient_access";
-    /** Shape $ (Value): string. minLength: 1. */
-    "grant_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "recipient_access_token": string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "recipient_access". */
-    "credential_type": ("recipient_access") & ("recipient_access");
-    /** Shape $ (Value): string. minLength: 1. */
-    "grant_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "recipient_access_token": string;
-})
-    & ({
-    "code"?: never;
-}));
-/**
- * Shape $ (Value): {@link SaveMePaymentMethodRequest}. The request body for: Create a payment
- * method for the current buyer.
- */
-export type SaveMePaymentMethodRequest = {
-    /** Shape $ (Value): string.  Value enum: "card". */
-    "type"?: "card" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SaveMePaymentMethodRequestInput}. The request body for: Create a payment
- * method for the current buyer.
- */
-export type SaveMePaymentMethodRequestInput = {
-    /** Shape $ (Value): string.  Value enum: "card". */
-    "type"?: "card";
-};
-/**
- * Shape $ (Value): {@link SavePaymentMethodRequest}. The request body for: Create a payment
- * method.
- */
-export type SavePaymentMethodRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "customer_id": string;
-    /** Shape $ (Value): string.  Value enum: "card". */
-    "type"?: "card" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SavePaymentMethodRequestInput}. The request body for: Create a payment
- * method.
- */
-export type SavePaymentMethodRequestInput = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "customer_id": string;
-    /** Shape $ (Value): string.  Value enum: "card". */
-    "type"?: "card";
-};
-/**
- * Shape $ (Value): {@link SavePaymentMethodResponse}. A response containing
- * `PaymentMethodWithSetup` data.
- */
-export type SavePaymentMethodResponse = {
-    /**
-     * Shape $ (Value): {@link PaymentMethodWithSetup}. The saved payment method, with
-     * `client_setup` when the buyer must still complete processor setup before the payment method
-     * can be used. A customer's saved payment details.
-     */
-    "data": PaymentMethodWithSetup;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link ScopeRequirement}. The scopes an authorization decision required and
- * whether `all` or `any` of them were needed, returned in error details.
- */
-export type ScopeRequirement = {
-    /**
-     * Shape $ (Value): string. How the required scopes are evaluated. all requires every listed
-     * scope; any requires at least one listed scope. Example: "all". Value enum: "all", "any".
-     */
-    "mode": "all" | "any" | (string & {});
-    /**
-     * Shape $ (Value): Array of string. Canonical public scope names evaluated for this
-     * authorization decision. Example: ["developer.sandboxes.write","accounts.api_keys.write"].
-     * Shape $[] (Value): string.
-     */
-    "scopes": Array<string>;
-};
-export interface SdkResponse<T> {
-    body: T;
-    meta: Result<T>['meta'];
-    raw: Result<T>['raw'];
-}
-/**
- * Shape $ (Value): {@link SelectableMerchant}. A merchant the caller can pick from, with its ID
- * and business name, returned in error details when a merchant must be chosen.
- */
-export type SelectableMerchant = {
-    /**
-     * Shape $ (Value): string. Merchant business name. Empty when no business name is available.
-     */
-    "business_name": string;
-    /** Shape $ (Value): string. Flint merchant ID available for selection. */
-    "merchant_id": string;
-};
-/**
- * Shape $ (Value): {@link SelectableOrderPaymentIntent}. A payment intent on an order the caller
- * can pick, with its amount, status, and last payment error.
- */
-export type SelectableOrderPaymentIntent = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount requested from the buyer, including any
-     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
-     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
-     * can change it only before the first confirmation attempt. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link PaymentErrorSummary}. Most recent payment failure, when one is
-     * recorded. A summary of why a payment attempt failed, with a normalized error code, a
-     * message, the failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * Shape $ (Value): {@link PaymentCollection}. Client setup details for collecting this
-     * payment. Client-side details for collecting payment from the buyer, such as the Stripe
-     * settings to initialize Stripe.js.
-     */
-    "payment_collection"?: PaymentCollection;
-    /** Shape $ (Value): string. Flint payment intent ID. */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): string. Lifecycle status. requires_payment_method covers both a new payment
-     * intent and one whose last attempt failed, so read last_payment_error with it. succeeded,
-     * canceled, and expired are final. Refunds and disputes never change status. Value enum:
-     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
-     * "requires_capture", "canceled", "succeeded", "expired".
-     */
-    "status": "requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Portion of this payment's amount allocated to a tip.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money": MoneyValue;
-};
-/**
- * Shape $ (Value): {@link SelectedProductOption}. An option and value chosen for a product
- * variant, such as size Large.
- */
-export type SelectedProductOption = {
-    /** Shape $ (Value): string. Identifier of the selected product option. */
-    "option_id": string;
-    /** Shape $ (Value): string. Name of the selected product option. */
-    "option_name": string;
-    /** Shape $ (Value): string. Identifier of the selected option value. */
-    "option_value_id": string;
-    /** Shape $ (Value): string. Selected value of the product option. */
-    "value": string;
-};
-/**
- * Shape $ (Value): {@link SendOrderReceiptRequest}. The request body for: Send an order receipt.
- */
-export type SendOrderReceiptRequest = {
-    /**
-     * Shape $ (Value): string. Receipt email, limited to 254 characters (Unicode code points)
-     * after trimming surrounding whitespace. Format: email. minLength: 1. maxLength: 254.
-     */
-    "email"?: string;
 };

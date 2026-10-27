@@ -6,9 +6,9 @@ import type {
     CreateReturnDispositionRequestInput,
     CreateReturnInspectionRequestInput,
     CreateReturnReceiptRequestInput,
-    CreateReturnRequestInput,
-    CreateReturnResolutionRequestInput
+    CreateReturnRequestInput
 } from '../declarations/types-8.js';
+import type { CreateReturnResolutionRequestInput } from '../declarations/types-9.js';
 import type { DecideReturnRequestInput } from '../declarations/types-11.js';
 import type {
     GetReturnDispositionResponse,
@@ -18,13 +18,13 @@ import type {
     GetReturnResolutionResponse,
     GetReturnResponse
 } from '../declarations/types-18.js';
-import type { ListReturnActivitiesResponse, ListReturnLineItemsResponse } from '../declarations/types-28.js';
-import type { ListReturnsResponse } from '../declarations/types-29.js';
+import type { ListReturnActivitiesResponse, ListReturnLineItemsResponse, ListReturnsResponse } from '../declarations/types-29.js';
 import type { ProcessExistingReturnRequestInput, ProcessExistingReturnResponse } from '../declarations/types-37.js';
 import type { ReopenReturnRequestInput } from '../declarations/types-39.js';
 import type { RequestOptions, ReturnActivity, ReturnDisposition, ReturnInspection } from '../declarations/types-40.js';
-import type { ReturnLineItem, ReturnProcessResult, ReturnReceipt, ReturnResolution } from '../declarations/types-41.js';
+import type { ReturnLineItem, ReturnProcessResult, ReturnReceipt } from '../declarations/types-41.js';
 import type {
+    ReturnResolution,
     ReturnResource,
     ReturnsAddLineItemInput,
     ReturnsCancelInput,
@@ -49,13 +49,10 @@ import type {
     ReturnsUpdateLineItemInput,
     ReturnsWaiveLineInspectionInput
 } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type {
-    UpdateReturnLineItemRequestInput,
-    UpdateReturnRequestInput,
-    WaiveReturnLineInspectionRequestInput
-} from '../declarations/types-49.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput } from '../declarations/types-49.js';
+import type { WaiveReturnLineInspectionRequestInput } from '../declarations/types-50.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -93,6 +90,7 @@ export type {
 } from '../declarations/types-40.js';
 export type {
     ReturnResource,
+    ReturnResolution,
     ReturnsCancelInput,
     ReturnsCancelLineItemInput,
     ReturnsCompleteInput,
@@ -115,13 +113,29 @@ export type {
     ReturnsUpdateInput,
     ReturnsUpdateLineItemInput,
     ReturnsWaiveLineInspectionInput,
+    ReturnResolutionLineItemRequest,
     ReturnSourceSystemInput,
     ReturnSourceSystem,
     ReturnUnverifiedItemInput,
     ReturnUnverifiedItem,
-    ReturnResolutionLineItemRequestInput
+    ReturnResolutionAdjustmentRequestInput,
+    ReturnResolutionLineItemRequestInput,
+    ReturnReplacementLineItemRequestInput,
+    ReturnReplacementLineItemInputVariantInput,
+    ReturnReplacementLineItemInputBundleInput,
+    ReturnReplacementLineItemInputCustomInput,
+    ReturnResolutionAdjustment,
+    ReturnResolutionExecutionBlocker,
+    ReturnResolutionLineItem,
+    ReturnReplacementLineItem
 } from '../declarations/types-42.js';
-export type { SdkResponse, SelectedProductOption } from '../declarations/types-43.js';
+export type {
+    SdkResponse,
+    SettlementAmounts,
+    SelectedProductOption,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails
+} from '../declarations/types-44.js';
 export type {
     GetReturnResponse,
     GetReturnDispositionResponse,
@@ -135,11 +149,9 @@ export type {
     CreateReturnRequestInput,
     CreateReturnDispositionRequestInput,
     CreateReturnInspectionRequestInput,
-    CreateReturnReceiptRequestInput,
-    CreateReturnResolutionRequestInput,
-    CreateReturnResolutionRequestCorrectionInput
+    CreateReturnReceiptRequestInput
 } from '../declarations/types-8.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type {
     AccessLink,
     AccessLinkResponse,
@@ -151,22 +163,17 @@ export type {
 } from '../declarations/types-0.js';
 export type {
     ReturnReceipt,
-    ReturnResolution,
     ReturnLineItem,
     ReturnProcessResult,
-    ReturnResolutionLineItemRequest,
     ReturnPolicyEvaluation,
     ReturnPolicyEvaluationLineItem,
     ReturnPolicyAdjustmentProposal,
     ReturnLineItemRequestInput,
     ReturnReceiptLineItemRequestInput,
+    ReturnReceiptLineItemInputMatchedInput,
+    ReturnReceiptLineItemInputUnverifiedInput,
+    ReturnReceiptLineItemInputExcessInput,
     ReturnReceiptLineItem,
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionAdjustment,
-    ReturnResolutionExecutionBlocker,
-    ReturnResolutionLineItem,
-    ReturnReplacementLineItem,
     ReturnLineDecisionInput,
     ReturnLineItemEligibility,
     ReturnLineItemDecisionProposal,
@@ -178,9 +185,19 @@ export type {
     ReturnProcessResolutionRequestInput,
     ReturnProcessReceiptRequestInput
 } from '../declarations/types-41.js';
-export type { DecideReturnRequestInput, DeliveryFulfillmentDetails } from '../declarations/types-11.js';
-export type { ListReturnActivitiesResponse, ListReturnLineItemsResponse } from '../declarations/types-28.js';
-export type { ListReturnsResponse, MeCancelReturnInput } from '../declarations/types-29.js';
+export type {
+    CreateReturnResolutionRequestInput,
+    Credentials,
+    CreateReturnResolutionRequestStandardInput,
+    CreateReturnResolutionRequestCorrectionInput
+} from '../declarations/types-9.js';
+export type { DecideReturnRequestInput } from '../declarations/types-11.js';
+export type {
+    ListReturnActivitiesResponse,
+    ListReturnLineItemsResponse,
+    ListReturnsResponse,
+    MeCancelReturnInput
+} from '../declarations/types-29.js';
 export type {
     ProcessExistingReturnRequestInput,
     ProcessExistingReturnResponse,
@@ -201,12 +218,8 @@ export type {
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery
 } from '../declarations/types-39.js';
-export type {
-    UpdateReturnRequestInput,
-    UpdateReturnLineItemRequestInput,
-    WaiveReturnLineInspectionRequestInput
-} from '../declarations/types-49.js';
-export type { Credentials, CreateReturnResolutionRequestStandardInput } from '../declarations/types-9.js';
+export type { UpdateReturnRequestInput, UpdateReturnLineItemRequestInput } from '../declarations/types-49.js';
+export type { WaiveReturnLineInspectionRequestInput } from '../declarations/types-50.js';
 export type {
     BuyerAction,
     BuyerCancelActionOptions,
@@ -217,18 +230,16 @@ export type {
 export type {
     ExpandedCustomerSummary,
     ExpandedOrderSummary,
-    ExpandedShipmentSummary,
     ExpandedPaymentIntentSummary,
     DigitalFulfillmentDetails,
     ExpandedPackageSummary
 } from '../declarations/types-16.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-31.js';
-export type { SettlementAmounts, ServiceFulfillmentDetails, ShipmentFulfillmentDetails } from '../declarations/types-44.js';
 export type { Image } from '../declarations/types-19.js';
 export type { OrderLineItemModifier, OrderGiftCardAllocation } from '../declarations/types-32.js';
 export type { TextModifierRequest } from '../declarations/types-47.js';
-export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-36.js';
 export type {
+    ExpandedShipmentSummary,
     Fulfillment,
     FulfillmentHold,
     FulfillmentChargeLink,
@@ -236,22 +247,29 @@ export type {
     FulfillmentOutcome,
     FulfillmentRecipient
 } from '../declarations/types-17.js';
-export { makeAddReturnLineItemRequest } from '../declarations/types-61.js';
-export { makeCancelReturnLineItemRequest, makeCancelReturnRequest, makeCompleteReturnRequest } from '../declarations/types-62.js';
+export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-36.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/types-12.js';
+export { makeAddReturnLineItemRequest, makeCancelReturnLineItemRequest, makeCancelReturnRequest } from '../declarations/types-62.js';
+export { makeCompleteReturnRequest } from '../declarations/types-63.js';
 export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnInspectionRequest,
     makeCreateReturnReceiptRequest,
     makeCreateReturnRequest,
-    makeCreateReturnResolutionRequest,
-    makeCreateReturnResolutionRequestCorrection,
-    makeCreateReturnResolutionRequestStandard
+    makeCreateReturnResolutionRequest
 } from '../declarations/types-64.js';
-export { makeDecideReturnRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeProcessExistingReturnLineItemRequest, makeProcessExistingReturnRequest } from '../declarations/types-69.js';
 export {
-    makeReopenReturnRequest,
+    makeCreateReturnResolutionRequestCorrection,
+    makeCreateReturnResolutionRequestStandard,
+    makeDecideReturnRequest
+} from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export {
+    makeProcessExistingReturnLineItemRequest,
+    makeProcessExistingReturnRequest,
+    makeReopenReturnRequest
+} from '../declarations/types-70.js';
+export {
     makeReturnInspectionLineItemRequest,
     makeReturnLineDecision,
     makeReturnLineItemRequest,
@@ -260,16 +278,21 @@ export {
     makeReturnProcessInspectionRequest,
     makeReturnProcessReceiptRequest,
     makeReturnProcessResolutionRequest,
+    makeReturnReceiptLineItemInputExcess,
+    makeReturnReceiptLineItemInputMatched,
+    makeReturnReceiptLineItemInputUnverified,
     makeReturnReceiptLineItemRequest,
+    makeReturnReplacementLineItemInputBundle,
+    makeReturnReplacementLineItemInputCustom,
+    makeReturnReplacementLineItemInputVariant,
     makeReturnReplacementLineItemRequest,
     makeReturnResolutionAdjustmentRequest,
     makeReturnResolutionLineItemRequest,
     makeReturnSourceSystem,
     makeReturnUnverifiedItem
-} from '../declarations/types-70.js';
-export { makeTextModifierRequest } from '../declarations/types-71.js';
-export { makeUpdateReturnLineItemRequest, makeUpdateReturnRequest } from '../declarations/types-72.js';
-export { makeWaiveReturnLineInspectionRequest } from '../declarations/types-73.js';
+} from '../declarations/types-71.js';
+export { makeTextModifierRequest } from '../declarations/types-72.js';
+export { makeUpdateReturnLineItemRequest, makeUpdateReturnRequest, makeWaiveReturnLineInspectionRequest } from '../declarations/types-73.js';
 export interface ReturnsResource {
     /**
  * Cancel a Return before any merchandise or value work commits. Cancellation is refused once a
@@ -283,13 +306,13 @@ export interface ReturnsResource {
  */
     cancel(return_id: InputValue<string>, params: (InputValue<CancelReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscancel
      */
     cancelWithResponse(return_id: InputValue<string>, params: (InputValue<CancelReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Cancel approved quantity on a Return line item. Quantity already received, inspected,
  * dispositioned, or reserved by a resolution, including a failed one, cannot be canceled, and the
@@ -307,14 +330,14 @@ export interface ReturnsResource {
     cancelLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<CancelReturnLineItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscancellineitem
      */
     cancelLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<CancelReturnLineItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Complete a Return whose completion_mode is manual. The call fails while completion_blockers is
  * non-empty. Automatic Returns complete themselves when the final blocker clears.
@@ -327,13 +350,13 @@ export interface ReturnsResource {
  */
     complete(return_id: InputValue<string>, params: (InputValue<CompleteReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscomplete
      */
     completeWithResponse(return_id: InputValue<string>, params: (InputValue<CompleteReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Create a requested Return. Every line needs the return_reason_id of an active reason. With an
  * API key, a Return that no policy matches stays available for merchant review rather than failing
@@ -348,13 +371,13 @@ export interface ReturnsResource {
  */
     create(params: (InputValue<CreateReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnResource>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscreate
      */
     createWithResponse(params: (InputValue<CreateReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Creates the link Flint's email about a Return carries, to put in buyer email or messages you
  * send yourself. It opens the Return and its order in your Flint-hosted customer account without a
@@ -379,13 +402,13 @@ export interface ReturnsResource {
  */
     createAccessLink(return_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<AccessLink>;
+    }, options?: RequestOptions<"merchant">): Promise<AccessLink>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscreateaccesslink
      */
     createAccessLinkWithResponse(return_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<AccessLinkResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<AccessLinkResponse>>;
     /**
  * Record an auditable merchandise disposition from either a receipt line or an inspection line.
  * Read dispositions with `GET /v1/return-dispositions?return_id=` or expand `return_dispositions`
@@ -402,14 +425,14 @@ export interface ReturnsResource {
     createDisposition(return_id: InputValue<string>, params: (InputValue<CreateReturnDispositionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnDisposition>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnDisposition>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscreatedisposition
      */
     createDispositionWithResponse(return_id: InputValue<string>, params: (InputValue<CreateReturnDispositionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnDispositionResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnDispositionResponse>>;
     /**
  * Record an immutable inspection observation. Corrections supersede an earlier inspection instead
  * of editing physical history. Read inspections with `GET /v1/return-inspections?return_id=` or
@@ -427,14 +450,14 @@ export interface ReturnsResource {
     createInspection(return_id: InputValue<string>, params: (InputValue<CreateReturnInspectionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnInspection>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnInspection>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscreateinspection
      */
     createInspectionWithResponse(return_id: InputValue<string>, params: (InputValue<CreateReturnInspectionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnInspectionResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnInspectionResponse>>;
     /**
  * Add a line item to a requested Return. The response is the updated Return, not the new line.
  * @see reference/returns.md#returnsaddlineitem
@@ -448,14 +471,14 @@ export interface ReturnsResource {
     addLineItem(return_id: InputValue<string>, params: (InputValue<AddReturnLineItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsaddlineitem
      */
     addLineItemWithResponse(return_id: InputValue<string>, params: (InputValue<AddReturnLineItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Record an immutable merchandise receipt observation. Corrections supersede an earlier receipt
  * instead of editing physical history. Read receipts with `GET /v1/return-receipts?return_id=` or
@@ -465,21 +488,21 @@ export interface ReturnsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returns.createReceipt("example", {line_items: [{quantity: "100", return_line_item_id:
- * "example"}], received_at: "2026-01-01T00:00:00Z", receiving_location_id: "example"}, {
- * idempotencyKey: idempotencyKey })
+ * client.returns.createReceipt("example", {line_items: [{type: "matched", quantity: "100",
+ * return_line_item_id: "example"}], received_at: "2026-01-01T00:00:00Z", receiving_location_id:
+ * "example"}, { idempotencyKey: idempotencyKey })
  */
     createReceipt(return_id: InputValue<string>, params: (InputValue<CreateReturnReceiptRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnReceipt>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnReceipt>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscreatereceipt
      */
     createReceiptWithResponse(return_id: InputValue<string>, params: (InputValue<CreateReturnReceiptRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnReceiptResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnReceiptResponse>>;
     /**
  * Propose a buyer-value outcome for approved quantity. Creating a resolution reserves line value.
  * Confirmation is what freezes it and starts its effects. Read resolutions with `GET
@@ -496,14 +519,14 @@ export interface ReturnsResource {
     createResolution(return_id: InputValue<string>, params: (InputValue<CreateReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResolution>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResolution>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnscreateresolution
      */
     createResolutionWithResponse(return_id: InputValue<string>, params: (InputValue<CreateReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResolutionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResolutionResponse>>;
     /**
  * Record one decision for every requested line atomically, then open the Return. To defer a line,
  * decline its quantity or remove it with DELETE
@@ -527,13 +550,13 @@ export interface ReturnsResource {
  */
     decide(return_id: InputValue<string>, params: (InputValue<DecideReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsdecide
      */
     decideWithResponse(return_id: InputValue<string>, params: (InputValue<DecideReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Remove a line item from a requested Return. Send optional expected_version as one query
  * parameter to fence against the parent Return version. The response is the updated Return.
@@ -547,14 +570,14 @@ export interface ReturnsResource {
     deleteLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsdeletelineitem
      */
     deleteLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Retrieve a Return with its line items, policy evaluation, financial summary, and completion
  * blockers. Supports expand for the order, customer, receipts, inspections, dispositions,
@@ -574,7 +597,7 @@ export interface ReturnsResource {
             | "return_receipts"
             | "return_resolutions"
             | "shipments">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnResource>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsget
      */
@@ -588,7 +611,7 @@ export interface ReturnsResource {
             | "return_receipts"
             | "return_resolutions"
             | "shipments">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Retrieve one Return line item, including its quantity counters and the reason the buyer selected.
  * @see reference/returns.md#returnsgetlineitem
@@ -596,11 +619,11 @@ export interface ReturnsResource {
  * @example
  * client.returns.getLineItem("example", "example")
  */
-    getLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnLineItem>;
+    getLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReturnLineItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsgetlineitem
      */
-    getLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnLineItemResponse>>;
+    getLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnLineItemResponse>>;
     /**
  * Read the merchant history of a Return for timelines and audit. Read the referenced resources for
  * current state. Activities are newest first by default; use sort_direction=asc for chronological
@@ -614,7 +637,7 @@ export interface ReturnsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnActivitiesResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnActivitiesResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnslistactivities
      */
@@ -622,7 +645,7 @@ export interface ReturnsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnActivitiesResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnActivitiesResponse>>;
     /** Iterate pages lazily.
      * @see reference/returns.md#returnslistactivities
      */
@@ -630,7 +653,7 @@ export interface ReturnsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnActivitiesResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnActivitiesResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/returns.md#returnslistactivities
      */
@@ -638,7 +661,7 @@ export interface ReturnsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnActivitiesResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnActivitiesResponse>>;
     /** Iterate items lazily.
      * @see reference/returns.md#returnslistactivities
      */
@@ -646,7 +669,7 @@ export interface ReturnsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnActivity>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnActivity>;
     /**
  * List the line items on a Return with their quantity counters, eligibility, frozen display
  * identity, and return value. Newest first: created_at descending, with return_line_item_id
@@ -674,7 +697,7 @@ export interface ReturnsResource {
         "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
         "return_reason_id"?: InputValue<string>;
         "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnLineItemsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnLineItemsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnslistlineitems
      */
@@ -696,7 +719,7 @@ export interface ReturnsResource {
         "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
         "return_reason_id"?: InputValue<string>;
         "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnLineItemsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnLineItemsResponse>>;
     /** Iterate pages lazily.
      * @see reference/returns.md#returnslistlineitems
      */
@@ -718,7 +741,7 @@ export interface ReturnsResource {
         "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
         "return_reason_id"?: InputValue<string>;
         "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnLineItemsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnLineItemsResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/returns.md#returnslistlineitems
      */
@@ -740,7 +763,7 @@ export interface ReturnsResource {
         "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
         "return_reason_id"?: InputValue<string>;
         "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnLineItemsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnLineItemsResponse>>;
     /** Iterate items lazily.
      * @see reference/returns.md#returnslistlineitems
      */
@@ -762,7 +785,7 @@ export interface ReturnsResource {
         "resolution_status"?: InputValue<Array<"not_selected" | "pending" | "requires_action" | "fulfilled" | "failed">>;
         "return_reason_id"?: InputValue<string>;
         "status"?: InputValue<Array<"requested" | "open" | "completed" | "declined" | "canceled">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnLineItem>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnLineItem>;
     /**
  * List Returns for the merchant, filtered by order, customer, status, decision, merchandise,
  * resolution, or creation window. Filter by idempotency_key to recover a create whose response
@@ -779,6 +802,7 @@ export interface ReturnsResource {
         "customer_id"?: InputValue<string>;
         "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "merchandise_status"?: InputValue<Array<"not_required"
             | "awaiting_handoff"
             | "in_transit"
@@ -805,7 +829,7 @@ export interface ReturnsResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnslist
      */
@@ -815,6 +839,7 @@ export interface ReturnsResource {
         "customer_id"?: InputValue<string>;
         "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "merchandise_status"?: InputValue<Array<"not_required"
             | "awaiting_handoff"
             | "in_transit"
@@ -841,7 +866,7 @@ export interface ReturnsResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnsResponse>>;
     /** Iterate pages lazily.
      * @see reference/returns.md#returnslist
      */
@@ -851,6 +876,7 @@ export interface ReturnsResource {
         "customer_id"?: InputValue<string>;
         "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "merchandise_status"?: InputValue<Array<"not_required"
             | "awaiting_handoff"
             | "in_transit"
@@ -877,7 +903,7 @@ export interface ReturnsResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnsResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/returns.md#returnslist
      */
@@ -887,6 +913,7 @@ export interface ReturnsResource {
         "customer_id"?: InputValue<string>;
         "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "merchandise_status"?: InputValue<Array<"not_required"
             | "awaiting_handoff"
             | "in_transit"
@@ -913,7 +940,7 @@ export interface ReturnsResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnsResponse>>;
     /** Iterate items lazily.
      * @see reference/returns.md#returnslist
      */
@@ -923,6 +950,7 @@ export interface ReturnsResource {
         "customer_id"?: InputValue<string>;
         "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "merchandise_status"?: InputValue<Array<"not_required"
             | "awaiting_handoff"
             | "in_transit"
@@ -949,7 +977,7 @@ export interface ReturnsResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "work_type"?: InputValue<Array<"decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception">>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnResource>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnResource>;
     /**
  * Record decisions, receipts, inspections, dispositions, and resolutions for an existing requested
  * or open Return in one request. On a requested Return, send one decision for every requested
@@ -977,14 +1005,14 @@ export interface ReturnsResource {
     processExisting(return_id: InputValue<string>, params: (InputValue<ProcessExistingReturnRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnProcessResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<ReturnProcessResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsprocessexisting
      */
     processExistingWithResponse(return_id: InputValue<string>, params: (InputValue<ProcessExistingReturnRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProcessExistingReturnResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProcessExistingReturnResponse>>;
     /**
  * Reopen a completed Return to record late compensating facts. Reopening sets completion_mode to
  * manual, so complete the Return again with /complete once completion_blockers is empty. Confirmed
@@ -999,13 +1027,13 @@ export interface ReturnsResource {
  */
     reopen(return_id: InputValue<string>, params: (InputValue<ReopenReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsreopen
      */
     reopenWithResponse(return_id: InputValue<string>, params: (InputValue<ReopenReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Update caller-owned fields on a Return. Only external_reference_id and metadata are writable.
  * Send optional expected_version to reject a stale Return version; every other change goes through
@@ -1019,13 +1047,13 @@ export interface ReturnsResource {
  */
     update(return_id: InputValue<string>, params: (InputValue<UpdateReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsupdate
      */
     updateWithResponse(return_id: InputValue<string>, params: (InputValue<UpdateReturnRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Update a requested Return line item. Send null to clear buyer_note or requested_resolution_type.
  * The response is the updated Return.
@@ -1039,14 +1067,14 @@ export interface ReturnsResource {
     updateLineItem(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<UpdateReturnLineItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnsupdatelineitem
      */
     updateLineItemWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<UpdateReturnLineItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
     /**
  * Waive the inspection requirement on a Return line item so received quantity can be dispositioned
  * and resolved without an inspection observation. Received quantity on a waived line satisfies
@@ -1062,14 +1090,14 @@ export interface ReturnsResource {
     waiveLineInspection(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<WaiveReturnLineInspectionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResource>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResource>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returns.md#returnswaivelineinspection
      */
     waiveLineInspectionWithResponse(return_id: InputValue<string>, return_line_item_id: InputValue<string>, params: (InputValue<WaiveReturnLineInspectionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

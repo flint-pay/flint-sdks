@@ -1,15 +1,34 @@
+import type { ReturnPolicyRevisionRequestInput } from './types-41.js';
 import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-16.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type { PaymentRefund } from './types-36.js';
 import type { CategoryReference } from './types-3.js';
-import type { SelectedProductOption } from './types-43.js';
-import type { ResponseMeta } from './types-40.js';
+import type { SelectedProductOption } from './types-44.js';
+import type { ResponseMeta, ReportSucceeded } from './types-40.js';
 import type { OrderGiftCardAllocation } from './types-32.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateRefundRequestInput } from './types-8.js';
 import type { UpdateRefundRequestInput } from './types-49.js';
-import type { ConfigurationVersionRequestInput } from './types-4.js';
+import type { ConfigurationVersionRequestInput } from './types-5.js';
 import type { PublicDownload } from './types-38.js';
+/**
+ * Shape $ (Value): {@link PublishReturnPolicyRevisionRequestInput}. The request body for: Publish
+ * return policy revision.
+ */
+export type PublishReturnPolicyRevisionRequestInput = {
+    /**
+     * Shape $ (Value): integer string. Required current version of the Return policy. A stale
+     * value returns RETURN_VERSION_CONFLICT. Publishing increments the policy version. Use an
+     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_version": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): {@link ReturnPolicyRevisionRequestInput}. The rules for a return policy
+     * revision: scope, eligibility, return window, approval and resolution modes, shipping, and
+     * restocking fee.
+     */
+    "revision": ReturnPolicyRevisionRequestInput;
+};
 /**
  * Shape $ (Value): {@link PurchasedGiftCard}. A gift card issued for one unit of a purchased order
  * line item, with its last four code characters and any card it replaced.
@@ -71,11 +90,12 @@ export type QuotaDetails = {
  */
 export type ReadinessAction = {
     /**
-     * Shape $ (Value): string. Value enum: "advance_onboarding",
+     * Shape $ (Value): string. Value enum: "advance_onboarding", "create_api_key",
      * "create_merchant_account_session", "wait_for_review", "settle_flint_balance",
      * "set_tax_category", "contact_support", "other".
      */
     "action_type": "advance_onboarding"
+        | "create_api_key"
         | "create_merchant_account_session"
         | "wait_for_review"
         | "settle_flint_balance"
@@ -685,6 +705,12 @@ export type Refund = {
     "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "updated_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link RefundAdjustmentAudit}. Who made a manual tax adjustment on a refund
@@ -1730,6 +1756,8 @@ export type RefundsGetInput = {
     "expand"?: InputValue<Array<"customer" | "order" | "payment_intent" | "payment_refunds.payment_intent">>;
 };
 export type RefundsListInput = {
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
@@ -1917,21 +1945,23 @@ export type ReopenReturnRequestInput = {
 };
 /** Shape $ (Value): {@link Report}. A report generated from the merchant's activity. */
 export type Report = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the report was requested. Format: date-time. */
     "created_at": string;
     /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
+     * Shape $ (Value): string. Currency the report covers. A report never combines currencies.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
-     * Shape $ (Value): {@link PublicDownload}. A temporary link for downloading a generated
-     * report.
+     * Shape $ (Value): {@link PublicDownload}. Link to download the generated report. Present only
+     * when status is succeeded. A temporary link for downloading a generated report.
      */
     "download"?: PublicDownload;
     /**
-     * Shape $ (Value): string. Value enum: "generation_failed", "data_unavailable",
-     * "limit_exceeded".
+     * Shape $ (Value): string. Why the report failed. Present only when status is failed:
+     * limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs
+     * wasn't available yet, and generation_failed for other errors. Value enum:
+     * "generation_failed", "data_unavailable", "limit_exceeded".
      */
     "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
     /**
@@ -1944,7 +1974,10 @@ export type Report = ({
      * occurrence time. Format: date-time.
      */
     "interval_start_at": string;
-    /** Shape $ (Value): string. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */
+    /**
+     * Shape $ (Value): string. Stable identifier of the report. pattern:
+     * ^rep_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
     "report_id": string;
     /**
      * Shape $ (Value): string. The report's type and column version. See the Reports guide for its
@@ -1964,7 +1997,11 @@ export type Report = ({
         | "merchant_billing_itemized_v1"
         | "tax_transactions_itemized_v1"
         | (string & {});
-    /** Shape $ (Value): string.  Value enum: "pending", "succeeded", "failed". */
+    /**
+     * Shape $ (Value): string. pending while Flint generates the report, then succeeded with a
+     * download or failed with a failure_reason. Flint sends report.succeeded or report.failed when
+     * it finishes. Value enum: "pending", "succeeded", "failed".
+     */
     "status": "pending" | "succeeded" | "failed" | (string & {});
     /**
      * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
@@ -1985,21 +2022,23 @@ export type ReportDownloadsGetResponse = {
 };
 /** Shape $ (Value): {@link ReportFailed}. A report generated from the merchant's activity. */
 export type ReportFailed = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the report was requested. Format: date-time. */
     "created_at": string;
     /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
+     * Shape $ (Value): string. Currency the report covers. A report never combines currencies.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
-     * Shape $ (Value): {@link PublicDownload}. A temporary link for downloading a generated
-     * report.
+     * Shape $ (Value): {@link PublicDownload}. Link to download the generated report. Present only
+     * when status is succeeded. A temporary link for downloading a generated report.
      */
     "download"?: PublicDownload;
     /**
-     * Shape $ (Value): string. Value enum: "generation_failed", "data_unavailable",
-     * "limit_exceeded".
+     * Shape $ (Value): string. Why the report failed. Present only when status is failed:
+     * limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs
+     * wasn't available yet, and generation_failed for other errors. Value enum:
+     * "generation_failed", "data_unavailable", "limit_exceeded".
      */
     "failure_reason": "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
     /**
@@ -2012,7 +2051,10 @@ export type ReportFailed = ({
      * occurrence time. Format: date-time.
      */
     "interval_start_at": string;
-    /** Shape $ (Value): string. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */
+    /**
+     * Shape $ (Value): string. Stable identifier of the report. pattern:
+     * ^rep_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
     "report_id": string;
     /**
      * Shape $ (Value): string. The report's type and column version. See the Reports guide for its
@@ -2032,7 +2074,11 @@ export type ReportFailed = ({
         | "merchant_billing_itemized_v1"
         | "tax_transactions_itemized_v1"
         | (string & {});
-    /** Shape $ (Value): string.  Value enum: "failed". */
+    /**
+     * Shape $ (Value): string. pending while Flint generates the report, then succeeded with a
+     * download or failed with a failure_reason. Flint sends report.succeeded or report.failed when
+     * it finishes. Value enum: "failed".
+     */
     "status": "failed" | (string & {});
     /**
      * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
@@ -2044,8 +2090,10 @@ export type ReportFailed = ({
     /** Shape $ (Value): string.  Value enum: "failed". */
     "status"?: "failed" | (string & {});
     /**
-     * Shape $ (Value): string. Value enum: "generation_failed", "data_unavailable",
-     * "limit_exceeded".
+     * Shape $ (Value): string. Why the report failed. Present only when status is failed:
+     * limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs
+     * wasn't available yet, and generation_failed for other errors. Value enum:
+     * "generation_failed", "data_unavailable", "limit_exceeded".
      */
     "failure_reason": "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
 }));
@@ -2071,21 +2119,23 @@ export type ReportListResponse = {
 };
 /** Shape $ (Value): {@link ReportPending}. A report generated from the merchant's activity. */
 export type ReportPending = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the report was requested. Format: date-time. */
     "created_at": string;
     /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
+     * Shape $ (Value): string. Currency the report covers. A report never combines currencies.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
     /**
-     * Shape $ (Value): {@link PublicDownload}. A temporary link for downloading a generated
-     * report.
+     * Shape $ (Value): {@link PublicDownload}. Link to download the generated report. Present only
+     * when status is succeeded. A temporary link for downloading a generated report.
      */
     "download"?: PublicDownload;
     /**
-     * Shape $ (Value): string. Value enum: "generation_failed", "data_unavailable",
-     * "limit_exceeded".
+     * Shape $ (Value): string. Why the report failed. Present only when status is failed:
+     * limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs
+     * wasn't available yet, and generation_failed for other errors. Value enum:
+     * "generation_failed", "data_unavailable", "limit_exceeded".
      */
     "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
     /**
@@ -2098,7 +2148,10 @@ export type ReportPending = ({
      * occurrence time. Format: date-time.
      */
     "interval_start_at": string;
-    /** Shape $ (Value): string. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */
+    /**
+     * Shape $ (Value): string. Stable identifier of the report. pattern:
+     * ^rep_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
     "report_id": string;
     /**
      * Shape $ (Value): string. The report's type and column version. See the Reports guide for its
@@ -2118,7 +2171,11 @@ export type ReportPending = ({
         | "merchant_billing_itemized_v1"
         | "tax_transactions_itemized_v1"
         | (string & {});
-    /** Shape $ (Value): string.  Value enum: "pending". */
+    /**
+     * Shape $ (Value): string. pending while Flint generates the report, then succeeded with a
+     * download or failed with a failure_reason. Flint sends report.succeeded or report.failed when
+     * it finishes. Value enum: "pending".
+     */
     "status": "pending" | (string & {});
     /**
      * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
@@ -2145,69 +2202,3 @@ export type ReportResponse = {
      */
     "request_id"?: string;
 };
-/** Shape $ (Value): {@link ReportSucceeded}. A report generated from the merchant's activity. */
-export type ReportSucceeded = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Shape $ (Value): {@link PublicDownload}. A temporary link for downloading a generated
-     * report.
-     */
-    "download": PublicDownload;
-    /**
-     * Shape $ (Value): string. Value enum: "generation_failed", "data_unavailable",
-     * "limit_exceeded".
-     */
-    "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
-    /**
-     * Shape $ (Value): string. Exclusive interval end instant. Each report type matches its own
-     * occurrence time. Format: date-time.
-     */
-    "interval_end_at": string;
-    /**
-     * Shape $ (Value): string. Inclusive interval start instant. Each report type matches its own
-     * occurrence time. Format: date-time.
-     */
-    "interval_start_at": string;
-    /** Shape $ (Value): string. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "report_id": string;
-    /**
-     * Shape $ (Value): string. The report's type and column version. See the Reports guide for its
-     * columns. Value enum: "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
-     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
-     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
-     * "tax_transactions_itemized_v1".
-     */
-    "report_type": "gift_card_liability_v1"
-        | "orders_itemized_v1"
-        | "orders_itemized_v2"
-        | "payments_itemized_v1"
-        | "balance_transactions_itemized_v1"
-        | "payouts_itemized_v1"
-        | "tax_itemized_v1"
-        | "tax_summarized_v1"
-        | "merchant_billing_itemized_v1"
-        | "tax_transactions_itemized_v1"
-        | (string & {});
-    /** Shape $ (Value): string.  Value enum: "succeeded". */
-    "status": "succeeded" | (string & {});
-    /**
-     * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
-     * occurs at the start of its arrival_date in this timezone.
-     */
-    "timezone": string;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "succeeded". */
-    "status"?: "succeeded" | (string & {});
-    /**
-     * Shape $ (Value): {@link PublicDownload}. A temporary link for downloading a generated
-     * report.
-     */
-    "download": PublicDownload;
-}));

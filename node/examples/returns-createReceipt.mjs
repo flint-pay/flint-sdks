@@ -16,6 +16,7 @@ const result = await client.returns.createReceipt(
   {
     line_items: [
       {
+        type: "matched",
         quantity: "100",
         return_line_item_id: "example",
       },

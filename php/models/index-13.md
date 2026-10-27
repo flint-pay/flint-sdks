@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentTermCalculationDayOfNextMonthInput – ModifierSetGroupInputExistingInput
+# InvoicePaymentTermInput – ModifierSetGroupInput
 
+- [InvoicePaymentTermInput](InvoicePaymentTermInput.md)
+- [InvoicePaymentTermCalculationInput](InvoicePaymentTermCalculationInput.md)
+- [InvoicePaymentTermCalculationDayOfMonthInput](InvoicePaymentTermCalculationDayOfMonthInput.md)
 - [InvoicePaymentTermCalculationDayOfNextMonthInput](InvoicePaymentTermCalculationDayOfNextMonthInput.md)
 - [InvoicePaymentTermCalculationDaysAfterMonthEndInput](InvoicePaymentTermCalculationDaysAfterMonthEndInput.md)
 - [InvoicePaymentTermCalculationNetDaysInput](InvoicePaymentTermCalculationNetDaysInput.md)
@@ -99,7 +102,4 @@
 - [ModifierRequestInput](ModifierRequestInput.md)
 - [ModifierSetInput](ModifierSetInput.md)
 - [ModifierSetGroupInput](ModifierSetGroupInput.md)
-- [ModifierSetGroupExistingInput](ModifierSetGroupExistingInput.md)
-- [ModifierSetGroupInlineInput](ModifierSetGroupInlineInput.md)
-- [ModifierSetGroupInputExistingInput](ModifierSetGroupInputExistingInput.md)
 

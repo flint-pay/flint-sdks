@@ -12,9 +12,10 @@ namespace Flint;
  * @property-read string $phone
  * @property-read string $recipient_name
  * @property-read string|\DateTimeInterface $updated_at
+ * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerAddressInput extends Model {
-    /** @param array{'address': PostalAddressInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer_address_id': string, 'customer_id': string, 'is_default_billing': bool, 'is_default_shipping': bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'address': PostalAddressInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer_address_id': string, 'customer_id': string, 'is_default_billing': bool, 'is_default_shipping': bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAddressInput')); }
     /** Shape $ (Value): {@see PostalAddressInput}. A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country.
      * @return PostalAddressInput|array<array-key, mixed>|\stdClass
@@ -76,4 +77,10 @@ final class CustomerAddressInput extends Model {
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

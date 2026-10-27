@@ -12,9 +12,9 @@ import type {
     InventoryItemsUpdateInput
 } from '../declarations/types-24.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateInventoryItemRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,14 +39,14 @@ export type {
     InventoryItemsListInput,
     InventoryItemsUpdateInput
 } from '../declarations/types-24.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateInventoryItemRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateInventoryItemRequest } from '../declarations/types-63.js';
+export { makeCreateInventoryItemRequest } from '../declarations/types-64.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeUpdateInventoryItemRequest } from '../declarations/types-72.js';
 export interface InventoryItemsResource {
@@ -65,14 +65,14 @@ export interface InventoryItemsResource {
     create(params: (InputValue<CreateInventoryItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryItem>;
+    }, options?: RequestOptions<"merchant">): Promise<InventoryItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryItems.md#inventoryitemscreate
      */
     createWithResponse(params: (InputValue<CreateInventoryItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryItemResponse>>;
     /**
  * Retire an inventory item. The item is archived: it stays readable by ID and appears in lists
  * only when you filter by status archived.
@@ -86,14 +86,14 @@ export interface InventoryItemsResource {
     remove(inventory_item_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<number>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryItem>;
+    }, options?: RequestOptions<"merchant">): Promise<InventoryItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryItems.md#inventoryitemsremove
      */
     removeWithResponse(inventory_item_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<number>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryItemResponse>>;
     /**
  * Retrieve an inventory item by ID, including archived items.
  * @see reference/inventoryItems.md#inventoryitemsget
@@ -101,11 +101,11 @@ export interface InventoryItemsResource {
  * @example
  * client.inventoryItems.get("example")
  */
-    get(inventory_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryItem>;
+    get(inventory_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryItems.md#inventoryitemsget
      */
-    getWithResponse(inventory_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryItemResponse>>;
+    getWithResponse(inventory_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryItemResponse>>;
     /**
  * List inventory items. Archived items are excluded unless you filter by status archived.
  * @see reference/inventoryItems.md#inventoryitemslist
@@ -121,7 +121,7 @@ export interface InventoryItemsResource {
         "barcode"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryItemListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryItems.md#inventoryitemslist
      */
@@ -133,7 +133,7 @@ export interface InventoryItemsResource {
         "barcode"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryItemListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryItemListResponse>>;
     /** Iterate pages lazily.
      * @see reference/inventoryItems.md#inventoryitemslist
      */
@@ -145,7 +145,7 @@ export interface InventoryItemsResource {
         "barcode"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryItemListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryItemListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/inventoryItems.md#inventoryitemslist
      */
@@ -157,7 +157,7 @@ export interface InventoryItemsResource {
         "barcode"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryItemListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InventoryItemListResponse>>;
     /** Iterate items lazily.
      * @see reference/inventoryItems.md#inventoryitemslist
      */
@@ -169,7 +169,7 @@ export interface InventoryItemsResource {
         "barcode"?: InputValue<string>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryItem>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryItem>;
     /**
  * Update an inventory item. Accepts status active or inactive. Send sku or barcode as null to
  * clear. expected_version is optional and enforced when sent. Idempotency is scoped to the
@@ -186,14 +186,14 @@ export interface InventoryItemsResource {
     update(inventory_item_id: InputValue<string>, params: (InputValue<UpdateInventoryItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryItem>;
+    }, options?: RequestOptions<"merchant">): Promise<InventoryItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryItems.md#inventoryitemsupdate
      */
     updateWithResponse(inventory_item_id: InputValue<string>, params: (InputValue<UpdateInventoryItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryItemResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryItemResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

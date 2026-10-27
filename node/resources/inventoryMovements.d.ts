@@ -6,10 +6,10 @@ import type {
     InventoryMovementResponse,
     InventoryMovementsGetInput,
     InventoryMovementsListInput
-} from '../declarations/types-24.js';
+} from '../declarations/types-25.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -22,7 +22,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     InventoryMovement,
@@ -30,14 +30,13 @@ export type {
     InventoryMovementListResponse,
     InventoryMovementsGetInput,
     InventoryMovementsListInput,
-    InventoryItem,
-    InventoryLevel
-} from '../declarations/types-24.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+    InventorySourceSystem
+} from '../declarations/types-25.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
-export type { InventorySourceSystem } from '../declarations/types-25.js';
+export type { InventoryItem, InventoryLevel } from '../declarations/types-24.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface InventoryMovementsResource {
@@ -50,13 +49,13 @@ export interface InventoryMovementsResource {
  */
     get(inventory_movement_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryMovement>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryMovement>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryMovements.md#inventorymovementsget
      */
     getWithResponse(inventory_movement_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"inventory_item">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryMovementResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryMovementResponse>>;
     /**
  * List inventory movements, oldest recorded first. Send expand=inventory_item to render each
  * movement's inventory item inline, so a history table needs no read per row. Filter by
@@ -109,7 +108,7 @@ export interface InventoryMovementsResource {
             | "inventory_reservation"
             | "inventory_transfer">>;
         "source_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryMovementListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryMovementListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryMovements.md#inventorymovementslist
      */
@@ -155,7 +154,7 @@ export interface InventoryMovementsResource {
             | "inventory_reservation"
             | "inventory_transfer">>;
         "source_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryMovementListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryMovementListResponse>>;
     /** Iterate pages lazily.
      * @see reference/inventoryMovements.md#inventorymovementslist
      */
@@ -201,7 +200,7 @@ export interface InventoryMovementsResource {
             | "inventory_reservation"
             | "inventory_transfer">>;
         "source_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryMovementListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryMovementListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/inventoryMovements.md#inventorymovementslist
      */
@@ -247,7 +246,7 @@ export interface InventoryMovementsResource {
             | "inventory_reservation"
             | "inventory_transfer">>;
         "source_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryMovementListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InventoryMovementListResponse>>;
     /** Iterate items lazily.
      * @see reference/inventoryMovements.md#inventorymovementslist
      */
@@ -293,7 +292,7 @@ export interface InventoryMovementsResource {
             | "inventory_reservation"
             | "inventory_transfer">>;
         "source_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryMovement>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryMovement>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

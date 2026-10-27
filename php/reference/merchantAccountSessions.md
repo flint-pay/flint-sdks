@@ -4,7 +4,7 @@
 
 ### merchantAccountSessions.create
 
-Creates an embedded browser handoff for one or more allowlisted account components. An onboarding session is limited to the merchant's default sandbox unless sandbox_id in the JSON body names another sandbox of the same merchant. Live onboarding requires a live API key. A completed retry with the same Idempotency-Key creates a fresh launch session instead of replaying a prior client secret.
+Creates an embedded browser handoff for one or more allowlisted account components. The credential selects the environment; the onboarding session token acts in the merchant's default sandbox. A same-key, same-input retry replays the encrypted original result for 24 hours, including its original credentials and expiries. Replay may return an expired credential. Use a new key for a new launch or refresh.
 
 `POST /v1/merchant-account-sessions`
 
@@ -26,7 +26,6 @@ Body model: [MerchantAccountSessionCreateRequestInput](../models/MerchantAccount
 | `collection_strategy` | Optional | string | Values: `"upfront"`, `"incremental"`. |
 | `components` | Required | Array of string | minItems: `1`. maxItems: `6`. uniqueItems: `true`. Items values: `"account_onboarding"`, `"account_management"`, `"payouts"`, `"balances"`, `"tax_documents"`, `"notification_banner"`. |
 | `future_requirements` | Optional | string | Values: `"omit"`, `"include"`. |
-| `sandbox_id` | Optional | string | minLength: `1`. |
 | `targeted_requirements` | Optional | Array of string | Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. Items values: [32 declared values](../models/MerchantAccountSessionCreateRequestInput.md#merchantaccountsessioncreaterequestinput-targeted_requirements--values). |
 
 #### Response
@@ -59,7 +58,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -78,9 +77,9 @@ $result = $client->merchantAccountSessions->create([
 
 ### merchantAccountSessions.refresh
 
-Creates a fresh provider session from a signed launch token after rechecking the authenticated principal, merchant environment, account controller, and component grant. An onboarding session can refresh only sandbox launch tokens created by the same user with an onboarding session. The sandbox is pinned by the launch token, using the merchant's default sandbox unless sandbox_id named another sandbox of the same merchant at creation. Live onboarding requires a live API key, and refresh requires the same API key that created the launch token. A completed retry with the same Idempotency-Key creates a fresh launch session instead of replaying a prior client secret.
+Creates a fresh provider session from a signed launch token after rechecking the authenticated principal, merchant environment, account controller, and component grant. An onboarding session can refresh only sandbox launch tokens created by the same user with an onboarding session. The sandbox is pinned by the launch token, which is the merchant's default sandbox for an onboarding session. Live onboarding requires a live API key or live CLI login, and refresh requires the same credential that created the launch token. A same-key, same-input retry replays the encrypted original result for 24 hours, including its original credentials and expiries. Replay may return an expired credential. Use a new key for a new launch or refresh.
 
-`POST /v1/merchant-account-sessions/refresh`
+`POST /v1/merchant-account-session-refreshes`
 
 Signature: `refresh(array|Model $params, ?RequestOptions $options = null)`
 
@@ -129,7 +128,7 @@ Complete body and metadata: `refreshWithResponse`. See [response modes](../RUNTI
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

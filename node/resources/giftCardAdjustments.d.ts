@@ -7,8 +7,8 @@ import type {
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { GiftCardAdjustmentsCreateInput } from '../declarations/types-18.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkRequiredIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,13 +27,12 @@ export type {
     AdjustGiftCardBalanceResultResponse,
     AuthMode
 } from '../declarations/types-0.js';
-export type { _SdkRequiredIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse, SignedMoneyInput } from '../declarations/types-44.js';
 export type {
     GiftCardAdjustmentsCreateInput,
     GiftCard,
-    GiftCardLoad,
     GiftCardFundingDispute,
     GiftCardFundingLossResolution,
     GiftCardFundingSource,
@@ -47,11 +46,11 @@ export type {
     GiftCardFundingSourceStoreCredit
 } from '../declarations/types-18.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { SignedMoneyInput } from '../declarations/types-44.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type {
     GiftCardRestriction,
+    GiftCardLoad,
     GiftCardPurchaseRefundValueHold,
     GiftCardPurchaseRefundAllocation,
     GiftCardPurchaseRefundRecovery,
@@ -61,7 +60,7 @@ export type {
     GiftCardRefundProvenance,
     GiftCardTransaction
 } from '../declarations/types-19.js';
-export { makeAdjustGiftCardBalanceRequest } from '../declarations/types-61.js';
+export { makeAdjustGiftCardBalanceRequest } from '../declarations/types-62.js';
 export {
     makeGiftCardFundingSource,
     makeGiftCardFundingSourceAdjustment,
@@ -72,7 +71,7 @@ export {
     makeGiftCardFundingSourceGiftCardRefund,
     makeGiftCardFundingSourceImport,
     makeGiftCardFundingSourceStoreCredit
-} from '../declarations/types-66.js';
+} from '../declarations/types-67.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeSignedMoney } from '../declarations/types-71.js';
 export interface GiftCardAdjustmentsResource {
@@ -91,14 +90,14 @@ export interface GiftCardAdjustmentsResource {
     create(gift_card_id: InputValue<string>, params: (InputValue<AdjustGiftCardBalanceRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<AdjustGiftCardBalanceResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<AdjustGiftCardBalanceResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardAdjustments.md#giftcardadjustmentscreate
      */
     createWithResponse(gift_card_id: InputValue<string>, params: (InputValue<AdjustGiftCardBalanceRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AdjustGiftCardBalanceResultResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<AdjustGiftCardBalanceResultResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

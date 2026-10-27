@@ -63,7 +63,7 @@ final class InventoryReceiptsListInput extends Model {
      */
     public function getReturnDispositionId(): string { return $this->get('return_disposition_id'); }
     public function hasReturnDispositionId(): bool { return $this->has('return_disposition_id'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

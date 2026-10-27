@@ -1,18 +1,42 @@
+import type { ResponseMeta } from './types-40.js';
+import type { WorkloadIdentity } from './types-61.js';
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    AddLineItemsRequestInput,
+    AddOrderChargeRequestInput,
+    AddReturnLineItemRequestInput,
+    AddRiskListItemsRequestInput,
+    AddressRequestInput,
+    AdjustGiftCardBalanceRequestInput,
+    ApplyDiscountRequestInput,
+    ApplyOrderGiftCardRequestInput,
+    AssessInvoiceLateFeeRequestInput,
+    AssignToUnconfiguredDeliveryProfileRequestInput,
+    BrandingSettingsRequestInput
+} from './types-0.js';
+import type {
+    BuyerCapabilitiesInput,
+    BuyerCreateReturnPreviewRequestInput,
+    BuyerCreateReturnRequestInput,
+    BuyerCreateReturnResolutionPreviewRequestInput,
+    BuyerInstructionsConfigInput,
+    BuyerPauseCapabilityInput
+} from './types-1.js';
+import type {
     BuyerRetentionOfferInput,
+    BuyerReturnReplacementLineItemInputBundleInput,
+    BuyerReturnReplacementLineItemInputVariantInput,
     BuyerReturnReplacementLineItemRequestInput,
-    BuyerSkipCapabilityInput,
-    CallerSuppliedDeliveryMethodResultRequestInput
+    BuyerSkipCapabilityInput
 } from './types-2.js';
 import type {
+    CallerSuppliedDeliveryMethodResultRequestInput,
     CallerSuppliedDeliveryOutcomeRequestInput,
     CallerSuppliedDeliveryOutcomeRequestAvailableInput,
     CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput,
     CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
     CancelGiftCardNotificationRequestInput,
     CancelOrderPaymentAttemptRequestInput,
-    CancelOrderPaymentRequestInput,
     CancelPaymentIntentRequestInput,
     CancelPayoutRequestInput,
     CancelReturnDispositionRequestInput,
@@ -20,7 +44,6 @@ import type {
     CancelReturnRequestInput,
     CancelReturnResolutionRequestInput,
     CancelSubscriptionRequestInput,
-    CaptureOrderPaymentRequestInput,
     CapturePaymentIntentRequestInput,
     CashOutGiftCardRequestInput,
     ChangeMeSubscriptionBillingIntervalRequestInput,
@@ -44,34 +67,106 @@ import type {
     CheckoutSettingsInput,
     CheckoutSubscriptionTermsRequestInput,
     CheckoutTaxConfigInput,
-    CheckoutTipConfigInput,
-    CloseCheckoutSessionRequestInput,
-    CloseOrderRequestInput,
-    CollectInvoiceRequestInput,
-    CompleteReturnRequestInput,
-    ConfigurationVersionRequestInput,
-    ConfirmCheckoutSessionCustomerVerificationRequestInput
+    CheckoutTipConfigInput
 } from './types-4.js';
-import type {
-    ConfirmCustomerVerificationRequestInput,
-    ConfirmEmailChangeRequestInput,
-    ConfirmPaymentIntentRequestInput,
-    ConfirmReturnResolutionRequestInput,
-    CreateAPIKeyRequestInput,
-    CreateBundleComponentRequestInput,
-    CreateBundleRequestInput,
-    CreateCategoryRequestInput,
-    CreateCheckoutDeliveryQuoteRequestInput,
-    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionCustomerVerificationRequestInput,
-    CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
-    CreateCheckoutSessionRequestInput,
-    CreateCheckoutSessionSavePaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput,
-    CreateCreditNoteAllocationRequestInput,
-    CreateCreditNoteRefundRequestInput
-} from './types-5.js';
+/**
+ * Shape $ (Value): {@link WorkloadIdentityClaimConditionRequest}. A condition to match one
+ * top-level scalar claim in the workload's identity token. Omitted match defaults to exact.
+ */
+export type WorkloadIdentityClaimConditionRequest = {
+    /**
+     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
+     * reserved. minLength: 1.
+     */
+    "claim": string;
+    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
+    "match"?: "exact" | "glob" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "value": string;
+};
+/**
+ * Shape $ (Value): {@link WorkloadIdentityClaimConditionRequestInput}. A condition to match one
+ * top-level scalar claim in the workload's identity token. Omitted match defaults to exact.
+ */
+export type WorkloadIdentityClaimConditionRequestInput = {
+    /**
+     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
+     * reserved. minLength: 1.
+     */
+    "claim": string;
+    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
+    "match"?: "exact" | "glob";
+    /** Shape $ (Value): string. minLength: 1. */
+    "value": string;
+};
+/** Shape $ (Value): {@link WorkloadIdentityListResponse}. A page of `WorkloadIdentity` objects. */
+export type WorkloadIdentityListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link WorkloadIdentity}. Shape $[] (Value): {@link
+     * WorkloadIdentity}. A policy that grants API access to a workload authenticated by an
+     * external identity provider.
+     */
+    "data": Array<WorkloadIdentity>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link WorkloadIdentityResponse}. A response containing `WorkloadIdentity`
+ * data.
+ */
+export type WorkloadIdentityResponse = {
+    /**
+     * Shape $ (Value): {@link WorkloadIdentity}. A policy that grants API access to a workload
+     * authenticated by an external identity provider.
+     */
+    "data": WorkloadIdentity;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+export type _SdkRequiredIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
+    idempotencyKey: string;
+} : never;
+export type _SdkWithoutIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
+    idempotencyKey?: never;
+} : never;
+export declare function makeAddLineItemsRequest(value: InputValue<AddLineItemsRequestInput>): Model<AddLineItemsRequestInput>;
+export declare function makeAddOrderChargeRequest(value: InputValue<AddOrderChargeRequestInput>): Model<AddOrderChargeRequestInput>;
+export declare function makeAddReturnLineItemRequest(value: InputValue<AddReturnLineItemRequestInput>): Model<AddReturnLineItemRequestInput>;
+export declare function makeAddRiskListItemsRequest(value: InputValue<AddRiskListItemsRequestInput>): Model<AddRiskListItemsRequestInput>;
+export declare function makeAddressRequest(value: InputValue<AddressRequestInput>): Model<AddressRequestInput>;
+export declare function makeAdjustGiftCardBalanceRequest(value: InputValue<AdjustGiftCardBalanceRequestInput>): Model<AdjustGiftCardBalanceRequestInput>;
+export declare function makeApplyDiscountRequest(value: InputValue<ApplyDiscountRequestInput>): Model<ApplyDiscountRequestInput>;
+export declare function makeApplyOrderGiftCardRequest(value: InputValue<ApplyOrderGiftCardRequestInput>): Model<ApplyOrderGiftCardRequestInput>;
+export declare function makeAssessInvoiceLateFeeRequest(value: InputValue<AssessInvoiceLateFeeRequestInput>): Model<AssessInvoiceLateFeeRequestInput>;
+export declare function makeAssignToUnconfiguredDeliveryProfileRequest(value: InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>): Model<AssignToUnconfiguredDeliveryProfileRequestInput>;
+export declare function makeBrandingSettingsRequest(value: InputValue<BrandingSettingsRequestInput>): Model<BrandingSettingsRequestInput>;
+export declare function makeBuyerCapabilities(value: InputValue<BuyerCapabilitiesInput>): Model<BuyerCapabilitiesInput>;
+export declare function makeBuyerCreateReturnPreviewRequest(value: InputValue<BuyerCreateReturnPreviewRequestInput>): Model<BuyerCreateReturnPreviewRequestInput>;
+export declare function makeBuyerCreateReturnRequest(value: InputValue<BuyerCreateReturnRequestInput>): Model<BuyerCreateReturnRequestInput>;
+export declare function makeBuyerCreateReturnResolutionPreviewRequest(value: InputValue<BuyerCreateReturnResolutionPreviewRequestInput>): Model<BuyerCreateReturnResolutionPreviewRequestInput>;
+export declare function makeBuyerInstructionsConfig(value: InputValue<BuyerInstructionsConfigInput>): Model<BuyerInstructionsConfigInput>;
+export declare function makeBuyerPauseCapability(value: InputValue<BuyerPauseCapabilityInput>): Model<BuyerPauseCapabilityInput>;
 export declare function makeBuyerRetentionOffer(value: InputValue<BuyerRetentionOfferInput>): Model<BuyerRetentionOfferInput>;
+export declare function makeBuyerReturnReplacementLineItemInputBundle(value: InputValue<BuyerReturnReplacementLineItemInputBundleInput>): Model<BuyerReturnReplacementLineItemInputBundleInput>;
+export declare function makeBuyerReturnReplacementLineItemInputVariant(value: InputValue<BuyerReturnReplacementLineItemInputVariantInput>): Model<BuyerReturnReplacementLineItemInputVariantInput>;
 export declare function makeBuyerReturnReplacementLineItemRequest(value: InputValue<BuyerReturnReplacementLineItemRequestInput>): Model<BuyerReturnReplacementLineItemRequestInput>;
 export declare function makeBuyerSkipCapability(value: InputValue<BuyerSkipCapabilityInput>): Model<BuyerSkipCapabilityInput>;
 export declare function makeCallerSuppliedDeliveryMethodResultRequest(value: InputValue<CallerSuppliedDeliveryMethodResultRequestInput>): Model<CallerSuppliedDeliveryMethodResultRequestInput>;
@@ -81,7 +176,6 @@ export declare function makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate(
 export declare function makeCallerSuppliedDeliveryOutcomeRequestUnavailable(value: InputValue<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>): Model<CallerSuppliedDeliveryOutcomeRequestUnavailableInput>;
 export declare function makeCancelGiftCardNotificationRequest(value: InputValue<CancelGiftCardNotificationRequestInput>): Model<CancelGiftCardNotificationRequestInput>;
 export declare function makeCancelOrderPaymentAttemptRequest(value: InputValue<CancelOrderPaymentAttemptRequestInput>): Model<CancelOrderPaymentAttemptRequestInput>;
-export declare function makeCancelOrderPaymentRequest(value: InputValue<CancelOrderPaymentRequestInput>): Model<CancelOrderPaymentRequestInput>;
 export declare function makeCancelPaymentIntentRequest(value: InputValue<CancelPaymentIntentRequestInput>): Model<CancelPaymentIntentRequestInput>;
 export declare function makeCancelPayoutRequest(value: InputValue<CancelPayoutRequestInput>): Model<CancelPayoutRequestInput>;
 export declare function makeCancelReturnDispositionRequest(value: InputValue<CancelReturnDispositionRequestInput>): Model<CancelReturnDispositionRequestInput>;
@@ -89,7 +183,6 @@ export declare function makeCancelReturnLineItemRequest(value: InputValue<Cancel
 export declare function makeCancelReturnRequest(value: InputValue<CancelReturnRequestInput>): Model<CancelReturnRequestInput>;
 export declare function makeCancelReturnResolutionRequest(value: InputValue<CancelReturnResolutionRequestInput>): Model<CancelReturnResolutionRequestInput>;
 export declare function makeCancelSubscriptionRequest(value: InputValue<CancelSubscriptionRequestInput>): Model<CancelSubscriptionRequestInput>;
-export declare function makeCaptureOrderPaymentRequest(value: InputValue<CaptureOrderPaymentRequestInput>): Model<CaptureOrderPaymentRequestInput>;
 export declare function makeCapturePaymentIntentRequest(value: InputValue<CapturePaymentIntentRequestInput>): Model<CapturePaymentIntentRequestInput>;
 export declare function makeCashOutGiftCardRequest(value: InputValue<CashOutGiftCardRequestInput>): Model<CashOutGiftCardRequestInput>;
 export declare function makeChangeMeSubscriptionBillingIntervalRequest(value: InputValue<ChangeMeSubscriptionBillingIntervalRequestInput>): Model<ChangeMeSubscriptionBillingIntervalRequestInput>;
@@ -112,28 +205,3 @@ export declare function makeCheckoutSettings(value: InputValue<CheckoutSettingsI
 export declare function makeCheckoutSubscriptionTermsRequest(value: InputValue<CheckoutSubscriptionTermsRequestInput>): Model<CheckoutSubscriptionTermsRequestInput>;
 export declare function makeCheckoutTaxConfig(value: InputValue<CheckoutTaxConfigInput>): Model<CheckoutTaxConfigInput>;
 export declare function makeCheckoutTipConfig(value: InputValue<CheckoutTipConfigInput>): Model<CheckoutTipConfigInput>;
-export declare function makeCloseCheckoutSessionRequest(value: InputValue<CloseCheckoutSessionRequestInput>): Model<CloseCheckoutSessionRequestInput>;
-export declare function makeCloseOrderRequest(value: InputValue<CloseOrderRequestInput>): Model<CloseOrderRequestInput>;
-export declare function makeCollectInvoiceRequest(value: InputValue<CollectInvoiceRequestInput>): Model<CollectInvoiceRequestInput>;
-export declare function makeCompleteReturnRequest(value: InputValue<CompleteReturnRequestInput>): Model<CompleteReturnRequestInput>;
-export declare function makeConfigurationVersionRequest(value: InputValue<ConfigurationVersionRequestInput>): Model<ConfigurationVersionRequestInput>;
-export declare function makeConfirmCheckoutSessionCustomerVerificationRequest(value: InputValue<ConfirmCheckoutSessionCustomerVerificationRequestInput>): Model<ConfirmCheckoutSessionCustomerVerificationRequestInput>;
-export declare function makeConfirmCustomerVerificationRequest(value: InputValue<ConfirmCustomerVerificationRequestInput>): Model<ConfirmCustomerVerificationRequestInput>;
-export declare function makeConfirmEmailChangeRequest(value: InputValue<ConfirmEmailChangeRequestInput>): Model<ConfirmEmailChangeRequestInput>;
-export declare function makeConfirmPaymentIntentRequest(value: InputValue<Exclude<ConfirmPaymentIntentRequestInput & object, readonly unknown[]>>): Model<Exclude<ConfirmPaymentIntentRequestInput & object, readonly unknown[]>>;
-export declare function makeConfirmPaymentIntentRequest(value: InputValue<ConfirmPaymentIntentRequestInput>): Model<ConfirmPaymentIntentRequestInput>;
-export declare function makeConfirmReturnResolutionRequest(value: InputValue<ConfirmReturnResolutionRequestInput>): Model<ConfirmReturnResolutionRequestInput>;
-export declare function makeCreateAPIKeyRequest(value: InputValue<CreateAPIKeyRequestInput>): Model<CreateAPIKeyRequestInput>;
-export declare function makeCreateBundleComponentRequest(value: InputValue<CreateBundleComponentRequestInput>): Model<CreateBundleComponentRequestInput>;
-export declare function makeCreateBundleRequest(value: InputValue<CreateBundleRequestInput>): Model<CreateBundleRequestInput>;
-export declare function makeCreateCategoryRequest(value: InputValue<CreateCategoryRequestInput>): Model<CreateCategoryRequestInput>;
-export declare function makeCreateCheckoutDeliveryQuoteRequest(value: InputValue<CreateCheckoutDeliveryQuoteRequestInput>): Model<CreateCheckoutDeliveryQuoteRequestInput>;
-export declare function makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest(value: InputValue<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>): Model<CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>): Model<Exclude<CreateCheckoutSessionCustomerVerificationRequestInput & object, readonly unknown[]>>;
-export declare function makeCreateCheckoutSessionCustomerVerificationRequest(value: InputValue<CreateCheckoutSessionCustomerVerificationRequestInput>): Model<CreateCheckoutSessionCustomerVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest(value: InputValue<CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput>): Model<CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionRequest(value: InputValue<CreateCheckoutSessionRequestInput>): Model<CreateCheckoutSessionRequestInput>;
-export declare function makeCreateCheckoutSessionSavePaymentMethodVerificationRequest(value: InputValue<CreateCheckoutSessionSavePaymentMethodVerificationRequestInput>): Model<CreateCheckoutSessionSavePaymentMethodVerificationRequestInput>;
-export declare function makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest(value: InputValue<CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput>): Model<CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput>;
-export declare function makeCreateCreditNoteAllocationRequest(value: InputValue<CreateCreditNoteAllocationRequestInput>): Model<CreateCreditNoteAllocationRequestInput>;
-export declare function makeCreateCreditNoteRefundRequest(value: InputValue<CreateCreditNoteRefundRequestInput>): Model<CreateCreditNoteRefundRequestInput>;

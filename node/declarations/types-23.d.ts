@@ -1,49 +1,56 @@
 import type {
-    Webhook_invoice_late_fee_due_installed_merchants,
-    Webhook_invoice_late_fee_due_merchant,
-    Webhook_invoice_manual_payment_reversed_installed_merchants,
-    Webhook_invoice_manual_payment_reversed_merchant,
-    Webhook_invoice_partially_refunded_installed_merchants,
-    Webhook_invoice_partially_refunded_merchant,
-    Webhook_inventory_reservation_hold_expired_installed_merchants,
-    Webhook_inventory_reservation_hold_expired_merchant,
-    Webhook_invoice_delivery_attempt_failed_installed_merchants,
-    Webhook_invoice_delivery_attempt_failed_merchant
-} from './types-57.js';
-import type {
-    Webhook_promotion_archived_installed_merchants,
-    Webhook_promotion_archived_merchant,
-    Webhook_payment_review_opened_installed_merchants,
-    Webhook_payment_review_opened_merchant,
-    Webhook_payout_failed_merchant,
-    Webhook_product_variant_created_installed_merchants,
-    Webhook_product_variant_created_merchant,
-    Webhook_payout_created_merchant,
-    Webhook_payment_intent_processing_installed_merchants,
-    Webhook_payment_intent_processing_merchant,
-    Webhook_payment_intent_fulfillment_hold_updated_installed_merchants,
-    Webhook_payment_intent_fulfillment_hold_updated_merchant,
-    Webhook_payment_link_updated_installed_merchants,
-    Webhook_payment_link_updated_merchant
-} from './types-59.js';
-import type {
+    Webhook_delivery_rate_callback_archived_installed_merchants,
+    Webhook_delivery_rate_callback_archived_merchant,
+    Webhook_delivery_zone_activated_installed_merchants,
+    Webhook_delivery_zone_activated_merchant,
     Webhook_gift_card_notification_created_installed_merchants,
     Webhook_gift_card_notification_created_merchant,
     Webhook_dispute_updated_merchant,
+    Webhook_delivery_zone_archived_installed_merchants,
     Webhook_delivery_zone_archived_merchant,
     Webhook_delivery_zone_created_installed_merchants,
     Webhook_delivery_zone_created_merchant,
     Webhook_dispute_needs_response_merchant,
-    Webhook_inventory_reservation_closed_installed_merchants,
-    Webhook_inventory_reservation_closed_merchant,
+    Webhook_delivery_selection_committed_installed_merchants,
+    Webhook_delivery_selection_committed_merchant,
     Webhook_fulfillment_failed_installed_merchants,
-    Webhook_fulfillment_failed_merchant
+    Webhook_fulfillment_failed_merchant,
+    Webhook_delivery_revocation_created_installed_merchants,
+    Webhook_delivery_revocation_created_merchant
 } from './types-56.js';
 import type {
+    Webhook_delivery_location_set_created_installed_merchants,
+    Webhook_delivery_location_set_created_merchant,
+    Webhook_customer_deletion_request_failed_installed_merchants,
+    Webhook_customer_deletion_request_failed_merchant,
+    Webhook_delivery_profile_archived_installed_merchants,
+    Webhook_delivery_profile_archived_merchant,
+    Webhook_customer_deletion_request_processing_installed_merchants,
+    Webhook_customer_deletion_request_processing_merchant,
+    Webhook_checkout_session_expired_installed_merchants,
+    Webhook_checkout_session_expired_merchant,
+    Webhook_checkout_session_partially_paid_installed_merchants,
+    Webhook_checkout_session_partially_paid_merchant,
+    Webhook_customer_deletion_request_completed_installed_merchants,
+    Webhook_customer_deletion_request_completed_merchant,
+    Webhook_delivery_method_archived_installed_merchants,
+    Webhook_delivery_method_archived_merchant,
+    Webhook_delivery_method_deactivated_installed_merchants,
+    Webhook_delivery_method_deactivated_merchant,
+    Webhook_delivery_location_set_activated_installed_merchants,
+    Webhook_delivery_location_set_activated_merchant,
+    Webhook_delivery_location_set_deactivated_installed_merchants,
+    Webhook_delivery_location_set_deactivated_merchant
+} from './types-55.js';
+import type {
+    Webhook_return_completed_installed_merchants,
+    Webhook_return_completed_merchant,
+    Webhook_promotion_archived_installed_merchants,
+    Webhook_promotion_archived_merchant,
+    Webhook_product_variant_created_installed_merchants,
+    Webhook_product_variant_created_merchant,
     Webhook_return_inspection_acceptance_decided_installed_merchants,
     Webhook_return_inspection_acceptance_decided_merchant,
-    Webhook_return_resolution_updated_installed_merchants,
-    Webhook_return_resolution_updated_merchant,
     Webhook_return_disposition_created_installed_merchants,
     Webhook_return_disposition_created_merchant,
     Webhook_return_disposition_updated_installed_merchants,
@@ -56,54 +63,60 @@ import type {
     Webhook_refund_succeeded_merchant
 } from './types-60.js';
 import type {
-    Webhook_delivery_zone_archived_installed_merchants,
-    Webhook_delivery_profile_archived_installed_merchants,
-    Webhook_delivery_profile_archived_merchant,
-    Webhook_customer_deletion_request_processing_installed_merchants,
-    Webhook_customer_deletion_request_processing_merchant,
-    Webhook_customer_deletion_request_completed_installed_merchants,
-    Webhook_customer_deletion_request_completed_merchant,
-    Webhook_delivery_method_archived_installed_merchants,
-    Webhook_delivery_method_archived_merchant,
-    Webhook_delivery_method_deactivated_installed_merchants,
-    Webhook_delivery_method_deactivated_merchant,
-    Webhook_delivery_selection_committed_installed_merchants,
-    Webhook_delivery_selection_committed_merchant,
-    Webhook_delivery_location_set_activated_installed_merchants,
-    Webhook_delivery_location_set_activated_merchant,
-    Webhook_delivery_revocation_created_installed_merchants,
-    Webhook_delivery_revocation_created_merchant,
-    Webhook_delivery_location_set_deactivated_installed_merchants,
-    Webhook_delivery_location_set_deactivated_merchant
-} from './types-55.js';
-import type {
+    Webhook_invoice_refunded_installed_merchants,
+    Webhook_invoice_refunded_merchant,
+    Webhook_invoice_late_fee_due_merchant,
+    Webhook_invoice_manual_payment_reversed_installed_merchants,
+    Webhook_invoice_manual_payment_reversed_merchant,
     Webhook_modifier_set_updated_installed_merchants,
     Webhook_modifier_set_updated_merchant,
     Webhook_order_closed_installed_merchants,
     Webhook_order_closed_merchant,
+    Webhook_invoice_partially_refunded_installed_merchants,
+    Webhook_invoice_partially_refunded_merchant,
     Webhook_invoice_reminder_due_installed_merchants,
     Webhook_invoice_reminder_due_merchant,
     Webhook_modifier_set_archived_installed_merchants,
-    Webhook_modifier_set_archived_merchant,
-    Webhook_partner_app_install_updated_partner_app,
-    Webhook_payment_intent_canceled_installed_merchants,
-    Webhook_payment_intent_canceled_merchant,
-    Webhook_order_partially_paid_installed_merchants,
-    Webhook_order_partially_paid_merchant,
-    Webhook_order_paid_installed_merchants,
-    Webhook_order_paid_merchant
+    Webhook_modifier_set_archived_merchant
 } from './types-58.js';
 import type {
-    Webhook_checkout_session_expired_installed_merchants,
-    Webhook_checkout_session_expired_merchant,
-    Webhook_checkout_session_partially_paid_installed_merchants,
-    Webhook_checkout_session_partially_paid_merchant,
+    Webhook_balance_transaction_created_merchant,
     Webhook_category_created_installed_merchants,
     Webhook_category_created_merchant,
     Webhook_bundle_archived_installed_merchants,
     Webhook_bundle_archived_merchant
 } from './types-54.js';
 import type {
+    Webhook_invoice_late_fee_due_installed_merchants,
+    Webhook_inventory_reservation_closed_installed_merchants,
+    Webhook_inventory_reservation_closed_merchant,
+    Webhook_inventory_reservation_hold_expired_installed_merchants,
+    Webhook_inventory_reservation_hold_expired_merchant,
+    Webhook_invoice_delivery_attempt_failed_installed_merchants,
+    Webhook_invoice_delivery_attempt_failed_merchant
+} from './types-57.js';
+import type {
+    Webhook_payment_review_opened_installed_merchants,
+    Webhook_payment_review_opened_merchant,
+    Webhook_payout_failed_merchant,
+    Webhook_payout_created_merchant,
+    Webhook_payment_intent_processing_installed_merchants,
+    Webhook_payment_intent_processing_merchant,
+    Webhook_partner_app_install_updated_partner_app,
+    Webhook_payment_intent_canceled_installed_merchants,
+    Webhook_payment_intent_canceled_merchant,
+    Webhook_order_partially_paid_installed_merchants,
+    Webhook_order_partially_paid_merchant,
+    Webhook_payment_intent_fulfillment_hold_updated_installed_merchants,
+    Webhook_payment_intent_fulfillment_hold_updated_merchant,
+    Webhook_order_paid_installed_merchants,
+    Webhook_order_paid_merchant,
+    Webhook_payment_link_updated_installed_merchants,
+    Webhook_payment_link_updated_merchant
+} from './types-59.js';
+import type {
+    Webhook_return_resolution_updated_installed_merchants,
+    Webhook_return_resolution_updated_merchant,
     Webhook_subscription_plan_changed_installed_merchants,
     Webhook_subscription_plan_changed_merchant,
     Webhook_subscription_paused_installed_merchants,
@@ -112,9 +125,34 @@ import type {
 import type { GiftCardFundingSource, GiftCardFundingSourceInput } from './types-18.js';
 import type { MoneyValue, MoneyValueInput, ModifierRequest, ModifierRequestInput } from './types-31.js';
 import type { TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-47.js';
+import type { InventoryAdjustmentLine } from './types-24.js';
 import type { InventorySourceSystem } from './types-25.js';
-import type { ResponseMeta } from './types-40.js';
-import type { InventoryLevel } from './types-24.js';
+/** Shape $ (Value): {@link IncomingWebhookc823e4336c4aPayload}. */
+export type IncomingWebhookc823e4336c4aPayload = ((Webhook_delivery_rate_callback_archived_merchant)
+    | (Webhook_delivery_rate_callback_archived_installed_merchants)
+    | (unknown));
+/** Shape $ (Value): {@link IncomingWebhookc82943441c1dPayload}. */
+export type IncomingWebhookc82943441c1dPayload = ((Webhook_delivery_location_set_created_merchant)
+    | (Webhook_delivery_location_set_created_installed_merchants)
+    | (unknown));
+/** Shape $ (Value): {@link IncomingWebhookc8cb35576c0fPayload}. */
+export type IncomingWebhookc8cb35576c0fPayload = ((Webhook_return_completed_merchant) | (Webhook_return_completed_installed_merchants) | (unknown));
+/** Shape $ (Value): {@link IncomingWebhookce317e37a514Payload}. */
+export type IncomingWebhookce317e37a514Payload = ((Webhook_invoice_refunded_merchant) | (Webhook_invoice_refunded_installed_merchants) | (unknown));
+/**
+ * Shape $ (Value): {@link Webhook_balance_transaction_created_merchant}. The
+ * `balance_transaction.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type IncomingWebhookcf769e4fa54cPayload = Webhook_balance_transaction_created_merchant;
+/** Shape $ (Value): {@link IncomingWebhookcfa0fc3e7b61Payload}. */
+export type IncomingWebhookcfa0fc3e7b61Payload = ((Webhook_delivery_zone_activated_merchant)
+    | (Webhook_delivery_zone_activated_installed_merchants)
+    | (unknown));
+/** Shape $ (Value): {@link IncomingWebhookcfd6ded146cfPayload}. */
+export type IncomingWebhookcfd6ded146cfPayload = ((Webhook_customer_deletion_request_failed_merchant)
+    | (Webhook_customer_deletion_request_failed_installed_merchants)
+    | (unknown));
 /** Shape $ (Value): {@link IncomingWebhookcff5d1339489Payload}. */
 export type IncomingWebhookcff5d1339489Payload = ((Webhook_invoice_late_fee_due_merchant)
     | (Webhook_invoice_late_fee_due_installed_merchants)
@@ -681,8 +719,11 @@ export type InventoryAdjustment = {
      * secrets in this field. maxLength: 255.
      */
     "external_actor_id"?: string;
-    /** Shape $ (Value): string. */
-    "idempotency_key": string;
+    /**
+     * Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
+     */
+    "idempotency_key"?: string;
     /** Shape $ (Value): string. */
     "inventory_adjustment_id": string;
     /**
@@ -742,175 +783,3 @@ export type InventoryAdjustmentConditionChangeLineRequest = ({
      */
     "to_condition": "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
 });
-/**
- * Shape $ (Value): {@link InventoryAdjustmentConditionChangeLineRequestInput}. One line of an
- * inventory condition change: moves a `quantity` of an item at a Location from one condition to
- * another.
- */
-export type InventoryAdjustmentConditionChangeLineRequestInput = ({
-    /**
-     * Shape $ (Value): string. Condition the units leave. Defaults to `sellable`. Default:
-     * "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
-     */
-    "from_condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_item_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id": string;
-    /**
-     * Shape $ (Value): integer string. Units this line records. Must be at least 1. Whole-number
-     * quantity; fractional quantities are not supported. Use an integer string (decimal digits),
-     * not a floating-point number. Format: int64. minimum: 1.
-     */
-    "quantity": `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Condition the units move to. Must differ from `from_condition`.
-     * Value enum: "sellable", "quality_control", "damaged", "quarantined".
-     */
-    "to_condition": "sellable" | "quality_control" | "damaged" | "quarantined";
-})
-    & ((unknown) & (unknown) & (unknown) & (unknown));
-/**
- * Shape $ (Value): {@link InventoryAdjustmentLine}. One line of an inventory adjustment, with the
- * item, Location, movement written, and the change in on-hand and each non-sellable quantity.
- */
-export type InventoryAdjustmentLine = {
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "damaged_quantity_delta": `${bigint}`;
-    /** Shape $ (Value): string. */
-    "inventory_item_id": string;
-    /**
-     * Shape $ (Value): string or null. Movement this line wrote, or `null` when the line changed
-     * nothing.
-     */
-    "inventory_movement_id": string | null;
-    /** Shape $ (Value): string. */
-    "location_id": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "on_hand_quantity_delta": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quality_control_quantity_delta": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quarantined_quantity_delta": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link InventoryAdjustmentListResponse}. A page of `InventoryAdjustment`
- * objects.
- */
-export type InventoryAdjustmentListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InventoryAdjustment}. Shape $[] (Value): {@link
-     * InventoryAdjustment}. A recorded stock change with its reason and the quantity changes Flint
-     * computed.
-     */
-    "data": Array<InventoryAdjustment>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InventoryAdjustmentQuantityLineRequest}. One line of an inventory
- * quantity adjustment: a `quantity` of an item at a Location, in the given `condition`.
- */
-export type InventoryAdjustmentQuantityLineRequest = {
-    /**
-     * Shape $ (Value): string. Condition of the units. Defaults to `sellable`. Default:
-     * "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
-     */
-    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_item_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id": string;
-    /**
-     * Shape $ (Value): integer string. Units this line records. Must be at least 1. Whole-number
-     * quantity; fractional quantities are not supported. Use an integer string (decimal digits),
-     * not a floating-point number. Format: int64. minimum: 1.
-     */
-    "quantity": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link InventoryAdjustmentQuantityLineRequestInput}. One line of an inventory
- * quantity adjustment: a `quantity` of an item at a Location, in the given `condition`.
- */
-export type InventoryAdjustmentQuantityLineRequestInput = {
-    /**
-     * Shape $ (Value): string. Condition of the units. Defaults to `sellable`. Default:
-     * "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
-     */
-    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_item_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id": string;
-    /**
-     * Shape $ (Value): integer string. Units this line records. Must be at least 1. Whole-number
-     * quantity; fractional quantities are not supported. Use an integer string (decimal digits),
-     * not a floating-point number. Format: int64. minimum: 1.
-     */
-    "quantity": `${bigint}` | bigint;
-};
-/**
- * Shape $ (Value): {@link InventoryAdjustmentResponse}. A response containing
- * `InventoryAdjustment` data.
- */
-export type InventoryAdjustmentResponse = {
-    /**
-     * Shape $ (Value): {@link InventoryAdjustment}. A recorded stock change with its reason and
-     * the quantity changes Flint computed.
-     */
-    "data": InventoryAdjustment;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InventoryAdjustmentResult}. Inventory adjustment and the levels it
- * changed. inventory_adjustment is the primary resource and expected_version target.
- */
-export type InventoryAdjustmentResult = {
-    /**
-     * Shape $ (Value): {@link InventoryAdjustment}. A recorded stock change with its reason and
-     * the quantity changes Flint computed.
-     */
-    "inventory_adjustment": InventoryAdjustment;
-    /**
-     * Shape $ (Value): Array of {@link InventoryLevel}. Post-commit state of every level this
-     * command touched, one entry per level. A replay returns the levels the original command
-     * produced. Empty when no levels changed. Shape $[] (Value): {@link InventoryLevel}. The
-     * quantity state of one inventory item at one Location.
-     */
-    "inventory_levels": Array<InventoryLevel>;
-};

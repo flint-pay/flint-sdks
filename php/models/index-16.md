@@ -1,9 +1,7 @@
 [Model index](../MODELS.md)
 
-# PayOrderResponseInput – RefundGiftCardCodeInput
+# PayoutInput – RefundLineItemInput
 
-- [PayOrderResponseInput](PayOrderResponseInput.md)
-- [PayOrderResultInput](PayOrderResultInput.md)
 - [PayoutInput](PayoutInput.md)
 - [PayoutDestinationInput](PayoutDestinationInput.md)
 - [PayoutDestinationListResponseInput](PayoutDestinationListResponseInput.md)
@@ -102,4 +100,6 @@
 - [RefundChargeInput](RefundChargeInput.md)
 - [RefundDestinationsInput](RefundDestinationsInput.md)
 - [RefundGiftCardCodeInput](RefundGiftCardCodeInput.md)
+- [RefundGiftCardDestinationInput](RefundGiftCardDestinationInput.md)
+- [RefundLineItemInput](RefundLineItemInput.md)
 

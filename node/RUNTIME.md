@@ -85,7 +85,6 @@ Set `authMode` to one of the modes below and put its credentials under `credenti
 | `customer` | `CustomerSessionBearer` |
 | `invoice` | `InvoiceAccessTokenBearer` |
 | `merchant` | `BearerAuth` |
-| `merchantKey` | `ApiKeyHeader` |
 | `onboarding` | `OnboardingSessionBearer` |
 
 TypeScript checks mode names, credential keys, and the modes permitted by each operation. Credentials themselves are never shown in SDK diagnostics.

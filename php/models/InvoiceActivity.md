@@ -22,7 +22,6 @@ Response model.
 | `due_at` | Optional | string | Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due. Format: `date-time`. |
 | `error_code` | Optional | string | Public error code of the failed scheduled issue. Present on issue_failed. |
 | `expected_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount the processing payment is expected to settle. Present on payment_processing. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `expected_settlement_at` | Optional | string | When the processing payment is expected to settle. Present on payment_processing when known. Format: `date-time`. |
 | `invoice_activity_id` | Required | string | Flint invoice activity ID. IDs begin with inevt_. |
 | `invoice_delivery_attempt_id` | Optional | string | The delivery attempt that sent the email. Present on delivery_sent and reminder_sent. |
 | `invoice_late_fee_id` | Optional | string | The late fee. Present on late_fee_assessed and late_fee_waived. |

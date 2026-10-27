@@ -2,7 +2,7 @@ import type { InputValue } from '../runtime.js';
 import type { CancelPaymentIntentRequestInput, CapturePaymentIntentRequestInput } from '../declarations/types-3.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { ConfirmPaymentIntentResponse } from '../declarations/types-5.js';
-import type { CreatePaymentIntentRequestInput } from '../declarations/types-7.js';
+import type { CreatePaymentIntentRequestInput } from '../declarations/types-8.js';
 import type {
     PaymentIntent,
     PaymentIntentActivity,
@@ -24,10 +24,9 @@ import type {
     PaymentIntentsUpdateInput
 } from '../declarations/types-35.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { SendPaymentIntentReceiptRequestInput } from '../declarations/types-44.js';
+import type { SdkResponse, SendPaymentIntentReceiptRequestInput } from '../declarations/types-44.js';
 import type { UpdatePaymentIntentRequestInput } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -40,12 +39,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type {
-    CancelPaymentIntentRequestInput,
-    CapturePaymentIntentRequestInput,
-    CheckoutBuyerContact,
-    CancelOrderPaymentAttemptRequestInput
-} from '../declarations/types-3.js';
+export type { CancelPaymentIntentRequestInput, CapturePaymentIntentRequestInput, CheckoutBuyerContact } from '../declarations/types-3.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     PaymentIntent,
@@ -74,16 +68,17 @@ export type {
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
 } from '../declarations/types-35.js';
-export type { SdkResponse, SelectableOrderPaymentIntent } from '../declarations/types-43.js';
-export type { ConfirmPaymentIntentResponse, ConfirmPaymentIntentRequestInput } from '../declarations/types-5.js';
-export type { CreatePaymentIntentRequestInput } from '../declarations/types-7.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export type {
+    SdkResponse,
     SendPaymentIntentReceiptRequestInput,
     SettlementAmounts,
     StripePaymentClientAction,
-    StripeSetupIntentClientAction
+    StripeSetupIntentClientAction,
+    SelectableOrderPaymentIntent
 } from '../declarations/types-44.js';
+export type { ConfirmPaymentIntentResponse, ConfirmPaymentIntentRequestInput } from '../declarations/types-5.js';
+export type { CreatePaymentIntentRequestInput } from '../declarations/types-8.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdatePaymentIntentRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
@@ -99,16 +94,12 @@ export type {
 } from '../declarations/types-37.js';
 export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRisk } from '../declarations/types-36.js';
 export type { OrdersCreatePaymentIntentResponse } from '../declarations/types-33.js';
-export {
-    makeCancelOrderPaymentAttemptRequest,
-    makeCancelPaymentIntentRequest,
-    makeCapturePaymentIntentRequest,
-    makeConfirmPaymentIntentRequest
-} from '../declarations/types-62.js';
+export { makeCancelPaymentIntentRequest, makeCapturePaymentIntentRequest } from '../declarations/types-62.js';
+export { makeConfirmPaymentIntentRequest } from '../declarations/types-63.js';
 export { makeCreatePaymentIntentRequest } from '../declarations/types-64.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeSendPaymentIntentReceiptRequest } from '../declarations/types-71.js';
-export { makeUpdatePaymentIntentRequest } from '../declarations/types-72.js';
+export { makeUpdatePaymentIntentRequest } from '../declarations/types-73.js';
 export interface PaymentIntentsResource {
     /**
  * Cancels a standalone or order-owned payment intent. Read supported_actions for the actions its
@@ -127,21 +118,25 @@ export interface PaymentIntentsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentIntents.cancel("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    cancel(payment_intent_id: InputValue<string>, params?: (InputValue<CancelPaymentIntentRequestInput> | {
+    cancel(payment_intent_id: InputValue<string>, params?: (InputValue<CancelPaymentIntentRequestInput>
+        | {
         "cancellation_reason"?: never;
+        "expected_version"?: never;
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<PaymentIntent>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<PaymentIntent>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/paymentIntents.md#paymentintentscancel
      */
-    cancelWithResponse(payment_intent_id: InputValue<string>, params?: (InputValue<CancelPaymentIntentRequestInput> | {
+    cancelWithResponse(payment_intent_id: InputValue<string>, params?: (InputValue<CancelPaymentIntentRequestInput>
+        | {
         "cancellation_reason"?: never;
+        "expected_version"?: never;
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<PaymentIntentResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<PaymentIntentResponse>>;
     /**
  * Captures a standalone or order-owned payment intent in requires_capture. Omit amount_money to
  * capture all of capturable_money, or send a smaller amount for a partial capture. Flint releases
@@ -160,21 +155,25 @@ export interface PaymentIntentsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentIntents.capture("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    capture(payment_intent_id: InputValue<string>, params?: (InputValue<CapturePaymentIntentRequestInput> | {
+    capture(payment_intent_id: InputValue<string>, params?: (InputValue<CapturePaymentIntentRequestInput>
+        | {
         "amount_money"?: never;
+        "expected_version"?: never;
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PaymentIntent>;
+    }, options?: RequestOptions<"merchant">): Promise<PaymentIntent>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/paymentIntents.md#paymentintentscapture
      */
-    captureWithResponse(payment_intent_id: InputValue<string>, params?: (InputValue<CapturePaymentIntentRequestInput> | {
+    captureWithResponse(payment_intent_id: InputValue<string>, params?: (InputValue<CapturePaymentIntentRequestInput>
+        | {
         "amount_money"?: never;
+        "expected_version"?: never;
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentIntentResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PaymentIntentResponse>>;
     /**
  * Confirms a standalone payment intent. For the first confirmation, send exactly one of
  * stripe.confirmation_token, payment_source_token, or payment_method_id; without one, it returns
@@ -193,11 +192,11 @@ export interface PaymentIntentsResource {
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentIntents.confirm({payment_intent_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    confirm(input: PaymentIntentsConfirmInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PaymentIntentWithAction>;
+    confirm(input: PaymentIntentsConfirmInput, options?: RequestOptions<"merchant">): Promise<PaymentIntentWithAction>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/paymentIntents.md#paymentintentsconfirm
      */
-    confirmWithResponse(input: PaymentIntentsConfirmInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ConfirmPaymentIntentResponse>>;
+    confirmWithResponse(input: PaymentIntentsConfirmInput, options?: RequestOptions<"merchant">): Promise<SdkResponse<ConfirmPaymentIntentResponse>>;
     /**
  * Creates a standalone payment intent for the authenticated merchant and returns it flat in data
  * with required payment_collection guidance. Create order-owned payment intents with POST
@@ -213,7 +212,7 @@ export interface PaymentIntentsResource {
     create(params: (InputValue<CreatePaymentIntentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<({
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<({
         "payment_collection": unknown;
     })
         & (Exclude<PaymentIntentWithCollection & object, readonly unknown[]>)>;
@@ -223,7 +222,7 @@ export interface PaymentIntentsResource {
     createWithResponse(params: (InputValue<CreatePaymentIntentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentIntentsCreateResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PaymentIntentsCreateResponse>>;
     /**
  * Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again
  * later for verified fees. For a standalone payment intent in requires_action, call confirm with
@@ -235,13 +234,13 @@ export interface PaymentIntentsResource {
  */
     get(payment_intent_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "invoice" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<PaymentIntentWithCollection>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<PaymentIntentWithCollection>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/paymentIntents.md#paymentintentsget
      */
     getWithResponse(payment_intent_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "invoice" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<PaymentIntentWithCollectionResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<SdkResponse<PaymentIntentWithCollectionResponse>>;
     /**
  * Returns a read-only, human-readable history for a payment intent. Read the payment intent or
  * referenced resource for authoritative state; this log does not replace webhooks or a ledger.
@@ -267,7 +266,7 @@ export interface PaymentIntentsResource {
             | "refund_status_changed"
             | "dispute_status_changed"
             | "receipt_sent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentIntentActivityListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PaymentIntentActivityListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/paymentIntents.md#paymentintentslistactivities
      */
@@ -285,7 +284,7 @@ export interface PaymentIntentsResource {
             | "refund_status_changed"
             | "dispute_status_changed"
             | "receipt_sent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentIntentActivityListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PaymentIntentActivityListResponse>>;
     /** Iterate pages lazily.
      * @see reference/paymentIntents.md#paymentintentslistactivities
      */
@@ -303,7 +302,7 @@ export interface PaymentIntentsResource {
             | "refund_status_changed"
             | "dispute_status_changed"
             | "receipt_sent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentIntentActivityListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PaymentIntentActivityListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/paymentIntents.md#paymentintentslistactivities
      */
@@ -321,7 +320,7 @@ export interface PaymentIntentsResource {
             | "refund_status_changed"
             | "dispute_status_changed"
             | "receipt_sent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentIntentActivityListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PaymentIntentActivityListResponse>>;
     /** Iterate items lazily.
      * @see reference/paymentIntents.md#paymentintentslistactivities
      */
@@ -339,7 +338,7 @@ export interface PaymentIntentsResource {
             | "refund_status_changed"
             | "dispute_status_changed"
             | "receipt_sent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentIntentActivity>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PaymentIntentActivity>;
     /**
  * Returns a paginated list of payment intents for the authenticated merchant.
  * @see reference/paymentIntents.md#paymentintentslist
@@ -348,6 +347,7 @@ export interface PaymentIntentsResource {
  * client.paymentIntents.list()
  */
     list(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -395,11 +395,12 @@ export interface PaymentIntentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "invoice" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentIntentListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PaymentIntentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/paymentIntents.md#paymentintentslist
      */
     listWithResponse(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -447,11 +448,12 @@ export interface PaymentIntentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "invoice" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentIntentListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PaymentIntentListResponse>>;
     /** Iterate pages lazily.
      * @see reference/paymentIntents.md#paymentintentslist
      */
     listPages(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -499,11 +501,12 @@ export interface PaymentIntentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "invoice" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentIntentListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PaymentIntentListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/paymentIntents.md#paymentintentslist
      */
     listPagesWithResponse(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -551,11 +554,12 @@ export interface PaymentIntentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "invoice" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentIntentListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PaymentIntentListResponse>>;
     /** Iterate items lazily.
      * @see reference/paymentIntents.md#paymentintentslist
      */
     listItems(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -603,7 +607,7 @@ export interface PaymentIntentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "invoice" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentIntent>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PaymentIntent>;
     /**
  * Queues a receipt for a succeeded payment intent and returns the payment intent unchanged. For an
  * order-owned payment intent, sends the order receipt. Once sent, the receipt appears as a
@@ -625,7 +629,7 @@ export interface PaymentIntentsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PaymentIntent>;
+    }, options?: RequestOptions<"merchant">): Promise<PaymentIntent>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/paymentIntents.md#paymentintentssendreceipt
      */
@@ -634,7 +638,7 @@ export interface PaymentIntentsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentIntentResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PaymentIntentResponse>>;
     /**
  * Applies a sparse update while status is requires_payment_method, requires_confirmation,
  * requires_action, or requires_capture. In processing, succeeded, canceled, or expired it returns
@@ -658,14 +662,14 @@ export interface PaymentIntentsResource {
     update(payment_intent_id: InputValue<string>, params: (InputValue<UpdatePaymentIntentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PaymentIntent>;
+    }, options?: RequestOptions<"merchant">): Promise<PaymentIntent>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/paymentIntents.md#paymentintentsupdate
      */
     updateWithResponse(payment_intent_id: InputValue<string>, params: (InputValue<UpdatePaymentIntentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentIntentResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PaymentIntentResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

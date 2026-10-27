@@ -10,7 +10,6 @@ namespace Flint;
  * @property-read mixed $icon
  * @property-read mixed $logo
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
- * @property-read string $organization_id
  * @property-read string|null $phone
  * @property-read string $reporting_timezone
  * @property-read string|null $support_email
@@ -19,7 +18,7 @@ namespace Flint;
  * @property-read string|null $website_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateMerchantRequestInput extends Model {
-    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'business_name'?: string, 'email'?: string|null, 'expected_version'?: string, 'icon'?: mixed, 'logo'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'organization_id'?: string, 'phone'?: string|null, 'reporting_timezone'?: string, 'support_email'?: string|null, 'support_phone'?: string|null, 'support_url'?: string|null, 'website_url'?: string|null, ...}|object $values */
+    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'api_version'?: string, 'business_name'?: string, 'email'?: string|null, 'expected_version'?: string, 'icon'?: mixed, 'logo'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'phone'?: string|null, 'reporting_timezone'?: string, 'support_email'?: string|null, 'support_phone'?: string|null, 'support_url'?: string|null, 'website_url'?: string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateMerchantRequestInput')); }
     /** Shape $ (Value): {@see AddressRequestInput}. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
@@ -69,12 +68,6 @@ final class UpdateMerchantRequestInput extends Model {
      */
     public function getMetadata(): array|object|null { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): string. minLength: 1.
-     * @return string
-     * @throws SdkError When organization_id is omitted; use hasOrganizationId() or valueOrDefault().
-     */
-    public function getOrganizationId(): string { return $this->get('organization_id'); }
-    public function hasOrganizationId(): bool { return $this->has('organization_id'); }
     /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().

@@ -14,7 +14,7 @@ namespace Flint;
 final class CreatePayoutRequestInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'balance_source_type'?: string, 'description'?: string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'method'?: string, 'payout_destination_id'?: string, 'statement_descriptor'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePayoutRequestInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see MoneyValueInput}. Amount to send, above zero. It can't exceed what one balance source has in available_by_source_type. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -26,7 +26,7 @@ final class CreatePayoutRequestInput extends Model {
      */
     public function getBalanceSourceType(): string { return $this->get('balance_source_type'); }
     public function hasBalanceSourceType(): bool { return $this->has('balance_source_type'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** Shape $ (Value): string. Your description of the payout, returned on the payout. minLength: 1.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -50,13 +50,13 @@ final class CreatePayoutRequestInput extends Model {
      */
     public function getMethod(): string { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** Shape $ (Value): string. Destination to pay. It must be active and in the payout's currency. Omit it to pay the currency's default destination. minLength: 1.
      * @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
      */
     public function getPayoutDestinationId(): string { return $this->get('payout_destination_id'); }
     public function hasPayoutDestinationId(): bool { return $this->has('payout_destination_id'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** Shape $ (Value): string. Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1.
      * @return string
      * @throws SdkError When statement_descriptor is omitted; use hasStatementDescriptor() or valueOrDefault().
      */

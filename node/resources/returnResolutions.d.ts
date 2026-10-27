@@ -6,8 +6,8 @@ import type { GetOrCreateReturnResolutionCheckoutSessionRequestInput, GetReturnR
 import type { ListReturnResolutionsResponse } from '../declarations/types-29.js';
 import type { ReleaseReturnResolutionRequestInput } from '../declarations/types-39.js';
 import type { RequestOptions, ResolvePaymentLinkResponse, RetryReturnResolutionRequestInput } from '../declarations/types-40.js';
-import type { ReturnResolution } from '../declarations/types-41.js';
 import type {
+    ReturnResolution,
     ReturnResolutionsCancelInput,
     ReturnResolutionsConfirmInput,
     ReturnResolutionsGetInput,
@@ -17,9 +17,9 @@ import type {
     ReturnResolutionsRetryInput,
     ReturnResolutionsUpdateInput
 } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateReturnResolutionRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,8 +39,6 @@ export type {
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutCustomerPrefill,
-    CheckoutDeliveryPinnedDependency,
-    CheckoutDerivedDeliveryResource,
     CancelReturnRequestInput
 } from '../declarations/types-3.js';
 export type {
@@ -55,12 +53,27 @@ export type {
 } from '../declarations/types-40.js';
 export type {
     ReturnResolution,
+    ReturnResolutionsCancelInput,
+    ReturnResolutionsConfirmInput,
+    ReturnResolutionsGetOrCreateCheckoutSessionInput,
+    ReturnResolutionsGetInput,
+    ReturnResolutionsListInput,
+    ReturnResolutionsReleaseInput,
+    ReturnResolutionsRetryInput,
+    ReturnResolutionsUpdateInput,
     ReturnResolutionAdjustment,
     ReturnResolutionExecutionBlocker,
     ReturnResolutionLineItem,
     ReturnReplacementLineItem
-} from '../declarations/types-41.js';
-export type { SdkResponse, SelectedProductOption, SelectableOrderPaymentIntent } from '../declarations/types-43.js';
+} from '../declarations/types-42.js';
+export type {
+    SdkResponse,
+    SelectedProductOption,
+    SettlementAmounts,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    SelectableOrderPaymentIntent
+} from '../declarations/types-44.js';
 export type { GetReturnResolutionResponse, GetOrCreateReturnResolutionCheckoutSessionRequestInput } from '../declarations/types-18.js';
 export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-5.js';
 export type {
@@ -68,6 +81,8 @@ export type {
     ClientOptions,
     CheckoutRedirectsRequestInput,
     CheckoutSession,
+    CheckoutDeliveryPinnedDependency,
+    CheckoutDerivedDeliveryResource,
     CheckoutGiftCardChallenge,
     CheckoutMerchantSupport,
     CheckoutPaymentMethodSave,
@@ -83,7 +98,7 @@ export type {
     CheckoutTheme,
     CheckoutTipConfig
 } from '../declarations/types-4.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ListReturnResolutionsResponse, MeCreateReturnResolutionCheckoutSessionInput } from '../declarations/types-29.js';
 export type {
     ReleaseReturnResolutionRequestInput,
@@ -102,18 +117,11 @@ export type {
     UpdateReturnResolutionRequestInput,
     UpdateReturnResolutionAdjustmentRequestInput,
     UpdateReturnResolutionLineItemRequestInput,
-    UpdateReturnReplacementLineItemRequestInput
+    UpdateReturnReplacementLineItemRequestInput,
+    UpdateReturnReplacementLineItemInputVariantInput,
+    UpdateReturnReplacementLineItemInputBundleInput,
+    UpdateReturnReplacementLineItemInputCustomInput
 } from '../declarations/types-49.js';
-export type {
-    ReturnResolutionsCancelInput,
-    ReturnResolutionsConfirmInput,
-    ReturnResolutionsGetOrCreateCheckoutSessionInput,
-    ReturnResolutionsGetInput,
-    ReturnResolutionsListInput,
-    ReturnResolutionsReleaseInput,
-    ReturnResolutionsRetryInput,
-    ReturnResolutionsUpdateInput
-} from '../declarations/types-42.js';
 export type { AuthMode, Address } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-31.js';
@@ -133,7 +141,6 @@ export type {
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject
 } from '../declarations/types-37.js';
-export type { SettlementAmounts, StripePaymentClientAction, StripeSetupIntentClientAction } from '../declarations/types-44.js';
 export type { OrderGiftCardAllocation, OrderPaymentAttempt, OrderPaymentAttemptPaymentMethodSave } from '../declarations/types-32.js';
 export type {
     PaymentAttemptGiftCardRedemption,
@@ -159,8 +166,7 @@ export type {
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext
 } from '../declarations/types-11.js';
 export type {
     DeliveryInputRequirement,
@@ -169,38 +175,39 @@ export type {
     DeliveryPlan,
     DeliveryPickupDetails,
     DeliveryLocationSummaryResource,
-    DeliveryMerchantDiagnostic
+    DeliveryMerchantDiagnostic,
+    DeliveryEligibilityMismatch
 } from '../declarations/types-12.js';
 export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-15.js';
 export type { BuyerInstructionsConfig } from '../declarations/types-1.js';
 export type { LegalSettings } from '../declarations/types-28.js';
 export type { Image } from '../declarations/types-19.js';
 export type { SubscriptionIntervalOption } from '../declarations/types-45.js';
-export { makeBuyerInstructionsConfig } from '../declarations/types-61.js';
 export {
+    makeBuyerInstructionsConfig,
     makeCancelReturnRequest,
     makeCancelReturnResolutionRequest,
     makeCheckoutBuyerFields,
     makeCheckoutPromotionConfig,
     makeCheckoutRedirectsRequest,
-    makeCheckoutTipConfig,
-    makeConfirmReturnResolutionRequest
+    makeCheckoutTipConfig
 } from '../declarations/types-62.js';
+export { makeConfirmReturnResolutionRequest } from '../declarations/types-63.js';
 export { makeDeliveryAddressRequest } from '../declarations/types-65.js';
-export {
-    makeDeliveryRecipientRequirement,
-    makeDeliveryWindowRequest,
-    makeGetOrCreateReturnResolutionCheckoutSessionRequest
-} from '../declarations/types-66.js';
+export { makeDeliveryRecipientRequirement, makeDeliveryWindowRequest } from '../declarations/types-66.js';
+export { makeGetOrCreateReturnResolutionCheckoutSessionRequest } from '../declarations/types-67.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeReleaseReturnResolutionRequest, makeRetryReturnResolutionRequest } from '../declarations/types-70.js';
-export { makeSubscriptionIntervalOption } from '../declarations/types-71.js';
+export { makeSubscriptionIntervalOption } from '../declarations/types-72.js';
 export {
+    makeUpdateReturnReplacementLineItemInputBundle,
+    makeUpdateReturnReplacementLineItemInputCustom,
+    makeUpdateReturnReplacementLineItemInputVariant,
     makeUpdateReturnReplacementLineItemRequest,
     makeUpdateReturnResolutionAdjustmentRequest,
     makeUpdateReturnResolutionLineItemRequest,
     makeUpdateReturnResolutionRequest
-} from '../declarations/types-72.js';
+} from '../declarations/types-73.js';
 export interface ReturnResolutionsResource {
     /**
  * Cancel a resolution and release the line value it reserved. A failed resolution can be canceled
@@ -217,14 +224,14 @@ export interface ReturnResolutionsResource {
     cancel(return_resolution_id: InputValue<string>, params: (InputValue<CancelReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResolution>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResolution>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnResolutions.md#returnresolutionscancel
      */
     cancelWithResponse(return_resolution_id: InputValue<string>, params: (InputValue<CancelReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResolutionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResolutionResponse>>;
     /**
  * Confirm a proposed resolution and freeze its economic facts. Execution can remain pending behind
  * line-qualified execution blockers.
@@ -238,14 +245,14 @@ export interface ReturnResolutionsResource {
     confirm(return_resolution_id: InputValue<string>, params: (InputValue<ConfirmReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResolution>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResolution>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnResolutions.md#returnresolutionsconfirm
      */
     confirmWithResponse(return_resolution_id: InputValue<string>, params: (InputValue<ConfirmReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResolutionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResolutionResponse>>;
     /**
  * Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement
  * order linked to this return resolution. Returns 200 when reusing an existing session and 201
@@ -273,7 +280,7 @@ export interface ReturnResolutionsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CheckoutSessionWithSecret>;
+    }, options?: RequestOptions<"merchant">): Promise<CheckoutSessionWithSecret>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnResolutions.md#returnresolutionsgetorcreatecheckoutsession
      */
@@ -287,7 +294,7 @@ export interface ReturnResolutionsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ResolvePaymentLinkResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ResolvePaymentLinkResponse>>;
     /**
  * Retrieve one resolution with its amounts, adjustments, execution blockers, and linked refunds,
  * payments, and replacement order. Supports expand for those links.
@@ -298,13 +305,13 @@ export interface ReturnResolutionsResource {
  */
     get(return_resolution_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"payment_intents" | "refunds" | "replacement_order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnResolution>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReturnResolution>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnResolutions.md#returnresolutionsget
      */
     getWithResponse(return_resolution_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"payment_intents" | "refunds" | "replacement_order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnResolutionResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnResolutionResponse>>;
     /**
  * List resolutions. Filter by corrects_return_resolution_id to retrieve the correction history for
  * a resolution that already settled. Newest first: created_at descending, with
@@ -331,7 +338,7 @@ export interface ReturnResolutionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"replacement_order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnResolutionsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnResolutionsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnResolutions.md#returnresolutionslist
      */
@@ -352,7 +359,7 @@ export interface ReturnResolutionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"replacement_order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnResolutionsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnResolutionsResponse>>;
     /** Iterate pages lazily.
      * @see reference/returnResolutions.md#returnresolutionslist
      */
@@ -373,7 +380,7 @@ export interface ReturnResolutionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"replacement_order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnResolutionsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnResolutionsResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/returnResolutions.md#returnresolutionslist
      */
@@ -394,7 +401,7 @@ export interface ReturnResolutionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"replacement_order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnResolutionsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnResolutionsResponse>>;
     /** Iterate items lazily.
      * @see reference/returnResolutions.md#returnresolutionslist
      */
@@ -415,7 +422,7 @@ export interface ReturnResolutionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"replacement_order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnResolution>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnResolution>;
     /**
  * Release a confirmed resolution that is waiting on a manual release. Available only while
  * action_reason is manual_release.
@@ -430,14 +437,14 @@ export interface ReturnResolutionsResource {
     release(return_resolution_id: InputValue<string>, params: (InputValue<ReleaseReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResolution>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResolution>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnResolutions.md#returnresolutionsrelease
      */
     releaseWithResponse(return_resolution_id: InputValue<string>, params: (InputValue<ReleaseReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResolutionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResolutionResponse>>;
     /**
  * Retry a failed resolution. For gift_card_refund_destination_required, send
  * gift_card_refund_destination: new_gift_card to persist the destination before starting the new
@@ -460,14 +467,14 @@ export interface ReturnResolutionsResource {
     retry(return_resolution_id: InputValue<string>, params: (InputValue<RetryReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResolution>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResolution>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnResolutions.md#returnresolutionsretry
      */
     retryWithResponse(return_resolution_id: InputValue<string>, params: (InputValue<RetryReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResolutionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResolutionResponse>>;
     /**
  * Update a proposed resolution before confirmation. A present line_items, replacement_line_items,
  * or adjustments array replaces that collection and requires expected_version.
@@ -481,14 +488,14 @@ export interface ReturnResolutionsResource {
     update(return_resolution_id: InputValue<string>, params: (InputValue<UpdateReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnResolution>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnResolution>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnResolutions.md#returnresolutionsupdate
      */
     updateWithResponse(return_resolution_id: InputValue<string>, params: (InputValue<UpdateReturnResolutionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnResolutionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnResolutionResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

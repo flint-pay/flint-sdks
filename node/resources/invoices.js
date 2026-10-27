@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import r0 from '../descriptors/resources/invoices.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import settings from '../descriptors/settings.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["getOrCreateInvoiceCheckoutSession"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
@@ -183,31 +183,36 @@ this.invoices = Object.freeze({
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "idempotency_key"
 ], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceManualPayments", result, path))),
       listManualPaymentsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceManualPayments", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "idempotency_key"
 ], false, false, params), options).then(_sdkResponse),
       listManualPaymentsPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceManualPayments", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "idempotency_key"
 ], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceManualPayments", result, path)),
       listManualPaymentsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceManualPayments", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "idempotency_key"
 ], false, false, params), options)),
       listManualPaymentsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceManualPayments", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
-  "page_token"
+  "page_token",
+  "idempotency_key"
 ], false, false, params), options),
       listPaymentAttempts: async (invoice_id, params, options) => this.#runtime.request("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
@@ -248,6 +253,7 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "status",
+  "idempotency_key",
   "customer_id",
   "order_id",
   "subscription_id",
@@ -273,6 +279,7 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "status",
+  "idempotency_key",
   "customer_id",
   "order_id",
   "subscription_id",
@@ -298,6 +305,7 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "status",
+  "idempotency_key",
   "customer_id",
   "order_id",
   "subscription_id",
@@ -323,6 +331,7 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "status",
+  "idempotency_key",
   "customer_id",
   "order_id",
   "subscription_id",
@@ -348,6 +357,7 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "status",
+  "idempotency_key",
   "customer_id",
   "order_id",
   "subscription_id",

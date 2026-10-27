@@ -8,8 +8,8 @@ import type {
     CustomerDeletionRequestsResolveInput
 } from '../declarations/types-10.js';
 import type { RequestOptions, ResolveCustomerDeletionRequestInput } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -22,7 +22,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResolveCustomerDeletionRequestInput, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     CustomerDeletionRequestListResponse,
@@ -31,7 +31,7 @@ export type {
     CustomerDeletionRequestsListInput,
     CustomerDeletionRequestsResolveInput
 } from '../declarations/types-10.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -52,7 +52,7 @@ export interface CustomerDeletionRequestsResource {
         "customer_id"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerDeletionRequestListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CustomerDeletionRequestListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
      */
@@ -61,7 +61,7 @@ export interface CustomerDeletionRequestsResource {
         "customer_id"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerDeletionRequestListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CustomerDeletionRequestListResponse>>;
     /** Iterate pages lazily.
      * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
      */
@@ -70,7 +70,7 @@ export interface CustomerDeletionRequestsResource {
         "customer_id"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequestListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomerDeletionRequestListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
      */
@@ -79,7 +79,7 @@ export interface CustomerDeletionRequestsResource {
         "customer_id"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomerDeletionRequestListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<CustomerDeletionRequestListResponse>>;
     /** Iterate items lazily.
      * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
      */
@@ -88,7 +88,7 @@ export interface CustomerDeletionRequestsResource {
         "customer_id"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequest>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomerDeletionRequest>;
     /**
  * Approves or rejects a pending deletion request. Approval returns processing while account data
  * and buyer credentials are deleted asynchronously. A failed deletion can be approved again but
@@ -105,14 +105,14 @@ export interface CustomerDeletionRequestsResource {
     resolve(customer_deletion_request_id: InputValue<string>, params: (InputValue<ResolveCustomerDeletionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerDeletionRequest>;
+    }, options?: RequestOptions<"merchant">): Promise<CustomerDeletionRequest>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customerDeletionRequests.md#customerdeletionrequestsresolve
      */
     resolveWithResponse(customer_deletion_request_id: InputValue<string>, params: (InputValue<ResolveCustomerDeletionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerDeletionRequestResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerDeletionRequestResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

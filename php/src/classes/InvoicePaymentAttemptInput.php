@@ -6,7 +6,6 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $cancellation_requested_at
  * @property-read string $checkout_session_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_amount_money
- * @property-read string|\DateTimeInterface $expected_settlement_at
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $invoice_id
  * @property-read string $invoice_payment_attempt_id
@@ -20,7 +19,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentAttemptInput extends Model {
-    /** @param array{'canceled_at'?: string|\DateTimeInterface, 'cancellation_requested_at'?: string|\DateTimeInterface, 'checkout_session_id'?: string, 'expected_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_settlement_at'?: string|\DateTimeInterface, 'expires_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string|\DateTimeInterface, 'started_at'?: string|\DateTimeInterface, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'canceled_at'?: string|\DateTimeInterface, 'cancellation_requested_at'?: string|\DateTimeInterface, 'checkout_session_id'?: string, 'expected_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expires_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string|\DateTimeInterface, 'started_at'?: string|\DateTimeInterface, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentAttemptInput')); }
     /** Shape $ (Value): string. When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: date-time.
      * @return string|\DateTimeInterface
@@ -46,12 +45,6 @@ final class InvoicePaymentAttemptInput extends Model {
      */
     public function getExpectedAmountMoney(): mixed { return $this->get('expected_amount_money'); }
     public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
-    /** Shape $ (Value): string. When an ACH debit is expected to settle, when Flint has an estimate. Format: date-time.
-     * @return string|\DateTimeInterface
-     * @throws SdkError When expected_settlement_at is omitted; use hasExpectedSettlementAt() or valueOrDefault().
-     */
-    public function getExpectedSettlementAt(): string|\DateTimeInterface { return $this->get('expected_settlement_at'); }
-    public function hasExpectedSettlementAt(): bool { return $this->has('expected_settlement_at'); }
     /** Shape $ (Value): string. When a checkout attempt expires, matching its checkout session. Absent for automatic charges. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().

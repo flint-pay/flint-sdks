@@ -1,22 +1,40 @@
 import type { InputValue } from '../runtime.js';
 import type {
+    UpdateOrderChargeRequestInput,
     UpdateOrderRequestInput,
     UpdateLineItemRequestInput,
     UpdateOrganizationRequestInput,
     UpdatePackageRequestInput,
     UpdatePackageItemRequestInput
 } from './types-48.js';
-import type { ExpandedOrganizationSummary, Dimensions, ExpandedOrderSummary, DimensionsInput } from './types-16.js';
+import type {
+    ExpandedOrganizationSummary,
+    Dimensions,
+    ExpandedOrderSummary,
+    DimensionsInput,
+    DeveloperListPartnerInstallsInput
+} from './types-16.js';
 import type { ResponseMeta } from './types-40.js';
 import type { CreateOrganizationRequestInput, CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-7.js';
 import type { GrantOrganizationMembershipRequestInput } from './types-19.js';
-import type { ReturnResolutionLineItemRequest } from './types-41.js';
+import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationInput } from './types-42.js';
 import type { Weight, WeightInput } from './types-61.js';
-import type { ReturnShipmentLineItemAllocationInput } from './types-42.js';
-import type { FulfillmentTransitionRequestMarkPackedInput } from './types-17.js';
-import type { VoidPackageRequestInput } from './types-49.js';
-import type { PartnerEnvironmentGrant } from './types-35.js';
-import type { DeveloperListPartnerInstallsInput } from './types-15.js';
+import type { FulfillmentTransitionRequestMarkPackedInput } from './types-18.js';
+import type { VoidPackageRequestInput } from './types-50.js';
+import type { PartnerAppPermissionManifestEntry, PartnerEnvironmentGrant } from './types-35.js';
+export type OrdersUpdateChargeInput = {
+    /** Shape $ (Value): string. */
+    "order_id": InputValue<string>;
+    /** Shape $ (Value): string. */
+    "order_charge_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link UpdateOrderChargeRequestInput}. The request body for: Update order
+     * charge.
+     */
+    "body": InputValue<UpdateOrderChargeRequestInput>;
+};
 export type OrdersUpdateInput = {
     /** Shape $ (Value): string. */
     "order_id": InputValue<string>;
@@ -60,8 +78,8 @@ export type Organization = {
     /** Shape $ (Value): string. */
     "parent_organization_id"?: string;
     /**
-     * Shape $ (Value): string. Current status. Archived: deleted, and still readable by ID. Value
-     * enum: "active", "archived".
+     * Shape $ (Value): string. Current status. Archived: deleted. API keys can no longer read or
+     * list the organization. Value enum: "active", "archived".
      */
     "status": "active" | "archived" | (string & {});
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
@@ -981,6 +999,12 @@ export type PackageItem = {
     "shipment_id": string;
     /** Shape $ (Value): string. Last update timestamp. Format: date-time. */
     "updated_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted item version, independent of package shipment and
+     * capacity guards. Use an integer string (decimal digits), not a floating-point number.
+     * Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /** Shape $ (Value): {@link PackageItemListResponse}. A page of `PackageItem` objects. */
 export type PackageItemListResponse = {
@@ -1468,6 +1492,11 @@ export type PackagesDeleteItemInput = {
     "package_id": InputValue<string>;
     /** Shape $ (Value): string. */
     "package_item_id": InputValue<string>;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: InputValue<`${bigint}` | bigint>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
 };
@@ -1740,20 +1769,4 @@ export type PartnerAppListResponse = {
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link PartnerAppPermissionManifestEntry}. One permission a partner app can
- * request, with a title, a description, and the Flint scopes it grants.
- */
-export type PartnerAppPermissionManifestEntry = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "description": string;
-    /** Shape $ (Value): boolean. */
-    "optional"?: boolean;
-    /** Shape $ (Value): string. minLength: 1. */
-    "permission_id": string;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
-    "required_scopes": Array<string>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "title": string;
 };

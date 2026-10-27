@@ -2,14 +2,13 @@ import type { ResourceReference, ResponseMeta, ResourceType } from './types-40.j
 import type { CreateOrderLineItem, CreateOrderLineItemRequestInput } from './types-7.js';
 import type { OrderChargeRequest, OrderChargeRequestInput } from './types-32.js';
 import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-41.js';
-import type { RiskListItemAddition, SelectedProductOption } from './types-43.js';
+import type { RiskListItemAddition } from './types-43.js';
 import type { MoneyValue, MoneyMovementListMeta, ModifierSet } from './types-31.js';
-import type { SignedMoneyInput } from './types-44.js';
-import type { GiftCard, GiftCardLoad } from './types-18.js';
-import type { GiftCardTransaction, ImageAttachment } from './types-19.js';
+import type { SignedMoneyInput, SelectedProductOption } from './types-44.js';
+import type { GiftCard } from './types-18.js';
+import type { GiftCardLoad, GiftCardTransaction, ImageAttachment } from './types-19.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateAPIKeyRequestInput, CreateBundleRequestInput } from './types-5.js';
-import type { ConfigurationVersionRequestInput } from './types-4.js';
+import type { CreateAPIKeyRequestInput, ConfigurationVersionRequestInput, CreateBundleRequestInput } from './types-5.js';
 import type { UpdateAPIKeyRequestInput } from './types-47.js';
 import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-29.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-38.js';
@@ -361,36 +360,36 @@ export type APIRequestLog = {
      * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
      * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
      * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "user", "webhook_delivery", "webhook_endpoint",
-     * "webhook_event", "workload_identity".
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_install",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
+     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
+     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
+     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
      */
     "resource_type"?: ResourceType;
     /**
@@ -523,36 +522,36 @@ export type APIRequestLogDetail = {
      * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
      * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
      * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "user", "webhook_delivery", "webhook_endpoint",
-     * "webhook_event", "workload_identity".
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_install",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
+     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
+     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
+     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
      */
     "resource_type"?: ResourceType;
     /**
@@ -941,8 +940,9 @@ export type AddressRequestInput = AddressRequest;
  */
 export type AdjustGiftCardBalanceRequest = {
     /**
-     * Shape $ (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. Nonzero USD amount to change the card's value by:
+     * positive adds value and negative removes it. Signed monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValue;
     /**
@@ -952,8 +952,11 @@ export type AdjustGiftCardBalanceRequest = {
      */
     "expected_version"?: `${bigint}`;
     /**
-     * Shape $ (Value): string. Value enum: "complimentary", "balance_accidentally_decreased",
-     * "support_issue", "suspicious_activity", "balance_accidentally_increased".
+     * Shape $ (Value): string. Why you're adjusting the value. A negative amount_money takes
+     * suspicious_activity, balance_accidentally_increased, or support_issue; a positive one takes
+     * complimentary, balance_accidentally_decreased, or support_issue. Value enum:
+     * "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity",
+     * "balance_accidentally_increased".
      */
     "reason": "complimentary"
         | "balance_accidentally_decreased"
@@ -968,7 +971,8 @@ export type AdjustGiftCardBalanceRequest = {
  */
 export type AdjustGiftCardBalanceRequestInput = {
     /**
-     * Shape $ (Value): {@link SignedMoneyInput}. Signed monetary amount represented as integer
+     * Shape $ (Value): {@link SignedMoneyInput}. Nonzero USD amount to change the card's value by:
+     * positive adds value and negative removes it. Signed monetary amount represented as integer
      * minor units plus an ISO 4217 currency code.
      */
     "amount_money": SignedMoneyInput;
@@ -979,8 +983,11 @@ export type AdjustGiftCardBalanceRequestInput = {
      */
     "expected_version"?: `${bigint}` | bigint;
     /**
-     * Shape $ (Value): string. Value enum: "complimentary", "balance_accidentally_decreased",
-     * "support_issue", "suspicious_activity", "balance_accidentally_increased".
+     * Shape $ (Value): string. Why you're adjusting the value. A negative amount_money takes
+     * suspicious_activity, balance_accidentally_increased, or support_issue; a positive one takes
+     * complimentary, balance_accidentally_decreased, or support_issue. Value enum:
+     * "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity",
+     * "balance_accidentally_increased".
      */
     "reason": "complimentary"
         | "balance_accidentally_decreased"
@@ -1350,7 +1357,7 @@ export type Balance = {
      * monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "available_money": MoneyValue;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Stable identifier of this currency's balance. */
     "balance_id": string;
     /**
      * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
@@ -1364,7 +1371,7 @@ export type Balance = {
      * currency code.
      */
     "held_money": MoneyValue;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Merchant whose balance this is. */
     "merchant_id": string;
     /**
      * Shape $ (Value): string. When Flint observed these amounts, as an RFC 3339 UTC instant at
@@ -1372,7 +1379,10 @@ export type Balance = {
      * the time of that read. Format: date-time.
      */
     "observed_at": string;
-    /** Shape $ (Value): boolean. */
+    /**
+     * Shape $ (Value): boolean. Whether your account can receive payouts. While it is false,
+     * payments can still succeed, and their funds wait in your balance.
+     */
     "payouts_enabled": boolean;
     /**
      * Shape $ (Value): Map of {@link MoneyValue}. Signed pending amounts grouped by balance source
@@ -1425,16 +1435,23 @@ export type BalanceTransaction = {
      * code.
      */
     "amount_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. When the funds become, or became, available to pay out. Present on
+     * pending transactions as the expected time; status says whether they are available now.
+     * Format: date-time.
+     */
     "available_at"?: string;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Stable identifier of this balance transaction. */
     "balance_transaction_id": string;
     /**
      * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
      * ^[A-Z]{3}$. Example: "USD".
      */
     "currency": string;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. Short text describing the movement, from Flint or your processor.
+     * Use it for display, not for matching.
+     */
     "description"?: string;
     /**
      * Shape $ (Value): {@link MoneyValue}. Flint fee for this balance movement, never a provider
@@ -1444,7 +1461,7 @@ export type BalanceTransaction = {
      * currency code.
      */
     "fee_money": MoneyValue;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Merchant whose balance this transaction moved. */
     "merchant_id": string;
     /**
      * Shape $ (Value): {@link MoneyValue}. Signed net effect on your Flint balance: amount_money
@@ -1452,16 +1469,20 @@ export type BalanceTransaction = {
      * units plus an ISO 4217 currency code.
      */
     "net_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the balance movement happened. Format: date-time. */
     "occurred_at": string;
     /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded. Shape
-     * $.anyOf[2] (Value): null.
+     * Shape $ (Value): {@link ExpandedOrderSummary} or null. The order, inlined when you request
+     * expand=order. null when expanded and the transaction has no order_id. Shape $.anyOf[1]
+     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * Shape $.anyOf[2] (Value): null.
      */
     "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. The Flint order this movement relates to, such as the order a
+     * payment was for. Absent when the movement isn't tied to an order.
+     */
     "order_id"?: string;
     /**
      * Shape $ (Value): string. The payout that carried this balance transaction to your bank. Set
@@ -1470,14 +1491,25 @@ export type BalanceTransaction = {
      * carries.
      */
     "payout_id"?: string;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    /**
+     * Shape $ (Value): Array of string. Earlier balance transactions this one is linked to, such
+     * as the payout transaction that a payout_failure, payout_cancellation, or payout_reversal
+     * returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there
+     * are none. Shape $[] (Value): string.
+     */
     "related_balance_transaction_ids": Array<string>;
     /**
-     * Shape $ (Value): {@link ResourceReference}. A reference to another resource by
-     * `resource_type` and `resource_id`.
+     * Shape $ (Value): {@link ResourceReference}. The Flint resource behind this movement: a
+     * payment_intent, refund, dispute, payout, payout_destination, or merchant_billing_invoice.
+     * Absent when the movement has none. A reference to another resource by `resource_type` and
+     * `resource_id`.
      */
     "related_resource"?: ResourceReference;
-    /** Shape $ (Value): string.  Value enum: "pending", "available". */
+    /**
+     * Shape $ (Value): string. Whether the funds can be paid out yet: pending until they become
+     * available, then available. Only these two values appear, and the change to available sends
+     * balance_transaction.updated. Value enum: "pending", "available".
+     */
     "status": "pending" | "available" | (string & {});
     /**
      * Shape $ (Value): string. Kind of balance movement. Unmapped movement types are returned as

@@ -2,7 +2,7 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateReturnReasonRequestInput } from '../declarations/types-8.js';
 import type { GetReturnReasonResponse } from '../declarations/types-18.js';
-import type { ListReturnReasonsResponse } from '../declarations/types-28.js';
+import type { ListReturnReasonsResponse } from '../declarations/types-29.js';
 import type { RequestOptions } from '../declarations/types-40.js';
 import type {
     ReturnReason,
@@ -12,9 +12,9 @@ import type {
     ReturnReasonsRemoveInput,
     ReturnReasonsUpdateInput
 } from '../declarations/types-41.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateReturnReasonRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,10 +37,10 @@ export type {
     ReturnReasonsListInput,
     ReturnReasonsUpdateInput
 } from '../declarations/types-41.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { GetReturnReasonResponse } from '../declarations/types-18.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { ListReturnReasonsResponse } from '../declarations/types-28.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { ListReturnReasonsResponse } from '../declarations/types-29.js';
 export type { UpdateReturnReasonRequestInput } from '../declarations/types-49.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
@@ -48,7 +48,7 @@ export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
 export { makeCreateReturnReasonRequest } from '../declarations/types-64.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateReturnReasonRequest } from '../declarations/types-72.js';
+export { makeUpdateReturnReasonRequest } from '../declarations/types-73.js';
 export interface ReturnReasonsResource {
     /**
  * Create a merchant Return reason buyers can select. Buyer reasons are distinct from inspection
@@ -65,14 +65,14 @@ export interface ReturnReasonsResource {
     create(params: (InputValue<CreateReturnReasonRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnReason>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnReason>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnReasons.md#returnreasonscreate
      */
     createWithResponse(params: (InputValue<CreateReturnReasonRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnReasonResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnReasonResponse>>;
     /**
  * Retire a Return reason so buyers can no longer select it. Returns that already recorded it keep
  * the frozen reason name. Flint reasons cannot be archived; set status to inactive instead.
@@ -87,14 +87,14 @@ export interface ReturnReasonsResource {
     remove(return_reason_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnReason>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnReason>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnReasons.md#returnreasonsremove
      */
     removeWithResponse(return_reason_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnReasonResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnReasonResponse>>;
     /**
  * Retrieve one Return reason with its handle, category handles, and status.
  * @see reference/returnReasons.md#returnreasonsget
@@ -102,11 +102,11 @@ export interface ReturnReasonsResource {
  * @example
  * client.returnReasons.get("example")
  */
-    get(return_reason_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnReason>;
+    get(return_reason_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReturnReason>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnReasons.md#returnreasonsget
      */
-    getWithResponse(return_reason_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnReasonResponse>>;
+    getWithResponse(return_reason_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnReasonResponse>>;
     /**
  * List Return reasons, including Flint-provided defaults and merchant-defined reasons. Newest
  * first: created_at descending, with return_reason_id descending as the tiebreak. Flint reasons
@@ -124,7 +124,7 @@ export interface ReturnReasonsResource {
         "query"?: InputValue<string>;
         "source"?: InputValue<Array<"flint" | "merchant">>;
         "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnReasonsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnReasonsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnReasons.md#returnreasonslist
      */
@@ -136,7 +136,7 @@ export interface ReturnReasonsResource {
         "query"?: InputValue<string>;
         "source"?: InputValue<Array<"flint" | "merchant">>;
         "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnReasonsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnReasonsResponse>>;
     /** Iterate pages lazily.
      * @see reference/returnReasons.md#returnreasonslist
      */
@@ -148,7 +148,7 @@ export interface ReturnReasonsResource {
         "query"?: InputValue<string>;
         "source"?: InputValue<Array<"flint" | "merchant">>;
         "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnReasonsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnReasonsResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/returnReasons.md#returnreasonslist
      */
@@ -160,7 +160,7 @@ export interface ReturnReasonsResource {
         "query"?: InputValue<string>;
         "source"?: InputValue<Array<"flint" | "merchant">>;
         "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnReasonsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnReasonsResponse>>;
     /** Iterate items lazily.
      * @see reference/returnReasons.md#returnreasonslist
      */
@@ -172,7 +172,7 @@ export interface ReturnReasonsResource {
         "query"?: InputValue<string>;
         "source"?: InputValue<Array<"flint" | "merchant">>;
         "status"?: InputValue<Array<"active" | "archived" | "inactive">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnReason>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnReason>;
     /**
  * Update a Return reason. Send null to clear description. A present category_handles array
  * replaces the existing set. Set status to active or inactive to control availability. Flint
@@ -188,14 +188,14 @@ export interface ReturnReasonsResource {
     update(return_reason_id: InputValue<string>, params: (InputValue<UpdateReturnReasonRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnReason>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnReason>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnReasons.md#returnreasonsupdate
      */
     updateWithResponse(return_reason_id: InputValue<string>, params: (InputValue<UpdateReturnReasonRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnReasonResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnReasonResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

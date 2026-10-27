@@ -12,9 +12,9 @@ import type {
     DevicesUpdateInput
 } from '../declarations/types-16.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { UpdateDeviceRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { UpdateDeviceRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,9 +39,9 @@ export type {
     DevicesListInput,
     DevicesUpdateInput
 } from '../declarations/types-16.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { UpdateDeviceRequestInput } from '../declarations/types-47.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { UpdateDeviceRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -63,13 +63,13 @@ export interface DevicesResource {
  */
     create(params: (InputValue<CreateDeviceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Device>;
+    }, options?: RequestOptions<"merchant">): Promise<Device>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/devices.md#devicescreate
      */
     createWithResponse(params: (InputValue<CreateDeviceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeviceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeviceResponse>>;
     /**
  * Archives a device and releases its hardware_fingerprint for reuse. The archived device no longer
  * returns hardware_fingerprint.
@@ -83,14 +83,14 @@ export interface DevicesResource {
     remove(device_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Device>;
+    }, options?: RequestOptions<"merchant">): Promise<Device>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/devices.md#devicesremove
      */
     removeWithResponse(device_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeviceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeviceResponse>>;
     /**
  * Returns a single device by ID.
  * @see reference/devices.md#devicesget
@@ -98,11 +98,11 @@ export interface DevicesResource {
  * @example
  * client.devices.get("example")
  */
-    get(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Device>;
+    get(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Device>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/devices.md#devicesget
      */
-    getWithResponse(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeviceResponse>>;
+    getWithResponse(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeviceResponse>>;
     /**
  * Returns a paginated list of devices for the authenticated merchant.
  * @see reference/devices.md#deviceslist
@@ -118,7 +118,7 @@ export interface DevicesResource {
         "hardware_fingerprint"?: InputValue<string>;
         "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeviceListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeviceListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/devices.md#deviceslist
      */
@@ -130,7 +130,7 @@ export interface DevicesResource {
         "hardware_fingerprint"?: InputValue<string>;
         "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeviceListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeviceListResponse>>;
     /** Iterate pages lazily.
      * @see reference/devices.md#deviceslist
      */
@@ -142,7 +142,7 @@ export interface DevicesResource {
         "hardware_fingerprint"?: InputValue<string>;
         "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeviceListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeviceListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/devices.md#deviceslist
      */
@@ -154,7 +154,7 @@ export interface DevicesResource {
         "hardware_fingerprint"?: InputValue<string>;
         "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeviceListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeviceListResponse>>;
     /** Iterate items lazily.
      * @see reference/devices.md#deviceslist
      */
@@ -166,7 +166,7 @@ export interface DevicesResource {
         "hardware_fingerprint"?: InputValue<string>;
         "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Device>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Device>;
     /**
  * Applies a sparse update to a device. Send null to clear location_id or all metadata. The name
  * field cannot be null. Archived devices return DEVICE_ARCHIVED with current_status archived.
@@ -179,13 +179,13 @@ export interface DevicesResource {
  */
     update(device_id: InputValue<string>, params: (InputValue<UpdateDeviceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Device>;
+    }, options?: RequestOptions<"merchant">): Promise<Device>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/devices.md#devicesupdate
      */
     updateWithResponse(device_id: InputValue<string>, params: (InputValue<UpdateDeviceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeviceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeviceResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

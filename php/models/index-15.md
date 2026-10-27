@@ -1,9 +1,7 @@
 [Model index](../MODELS.md)
 
-# PackageCreateRequestInput – PayOrderRequestSetupInput
+# PackageItemListResponseInput – PayOrderResultInput
 
-- [PackageCreateRequestInput](PackageCreateRequestInput.md)
-- [PackageItemInput](PackageItemInput.md)
 - [PackageItemListResponseInput](PackageItemListResponseInput.md)
 - [PackageItemResponseInput](PackageItemResponseInput.md)
 - [PackageListResponseInput](PackageListResponseInput.md)
@@ -102,4 +100,6 @@
 - [PayOrderRequestPayInput](PayOrderRequestPayInput.md)
 - [PayOrderRequestResumeInput](PayOrderRequestResumeInput.md)
 - [PayOrderRequestSetupInput](PayOrderRequestSetupInput.md)
+- [PayOrderResponseInput](PayOrderResponseInput.md)
+- [PayOrderResultInput](PayOrderResultInput.md)
 

@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# DeliveryFulfillmentDetailsInput – DeliveryRateCallbackResponseInput
+# DeliveryExternalPricingStrategyInput – DeliveryRateCallbackConnectionCheckInput
 
+- [DeliveryExternalPricingStrategyInput](DeliveryExternalPricingStrategyInput.md)
+- [DeliveryFixedPricingStrategyInput](DeliveryFixedPricingStrategyInput.md)
+- [DeliveryFixedPricingStrategyRequestInput](DeliveryFixedPricingStrategyRequestInput.md)
 - [DeliveryFulfillmentDetailsInput](DeliveryFulfillmentDetailsInput.md)
 - [DeliveryInputConstraintInput](DeliveryInputConstraintInput.md)
 - [DeliveryInputRequirementInput](DeliveryInputRequirementInput.md)
@@ -99,7 +102,4 @@
 - [DeliveryRateCallbackConfigurationInput](DeliveryRateCallbackConfigurationInput.md)
 - [DeliveryRateCallbackConfigurationPatchRequestInput](DeliveryRateCallbackConfigurationPatchRequestInput.md)
 - [DeliveryRateCallbackConnectionCheckInput](DeliveryRateCallbackConnectionCheckInput.md)
-- [DeliveryRateCallbackConnectionCheckResponseInput](DeliveryRateCallbackConnectionCheckResponseInput.md)
-- [DeliveryRateCallbackListResponseInput](DeliveryRateCallbackListResponseInput.md)
-- [DeliveryRateCallbackResponseInput](DeliveryRateCallbackResponseInput.md)
 

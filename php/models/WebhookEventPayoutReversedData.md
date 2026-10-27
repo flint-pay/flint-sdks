@@ -26,5 +26,5 @@ Declared alternatives: [PayoutsCancelResponse200.data.payout_destination](../mod
 
 ### WebhookEventPayoutReversedData.object fields 1.reversed_by_payout
 
-Declared alternatives: [PayoutsCancelResponse200.data.original_payout](../models/PayoutsCancelResponse200.md#payoutscancelresponse200dataoriginal_payout).
+Declared alternatives: [PayoutsCancelResponse200.data.reversed_by_payout](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datareversed_by_payout).
 

@@ -51,6 +51,7 @@ Response model.
 | `tip_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. |
 | `transaction_purpose` | Optional | string | Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once the payment intent exists. Values: `"goods"`, `"services"`, `"other"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `current_payment_action` | Required | [PendingPaymentAction](../models/PendingPaymentAction.md#pendingpaymentaction) or null | Typed browser authority for the current standalone payment action. Complete it, then call the same confirm endpoint with an empty body. Null when no buyer action is needed or Flint cannot produce the action yet. If status is requires_action and this is null, call confirm again with an empty body. |
 
 #### PaymentIntentWithAction cancellation_reason values

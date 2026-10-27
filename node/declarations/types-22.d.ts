@@ -1,32 +1,9 @@
 import type {
-    Webhook_invoice_updated_installed_merchants,
-    Webhook_invoice_updated_merchant,
-    Webhook_package_updated_installed_merchants,
-    Webhook_package_updated_merchant,
-    Webhook_order_inventory_exception_resolved_installed_merchants,
-    Webhook_order_inventory_exception_resolved_merchant,
-    Webhook_invoice_sent_installed_merchants,
-    Webhook_invoice_sent_merchant,
-    Webhook_payment_intent_created_installed_merchants,
-    Webhook_payment_intent_created_merchant,
-    Webhook_payment_intent_expired_installed_merchants,
-    Webhook_modifier_set_created_installed_merchants,
-    Webhook_modifier_set_created_merchant,
-    Webhook_partner_app_install_permissions_updated_partner_app,
-    Webhook_partner_app_install_revoked_partner_app,
-    Webhook_invoice_refunded_installed_merchants,
-    Webhook_invoice_refunded_merchant
-} from './types-58.js';
-import type {
+    Webhook_fulfillment_updated_installed_merchants,
+    Webhook_fulfillment_updated_merchant,
     Webhook_dispute_won_merchant,
-    Webhook_gift_card_redemption_created_installed_merchants,
-    Webhook_gift_card_redemption_created_merchant,
-    Webhook_inventory_count_applied_installed_merchants,
-    Webhook_inventory_count_applied_merchant,
     Webhook_fraud_warning_updated_installed_merchants,
     Webhook_fraud_warning_updated_merchant,
-    Webhook_inventory_level_shortage_detected_installed_merchants,
-    Webhook_inventory_level_shortage_detected_merchant,
     Webhook_fulfillment_created_installed_merchants,
     Webhook_fulfillment_created_merchant,
     Webhook_dispute_lost_merchant,
@@ -37,101 +14,152 @@ import type {
     Webhook_dispute_inquiry_closed_merchant
 } from './types-56.js';
 import type {
+    Webhook_inventory_reservation_consumed_installed_merchants,
+    Webhook_inventory_reservation_consumed_merchant,
+    Webhook_inventory_level_updated_installed_merchants,
+    Webhook_inventory_level_updated_merchant,
     Webhook_invoice_created_installed_merchants,
     Webhook_invoice_created_merchant,
     Webhook_inventory_transfer_departed_installed_merchants,
     Webhook_inventory_transfer_departed_merchant,
+    Webhook_gift_card_redemption_created_installed_merchants,
+    Webhook_gift_card_redemption_created_merchant,
     Webhook_invoice_credited_installed_merchants,
     Webhook_invoice_credited_merchant,
     Webhook_inventory_transfer_received_installed_merchants,
     Webhook_inventory_transfer_received_merchant,
+    Webhook_inventory_count_applied_installed_merchants,
+    Webhook_inventory_count_applied_merchant,
     Webhook_invoice_collection_blocked_installed_merchants,
     Webhook_invoice_collection_blocked_merchant,
-    Webhook_invoice_manual_payment_created_installed_merchants,
-    Webhook_invoice_manual_payment_created_merchant,
     Webhook_invoice_delivery_attempt_suppressed_installed_merchants,
     Webhook_invoice_delivery_attempt_suppressed_merchant,
+    Webhook_inventory_level_shortage_detected_installed_merchants,
+    Webhook_inventory_level_shortage_detected_merchant,
     Webhook_invoice_delivery_attempt_sent_installed_merchants,
     Webhook_invoice_delivery_attempt_sent_merchant,
     Webhook_invoice_issue_failed_installed_merchants,
     Webhook_invoice_issue_failed_merchant,
     Webhook_invoice_collection_block_resolved_installed_merchants,
-    Webhook_invoice_collection_block_resolved_merchant,
-    Webhook_invoice_partially_paid_installed_merchants,
-    Webhook_invoice_partially_paid_merchant
+    Webhook_invoice_collection_block_resolved_merchant
 } from './types-57.js';
 import type {
-    Webhook_subscription_renewal_upcoming_installed_merchants,
-    Webhook_subscription_renewal_upcoming_merchant,
-    Webhook_subscription_payment_retry_created_installed_merchants,
-    Webhook_subscription_payment_retry_created_merchant,
-    Webhook_subscription_past_due_installed_merchants,
-    Webhook_subscription_past_due_merchant
-} from './types-61.js';
-import type {
+    Webhook_payout_updated_merchant,
     Webhook_promotion_code_updated_installed_merchants,
     Webhook_promotion_code_updated_merchant,
-    Webhook_payment_method_archived_installed_merchants,
-    Webhook_payment_method_archived_merchant,
-    Webhook_payment_intent_expired_merchant,
-    Webhook_payout_canceled_merchant,
-    Webhook_promotion_code_created_installed_merchants,
-    Webhook_promotion_code_created_merchant,
-    Webhook_payment_review_closed_installed_merchants,
-    Webhook_payment_review_closed_merchant,
-    Webhook_payment_intent_payment_failed_installed_merchants,
-    Webhook_payment_intent_payment_failed_merchant,
-    Webhook_payment_link_created_installed_merchants,
-    Webhook_payment_link_created_merchant,
-    Webhook_payout_paid_merchant,
-    Webhook_payout_destination_archived_merchant,
-    Webhook_product_created_installed_merchants,
-    Webhook_product_created_merchant
-} from './types-59.js';
-import type {
-    Webhook_category_deleted_installed_merchants,
-    Webhook_category_deleted_merchant,
-    Webhook_credit_note_issued_installed_merchants,
-    Webhook_credit_note_issued_merchant,
-    Webhook_checkout_session_paid_installed_merchants,
-    Webhook_checkout_session_paid_merchant,
-    Webhook_bundle_updated_installed_merchants,
-    Webhook_bundle_updated_merchant,
-    Webhook_credit_note_allocation_created_installed_merchants,
-    Webhook_credit_note_allocation_created_merchant,
-    Webhook_balance_transaction_created_merchant
-} from './types-54.js';
-import type {
-    Webhook_shipment_updated_installed_merchants,
-    Webhook_shipment_updated_merchant,
-    Webhook_return_resolution_created_installed_merchants,
-    Webhook_return_resolution_created_merchant,
     Webhook_return_receipt_created_installed_merchants,
     Webhook_return_receipt_created_merchant,
     Webhook_refund_created_installed_merchants,
     Webhook_refund_created_merchant,
     Webhook_promotion_updated_installed_merchants,
     Webhook_promotion_updated_merchant,
+    Webhook_promotion_code_created_installed_merchants,
+    Webhook_promotion_code_created_merchant,
     Webhook_return_receipt_superseded_installed_merchants,
     Webhook_return_receipt_superseded_merchant,
-    Webhook_return_completed_installed_merchants,
-    Webhook_return_completed_merchant
+    Webhook_product_created_installed_merchants,
+    Webhook_product_created_merchant
 } from './types-60.js';
+import type {
+    Webhook_balance_transaction_updated_merchant,
+    Webhook_category_deleted_installed_merchants,
+    Webhook_category_deleted_merchant,
+    Webhook_bundle_updated_installed_merchants,
+    Webhook_bundle_updated_merchant
+} from './types-54.js';
+import type {
+    Webhook_payment_intent_updated_installed_merchants,
+    Webhook_payment_intent_updated_merchant,
+    Webhook_order_refunded_installed_merchants,
+    Webhook_order_refunded_merchant,
+    Webhook_package_updated_installed_merchants,
+    Webhook_package_updated_merchant,
+    Webhook_payment_method_archived_installed_merchants,
+    Webhook_payment_method_archived_merchant,
+    Webhook_payment_intent_created_installed_merchants,
+    Webhook_payment_intent_created_merchant,
+    Webhook_payment_intent_expired_installed_merchants,
+    Webhook_payment_intent_expired_merchant,
+    Webhook_payout_canceled_merchant,
+    Webhook_payment_review_closed_installed_merchants,
+    Webhook_payment_review_closed_merchant,
+    Webhook_payment_intent_payment_failed_installed_merchants,
+    Webhook_payment_intent_payment_failed_merchant,
+    Webhook_payment_link_created_installed_merchants,
+    Webhook_payment_link_created_merchant,
+    Webhook_partner_app_install_permissions_updated_partner_app,
+    Webhook_partner_app_install_revoked_partner_app,
+    Webhook_payout_paid_merchant,
+    Webhook_payout_destination_archived_merchant
+} from './types-59.js';
+import type {
+    Webhook_invoice_updated_installed_merchants,
+    Webhook_invoice_updated_merchant,
+    Webhook_order_inventory_exception_resolved_installed_merchants,
+    Webhook_order_inventory_exception_resolved_merchant,
+    Webhook_invoice_sent_installed_merchants,
+    Webhook_invoice_sent_merchant,
+    Webhook_invoice_manual_payment_created_installed_merchants,
+    Webhook_invoice_manual_payment_created_merchant,
+    Webhook_modifier_set_created_installed_merchants,
+    Webhook_modifier_set_created_merchant,
+    Webhook_invoice_partially_paid_installed_merchants,
+    Webhook_invoice_partially_paid_merchant
+} from './types-58.js';
+import type {
+    Webhook_subscription_renewal_upcoming_installed_merchants,
+    Webhook_subscription_renewal_upcoming_merchant,
+    Webhook_shipment_updated_installed_merchants,
+    Webhook_shipment_updated_merchant,
+    Webhook_subscription_payment_retry_created_installed_merchants,
+    Webhook_subscription_payment_retry_created_merchant,
+    Webhook_return_resolution_created_installed_merchants,
+    Webhook_return_resolution_created_merchant,
+    Webhook_subscription_past_due_installed_merchants,
+    Webhook_subscription_past_due_merchant
+} from './types-61.js';
 import type {
     Webhook_customer_deleted_installed_merchants,
     Webhook_customer_deleted_merchant,
+    Webhook_credit_note_issued_installed_merchants,
+    Webhook_credit_note_issued_merchant,
     Webhook_delivery_location_set_updated_installed_merchants,
     Webhook_delivery_location_set_updated_merchant,
-    Webhook_custom_domain_updated_merchant,
-    Webhook_delivery_rate_callback_archived_installed_merchants,
-    Webhook_delivery_rate_callback_archived_merchant,
-    Webhook_delivery_location_set_created_installed_merchants,
-    Webhook_delivery_location_set_created_merchant,
-    Webhook_delivery_zone_activated_installed_merchants,
-    Webhook_delivery_zone_activated_merchant,
-    Webhook_customer_deletion_request_failed_installed_merchants,
-    Webhook_customer_deletion_request_failed_merchant
+    Webhook_checkout_session_paid_installed_merchants,
+    Webhook_checkout_session_paid_merchant,
+    Webhook_credit_note_allocation_created_installed_merchants,
+    Webhook_credit_note_allocation_created_merchant,
+    Webhook_custom_domain_updated_merchant
 } from './types-55.js';
+/** Shape $ (Value): {@link IncomingWebhook85009aa9b4a5Payload}. */
+export type IncomingWebhook85009aa9b4a5Payload = ((Webhook_fulfillment_updated_merchant)
+    | (Webhook_fulfillment_updated_installed_merchants)
+    | (unknown));
+/** Shape $ (Value): {@link IncomingWebhook8616683d55b7Payload}. */
+export type IncomingWebhook8616683d55b7Payload = ((Webhook_inventory_reservation_consumed_merchant)
+    | (Webhook_inventory_reservation_consumed_installed_merchants)
+    | (unknown));
+/**
+ * Shape $ (Value): {@link Webhook_payout_updated_merchant}. The `payout.updated` webhook payload
+ * for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type IncomingWebhook88596065c1b9Payload = Webhook_payout_updated_merchant;
+/**
+ * Shape $ (Value): {@link Webhook_balance_transaction_updated_merchant}. The
+ * `balance_transaction.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type IncomingWebhook89b737dd7119Payload = Webhook_balance_transaction_updated_merchant;
+/** Shape $ (Value): {@link IncomingWebhook8a237991564ePayload}. */
+export type IncomingWebhook8a237991564ePayload = ((Webhook_payment_intent_updated_merchant)
+    | (Webhook_payment_intent_updated_installed_merchants)
+    | (unknown));
+/** Shape $ (Value): {@link IncomingWebhook8a9065a6c890Payload}. */
+export type IncomingWebhook8a9065a6c890Payload = ((Webhook_inventory_level_updated_merchant)
+    | (Webhook_inventory_level_updated_installed_merchants)
+    | (unknown));
+/** Shape $ (Value): {@link IncomingWebhook8b9272735b74Payload}. */
+export type IncomingWebhook8b9272735b74Payload = ((Webhook_order_refunded_merchant) | (Webhook_order_refunded_installed_merchants) | (unknown));
 /** Shape $ (Value): {@link IncomingWebhook8c8f435e6e23Payload}. */
 export type IncomingWebhook8c8f435e6e23Payload = ((Webhook_invoice_updated_merchant) | (Webhook_invoice_updated_installed_merchants) | (unknown));
 /**
@@ -346,29 +374,3 @@ export type IncomingWebhookc7c9c518e9d3Payload = ((Webhook_gift_card_load_create
  * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
 export type IncomingWebhookc80b5d8589f2Payload = Webhook_dispute_inquiry_closed_merchant;
-/** Shape $ (Value): {@link IncomingWebhookc823e4336c4aPayload}. */
-export type IncomingWebhookc823e4336c4aPayload = ((Webhook_delivery_rate_callback_archived_merchant)
-    | (Webhook_delivery_rate_callback_archived_installed_merchants)
-    | (unknown));
-/** Shape $ (Value): {@link IncomingWebhookc82943441c1dPayload}. */
-export type IncomingWebhookc82943441c1dPayload = ((Webhook_delivery_location_set_created_merchant)
-    | (Webhook_delivery_location_set_created_installed_merchants)
-    | (unknown));
-/** Shape $ (Value): {@link IncomingWebhookc8cb35576c0fPayload}. */
-export type IncomingWebhookc8cb35576c0fPayload = ((Webhook_return_completed_merchant) | (Webhook_return_completed_installed_merchants) | (unknown));
-/** Shape $ (Value): {@link IncomingWebhookce317e37a514Payload}. */
-export type IncomingWebhookce317e37a514Payload = ((Webhook_invoice_refunded_merchant) | (Webhook_invoice_refunded_installed_merchants) | (unknown));
-/**
- * Shape $ (Value): {@link Webhook_balance_transaction_created_merchant}. The
- * `balance_transaction.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type IncomingWebhookcf769e4fa54cPayload = Webhook_balance_transaction_created_merchant;
-/** Shape $ (Value): {@link IncomingWebhookcfa0fc3e7b61Payload}. */
-export type IncomingWebhookcfa0fc3e7b61Payload = ((Webhook_delivery_zone_activated_merchant)
-    | (Webhook_delivery_zone_activated_installed_merchants)
-    | (unknown));
-/** Shape $ (Value): {@link IncomingWebhookcfd6ded146cfPayload}. */
-export type IncomingWebhookcfd6ded146cfPayload = ((Webhook_customer_deletion_request_failed_merchant)
-    | (Webhook_customer_deletion_request_failed_installed_merchants)
-    | (unknown));

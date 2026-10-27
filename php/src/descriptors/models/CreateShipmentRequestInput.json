@@ -1,1 +1,1 @@
-{"shared":"CreateShipmentRequest","dependencies":["CreateShipmentRequest","ReturnShipmentLineItemAllocation","SharedCodec221","SharedCodec222","SharedCodec223","SharedCodec224"]}
+{"shared":"CreateShipmentRequest","dependencies":["CreateShipmentRequest","ReturnShipmentLineItemAllocation","SharedCodec226","SharedCodec227","SharedCodec228","SharedCodec229"]}

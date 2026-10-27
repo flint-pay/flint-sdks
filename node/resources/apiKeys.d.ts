@@ -10,12 +10,12 @@ import type {
     ApiKeysRevokeInput,
     ApiKeysUpdateInput
 } from '../declarations/types-0.js';
-import type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-4.js';
-import type { CreateAPIKeyRequestInput, CreateAPIKeyResponse } from '../declarations/types-5.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { ConfigurationVersionRequestInput, CreateAPIKeyRequestInput, CreateAPIKeyResponse } from '../declarations/types-5.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateAPIKeyRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,7 +28,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { CreateAPIKeyRequestInput, CreateAPIKeyResponse } from '../declarations/types-5.js';
+export type { CreateAPIKeyRequestInput, CreateAPIKeyResponse, ConfigurationVersionRequestInput } from '../declarations/types-5.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceType } from '../declarations/types-40.js';
 export type {
     APIKeyWithSecret,
@@ -42,15 +42,15 @@ export type {
     ApiKeysUpdateInput,
     AuthMode
 } from '../declarations/types-0.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { ConfigurationVersionRequestInput, ClientOptions } from '../declarations/types-4.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateAPIKeyRequestInput } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-4.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeConfigurationVersionRequest, makeCreateAPIKeyRequest } from '../declarations/types-62.js';
+export { makeConfigurationVersionRequest, makeCreateAPIKeyRequest } from '../declarations/types-63.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateAPIKeyRequest } from '../declarations/types-71.js';
+export { makeUpdateAPIKeyRequest } from '../declarations/types-72.js';
 export interface ApiKeysResource {
     /**
  * Creates a merchant-bound external API key. secret_key is returned only in the initial successful
@@ -64,13 +64,13 @@ export interface ApiKeysResource {
  */
     create(params: (InputValue<CreateAPIKeyRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<APIKeyWithSecret>;
+    }, options?: RequestOptions<"merchant">): Promise<APIKeyWithSecret>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/apiKeys.md#apikeyscreate
      */
     createWithResponse(params: (InputValue<CreateAPIKeyRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CreateAPIKeyResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CreateAPIKeyResponse>>;
     /**
  * Returns external API key metadata. Secrets, internal keys, and demo-session keys are not
  * returned.
@@ -79,11 +79,11 @@ export interface ApiKeysResource {
  * @example
  * client.apiKeys.get("example")
  */
-    get(api_key_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<APIKey>;
+    get(api_key_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<APIKey>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/apiKeys.md#apikeysget
      */
-    getWithResponse(api_key_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<APIKeyResponse>>;
+    getWithResponse(api_key_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<APIKeyResponse>>;
     /**
  * Returns merchant-bound external API key metadata. Internal keys, demo-session keys, and secrets
  * are never returned.
@@ -102,7 +102,7 @@ export interface ApiKeysResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<APIKeyListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<APIKeyListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/apiKeys.md#apikeyslist
      */
@@ -116,7 +116,7 @@ export interface ApiKeysResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<APIKeyListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<APIKeyListResponse>>;
     /** Iterate pages lazily.
      * @see reference/apiKeys.md#apikeyslist
      */
@@ -130,7 +130,7 @@ export interface ApiKeysResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<APIKeyListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<APIKeyListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/apiKeys.md#apikeyslist
      */
@@ -144,7 +144,7 @@ export interface ApiKeysResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<APIKeyListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<APIKeyListResponse>>;
     /** Iterate items lazily.
      * @see reference/apiKeys.md#apikeyslist
      */
@@ -158,7 +158,7 @@ export interface ApiKeysResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<APIKey>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<APIKey>;
     /**
  * Permanently revokes an external API key and returns metadata with status revoked.
  * @see reference/apiKeys.md#apikeysrevoke
@@ -173,7 +173,7 @@ export interface ApiKeysResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<APIKey>;
+    }, options?: RequestOptions<"merchant">): Promise<APIKey>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/apiKeys.md#apikeysrevoke
      */
@@ -182,7 +182,7 @@ export interface ApiKeysResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<APIKeyResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<APIKeyResponse>>;
     /**
  * Updates an API key's name, scopes, or expires_at. Expired keys can be updated, and a future
  * expires_at reactivates one. A revoked key can't be updated. An API key caller may grant only
@@ -196,13 +196,13 @@ export interface ApiKeysResource {
  */
     update(api_key_id: InputValue<string>, params: (InputValue<UpdateAPIKeyRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<APIKey>;
+    }, options?: RequestOptions<"merchant">): Promise<APIKey>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/apiKeys.md#apikeysupdate
      */
     updateWithResponse(api_key_id: InputValue<string>, params: (InputValue<UpdateAPIKeyRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<APIKeyResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<APIKeyResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

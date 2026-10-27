@@ -7,8 +7,8 @@ import type {
     DiscountPreviewsCreateInput
 } from '../declarations/types-16.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,9 +27,9 @@ export type {
     DiscountPreviewResponse,
     DiscountPreviewsCreateInput
 } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { CreateOrderDiscountInput } from '../declarations/types-7.js';
 export type { ManualDiscountRequestInput } from '../declarations/types-29.js';
@@ -40,7 +40,7 @@ export type { Credentials } from '../declarations/types-9.js';
 export { makeCreateOrderDiscount } from '../declarations/types-64.js';
 export { makeDiscountPreviewRequest } from '../declarations/types-66.js';
 export { makeManualDiscountRequest, makeMoneyValue } from '../declarations/types-68.js';
-export { makePromotionRefRequest } from '../declarations/types-69.js';
+export { makePromotionRefRequest } from '../declarations/types-70.js';
 export interface DiscountPreviewsResource {
     /**
  * Evaluates promotion outcomes for an order without changing it. Returns the complete result
@@ -54,11 +54,11 @@ export interface DiscountPreviewsResource {
  * @example
  * client.discountPreviews.create({order_id: "example"})
  */
-    create(params: (InputValue<DiscountPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<DiscountPreview>;
+    create(params: (InputValue<DiscountPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<DiscountPreview>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/discountPreviews.md#discountpreviewscreate
      */
-    createWithResponse(params: (InputValue<DiscountPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<DiscountPreviewResponse>>;
+    createWithResponse(params: (InputValue<DiscountPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<SdkResponse<DiscountPreviewResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

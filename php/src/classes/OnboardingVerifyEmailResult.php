@@ -6,13 +6,12 @@ namespace Flint;
  * @property-read ?string $default_sandbox_id
  * @property-read Merchant $merchant
  * @property-read bool $merchant_created
- * @property-read ?OnboardingNextStep $next_step
  * @property-read string $onboarding_session_expires_at
  * @property-read string $onboarding_session_token
  * @property-read User $user
  * Presence-aware response; omitted optional fields return null. */
 final class OnboardingVerifyEmailResult extends Model {
-    /** @param array{'can_issue_api_key': bool, 'default_sandbox_id'?: string, 'merchant': mixed, 'merchant_created': bool, 'next_step'?: mixed, 'onboarding_session_expires_at': string, 'onboarding_session_token': string, 'user': mixed, ...}|object $values */
+    /** @param array{'can_issue_api_key': bool, 'default_sandbox_id'?: string, 'merchant': mixed, 'merchant_created': bool, 'onboarding_session_expires_at': string, 'onboarding_session_token': string, 'user': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingVerifyEmailResult')); }
     /** Shape $ (Value): boolean. Whether the merchant has no external API key and a default sandbox exists.
      * @return bool
@@ -34,11 +33,6 @@ final class OnboardingVerifyEmailResult extends Model {
      */
     public function getMerchantCreated(): bool { return $this->get('merchant_created'); }
     public function hasMerchantCreated(): bool { return $this->has('merchant_created'); }
-    /** Shape $ (Value): {@see OnboardingNextStep}. The next step to move onboarding forward, with who owns it, whether a machine can complete it, and the endpoint to submit to.
-     * @return ?OnboardingNextStep
-     */
-    public function getNextStep(): ?OnboardingNextStep { return $this->get('next_step'); }
-    public function hasNextStep(): bool { return $this->has('next_step'); }
     /** Shape $ (Value): string. Expiry of onboarding_session_token. The token cannot be refreshed; verify the email again to get a new one. Format: date-time.
      * @return string
      */

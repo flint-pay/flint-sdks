@@ -14,6 +14,7 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.organizations.create(
   {
     name: "example",
+    parent_organization_id: "example",
   },
   { idempotencyKey: idempotencyKey },
 );

@@ -15,6 +15,7 @@ const result = await client.subscriptions.createLineItem(
   "example",
   {
     quantity: 1,
+    type: "variant",
     variant_id: "var_00000000000000000000000000",
   },
   { idempotencyKey: idempotencyKey },

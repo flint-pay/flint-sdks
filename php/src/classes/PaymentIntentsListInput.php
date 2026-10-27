@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string $idempotency_key
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $order_id
@@ -29,8 +30,14 @@ namespace Flint;
  * @property-read list<string> $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'customer_id'?: string, 'invoice_id'?: string, 'is_action_required'?: bool, 'status'?: list<string>, 'risk_level'?: list<string>, 'payment_flow'?: list<string>, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'refund_status'?: list<string>, 'dispute_status'?: list<string>, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>}|object $values */
+    /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'customer_id'?: string, 'invoice_id'?: string, 'is_action_required'?: bool, 'status'?: list<string>, 'risk_level'?: list<string>, 'payment_flow'?: list<string>, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: string, 'max_amount'?: string, 'currency'?: string, 'refund_status'?: list<string>, 'dispute_status'?: list<string>, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsListInput')); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
      * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().

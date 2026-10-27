@@ -48,7 +48,7 @@ test("every write declaring Idempotency-Key supports the option without automati
       }
     }
   }
-  assert.equal(count, 333);
+  assert.equal(count, 331);
 });
 
 test("pickup discovery compiles checkout authentication declared by the public API", () => {

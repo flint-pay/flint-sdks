@@ -12,9 +12,9 @@ import type {
     LocationsUpdateInput
 } from '../declarations/types-29.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateLocationRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,14 +44,14 @@ export type {
     LocationCoordinate,
     LocationAddressRequest
 } from '../declarations/types-29.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateLocationRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateLocationRequest } from '../declarations/types-63.js';
+export { makeCreateLocationRequest } from '../declarations/types-64.js';
 export { makeLocationAddressRequest, makeLocationCoordinate, makeMoneyValue } from '../declarations/types-68.js';
 export { makeUpdateLocationRequest } from '../declarations/types-72.js';
 export interface LocationsResource {
@@ -70,13 +70,13 @@ export interface LocationsResource {
  */
     create(params: (InputValue<CreateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Location>;
+    }, options?: RequestOptions<"merchant">): Promise<Location>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/locations.md#locationscreate
      */
     createWithResponse(params: (InputValue<CreateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<LocationResponse>>;
     /**
  * Retire a Location. Preserves the archived resource for direct reads.
  * @see reference/locations.md#locationsremove
@@ -89,14 +89,14 @@ export interface LocationsResource {
     remove(location_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<number>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Location>;
+    }, options?: RequestOptions<"merchant">): Promise<Location>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/locations.md#locationsremove
      */
     removeWithResponse(location_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<number>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<LocationResponse>>;
     /**
  * Get location.
  * @see reference/locations.md#locationsget
@@ -104,11 +104,11 @@ export interface LocationsResource {
  * @example
  * client.locations.get("example")
  */
-    get(location_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Location>;
+    get(location_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Location>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/locations.md#locationsget
      */
-    getWithResponse(location_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<LocationResponse>>;
+    getWithResponse(location_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<LocationResponse>>;
     /**
  * List Locations. inventory_allocation_enabled is always included and can be filtered with the
  * Location read scope. The false filter includes Locations without an inventory allocation
@@ -125,7 +125,7 @@ export interface LocationsResource {
         "inventory_allocation_enabled"?: InputValue<boolean>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<LocationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<LocationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/locations.md#locationslist
      */
@@ -136,7 +136,7 @@ export interface LocationsResource {
         "inventory_allocation_enabled"?: InputValue<boolean>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<LocationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<LocationListResponse>>;
     /** Iterate pages lazily.
      * @see reference/locations.md#locationslist
      */
@@ -147,7 +147,7 @@ export interface LocationsResource {
         "inventory_allocation_enabled"?: InputValue<boolean>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<LocationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<LocationListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/locations.md#locationslist
      */
@@ -158,7 +158,7 @@ export interface LocationsResource {
         "inventory_allocation_enabled"?: InputValue<boolean>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<LocationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<LocationListResponse>>;
     /** Iterate items lazily.
      * @see reference/locations.md#locationslist
      */
@@ -169,7 +169,7 @@ export interface LocationsResource {
         "inventory_allocation_enabled"?: InputValue<boolean>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Location>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Location>;
     /**
  * Update a Location's profile, availability, geography, and inventory allocation in one call.
  * Sending inventory_allocation_enabled also requires commerce.inventory_locations.write. The
@@ -185,13 +185,13 @@ export interface LocationsResource {
  */
     update(location_id: InputValue<string>, params: (InputValue<UpdateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Location>;
+    }, options?: RequestOptions<"merchant">): Promise<Location>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/locations.md#locationsupdate
      */
     updateWithResponse(location_id: InputValue<string>, params: (InputValue<UpdateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<LocationResponse>>;
     /**
  * Update a Location's profile, availability, geography, and inventory allocation in one call.
  * Sending inventory_allocation_enabled also requires commerce.inventory_locations.write. The
@@ -208,13 +208,13 @@ export interface LocationsResource {
  */
     publishGeography(location_id: InputValue<string>, params: (InputValue<UpdateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Location>;
+    }, options?: RequestOptions<"merchant">): Promise<Location>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/locations.md#locationsupdate
      */
     publishGeographyWithResponse(location_id: InputValue<string>, params: (InputValue<UpdateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<LocationResponse>>;
     /**
  * Update a Location's profile, availability, geography, and inventory allocation in one call.
  * Sending inventory_allocation_enabled also requires commerce.inventory_locations.write. The
@@ -231,13 +231,13 @@ export interface LocationsResource {
  */
     updateInventory(location_id: InputValue<string>, params: (InputValue<UpdateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Location>;
+    }, options?: RequestOptions<"merchant">): Promise<Location>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/locations.md#locationsupdate
      */
     updateInventoryWithResponse(location_id: InputValue<string>, params: (InputValue<UpdateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<LocationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<LocationResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

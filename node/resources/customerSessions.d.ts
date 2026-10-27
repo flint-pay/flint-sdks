@@ -14,8 +14,8 @@ import type {
 } from '../declarations/types-10.js';
 import type { RefreshCustomerSessionRequestInput } from '../declarations/types-39.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkRequiredIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -41,9 +41,9 @@ export type {
     CustomerSessionsRefreshInput,
     CustomerSessionsRevokeInput
 } from '../declarations/types-10.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { RefreshCustomerSessionRequestInput, RefreshCustomerSessionRequest } from '../declarations/types-39.js';
-export type { _SdkRequiredIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -66,14 +66,14 @@ export interface CustomerSessionsResource {
     create(params: (InputValue<CreateCustomerSessionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerSessionWithSecret>;
+    }, options?: RequestOptions<"merchant">): Promise<CustomerSessionWithSecret>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customerSessions.md#customersessionscreate
      */
     createWithResponse(params: (InputValue<CreateCustomerSessionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerSessionWithSecretResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerSessionWithSecretResponse>>;
     /**
  * Rotates a customer session secret and refresh token without a merchant API key. Reusing a
  * rotated refresh token revokes the session family. Send one fixed Idempotency-Key per session:
@@ -109,13 +109,13 @@ export interface CustomerSessionsResource {
  */
     revoke(customer_session_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerSession>;
+    }, options?: RequestOptions<"merchant">): Promise<CustomerSession>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customerSessions.md#customersessionsrevoke
      */
     revokeWithResponse(customer_session_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerSessionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerSessionResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

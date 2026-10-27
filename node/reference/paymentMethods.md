@@ -15,7 +15,7 @@ get(payment_method_id: InputValue<string>,
  params?: {
   "expand"?: InputValue<Array<"customer">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
 ```
 
 #### Request fields
@@ -51,7 +51,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -81,7 +81,7 @@ list(params?: {
   "created_before"?: InputValue<string | globalThis.Date>;
   "expand"?: InputValue<Array<"customer">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
 ```
 
 #### Request fields
@@ -123,7 +123,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -141,15 +141,7 @@ Deletes a saved payment method so it can no longer be used for future payments. 
 
 `DELETE /v1/payment-methods/{payment_method_id}`
 
-Signature:
-
-```typescript
-remove(payment_method_id: InputValue<string>,
- params?: {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "merchantKey">)
-```
+Signature: `remove(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
@@ -188,7 +180,7 @@ Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -207,14 +199,7 @@ Initiates saving a payment method and returns the client setup payload needed to
 
 `POST /v1/payment-methods`
 
-Signature:
-
-```typescript
-save(params: (InputValue<SavePaymentMethodRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "merchantKey">)
-```
+Signature: `save(params: (InputValue<SavePaymentMethodRequestInput>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
@@ -263,7 +248,7 @@ Complete body and metadata: `saveWithResponse`. See [response modes](../RUNTIME.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

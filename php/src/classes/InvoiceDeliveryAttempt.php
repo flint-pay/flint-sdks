@@ -17,22 +17,22 @@ namespace Flint;
 final class InvoiceDeliveryAttempt extends Model {
     /** @param array{'cc_emails'?: list<string>, 'channel': string, 'created_at'?: string, 'delivery_type': string, 'failure_reason'?: string, 'invoice_delivery_attempt_id': string, 'invoice_id': string, 'sent_at'?: string, 'status': string, 'suppression_reason'?: string, 'to_email': string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceDeliveryAttempt')); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+    /** Shape $ (Value): Array of string. Addresses copied on this email. Absent when none were copied. Shape $[] (Value): string.
      * @return ?list<string>
      */
     public function getCcEmails(): ?array { return $this->get('cc_emails'); }
     public function hasCcEmails(): bool { return $this->has('cc_emails'); }
-    /** Shape $ (Value): string.  Value enum: "email".
+    /** Shape $ (Value): string. How Flint delivered the invoice. Value enum: "email".
      * @return string
      */
     public function getChannel(): string { return $this->get('channel'); }
     public function hasChannel(): bool { return $this->has('channel'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the attempt was created. Format: date-time.
      * @return ?string
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.  Value enum: "send", "reminder".
+    /** Shape $ (Value): string. Whether this attempt is the invoice email sent at issue or a reminder. Value enum: "send", "reminder".
      * @return string
      */
     public function getDeliveryType(): string { return $this->get('delivery_type'); }
@@ -42,7 +42,7 @@ final class InvoiceDeliveryAttempt extends Model {
      */
     public function getFailureReason(): ?string { return $this->get('failure_reason'); }
     public function hasFailureReason(): bool { return $this->has('failure_reason'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Flint invoice delivery attempt ID.
      * @return string
      */
     public function getInvoiceDeliveryAttemptId(): string { return $this->get('invoice_delivery_attempt_id'); }
@@ -52,12 +52,12 @@ final class InvoiceDeliveryAttempt extends Model {
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the email service accepted the message. Absent until it does. Format: date-time.
      * @return ?string
      */
     public function getSentAt(): ?string { return $this->get('sent_at'); }
     public function hasSentAt(): bool { return $this->has('sent_at'); }
-    /** Shape $ (Value): string.  Value enum: "pending", "sent", "failed", "suppressed".
+    /** Shape $ (Value): string. The outcome of this attempt. sent means the email service accepted the message. Value enum: "pending", "sent", "failed", "suppressed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

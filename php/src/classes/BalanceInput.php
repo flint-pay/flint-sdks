@@ -29,7 +29,7 @@ final class BalanceInput extends Model {
      */
     public function getAvailableMoney(): mixed { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Stable identifier of this currency's balance.
      * @return string
      * @throws SdkError When balance_id is omitted; use hasBalanceId() or valueOrDefault().
      */
@@ -47,7 +47,7 @@ final class BalanceInput extends Model {
      */
     public function getHeldMoney(): mixed { return $this->get('held_money'); }
     public function hasHeldMoney(): bool { return $this->has('held_money'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Merchant whose balance this is.
      * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
@@ -59,7 +59,7 @@ final class BalanceInput extends Model {
      */
     public function getObservedAt(): string|\DateTimeInterface { return $this->get('observed_at'); }
     public function hasObservedAt(): bool { return $this->has('observed_at'); }
-    /** Shape $ (Value): boolean.
+    /** Shape $ (Value): boolean. Whether your account can receive payouts. While it is false, payments can still succeed, and their funds wait in your balance.
      * @return bool
      * @throws SdkError When payouts_enabled is omitted; use hasPayoutsEnabled() or valueOrDefault().
      */

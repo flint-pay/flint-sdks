@@ -4,7 +4,7 @@
 
 ### onboarding.advance
 
-Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding requirements, and returns the next step in the consolidated onboarding state machine. Send an empty JSON object when the current next_step only asks to refresh onboarding requirements. An onboarding session is limited to the merchant's default sandbox unless sandbox_id in the JSON body names another sandbox of the same merchant. Live onboarding requires a live API key.
+Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding requirements, and returns the next step in the consolidated onboarding state machine. Send an empty JSON object when the current next_step only asks to refresh onboarding requirements. The credential selects the environment; the onboarding session token acts in the merchant's default sandbox.
 
 `POST /v1/onboarding/advance`
 
@@ -25,8 +25,7 @@ Body model: [OnboardingAdvanceRequestInput](../models/OnboardingAdvanceRequestIn
 | --- | --- | --- | --- |
 | `country` | Optional | string | ISO 3166-1 alpha-2 country code. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Values: `"US"`. |
 | `profile` | Optional | [OnboardingProfileRequestInput](../models/OnboardingProfileRequestInput.md#onboardingprofilerequestinput) | Contact and website details you submit for a merchant during onboarding. Send null to clear a field. |
-| `requested_capabilities` | Optional | Array of string | Exact initial Flint capability set. Include accept_card_payments and receive_payouts together. Optionally include accept_ach_debit_payments, or omit the field to use the card and payout default set. Items values: `"accept_card_payments"`, `"receive_payouts"`, `"accept_ach_debit_payments"`. |
-| `sandbox_id` | Optional | string | minLength: `1`. |
+| `requested_capabilities` | Optional | Array of string | Exact initial Flint capability set. Include accept_card_payments and receive_payouts together. Optionally include accept_ach_debit_payments, or omit the field to use the card and payout default set. minItems: `2`. maxItems: `3`. uniqueItems: `true`. Items values: `"accept_card_payments"`, `"receive_payouts"`, `"accept_ach_debit_payments"`. |
 
 #### Response
 
@@ -59,7 +58,7 @@ Complete body and metadata: `advanceWithResponse`. See [response modes](../RUNTI
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -74,7 +73,7 @@ $result = $client->onboarding->advance([], new RequestOptions(idempotencyKey: $i
 
 ### onboarding.createAPIKey
 
-Creates the first long-lived sandbox API key. An onboarding session is limited to the merchant's default sandbox unless sandbox_id in the JSON body names another sandbox of the same merchant. Live onboarding requires a live API key created in the dashboard.
+Creates the first long-lived sandbox API key. The credential selects the environment; the onboarding session token acts in the merchant's default sandbox.
 
 `POST /v1/onboarding/api-key`
 
@@ -91,7 +90,10 @@ Body model: [DeveloperInitialAPIKeyRequestInput](../models/DeveloperInitialAPIKe
 
 #### onboarding.createAPIKey body fields
 
-Field definitions: [shared fields](../models/DeveloperInitialAPIKeyRequestInput.md#developerinitialapikeyrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `name` | Required | string | minLength: `1`. maxLength: `100`. |
+| `scopes` | Optional | Array of string | Items: minLength: `1`. |
 
 #### Response
 
@@ -104,7 +106,6 @@ Returned payload: [APIKeyWithSecret](../models/APIKeyWithSecret.md#apikeywithsec
 | 400 | ValidationError | validation |
 | 401 | AuthenticationError | authentication |
 | 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
 | 409 | ConflictError | conflict |
 | 410 | ApiError | api |
 | 413 | ApiError | api |
@@ -140,7 +141,7 @@ $result = $client->onboarding->createAPIKey([
 
 ### onboarding.getState
 
-Returns the consolidated onboarding state machine, including the primary next step for agents or humans. This endpoint is read-only. An onboarding session is limited to the merchant's default sandbox unless the sandbox_id query parameter names another sandbox of the same merchant. Live onboarding requires a live API key.
+Returns the consolidated onboarding state machine, including the primary next step for agents or humans. This endpoint is read-only. The credential selects the environment; the onboarding session token acts in the merchant's default sandbox.
 
 `GET /v1/onboarding/state`
 
@@ -148,9 +149,7 @@ Signature: `getState(array|Model|null $params = null, ?RequestOptions $options =
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `sandbox_id` | Optional | string |  |
+No request fields.
 
 #### Response
 
@@ -178,7 +177,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getStateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -260,7 +259,7 @@ $result = $client->onboarding->startFlow([
 
 ### onboarding.verifyEmailCode
 
-Verifies the emailed code, provisions the Flint user and merchant if needed, and returns an onboarding session token. The token expires at onboarding_session_expires_at and cannot be refreshed. Verify the email again to get a new one.
+Verifies the emailed code, provisions the Flint user and merchant if needed, and returns an onboarding session token. The token expires at onboarding_session_expires_at and cannot be refreshed. Verify the email again to get a new one. Read GET /v1/onboarding/state next.
 
 `POST /v1/onboarding/verify-email`
 

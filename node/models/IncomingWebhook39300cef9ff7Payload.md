@@ -35,7 +35,7 @@ Field definitions: [shared fields](Balance.md#balance).
 
 ### IncomingWebhook39300cef9ff7Payload.data.object.available_by_source_type{}
 
-Field definitions: [AdjustGiftCardBalanceRequest.amount_money](../models/AdjustGiftCardBalanceRequest.md#adjustgiftcardbalancerequestamount_money).
+Field definitions: [Balance.available_by_source_type{}](../models/Balance.md#balanceavailable_by_source_type).
 
 ### IncomingWebhook39300cef9ff7Payload.data.object.available_money
 
@@ -47,7 +47,7 @@ Field definitions: [Balance.held_money](../models/Balance.md#balanceheld_money).
 
 ### IncomingWebhook39300cef9ff7Payload.data.object.pending_by_source_type{}
 
-Field definitions: [AdjustGiftCardBalanceRequest.amount_money](../models/AdjustGiftCardBalanceRequest.md#adjustgiftcardbalancerequestamount_money).
+Field definitions: [Balance.available_by_source_type{}](../models/Balance.md#balanceavailable_by_source_type).
 
 ### IncomingWebhook39300cef9ff7Payload.data.object.pending_money
 

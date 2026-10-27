@@ -8,7 +8,7 @@ Retrieve one merchandise receipt with its line items and its current or supersed
 
 `GET /v1/return-receipts/{return_receipt_id}`
 
-Signature: `get(return_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(return_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -41,7 +41,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -64,6 +64,7 @@ list(params?: {
   "created_after"?: InputValue<string | globalThis.Date>;
   "created_before"?: InputValue<string | globalThis.Date>;
   "external_reference_id"?: InputValue<string>;
+  "idempotency_key"?: InputValue<string>;
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>;
   "query"?: InputValue<string>;
@@ -79,7 +80,7 @@ list(params?: {
   "updated_before"?: InputValue<string | globalThis.Date>;
   "verification_status"?: InputValue<Array<"matched" | "unverified" | "excess">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -89,6 +90,7 @@ list(params?: {
 | `created_after` | Optional | string | Format: `date-time`. |
 | `created_before` | Optional | string | Format: `date-time`. |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `page_size` | Optional | integer | Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
 | `query` | Optional | string |  |
@@ -129,7 +131,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -155,7 +157,7 @@ verifyLineItem(return_receipt_id: InputValue<string>,
  params: (InputValue<VerifyReturnReceiptLineItemRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -203,7 +205,7 @@ Complete body and metadata: `verifyLineItemWithResponse`. See [response modes](.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

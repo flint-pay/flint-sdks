@@ -1,13 +1,14 @@
 import type {
     InvoiceScheduleAmountSpecification,
+    InvoiceScheduleDue,
     InvoiceScheduleDueWrite,
     InvoiceScheduleAmountSpecificationInput,
-    InvoiceScheduleDueWriteInput,
     InvoicePaymentPolicy,
     InvoiceReminderPolicy,
     InvoicePaymentPolicyInput,
     InvoiceReminderPolicyInput
 } from './types-27.js';
+import type { MoneyValue } from './types-31.js';
 import type { Address, AddressRequest, AddressRequestInput, AssessInvoiceLateFeeRequestInput } from './types-0.js';
 import type {
     InvoiceAutopayRetryPolicy,
@@ -18,8 +19,7 @@ import type {
 } from './types-26.js';
 import type { OrderCharge } from './types-32.js';
 import type { PricingAmounts } from './types-37.js';
-import type { TaxBreakdown, TaxIdentity } from './types-46.js';
-import type { MoneyValue } from './types-31.js';
+import type { TaxBreakdown, TaxIdentity } from './types-47.js';
 import type { InputValue } from '../runtime.js';
 import type { CollectInvoiceRequestInput } from './types-4.js';
 import type {
@@ -28,15 +28,11 @@ import type {
     CreateInvoiceManualPaymentRequestInput
 } from './types-7.js';
 import type { MeCreateInvoiceCheckoutSessionInput } from './types-29.js';
-import type { ResourceVersionRequestInput, ResponseMeta, ReturnActivity, ReturnDisposition, ReturnInspection } from './types-40.js';
+import type { ResourceVersionRequestInput, ResponseMeta } from './types-40.js';
 import type { ReverseInvoiceManualPaymentRequestInput } from './types-42.js';
 import type { UpdateInvoiceRequestInput } from './types-48.js';
-import type { WaiveInvoiceLateFeeRequestInput } from './types-49.js';
-import type { CapturePaymentIntentRequest } from './types-3.js';
-import type { CreditNoteRefundRequest, CreditNoteRefundRequestInput } from './types-10.js';
-import type { CreditNoteIssueAllocationRequestInput, CreditNote, CreditNoteAllocation } from './types-9.js';
-import type { Refund } from './types-39.js';
 import type {
+    WaiveInvoiceLateFeeRequestInput,
     WebhookEventBalanceTransactionCreated,
     WebhookEventBalanceTransactionUpdated,
     WebhookEventBalanceUpdated,
@@ -56,7 +52,17 @@ import type {
     WebhookEventCreditNoteAllocationReversed,
     WebhookEventCreditNoteCreated,
     WebhookEventCreditNoteIssued,
-    WebhookEventCreditNoteUpdated,
+    WebhookEventCreditNoteUpdated
+} from './types-50.js';
+import type {
+    CreditNoteIssueAllocationRequest,
+    CreditNoteRefundRequest,
+    CreditNoteIssueAllocationRequestInput,
+    CreditNoteRefundRequestInput
+} from './types-10.js';
+import type { CreditNote, CreditNoteAllocation } from './types-9.js';
+import type { Refund } from './types-39.js';
+import type {
     WebhookEventCreditNoteVoided,
     WebhookEventCustomDomainArchived,
     WebhookEventCustomDomainUpdated,
@@ -79,9 +85,7 @@ import type {
     WebhookEventDeliveryMethodDeactivated,
     WebhookEventDeliveryMethodUpdated,
     WebhookEventDeliveryProfileActivated,
-    WebhookEventDeliveryProfileArchived
-} from './types-50.js';
-import type {
+    WebhookEventDeliveryProfileArchived,
     WebhookEventDeliveryProfileCreated,
     WebhookEventDeliveryProfileDeactivated,
     WebhookEventDeliveryProfileUpdated,
@@ -122,7 +126,9 @@ import type {
     WebhookEventGiftCardRedemptionCreated,
     WebhookEventGiftCardRedemptionUpdated,
     WebhookEventGiftCardTransactionCreated,
-    WebhookEventGiftCardUpdated,
+    WebhookEventGiftCardUpdated
+} from './types-51.js';
+import type {
     WebhookEventInventoryCountApplied,
     WebhookEventInventoryLevelShortageDetected,
     WebhookEventInventoryLevelUpdated,
@@ -145,9 +151,7 @@ import type {
     WebhookEventInvoiceCreated,
     WebhookEventInvoiceCredited,
     WebhookEventInvoiceDeliveryAttemptFailed,
-    WebhookEventInvoiceDeliveryAttemptSent
-} from './types-51.js';
-import type {
+    WebhookEventInvoiceDeliveryAttemptSent,
     WebhookEventInvoiceDeliveryAttemptSuppressed,
     WebhookEventInvoiceIssueFailed,
     WebhookEventInvoiceIssued,
@@ -187,7 +191,9 @@ import type {
     WebhookEventOrderCreated,
     WebhookEventOrderInventoryExceptionCreated,
     WebhookEventOrderInventoryExceptionResolved,
-    WebhookEventOrderPaid,
+    WebhookEventOrderPaid
+} from './types-52.js';
+import type {
     WebhookEventOrderPartiallyPaid,
     WebhookEventOrderPartiallyRefunded,
     WebhookEventOrderRefunded,
@@ -210,9 +216,7 @@ import type {
     WebhookEventPaymentIntentUpdated,
     WebhookEventPaymentLinkCreated,
     WebhookEventPaymentLinkUpdated,
-    WebhookEventPaymentMethodActivated
-} from './types-52.js';
-import type {
+    WebhookEventPaymentMethodActivated,
     WebhookEventPaymentMethodArchived,
     WebhookEventPaymentMethodFailed,
     WebhookEventPaymentReviewClosed,
@@ -252,7 +256,9 @@ import type {
     WebhookEventReturnCompleted,
     WebhookEventReturnCreated,
     WebhookEventReturnDecisionRecorded,
-    WebhookEventReturnDispositionCreated,
+    WebhookEventReturnDispositionCreated
+} from './types-53.js';
+import type {
     WebhookEventReturnDispositionUpdated,
     WebhookEventReturnInspectionAcceptanceDecided,
     WebhookEventReturnInspectionCreated,
@@ -275,9 +281,7 @@ import type {
     WebhookEventSubscriptionDeliveryMigrationCompleted,
     WebhookEventSubscriptionDeliveryPauseUpcoming,
     WebhookEventSubscriptionDeliveryUpdated,
-    WebhookEventSubscriptionDunningExhausted
-} from './types-53.js';
-import type {
+    WebhookEventSubscriptionDunningExhausted,
     WebhookEventSubscriptionPastDue,
     WebhookEventSubscriptionPaused,
     WebhookEventSubscriptionPaymentRetryCreated,
@@ -291,26 +295,223 @@ import type {
     WebhookEventSubscriptionTrialEnding,
     WebhookEventSubscriptionUpdated
 } from './types-54.js';
-import type { ReturnLineItem, ReturnPolicy, ReturnPolicyRevision, ReturnReason } from './types-41.js';
+/**
+ * Shape $ (Value): {@link InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of
+ * `InvoiceScheduleDueWrite`.
+ */
+export type InvoiceScheduleDueWriteAtIssue = ({
+    /**
+     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
+     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
+     * date-time. minLength: 1.
+     */
+    "due_at"?: string;
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue". */
+    "type": "at_issue" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "at_issue". */
+    "type": "at_issue" | (string & {});
+}));
+/**
+ * Shape $ (Value): {@link InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of
+ * `InvoiceScheduleDueWrite`.
+ */
+export type InvoiceScheduleDueWriteAtIssueInput = ({
+    /**
+     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
+     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
+     * date-time. minLength: 1.
+     */
+    "due_at"?: string | globalThis.Date;
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue". */
+    "type": "at_issue";
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "at_issue". */
+    "type": "at_issue";
+})
+    & ({
+    "due_at"?: never;
+}));
+/**
+ * Shape $ (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
+ * `InvoiceScheduleDueWrite`.
+ */
+export type InvoiceScheduleDueWriteDateInput = ({
+    /**
+     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
+     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
+     * date-time. minLength: 1.
+     */
+    "due_at": string | globalThis.Date;
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "date". */
+    "type": "date";
+})
+    & ({
+    /** Shape $ (Value): string.  Value enum: "date". */
+    "type": "date";
+    /**
+     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
+     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
+     * date-time. minLength: 1.
+     */
+    "due_at": string | globalThis.Date;
+});
+/**
+ * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due, as
+ * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice due
+ * date.
+ */
+export type InvoiceScheduleDueWriteInput = ({
+    /**
+     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
+     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
+     * date-time. minLength: 1.
+     */
+    "due_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date",
+     * "invoice_due_date".
+     */
+    "type": "at_issue" | "date" | "invoice_due_date";
+})
+    & ((Exclude<InvoiceScheduleDueWriteAtIssueInput & object, readonly unknown[]>)
+    | (Exclude<InvoiceScheduleDueWriteDateInput & object, readonly unknown[]>)
+    | (Exclude<InvoiceScheduleDueWriteInvoiceDueDateInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant
+ * of `InvoiceScheduleDueWrite`.
+ */
+export type InvoiceScheduleDueWriteInvoiceDueDate = ({
+    /**
+     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
+     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
+     * date-time. minLength: 1.
+     */
+    "due_at"?: string;
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "invoice_due_date". */
+    "type": "invoice_due_date" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
+    "type": "invoice_due_date" | (string & {});
+}));
+/**
+ * Shape $ (Value): {@link InvoiceScheduleDueWriteInvoiceDueDateInput}. The `invoice_due_date`
+ * variant of `InvoiceScheduleDueWrite`.
+ */
+export type InvoiceScheduleDueWriteInvoiceDueDateInput = ({
+    /**
+     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
+     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
+     * date-time. minLength: 1.
+     */
+    "due_at"?: string | globalThis.Date;
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "invoice_due_date". */
+    "type": "invoice_due_date";
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
+    "type": "invoice_due_date";
+})
+    & ({
+    "due_at"?: never;
+}));
+/**
+ * Shape $ (Value): {@link InvoiceScheduleEntry}. One payment on an invoice's payment schedule,
+ * such as a deposit, installment, or balance, with its due time, amounts, and status.
+ */
+export type InvoiceScheduleEntry = {
+    /**
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How the entry's amount is set:
+     * a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment
+     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
+     * balance.
+     */
+    "amount_specification": InvoiceScheduleAmountSpecification;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Credit note credit allocated to this entry, minus
+     * reversed allocations. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "credit_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link InvoiceScheduleDue}. When the entry is due. When a payment schedule
+     * entry on an invoice is due: at issue, on a set date, or on the invoice due date.
+     */
+    "due": InvoiceScheduleDue;
+    /**
+     * Shape $ (Value): string. Flint invoice schedule entry ID. Kept across draft edits that send
+     * it back with the entry.
+     */
+    "invoice_schedule_entry_id": string;
+    /**
+     * Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit",
+     * "installment", "balance".
+     */
+    "kind": "deposit" | "installment" | "balance" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. What is still owed on this entry, including its unpaid
+     * late fee, never below zero. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code.
+     */
+    "outstanding_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Payments applied to this entry, minus reversed
+     * payments, including payments toward its late fee. It can exceed total_money when the entry
+     * carries a late fee. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "paid_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. The entry's payment status, computed when the invoice is read. It
+     * follows the entry's balance and due time, not the invoice's status. Value enum: "pending",
+     * "due", "partially_satisfied", "satisfied", "overdue".
+     */
+    "status": "pending" | "due" | "partially_satisfied" | "satisfied" | "overdue" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. The entry's share of the invoice total, resolved from
+     * amount_specification against snapshot.pricing_amounts.total_money. Recomputed on draft edits
+     * and fixed at issue. Excludes late fees. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. The part of this entry written off when the invoice was
+     * marked uncollectible, including its unpaid late fee. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "written_off_money": MoneyValue;
+};
 /**
  * Shape $ (Value): {@link InvoiceScheduleEntryWrite}. One payment schedule entry you supply when
  * creating or updating an invoice. Set its kind, how much it collects, and when it is due.
  */
 export type InvoiceScheduleEntryWrite = ({
     /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
-     * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much the entry collects.
+     * Deposits and installments use fixed or percentage, and the balance uses remaining_balance.
+     * How much a payment schedule entry collects: a fixed amount, a percentage of the invoice
+     * total, or the remaining balance.
      */
     "amount_specification": InvoiceScheduleAmountSpecification;
     /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
-     * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date.
+     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When the entry is due. Deposits use
+     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
+     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
+     * on a set date, or on the invoice due date.
      */
     "due": InvoiceScheduleDueWrite;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
+     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
+     */
     "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "deposit", "installment", "balance". */
+    /**
+     * Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit",
+     * "installment", "balance".
+     */
     "kind": "deposit" | "installment" | "balance" | (string & {});
 })
     & ((Exclude<InvoiceScheduleEntryWriteDeposit & object, readonly unknown[]>)
@@ -323,29 +524,39 @@ export type InvoiceScheduleEntryWrite = ({
  */
 export type InvoiceScheduleEntryWriteBalance = ({
     /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
-     * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much the entry collects.
+     * Deposits and installments use fixed or percentage, and the balance uses remaining_balance.
+     * How much a payment schedule entry collects: a fixed amount, a percentage of the invoice
+     * total, or the remaining balance.
      */
     "amount_specification": InvoiceScheduleAmountSpecification;
     /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
-     * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date.
+     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When the entry is due. Deposits use
+     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
+     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
+     * on a set date, or on the invoice due date.
      */
     "due": InvoiceScheduleDueWrite;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
+     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
+     */
     "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "balance". */
+    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "balance". */
     "kind": "balance" | (string & {});
 })
     & ({
     /**
      * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
      * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
-     * Shape $.amount_money (Optional): {@link MoneyValue}. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. Shape $.percent (Optional): number. multipleOf:
-     * 0.0001. Shape $.type (Required): string. Value enum: "remaining_balance". Shape $.oneOf[1]
-     * (Value): {@link InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
+     * Shape $.amount_money (Optional): {@link MoneyValue}. The amount to collect, in the invoice
+     * currency. Required with fixed and not accepted with any other type. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
+     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
+     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
+     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
+     * entry's amount is set. Value enum: "remaining_balance". Shape $.oneOf[1] (Value): {@link
+     * InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
      * InvoiceScheduleAmountSpecificationPercentage}. The `percentage` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
@@ -362,8 +573,8 @@ export type InvoiceScheduleEntryWriteBalance = ({
      * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
      * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
      * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. Value enum:
-     * "date", "invoice_due_date". Shape $.oneOf[1] (Value): {@link
+     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
+     * due time is set. Value enum: "date", "invoice_due_date". Shape $.oneOf[1] (Value): {@link
      * InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of `InvoiceScheduleDueWrite`. Shape
      * $.oneOf[2] (Value): {@link InvoiceScheduleDueDate}. The `date` variant of
      * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
@@ -384,30 +595,38 @@ export type InvoiceScheduleEntryWriteBalance = ({
  */
 export type InvoiceScheduleEntryWriteBalanceInput = ({
     /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance.
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much the entry
+     * collects. Deposits and installments use fixed or percentage, and the balance uses
+     * remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage
+     * of the invoice total, or the remaining balance.
      */
     "amount_specification": InvoiceScheduleAmountSpecificationInput;
     /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due,
-     * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date.
+     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When the entry is due. Deposits use
+     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
+     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
+     * on a set date, or on the invoice due date.
      */
     "due": InvoiceScheduleDueWriteInput;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
+     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
+     */
     "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "balance". */
+    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "balance". */
     "kind": "balance";
 })
     & ({
     /**
      * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
      * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. multipleOf: 0.0001. Shape $.type (Required): string. Value enum:
-     * "remaining_balance". Shape $.oneOf[1] (Value): {@link
+     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. The amount to collect, in
+     * the invoice currency. Required with fixed and not accepted with any other type. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
+     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
+     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
+     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
+     * entry's amount is set. Value enum: "remaining_balance". Shape $.oneOf[1] (Value): {@link
      * InvoiceScheduleAmountSpecificationFixedInput}. The `fixed` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
      * InvoiceScheduleAmountSpecificationPercentageInput}. The `percentage` variant of
@@ -425,8 +644,8 @@ export type InvoiceScheduleEntryWriteBalanceInput = ({
      * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
      * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
      * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. Value enum:
-     * "date", "invoice_due_date". Shape $.oneOf[1] (Value): {@link
+     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
+     * due time is set. Value enum: "date", "invoice_due_date". Shape $.oneOf[1] (Value): {@link
      * InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of `InvoiceScheduleDueWrite`.
      * Shape $.oneOf[2] (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
      * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
@@ -447,29 +666,39 @@ export type InvoiceScheduleEntryWriteBalanceInput = ({
  */
 export type InvoiceScheduleEntryWriteDeposit = ({
     /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
-     * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much the entry collects.
+     * Deposits and installments use fixed or percentage, and the balance uses remaining_balance.
+     * How much a payment schedule entry collects: a fixed amount, a percentage of the invoice
+     * total, or the remaining balance.
      */
     "amount_specification": InvoiceScheduleAmountSpecification;
     /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
-     * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date.
+     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When the entry is due. Deposits use
+     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
+     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
+     * on a set date, or on the invoice due date.
      */
     "due": InvoiceScheduleDueWrite;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
+     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
+     */
     "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "deposit". */
+    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit". */
     "kind": "deposit" | (string & {});
 })
     & ({
     /**
      * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
      * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
-     * Shape $.amount_money (Optional): {@link MoneyValue}. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. Shape $.percent (Optional): number. multipleOf:
-     * 0.0001. Shape $.type (Required): string. Value enum: "fixed", "percentage". Shape $.oneOf[1]
-     * (Value): {@link InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
+     * Shape $.amount_money (Optional): {@link MoneyValue}. The amount to collect, in the invoice
+     * currency. Required with fixed and not accepted with any other type. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
+     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
+     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
+     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
+     * entry's amount is set. Value enum: "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
+     * InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
      * InvoiceScheduleAmountSpecificationPercentage}. The `percentage` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
@@ -486,11 +715,12 @@ export type InvoiceScheduleEntryWriteDeposit = ({
      * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
      * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
      * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. Value enum:
-     * "at_issue", "date". Shape $.oneOf[1] (Value): {@link InvoiceScheduleDueWriteAtIssue}. The
-     * `at_issue` variant of `InvoiceScheduleDueWrite`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleDueDate}. The `date` variant of `InvoiceScheduleDueWrite`. Shape $.oneOf[3]
-     * (Value): {@link InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant of
+     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
+     * due time is set. Value enum: "at_issue", "date". Shape $.oneOf[1] (Value): {@link
+     * InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of `InvoiceScheduleDueWrite`. Shape
+     * $.oneOf[2] (Value): {@link InvoiceScheduleDueDate}. The `date` variant of
+     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
+     * InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant of
      * `InvoiceScheduleDueWrite`.
      */
     "due"?: (Exclude<InvoiceScheduleDueWrite & object, readonly unknown[]>)
@@ -507,30 +737,38 @@ export type InvoiceScheduleEntryWriteDeposit = ({
  */
 export type InvoiceScheduleEntryWriteDepositInput = ({
     /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance.
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much the entry
+     * collects. Deposits and installments use fixed or percentage, and the balance uses
+     * remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage
+     * of the invoice total, or the remaining balance.
      */
     "amount_specification": InvoiceScheduleAmountSpecificationInput;
     /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due,
-     * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date.
+     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When the entry is due. Deposits use
+     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
+     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
+     * on a set date, or on the invoice due date.
      */
     "due": InvoiceScheduleDueWriteInput;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
+     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
+     */
     "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "deposit". */
+    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit". */
     "kind": "deposit";
 })
     & ({
     /**
      * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
      * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. multipleOf: 0.0001. Shape $.type (Required): string. Value enum:
-     * "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
+     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. The amount to collect, in
+     * the invoice currency. Required with fixed and not accepted with any other type. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
+     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
+     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
+     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
+     * entry's amount is set. Value enum: "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
      * InvoiceScheduleAmountSpecificationFixedInput}. The `fixed` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
      * InvoiceScheduleAmountSpecificationPercentageInput}. The `percentage` variant of
@@ -548,12 +786,13 @@ export type InvoiceScheduleEntryWriteDepositInput = ({
      * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
      * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
      * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. Value enum:
-     * "at_issue", "date". Shape $.oneOf[1] (Value): {@link InvoiceScheduleDueWriteAtIssueInput}.
-     * The `at_issue` variant of `InvoiceScheduleDueWrite`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleDueWriteDateInput}. The `date` variant of `InvoiceScheduleDueWrite`. Shape
-     * $.oneOf[3] (Value): {@link InvoiceScheduleDueWriteInvoiceDueDateInput}. The
-     * `invoice_due_date` variant of `InvoiceScheduleDueWrite`.
+     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
+     * due time is set. Value enum: "at_issue", "date". Shape $.oneOf[1] (Value): {@link
+     * InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of `InvoiceScheduleDueWrite`.
+     * Shape $.oneOf[2] (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
+     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
+     * InvoiceScheduleDueWriteInvoiceDueDateInput}. The `invoice_due_date` variant of
+     * `InvoiceScheduleDueWrite`.
      */
     "due"?: (Exclude<InvoiceScheduleDueWriteInput & object, readonly unknown[]>)
         & ({
@@ -569,20 +808,28 @@ export type InvoiceScheduleEntryWriteDepositInput = ({
  */
 export type InvoiceScheduleEntryWriteInput = ({
     /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance.
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much the entry
+     * collects. Deposits and installments use fixed or percentage, and the balance uses
+     * remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage
+     * of the invoice total, or the remaining balance.
      */
     "amount_specification": InvoiceScheduleAmountSpecificationInput;
     /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due,
-     * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date.
+     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When the entry is due. Deposits use
+     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
+     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
+     * on a set date, or on the invoice due date.
      */
     "due": InvoiceScheduleDueWriteInput;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
+     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
+     */
     "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "deposit", "installment", "balance". */
+    /**
+     * Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit",
+     * "installment", "balance".
+     */
     "kind": "deposit" | "installment" | "balance";
 })
     & ((Exclude<InvoiceScheduleEntryWriteDepositInput & object, readonly unknown[]>)
@@ -594,29 +841,39 @@ export type InvoiceScheduleEntryWriteInput = ({
  */
 export type InvoiceScheduleEntryWriteInstallment = ({
     /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
-     * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much the entry collects.
+     * Deposits and installments use fixed or percentage, and the balance uses remaining_balance.
+     * How much a payment schedule entry collects: a fixed amount, a percentage of the invoice
+     * total, or the remaining balance.
      */
     "amount_specification": InvoiceScheduleAmountSpecification;
     /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
-     * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date.
+     * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When the entry is due. Deposits use
+     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
+     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
+     * on a set date, or on the invoice due date.
      */
     "due": InvoiceScheduleDueWrite;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
+     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
+     */
     "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "installment". */
+    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "installment". */
     "kind": "installment" | (string & {});
 })
     & ({
     /**
      * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule
      * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
-     * Shape $.amount_money (Optional): {@link MoneyValue}. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code. Shape $.percent (Optional): number. multipleOf:
-     * 0.0001. Shape $.type (Required): string. Value enum: "fixed", "percentage". Shape $.oneOf[1]
-     * (Value): {@link InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
+     * Shape $.amount_money (Optional): {@link MoneyValue}. The amount to collect, in the invoice
+     * currency. Required with fixed and not accepted with any other type. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
+     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
+     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
+     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
+     * entry's amount is set. Value enum: "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
+     * InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
      * InvoiceScheduleAmountSpecificationPercentage}. The `percentage` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[3] (Value): {@link
@@ -633,11 +890,12 @@ export type InvoiceScheduleEntryWriteInstallment = ({
      * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
      * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
      * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. Value enum:
-     * "date". Shape $.oneOf[1] (Value): {@link InvoiceScheduleDueWriteAtIssue}. The `at_issue`
-     * variant of `InvoiceScheduleDueWrite`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleDueDate}. The `date` variant of `InvoiceScheduleDueWrite`. Shape $.oneOf[3]
-     * (Value): {@link InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant of
+     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
+     * due time is set. Value enum: "date". Shape $.oneOf[1] (Value): {@link
+     * InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of `InvoiceScheduleDueWrite`. Shape
+     * $.oneOf[2] (Value): {@link InvoiceScheduleDueDate}. The `date` variant of
+     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
+     * InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant of
      * `InvoiceScheduleDueWrite`.
      */
     "due"?: (Exclude<InvoiceScheduleDueWrite & object, readonly unknown[]>)
@@ -654,30 +912,38 @@ export type InvoiceScheduleEntryWriteInstallment = ({
  */
 export type InvoiceScheduleEntryWriteInstallmentInput = ({
     /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance.
+     * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much the entry
+     * collects. Deposits and installments use fixed or percentage, and the balance uses
+     * remaining_balance. How much a payment schedule entry collects: a fixed amount, a percentage
+     * of the invoice total, or the remaining balance.
      */
     "amount_specification": InvoiceScheduleAmountSpecificationInput;
     /**
-     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due,
-     * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
-     * due date.
+     * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When the entry is due. Deposits use
+     * at_issue or date, installments use date, and the balance uses invoice_due_date or date. When
+     * a payment schedule entry is due, as supplied when creating or updating an invoice: at issue,
+     * on a set date, or on the invoice due date.
      */
     "due": InvoiceScheduleDueWriteInput;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. An existing entry's ID, to keep that entry when you replace the
+     * schedule on PATCH. Omit it to add a new entry. minLength: 1.
+     */
     "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "installment". */
+    /** Shape $ (Value): string. The entry's role in the schedule. Value enum: "installment". */
     "kind": "installment";
 })
     & ({
     /**
      * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment
      * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
-     * (Optional): number. multipleOf: 0.0001. Shape $.type (Required): string. Value enum:
-     * "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
+     * balance. Shape $.amount_money (Optional): {@link MoneyValueInput}. The amount to collect, in
+     * the invoice currency. Required with fixed and not accepted with any other type. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code. Shape $.percent
+     * (Optional): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater
+     * than 0 and at most 100, with up to four decimal places. Required with percentage and not
+     * accepted with any other type. multipleOf: 0.0001. Shape $.type (Required): string. How the
+     * entry's amount is set. Value enum: "fixed", "percentage". Shape $.oneOf[1] (Value): {@link
      * InvoiceScheduleAmountSpecificationFixedInput}. The `fixed` variant of
      * `InvoiceScheduleAmountSpecification`. Shape $.oneOf[2] (Value): {@link
      * InvoiceScheduleAmountSpecificationPercentageInput}. The `percentage` variant of
@@ -695,12 +961,13 @@ export type InvoiceScheduleEntryWriteInstallmentInput = ({
      * as supplied when creating or updating an invoice: at issue, on a set date, or on the invoice
      * due date. Shape $.due_at (Optional): string. When this entry is due. Required for `date`.
      * Not accepted for `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is
-     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. Value enum:
-     * "date". Shape $.oneOf[1] (Value): {@link InvoiceScheduleDueWriteAtIssueInput}. The
-     * `at_issue` variant of `InvoiceScheduleDueWrite`. Shape $.oneOf[2] (Value): {@link
-     * InvoiceScheduleDueWriteDateInput}. The `date` variant of `InvoiceScheduleDueWrite`. Shape
-     * $.oneOf[3] (Value): {@link InvoiceScheduleDueWriteInvoiceDueDateInput}. The
-     * `invoice_due_date` variant of `InvoiceScheduleDueWrite`.
+     * issued. Format: date-time. minLength: 1. Shape $.type (Required): string. How the entry's
+     * due time is set. Value enum: "date". Shape $.oneOf[1] (Value): {@link
+     * InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of `InvoiceScheduleDueWrite`.
+     * Shape $.oneOf[2] (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
+     * `InvoiceScheduleDueWrite`. Shape $.oneOf[3] (Value): {@link
+     * InvoiceScheduleDueWriteInvoiceDueDateInput}. The `invoice_due_date` variant of
+     * `InvoiceScheduleDueWrite`.
      */
     "due"?: (Exclude<InvoiceScheduleDueWriteInput & object, readonly unknown[]>)
         & ({
@@ -1074,54 +1341,76 @@ export type InvoicesCreateInput = {
     /**
      * Shape $ (Value): Alternative shapes (see declared variants) and {@link
      * CreateInvoiceRequestInput}. The request body for: Create invoice. Shape $.cc_emails
-     * (Optional): Array of string. Shape $.cc_emails[] (Value): string. minLength: 1. Shape
-     * $.collection (Optional): {@link InvoiceCollectionRequestInput}. How an invoice is collected,
-     * used when creating or updating an invoice: a `mode`, an optional saved payment method, and a
-     * payment policy. Shape $.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. minLength: 1. maxLength: 255. Shape $.footer
-     * (Optional): string. minLength: 1. Shape $.issue (Optional): {@link
+     * (Optional): Array of string. Additional addresses copied on the invoice email and every
+     * reminder. Shape $.cc_emails[] (Value): string. minLength: 1. Shape $.collection (Optional):
+     * {@link InvoiceCollectionRequestInput}. How the invoice is collected. Omit it to use
+     * merchant_default. The invoice's collection object returns the resolved mode, and you can
+     * send it back unchanged on update. How an invoice is collected, used when creating or
+     * updating an invoice: a `mode`, an optional saved payment method, and a payment policy. Shape
+     * $.external_reference_id (Optional): string. Caller-owned identifier for this resource in an
+     * external system. Use it as your sync key: it isn't printed on the invoice, and GET
+     * /v1/invoices filters on it by exact match. minLength: 1. maxLength: 255. Shape $.footer
+     * (Optional): string. Fine print at the bottom of the invoice and PDF. Omit it to use the
+     * invoice settings default_footer. minLength: 1. Shape $.issue (Optional): {@link
      * CreateInvoiceIssueRequestInput}. Issue the invoice immediately after creating it. An empty
      * object uses merchant_default delivery. Cannot be combined with a scheduled_issue_at
      * timestamp. Options for issuing an invoice as you create it. `delivery_mode` chooses how the
-     * invoice reaches its recipient. Shape $.memo (Optional): string. minLength: 1. Shape
-     * $.metadata (Optional): Map of string. Caller-owned metadata. Values can't be empty strings.
-     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
-     * through the public API. Shape $.metadata.* (Value): string. minLength: 1. Shape $.order_id
-     * (Optional): string. minLength: 1. Shape $.payment_due (Optional): {@link
-     * InvoicePaymentDueRequestInput}. When an invoice is due, used when creating or updating an
-     * invoice: no due date, a fixed time, payment terms, or a default. Default:
-     * {"type":"merchant_default"}. When an invoice is due, used when creating or updating an
-     * invoice: no due date, a fixed time, payment terms, or a default. Shape $.po_number
-     * (Optional): string. minLength: 1. Shape $.quick_pay (Optional): {@link
-     * CreateInvoiceQuickPayRequestInput}. Inline order details for creating an invoice as
-     * `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing. Shape
-     * $.recipient_email (Optional): string. minLength: 1. Shape $.reference (Optional): string.
-     * minLength: 1. Shape $.remit_to_address (Optional): {@link AddressRequestInput}. A postal
-     * address you supply when creating or updating a customer, invoice, fulfillment, or delivery
-     * selection. Send null for `line2` to clear it. Shape $.schedule_entries (Optional): Array of
-     * {@link InvoiceScheduleEntryWriteInput}. Complete draft payment schedule with at most 14
-     * entries. Validation errors identify the entry by index, such as schedule_entries[3].kind.
-     * Enum values are case-sensitive and must not contain surrounding whitespace. Omission
-     * preserves the current or default schedule; [] clears the authored schedule. Null is not
-     * accepted. On PATCH, include invoice_schedule_entry_id to retain an entry and
-     * expected_version to detect concurrent edits. maxItems: 14. Shape $.schedule_entries[]
-     * (Value): {@link InvoiceScheduleEntryWriteInput}. One payment schedule entry you supply when
-     * creating or updating an invoice. Set its kind, how much it collects, and when it is due.
-     * Shape $.scheduled_issue_at (Optional): string or null. RFC3339 timestamp. Send null to clear
-     * it. Format: date-time. minLength: 1. Shape $.service_date (Optional): string. Calendar date
-     * in YYYY-MM-DD format. Format: date. minLength: 1. Shape $.oneOf[1] (Value): object. Shape
-     * $.oneOf[2] (Value): object. Shape $.oneOf[1] (Value): any. Shape $.oneOf[2] (Value): any.
+     * invoice reaches its recipient. Shape $.memo (Optional): string. Message to the customer,
+     * printed on the invoice and PDF. Omit it to use the invoice settings default_memo. minLength:
+     * 1. Shape $.metadata (Optional): Map of string. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Shape $.metadata.* (Value): string. minLength: 1. Shape
+     * $.order_id (Optional): string. The open order to bill. It must have no payments, refunds, or
+     * other active invoice. Send exactly one of order_id or quick_pay. minLength: 1. Shape
+     * $.payment_due (Optional): {@link InvoicePaymentDueRequestInput}. When the invoice is due.
+     * Omit it to use merchant_default. The invoice's payment_due object returns the resolved type,
+     * and you can send it back unchanged on update. Default: {"type":"merchant_default"}. When an
+     * invoice is due, used when creating or updating an invoice: no due date, a fixed time,
+     * payment terms, or a default. Shape $.po_number (Optional): string. The buyer's purchase
+     * order number, printed on the invoice and PDF. minLength: 1. Shape $.quick_pay (Optional):
+     * {@link CreateInvoiceQuickPayRequestInput}. Order details for an invoice with no existing
+     * order. Flint creates the backing order from them. Send exactly one of order_id or quick_pay.
+     * Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes,
+     * customer, tip, and inventory routing. Shape $.recipient_email (Optional): string. Where
+     * Flint emails the invoice and its reminders. Required at issue when delivery resolves to
+     * email, and when you schedule the issue. minLength: 1. Shape $.reference (Optional): string.
+     * Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase
+     * order number in po_number instead. minLength: 1. Shape $.remit_to_address (Optional): {@link
+     * AddressRequestInput}. Where the buyer sends offline payments, printed on the invoice. Omit
+     * it to use the invoice settings remit-to address. A postal address you supply when creating
+     * or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2`
+     * to clear it. Shape $.schedule_entries (Optional): Array of {@link
+     * InvoiceScheduleEntryWriteInput}. Complete draft payment schedule with at most 14 entries.
+     * Validation errors identify the entry by index, such as schedule_entries[3].kind. Enum values
+     * are case-sensitive and must not contain surrounding whitespace. Omission preserves the
+     * current or default schedule; [] clears the authored schedule. Null is not accepted. On
+     * PATCH, include invoice_schedule_entry_id to retain an entry and expected_version to detect
+     * concurrent edits. maxItems: 14. Shape $.schedule_entries[] (Value): {@link
+     * InvoiceScheduleEntryWriteInput}. One payment schedule entry you supply when creating or
+     * updating an invoice. Set its kind, how much it collects, and when it is due. Shape
+     * $.scheduled_issue_at (Optional): string or null. When Flint issues and delivers this draft,
+     * as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft
+     * needs recipient_email. Cannot be combined with issue. null is the same as omitting it.
+     * Format: date-time. minLength: 1. Shape $.service_date (Optional): string. The calendar date
+     * of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written,
+     * without timezone conversion. Format: date. minLength: 1. Shape $.oneOf[1] (Value): object.
+     * Shape $.oneOf[2] (Value): object. Shape $.oneOf[1] (Value): any. Shape $.oneOf[2] (Value):
+     * any.
      */
     "body": InputValue<(Exclude<CreateInvoiceRequestInput & object, readonly unknown[]>)
         & (({
-        /** Shape $ (Value): string. minLength: 1. */
+        /**
+         * Shape $ (Value): string. The open order to bill. It must have no payments, refunds, or
+         * other active invoice. Send exactly one of order_id or quick_pay. minLength: 1.
+         */
         "order_id": string;
     })
         | ({
         /**
-         * Shape $ (Value): {@link CreateInvoiceQuickPayRequestInput}. Inline order details for
-         * creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and
-         * inventory routing.
+         * Shape $ (Value): {@link CreateInvoiceQuickPayRequestInput}. Order details for an invoice
+         * with no existing order. Flint creates the backing order from them. Send exactly one of
+         * order_id or quick_pay. Inline order details for creating an invoice as `quick_pay`: line
+         * items, discounts, notes, customer, tip, and inventory routing.
          */
         "quick_pay": CreateInvoiceQuickPayRequestInput;
     }))>;
@@ -1229,6 +1518,8 @@ export type InvoicesListInput = {
      * "open", "partially_paid", "paid", "void", "uncollectible", "credited".
      */
     "status"?: InputValue<Array<"draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): string. */
     "customer_id"?: InputValue<string>;
     /** Shape $ (Value): string. */
@@ -1280,17 +1571,17 @@ export type InvoicesListInput = {
      */
     "expand"?: InputValue<Array<"customer" | "order">>;
 };
-export type InvoicesListManualPaymentsInput = InvoicesListDeliveryAttemptsInput;
-export type InvoicesListPaymentAttemptsInput = {
+export type InvoicesListManualPaymentsInput = {
     /** Shape $ (Value): string. */
     "invoice_id": InputValue<string>;
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
     "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
 };
+export type InvoicesListPaymentAttemptsInput = InvoicesListManualPaymentsInput;
 export type InvoicesMarkUncollectibleInput = {
     /** Shape $ (Value): string. */
     "invoice_id": InputValue<string>;
@@ -1361,13 +1652,13 @@ export type InvoicesWaiveLateFeeInput = {
 /** Shape $ (Value): {@link IssueCreditNoteRequest}. The request body for: Issue credit note. */
 export type IssueCreditNoteRequest = ({
     /**
-     * Shape $ (Value): {@link CapturePaymentIntentRequest}. Issue the credit note and apply credit
-     * to its invoice atomically. If the allocation fails, the note stays a draft. Omit
+     * Shape $ (Value): {@link CreditNoteIssueAllocationRequest}. Issue the credit note and apply
+     * credit to its invoice atomically. If the allocation fails, the note stays a draft. Omit
      * amount_money to apply the smaller of the credit available after issue and the invoice's
      * outstanding balance. Cannot be combined with refund. Credit to apply to the invoice when
      * issuing a credit note.
      */
-    "allocation"?: CapturePaymentIntentRequest;
+    "allocation"?: CreditNoteIssueAllocationRequest;
     /**
      * Shape $ (Value): integer string. Credit note version last read. Optional; a stale version
      * returns VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point
@@ -1467,30 +1758,30 @@ export type IssueCreditNoteResult = {
 /** Shape $ (Value): {@link IssueInvoiceRequest}. The request body for: Issue invoice. */
 export type IssueInvoiceRequest = {
     /**
-     * Shape $ (Value): string. merchant_default uses the merchant invoice delivery setting; email
-     * sends the invoice to its recipient; caller_managed returns the buyer-access link for you to
-     * deliver. Default: "merchant_default". Value enum: "merchant_default", "email",
+     * Shape $ (Value): string. How the invoice reaches its recipient. Omit it to use
+     * merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email",
      * "caller_managed".
      */
     "delivery_mode"?: "merchant_default" | "email" | "caller_managed" | (string & {});
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
+     * Shape $ (Value): integer string. Invoice version last read. Optional; a stale version
+     * returns VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
      */
     "expected_version"?: `${bigint}`;
 };
 /** Shape $ (Value): {@link IssueInvoiceRequestInput}. The request body for: Issue invoice. */
 export type IssueInvoiceRequestInput = {
     /**
-     * Shape $ (Value): string. merchant_default uses the merchant invoice delivery setting; email
-     * sends the invoice to its recipient; caller_managed returns the buyer-access link for you to
-     * deliver. Default: "merchant_default". Value enum: "merchant_default", "email",
+     * Shape $ (Value): string. How the invoice reaches its recipient. Omit it to use
+     * merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email",
      * "caller_managed".
      */
     "delivery_mode"?: "merchant_default" | "email" | "caller_managed";
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
+     * Shape $ (Value): integer string. Invoice version last read. Optional; a stale version
+     * returns VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1.
      */
     "expected_version"?: `${bigint}` | bigint;
 };
@@ -2649,148 +2940,3 @@ export type LinkCustomerGuestPurchasesRequest = {
  * guest purchases to a customer.
  */
 export type LinkCustomerGuestPurchasesRequestInput = LinkCustomerGuestPurchasesRequest;
-/** Shape $ (Value): {@link ListReturnActivitiesResponse}. A page of `ReturnActivity` objects. */
-export type ListReturnActivitiesResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnActivity}. Shape $[] (Value): {@link ReturnActivity}.
-     * One entry in a Return's merchant activity history.
-     */
-    "data": Array<ReturnActivity>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link ListReturnDispositionsResponse}. A page of `ReturnDisposition` objects.
- */
-export type ListReturnDispositionsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnDisposition}. Shape $[] (Value): {@link
-     * ReturnDisposition}. A decision about how returned merchandise will be handled.
-     */
-    "data": Array<ReturnDisposition>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link ListReturnInspectionsResponse}. A page of `ReturnInspection` objects. */
-export type ListReturnInspectionsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnInspection}. Shape $[] (Value): {@link
-     * ReturnInspection}. An assessment of the condition of returned items.
-     */
-    "data": Array<ReturnInspection>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link ListReturnLineItemsResponse}. A page of `ReturnLineItem` objects. */
-export type ListReturnLineItemsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnLineItem}. Shape $[] (Value): {@link ReturnLineItem}.
-     * An item included in a return request.
-     */
-    "data": Array<ReturnLineItem>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link ListReturnPoliciesResponse}. A page of `ReturnPolicy` objects. */
-export type ListReturnPoliciesResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnPolicy}. Shape $[] (Value): {@link ReturnPolicy}.
-     * Rules governing whether and how purchased items can be returned.
-     */
-    "data": Array<ReturnPolicy>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link ListReturnPolicyRevisionsResponse}. A page of `ReturnPolicyRevision`
- * objects.
- */
-export type ListReturnPolicyRevisionsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnPolicyRevision}. Shape $[] (Value): {@link
-     * ReturnPolicyRevision}. A saved revision of a return policy.
-     */
-    "data": Array<ReturnPolicyRevision>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link ListReturnReasonsResponse}. A page of `ReturnReason` objects. */
-export type ListReturnReasonsResponse = {
-    /**
-     * Shape $ (Value): Array of {@link ReturnReason}. Shape $[] (Value): {@link ReturnReason}. A
-     * reason customers can select when requesting a return.
-     */
-    "data": Array<ReturnReason>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};

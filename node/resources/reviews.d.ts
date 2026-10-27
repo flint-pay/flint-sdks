@@ -3,9 +3,9 @@ import type { ClientOptions } from '../declarations/types-4.js';
 import type { DeclinePaymentReviewRequestInput } from '../declarations/types-11.js';
 import type { PaymentReview, PaymentReviewListResponse, PaymentReviewResponse } from '../declarations/types-36.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { ReviewsApproveInput, ReviewsDeclineInput, ReviewsGetInput, ReviewsListInput } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { ReviewsApproveInput, ReviewsDeclineInput, ReviewsGetInput, ReviewsListInput } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,10 +30,10 @@ export type {
     PaymentReviewPaymentSummary,
     PaymentReviewRisk
 } from '../declarations/types-36.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse, SettlementAmounts } from '../declarations/types-44.js';
 export type { DeclinePaymentReviewRequestInput, DeclinePaymentReviewRequest } from '../declarations/types-11.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { ReviewsApproveInput, ReviewsDeclineInput, ReviewsGetInput, ReviewsListInput } from '../declarations/types-42.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { ReviewsApproveInput, ReviewsDeclineInput, ReviewsGetInput, ReviewsListInput } from '../declarations/types-43.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -41,7 +41,6 @@ export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentInte
 export type { CheckoutBuyerContact } from '../declarations/types-3.js';
 export type { PricingAmounts } from '../declarations/types-37.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export type { SettlementAmounts } from '../declarations/types-44.js';
 export { makeDeclinePaymentReviewRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface ReviewsResource {
@@ -58,13 +57,13 @@ export interface ReviewsResource {
  */
     approve(payment_review_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PaymentReview>;
+    }, options?: RequestOptions<"merchant">): Promise<PaymentReview>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/reviews.md#reviewsapprove
      */
     approveWithResponse(payment_review_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentReviewResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PaymentReviewResponse>>;
     /**
  * Declines the payment and closes the review with `closed_reason: declined`. Flint cancels an
  * uncaptured authorization, or refunds the remaining captured amount (captured minus earlier
@@ -84,7 +83,7 @@ export interface ReviewsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PaymentReview>;
+    }, options?: RequestOptions<"merchant">): Promise<PaymentReview>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/reviews.md#reviewsdecline
      */
@@ -93,7 +92,7 @@ export interface ReviewsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentReviewResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PaymentReviewResponse>>;
     /**
  * Retrieves a payment review. Expand `payment_intent`, `order`, or `customer` to include them.
  * @see reference/reviews.md#reviewsget
@@ -103,13 +102,13 @@ export interface ReviewsResource {
  */
     get(payment_review_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentReview>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PaymentReview>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/reviews.md#reviewsget
      */
     getWithResponse(payment_review_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentReviewResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PaymentReviewResponse>>;
     /**
  * Lists payment reviews, most recently opened first. A review opens when a `review` rule matches a
  * payment the bank approved. Every status is included unless you filter by `status`.
@@ -136,7 +135,7 @@ export interface ReviewsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentReviewListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PaymentReviewListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/reviews.md#reviewslist
      */
@@ -158,7 +157,7 @@ export interface ReviewsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentReviewListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PaymentReviewListResponse>>;
     /** Iterate pages lazily.
      * @see reference/reviews.md#reviewslist
      */
@@ -180,7 +179,7 @@ export interface ReviewsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentReviewListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PaymentReviewListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/reviews.md#reviewslist
      */
@@ -202,7 +201,7 @@ export interface ReviewsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentReviewListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PaymentReviewListResponse>>;
     /** Iterate items lazily.
      * @see reference/reviews.md#reviewslist
      */
@@ -224,7 +223,7 @@ export interface ReviewsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PaymentReview>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PaymentReview>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

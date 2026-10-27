@@ -3,11 +3,12 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $order_id
+ * @property-read string $idempotency_key
  * @property-read int $page_size
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersListPaymentAttemptsInput extends Model {
-    /** @param array{'order_id': string, 'page_size'?: int, 'page_token'?: string}|object $values */
+    /** @param array{'order_id': string, 'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersListPaymentAttemptsInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -15,6 +16,12 @@ final class OrdersListPaymentAttemptsInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
      * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().

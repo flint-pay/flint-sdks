@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read string $return_policy_revision_id
  * @property-read ?ReturnShippingPolicy $return_shipping
  * @property-read ?ReturnWindow $return_window
- * @property-read \stdClass $scope
+ * @property-read ReturnPolicyRevisionScopeAll|\stdClass $scope
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnPolicyRevision extends Model {
     /** @param array{'allowed_resolution_types': list<string>, 'approval_mode': string, 'automatic_resolution_type'?: string, 'completion_mode'?: string, 'created_at': string, 'effective_at'?: string, 'eligibility_result': string, 'ineligibility_reason'?: string, 'is_inspection_required'?: bool, 'is_merchandise_return_required': bool, 'priority': int, 'receipt_disposition_mode': string, 'receiving_location_id'?: string, 'release_timing'?: string, 'resolution_mode'?: string, 'resolution_selection_mode'?: string, 'restocking_fee'?: mixed, 'return_policy_id': string, 'return_policy_revision_id': string, 'return_shipping'?: mixed, 'return_window'?: mixed, 'scope': mixed, ...}|object $values */
@@ -134,8 +134,8 @@ final class ReturnPolicyRevision extends Model {
     public function getReturnWindow(): ?ReturnWindow { return $this->get('return_window'); }
     public function hasReturnWindow(): bool { return $this->has('return_window'); }
     /** Shape $ (Value): {@see ReturnPolicyScope}. The products, variants, categories, channels, or locations a return policy revision applies to, or all of them.
-     * @return \stdClass
+     * @return ReturnPolicyRevisionScopeAll|\stdClass
      */
-    public function getScope(): \stdClass { return $this->get('scope'); }
+    public function getScope(): ReturnPolicyRevisionScopeAll|\stdClass { return $this->get('scope'); }
     public function hasScope(): bool { return $this->has('scope'); }
 }

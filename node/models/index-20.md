@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PaymentReviewResolutionFailure – PromotionRefRequest
+# PaymentReviewListResponse – PromotionRecurrenceRepeating
 
+- [PaymentReviewListResponse](PaymentReviewListResponse.md)
+- [PaymentReviewPaymentSummary](PaymentReviewPaymentSummary.md)
 - [PaymentReviewResolutionFailure](PaymentReviewResolutionFailure.md)
 - [PaymentReviewResponse](PaymentReviewResponse.md)
 - [PaymentReviewRisk](PaymentReviewRisk.md)
@@ -100,6 +102,4 @@
 - [PromotionRecurrenceOnce](PromotionRecurrenceOnce.md)
 - [PromotionRecurrenceOnceInput](PromotionRecurrenceOnceInput.md)
 - [PromotionRecurrenceRepeating](PromotionRecurrenceRepeating.md)
-- [PromotionRecurrenceRepeatingInput](PromotionRecurrenceRepeatingInput.md)
-- [PromotionRefRequest](PromotionRefRequest.md)
 

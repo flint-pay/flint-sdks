@@ -19,6 +19,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->demoSessions->reset([
   'demo_session_id' => 'example',
+  'Flint-Challenge-Token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->demo_session_id . PHP_EOL;
 echo $result->sandbox_id . PHP_EOL;

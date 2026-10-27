@@ -10,9 +10,9 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `mode` | Required | string | Values: `"external"`. |
+| `mode` | Required | string | How the invoice is collected, resolved when the draft was written. Values: `"external"`. |
 | `payment_method_id` | Optional | (string or null) or null | `payment_method_id`: [declared alternatives](../models/InvoiceCollectionBuyerInitiated.md#invoicecollectionbuyerinitiatedpayment_method_id). |
-| `payment_policy` | Optional | [InvoiceCollectionExternalPaymentPolicy](../models/InvoiceCollectionExternalPaymentPolicy.md#invoicecollectionexternalpaymentpolicy) | Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison. `payment_policy`: [field definitions](../models/InvoiceCollectionExternal.md#invoicecollectionexternalpayment_policy). |
+| `payment_policy` | Optional | [InvoiceCollectionExternalPaymentPolicy](../models/InvoiceCollectionExternalPaymentPolicy.md#invoicecollectionexternalpaymentpolicy) | The payment options the hosted invoice page offers. Present only with buyer_initiated. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison. `payment_policy`: [field definitions](../models/InvoiceCollectionExternal.md#invoicecollectionexternalpayment_policy). |
 
 ### InvoiceCollectionExternal.payment_method_id
 
@@ -20,7 +20,7 @@ Declared alternatives: [InvoiceCollectionBuyerInitiated.payment_method_id](../mo
 
 ### InvoiceCollectionExternal.payment_policy
 
-Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison.
+The payment options the hosted invoice page offers. Present only with buyer_initiated. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison.
 
 Field definitions: [shared fields](InvoicePaymentPolicy.md#invoicepaymentpolicy).
 

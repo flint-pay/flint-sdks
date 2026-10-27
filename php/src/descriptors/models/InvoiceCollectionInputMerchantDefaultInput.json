@@ -1,1 +1,1 @@
-{"shared":"InvoiceCollectionInputMerchantDefault","dependencies":["InvoiceCollectionInputMerchantDefault","InvoicePaymentOptionLimit","InvoicePaymentPolicy","MoneyValue","SharedCodec887","SharedCodec890"]}
+{"shared":"InvoiceCollectionInputMerchantDefault","dependencies":["InvoiceCollectionInputMerchantDefault","InvoicePaymentOptionLimit","InvoicePaymentPolicy","MoneyValue","SharedCodec892","SharedCodec895"]}

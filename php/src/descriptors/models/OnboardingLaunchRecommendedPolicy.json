@@ -1,1 +1,0 @@
-{"shared":"OnboardingLaunchRecommendedPolicy","phpRepresentation":{"kind":"record","fields":{"collection_strategy":{"kind":"value","type":"string"},"future_requirements":{"kind":"value","type":"string"}}},"dependencies":["OnboardingLaunchRecommendedPolicy"]}

@@ -1,5 +1,22 @@
+import type {
+    DeliveryProfileOriginPolicyInputFixedLocation,
+    DeliveryProfileOriginPolicyInputInventoryRouting,
+    DeliveryProfileOriginPolicyInputMethodOrigin,
+    DeliveryProfileOriginPolicyInputFixedLocationInput,
+    DeliveryProfileOriginPolicyInputInventoryRoutingInput,
+    DeliveryProfileOriginPolicyInputMethodOriginInput,
+    DeliveryProfile,
+    DeliveryPricingRate,
+    DeliveryPricingRateCreateRequest,
+    DeliveryPricingRateCreateRequestInput,
+    DeliveryPricingRateRequest,
+    DeliveryPricingRateRequestInput
+} from './types-13.js';
+import type { ResponseMeta } from './types-40.js';
 import type { InputValue } from '../runtime.js';
-import type { UpdateDeliveryProfileRequestInput, UpdateDeliveryRateCallbackRequestInput } from './types-47.js';
+import type { AssignToUnconfiguredDeliveryProfileRequestInput } from './types-0.js';
+import type { CreateDeliveryProfileRequestInput, CreateDeliveryRateCallbackRequestInput } from './types-6.js';
+import type { UpdateDeliveryProfileRequestInput, UpdateDeliveryRateCallbackRequestInput } from './types-48.js';
 import type {
     DeliveryAddressRequest,
     DeliveryBuyerLocationRequest,
@@ -7,29 +24,117 @@ import type {
     DeliveryCandidateOutcomeResource,
     DeliveryDistance,
     DeliveryDistanceInput,
-    DeliveryAvailability,
-    DeliveryAvailabilityInput
+    DeliveryAvailability
 } from './types-11.js';
 import type {
     DeliveryInputRequirement,
     DeliveryMerchantDiagnostic,
     DeliveryPendingCallerRateRequest,
-    DeliveryOptionProjection,
-    DeliveryPickupDetails,
-    DeliveryPlan
+    DeliveryOptionProjection
 } from './types-12.js';
-import type { ResponseMeta } from './types-40.js';
-import type { CreateDeliveryRateCallbackRequestInput } from './types-6.js';
-import type {
-    DeliveryPricingRate,
-    DeliveryPricingRateCreateRequest,
-    DeliveryPricingRateCreateRequestInput,
-    DeliveryPricingRateRequest,
-    DeliveryPricingRateRequestInput
-} from './types-13.js';
-import type { RevokeDeliveryDependencyRequestInput } from './types-42.js';
-import type { MoneyValue } from './types-31.js';
-import type { DeliveryShipmentDetails } from './types-15.js';
+import type { RevokeDeliveryDependencyRequestInput } from './types-43.js';
+/**
+ * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequest}. Origin policy you supply for a
+ * delivery profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+ * delivery method.
+ */
+export type DeliveryProfileOriginPolicyRequest = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "fixed_location", "inventory_routing", "method_origin".
+     */
+    "type": "fixed_location" | "inventory_routing" | "method_origin" | (string & {});
+})
+    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocation & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRouting & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputMethodOrigin & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link DeliveryProfileOriginPolicyRequestInput}. Origin policy you supply for a
+ * delivery profile: a fixed Location (`location_id`), inventory routing, or the origin set on the
+ * delivery method.
+ */
+export type DeliveryProfileOriginPolicyRequestInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "fixed_location", "inventory_routing", "method_origin".
+     */
+    "type": "fixed_location" | "inventory_routing" | "method_origin";
+})
+    & ((Exclude<DeliveryProfileOriginPolicyInputFixedLocationInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputInventoryRoutingInput & object, readonly unknown[]>)
+    | (Exclude<DeliveryProfileOriginPolicyInputMethodOriginInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link DeliveryProfileResponse}. A response containing `DeliveryProfile` data.
+ */
+export type DeliveryProfileResponse = {
+    /**
+     * Shape $ (Value): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog items.
+     */
+    "data": DeliveryProfile;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+export type DeliveryProfilesAssignToUnconfiguredInput = {
+    /** Shape $ (Value): string. */
+    "delivery_profile_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link AssignToUnconfiguredDeliveryProfileRequestInput}. The request body
+     * for: Assign unconfigured catalog entries.
+     */
+    "body": InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>;
+};
+export type DeliveryProfilesCreateInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateDeliveryProfileRequestInput}. The request body for: Create
+     * delivery profile.
+     */
+    "body": InputValue<CreateDeliveryProfileRequestInput>;
+};
+export type DeliveryProfilesGetInput = {
+    /** Shape $ (Value): string. */
+    "delivery_profile_id": InputValue<string>;
+    /** Shape $ (Value): boolean. Default: false. */
+    "include_diagnostics"?: InputValue<boolean>;
+};
+export type DeliveryProfilesListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "query"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "archived". Shape $[]
+     * (Value): string. Value enum: "active", "archived".
+     */
+    "status"?: InputValue<Array<"active" | "archived">>;
+    /** Shape $ (Value): boolean. */
+    "is_default"?: InputValue<boolean>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "quote", "manual". Shape $[]
+     * (Value): string. Value enum: "quote", "manual".
+     */
+    "resolution_mode"?: InputValue<Array<"quote" | "manual">>;
+    /** Shape $ (Value): boolean. Default: false. */
+    "include_diagnostics"?: InputValue<boolean>;
+};
 export type DeliveryProfilesRemoveInput = {
     /** Shape $ (Value): string. */
     "delivery_profile_id": InputValue<string>;
@@ -1391,340 +1496,4 @@ export type DeliveryScheduleWindowRule = {
      * weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book.
      */
     "availability": DeliveryAvailability;
-};
-/**
- * Shape $ (Value): {@link DeliveryScheduleWindowRuleRequestInput}. Scheduled-window estimate rule
- * you supply for a delivery method, defined by its `availability` schedule.
- */
-export type DeliveryScheduleWindowRuleRequestInput = {
-    /**
-     * Shape $ (Value): {@link DeliveryAvailabilityInput}. When a delivery method can be scheduled:
-     * weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book.
-     */
-    "availability": DeliveryAvailabilityInput;
-};
-/**
- * Shape $ (Value): {@link DeliverySelection}. The delivery choice selected for a checkout or
- * order.
- */
-export type DeliverySelection = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Delivery charge committed by this selection. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link DeliveryBuyerLocationRequest}. Buyer location snapshot used to
-     * evaluate pickup proximity. Returned with an API key or dashboard credential. The normalized
-     * buyer address or coordinate used for this quote.
-     */
-    "buyer_location"?: DeliveryBuyerLocationRequest;
-    /**
-     * Shape $ (Value): string. Deadline after which calculated pricing evidence is no longer
-     * valid. Always present with an API key or dashboard credential. Format: date-time.
-     */
-    "calculation_expires_at"?: string;
-    /**
-     * Shape $ (Value): string. Checkout session that owns the selection. Always present with an
-     * API key or dashboard credential.
-     */
-    "checkout_session_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link DeliverySelectionChoiceResource}. One chosen option for
-     * each required choice group. Shape $[] (Value): {@link DeliverySelectionChoiceResource}. A
-     * delivery option chosen for one choice group in a delivery selection, with its method,
-     * amounts, type-specific details, timezone, and any chosen delivery window.
-     */
-    "choices": Array<DeliverySelectionChoiceResource>;
-    /**
-     * Shape $ (Value): string. Time the selection was created. Always present with an API key or
-     * dashboard credential. Format: date-time.
-     */
-    "created_at"?: string;
-    /** Shape $ (Value): string. Quote from which this selection was made. */
-    "delivery_quote_id": string;
-    /**
-     * Shape $ (Value): integer string. Quote version from which this selection was created. Always
-     * present with an API key or dashboard credential. Use an integer string (decimal digits), not
-     * a floating-point number. Format: uint64. minimum: 0.
-     */
-    "delivery_quote_version"?: `${bigint}`;
-    /** Shape $ (Value): string. Stable delivery selection ID. */
-    "delivery_selection_id": string;
-    /**
-     * Shape $ (Value): {@link DeliveryAddressRequest}. Destination address snapshot used for
-     * delivery evaluation. Omitted for a checkout session credential that doesn't act for the
-     * customer the buyer verified. An address as returned on delivery quotes, selections,
-     * previews, and pickup locations.
-     */
-    "destination_address"?: DeliveryAddressRequest;
-    /**
-     * Shape $ (Value): integer string. Checkout eligibility context version evaluated by this
-     * selection. Always present with an API key or dashboard credential. Use an integer string
-     * (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
-     */
-    "eligibility_context_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Deadline after which this provisional selection can no longer be
-     * committed. Format: date-time.
-     */
-    "expires_at": string;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryInputRequirement}. Inputs this selection still
-     * needs before payment: each recipient field a chosen option requires that the selection does
-     * not include. Each entry repeats the quote's requirement for that option, with the same
-     * delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason
-     * configuration_required, and the delivery_selection reference until a new delivery selection
-     * includes them. Empty when nothing is missing, and always empty unless status is selected.
-     * Shape $[] (Value): {@link DeliveryInputRequirement}. An input a delivery method needs, such
-     * as an address field or time window, with its `field_path`, purpose, and constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Shape $ (Value): string. Buyer-provided delivery instructions. Returned with an API key or
-     * dashboard credential.
-     */
-    "instructions"?: string;
-    /**
-     * Shape $ (Value): Array of {@link DeliverySelectionLifecycleEventResource}. Ordered lifecycle
-     * events recorded for this selection. Shape $[] (Value): {@link
-     * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history,
-     * with the new `status`, the `reason`, and when it happened.
-     */
-    "lifecycle_events"?: Array<DeliverySelectionLifecycleEventResource>;
-    /**
-     * Shape $ (Value): string. Time the selection lifecycle last changed. Always present with an
-     * API key or dashboard credential. Format: date-time.
-     */
-    "lifecycle_updated_at"?: string;
-    /**
-     * Shape $ (Value): string. Constraint that determined the selection expiry. Always present
-     * with an API key or dashboard credential. Value enum: "selection_guarantee_expiry",
-     * "calculation_expiry", "selection_maximum_lifetime", "inventory_reservation_expiry",
-     * "tax_validity_expiry", "checkout_session_expiry".
-     */
-    "limiting_deadline_reason"?: "selection_guarantee_expiry"
-        | "calculation_expiry"
-        | "selection_maximum_lifetime"
-        | "inventory_reservation_expiry"
-        | "tax_validity_expiry"
-        | "checkout_session_expiry"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Order affected by the selection. Always present with an API key or
-     * dashboard credential.
-     */
-    "order_id"?: string;
-    /**
-     * Shape $ (Value): string. Availability state of merchant-private selection evidence. Value
-     * enum: "available", "redacted".
-     */
-    "private_data_status"?: "available" | "redacted" | (string & {});
-    /**
-     * Shape $ (Value): {@link DeliveryRecipientResource}. Recipient details captured with the
-     * selection. Omitted for a checkout session credential that doesn't act for the customer the
-     * buyer verified. The person receiving a delivery selection, with optional `name`, `email`,
-     * and `phone`.
-     */
-    "recipient"?: DeliveryRecipientResource;
-    /**
-     * Shape $ (Value): string. Time merchant-private selection evidence was redacted. Format:
-     * date-time.
-     */
-    "redacted_at"?: string;
-    /**
-     * Shape $ (Value): string. Current selection lifecycle status. Value enum: "selected",
-     * "locked_for_payment", "committed", "superseded", "expired", "released".
-     */
-    "status": "selected"
-        | "locked_for_payment"
-        | "committed"
-        | "superseded"
-        | "expired"
-        | "released"
-        | (string & {});
-};
-/**
- * Shape $ (Value): {@link DeliverySelectionChoiceResource}. A delivery option chosen for one
- * choice group in a delivery selection, with its method, amounts, type-specific details, timezone,
- * and any chosen delivery window.
- */
-export type DeliverySelectionChoiceResource = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** Shape $ (Value): string. */
-    "delivery_choice_group_id": string;
-    /** Shape $ (Value): string. */
-    "delivery_method_id": string;
-    /** Shape $ (Value): string. */
-    "delivery_option_id": string;
-    /**
-     * Shape $ (Value): {@link DeliveryPlan}. Whether a delivery option is fulfilled in one
-     * delivery or several, with the first arrival time, completion time, and delivery count.
-     */
-    "delivery_plan": DeliveryPlan;
-    /** Shape $ (Value): string. */
-    "delivery_window_id"?: string;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Always present with an API key or dashboard credential.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "discount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): {@link DeliverySelectionInstructionsRequest}. Buyer input for a selected
-     * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
-     * `instructions`.
-     */
-    "input"?: DeliverySelectionInstructionsRequest;
-    /**
-     * Shape $ (Value): {@link DeliveryShipmentDetails}. Details of a local delivery option:
-     * instructions and service level.
-     */
-    "local_delivery"?: DeliveryShipmentDetails;
-    /** Shape $ (Value): string. */
-    "merchant_reference"?: string;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): string or null. Always present with an API key or dashboard credential.
-     * Null when the choice has no order charge.
-     */
-    "order_charge_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link DeliveryPickupDetails}. Pickup details of a delivery option: the
-     * pickup mode and the pickup location.
-     */
-    "pickup"?: DeliveryPickupDetails;
-    /**
-     * Shape $ (Value): {@link DeliveryShipmentDetails}. Shipment-specific details of a delivery
-     * option or choice: the `service_level` and buyer `instructions`.
-     */
-    "shipment"?: DeliveryShipmentDetails;
-    /** Shape $ (Value): string. */
-    "stable_key": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Always present with an API key or dashboard credential.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. IANA timezone for displaying window_start_at and window_end_at.
-     * Example: "America/New_York".
-     */
-    "timezone"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /** Shape $ (Value): string.  Value enum: "shipment", "pickup", "local_delivery". */
-    "type": "shipment" | "pickup" | "local_delivery" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "window_end_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "window_start_at"?: string;
-};
-/**
- * Shape $ (Value): {@link DeliverySelectionInstructionsRequest}. Buyer input for a selected
- * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
- * `instructions`.
- */
-export type DeliverySelectionInstructionsRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "delivery_window_id"?: string;
-    /**
-     * Shape $ (Value): string. Buyer instructions for the selected option, without leading or
-     * trailing whitespace. Send this field only when buyer_instructions.enabled is true. Omitted
-     * for a checkout session credential that doesn't act for the customer the buyer verified.
-     * minLength: 1. maxLength: 2000.
-     */
-    "instructions"?: string;
-};
-/**
- * Shape $ (Value): {@link DeliverySelectionInstructionsRequestInput}. Buyer input for a selected
- * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
- * `instructions`.
- */
-export type DeliverySelectionInstructionsRequestInput = DeliverySelectionInstructionsRequest;
-/**
- * Shape $ (Value): {@link DeliverySelectionLifecycleEventResource}. A status change in a delivery
- * selection's history, with the new `status`, the `reason`, and when it happened.
- */
-export type DeliverySelectionLifecycleEventResource = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /** Shape $ (Value): string. */
-    "delivery_selection_id": string;
-    /** Shape $ (Value): string. */
-    "delivery_selection_lifecycle_event_id": string;
-    /**
-     * Shape $ (Value): string. Value enum: "replacement_selected", "buyer_selected",
-     * "payment_started", "payment_failed_selection_restored", "payment_settled",
-     * "payment_failed_selection_expired", "calculation_expired", "selection_expired",
-     * "selection_not_current", "dependency_revoked", "buyer_cleared",
-     * "eligibility_context_refreshed", "checkout_replaced", "checkout_terminal", "order_mutated",
-     * "quote_basis_changed", "calculation_changed".
-     */
-    "reason": "replacement_selected"
-        | "buyer_selected"
-        | "payment_started"
-        | "payment_failed_selection_restored"
-        | "payment_settled"
-        | "payment_failed_selection_expired"
-        | "calculation_expired"
-        | "selection_expired"
-        | "selection_not_current"
-        | "dependency_revoked"
-        | "buyer_cleared"
-        | "eligibility_context_refreshed"
-        | "checkout_replaced"
-        | "checkout_terminal"
-        | "order_mutated"
-        | "quote_basis_changed"
-        | "calculation_changed"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "selected", "locked_for_payment", "committed",
-     * "superseded", "expired", "released".
-     */
-    "status": "selected"
-        | "locked_for_payment"
-        | "committed"
-        | "superseded"
-        | "expired"
-        | "released"
-        | (string & {});
-};
-/**
- * Shape $ (Value): {@link DeliverySelectionRecipientRequest}. Recipient details you supply with a
- * delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
- */
-export type DeliverySelectionRecipientRequest = {
-    /**
-     * Shape $ (Value): string or null. Recipient email address. Limited to 254 characters (Unicode
-     * code points), counted before surrounding whitespace is trimmed. When the selected delivery
-     * option requires it, payment needs it: send it with this selection or a later one. Send null
-     * to clear it. Format: email. minLength: 1. maxLength: 254.
-     */
-    "email"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Recipient name. Limited to 200 characters (Unicode code
-     * points), counted before surrounding whitespace is trimmed. When the selected delivery option
-     * requires it, payment needs it: send it with this selection or a later one. Send null to
-     * clear it. minLength: 1. maxLength: 200.
-     */
-    "name"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Recipient phone number. After surrounding whitespace is
-     * trimmed, use + followed by 7 through 15 ASCII digits, with a nonzero first digit. Limited to
-     * 16 characters (Unicode code points), counted before trimming. When the selected delivery
-     * option requires it, payment needs it: send it with this selection or a later one. Send null
-     * to clear it. minLength: 1. maxLength: 16.
-     */
-    "phone"?: string | null;
 };

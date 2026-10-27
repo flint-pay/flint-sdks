@@ -1,39 +1,39 @@
-import type { SendOrderReceiptRequest } from './types-43.js';
+import type { CreateDeveloperSandboxResult } from './types-6.js';
+import type { ResponseMeta } from './types-40.js';
+import type { PaymentMethodWithSetup } from './types-36.js';
+import type { Result, InputValue } from '../runtime.js';
+import type { MoneyValue } from './types-31.js';
+import type { PaymentCollection, PaymentErrorSummary, PaymentLimitSettings } from './types-35.js';
 import type { BrandingSettings } from './types-0.js';
-import type { CheckoutSettings, ConfigurationVersionRequestInput } from './types-4.js';
+import type { CheckoutSettings } from './types-4.js';
 import type { CustomerAccountSettings, CustomerEmailDeliverySettings, CustomDomainsRemoveInput } from './types-10.js';
-import type { FulfillmentSettings } from './types-17.js';
+import type { FulfillmentSettings, ExpandedSubscriptionPlanSummary } from './types-17.js';
 import type { InventorySettings } from './types-25.js';
 import type { InvoiceSettings, LegalSettings } from './types-28.js';
-import type { PaymentLimitSettings, PaymentErrorSummary } from './types-35.js';
 import type { PromotionSettings } from './types-38.js';
 import type { ReceiptSettings } from './types-39.js';
 import type {
     SubscriptionSettings,
-    TaxIdentity,
-    TaxSettings,
     SubscriptionPromotion,
     SubscriptionServiceLocation,
     SubscriptionUpcomingDeliveryHold,
     SubscriptionSnapshotMetrics,
     SubscriptionWindowMetrics
 } from './types-46.js';
-import type { TippingSettings } from './types-47.js';
-import type { ResponseMeta } from './types-40.js';
-import type { InputValue } from '../runtime.js';
-import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-49.js';
-import type { MoneyValue } from './types-31.js';
+import type { TaxIdentity, TaxSettings, TippingSettings } from './types-47.js';
+import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput } from './types-49.js';
 import type {
     ExpandedOrderSummary,
     Dimensions,
     DimensionsInput,
     ExpandedCustomerSummary,
-    ExpandedPaymentMethodSummary,
-    ExpandedSubscriptionPlanSummary
+    ExpandedPaymentMethodSummary
 } from './types-16.js';
-import type { ReturnResolutionLineItemRequest } from './types-41.js';
+import type { ReturnResolutionLineItemRequest } from './types-42.js';
 import type { PackageCreateRequestInput } from './types-34.js';
+import type { VoidShipmentRequestInput } from './types-50.js';
 import type { Weight, WeightInput } from './types-61.js';
+import type { ConfigurationVersionRequestInput } from './types-5.js';
 import type { CancelPayoutRequest } from './types-3.js';
 import type { BuyerAction } from './types-1.js';
 import type {
@@ -44,6 +44,317 @@ import type {
     SubscriptionInventoryWait,
     SubscriptionLineItem
 } from './types-45.js';
+/**
+ * Shape $ (Value): {@link SandboxWithAPIKeyResponse}. A response containing
+ * `CreateDeveloperSandboxResult` data.
+ */
+export type SandboxWithAPIKeyResponse = {
+    /**
+     * Shape $ (Value): {@link CreateDeveloperSandboxResult}. The created sandbox is the primary
+     * resource, with the API key and one-time secret_key when issue_test_key is true.
+     */
+    "data": CreateDeveloperSandboxResult;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link SaveMeGiftCardRequest}. The request body for: Save a gift card to your
+ * account.
+ */
+export type SaveMeGiftCardRequest = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "code"?: string;
+    /** Shape $ (Value): string.  Value enum: "code", "recipient_access". */
+    "credential_type": "code" | "recipient_access" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "grant_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link SaveMeGiftCardRequestCode}. The `code` variant of
+ * `SaveMeGiftCardRequest`.
+ */
+export type SaveMeGiftCardRequestCode = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "code": string;
+    /** Shape $ (Value): string.  Value enum: "code". */
+    "credential_type": "code" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "grant_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "code". */
+    "credential_type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "code": string;
+}));
+/**
+ * Shape $ (Value): {@link SaveMeGiftCardRequestCodeInput}. The `code` variant of
+ * `SaveMeGiftCardRequest`.
+ */
+export type SaveMeGiftCardRequestCodeInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "code": string;
+    /** Shape $ (Value): string.  Value enum: "code". */
+    "credential_type": "code";
+    /** Shape $ (Value): string. minLength: 1. */
+    "grant_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "code". */
+    "credential_type": ("code") & ("code");
+    /** Shape $ (Value): string. minLength: 1. */
+    "code": string;
+})
+    & (({
+    "grant_id"?: never;
+}) & ({
+    "recipient_access_token"?: never;
+})));
+/**
+ * Shape $ (Value): {@link SaveMeGiftCardRequestInput}. The request body for: Save a gift card to
+ * your account.
+ */
+export type SaveMeGiftCardRequestInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "code"?: string;
+    /** Shape $ (Value): string.  Value enum: "code", "recipient_access". */
+    "credential_type": "code" | "recipient_access";
+    /** Shape $ (Value): string. minLength: 1. */
+    "grant_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCodeInput & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccessInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link SaveMeGiftCardRequestRecipientAccess}. The `recipient_access` variant of
+ * `SaveMeGiftCardRequest`.
+ */
+export type SaveMeGiftCardRequestRecipientAccess = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "code"?: string;
+    /** Shape $ (Value): string.  Value enum: "recipient_access". */
+    "credential_type": "recipient_access" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "grant_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "recipient_access". */
+    "credential_type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "grant_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "recipient_access_token": string;
+}));
+/**
+ * Shape $ (Value): {@link SaveMeGiftCardRequestRecipientAccessInput}. The `recipient_access`
+ * variant of `SaveMeGiftCardRequest`.
+ */
+export type SaveMeGiftCardRequestRecipientAccessInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "code"?: string;
+    /** Shape $ (Value): string.  Value enum: "recipient_access". */
+    "credential_type": "recipient_access";
+    /** Shape $ (Value): string. minLength: 1. */
+    "grant_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "recipient_access". */
+    "credential_type": ("recipient_access") & ("recipient_access");
+    /** Shape $ (Value): string. minLength: 1. */
+    "grant_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "recipient_access_token": string;
+})
+    & ({
+    "code"?: never;
+}));
+/**
+ * Shape $ (Value): {@link SaveMePaymentMethodRequest}. The request body for: Create a payment
+ * method for the current buyer.
+ */
+export type SaveMePaymentMethodRequest = {
+    /** Shape $ (Value): string.  Value enum: "card". */
+    "type"?: "card" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SaveMePaymentMethodRequestInput}. The request body for: Create a payment
+ * method for the current buyer.
+ */
+export type SaveMePaymentMethodRequestInput = {
+    /** Shape $ (Value): string.  Value enum: "card". */
+    "type"?: "card";
+};
+/**
+ * Shape $ (Value): {@link SavePaymentMethodRequest}. The request body for: Create a payment
+ * method.
+ */
+export type SavePaymentMethodRequest = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "customer_id": string;
+    /** Shape $ (Value): string.  Value enum: "card". */
+    "type"?: "card" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SavePaymentMethodRequestInput}. The request body for: Create a payment
+ * method.
+ */
+export type SavePaymentMethodRequestInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "customer_id": string;
+    /** Shape $ (Value): string.  Value enum: "card". */
+    "type"?: "card";
+};
+/**
+ * Shape $ (Value): {@link SavePaymentMethodResponse}. A response containing
+ * `PaymentMethodWithSetup` data.
+ */
+export type SavePaymentMethodResponse = {
+    /**
+     * Shape $ (Value): {@link PaymentMethodWithSetup}. The saved payment method, with
+     * `client_setup` when the buyer must still complete processor setup before the payment method
+     * can be used. A customer's saved payment details.
+     */
+    "data": PaymentMethodWithSetup;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link ScopeRequirement}. The scopes an authorization decision required and
+ * whether `all` or `any` of them were needed, returned in error details.
+ */
+export type ScopeRequirement = {
+    /**
+     * Shape $ (Value): string. How the required scopes are evaluated. all requires every listed
+     * scope; any requires at least one listed scope. Example: "all". Value enum: "all", "any".
+     */
+    "mode": "all" | "any" | (string & {});
+    /**
+     * Shape $ (Value): Array of string. Canonical public scope names evaluated for this
+     * authorization decision. Example: ["developer.sandboxes.write","accounts.api_keys.write"].
+     * Shape $[] (Value): string.
+     */
+    "scopes": Array<string>;
+};
+export interface SdkResponse<T> {
+    body: T;
+    meta: Result<T>['meta'];
+    raw: Result<T>['raw'];
+}
+/**
+ * Shape $ (Value): {@link SelectableMerchant}. A merchant the caller can pick from, with its ID
+ * and business name, returned in error details when a merchant must be chosen.
+ */
+export type SelectableMerchant = {
+    /**
+     * Shape $ (Value): string. Merchant business name. Empty when no business name is available.
+     */
+    "business_name": string;
+    /** Shape $ (Value): string. Flint merchant ID available for selection. */
+    "merchant_id": string;
+};
+/**
+ * Shape $ (Value): {@link SelectableOrderPaymentIntent}. A payment intent on an order the caller
+ * can pick, with its amount, status, and last payment error.
+ */
+export type SelectableOrderPaymentIntent = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. The amount requested from the buyer, including any
+     * tip_money. Capturing doesn't change it: after a partial capture it still shows the requested
+     * amount, and captured_money shows what was collected. On a standalone payment intent, PATCH
+     * can change it only before the first confirmation attempt. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link PaymentErrorSummary}. Most recent payment failure, when one is
+     * recorded. A summary of why a payment attempt failed, with a normalized error code, a
+     * message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Shape $ (Value): {@link PaymentCollection}. Client setup details for collecting this
+     * payment. Client-side details for collecting payment from the buyer, such as the Stripe
+     * settings to initialize Stripe.js.
+     */
+    "payment_collection"?: PaymentCollection;
+    /** Shape $ (Value): string. Flint payment intent ID. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): string. Lifecycle status. requires_payment_method covers both a new payment
+     * intent and one whose last attempt failed, so read last_payment_error with it. succeeded,
+     * canceled, and expired are final. Refunds and disputes never change status. Value enum:
+     * "requires_payment_method", "requires_confirmation", "requires_action", "processing",
+     * "requires_capture", "canceled", "succeeded", "expired".
+     */
+    "status": "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Portion of this payment's amount allocated to a tip.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money": MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link SelectedProductOption}. An option and value chosen for a product
+ * variant, such as size Large.
+ */
+export type SelectedProductOption = {
+    /** Shape $ (Value): string. Identifier of the selected product option. */
+    "option_id": string;
+    /** Shape $ (Value): string. Name of the selected product option. */
+    "option_name": string;
+    /** Shape $ (Value): string. Identifier of the selected option value. */
+    "option_value_id": string;
+    /** Shape $ (Value): string. Selected value of the product option. */
+    "value": string;
+};
+/**
+ * Shape $ (Value): {@link SendOrderReceiptRequest}. The request body for: Send an order receipt.
+ */
+export type SendOrderReceiptRequest = {
+    /**
+     * Shape $ (Value): string. Receipt email, limited to 254 characters (Unicode code points)
+     * after trimming surrounding whitespace. Format: email. minLength: 1. maxLength: 254.
+     */
+    "email"?: string;
+};
 /**
  * Shape $ (Value): {@link SendOrderReceiptRequestInput}. The request body for: Send an order
  * receipt.
@@ -92,6 +403,11 @@ export type ServiceFulfillmentDetails = {
 export type SetDefaultCustomerAddressRequest = {
     /** Shape $ (Value): string.  Value enum: "billing", "shipping", "both". */
     "default_for": "billing" | "shipping" | "both" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link SetDefaultCustomerAddressRequestInput}. The request body for: Set a
@@ -100,6 +416,11 @@ export type SetDefaultCustomerAddressRequest = {
 export type SetDefaultCustomerAddressRequestInput = {
     /** Shape $ (Value): string.  Value enum: "billing", "shipping", "both". */
     "default_for": "billing" | "shipping" | "both";
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
 };
 /**
  * Shape $ (Value): {@link Settings}. The settings for one scope (organization, merchant, location,
@@ -1613,215 +1934,3 @@ export type SubscriptionBillingScheduleInputExternal = {
     /** Shape $ (Value): string.  Value enum: "external". */
     "owner": "external" | (string & {});
 };
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleInputExternalInput}. The `external` variant
- * of `SubscriptionBillingScheduleInput`.
- */
-export type SubscriptionBillingScheduleInputExternalInput = {
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleInputFlint}. The `flint` variant of
- * `SubscriptionBillingScheduleInput`.
- */
-export type SubscriptionBillingScheduleInputFlint = {
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleInputFlintInput}. The `flint` variant of
- * `SubscriptionBillingScheduleInput`.
- */
-export type SubscriptionBillingScheduleInputFlintInput = {
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleRequest}. Who owns the billing schedule when
- * creating a subscription: Flint or an external system.
- */
-export type SubscriptionBillingScheduleRequest = ({
-    /** Shape $ (Value): string.  Value enum: "flint", "external". */
-    "owner": "flint" | "external" | (string & {});
-})
-    & ((Exclude<SubscriptionBillingScheduleInputFlint & object, readonly unknown[]>)
-    | (Exclude<SubscriptionBillingScheduleInputExternal & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleRequestInput}. Who owns the billing schedule
- * when creating a subscription: Flint or an external system.
- */
-export type SubscriptionBillingScheduleRequestInput = ({
-    /** Shape $ (Value): string.  Value enum: "flint", "external". */
-    "owner": "flint" | "external";
-})
-    & ((Exclude<SubscriptionBillingScheduleInputFlintInput & object, readonly unknown[]>)
-    | (Exclude<SubscriptionBillingScheduleInputExternalInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputExternal}. The `external` variant
- * of `SubscriptionBillingScheduleUpdateInput`.
- */
-export type SubscriptionBillingScheduleUpdateInputExternal = {
-    /**
-     * Shape $ (Value): string or null. Future date at which Flint attempts the next charge. Omit
-     * to preserve the date or send null to clear it. Format: date-time. minLength: 1.
-     */
-    "next_billing_at"?: string | null;
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputExternalInput}. The `external`
- * variant of `SubscriptionBillingScheduleUpdateInput`.
- */
-export type SubscriptionBillingScheduleUpdateInputExternalInput = {
-    /**
-     * Shape $ (Value): string or null. Future date at which Flint attempts the next charge. Omit
-     * to preserve the date or send null to clear it. Format: date-time. minLength: 1.
-     */
-    "next_billing_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputFlint}. The `flint` variant of
- * `SubscriptionBillingScheduleUpdateInput`.
- */
-export type SubscriptionBillingScheduleUpdateInputFlint = {
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing.
-     * Overrides the day inferred from a moved next_billing_at. Format: int32. minimum: 1. maximum:
-     * 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): string. Future date at which Flint attempts the next charge. Format:
-     * date-time. minLength: 1.
-     */
-    "next_billing_at": string;
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputFlintInput}. The `flint` variant
- * of `SubscriptionBillingScheduleUpdateInput`.
- */
-export type SubscriptionBillingScheduleUpdateInputFlintInput = {
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing.
-     * Overrides the day inferred from a moved next_billing_at. Format: int32. minimum: 1. maximum:
-     * 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): string. Future date at which Flint attempts the next charge. Format:
-     * date-time. minLength: 1.
-     */
-    "next_billing_at": string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateRequest}. A closed owner-specific
- * billing schedule update.
- */
-export type SubscriptionBillingScheduleUpdateRequest = ((SubscriptionBillingScheduleUpdateInputFlint)
-    | (SubscriptionBillingScheduleUpdateInputExternal)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateRequestInput}. A closed owner-specific
- * billing schedule update.
- */
-export type SubscriptionBillingScheduleUpdateRequestInput = ((SubscriptionBillingScheduleUpdateInputFlintInput)
-    | (SubscriptionBillingScheduleUpdateInputExternalInput));
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputImmediate}. The `immediate` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputImmediate = {
-    /** Shape $ (Value): string.  Value enum: "immediate". */
-    "type": "immediate" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputImmediateInput}. The `immediate` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputImmediateInput = {
-    /** Shape $ (Value): string.  Value enum: "immediate". */
-    "type": "immediate";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputImported}. The `imported` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputImported = {
-    /**
-     * Shape $ (Value): integer. Number of billing cycles already charged on the previous billing
-     * system, including the current imported period. The subscription's completed_cycles starts
-     * here, and the next renewal's subscription_cycle is this number plus one. minimum: 0.
-     * Default: 0.
-     */
-    "completed_cycles"?: number;
-    /**
-     * Shape $ (Value): string. Start of the already-running billing period being imported. Format:
-     * date-time. minLength: 1.
-     */
-    "period_started_at": string;
-    /** Shape $ (Value): string.  Value enum: "imported". */
-    "type": "imported" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputImportedInput}. The `imported` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputImportedInput = {
-    /**
-     * Shape $ (Value): integer. Number of billing cycles already charged on the previous billing
-     * system, including the current imported period. The subscription's completed_cycles starts
-     * here, and the next renewal's subscription_cycle is this number plus one. minimum: 0.
-     * Default: 0.
-     */
-    "completed_cycles"?: number;
-    /**
-     * Shape $ (Value): string. Start of the already-running billing period being imported. Format:
-     * date-time. minLength: 1.
-     */
-    "period_started_at": string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "imported". */
-    "type": "imported";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputScheduled}. The `scheduled` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputScheduled = {
-    /**
-     * Shape $ (Value): string. Future instant when the first billing period starts. Format:
-     * date-time. minLength: 1.
-     */
-    "starts_at": string;
-    /** Shape $ (Value): string.  Value enum: "scheduled". */
-    "type": "scheduled" | (string & {});
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartInputScheduledInput}. The `scheduled` variant of
- * `SubscriptionBillingStartInput`.
- */
-export type SubscriptionBillingStartInputScheduledInput = {
-    /**
-     * Shape $ (Value): string. Future instant when the first billing period starts. Format:
-     * date-time. minLength: 1.
-     */
-    "starts_at": string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "scheduled". */
-    "type": "scheduled";
-};
-/**
- * Shape $ (Value): {@link SubscriptionBillingStartRequest}. How billing begins. Send exactly one
- * closed tagged-union branch.
- */
-export type SubscriptionBillingStartRequest = ((SubscriptionBillingStartInputImmediate)
-    | (SubscriptionBillingStartInputScheduled)
-    | (SubscriptionBillingStartInputImported)
-    | (Record<string, unknown>));

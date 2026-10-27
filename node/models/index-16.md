@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentAttemptResponse – ListReturnReceiptsResponse
+# InvoiceManualPayment – ListReturnActivitiesResponse
 
+- [InvoiceManualPayment](InvoiceManualPayment.md)
+- [InvoiceManualPaymentListResponse](InvoiceManualPaymentListResponse.md)
+- [InvoiceManualPaymentResponse](InvoiceManualPaymentResponse.md)
+- [InvoiceManualPaymentResult](InvoiceManualPaymentResult.md)
+- [InvoiceManualPaymentResultResponse](InvoiceManualPaymentResultResponse.md)
+- [InvoicePaymentAttempt](InvoicePaymentAttempt.md)
+- [InvoicePaymentAttemptListResponse](InvoicePaymentAttemptListResponse.md)
 - [InvoicePaymentAttemptResponse](InvoicePaymentAttemptResponse.md)
 - [InvoicePaymentDue](InvoicePaymentDue.md)
 - [InvoicePaymentDueDate](InvoicePaymentDueDate.md)
@@ -95,11 +102,4 @@
 - [LinkCustomerGuestPurchasesRequest](LinkCustomerGuestPurchasesRequest.md)
 - [LinkCustomerGuestPurchasesRequestInput](LinkCustomerGuestPurchasesRequestInput.md)
 - [ListReturnActivitiesResponse](ListReturnActivitiesResponse.md)
-- [ListReturnDispositionsResponse](ListReturnDispositionsResponse.md)
-- [ListReturnInspectionsResponse](ListReturnInspectionsResponse.md)
-- [ListReturnLineItemsResponse](ListReturnLineItemsResponse.md)
-- [ListReturnPoliciesResponse](ListReturnPoliciesResponse.md)
-- [ListReturnPolicyRevisionsResponse](ListReturnPolicyRevisionsResponse.md)
-- [ListReturnReasonsResponse](ListReturnReasonsResponse.md)
-- [ListReturnReceiptsResponse](ListReturnReceiptsResponse.md)
 

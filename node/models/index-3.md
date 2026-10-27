@@ -1,9 +1,11 @@
 [Model index](../MODELS.md)
 
-# CaptureOrderPaymentRequest – CreateCheckoutDeliveryQuoteRequest
+# CancelReturnResolutionRequestInput – CreateCategoryRequest
 
-- [CaptureOrderPaymentRequest](CaptureOrderPaymentRequest.md)
-- [CaptureOrderPaymentRequestInput](CaptureOrderPaymentRequestInput.md)
+- [CancelReturnResolutionRequestInput](CancelReturnResolutionRequestInput.md)
+- [CancelSubscriptionRequest](CancelSubscriptionRequest.md)
+- [CancelSubscriptionRequestInput](CancelSubscriptionRequestInput.md)
+- [CapabilityReadiness](CapabilityReadiness.md)
 - [CapturePaymentIntentRequest](CapturePaymentIntentRequest.md)
 - [CapturePaymentIntentRequestInput](CapturePaymentIntentRequestInput.md)
 - [CardDetails](CardDetails.md)
@@ -100,6 +102,4 @@
 - [CreateBundleRequest](CreateBundleRequest.md)
 - [CreateBundleRequestInput](CreateBundleRequestInput.md)
 - [CreateCategoryRequest](CreateCategoryRequest.md)
-- [CreateCategoryRequestInput](CreateCategoryRequestInput.md)
-- [CreateCheckoutDeliveryQuoteRequest](CreateCheckoutDeliveryQuoteRequest.md)
 

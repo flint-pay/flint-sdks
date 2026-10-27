@@ -1,6 +1,6 @@
-import type { ResponseMeta } from './types-40.js';
-import type { ReturnReceipt, ReturnResolution } from './types-41.js';
-import type { ReturnResource } from './types-42.js';
+import type { ResponseMeta, ReturnActivity, ReturnDisposition, ReturnInspection } from './types-40.js';
+import type { ReturnLineItem, ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-41.js';
+import type { ReturnResolution, ReturnResource } from './types-42.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateLocationRequestInput, CreateMeSubscriptionPreviewRequestInput } from './types-7.js';
 import type { UpdateLocationRequestInput } from './types-48.js';
@@ -22,6 +22,151 @@ import type { StripeClientSetup } from './types-44.js';
 import type { CustomersGetDeletionRequestInput } from './types-11.js';
 import type { GiftCardsGetInput } from './types-19.js';
 import type { InvoicesGetPDFInput } from './types-28.js';
+/** Shape $ (Value): {@link ListReturnActivitiesResponse}. A page of `ReturnActivity` objects. */
+export type ListReturnActivitiesResponse = {
+    /**
+     * Shape $ (Value): Array of {@link ReturnActivity}. Shape $[] (Value): {@link ReturnActivity}.
+     * One entry in a Return's merchant activity history.
+     */
+    "data": Array<ReturnActivity>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link ListReturnDispositionsResponse}. A page of `ReturnDisposition` objects.
+ */
+export type ListReturnDispositionsResponse = {
+    /**
+     * Shape $ (Value): Array of {@link ReturnDisposition}. Shape $[] (Value): {@link
+     * ReturnDisposition}. A decision about how returned merchandise will be handled.
+     */
+    "data": Array<ReturnDisposition>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/** Shape $ (Value): {@link ListReturnInspectionsResponse}. A page of `ReturnInspection` objects. */
+export type ListReturnInspectionsResponse = {
+    /**
+     * Shape $ (Value): Array of {@link ReturnInspection}. Shape $[] (Value): {@link
+     * ReturnInspection}. An assessment of the condition of returned items.
+     */
+    "data": Array<ReturnInspection>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/** Shape $ (Value): {@link ListReturnLineItemsResponse}. A page of `ReturnLineItem` objects. */
+export type ListReturnLineItemsResponse = {
+    /**
+     * Shape $ (Value): Array of {@link ReturnLineItem}. Shape $[] (Value): {@link ReturnLineItem}.
+     * An item included in a return request.
+     */
+    "data": Array<ReturnLineItem>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/** Shape $ (Value): {@link ListReturnPoliciesResponse}. A page of `ReturnPolicy` objects. */
+export type ListReturnPoliciesResponse = {
+    /**
+     * Shape $ (Value): Array of {@link ReturnPolicy}. Shape $[] (Value): {@link ReturnPolicy}.
+     * Rules governing whether and how purchased items can be returned.
+     */
+    "data": Array<ReturnPolicy>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link ListReturnPolicyRevisionsResponse}. A page of `ReturnPolicyRevision`
+ * objects.
+ */
+export type ListReturnPolicyRevisionsResponse = {
+    /**
+     * Shape $ (Value): Array of {@link ReturnPolicyRevision}. Shape $[] (Value): {@link
+     * ReturnPolicyRevision}. A saved revision of a return policy.
+     */
+    "data": Array<ReturnPolicyRevision>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/** Shape $ (Value): {@link ListReturnReasonsResponse}. A page of `ReturnReason` objects. */
+export type ListReturnReasonsResponse = {
+    /**
+     * Shape $ (Value): Array of {@link ReturnReason}. Shape $[] (Value): {@link ReturnReason}. A
+     * reason customers can select when requesting a return.
+     */
+    "data": Array<ReturnReason>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
 /** Shape $ (Value): {@link ListReturnReceiptsResponse}. A page of `ReturnReceipt` objects. */
 export type ListReturnReceiptsResponse = {
     /**
@@ -536,6 +681,11 @@ export type MeCreateSubscriptionPreviewInput = {
 export type MeDeleteAddressInput = {
     /** Shape $ (Value): string. */
     "customer_address_id": InputValue<string>;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: InputValue<`${bigint}` | bigint>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
 };
@@ -664,34 +814,4 @@ export type MeGetPackageInput = {
 export type MeGetPaymentInput = {
     /** Shape $ (Value): string. */
     "payment_intent_id": InputValue<string>;
-};
-export type MeGetPaymentMethodInput = {
-    /** Shape $ (Value): string. */
-    "payment_method_id": InputValue<string>;
-};
-export type MeGetRefundInput = {
-    /** Shape $ (Value): string. */
-    "refund_id": InputValue<string>;
-};
-export type MeGetReturnInput = {
-    /** Shape $ (Value): string. */
-    "return_id": InputValue<string>;
-};
-export type MeGetReturnResolutionInput = {
-    /** Shape $ (Value): string. */
-    "return_resolution_id": InputValue<string>;
-};
-export type MeGetShipmentInput = {
-    /** Shape $ (Value): string. */
-    "shipment_id": InputValue<string>;
-};
-export type MeGetSubscriptionInput = {
-    /** Shape $ (Value): string. */
-    "subscription_id": InputValue<string>;
-};
-export type MeGetSubscriptionPaymentRetryInput = {
-    /** Shape $ (Value): string. */
-    "subscription_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "subscription_payment_retry_id": InputValue<string>;
 };

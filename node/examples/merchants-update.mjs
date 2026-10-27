@@ -16,4 +16,4 @@ const result = await client.merchants.update(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.merchant_id);
-console.log(result.readiness.payments.status);
+console.log(result.organization_id);

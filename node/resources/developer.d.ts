@@ -15,6 +15,7 @@ import type {
     DeveloperAuthContext,
     DeveloperAuthContextResponse,
     DeveloperCreatePartnerAppInput,
+    DeveloperCreateSandboxAPIKeyInput,
     DeveloperCreateSandboxInput,
     DeveloperDeletePartnerAppInput,
     DeveloperDeleteSandboxInput,
@@ -26,18 +27,20 @@ import type {
     DeveloperGetSandboxInput,
     DeveloperInitialAPIKeyRequest,
     DeveloperInitialAPIKeyRequestInput,
-    DeveloperIssueSandboxTestKeyInput,
     DeveloperListCurrentAPIKeyRequestLogsInput,
-    DeveloperListPartnerAppInstallsInput,
+    DeveloperListPartnerAppInstallsInput
+} from '../declarations/types-15.js';
+import type {
     DeveloperListPartnerAppsInput,
     DeveloperListPartnerInstallsInput,
     DeveloperListSandboxesInput,
     DeveloperResetSandboxInput,
     DeveloperRevokePartnerAppInstallInput,
     DeveloperRevokePartnerEnvironmentGrantInput,
-    DeveloperRotatePartnerAppSecretInput
-} from '../declarations/types-15.js';
-import type { DeveloperSandbox, DeveloperUpdatePartnerAppInput } from '../declarations/types-16.js';
+    DeveloperRotatePartnerAppSecretInput,
+    DeveloperSandbox,
+    DeveloperUpdatePartnerAppInput
+} from '../declarations/types-16.js';
 import type { IssueSandboxAPIKeyRequestInput } from '../declarations/types-28.js';
 import type {
     PartnerApp,
@@ -48,15 +51,10 @@ import type {
 } from '../declarations/types-34.js';
 import type { PartnerAppResponse, PartnerAppWithSecret, PartnerAppWithSecretResponse } from '../declarations/types-35.js';
 import type { RequestOptions, ResourceTimeline, ResourceTimelineResponse } from '../declarations/types-40.js';
-import type {
-    RotatePartnerAppSecretRequestInput,
-    SandboxListResponse,
-    SandboxResponse,
-    SandboxWithAPIKeyResponse,
-    SdkResponse
-} from '../declarations/types-43.js';
+import type { RotatePartnerAppSecretRequestInput, SandboxListResponse, SandboxResponse } from '../declarations/types-43.js';
+import type { SandboxWithAPIKeyResponse, SdkResponse } from '../declarations/types-44.js';
 import type { UpdatePartnerAppRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -89,31 +87,17 @@ export type {
     PartnerAppWithSecretResponse,
     PartnerAppResponse,
     PartnerAppPermissionManifestEntryInput,
+    PartnerAppPermissionManifestEntry,
     PartnerEnvironmentGrant
 } from '../declarations/types-35.js';
-export type {
-    SdkResponse,
-    SandboxWithAPIKeyResponse,
-    SandboxResponse,
-    SandboxListResponse,
-    RotatePartnerAppSecretRequestInput
-} from '../declarations/types-43.js';
+export type { SdkResponse, SandboxWithAPIKeyResponse } from '../declarations/types-44.js';
 export type { CreateSandboxRequestInput, Credentials } from '../declarations/types-9.js';
 export type { CreateDeveloperSandboxResult } from '../declarations/types-6.js';
+export type { IssueSandboxAPIKeyRequestInput } from '../declarations/types-28.js';
 export type {
-    PartnerApp,
-    PartnerAppInstall,
-    PartnerAppInstallResponse,
-    PartnerAppInstallListResponse,
-    PartnerAppListResponse,
-    PartnerAppPermissionManifestEntry
-} from '../declarations/types-34.js';
-export type { DeveloperSandbox, DeveloperUpdatePartnerAppInput } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type {
+    APIKeyWithSecret,
     APIRequestLogDetail,
     APIRequestLogDetailResponse,
-    APIKeyWithSecret,
     APIRequestLogListResponse,
     APIRequestLog,
     AuthMode,
@@ -121,6 +105,27 @@ export type {
     APIRequestLogQueryParam,
     APIRequestLogReproduction
 } from '../declarations/types-0.js';
+export type { CreateAPIKeyResponse } from '../declarations/types-5.js';
+export type {
+    PartnerApp,
+    PartnerAppInstall,
+    PartnerAppInstallResponse,
+    PartnerAppInstallListResponse,
+    PartnerAppListResponse
+} from '../declarations/types-34.js';
+export type {
+    DeveloperSandbox,
+    DeveloperListPartnerAppsInput,
+    DeveloperListPartnerInstallsInput,
+    DeveloperListSandboxesInput,
+    DeveloperResetSandboxInput,
+    DeveloperRevokePartnerAppInstallInput,
+    DeveloperRevokePartnerEnvironmentGrantInput,
+    DeveloperRotatePartnerAppSecretInput,
+    DeveloperUpdatePartnerAppInput
+} from '../declarations/types-16.js';
+export type { SandboxResponse, SandboxListResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type {
     DeveloperAuthContext,
     DeveloperAuthContextResponse,
@@ -128,6 +133,7 @@ export type {
     DeveloperInitialAPIKeyRequestInput,
     DeveloperCreatePartnerAppInput,
     DeveloperCreateSandboxInput,
+    DeveloperCreateSandboxAPIKeyInput,
     DeveloperDeletePartnerAppInput,
     DeveloperDeleteSandboxInput,
     DeveloperGetCurrentAPIKeyRequestLogInput,
@@ -136,28 +142,19 @@ export type {
     DeveloperGetPartnerAppInstallInput,
     DeveloperGetSandboxInput,
     DeveloperGetResourceTimelineInput,
-    DeveloperIssueSandboxTestKeyInput,
     DeveloperListCurrentAPIKeyRequestLogsInput,
-    DeveloperListPartnerAppInstallsInput,
-    DeveloperListPartnerAppsInput,
-    DeveloperListPartnerInstallsInput,
-    DeveloperListSandboxesInput,
-    DeveloperResetSandboxInput,
-    DeveloperRevokePartnerAppInstallInput,
-    DeveloperRevokePartnerEnvironmentGrantInput,
-    DeveloperRotatePartnerAppSecretInput
+    DeveloperListPartnerAppInstallsInput
 } from '../declarations/types-15.js';
-export type { IssueSandboxAPIKeyRequestInput } from '../declarations/types-28.js';
-export type { CreateAPIKeyResponse } from '../declarations/types-5.js';
 export type { UpdatePartnerAppRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreatePartnerAppRequest, makeCreateSandboxRequest } from '../declarations/types-64.js';
+export { makeCreatePartnerAppRequest } from '../declarations/types-64.js';
+export { makeCreateSandboxRequest } from '../declarations/types-65.js';
 export { makeDeveloperInitialAPIKeyRequest } from '../declarations/types-66.js';
 export { makeIssueSandboxAPIKeyRequest, makeMoneyValue } from '../declarations/types-68.js';
 export { makePartnerAppPermissionManifestEntry } from '../declarations/types-69.js';
 export { makeRotatePartnerAppSecretRequest } from '../declarations/types-71.js';
-export { makeUpdatePartnerAppRequest } from '../declarations/types-72.js';
+export { makeUpdatePartnerAppRequest } from '../declarations/types-73.js';
 export interface DeveloperResource {
     /**
  * Creates a partner app owned by the authenticated merchant. Use a developer setup session during
@@ -172,13 +169,13 @@ export interface DeveloperResource {
  */
     createPartnerApp(params: (InputValue<CreatePartnerAppRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<PartnerAppWithSecret>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<PartnerAppWithSecret>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developercreatepartnerapp
      */
     createPartnerAppWithResponse(params: (InputValue<CreatePartnerAppRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<PartnerAppWithSecretResponse>>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<PartnerAppWithSecretResponse>>;
     /**
  * Creates a new empty test sandbox for the current merchant. Send `issue_test_key: true` to also
  * receive a test key bound to it.
@@ -192,13 +189,34 @@ export interface DeveloperResource {
  */
     createSandbox(params: (InputValue<CreateSandboxRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<CreateDeveloperSandboxResult>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<CreateDeveloperSandboxResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developercreatesandbox
      */
     createSandboxWithResponse(params: (InputValue<CreateSandboxRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<SandboxWithAPIKeyResponse>>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<SandboxWithAPIKeyResponse>>;
+    /**
+ * Creates a new test API key that is bound to the target sandbox.
+ * @see reference/developer.md#developercreatesandboxapikey
+ * POST /v1/developer/sandboxes/{sandbox_id}/api-keys
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.developer.createSandboxAPIKey("example", {name: "example", scopes: []}, { idempotencyKey:
+ * idempotencyKey })
+ */
+    createSandboxAPIKey(sandbox_id: InputValue<string>, params: (InputValue<IssueSandboxAPIKeyRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<APIKeyWithSecret>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developercreatesandboxapikey
+     */
+    createSandboxAPIKeyWithResponse(sandbox_id: InputValue<string>, params: (InputValue<IssueSandboxAPIKeyRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<CreateAPIKeyResponse>>;
     /**
  * Archives a partner app (soft delete). The app stays readable with status archived; it cannot be
  * installed, exchange tokens, or receive events, and its client ID is never reused. Revoke every
@@ -214,14 +232,14 @@ export interface DeveloperResource {
     deletePartnerApp(partner_app_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PartnerApp>;
+    }, options?: RequestOptions<"merchant">): Promise<PartnerApp>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerdeletepartnerapp
      */
     deletePartnerAppWithResponse(partner_app_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PartnerAppResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PartnerAppResponse>>;
     /**
  * Retires a non-default sandbox and frees its original name for reuse.
  * @see reference/developer.md#developerdeletesandbox
@@ -233,13 +251,13 @@ export interface DeveloperResource {
  */
     deleteSandbox(sandbox_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<DeveloperSandbox>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<DeveloperSandbox>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerdeletesandbox
      */
     deleteSandboxWithResponse(sandbox_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<SandboxResponse>>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<SandboxResponse>>;
     /**
  * Returns one request with redacted headers, the redacted request and response bodies for write
  * routes that capture them, and a curl reproduction. Detail older than 14 days has no headers or
@@ -249,11 +267,11 @@ export interface DeveloperResource {
  * @example
  * client.developer.getCurrentAPIKeyRequestLog("example")
  */
-    getCurrentAPIKeyRequestLog(api_request_log_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<APIRequestLogDetail>;
+    getCurrentAPIKeyRequestLog(api_request_log_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<APIRequestLogDetail>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developergetcurrentapikeyrequestlog
      */
-    getCurrentAPIKeyRequestLogWithResponse(api_request_log_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<APIRequestLogDetailResponse>>;
+    getCurrentAPIKeyRequestLogWithResponse(api_request_log_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<APIRequestLogDetailResponse>>;
     /**
  * Returns non-secret metadata for an API key or CLI OAuth access token, including its merchant,
  * environment, sandbox binding, and granted scopes. CLI OAuth sessions include auth_type=oauth and
@@ -264,11 +282,11 @@ export interface DeveloperResource {
  * @example
  * client.developer.getAuthContext()
  */
-    getAuthContext(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeveloperAuthContext>;
+    getAuthContext(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeveloperAuthContext>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developergetauthcontext
      */
-    getAuthContextWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeveloperAuthContextResponse>>;
+    getAuthContextWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeveloperAuthContextResponse>>;
     /**
  * Returns a single partner app owned by the authenticated merchant.
  * @see reference/developer.md#developergetpartnerapp
@@ -276,11 +294,11 @@ export interface DeveloperResource {
  * @example
  * client.developer.getPartnerApp("example")
  */
-    getPartnerApp(partner_app_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerApp>;
+    getPartnerApp(partner_app_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<PartnerApp>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developergetpartnerapp
      */
-    getPartnerAppWithResponse(partner_app_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppResponse>>;
+    getPartnerAppWithResponse(partner_app_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SdkResponse<PartnerAppResponse>>;
     /**
  * Returns a single install for the installing merchant or the partner app owner.
  * @see reference/developer.md#developergetpartnerappinstall
@@ -288,11 +306,11 @@ export interface DeveloperResource {
  * @example
  * client.developer.getPartnerAppInstall("example", "example")
  */
-    getPartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppInstall>;
+    getPartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<PartnerAppInstall>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developergetpartnerappinstall
      */
-    getPartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallResponse>>;
+    getPartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallResponse>>;
     /**
  * Returns a single sandbox by ID.
  * @see reference/developer.md#developergetsandbox
@@ -300,11 +318,11 @@ export interface DeveloperResource {
  * @example
  * client.developer.getSandbox("example")
  */
-    getSandbox(sandbox_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<DeveloperSandbox>;
+    getSandbox(sandbox_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<DeveloperSandbox>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developergetsandbox
      */
-    getSandboxWithResponse(sandbox_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<SandboxResponse>>;
+    getSandboxWithResponse(sandbox_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SdkResponse<SandboxResponse>>;
     /**
  * Returns summary-only API request, webhook event, webhook delivery attempt, and image mutation
  * entries for a single public API resource. The caller must have developer.resource_timelines.read
@@ -368,7 +386,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "occurred_after"?: InputValue<string | globalThis.Date>;
         "occurred_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ResourceTimeline>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ResourceTimeline>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developergetresourcetimeline
      */
@@ -426,28 +444,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "occurred_after"?: InputValue<string | globalThis.Date>;
         "occurred_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ResourceTimelineResponse>>;
-    /**
- * Creates a new test API key that is bound to the target sandbox.
- * @see reference/developer.md#developerissuesandboxtestkey
- * POST /v1/developer/sandboxes/{sandbox_id}/test-key
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.developer.issueSandboxTestKey("example", {name: "example", scopes: []}, { idempotencyKey:
- * idempotencyKey })
- */
-    issueSandboxTestKey(sandbox_id: InputValue<string>, params: (InputValue<IssueSandboxAPIKeyRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<APIKeyWithSecret>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/developer.md#developerissuesandboxtestkey
-     */
-    issueSandboxTestKeyWithResponse(sandbox_id: InputValue<string>, params: (InputValue<IssueSandboxAPIKeyRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<CreateAPIKeyResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ResourceTimelineResponse>>;
     /**
  * Returns request summaries, newest first. With developer.request_logs.read the list covers every
  * caller in the credential's environment. With developer.request_logs.self.read it covers only the
@@ -488,6 +485,7 @@ export interface DeveloperResource {
             | "customer"
             | "customer_address"
             | "customer_deletion_request"
+            | "customer_email_preferences"
             | "customer_session"
             | "customer_verification"
             | "delivery_location_set"
@@ -611,7 +609,7 @@ export interface DeveloperResource {
         "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<APIRequestLogListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<APIRequestLogListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
      */
@@ -646,6 +644,7 @@ export interface DeveloperResource {
             | "customer"
             | "customer_address"
             | "customer_deletion_request"
+            | "customer_email_preferences"
             | "customer_session"
             | "customer_verification"
             | "delivery_location_set"
@@ -769,7 +768,7 @@ export interface DeveloperResource {
         "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<APIRequestLogListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<APIRequestLogListResponse>>;
     /** Iterate pages lazily.
      * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
      */
@@ -804,6 +803,7 @@ export interface DeveloperResource {
             | "customer"
             | "customer_address"
             | "customer_deletion_request"
+            | "customer_email_preferences"
             | "customer_session"
             | "customer_verification"
             | "delivery_location_set"
@@ -927,7 +927,7 @@ export interface DeveloperResource {
         "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<APIRequestLogListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<APIRequestLogListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
      */
@@ -962,6 +962,7 @@ export interface DeveloperResource {
             | "customer"
             | "customer_address"
             | "customer_deletion_request"
+            | "customer_email_preferences"
             | "customer_session"
             | "customer_verification"
             | "delivery_location_set"
@@ -1085,7 +1086,7 @@ export interface DeveloperResource {
         "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<APIRequestLogListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<APIRequestLogListResponse>>;
     /** Iterate items lazily.
      * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
      */
@@ -1120,6 +1121,7 @@ export interface DeveloperResource {
             | "customer"
             | "customer_address"
             | "customer_deletion_request"
+            | "customer_email_preferences"
             | "customer_session"
             | "customer_verification"
             | "delivery_location_set"
@@ -1243,7 +1245,7 @@ export interface DeveloperResource {
         "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<APIRequestLog>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<APIRequestLog>;
     /**
  * Returns installs for a partner app owned by the authenticated merchant.
  * @see reference/developer.md#developerlistpartnerappinstalls
@@ -1256,7 +1258,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "merchant_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppInstallListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<PartnerAppInstallListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerlistpartnerappinstalls
      */
@@ -1265,7 +1267,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "merchant_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallListResponse>>;
     /** Iterate pages lazily.
      * @see reference/developer.md#developerlistpartnerappinstalls
      */
@@ -1274,7 +1276,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "merchant_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstallListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<PartnerAppInstallListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/developer.md#developerlistpartnerappinstalls
      */
@@ -1283,7 +1285,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "merchant_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppInstallListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppInstallListResponse>>;
     /** Iterate items lazily.
      * @see reference/developer.md#developerlistpartnerappinstalls
      */
@@ -1292,7 +1294,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "merchant_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstall>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<PartnerAppInstall>;
     /**
  * Returns partner apps owned by the authenticated merchant.
  * @see reference/developer.md#developerlistpartnerapps
@@ -1304,7 +1306,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<PartnerAppListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerlistpartnerapps
      */
@@ -1312,7 +1314,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SdkResponse<PartnerAppListResponse>>;
     /** Iterate pages lazily.
      * @see reference/developer.md#developerlistpartnerapps
      */
@@ -1320,7 +1322,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<PartnerAppListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/developer.md#developerlistpartnerapps
      */
@@ -1328,7 +1330,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppListResponse>>;
     /** Iterate items lazily.
      * @see reference/developer.md#developerlistpartnerapps
      */
@@ -1336,7 +1338,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerApp>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<PartnerApp>;
     /**
  * Lists partner app installs on the authenticated merchant, across live and test mode. Requires a
  * live API key.
@@ -1350,7 +1352,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "partner_app_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppInstallListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<PartnerAppInstallListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerlistpartnerinstalls
      */
@@ -1359,7 +1361,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "partner_app_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallListResponse>>;
     /** Iterate pages lazily.
      * @see reference/developer.md#developerlistpartnerinstalls
      */
@@ -1368,7 +1370,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "partner_app_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstallListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<PartnerAppInstallListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/developer.md#developerlistpartnerinstalls
      */
@@ -1377,7 +1379,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "partner_app_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppInstallListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppInstallListResponse>>;
     /** Iterate items lazily.
      * @see reference/developer.md#developerlistpartnerinstalls
      */
@@ -1386,7 +1388,7 @@ export interface DeveloperResource {
         "page_token"?: InputValue<string>;
         "partner_app_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstall>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<PartnerAppInstall>;
     /**
  * Returns the merchant's sandboxes. Flint guarantees a default test sandbox for every merchant.
  * Use an onboarding session token during setup or a normal external API key afterward.
@@ -1399,7 +1401,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SandboxListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SandboxListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerlistsandboxes
      */
@@ -1407,7 +1409,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<SandboxListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SdkResponse<SandboxListResponse>>;
     /** Iterate pages lazily.
      * @see reference/developer.md#developerlistsandboxes
      */
@@ -1415,7 +1417,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SandboxListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<SandboxListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/developer.md#developerlistsandboxes
      */
@@ -1423,7 +1425,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<SandboxListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<SdkResponse<SandboxListResponse>>;
     /** Iterate items lazily.
      * @see reference/developer.md#developerlistsandboxes
      */
@@ -1431,7 +1433,7 @@ export interface DeveloperResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<DeveloperSandbox>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): AsyncGenerator<DeveloperSandbox>;
     /**
  * Clears a non-default sandbox and returns its replacement environment. The replacement has a new
  * sandbox ID, retains the stable provider-account lineage, and requires newly issued test keys.
@@ -1445,13 +1447,13 @@ export interface DeveloperResource {
  */
     resetSandbox(sandbox_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<DeveloperSandbox>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<DeveloperSandbox>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerresetsandbox
      */
     resetSandboxWithResponse(sandbox_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<SandboxResponse>>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<SandboxResponse>>;
     /**
  * The installing merchant or partner app owner can revoke an install and all of its environment
  * grants.
@@ -1465,13 +1467,13 @@ export interface DeveloperResource {
  */
     revokePartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PartnerAppInstall>;
+    }, options?: RequestOptions<"merchant">): Promise<PartnerAppInstall>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerrevokepartnerappinstall
      */
     revokePartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PartnerAppInstallResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PartnerAppInstallResponse>>;
     /**
  * The installing merchant or partner app owner can revoke a single test or live environment grant
  * for an install.
@@ -1486,13 +1488,13 @@ export interface DeveloperResource {
  */
     revokePartnerEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PartnerAppInstall>;
+    }, options?: RequestOptions<"merchant">): Promise<PartnerAppInstall>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerrevokepartnerenvironmentgrant
      */
     revokePartnerEnvironmentGrantWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PartnerAppInstallResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PartnerAppInstallResponse>>;
     /**
  * Issues a new client secret, returned once. The previous secret keeps working until
  * previous_secret_expires_at: 24 hours by default, or the time in expire_previous_secret_at, up to
@@ -1512,7 +1514,7 @@ export interface DeveloperResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PartnerAppWithSecret>;
+    }, options?: RequestOptions<"merchant">): Promise<PartnerAppWithSecret>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerrotatepartnerappsecret
      */
@@ -1523,7 +1525,7 @@ export interface DeveloperResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PartnerAppWithSecretResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PartnerAppWithSecretResponse>>;
     /**
  * Updates a partner app owned by the authenticated merchant. Send only the fields to change.
  * permission_manifest replaces the whole manifest and requires expected_version. An existing
@@ -1540,13 +1542,13 @@ export interface DeveloperResource {
  */
     updatePartnerApp(partner_app_id: InputValue<string>, params: (InputValue<UpdatePartnerAppRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<PartnerApp>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<PartnerApp>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/developer.md#developerupdatepartnerapp
      */
     updatePartnerAppWithResponse(partner_app_id: InputValue<string>, params: (InputValue<UpdatePartnerAppRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<PartnerAppResponse>>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<PartnerAppResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

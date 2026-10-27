@@ -11,5 +11,6 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `checkout_reminders` | Optional | boolean | A reminder after leaving checkout without paying. |
+| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `shipping_updates` | Optional | boolean | Emails about shipments and deliveries, such as shipped, out for delivery, and delivered. |
 

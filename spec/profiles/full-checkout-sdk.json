@@ -4,7 +4,6 @@
     "applyOrderDiscount",
     "applyOrderGiftCard",
     "authorizePartnerInstall",
-    "cancelOrderPayment",
     "cancelOrderPaymentAttempt",
     "cancelPaymentIntent",
     "confirmCheckoutSessionCustomerVerification",
@@ -50,7 +49,6 @@
         "operations": [
           "applyOrderDiscount",
           "applyOrderGiftCard",
-          "cancelOrderPayment",
           "cancelOrderPaymentAttempt",
           "cancelPaymentIntent",
           "confirmCheckoutSessionCustomerVerification",

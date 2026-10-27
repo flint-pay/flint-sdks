@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read list<string> $status
+ * @property-read string $idempotency_key
  * @property-read string $customer_id
  * @property-read string $order_id
  * @property-read string $subscription_id
@@ -27,7 +28,7 @@ namespace Flint;
  * @property-read list<string> $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'customer_id'?: string, 'order_id'?: string, 'subscription_id'?: string, 'external_reference_id'?: string, 'invoice_number'?: string, 'collection_mode'?: list<string>, 'issued_after'?: string|\DateTimeInterface, 'issued_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'due_after'?: string|\DateTimeInterface, 'due_before'?: string|\DateTimeInterface, 'is_overdue'?: bool, 'has_outstanding_balance'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'expand'?: list<string>}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'idempotency_key'?: string, 'customer_id'?: string, 'order_id'?: string, 'subscription_id'?: string, 'external_reference_id'?: string, 'invoice_number'?: string, 'collection_mode'?: list<string>, 'issued_after'?: string|\DateTimeInterface, 'issued_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'due_after'?: string|\DateTimeInterface, 'due_before'?: string|\DateTimeInterface, 'is_overdue'?: bool, 'has_outstanding_balance'?: bool, 'sort_by'?: string, 'sort_direction'?: string, 'query'?: string, 'expand'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesListInput')); }
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -47,6 +48,12 @@ final class InvoicesListInput extends Model {
      */
     public function getStatus(): array { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): string.
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().

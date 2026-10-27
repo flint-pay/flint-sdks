@@ -1,15 +1,21 @@
 import type { PaymentIntentWithAction } from './types-35.js';
 import type { ResponseMeta } from './types-40.js';
 import type { APIKeyWithSecret, Address, AddressRequest, AddressRequestInput } from './types-0.js';
-import type { ImageRequest, ImageRequestInput } from './types-19.js';
+import type { ImageRequest, ImageRequestInput } from './types-20.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { CallerSuppliedDeliveryMethodResultRequest, CallerSuppliedDeliveryMethodResultRequestInput } from './types-2.js';
+import type {
+    CallerSuppliedDeliveryMethodResultRequest,
+    CallerSuppliedDeliveryMethodResultRequestInput,
+    CheckoutBuyerFields,
+    CheckoutCustomTextConfig,
+    CheckoutBuyerFieldsInput,
+    CheckoutCustomTextWriteConfigInput
+} from './types-3.js';
 import type {
     DeliveryAddressRequest,
     DeliveryBuyerLocationRequest,
     DeliveryAddressRequestInput,
-    DeliveryBuyerLocationRequestInput,
-    DeliveryDistance
+    DeliveryBuyerLocationRequestInput
 } from './types-11.js';
 import type {
     DeliveryInventoryAssignmentRequest,
@@ -21,16 +27,8 @@ import type {
     DeliveryMethodConfigurationRequest,
     DeliveryMethodConfigurationRequestInput,
     DeliveryMethodOriginSelectorRequest,
-    DeliveryMethodOriginSelectorRequestInput,
-    DeliveryPreviewRoutingSourceInput,
-    DeliveryPickupAvailabilityMaximumDistanceRequestInput
+    DeliveryMethodOriginSelectorRequestInput
 } from './types-12.js';
-import type {
-    CheckoutBuyerFields,
-    CheckoutCustomTextConfig,
-    CheckoutBuyerFieldsInput,
-    CheckoutCustomTextWriteConfigInput
-} from './types-3.js';
 import type {
     CheckoutPaymentConfig,
     CheckoutPrefillRequest,
@@ -51,12 +49,34 @@ import type {
     CheckoutTipConfigInput
 } from './types-4.js';
 import type { LegalSettings } from './types-28.js';
-import type { ThemeConfig, ThemeConfigRequestInput } from './types-47.js';
-import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-9.js';
+import type { ThemeConfig, ThemeConfigRequestInput, TaxIdentityPatch, TaxIdentityRequestInput } from './types-47.js';
+import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-10.js';
 import type { PostalAddressInput } from './types-37.js';
-import type { TaxIdentityPatch, TaxIdentityRequestInput } from './types-46.js';
 import type { CreateOrderLineItem, CreateOrderLineItemRequestInput } from './types-7.js';
 import type { InventoryRoutingSource } from './types-25.js';
+import type { DeliveryPreviewRoutingSourceInput } from './types-13.js';
+/**
+ * Shape $ (Value): {@link ConfigurationVersionRequestInput}. The request body for: Revoke an API
+ * key.
+ */
+export type ConfigurationVersionRequestInput = {
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+};
+/**
+ * Shape $ (Value): {@link ConfirmCheckoutSessionCustomerVerificationRequestInput}. The code the
+ * buyer typed.
+ */
+export type ConfirmCheckoutSessionCustomerVerificationRequestInput = {
+    /**
+     * Shape $ (Value): string. The six-digit code from the email or the text. minLength: 6.
+     * maxLength: 6. pattern: ^[0-9]{6}$.
+     */
+    "code": string;
+};
 /**
  * Shape $ (Value): {@link ConfirmCustomerVerificationRequestInput}. The request body for: Confirm
  * a customer email verification.
@@ -85,6 +105,13 @@ export type ConfirmEmailChangeRequestInput = ConfirmEmailChangeRequest;
  * intent.
  */
 export type ConfirmPaymentIntentRequest = (({
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
     /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1. */
     "payment_source_token": string;
     /**
@@ -104,6 +131,13 @@ export type ConfirmPaymentIntentRequest = (({
     "save_payment_method"?: boolean;
 })
     | ({
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
     /**
      * Shape $ (Value): string. Saved Flint payment method ID belonging to the customer making this
      * payment. minLength: 1.
@@ -126,6 +160,13 @@ export type ConfirmPaymentIntentRequest = (({
     "save_payment_method"?: boolean;
 })
     | ({
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
     /**
      * Shape $ (Value): boolean. On /confirm, saves cards only for standalone payment intents.
      * Saves the card this confirmation collects for the payment intent's customer, with usage
@@ -156,6 +197,13 @@ export type ConfirmPaymentIntentRequest = (({
 })
     | ({
     /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
      * Shape $ (Value): boolean. On /confirm, saves cards only for standalone payment intents.
      * Saves the card this confirmation collects for the payment intent's customer, with usage
      * off_session, so you can charge it later without the buyer: subscriptions, automatic
@@ -177,6 +225,13 @@ export type ConfirmPaymentIntentRequest = (({
  * intent.
  */
 export type ConfirmPaymentIntentRequestInput = (({
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
     /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1. */
     "payment_source_token": string;
     /**
@@ -196,6 +251,13 @@ export type ConfirmPaymentIntentRequestInput = (({
     "save_payment_method"?: boolean;
 })
     | ({
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
     /**
      * Shape $ (Value): string. Saved Flint payment method ID belonging to the customer making this
      * payment. minLength: 1.
@@ -219,6 +281,13 @@ export type ConfirmPaymentIntentRequestInput = (({
 })
     | ({
     /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
      * Shape $ (Value): boolean. On /confirm, saves cards only for standalone payment intents.
      * Saves the card this confirmation collects for the payment intent's customer, with usage
      * off_session, so you can charge it later without the buyer: subscriptions, automatic
@@ -247,6 +316,13 @@ export type ConfirmPaymentIntentRequestInput = (({
     };
 })
     | ({
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
     /**
      * Shape $ (Value): boolean. On /confirm, saves cards only for standalone payment intents.
      * Saves the card this confirmation collects for the payment intent's customer, with usage
@@ -3629,73 +3705,4 @@ export type CreateDeliveryOptionsPreviewRequestInput = {
     "pickup_location_id"?: string;
     /** Shape $ (Value): Map of string. Shape $.* (Value): string. minLength: 1. */
     "pricing_context"?: Record<string, string>;
-};
-/**
- * Shape $ (Value): {@link CreateDeliveryPickupLocationsPreviewRequest}. The `pickup_locations`
- * variant of `CreateDeliveryPreviewRequest`.
- */
-export type CreateDeliveryPickupLocationsPreviewRequest = {
-    /**
-     * Shape $ (Value): {@link DeliveryBuyerLocationRequest}. The buyer's location for pickup or
-     * local delivery, supplied as an address or a coordinate, chosen by `type`.
-     */
-    "buyer_location"?: DeliveryBuyerLocationRequest;
-    /**
-     * Shape $ (Value): string. Checkout session whose pickup locations to evaluate. Checkout
-     * credentials must identify their own session. minLength: 1.
-     */
-    "checkout_session_id": string;
-    /**
-     * Shape $ (Value): string or null. ID of the checkout's current delivery selection, as GET
-     * /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null
-     * when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The
-     * search does not change or release the selection. minLength: 1.
-     */
-    "expected_delivery_selection_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link DeliveryDistance}. A maximum distance from the buyer location, as a
-     * value and unit, that limits which pickup locations a preview returns.
-     */
-    "maximum_distance"?: DeliveryDistance;
-    /**
-     * Shape $ (Value): string. The delivery question this preview answers. - `pickup_locations`:
-     * Lists the checkout session's pickup locations and whether each can supply its items. Value
-     * enum: "pickup_locations".
-     */
-    "mode": "pickup_locations" | (string & {});
-};
-/**
- * Shape $ (Value): {@link CreateDeliveryPickupLocationsPreviewRequestInput}. The
- * `pickup_locations` variant of `CreateDeliveryPreviewRequest`.
- */
-export type CreateDeliveryPickupLocationsPreviewRequestInput = {
-    /**
-     * Shape $ (Value): {@link DeliveryBuyerLocationRequestInput}. The buyer's location for pickup
-     * or local delivery, supplied as an address or a coordinate, chosen by `type`.
-     */
-    "buyer_location"?: DeliveryBuyerLocationRequestInput;
-    /**
-     * Shape $ (Value): string. Checkout session whose pickup locations to evaluate. Checkout
-     * credentials must identify their own session. minLength: 1.
-     */
-    "checkout_session_id": string;
-    /**
-     * Shape $ (Value): string or null. ID of the checkout's current delivery selection, as GET
-     * /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null
-     * when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The
-     * search does not change or release the selection. minLength: 1.
-     */
-    "expected_delivery_selection_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link DeliveryPickupAvailabilityMaximumDistanceRequestInput}. A maximum
-     * distance from the buyer location, as a value and unit, that limits which pickup locations a
-     * preview returns.
-     */
-    "maximum_distance"?: DeliveryPickupAvailabilityMaximumDistanceRequestInput;
-    /**
-     * Shape $ (Value): string. The delivery question this preview answers. - `pickup_locations`:
-     * Lists the checkout session's pickup locations and whether each can supply its items. Value
-     * enum: "pickup_locations".
-     */
-    "mode": "pickup_locations";
 };

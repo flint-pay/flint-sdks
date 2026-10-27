@@ -17,9 +17,9 @@ import type {
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateBundleRequestInput } from '../declarations/types-5.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateBundleRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -44,8 +44,8 @@ export type {
     AuthMode,
     BundleComponentVariantSummary
 } from '../declarations/types-0.js';
-export type { SdkResponse, SelectedProductOption } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse, SelectedProductOption } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type {
     UpdateBundleRequestInput,
     TextModifierConfig,
@@ -60,7 +60,7 @@ export type {
     BundlesUpdateInput
 } from '../declarations/types-1.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { ImageRequestInput, ImageAttachment } from '../declarations/types-19.js';
+export type { ImageRequestInput } from '../declarations/types-20.js';
 export type {
     MoneyValueInput,
     ModifierSet,
@@ -76,7 +76,8 @@ export type {
 } from '../declarations/types-31.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { CategoryReference } from '../declarations/types-3.js';
-export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-62.js';
+export type { ImageAttachment } from '../declarations/types-19.js';
+export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-63.js';
 export { makeImageRequest } from '../declarations/types-67.js';
 export { makeModifierOverride, makeMoneyValue } from '../declarations/types-68.js';
 export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-72.js';
@@ -93,13 +94,13 @@ export interface BundlesResource {
  */
     create(params: (InputValue<CreateBundleRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Bundle>;
+    }, options?: RequestOptions<"merchant">): Promise<Bundle>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/bundles.md#bundlescreate
      */
     createWithResponse(params: (InputValue<CreateBundleRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundleResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<BundleResponse>>;
     /**
  * Archives a bundle and returns its final state. Returns the archived resource exactly as GET
  * returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a
@@ -115,14 +116,14 @@ export interface BundlesResource {
     remove(bundle_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Bundle>;
+    }, options?: RequestOptions<"merchant">): Promise<Bundle>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/bundles.md#bundlesremove
      */
     removeWithResponse(bundle_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundleResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<BundleResponse>>;
     /**
  * Get bundle.
  * @see reference/bundles.md#bundlesget
@@ -132,13 +133,13 @@ export interface BundlesResource {
  */
     get(bundle_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Bundle>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Bundle>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/bundles.md#bundlesget
      */
     getWithResponse(bundle_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundleResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BundleResponse>>;
     /**
  * List bundle components.
  * @see reference/bundles.md#bundleslistcomponents
@@ -151,7 +152,7 @@ export interface BundlesResource {
         "page_token"?: InputValue<string>;
         "delivery_profile_id"?: InputValue<string>;
         "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BundleComponentListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<BundleComponentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/bundles.md#bundleslistcomponents
      */
@@ -160,7 +161,7 @@ export interface BundlesResource {
         "page_token"?: InputValue<string>;
         "delivery_profile_id"?: InputValue<string>;
         "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundleComponentListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BundleComponentListResponse>>;
     /** Iterate pages lazily.
      * @see reference/bundles.md#bundleslistcomponents
      */
@@ -169,7 +170,7 @@ export interface BundlesResource {
         "page_token"?: InputValue<string>;
         "delivery_profile_id"?: InputValue<string>;
         "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleComponentListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BundleComponentListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/bundles.md#bundleslistcomponents
      */
@@ -178,7 +179,7 @@ export interface BundlesResource {
         "page_token"?: InputValue<string>;
         "delivery_profile_id"?: InputValue<string>;
         "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<BundleComponentListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<BundleComponentListResponse>>;
     /** Iterate items lazily.
      * @see reference/bundles.md#bundleslistcomponents
      */
@@ -187,7 +188,7 @@ export interface BundlesResource {
         "page_token"?: InputValue<string>;
         "delivery_profile_id"?: InputValue<string>;
         "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleComponent>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BundleComponent>;
     /**
  * List bundles.
  * @see reference/bundles.md#bundleslist
@@ -212,7 +213,7 @@ export interface BundlesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BundleListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<BundleListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/bundles.md#bundleslist
      */
@@ -233,7 +234,7 @@ export interface BundlesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundleListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BundleListResponse>>;
     /** Iterate pages lazily.
      * @see reference/bundles.md#bundleslist
      */
@@ -254,7 +255,7 @@ export interface BundlesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BundleListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/bundles.md#bundleslist
      */
@@ -275,7 +276,7 @@ export interface BundlesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<BundleListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<BundleListResponse>>;
     /** Iterate items lazily.
      * @see reference/bundles.md#bundleslist
      */
@@ -296,7 +297,7 @@ export interface BundlesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Bundle>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Bundle>;
     /**
  * Update bundle. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and
  * current_status archived. The error identifies the archived resource; a create under an archived
@@ -310,13 +311,13 @@ export interface BundlesResource {
  */
     update(bundle_id: InputValue<string>, params: (InputValue<UpdateBundleRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Bundle>;
+    }, options?: RequestOptions<"merchant">): Promise<Bundle>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/bundles.md#bundlesupdate
      */
     updateWithResponse(bundle_id: InputValue<string>, params: (InputValue<UpdateBundleRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundleResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<BundleResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

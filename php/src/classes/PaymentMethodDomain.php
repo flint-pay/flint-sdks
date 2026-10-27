@@ -9,9 +9,10 @@ namespace Flint;
  * @property-read string $status
  * @property-read string $updated_at
  * @property-read string $validation_status
+ * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentMethodDomain extends Model {
-    /** @param array{'created_at': string, 'domain_name': string, 'payment_method_domain_id': string, 'payment_option_statuses': list<mixed>, 'status': string, 'updated_at': string, 'validation_status': string, ...}|object $values */
+    /** @param array{'created_at': string, 'domain_name': string, 'payment_method_domain_id': string, 'payment_option_statuses': list<mixed>, 'status': string, 'updated_at': string, 'validation_status': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodDomain')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return string
@@ -48,4 +49,9 @@ final class PaymentMethodDomain extends Model {
      */
     public function getValidationStatus(): string { return $this->get('validation_status'); }
     public function hasValidationStatus(): bool { return $this->has('validation_status'); }
+    /** Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

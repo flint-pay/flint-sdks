@@ -1,22 +1,229 @@
-import type { ResponseMeta, ResourceReference } from './types-40.js';
-import type { InputValue } from '../runtime.js';
-import type { CancelGiftCardNotificationRequestInput } from './types-3.js';
 import type {
+    GiftCard,
+    GiftCardFundingDispute,
+    GiftCardFundingSource,
+    GiftCardCustomAmountBounds,
+    GiftCardCustomAmountBoundsInput
+} from './types-18.js';
+import type { ResponseMeta, ResourceReference } from './types-40.js';
+import type { MoneyValue } from './types-31.js';
+import type { InputValue } from '../runtime.js';
+import type {
+    CreateGiftCardLoadRequestInput,
     CreateGiftCardNotificationRequestInput,
     CreateGiftCardRedemptionRequestInput,
     CreateGiftCardRequestInput
 } from './types-6.js';
-import type { GiftCardCustomAmountBounds, GiftCardCustomAmountBoundsInput, GiftCard, GiftCardFundingSource } from './types-18.js';
-import type { MoneyValue } from './types-31.js';
+import type { CancelGiftCardNotificationRequestInput } from './types-3.js';
 import type { LookupGiftCardRequestInput } from './types-29.js';
 import type { RotateGiftCardCodeRequestInput } from './types-43.js';
-import type { TransitionGiftCardRequestInput, UpdateGiftCardRequestInput } from './types-47.js';
-import type { Webhook_payment_review_reopened_installed_merchants, Webhook_payment_review_reopened_merchant } from './types-59.js';
-import type { Webhook_dispute_prevented_merchant } from './types-56.js';
-import type {
-    Webhook_inventory_reservation_committed_installed_merchants,
-    Webhook_inventory_reservation_committed_merchant
-} from './types-57.js';
+import type { TransitionGiftCardRequestInput } from './types-47.js';
+import type { UpdateGiftCardRequestInput } from './types-48.js';
+/** Shape $ (Value): {@link GiftCardListResponse}. A page of `GiftCard` objects. */
+export type GiftCardListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link GiftCard}. Shape $[] (Value): {@link GiftCard}.
+     * Merchant-issued purchased gift card. Posted balance includes reserved value; available value
+     * is balance minus reservations. Frozen value remains part of outstanding liability. Gift
+     * cards are independent resources and cannot be transferred across merchants or currencies.
+     */
+    "data": Array<GiftCard>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link GiftCardLoad}. Independent funding resource. Value and consideration are
+ * separate. External funding and import provenance are merchant-attested; no payment is collected
+ * by recording them. Replacement refund lots retain original funding provenance and do not
+ * represent new paid funding.
+ */
+export type GiftCardLoad = {
+    /**
+     * Shape $ (Value): {@link MoneyValue} or null. Shape $.anyOf[1] (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape
+     * $.anyOf[2] (Value): null.
+     */
+    "consideration_money": ((MoneyValue) | (null));
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /**
+     * Shape $ (Value): Array of {@link GiftCardFundingDispute}. Restrictions tied to original
+     * funding, including value restored to replacement cards. A win clears only its own
+     * restriction. A loss keeps spending restricted until you create a gift card funding
+     * disposition. Shape $[] (Value): {@link GiftCardFundingDispute}. A dispute on the payment
+     * that funded a gift card load, with its status and any loss resolution.
+     */
+    "funding_disputes": Array<GiftCardFundingDispute>;
+    /** Shape $ (Value): string. */
+    "gift_card_id": string;
+    /** Shape $ (Value): string. */
+    "gift_card_load_id": string;
+    /**
+     * Shape $ (Value): string or null. Your Idempotency-Key for the command that created this
+     * record. null when Flint created it or no key was sent.
+     */
+    "idempotency_key": string | null;
+    /**
+     * Shape $ (Value): Array of {@link GiftCardPurchaseRefundValueHold}. Pending original cash
+     * refunds holding unspent value on this descendant funding lot. Unknown provider outcomes
+     * retain these holds. Shape $[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift card
+     * value held back by a purchase refund, with the refund, the root gift card and load, and the
+     * amount held.
+     */
+    "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
+    /**
+     * Shape $ (Value): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual
+     * payment reversals against this original funding load. Pending refunds reserve their value;
+     * confirmed success removes it, and confirmed failure releases the hold. Shape $[] (Value):
+     * {@link GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
+     */
+    "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
+    /**
+     * Shape $ (Value): {@link GiftCardPurchaseRestoration}. Links a gift card load to the original
+     * card and load it restores value to after a purchase refund, for one unit of an order line
+     * item.
+     */
+    "purchase_restoration"?: GiftCardPurchaseRestoration;
+    /**
+     * Shape $ (Value): {@link GiftCardRefundProvenance}. Traces a gift card load made by a refund
+     * back to its original funding source, root gift card and load, and source refund.
+     */
+    "refund_provenance"?: GiftCardRefundProvenance;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "refund_transferred_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "remaining_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "reversed_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link GiftCardFundingSource}. Where the value of a gift card load came
+     * from, such as an external payment, a Flint payment, an import, or an adjustment, with your
+     * reference for it.
+     */
+    "source": GiftCardFundingSource;
+    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time. */
+    "source_created_at": string | null;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "value_money": MoneyValue;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64.
+     */
+    "version": `${bigint}`;
+};
+/** Shape $ (Value): {@link GiftCardLoadListResponse}. A page of `GiftCardLoad` objects. */
+export type GiftCardLoadListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link GiftCardLoad}. Shape $[] (Value): {@link GiftCardLoad}.
+     * Independent funding resource. Value and consideration are separate. External funding and
+     * import provenance are merchant-attested; no payment is collected by recording them.
+     * Replacement refund lots retain original funding provenance and do not represent new paid
+     * funding.
+     */
+    "data": Array<GiftCardLoad>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/** Shape $ (Value): {@link GiftCardLoadResponse}. A response containing `GiftCardLoad` data. */
+export type GiftCardLoadResponse = {
+    /**
+     * Shape $ (Value): {@link GiftCardLoad}. Independent funding resource. Value and consideration
+     * are separate. External funding and import provenance are merchant-attested; no payment is
+     * collected by recording them. Replacement refund lots retain original funding provenance and
+     * do not represent new paid funding.
+     */
+    "data": GiftCardLoad;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+export type GiftCardLoadsCreateInput = {
+    /** Shape $ (Value): string. */
+    "gift_card_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateGiftCardLoadRequestInput}. The request body for: Load a gift
+     * card.
+     */
+    "body": InputValue<CreateGiftCardLoadRequestInput>;
+};
+export type GiftCardLoadsGetInput = {
+    /** Shape $ (Value): string. */
+    "gift_card_load_id": InputValue<string>;
+};
+export type GiftCardLoadsListInput = {
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "adjustment", "external_payment",
+     * "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery",
+     * "gift_card_refund", "import", "store_credit". Shape $[] (Value): string. maxLength: 255.
+     * Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment",
+     * "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit".
+     */
+    "funding_source_type"?: InputValue<Array<"adjustment"
+        | "external_payment"
+        | "flint_manual_payment"
+        | "flint_payment"
+        | "gift_card_purchase_refund_recovery"
+        | "gift_card_refund"
+        | "import"
+        | "store_credit">>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "gift_card_id"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "order_id"?: InputValue<string>;
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "source_external_reference_id"?: InputValue<string>;
+};
 /** Shape $ (Value): {@link GiftCardNotification}. A message sent to a gift card recipient. */
 export type GiftCardNotification = {
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
@@ -822,7 +1029,7 @@ export type GiftCardRedemptionsListInput = {
     "created_before"?: InputValue<string | globalThis.Date>;
     /** Shape $ (Value): string. maxLength: 255. */
     "gift_card_id"?: InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "order_id"?: InputValue<string>;
@@ -967,18 +1174,20 @@ export type GiftCardRestriction = {
  */
 export type GiftCardTransaction = {
     /**
-     * Shape $ (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. Signed change to the card's balance: positive amounts
+     * add value and negative amounts remove it. balance_after_money is balance_before_money plus
+     * this amount; funding_loss_accepted records a decision and moves 0. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValue;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. The card's balance immediately after this transaction.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "balance_after_money": MoneyValue;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. The card's balance immediately before this transaction.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "balance_before_money": MoneyValue;
     /**
@@ -986,9 +1195,9 @@ export type GiftCardTransaction = {
      * Flint. Set only on cash_out transactions; null for other transactions. maxLength: 255.
      */
     "cash_out_reference": string | null;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Gift card whose balance this transaction changed. */
     "gift_card_id": string;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Stable identifier of the transaction. */
     "gift_card_transaction_id": string;
     /**
      * Shape $ (Value): string or null. Your Idempotency-Key for the command that created this
@@ -996,13 +1205,15 @@ export type GiftCardTransaction = {
      */
     "idempotency_key": string | null;
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * Shape $ (Value): integer string. Position of this transaction among all of your gift card
+     * transactions in this environment. It increases by one with each posted transaction, and the
+     * transaction list is ordered by it. Use an integer string (decimal digits), not a
      * floating-point number. Format: int64.
      */
     "merchant_sequence": `${bigint}`;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Order this transaction belongs to, when there is one. */
     "order_id"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the transaction was posted to the card. Format: date-time. */
     "posted_at": string;
     /**
      * Shape $ (Value): string or null. Your adjustment reason on adjustment transactions;
@@ -1020,20 +1231,24 @@ export type GiftCardTransaction = {
         | (string & {})
         | null;
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
+     * Shape $ (Value): integer string. Position of this transaction in the card's history. It
+     * increases by one with each transaction posted to the card. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64.
      */
     "sequence": `${bigint}`;
     /**
-     * Shape $ (Value): {@link ResourceReference} or null. Shape $.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * Shape $.anyOf[2] (Value): null.
+     * Shape $ (Value): {@link ResourceReference} or null. The resource that caused this
+     * transaction, such as a gift_card_load, gift_card_redemption, refund, or
+     * gift_card_funding_disposition. null when the cause has no public resource. Shape $.anyOf[1]
+     * (Value): {@link ResourceReference}. A reference to another resource by `resource_type` and
+     * `resource_id`. Shape $.anyOf[2] (Value): null.
      */
     "source": ((ResourceReference) | (null));
     /**
-     * Shape $ (Value): string. Value enum: "load", "import", "redeem", "refund",
-     * "refund_transfer", "adjustment", "cash_out", "purchase_reversal", "funding_loss_accepted",
-     * "purchase_refund_recovery", "purchase_refund_recovery_transfer".
+     * Shape $ (Value): string. Kind of movement, such as load, redeem, refund, adjustment, or
+     * cash_out. Value enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment",
+     * "cash_out", "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery",
+     * "purchase_refund_recovery_transfer".
      */
     "transaction_type": "load"
         | "import"
@@ -1077,7 +1292,7 @@ export type GiftCardTransactionsListInput = {
     "cash_out_reference"?: InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "gift_card_id"?: InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "order_id"?: InputValue<string>;
@@ -1170,6 +1385,8 @@ export type GiftCardsListInput = {
     "customer_id"?: InputValue<string>;
     /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "external_reference_id"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
@@ -1314,131 +1531,3 @@ export type ImageAttachment = {
     /** Shape $ (Value): integer. Image width in pixels, when known. Format: int32. */
     "width": number;
 };
-/**
- * Shape $ (Value): {@link ImageReferenceRequest}. A reference to an image by `url`, with optional
- * `alt` text, used on an order line item.
- */
-export type ImageReferenceRequest = {
-    /**
-     * Shape $ (Value): string. Alternative text describing the image for accessibility. minLength:
-     * 1.
-     */
-    "alt"?: string;
-    /** Shape $ (Value): string. URL of the image. minLength: 1. */
-    "url": string;
-};
-/**
- * Shape $ (Value): {@link ImageReferenceRequestInput}. A reference to an image by `url`, with
- * optional `alt` text, used on an order line item.
- */
-export type ImageReferenceRequestInput = ImageReferenceRequest;
-/**
- * Shape $ (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional `alt`
- * text and external reference.
- */
-export type ImageRequest = ({
-    /**
-     * Shape $ (Value): string. Alternative text describing the image for accessibility. minLength:
-     * 1. maxLength: 512.
-     */
-    "alt"?: string;
-    /**
-     * Shape $ (Value): string. The ID of a ready file uploaded with POST /v1/files. Send exactly
-     * one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "file_id"?: string;
-    /**
-     * Shape $ (Value): string. An opaque reference for this attachment, unique within its gallery.
-     * Whitespace and case are preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * Shape $ (Value): string. A public image URL for Flint to fetch, or an untransformed
-     * canonical image.url returned by Flint. Send exactly one of source_url or file_id. Canonical
-     * Flint URLs attach without another fetch. Flint doesn't download a source_url again while the
-     * image it produced is still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url"?: string;
-})
-    & (({
-    /**
-     * Shape $ (Value): string. A public image URL for Flint to fetch, or an untransformed
-     * canonical image.url returned by Flint. Send exactly one of source_url or file_id. Canonical
-     * Flint URLs attach without another fetch. Flint doesn't download a source_url again while the
-     * image it produced is still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string. The ID of a ready file uploaded with POST /v1/files. Send exactly
-     * one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "file_id": string;
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with optional
- * `alt` text and external reference.
- */
-export type ImageRequestInput = {
-    /**
-     * Shape $ (Value): string. Alternative text describing the image for accessibility. minLength:
-     * 1. maxLength: 512.
-     */
-    "alt"?: string;
-    /**
-     * Shape $ (Value): string. The ID of a ready file uploaded with POST /v1/files. Send exactly
-     * one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "file_id"?: string;
-    /**
-     * Shape $ (Value): string. An opaque reference for this attachment, unique within its gallery.
-     * Whitespace and case are preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * Shape $ (Value): string. A public image URL for Flint to fetch, or an untransformed
-     * canonical image.url returned by Flint. Send exactly one of source_url or file_id. Canonical
-     * Flint URLs attach without another fetch. Flint doesn't download a source_url again while the
-     * image it produced is still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url": string;
-}
-    | {
-    /**
-     * Shape $ (Value): string. Alternative text describing the image for accessibility. minLength:
-     * 1. maxLength: 512.
-     */
-    "alt"?: string;
-    /**
-     * Shape $ (Value): string. The ID of a ready file uploaded with POST /v1/files. Send exactly
-     * one of source_url or file_id. minLength: 1. pattern: ^file_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "file_id": string;
-    /**
-     * Shape $ (Value): string. An opaque reference for this attachment, unique within its gallery.
-     * Whitespace and case are preserved. minLength: 1. maxLength: 255.
-     */
-    "source_reference"?: string;
-    /**
-     * Shape $ (Value): string. A public image URL for Flint to fetch, or an untransformed
-     * canonical image.url returned by Flint. Send exactly one of source_url or file_id. Canonical
-     * Flint URLs attach without another fetch. Flint doesn't download a source_url again while the
-     * image it produced is still in this field. minLength: 1. maxLength: 8192.
-     */
-    "source_url"?: string;
-};
-/** Shape $ (Value): {@link IncomingWebhook019a504a3353Payload}. */
-export type IncomingWebhook019a504a3353Payload = ((Webhook_payment_review_reopened_merchant)
-    | (Webhook_payment_review_reopened_installed_merchants)
-    | (unknown));
-/**
- * Shape $ (Value): {@link Webhook_dispute_prevented_merchant}. The `dispute.prevented` webhook
- * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type IncomingWebhook04494e8bd1b3Payload = Webhook_dispute_prevented_merchant;
-/** Shape $ (Value): {@link IncomingWebhook0452cf0e91f7Payload}. */
-export type IncomingWebhook0452cf0e91f7Payload = ((Webhook_inventory_reservation_committed_merchant)
-    | (Webhook_inventory_reservation_committed_installed_merchants)
-    | (unknown));

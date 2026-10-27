@@ -11,9 +11,9 @@ import type {
     RefundsUpdateInput
 } from '../declarations/types-39.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateRefundRequestInput } from '../declarations/types-49.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,9 +34,9 @@ export type {
     CreateRefundRequestAmountInput,
     CreateRefundRequestTargetsInput
 } from '../declarations/types-8.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse, SelectedProductOption } from '../declarations/types-43.js';
+export type { SdkResponse, SelectedProductOption, SettlementAmounts } from '../declarations/types-44.js';
 export type {
     Refund,
     RefundResponse,
@@ -67,7 +67,7 @@ export type {
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery
 } from '../declarations/types-39.js';
-export type { UpdateRefundRequestInput, UpdateRefundRequest } from '../declarations/types-49.js';
+export type { UpdateRefundRequestInput } from '../declarations/types-49.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { AuthMode } from '../declarations/types-0.js';
@@ -75,7 +75,6 @@ export type { Credentials } from '../declarations/types-9.js';
 export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-16.js';
 export type { CategoryReference, CheckoutBuyerContact } from '../declarations/types-3.js';
 export type { PricingAmounts } from '../declarations/types-37.js';
-export type { SettlementAmounts } from '../declarations/types-44.js';
 export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary, PaymentRefund } from '../declarations/types-36.js';
 export type { OrderGiftCardAllocation } from '../declarations/types-32.js';
 export {
@@ -98,7 +97,7 @@ export {
     makeRefundTenderAllocationInputPaymentIntent,
     makeRefundTenderAllocationRequest
 } from '../declarations/types-70.js';
-export { makeUpdateRefundRequest } from '../declarations/types-72.js';
+export { makeUpdateRefundRequest } from '../declarations/types-73.js';
 export interface RefundsResource {
     /**
  * Creates a refund for an order, a payment intent, a captured gift card redemption, or a gift card
@@ -118,13 +117,13 @@ export interface RefundsResource {
  */
     create(params: (InputValue<CreateRefundRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreateRefundResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<CreateRefundResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/refunds.md#refundscreate
      */
     createWithResponse(params: (InputValue<CreateRefundRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreateRefundResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CreateRefundResponse>>;
     /**
  * Returns a single refund by ID.
  * @see reference/refunds.md#refundsget
@@ -134,13 +133,13 @@ export interface RefundsResource {
  */
     get(refund_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent" | "payment_refunds.payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Refund>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Refund>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/refunds.md#refundsget
      */
     getWithResponse(refund_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent" | "payment_refunds.payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RefundResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RefundResponse>>;
     /**
  * Returns a paginated list of refunds for the authenticated merchant.
  * @see reference/refunds.md#refundslist
@@ -149,6 +148,7 @@ export interface RefundsResource {
  * client.refunds.list()
  */
     list(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -181,11 +181,12 @@ export interface RefundsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RefundListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RefundListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/refunds.md#refundslist
      */
     listWithResponse(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -218,11 +219,12 @@ export interface RefundsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RefundListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RefundListResponse>>;
     /** Iterate pages lazily.
      * @see reference/refunds.md#refundslist
      */
     listPages(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -255,11 +257,12 @@ export interface RefundsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RefundListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RefundListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/refunds.md#refundslist
      */
     listPagesWithResponse(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -292,11 +295,12 @@ export interface RefundsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RefundListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<RefundListResponse>>;
     /** Iterate items lazily.
      * @see reference/refunds.md#refundslist
      */
     listItems(params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "order_id"?: InputValue<string>;
@@ -329,7 +333,7 @@ export interface RefundsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Refund>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Refund>;
     /**
  * Updates refund metadata and external_reference_id.
  * @see reference/refunds.md#refundsupdate
@@ -341,13 +345,13 @@ export interface RefundsResource {
  */
     update(refund_id: InputValue<string>, params: (InputValue<UpdateRefundRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Refund>;
+    }, options?: RequestOptions<"merchant">): Promise<Refund>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/refunds.md#refundsupdate
      */
     updateWithResponse(refund_id: InputValue<string>, params: (InputValue<UpdateRefundRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RefundResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RefundResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -41,7 +41,7 @@ final class BuyerCreditNote extends Model {
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the credit note was issued. Format: date-time.
      * @return string
      */
     public function getIssuedAt(): string { return $this->get('issued_at'); }
@@ -91,7 +91,7 @@ final class BuyerCreditNote extends Model {
      */
     public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the credit note was voided. Absent unless it is void. Format: date-time.
      * @return ?string
      */
     public function getVoidedAt(): ?string { return $this->get('voided_at'); }

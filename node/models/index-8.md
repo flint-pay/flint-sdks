@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# DeliveryLocationSummaryResource – DeliveryProfileOriginPolicyInputMethodOriginInput
+# DeliveryInventoryAssignmentRequestInput – DeliveryProfileListResponse
 
+- [DeliveryInventoryAssignmentRequestInput](DeliveryInventoryAssignmentRequestInput.md)
+- [DeliveryInventoryReservationSummary](DeliveryInventoryReservationSummary.md)
+- [DeliveryLocationSet](DeliveryLocationSet.md)
+- [DeliveryLocationSetConfiguration](DeliveryLocationSetConfiguration.md)
+- [DeliveryLocationSetConfigurationInput](DeliveryLocationSetConfigurationInput.md)
+- [DeliveryLocationSetListResponse](DeliveryLocationSetListResponse.md)
+- [DeliveryLocationSetResponse](DeliveryLocationSetResponse.md)
 - [DeliveryLocationSummaryResource](DeliveryLocationSummaryResource.md)
 - [DeliveryMerchantDiagnostic](DeliveryMerchantDiagnostic.md)
 - [DeliveryMethod](DeliveryMethod.md)
@@ -95,11 +102,4 @@
 - [DeliveryProfileConfigurationRequestInput](DeliveryProfileConfigurationRequestInput.md)
 - [DeliveryProfileDiagnostics](DeliveryProfileDiagnostics.md)
 - [DeliveryProfileListResponse](DeliveryProfileListResponse.md)
-- [DeliveryProfileOriginPolicy](DeliveryProfileOriginPolicy.md)
-- [DeliveryProfileOriginPolicyInputFixedLocation](DeliveryProfileOriginPolicyInputFixedLocation.md)
-- [DeliveryProfileOriginPolicyInputFixedLocationInput](DeliveryProfileOriginPolicyInputFixedLocationInput.md)
-- [DeliveryProfileOriginPolicyInputInventoryRouting](DeliveryProfileOriginPolicyInputInventoryRouting.md)
-- [DeliveryProfileOriginPolicyInputInventoryRoutingInput](DeliveryProfileOriginPolicyInputInventoryRoutingInput.md)
-- [DeliveryProfileOriginPolicyInputMethodOrigin](DeliveryProfileOriginPolicyInputMethodOrigin.md)
-- [DeliveryProfileOriginPolicyInputMethodOriginInput](DeliveryProfileOriginPolicyInputMethodOriginInput.md)
 

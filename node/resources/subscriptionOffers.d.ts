@@ -2,7 +2,7 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateSubscriptionOfferRequestInput } from '../declarations/types-9.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type {
     SubscriptionOffer,
     SubscriptionOfferListResponse,
@@ -14,7 +14,7 @@ import type {
     SubscriptionOffersUpdateInput
 } from '../declarations/types-45.js';
 import type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -41,15 +41,15 @@ export type {
     SubscriptionIntervalOptionInput,
     SubscriptionIntervalOption
 } from '../declarations/types-45.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-49.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateSubscriptionOfferRequest } from '../declarations/types-64.js';
+export { makeCreateSubscriptionOfferRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeSubscriptionIntervalOption } from '../declarations/types-71.js';
+export { makeSubscriptionIntervalOption } from '../declarations/types-72.js';
 export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-73.js';
 export interface SubscriptionOffersResource {
     /**
@@ -66,14 +66,14 @@ export interface SubscriptionOffersResource {
     create(params: (InputValue<CreateSubscriptionOfferRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SubscriptionOffer>;
+    }, options?: RequestOptions<"merchant">): Promise<SubscriptionOffer>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionOffers.md#subscriptionofferscreate
      */
     createWithResponse(params: (InputValue<CreateSubscriptionOfferRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionOfferResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SubscriptionOfferResponse>>;
     /**
  * Archive subscription offer. Offer changes affect new signups only. Existing subscriptions keep
  * their terms.
@@ -87,14 +87,14 @@ export interface SubscriptionOffersResource {
     remove(subscription_offer_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SubscriptionOffer>;
+    }, options?: RequestOptions<"merchant">): Promise<SubscriptionOffer>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionOffers.md#subscriptionoffersremove
      */
     removeWithResponse(subscription_offer_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionOfferResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SubscriptionOfferResponse>>;
     /**
  * Get subscription offer. Offer changes affect new signups only. Existing subscriptions keep their
  * terms.
@@ -103,11 +103,11 @@ export interface SubscriptionOffersResource {
  * @example
  * client.subscriptionOffers.get("example")
  */
-    get(subscription_offer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionOffer>;
+    get(subscription_offer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionOffer>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionOffers.md#subscriptionoffersget
      */
-    getWithResponse(subscription_offer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionOfferResponse>>;
+    getWithResponse(subscription_offer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionOfferResponse>>;
     /**
  * List subscription offers. Offer changes affect new signups only. Existing subscriptions keep
  * their terms.
@@ -130,7 +130,7 @@ export interface SubscriptionOffersResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionOfferListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionOfferListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionOffers.md#subscriptionofferslist
      */
@@ -148,7 +148,7 @@ export interface SubscriptionOffersResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionOfferListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionOfferListResponse>>;
     /** Iterate pages lazily.
      * @see reference/subscriptionOffers.md#subscriptionofferslist
      */
@@ -166,7 +166,7 @@ export interface SubscriptionOffersResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionOfferListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionOfferListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/subscriptionOffers.md#subscriptionofferslist
      */
@@ -184,7 +184,7 @@ export interface SubscriptionOffersResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionOfferListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<SubscriptionOfferListResponse>>;
     /** Iterate items lazily.
      * @see reference/subscriptionOffers.md#subscriptionofferslist
      */
@@ -202,7 +202,7 @@ export interface SubscriptionOffersResource {
         "updated_before"?: InputValue<string | globalThis.Date>;
         "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
         "sort_direction"?: InputValue<"asc" | "desc">;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionOffer>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionOffer>;
     /**
  * Update subscription offer. Offer changes affect new signups only. Existing subscriptions keep
  * their terms.
@@ -217,14 +217,14 @@ export interface SubscriptionOffersResource {
     update(subscription_offer_id: InputValue<string>, params: (InputValue<UpdateSubscriptionOfferRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SubscriptionOffer>;
+    }, options?: RequestOptions<"merchant">): Promise<SubscriptionOffer>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionOffers.md#subscriptionoffersupdate
      */
     updateWithResponse(subscription_offer_id: InputValue<string>, params: (InputValue<UpdateSubscriptionOfferRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionOfferResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SubscriptionOfferResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationListResponse – InvoicePaymentAttemptListResponse
+# InventoryReceiptLineRequestInput – InvoiceListResponse
 
+- [InventoryReceiptLineRequestInput](InventoryReceiptLineRequestInput.md)
+- [InventoryReceiptListResponse](InventoryReceiptListResponse.md)
+- [InventoryReceiptResponse](InventoryReceiptResponse.md)
+- [InventoryReceiptResult](InventoryReceiptResult.md)
+- [InventoryReceiptResultResponse](InventoryReceiptResultResponse.md)
+- [InventoryReservation](InventoryReservation.md)
+- [InventoryReservationLine](InventoryReservationLine.md)
 - [InventoryReservationListResponse](InventoryReservationListResponse.md)
 - [InventoryReservationOwner](InventoryReservationOwner.md)
 - [InventoryReservationOwnerMerchant](InventoryReservationOwnerMerchant.md)
@@ -95,11 +102,4 @@
 - [InvoiceLateFeePolicyPercentageInput](InvoiceLateFeePolicyPercentageInput.md)
 - [InvoiceLineItem](InvoiceLineItem.md)
 - [InvoiceListResponse](InvoiceListResponse.md)
-- [InvoiceManualPayment](InvoiceManualPayment.md)
-- [InvoiceManualPaymentListResponse](InvoiceManualPaymentListResponse.md)
-- [InvoiceManualPaymentResponse](InvoiceManualPaymentResponse.md)
-- [InvoiceManualPaymentResult](InvoiceManualPaymentResult.md)
-- [InvoiceManualPaymentResultResponse](InvoiceManualPaymentResultResponse.md)
-- [InvoicePaymentAttempt](InvoicePaymentAttempt.md)
-- [InvoicePaymentAttemptListResponse](InvoicePaymentAttemptListResponse.md)
 

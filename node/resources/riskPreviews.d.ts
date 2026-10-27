@@ -2,8 +2,9 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateRiskPreviewRequestInput } from '../declarations/types-9.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { RiskPreview, RiskPreviewResponse, RiskPreviewsCreateInput, SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { RiskPreview, RiskPreviewResponse, RiskPreviewsCreateInput } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -17,21 +18,21 @@ export type {
     SdkErrorDetails
 } from '../runtime.js';
 export type { CreateRiskPreviewRequestInput, Credentials } from '../declarations/types-9.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseWarning, ResponseMeta } from '../declarations/types-40.js';
 export type {
     RiskPreview,
-    SdkResponse,
     RiskPreviewResponse,
     RiskPreviewsCreateInput,
     RiskPredicateNodeInput,
     RiskRuleAnalysis,
     RiskRuleIssue
 } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { MoneyValueInput, NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export { makeCreateRiskPreviewRequest } from '../declarations/types-64.js';
+export { makeCreateRiskPreviewRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeRiskPredicateNode } from '../declarations/types-71.js';
 export interface RiskPreviewsResource {
@@ -49,11 +50,11 @@ export interface RiskPreviewsResource {
  * @example
  * client.riskPreviews.create({risk_rule_id: "rr_example"})
  */
-    create(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskPreview>;
+    create(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskPreview>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskPreviews.md#riskpreviewscreate
      */
-    createWithResponse(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskPreviewResponse>>;
+    createWithResponse(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskPreviewResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

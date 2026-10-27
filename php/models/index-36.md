@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney – DeliveryInventoryReservationSummary
+# CheckoutSubscriptionTerms – DeliverySelectionBuyerLocationCoordinateCoordinate
 
+- [CheckoutSubscriptionTerms](CheckoutSubscriptionTerms.md)
+- [CheckoutTaxLocation](CheckoutTaxLocation.md)
+- [CheckoutSessionTax](CheckoutSessionTax.md)
+- [CheckoutTheme](CheckoutTheme.md)
+- [CheckoutTipConfig](CheckoutTipConfig.md)
+- [CheckoutSession](CheckoutSession.md)
 - [InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney](InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney.md)
 - [InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItem](InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItem.md)
 - [InvoiceCollectionBuyerInitiatedPaymentPolicy](InvoiceCollectionBuyerInitiatedPaymentPolicy.md)
@@ -96,10 +102,4 @@
 - [DeliverySelectionBuyerLocationAddress](DeliverySelectionBuyerLocationAddress.md)
 - [DeliverySelectionBuyerLocationCoordinateAddress](DeliverySelectionBuyerLocationCoordinateAddress.md)
 - [DeliverySelectionBuyerLocationCoordinateCoordinate](DeliverySelectionBuyerLocationCoordinateCoordinate.md)
-- [DeliverySelectionBuyerLocationCoordinate](DeliverySelectionBuyerLocationCoordinate.md)
-- [DeliverySelectionInstructionsRequest](DeliverySelectionInstructionsRequest.md)
-- [DeliverySelectionChoiceResource](DeliverySelectionChoiceResource.md)
-- [DeliverySelectionLifecycleEventResource](DeliverySelectionLifecycleEventResource.md)
-- [DeliverySelection](DeliverySelection.md)
-- [DeliveryInventoryReservationSummary](DeliveryInventoryReservationSummary.md)
 

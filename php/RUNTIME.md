@@ -94,7 +94,6 @@ Set `authMode` to one of the modes below and put its credentials under `credenti
 | `customer` | `CustomerSessionBearer` |
 | `invoice` | `InvoiceAccessTokenBearer` |
 | `merchant` | `BearerAuth` |
-| `merchantKey` | `ApiKeyHeader` |
 | `onboarding` | `OnboardingSessionBearer` |
 
 Credentials themselves are never shown in SDK diagnostics.

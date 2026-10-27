@@ -10,7 +10,7 @@ namespace Flint;
 final class ReadinessAction extends Model {
     /** @param array{'action_type': string, 'merchant_account_session'?: mixed, 'owner': string, 'required_fields'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReadinessAction')); }
-    /** Shape $ (Value): string.  Value enum: "advance_onboarding", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "contact_support", "other".
+    /** Shape $ (Value): string.  Value enum: "advance_onboarding", "create_api_key", "create_merchant_account_session", "wait_for_review", "settle_flint_balance", "set_tax_category", "contact_support", "other".
      * @return string
      */
     public function getActionType(): string { return $this->get('action_type'); }

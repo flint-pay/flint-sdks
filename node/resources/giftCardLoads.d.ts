@@ -8,10 +8,10 @@ import type {
     GiftCardLoadsCreateInput,
     GiftCardLoadsGetInput,
     GiftCardLoadsListInput
-} from '../declarations/types-18.js';
+} from '../declarations/types-19.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,9 +25,9 @@ export type {
     SdkErrorDetails
 } from '../runtime.js';
 export type { CreateGiftCardLoadRequestInput, CreateGiftCardLoadResult, CreateGiftCardLoadResultResponse } from '../declarations/types-6.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type {
     GiftCardLoad,
     GiftCardLoadResponse,
@@ -35,6 +35,19 @@ export type {
     GiftCardLoadsCreateInput,
     GiftCardLoadsGetInput,
     GiftCardLoadsListInput,
+    GiftCardRestriction,
+    GiftCardTransaction,
+    GiftCardPurchaseRefundValueHold,
+    GiftCardPurchaseRefundAllocation,
+    GiftCardPurchaseRefundRecovery,
+    GiftCardPurchaseRefundRecoveryDestination,
+    GiftCardPurchaseRefundValueAllocation,
+    GiftCardPurchaseRestoration,
+    GiftCardRefundProvenance
+} from '../declarations/types-19.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type {
     GiftCardFundingSourceInput,
     GiftCardFundingSourceExternalPaymentInput,
     GiftCardFundingSourceFlintPaymentInput,
@@ -57,21 +70,8 @@ export type {
     GiftCardFundingSourceGiftCardPurchaseRefundRecovery,
     GiftCardFundingSourceStoreCredit
 } from '../declarations/types-18.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
-export type {
-    GiftCardRestriction,
-    GiftCardTransaction,
-    GiftCardPurchaseRefundValueHold,
-    GiftCardPurchaseRefundAllocation,
-    GiftCardPurchaseRefundRecovery,
-    GiftCardPurchaseRefundRecoveryDestination,
-    GiftCardPurchaseRefundValueAllocation,
-    GiftCardPurchaseRestoration,
-    GiftCardRefundProvenance
-} from '../declarations/types-19.js';
 export { makeCreateGiftCardLoadRequest } from '../declarations/types-63.js';
 export {
     makeGiftCardFundingSource,
@@ -83,7 +83,7 @@ export {
     makeGiftCardFundingSourceGiftCardRefund,
     makeGiftCardFundingSourceImport,
     makeGiftCardFundingSourceStoreCredit
-} from '../declarations/types-66.js';
+} from '../declarations/types-67.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface GiftCardLoadsResource {
     /**
@@ -104,14 +104,14 @@ export interface GiftCardLoadsResource {
     create(gift_card_id: InputValue<string>, params: (InputValue<CreateGiftCardLoadRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreateGiftCardLoadResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<CreateGiftCardLoadResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardLoads.md#giftcardloadscreate
      */
     createWithResponse(gift_card_id: InputValue<string>, params: (InputValue<CreateGiftCardLoadRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreateGiftCardLoadResultResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CreateGiftCardLoadResultResponse>>;
     /**
  * Retrieves original value, consideration, funding provenance and remaining attributable value for
  * one load.
@@ -120,11 +120,11 @@ export interface GiftCardLoadsResource {
  * @example
  * client.giftCardLoads.get("example")
  */
-    get(gift_card_load_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardLoad>;
+    get(gift_card_load_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardLoad>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardLoads.md#giftcardloadsget
      */
-    getWithResponse(gift_card_load_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardLoadResponse>>;
+    getWithResponse(gift_card_load_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardLoadResponse>>;
     /**
  * Lists funding lots in descending ID order. Consideration may be null for imported balances whose
  * original purchase price is unknown. The idempotency_key filter recovers a load after a lost
@@ -151,7 +151,7 @@ export interface GiftCardLoadsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "source_external_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardLoadListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardLoadListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardLoads.md#giftcardloadslist
      */
@@ -172,7 +172,7 @@ export interface GiftCardLoadsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "source_external_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardLoadListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardLoadListResponse>>;
     /** Iterate pages lazily.
      * @see reference/giftCardLoads.md#giftcardloadslist
      */
@@ -193,7 +193,7 @@ export interface GiftCardLoadsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "source_external_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardLoadListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardLoadListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/giftCardLoads.md#giftcardloadslist
      */
@@ -214,7 +214,7 @@ export interface GiftCardLoadsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "source_external_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<GiftCardLoadListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<GiftCardLoadListResponse>>;
     /** Iterate items lazily.
      * @see reference/giftCardLoads.md#giftcardloadslist
      */
@@ -235,7 +235,7 @@ export interface GiftCardLoadsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "source_external_reference_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardLoad>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardLoad>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

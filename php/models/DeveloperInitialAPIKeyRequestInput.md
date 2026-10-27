@@ -9,6 +9,5 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `sandbox_id` | Optional | string | minLength: `1`. |
 | `scopes` | Optional | Array of string | Items: minLength: `1`. |
 

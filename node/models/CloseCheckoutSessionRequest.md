@@ -2,7 +2,7 @@
 
 ## CloseCheckoutSessionRequest
 
-
+The request body for: Close checkout session.
 
 
 
@@ -10,23 +10,6 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason_message` | Optional | string |  |
-
-### CloseCheckoutSessionRequest variant 1
-
-anyOf variant 1: Declared schema CloseCheckoutSessionRequest. The request body for: Close checkout session..
-
-- Constraints for `reason_message`: Your note explaining why you are closing the checkout session. It is not shown to the buyer. minLength: `1`.
-
-### CloseCheckoutSessionRequest variant 2
-
-anyOf variant 2: Declared schema ResendWebhookDeliveryRequest. The request body for: Resend webhook delivery..
-
-- Constraints for `reason_message`: Your note explaining this action. minLength: `1`. maxLength: `500`.
-
-### CloseCheckoutSessionRequest variant 3
-
-anyOf variant 3: Declared schema ResolveOrderInventoryExceptionRequest. The request body for: Resolve order inventory exception..
-
-- Constraints for `reason_message`: Your note explaining this action. minLength: `1`.
+| `expected_version` | Optional | integer string | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `reason_message` | Optional | string | Your note explaining why you are closing the checkout session. It is not shown to the buyer. minLength: `1`. |
 

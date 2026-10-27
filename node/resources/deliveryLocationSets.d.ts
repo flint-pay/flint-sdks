@@ -12,9 +12,9 @@ import type {
     DeliveryLocationSetsUpdateInput
 } from '../declarations/types-12.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -41,8 +41,8 @@ export type {
     DeliveryLocationSetConfigurationInput,
     DeliveryLocationSetConfiguration
 } from '../declarations/types-12.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-47.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
@@ -67,14 +67,14 @@ export interface DeliveryLocationSetsResource {
     create(params: (InputValue<CreateDeliveryLocationSetRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryLocationSet>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryLocationSet>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryLocationSets.md#deliverylocationsetscreate
      */
     createWithResponse(params: (InputValue<CreateDeliveryLocationSetRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryLocationSetResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryLocationSetResponse>>;
     /**
  * Retires the delivery location set after checking current dependencies. The retired resource
  * remains available by ID for historical records. Deleting an already archived resource returns it
@@ -89,14 +89,14 @@ export interface DeliveryLocationSetsResource {
     remove(delivery_location_set_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryLocationSet>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryLocationSet>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryLocationSets.md#deliverylocationsetsremove
      */
     removeWithResponse(delivery_location_set_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryLocationSetResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryLocationSetResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery location set.
  * @see reference/deliveryLocationSets.md#deliverylocationsetsget
@@ -104,11 +104,11 @@ export interface DeliveryLocationSetsResource {
  * @example
  * client.deliveryLocationSets.get("example")
  */
-    get(delivery_location_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryLocationSet>;
+    get(delivery_location_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryLocationSet>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryLocationSets.md#deliverylocationsetsget
      */
-    getWithResponse(delivery_location_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryLocationSetResponse>>;
+    getWithResponse(delivery_location_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryLocationSetResponse>>;
     /**
  * Returns delivery location sets in a stable, cursor-paginated order. Archived resources are
  * excluded by default.
@@ -124,7 +124,7 @@ export interface DeliveryLocationSetsResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryLocationSetListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryLocationSetListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryLocationSets.md#deliverylocationsetslist
      */
@@ -135,7 +135,7 @@ export interface DeliveryLocationSetsResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryLocationSetListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryLocationSetListResponse>>;
     /** Iterate pages lazily.
      * @see reference/deliveryLocationSets.md#deliverylocationsetslist
      */
@@ -146,7 +146,7 @@ export interface DeliveryLocationSetsResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryLocationSetListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryLocationSetListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/deliveryLocationSets.md#deliverylocationsetslist
      */
@@ -157,7 +157,7 @@ export interface DeliveryLocationSetsResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryLocationSetListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliveryLocationSetListResponse>>;
     /** Iterate items lazily.
      * @see reference/deliveryLocationSets.md#deliverylocationsetslist
      */
@@ -168,7 +168,7 @@ export interface DeliveryLocationSetsResource {
         "external_reference_id"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "archived">>;
         "delivery_method_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryLocationSet>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryLocationSet>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable
  * revision and requires expected_version. Archived resources can't be changed; create a new
@@ -184,14 +184,14 @@ export interface DeliveryLocationSetsResource {
     update(delivery_location_set_id: InputValue<string>, params: (InputValue<UpdateDeliveryLocationSetRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryLocationSet>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryLocationSet>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryLocationSets.md#deliverylocationsetsupdate
      */
     updateWithResponse(delivery_location_set_id: InputValue<string>, params: (InputValue<UpdateDeliveryLocationSetRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryLocationSetResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryLocationSetResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -9,19 +9,19 @@ namespace Flint;
 final class InvoiceScheduleAmountSpecificationPercentageInput extends Model {
     /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent': int|float, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceScheduleAmountSpecificationPercentageInput')); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see MoneyValueInput}. The amount to collect, in the invoice currency. Required with fixed and not accepted with any other type. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Shape $ (Value): number. multipleOf: 0.0001.
+    /** Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect, greater than 0 and at most 100, with up to four decimal places. Required with percentage and not accepted with any other type. multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */
     public function getPercent(): int|float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
-    /** Shape $ (Value): string.  Value enum: "percentage".
+    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "percentage".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
