@@ -59,13 +59,14 @@ export function operations(api) {
 
 /** The route's idempotency class, read from its Idempotency-Key declaration. */
 export function idempotencyClass(verb, operation) {
+  // A referenced parameter could hide the header, so the class would read as none.
+  if ((operation.parameters ?? []).some((parameter) => parameter.$ref))
+    fail(`${operation.operationId} uses a referenced parameter`);
   const headers = (operation.parameters ?? []).filter(
     (parameter) =>
       parameter.in === "header" &&
       parameter.name?.toLowerCase() === IDEMPOTENCY_HEADER.toLowerCase(),
   );
-  if (headers.some((parameter) => parameter.$ref))
-    fail(`${operation.operationId} references its idempotency header`);
   if (headers.length > 1)
     fail(`${operation.operationId} declares ${IDEMPOTENCY_HEADER} twice`);
   const [header] = headers;
