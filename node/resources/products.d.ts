@@ -39,7 +39,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateProductRequestInput, CreateProductOptionRequestInput, CreateProductOptionValueRequestInput } from '../declarations/types-8.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';

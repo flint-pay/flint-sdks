@@ -63,7 +63,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     CancelReturnRequestInput,
@@ -255,10 +257,10 @@ export {
     makeCreateReturnDispositionRequest,
     makeCreateReturnInspectionRequest,
     makeCreateReturnReceiptRequest,
-    makeCreateReturnRequest,
-    makeCreateReturnResolutionRequest
+    makeCreateReturnRequest
 } from '../declarations/types-64.js';
 export {
+    makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
     makeCreateReturnResolutionRequestStandard,
     makeDecideReturnRequest

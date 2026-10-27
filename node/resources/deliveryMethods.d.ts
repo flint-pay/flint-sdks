@@ -25,7 +25,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     CreateDeliveryMethodRequestInput,
@@ -181,10 +183,10 @@ export {
     makeDeliveryFixedPricingStrategyRequest,
     makeDeliveryMethodConfigurationCreateRequest,
     makeDeliveryMethodConfigurationPatchRequest,
-    makeDeliveryMethodConfigurationRequest,
-    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup
+    makeDeliveryMethodConfigurationRequest
 } from '../declarations/types-65.js';
 export {
+    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
     makeDeliveryMethodOriginSelectorInputFixedLocation,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollection,
     makeDeliveryMethodOriginSelectorRequest,

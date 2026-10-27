@@ -22,7 +22,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-6.js';
 export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';

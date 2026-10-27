@@ -15,7 +15,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { CashOutGiftCardRequestInput, CashOutGiftCardResult, CashOutGiftCardResultResponse } from '../declarations/types-3.js';
 export type { _SdkRequiredIdempotency } from '../declarations/types-62.js';

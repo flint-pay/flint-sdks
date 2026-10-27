@@ -32,6 +32,9 @@
       "php/src/SchemaAdapter.php",
       "php/custom/"
     ],
+    "files": [
+      "php/src/credentials.php"
+    ],
     "psr-4": {
       "Flint\\": "php/src/classes/"
     }

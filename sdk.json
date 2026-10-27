@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/314de2ee5975e3a5cc7cf385babd23b84eb489fa/sdk-config.schema.json",
+  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/541f767ff5578faa98a3f55479c0736321810b27/sdk-config.schema.json",
   "profiles": [
     "spec/profiles/full-merchant-sdk.json",
     "spec/profiles/full-customer-sdk.json",
@@ -15,6 +15,19 @@
       "apiKey": {
         "mode": "merchant",
         "scheme": "BearerAuth"
+      }
+    },
+    "defaultCredentials": {
+      "mode": "merchant",
+      "scheme": "BearerAuth",
+      "environment": {
+        "apiKey": "FLINT_API_KEY",
+        "token": "FLINT_ACCESS_TOKEN"
+      },
+      "workloadIdentity": {
+        "tokenPath": "/v1/oauth/token",
+        "credentialParameter": "workload_identity_id",
+        "envPrefix": "FLINT"
       }
     }
   }

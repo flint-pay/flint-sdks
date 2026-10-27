@@ -1,3 +1,11 @@
+# SDK 5.1.0
+
+This compatible minor release enables default credential discovery for merchant operations. Explicit credentials continue to take precedence. With no explicit credentials, the SDK reads `FLINT_API_KEY` or `FLINT_ACCESS_TOKEN`, then workload identity configured by `FLINT_WORKLOAD_IDENTITY_ID`. Setting both credential variables raises `ambiguous_credentials`.
+
+GitHub Actions jobs need `permissions: id-token: write`. Token and token-file sources also work through `FLINT_OIDC_TOKEN` and `FLINT_OIDC_TOKEN_FILE`. The default API URL is production; pass `baseUrl: "https://api.staging.withflintpay.com"` for staging. See the [Node guide](node/guides/default-credentials.md) or [PHP guide](php/guides/default-credentials.md).
+
+Apps that serve multiple merchants should set `ambientCredentials: false` and pass tenant credentials explicitly. This prevents missing tenant credentials from using the app's own identity. No API contract or date changes in this release.
+
 # SDK 5.0.0
 
 This guide covers upgrading from `4.0.0`. The API date stays `2026-09-07` and the generator is unchanged. Version 5.0.0 pins the Flint API contract on `main` at `2d3123e0`, 34 commits after the production contract (`366e50d4`) that `4.0.0` was generated from. Use it with an API build that serves this contract.

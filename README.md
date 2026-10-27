@@ -8,6 +8,8 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
+Version `5.1.0` enables default merchant credentials in both SDKs. Clients accept `FLINT_API_KEY`, `FLINT_ACCESS_TOKEN`, or workload identity from a token, token file, or GitHub Actions. In GitHub Actions, grant `permissions: id-token: write` and set `FLINT_WORKLOAD_IDENTITY_ID`; the SDK requests and exchanges the subject token automatically. Use `new Client()` in Node or `new \Flint\Client(new \Flint\ClientOptions())` in PHP for the default production URL. Pass `baseUrl` explicitly for staging. API date `2026-09-07` and the API contract are unchanged. See the [default credentials guide](node/guides/default-credentials.md) and [migration notes](MIGRATION.md#sdk-510).
+
 Version `5.0.0` updates both SDKs to the Flint API contract on `main` pinned in [`sdk.lock.json`](sdk.lock.json), 34 commits after the production contract `4.0.0` was generated from. Install with `npm install @flintpay/node` or `composer require flintpay/flint:^5.0`. The API date remains `2026-09-07`, and the generator is unchanged.
 
 Breaking changes from `4.0.0`: secret API keys are sent only as `Authorization: Bearer`, so the `merchantKey` mode (`X-API-Key`) is removed and `apiKey` is unchanged. `orders.capturePayment` and `orders.cancelPayment` are removed (use `paymentIntents.capture` and `cancel`), and `developer.issueSandboxTestKey` is replaced by `developer.createSandboxAPIKey`. Merchant writes that guard against concurrent changes take `expected_version` more widely, return and subscription inputs name their type explicitly, and organization, onboarding and payout settings requests changed. It adds `me.listSubscriptionPaymentRetries`, and `inventoryTransfers.create` no longer requires an idempotency key. Review [the 5.0.0 migration guide](MIGRATION.md#sdk-500) before upgrading.
@@ -83,6 +85,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP)  | API version  |
 | --------------------------- | ------------ |
+| `5.1.0`                     | `2026-09-07` |
 | `5.0.0`                     | `2026-09-07` |
 | `4.0.0`                     | `2026-09-07` |
 | `3.0.0`                     | `2026-09-07` |

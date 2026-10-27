@@ -1,5 +1,5 @@
-import { d5064 as c0, d5065 as c1, d5066 as c2 } from '../descriptors/data/232.js?sdk=f95cd788a8ba3731ebe91694701a8a5cdceec0ac429cf23d16edc2f61220fbab';
-import { d5066 as d5066 } from '../descriptors/data/232.js?sdk=f95cd788a8ba3731ebe91694701a8a5cdceec0ac429cf23d16edc2f61220fbab';
+import { d5064 as c0, d5065 as c1, d5066 as c2 } from '../descriptors/data/232.js?sdk=ebff27e81aec9bdd0f095cae8c1add08bcdfa885028bf0eb87e3396a43a44aab';
+import { d5066 as d5066 } from '../descriptors/data/232.js?sdk=ebff27e81aec9bdd0f095cae8c1add08bcdfa885028bf0eb87e3396a43a44aab';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d5066;
 let prepared;

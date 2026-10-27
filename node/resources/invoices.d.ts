@@ -71,7 +71,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     RequestOptions,
@@ -371,10 +373,9 @@ export {
     makeBuyerInstructionsConfig,
     makeCheckoutBuyerFields,
     makeCheckoutPromotionConfig,
-    makeCheckoutRedirectsRequest,
-    makeCheckoutTipConfig
+    makeCheckoutRedirectsRequest
 } from '../declarations/types-62.js';
-export { makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-63.js';
+export { makeCheckoutTipConfig, makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-63.js';
 export {
     makeCreateInvoiceIssueRequest,
     makeCreateInvoiceManualPaymentRequest,
@@ -437,10 +438,10 @@ export {
     makeLineItemFulfillmentOriginRequest,
     makeLineItemFulfillmentRequest,
     makeManualDiscountRequest,
-    makeMoneyValue,
-    makeOrderCalculatedChargeTax
+    makeMoneyValue
 } from '../declarations/types-68.js';
 export {
+    makeOrderCalculatedChargeTax,
     makeOrderDeliveryDestinationAddressRequest,
     makeOrderDeliveryDestinationRecipientRequest,
     makeOrderDeliveryDestinationRequest,

@@ -14,7 +14,7 @@ Requires PHP 8.2+ with ext-json and ext-curl. PHPDoc types target PHPStan 2.2+.
 
 ## Quickstart
 
-Set `API_BASE_URL` and `API_KEY` ([authentication](RUNTIME.md#authentication)), then replace the sample values with your own. Choose your sandbox or local mock URL explicitly; the API declares https://api.withflintpay.com as its default server.
+Set `API_BASE_URL` ([authentication](RUNTIME.md#authentication)) and configure default credentials as described in the authentication guide, then replace the sample values with your own. Choose your sandbox or local mock URL explicitly; the API declares https://api.withflintpay.com as its default server.
 
 ```php
 <?php
@@ -23,12 +23,9 @@ require __DIR__ . '/vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions, SdkError};
 $baseUrl = getenv('API_BASE_URL');
 if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
-$apiKey = getenv('API_KEY');
-if ($apiKey === false || $apiKey === '') throw new \RuntimeException('Set API_KEY: this call requires a credential');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
-  apiKey: $apiKey,
 ));
 
 // Persist this key with the action before sending; reuse it for every resubmission.
@@ -125,8 +122,9 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [API reference](REFERENCE.md): resource index linking to operation files under reference/
 - [Models](MODELS.md): model index, fields and descriptions
 - [Runtime guide](RUNTIME.md): request options, errors, retries, pagination and webhooks
+- [default-credentials](guides/default-credentials.md)
 - [pagination-and-retries](guides/pagination-and-retries.md)
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 
-Package 5.0.0, generated for API 2026-09-07.
+Package 5.1.0, generated for API 2026-09-07.

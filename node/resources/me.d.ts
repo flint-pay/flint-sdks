@@ -235,7 +235,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     CancelReturnRequestInput,
@@ -817,10 +819,10 @@ export {
     makeChangeSubscriptionPaymentMethodRequest,
     makeCheckoutBuyerFields,
     makeCheckoutPromotionConfig,
-    makeCheckoutRedirectsRequest,
-    makeCheckoutTipConfig
+    makeCheckoutRedirectsRequest
 } from '../declarations/types-62.js';
 export {
+    makeCheckoutTipConfig,
     makeConfigurationVersionRequest,
     makeConfirmEmailChangeRequest,
     makeConfirmReturnResolutionRequest,
@@ -864,10 +866,10 @@ export {
     makeInvoiceScheduleAmountSpecificationRemainingBalance,
     makeMerchantAccountSessionCreateRequest,
     makeMerchantAccountSessionRefreshRequest,
-    makeMoneyValue,
-    makeOrderCalculatedChargeTax
+    makeMoneyValue
 } from '../declarations/types-68.js';
 export {
+    makeOrderCalculatedChargeTax,
     makeOrderCalculatedLineItemTax,
     makeOrderDeliveryDestinationAddressRequest,
     makeOrderLineItemTax,
@@ -883,10 +885,10 @@ export {
     makeResourceVersionRequest,
     makeReturnEligibilityLineItemRequest,
     makeReturnEligibilitySelection,
-    makeReturnEligibilitySelectionAllRemainingFulfilled,
-    makeReturnEligibilitySelectionLineItems
+    makeReturnEligibilitySelectionAllRemainingFulfilled
 } from '../declarations/types-70.js';
 export {
+    makeReturnEligibilitySelectionLineItems,
     makeReturnLineItemRequest,
     makeReturnResolutionLineItemRequest,
     makeSaveMeGiftCardRequest,
@@ -909,10 +911,9 @@ export {
     makeUpdateCustomerAddressRequest,
     makeUpdateCustomerEmailPreferencesRequest,
     makeUpdateMeRequest,
-    makeUpdateMeSubscriptionLineItemRequest,
-    makeUpdateMeSubscriptionRequest
+    makeUpdateMeSubscriptionLineItemRequest
 } from '../declarations/types-72.js';
-export { makeUpdateMerchantRequest, makeWeight } from '../declarations/types-73.js';
+export { makeUpdateMerchantRequest, makeUpdateMeSubscriptionRequest, makeWeight } from '../declarations/types-73.js';
 export interface MeResource {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a

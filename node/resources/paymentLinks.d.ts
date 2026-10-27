@@ -27,7 +27,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreatePaymentLinkRequestInput } from '../declarations/types-8.js';
 export type {
@@ -215,9 +217,9 @@ export {
     makeCheckoutBuyerFields,
     makeCheckoutPromotionConfig,
     makeCheckoutRedirectsRequest,
-    makeCheckoutTaxConfig,
-    makeCheckoutTipConfig
+    makeCheckoutTaxConfig
 } from '../declarations/types-62.js';
+export { makeCheckoutTipConfig } from '../declarations/types-63.js';
 export { makeCreatePaymentLinkRequest } from '../declarations/types-64.js';
 export { makeDeliveryAddressRequest } from '../declarations/types-65.js';
 export { makeDeliveryRecipientRequirement, makeDeliveryWindowRequest } from '../declarations/types-66.js';
@@ -240,10 +242,10 @@ export {
     makePaymentLinkLegalConfig,
     makePaymentLinkLegalPatchRequest,
     makePaymentLinkLineItemPatchRequest,
-    makePaymentLinkLineItemRequest,
-    makePaymentLinkPaymentConfig
+    makePaymentLinkLineItemRequest
 } from '../declarations/types-69.js';
 export {
+    makePaymentLinkPaymentConfig,
     makePaymentLinkPaymentPatchRequest,
     makePaymentLinkRedirectsPatchRequest,
     makePaymentLinkThemeConfig,

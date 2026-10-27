@@ -15,7 +15,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     CreateReturnPreviewRequestInput,
@@ -89,10 +91,10 @@ export { makeMoneyValue } from '../declarations/types-68.js';
 export {
     makeReturnEligibilityLineItemRequest,
     makeReturnEligibilitySelection,
-    makeReturnEligibilitySelectionAllRemainingFulfilled,
-    makeReturnEligibilitySelectionLineItems
+    makeReturnEligibilitySelectionAllRemainingFulfilled
 } from '../declarations/types-70.js';
 export {
+    makeReturnEligibilitySelectionLineItems,
     makeReturnReplacementLineItemInputBundle,
     makeReturnReplacementLineItemInputCustom,
     makeReturnReplacementLineItemInputVariant,

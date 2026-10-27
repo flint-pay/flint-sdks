@@ -23,7 +23,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';

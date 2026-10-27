@@ -1,5 +1,5 @@
-import { d826 as c0 } from '../descriptors/data/36.js?sdk=f95cd788a8ba3731ebe91694701a8a5cdceec0ac429cf23d16edc2f61220fbab';
-import { d826 as d826 } from '../descriptors/data/36.js?sdk=f95cd788a8ba3731ebe91694701a8a5cdceec0ac429cf23d16edc2f61220fbab';
+import { d826 as c0 } from '../descriptors/data/36.js?sdk=ebff27e81aec9bdd0f095cae8c1add08bcdfa885028bf0eb87e3396a43a44aab';
+import { d826 as d826 } from '../descriptors/data/36.js?sdk=ebff27e81aec9bdd0f095cae8c1add08bcdfa885028bf0eb87e3396a43a44aab';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
 const read = d826;
 let prepared;

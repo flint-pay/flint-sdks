@@ -50,7 +50,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     CloseCheckoutSessionRequestInput,
@@ -336,10 +338,10 @@ export {
     makeCheckoutQuickPayItemRequest,
     makeCheckoutRedirectsRequest,
     makeCheckoutSubscriptionTermsRequest,
-    makeCheckoutTaxConfig,
-    makeCheckoutTipConfig
+    makeCheckoutTaxConfig
 } from '../declarations/types-62.js';
 export {
+    makeCheckoutTipConfig,
     makeCloseCheckoutSessionRequest,
     makeConfirmCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutDeliveryQuoteRequest,
@@ -368,8 +370,8 @@ export {
     makeDimensions
 } from '../declarations/types-66.js';
 export { makeGiftCardCustomAmountBounds, makeGiftCardProductConfiguration } from '../declarations/types-67.js';
-export { makeLocationCoordinate, makeMoneyValue, makeOrderCalculatedChargeTax } from '../declarations/types-68.js';
-export { makeOrderCalculatedLineItemTax, makeOrderLineItemTax } from '../declarations/types-69.js';
+export { makeLocationCoordinate, makeMoneyValue } from '../declarations/types-68.js';
+export { makeOrderCalculatedChargeTax, makeOrderCalculatedLineItemTax, makeOrderLineItemTax } from '../declarations/types-69.js';
 export {
     makeSubscriptionIntervalOption,
     makeTaxCalculationRequest,

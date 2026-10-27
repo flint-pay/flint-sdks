@@ -12,6 +12,9 @@
       "src/SchemaAdapter.php",
       "custom/"
     ],
+    "files": [
+      "src/credentials.php"
+    ],
     "psr-4": {
       "Flint\\": "src/classes/"
     }
@@ -25,5 +28,5 @@
     "php": ">=8.2"
   },
   "type": "library",
-  "version": "5.0.0"
+  "version": "5.1.0"
 }

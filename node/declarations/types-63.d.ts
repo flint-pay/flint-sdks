@@ -1,5 +1,6 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CheckoutTipConfigInput,
     CloseCheckoutSessionRequestInput,
     CloseOrderRequestInput,
     CollectInvoiceRequestInput,
@@ -66,9 +67,9 @@ import type {
     CreateGiftCardFundingDispositionRequestInput,
     CreateGiftCardLoadRequestInput,
     CreateGiftCardNotificationRequestInput,
-    CreateGiftCardRedemptionRequestInput,
-    CreateGiftCardRedemptionRequestAutomaticInput
+    CreateGiftCardRedemptionRequestInput
 } from './types-6.js';
+export declare function makeCheckoutTipConfig(value: InputValue<CheckoutTipConfigInput>): Model<CheckoutTipConfigInput>;
 export declare function makeCloseCheckoutSessionRequest(value: InputValue<CloseCheckoutSessionRequestInput>): Model<CloseCheckoutSessionRequestInput>;
 export declare function makeCloseOrderRequest(value: InputValue<CloseOrderRequestInput>): Model<CloseOrderRequestInput>;
 export declare function makeCollectInvoiceRequest(value: InputValue<CollectInvoiceRequestInput>): Model<CollectInvoiceRequestInput>;
@@ -135,4 +136,3 @@ export declare function makeCreateGiftCardFundingDispositionRequest(value: Input
 export declare function makeCreateGiftCardLoadRequest(value: InputValue<CreateGiftCardLoadRequestInput>): Model<CreateGiftCardLoadRequestInput>;
 export declare function makeCreateGiftCardNotificationRequest(value: InputValue<CreateGiftCardNotificationRequestInput>): Model<CreateGiftCardNotificationRequestInput>;
 export declare function makeCreateGiftCardRedemptionRequest(value: InputValue<CreateGiftCardRedemptionRequestInput>): Model<CreateGiftCardRedemptionRequestInput>;
-export declare function makeCreateGiftCardRedemptionRequestAutomatic(value: InputValue<CreateGiftCardRedemptionRequestAutomaticInput>): Model<CreateGiftCardRedemptionRequestAutomaticInput>;

@@ -1,5 +1,6 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    FulfillmentTransitionRequestCompleteInput,
     FulfillmentTransitionRequestDispatchInput,
     FulfillmentTransitionRequestFailInput,
     FulfillmentTransitionRequestHoldInput
@@ -70,9 +71,9 @@ import type {
     InventoryTransferTransitionRequestInput,
     InventoryTransferTransitionRequestCancelInput,
     InventoryTransferTransitionRequestDepartInput,
-    InventoryTransferTransitionRequestReceiveInput,
-    InventoryTransferTransitionRequestReportLossInput
+    InventoryTransferTransitionRequestReceiveInput
 } from './types-26.js';
+export declare function makeFulfillmentTransitionRequestComplete(value: InputValue<FulfillmentTransitionRequestCompleteInput>): Model<FulfillmentTransitionRequestCompleteInput>;
 export declare function makeFulfillmentTransitionRequestDispatch(value: InputValue<FulfillmentTransitionRequestDispatchInput>): Model<FulfillmentTransitionRequestDispatchInput>;
 export declare function makeFulfillmentTransitionRequestFail(value: InputValue<FulfillmentTransitionRequestFailInput>): Model<FulfillmentTransitionRequestFailInput>;
 export declare function makeFulfillmentTransitionRequestHold(value: InputValue<FulfillmentTransitionRequestHoldInput>): Model<FulfillmentTransitionRequestHoldInput>;
@@ -140,4 +141,3 @@ export declare function makeInventoryTransferTransitionRequest(value: InputValue
 export declare function makeInventoryTransferTransitionRequestCancel(value: InputValue<InventoryTransferTransitionRequestCancelInput>): Model<InventoryTransferTransitionRequestCancelInput>;
 export declare function makeInventoryTransferTransitionRequestDepart(value: InputValue<InventoryTransferTransitionRequestDepartInput>): Model<InventoryTransferTransitionRequestDepartInput>;
 export declare function makeInventoryTransferTransitionRequestReceive(value: InputValue<InventoryTransferTransitionRequestReceiveInput>): Model<InventoryTransferTransitionRequestReceiveInput>;
-export declare function makeInventoryTransferTransitionRequestReportLoss(value: InputValue<InventoryTransferTransitionRequestReportLossInput>): Model<InventoryTransferTransitionRequestReportLossInput>;

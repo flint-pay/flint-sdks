@@ -15,7 +15,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type { File, FileResponse, FilesCompleteInput, FilesCreateInput, FilesGetInput, FileUpload } from '../declarations/types-17.js';
