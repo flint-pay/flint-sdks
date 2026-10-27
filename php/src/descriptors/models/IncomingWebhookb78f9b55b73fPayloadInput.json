@@ -1,1 +1,0 @@
-{"shared":"Webhook_custom_domain_status_changed_merchant","dependencies":["CustomDomainStatus","CustomDomainStatusChange","CustomerAccountDNSRecord","MerchantWebhookEnvelope","SharedCodec176","SharedCodec179","SharedCodec250","Webhook_custom_domain_status_changed_merchant"]}

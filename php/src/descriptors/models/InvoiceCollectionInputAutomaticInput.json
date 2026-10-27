@@ -1,0 +1,1 @@
+{"shared":"InvoiceCollectionInputAutomatic","dependencies":["InvoiceCollectionInputAutomatic","InvoicePaymentOptionLimit","InvoicePaymentPolicy","MoneyValue","SharedCodec888"]}

@@ -1,5 +1,0 @@
-
-import type { MerchantWebhookEnvelope } from './MerchantWebhookEnvelope.js';
-import type { PartnerWebhookEnvelope } from './PartnerWebhookEnvelope.js';
-
-export type WebhookEventCustomerDeletionRejected = (((({ "data"?: { "customer_deletion_request_id": string; "customer_id": string; "requested_at": string; "resolved_at": string; "retention_policy": "retain_required_commerce_records" | (string & {}); "status": "rejected" | (string & {}); }; "event_type"?: unknown; }) & (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)) | (({ "data"?: { "customer_deletion_request_id": string; "customer_id": string; "environment_grant_id": string; "environment_id"?: string; "merchant_id": string; "mode": "test" | "live" | (string & {}); "partner_app_install_id": string; "requested_at": string; "resolved_at": string; "retention_policy": "retain_required_commerce_records" | (string & {}); "source_type": unknown; "status": "rejected" | (string & {}); }; "event_type"?: unknown; }) & (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>))) & { "event_type": "customer.deletion_rejected" });

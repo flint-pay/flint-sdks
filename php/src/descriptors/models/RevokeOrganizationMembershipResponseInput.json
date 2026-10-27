@@ -1,1 +1,0 @@
-{"shared":"RevokeOrganizationMembershipResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","RevokeOrganizationMembershipResponse","RevokeOrganizationMembershipResult","SharedCodec1","SharedCodec467"]}

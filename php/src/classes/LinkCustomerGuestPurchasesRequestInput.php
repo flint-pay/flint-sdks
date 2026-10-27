@@ -7,7 +7,8 @@ namespace Flint;
 final class LinkCustomerGuestPurchasesRequestInput extends Model {
     /** @param array{'customer_verification_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LinkCustomerGuestPurchasesRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      * @throws SdkError When customer_verification_id is omitted; use hasCustomerVerificationId() or valueOrDefault().
      */
     public function getCustomerVerificationId(): string { return $this->get('customer_verification_id'); }

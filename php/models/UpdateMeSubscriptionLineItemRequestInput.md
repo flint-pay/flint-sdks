@@ -1,0 +1,13 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## UpdateMeSubscriptionLineItemRequestInput
+
+The request body for: Swap subscription variant.
+
+Request input.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `variant_id` | Required | string | minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
+

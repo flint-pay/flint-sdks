@@ -8,12 +8,14 @@ namespace Flint;
 final class PaymentMethodsGetInput extends Model {
     /** @param array{'payment_method_id': string, 'expand'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** @return list<string>
+    /** Shape $ (Value): Array of string.  [] enum: "customer". Shape $[] (Value): string.  Value enum: "customer".
+     * @return list<string>
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): array { return $this->get('expand'); }

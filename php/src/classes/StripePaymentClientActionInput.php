@@ -10,22 +10,26 @@ namespace Flint;
 final class StripePaymentClientActionInput extends Model {
     /** @param array{'account_id': string, 'payment_intent'?: StripePaymentIntentClientActionInput|array<array-key, mixed>|\stdClass, 'publishable_key': string, 'setup_intent'?: StripeSetupIntentClientActionInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('StripePaymentClientActionInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Stripe connected account ID to pass as stripeAccount when initializing Stripe.js.
+     * @return string
      * @throws SdkError When account_id is omitted; use hasAccountId() or valueOrDefault().
      */
     public function getAccountId(): string { return $this->get('account_id'); }
     public function hasAccountId(): bool { return $this->has('account_id'); }
-    /** @return StripePaymentIntentClientActionInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see StripePaymentIntentClientActionInput}. PaymentIntent authority for an order payment authentication action. The client action for a Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`.
+     * @return StripePaymentIntentClientActionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_intent is omitted; use hasPaymentIntent() or valueOrDefault().
      */
     public function getPaymentIntent(): mixed { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
-    /** @return string
+    /** Shape $ (Value): string. Stripe publishable key for the active Flint payment mode; use this with account_id when loading Stripe.js.
+     * @return string
      * @throws SdkError When publishable_key is omitted; use hasPublishableKey() or valueOrDefault().
      */
     public function getPublishableKey(): string { return $this->get('publishable_key'); }
     public function hasPublishableKey(): bool { return $this->has('publishable_key'); }
-    /** @return StripeSetupIntentClientActionInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see StripeSetupIntentClientActionInput}. SetupIntent authority for a saved-payment-method authentication action. The client action for a Stripe setup intent: the client secret to pass to Stripe.js `handleNextAction`.
+     * @return StripeSetupIntentClientActionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_intent is omitted; use hasSetupIntent() or valueOrDefault().
      */
     public function getSetupIntent(): mixed { return $this->get('setup_intent'); }

@@ -1,1 +1,0 @@
-{"shared":"LocationInventoryResponse","dependencies":["LocationInventory","LocationInventoryResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec467"]}

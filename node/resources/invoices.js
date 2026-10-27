@@ -2,74 +2,86 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/invoices.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["assessInvoiceLateFee"]:r0,["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["getInvoice"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["getOrCreateInvoiceCheckoutSession"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["recordManualInvoicePayment"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseManualInvoicePayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["getOrCreateInvoiceCheckoutSession"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.invoices = Object.freeze({
-      assessLateFee: async (invoice_id, params, options) => this.#runtime.request("assessInvoiceLateFee", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      assessLateFeeWithResponse: async (invoice_id, params, options) => this.#runtime.request("assessInvoiceLateFee", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
       cancelPaymentAttempt: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("cancelInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
 ], [invoice_id, invoice_payment_attempt_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelInvoicePaymentAttempt", result, path))),
       cancelPaymentAttemptWithResponse: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("cancelInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
 ], [invoice_id, invoice_payment_attempt_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       collect: async (invoice_id, params, options) => this.#runtime.request("collectInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("collectInvoice", result, path))),
       collectWithResponse: async (invoice_id, params, options) => this.#runtime.request("collectInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createInvoice", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoice", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createInvoice", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
+      assessLateFee: async (invoice_id, params, options) => this.#runtime.request("createInvoiceLateFee", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceLateFee", result, path))),
+      assessLateFeeWithResponse: async (invoice_id, params, options) => this.#runtime.request("createInvoiceLateFee", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
+      recordManualPayment: async (invoice_id, params, options) => this.#runtime.request("createInvoiceManualPayment", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceManualPayment", result, path))),
+      recordManualPaymentWithResponse: async (invoice_id, params, options) => this.#runtime.request("createInvoiceManualPayment", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (invoice_id, params, options) => this.#runtime.request("getInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoice", result, path))),
       getWithResponse: async (invoice_id, params, options) => this.#runtime.request("getInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "expand"
 ], false, false, params), options).then(_sdkResponse),
+      getManualPayment: async (invoice_id, invoice_manual_payment_id, params, options) => this.#runtime.request("getInvoiceManualPayment", _sdkRequestInput([
+  "invoice_id",
+  "invoice_manual_payment_id"
+], [invoice_id, invoice_manual_payment_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoiceManualPayment", result, path))),
+      getManualPaymentWithResponse: async (invoice_id, invoice_manual_payment_id, params, options) => this.#runtime.request("getInvoiceManualPayment", _sdkRequestInput([
+  "invoice_id",
+  "invoice_manual_payment_id"
+], [invoice_id, invoice_manual_payment_id], [], false, false, params), options).then(_sdkResponse),
       getPaymentAttempt: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("getInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
-], [invoice_id, invoice_payment_attempt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [invoice_id, invoice_payment_attempt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoicePaymentAttempt", result, path))),
       getPaymentAttemptWithResponse: async (invoice_id, invoice_payment_attempt_id, params, options) => this.#runtime.request("getInvoicePaymentAttempt", _sdkRequestInput([
   "invoice_id",
   "invoice_payment_attempt_id"
@@ -80,26 +92,22 @@ this.invoices = Object.freeze({
       getOrCreateCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("getOrCreateInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrCreateInvoiceCheckoutSession", result, path))),
       getOrCreateCheckoutSessionWithResponse: async (invoice_id, params, options) => this.#runtime.request("getOrCreateInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       issue: async (invoice_id, params, options) => this.#runtime.request("issueInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("issueInvoice", result, path))),
       issueWithResponse: async (invoice_id, params, options) => this.#runtime.request("issueInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       listActivities: async (invoice_id, params, options) => this.#runtime.request("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
@@ -107,15 +115,15 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "activity_type"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceActivities", result, path))),
       listActivitiesWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
+  "activity_type"
 ], false, false, params), options).then(_sdkResponse),
       listActivitiesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
@@ -123,15 +131,15 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
-], false, false, params), options), []),
+  "activity_type"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceActivities", result, path)),
       listActivitiesPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
+  "activity_type"
 ], false, false, params), options)),
       listActivitiesItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceActivities", _sdkRequestInput([
   "invoice_id"
@@ -139,14 +147,14 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
+  "activity_type"
 ], false, false, params), options),
       listDeliveryAttempts: async (invoice_id, params, options) => this.#runtime.request("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceDeliveryAttempts", result, path))),
       listDeliveryAttemptsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -158,7 +166,7 @@ this.invoices = Object.freeze({
 ], [invoice_id], [
   "page_size",
   "page_token"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceDeliveryAttempts", result, path)),
       listDeliveryAttemptsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceDeliveryAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -171,13 +179,43 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token"
 ], false, false, params), options),
+      listManualPayments: async (invoice_id, params, options) => this.#runtime.request("listInvoiceManualPayments", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceManualPayments", result, path))),
+      listManualPaymentsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoiceManualPayments", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options).then(_sdkResponse),
+      listManualPaymentsPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceManualPayments", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceManualPayments", result, path)),
+      listManualPaymentsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoiceManualPayments", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options)),
+      listManualPaymentsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceManualPayments", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options),
       listPaymentAttempts: async (invoice_id, params, options) => this.#runtime.request("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoicePaymentAttempts", result, path))),
       listPaymentAttemptsWithResponse: async (invoice_id, params, options) => this.#runtime.request("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -191,7 +229,7 @@ this.invoices = Object.freeze({
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoicePaymentAttempts", result, path)),
       listPaymentAttemptsPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInvoicePaymentAttempts", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -212,33 +250,49 @@ this.invoices = Object.freeze({
   "status",
   "customer_id",
   "order_id",
+  "subscription_id",
   "external_reference_id",
+  "invoice_number",
+  "collection_mode",
+  "issued_after",
+  "issued_before",
+  "updated_after",
+  "updated_before",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
   "sort_direction",
-  "query"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "query",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoices", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "customer_id",
   "order_id",
+  "subscription_id",
   "external_reference_id",
+  "invoice_number",
+  "collection_mode",
+  "issued_after",
+  "issued_before",
+  "updated_after",
+  "updated_before",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
   "sort_direction",
-  "query"
+  "query",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -246,33 +300,49 @@ this.invoices = Object.freeze({
   "status",
   "customer_id",
   "order_id",
+  "subscription_id",
   "external_reference_id",
+  "invoice_number",
+  "collection_mode",
+  "issued_after",
+  "issued_before",
+  "updated_after",
+  "updated_before",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
   "sort_direction",
-  "query"
-], false, false, params), options), []),
+  "query",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoices", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "customer_id",
   "order_id",
+  "subscription_id",
   "external_reference_id",
+  "invoice_number",
+  "collection_mode",
+  "issued_after",
+  "issued_before",
+  "updated_after",
+  "updated_before",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
   "sort_direction",
-  "query"
+  "query",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listInvoices", _sdkRequestInput([], [], [
   "page_size",
@@ -280,107 +350,93 @@ this.invoices = Object.freeze({
   "status",
   "customer_id",
   "order_id",
+  "subscription_id",
   "external_reference_id",
+  "invoice_number",
+  "collection_mode",
+  "issued_after",
+  "issued_before",
+  "updated_after",
+  "updated_before",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
   "sort_direction",
-  "query"
+  "query",
+  "expand"
 ], false, false, params), options),
       markUncollectible: async (invoice_id, params, options) => this.#runtime.request("markInvoiceUncollectible", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("markInvoiceUncollectible", result, path))),
       markUncollectibleWithResponse: async (invoice_id, params, options) => this.#runtime.request("markInvoiceUncollectible", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
-      recordManualPayment: async (invoice_id, params, options) => this.#runtime.request("recordManualInvoicePayment", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      recordManualPaymentWithResponse: async (invoice_id, params, options) => this.#runtime.request("recordManualInvoicePayment", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(_sdkResponse),
       regeneratePublicLink: async (invoice_id, params, options) => this.#runtime.request("regenerateInvoicePublicLink", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("regenerateInvoicePublicLink", result, path))),
       regeneratePublicLinkWithResponse: async (invoice_id, params, options) => this.#runtime.request("regenerateInvoicePublicLink", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
-      reverseManualPayment: async (invoice_id, params, options) => this.#runtime.request("reverseManualInvoicePayment", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      reverseManualPaymentWithResponse: async (invoice_id, params, options) => this.#runtime.request("reverseManualInvoicePayment", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+      reverseManualPayment: async (invoice_id, invoice_manual_payment_id, params, options) => this.#runtime.request("reverseInvoiceManualPayment", _sdkRequestInput([
+  "invoice_id",
+  "invoice_manual_payment_id"
+], [invoice_id, invoice_manual_payment_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("reverseInvoiceManualPayment", result, path))),
+      reverseManualPaymentWithResponse: async (invoice_id, invoice_manual_payment_id, params, options) => this.#runtime.request("reverseInvoiceManualPayment", _sdkRequestInput([
+  "invoice_id",
+  "invoice_manual_payment_id"
+], [invoice_id, invoice_manual_payment_id], [
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       sendReminder: async (invoice_id, params, options) => this.#runtime.request("sendInvoiceReminder", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("sendInvoiceReminder", result, path))),
       sendReminderWithResponse: async (invoice_id, params, options) => this.#runtime.request("sendInvoiceReminder", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       update: async (invoice_id, params, options) => this.#runtime.request("updateInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateInvoice", result, path))),
       updateWithResponse: async (invoice_id, params, options) => this.#runtime.request("updateInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       voidResource: async (invoice_id, params, options) => this.#runtime.request("voidInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("voidInvoice", result, path))),
       voidResourceWithResponse: async (invoice_id, params, options) => this.#runtime.request("voidInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       waiveLateFee: async (invoice_id, invoice_late_fee_id, params, options) => this.#runtime.request("waiveInvoiceLateFee", _sdkRequestInput([
   "invoice_id",
   "invoice_late_fee_id"
 ], [invoice_id, invoice_late_fee_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("waiveInvoiceLateFee", result, path))),
       waiveLateFeeWithResponse: async (invoice_id, invoice_late_fee_id, params, options) => this.#runtime.request("waiveInvoiceLateFee", _sdkRequestInput([
   "invoice_id",
   "invoice_late_fee_id"
@@ -389,141 +445,105 @@ this.invoices = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeInvoiceResponse } from '../models/InvoiceResponse.js';
-export { makeInvoicePaymentAttemptResponse } from '../models/InvoicePaymentAttemptResponse.js';
-export { makeCollectInvoiceResponse } from '../models/CollectInvoiceResponse.js';
-export { makeInvoiceCheckoutSessionResponse } from '../models/InvoiceCheckoutSessionResponse.js';
-export { makeIssueInvoiceResponse } from '../models/IssueInvoiceResponse.js';
-export { makeInvoiceActivityListResponse } from '../models/InvoiceActivityListResponse.js';
-export { makeInvoiceActivity } from '../models/InvoiceActivity.js';
-export { makeInvoiceDeliveryAttemptListResponse } from '../models/InvoiceDeliveryAttemptListResponse.js';
-export { makeInvoiceDeliveryAttempt } from '../models/InvoiceDeliveryAttempt.js';
-export { makeInvoicePaymentAttemptListResponse } from '../models/InvoicePaymentAttemptListResponse.js';
-export { makeInvoicePaymentAttempt } from '../models/InvoicePaymentAttempt.js';
-export { makeInvoiceListResponse } from '../models/InvoiceListResponse.js';
-export { makeInvoice } from '../models/Invoice.js';
-export { makeRegenerateInvoiceLinkResponse } from '../models/RegenerateInvoiceLinkResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeCollectInvoiceResult } from '../models/CollectInvoiceResult.js';
-export { makeInvoiceCheckoutSessionResult } from '../models/InvoiceCheckoutSessionResult.js';
-export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
-export { makeCheckoutSession } from '../models/CheckoutSession.js';
-export { makeOrderPaymentAttempt } from '../models/OrderPaymentAttempt.js';
-export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
-export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
-export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
-export { makeErrorRemediation } from '../models/ErrorRemediation.js';
-export { makeOrderPaymentAttemptPaymentMethodSave } from '../models/OrderPaymentAttemptPaymentMethodSave.js';
-export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
-export { makePaymentClientAction } from '../models/PaymentClientAction.js';
-export { makeStripePaymentClientAction } from '../models/StripePaymentClientAction.js';
-export { makeStripePaymentIntentClientAction } from '../models/StripePaymentIntentClientAction.js';
-export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentClientAction.js';
-export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
-export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
-export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
-export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
-export { makeCheckoutBuyerContact } from '../models/CheckoutBuyerContact.js';
-export { makeCheckoutCustomTextConfig } from '../models/CheckoutCustomTextConfig.js';
-export { makeCheckoutCustomTextWriteConfig } from '../models/CheckoutCustomTextWriteConfig.js';
-export { makeCheckoutCustomerConfig } from '../models/CheckoutCustomerConfig.js';
-export { makePrefilledCustomerInfo } from '../models/PrefilledCustomerInfo.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeCheckoutCustomerPrefill } from '../models/CheckoutCustomerPrefill.js';
-export { makeCheckoutDeliveryPinnedDependency } from '../models/CheckoutDeliveryPinnedDependency.js';
-export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig.js';
-export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
-export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
-export { makeDeliveryAddressAdvisoryResource } from '../models/DeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
-export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
-export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
-export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
-export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeDeliveryOptionProjection } from '../models/DeliveryOptionProjection.js';
-export { makeDeliveryArrivalEstimate } from '../models/DeliveryArrivalEstimate.js';
-export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
-export { makeDeliveryPlan } from '../models/DeliveryPlan.js';
-export { makeDeliveryQuoteExecutionLegResource } from '../models/DeliveryQuoteExecutionLegResource.js';
-export { makeDeliveryLocalDeliveryDetails } from '../models/DeliveryLocalDeliveryDetails.js';
-export { makeDeliveryShipmentDetails } from '../models/DeliveryShipmentDetails.js';
-export { makeDeliveryPickupDetails } from '../models/DeliveryPickupDetails.js';
-export { makeDeliveryLocationSummaryResource } from '../models/DeliveryLocationSummaryResource.js';
-export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
-export { makeLocationAddress } from '../models/LocationAddress.js';
-export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
-export { makeDeliveryQuoteLineItemResource } from '../models/DeliveryQuoteLineItemResource.js';
-export { makeDeliveryPickupAvailabilityQuantityResource } from '../models/DeliveryPickupAvailabilityQuantityResource.js';
-export { makeDeliveryMerchantDiagnostic } from '../models/DeliveryMerchantDiagnostic.js';
-export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMismatch.js';
-export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../models/BuyerDeliveryQuoteChoiceGroupResource.js';
-export { makeBuyerDeliveryInputRequirementResource } from '../models/BuyerDeliveryInputRequirementResource.js';
-export { makeBuyerDeliveryOptionResource } from '../models/BuyerDeliveryOptionResource.js';
-export { makeCheckoutGiftCardChallenge } from '../models/CheckoutGiftCardChallenge.js';
-export { makeCheckoutLegalConfig } from '../models/CheckoutLegalConfig.js';
-export { makeLegalSettings } from '../models/LegalSettings.js';
-export { makeCheckoutMerchantSupport } from '../models/CheckoutMerchantSupport.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';
-export { makePaymentCollection } from '../models/PaymentCollection.js';
-export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
-export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
-export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
-export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
-export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
-export { makeCheckoutPaymentMethodSave } from '../models/CheckoutPaymentMethodSave.js';
-export { makeCheckoutPaymentConfig } from '../models/CheckoutPaymentConfig.js';
-export { makeCheckoutProblemResource } from '../models/CheckoutProblemResource.js';
-export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
-export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.js';
-export { makeCheckoutSubscriptionTerms } from '../models/CheckoutSubscriptionTerms.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeCheckoutSubscriptionRecurringShipping } from '../models/CheckoutSubscriptionRecurringShipping.js';
-export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
-export { makeCheckoutSavedPaymentDetailsSettings } from '../models/CheckoutSavedPaymentDetailsSettings.js';
-export { makeThemeConfig } from '../models/ThemeConfig.js';
-export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
-export { makeIssueInvoiceResult } from '../models/IssueInvoiceResult.js';
-export { makeInvoiceLateFee } from '../models/InvoiceLateFee.js';
-export { makeInvoiceLateFeePolicy } from '../models/InvoiceLateFeePolicy.js';
-export { makeInvoicePaymentPolicy } from '../models/InvoicePaymentPolicy.js';
-export { makeInvoicePaymentOptionLimit } from '../models/InvoicePaymentOptionLimit.js';
-export { makeInvoicePaymentTermsSnapshot } from '../models/InvoicePaymentTermsSnapshot.js';
-export { makeInvoicePaymentTermCalculation } from '../models/InvoicePaymentTermCalculation.js';
-export { makeInvoiceScheduleEntry } from '../models/InvoiceScheduleEntry.js';
-export { makeInvoiceScheduleAmountSpecification } from '../models/InvoiceScheduleAmountSpecification.js';
-export { makeInvoiceScheduleDue } from '../models/InvoiceScheduleDue.js';
-export { makeInvoiceSnapshot } from '../models/InvoiceSnapshot.js';
-export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
-export { makeOrderCharge } from '../models/OrderCharge.js';
-export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
-export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
-export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
-export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
-export { makeInvoiceDiscount } from '../models/InvoiceDiscount.js';
-export { makeInvoiceLineItem } from '../models/InvoiceLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeImage } from '../models/Image.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeInvoiceTip } from '../models/InvoiceTip.js';
-export { makeRegenerateInvoiceLinkResult } from '../models/RegenerateInvoiceLinkResult.js';
-export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
-export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeAddressRequest } from '../models/AddressRequest.js';
 export { makeAssessInvoiceLateFeeRequest } from '../models/AssessInvoiceLateFeeRequest.js';
+export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
+export { makeCheckoutBuyerFields } from '../models/CheckoutBuyerFields.js';
+export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
+export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
+export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
 export { makeCollectInvoiceRequest } from '../models/CollectInvoiceRequest.js';
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
+export { makeCreateInvoiceIssueRequest } from '../models/CreateInvoiceIssueRequest.js';
+export { makeCreateInvoiceManualPaymentRequest } from '../models/CreateInvoiceManualPaymentRequest.js';
+export { makeCreateInvoiceQuickPayRequest } from '../models/CreateInvoiceQuickPayRequest.js';
+export { makeCreateInvoiceRequest } from '../models/CreateInvoiceRequest.js';
+export { makeCreateOrderDiscount } from '../models/CreateOrderDiscount.js';
+export { makeCreateOrderLineItemRequest } from '../models/CreateOrderLineItemRequest.js';
+export { makeCreateOrderTip } from '../models/CreateOrderTip.js';
+export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
+export { makeDeliveryPreviewRoutingSource } from '../models/DeliveryPreviewRoutingSource.js';
+export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
+export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
+export { makeDimensions } from '../models/Dimensions.js';
+export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
+export { makeGiftCardPurchaseDetailsRequest } from '../models/GiftCardPurchaseDetailsRequest.js';
+export { makeGiftCardPurchaseRecipientRequest } from '../models/GiftCardPurchaseRecipientRequest.js';
+export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
+export { makeInvoiceCheckoutSessionRequest } from '../models/InvoiceCheckoutSessionRequest.js';
+export { makeInvoiceCollectionInputAutomatic } from '../models/InvoiceCollectionInputAutomatic.js';
+export { makeInvoiceCollectionInputBuyerInitiated } from '../models/InvoiceCollectionInputBuyerInitiated.js';
+export { makeInvoiceCollectionInputExternal } from '../models/InvoiceCollectionInputExternal.js';
+export { makeInvoiceCollectionInputMerchantDefault } from '../models/InvoiceCollectionInputMerchantDefault.js';
+export { makeInvoiceCollectionRequest } from '../models/InvoiceCollectionRequest.js';
+export { makeInvoiceLateFeePolicy } from '../models/InvoiceLateFeePolicy.js';
+export { makeInvoiceLateFeePolicyFixed } from '../models/InvoiceLateFeePolicyFixed.js';
+export { makeInvoiceLateFeePolicyPercentage } from '../models/InvoiceLateFeePolicyPercentage.js';
+export { makeInvoicePaymentDueInputCustomerDefault } from '../models/InvoicePaymentDueInputCustomerDefault.js';
+export { makeInvoicePaymentDueInputDate } from '../models/InvoicePaymentDueInputDate.js';
+export { makeInvoicePaymentDueInputMerchantDefault } from '../models/InvoicePaymentDueInputMerchantDefault.js';
+export { makeInvoicePaymentDueInputNone } from '../models/InvoicePaymentDueInputNone.js';
+export { makeInvoicePaymentDueInputPaymentTerms } from '../models/InvoicePaymentDueInputPaymentTerms.js';
+export { makeInvoicePaymentDueRequest } from '../models/InvoicePaymentDueRequest.js';
+export { makeInvoicePaymentOptionLimit } from '../models/InvoicePaymentOptionLimit.js';
+export { makeInvoicePaymentPolicy } from '../models/InvoicePaymentPolicy.js';
+export { makeInvoicePaymentTermCalculation } from '../models/InvoicePaymentTermCalculation.js';
+export { makeInvoicePaymentTermCalculationDayOfMonth } from '../models/InvoicePaymentTermCalculationDayOfMonth.js';
+export { makeInvoicePaymentTermCalculationDayOfNextMonth } from '../models/InvoicePaymentTermCalculationDayOfNextMonth.js';
+export { makeInvoicePaymentTermCalculationDaysAfterMonthEnd } from '../models/InvoicePaymentTermCalculationDaysAfterMonthEnd.js';
+export { makeInvoicePaymentTermCalculationNetDays } from '../models/InvoicePaymentTermCalculationNetDays.js';
+export { makeInvoicePaymentTermCalculationOnReceipt } from '../models/InvoicePaymentTermCalculationOnReceipt.js';
+export { makeInvoiceScheduleAmountSpecification } from '../models/InvoiceScheduleAmountSpecification.js';
+export { makeInvoiceScheduleAmountSpecificationFixed } from '../models/InvoiceScheduleAmountSpecificationFixed.js';
+export { makeInvoiceScheduleAmountSpecificationPercentage } from '../models/InvoiceScheduleAmountSpecificationPercentage.js';
+export { makeInvoiceScheduleAmountSpecificationRemainingBalance } from '../models/InvoiceScheduleAmountSpecificationRemainingBalance.js';
+export { makeInvoiceScheduleDueWrite } from '../models/InvoiceScheduleDueWrite.js';
+export { makeInvoiceScheduleDueWriteAtIssue } from '../models/InvoiceScheduleDueWriteAtIssue.js';
+export { makeInvoiceScheduleDueWriteDate } from '../models/InvoiceScheduleDueWriteDate.js';
+export { makeInvoiceScheduleDueWriteInvoiceDueDate } from '../models/InvoiceScheduleDueWriteInvoiceDueDate.js';
+export { makeInvoiceScheduleEntryWrite } from '../models/InvoiceScheduleEntryWrite.js';
+export { makeInvoiceScheduleEntryWriteBalance } from '../models/InvoiceScheduleEntryWriteBalance.js';
+export { makeInvoiceScheduleEntryWriteDeposit } from '../models/InvoiceScheduleEntryWriteDeposit.js';
+export { makeInvoiceScheduleEntryWriteInstallment } from '../models/InvoiceScheduleEntryWriteInstallment.js';
+export { makeIssueInvoiceRequest } from '../models/IssueInvoiceRequest.js';
+export { makeLineItemFulfillmentOriginRequest } from '../models/LineItemFulfillmentOriginRequest.js';
+export { makeLineItemFulfillmentRequest } from '../models/LineItemFulfillmentRequest.js';
+export { makeManualDiscountRequest } from '../models/ManualDiscountRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
+export { makeOrderDeliveryDestinationAddressRequest } from '../models/OrderDeliveryDestinationAddressRequest.js';
+export { makeOrderDeliveryDestinationRecipientRequest } from '../models/OrderDeliveryDestinationRecipientRequest.js';
+export { makeOrderDeliveryDestinationRequest } from '../models/OrderDeliveryDestinationRequest.js';
+export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
+export { makeOrderDraftLineItemTaxCalculationRequest } from '../models/OrderDraftLineItemTaxCalculationRequest.js';
+export { makeOrderDraftLineItemTaxRequest } from '../models/OrderDraftLineItemTaxRequest.js';
+export { makeOrderDraftTaxComponentRequest } from '../models/OrderDraftTaxComponentRequest.js';
+export { makeOrderDraftTaxJurisdictionRequest } from '../models/OrderDraftTaxJurisdictionRequest.js';
+export { makeOrderInventoryRoutingSourceRequest } from '../models/OrderInventoryRoutingSourceRequest.js';
+export { makeOrderLineItemModifierRequest } from '../models/OrderLineItemModifierRequest.js';
+export { makeOrderTaxCalculationInputAutomatic } from '../models/OrderTaxCalculationInputAutomatic.js';
+export { makeOrderTaxCalculationInputExternal } from '../models/OrderTaxCalculationInputExternal.js';
+export { makeOrderTaxCalculationRequest } from '../models/OrderTaxCalculationRequest.js';
+export { makeOrderTaxComponentRequest } from '../models/OrderTaxComponentRequest.js';
+export { makeOrderTaxJurisdictionRequest } from '../models/OrderTaxJurisdictionRequest.js';
+export { makeOrderTaxLocationFullAddressRequest } from '../models/OrderTaxLocationFullAddressRequest.js';
+export { makeOrderTaxLocationInputFullAddress } from '../models/OrderTaxLocationInputFullAddress.js';
+export { makeOrderTaxLocationInputInferredFullAddress } from '../models/OrderTaxLocationInputInferredFullAddress.js';
+export { makeOrderTaxLocationInputInferredPostalCode } from '../models/OrderTaxLocationInputInferredPostalCode.js';
+export { makeOrderTaxLocationInputPostalCode } from '../models/OrderTaxLocationInputPostalCode.js';
+export { makeOrderTaxLocationPostalAddressRequest } from '../models/OrderTaxLocationPostalAddressRequest.js';
+export { makeOrderTaxLocationRequest } from '../models/OrderTaxLocationRequest.js';
+export { makeOrderTaxRequest } from '../models/OrderTaxRequest.js';
+export { makePromotionRefRequest } from '../models/PromotionRefRequest.js';
+export { makeResourceVersionRequest } from '../models/ResourceVersionRequest.js';
+export { makeReverseInvoiceManualPaymentRequest } from '../models/ReverseInvoiceManualPaymentRequest.js';
+export { makeSubscribedLineRequest } from '../models/SubscribedLineRequest.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
+export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeUpdateInvoiceRequest } from '../models/UpdateInvoiceRequest.js';
 export { makeWaiveInvoiceLateFeeRequest } from '../models/WaiveInvoiceLateFeeRequest.js';
+export { makeWeight } from '../models/Weight.js';

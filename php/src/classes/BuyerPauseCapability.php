@@ -2,20 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read bool $enabled
- * @property-read int $max_cycles
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?bool $enabled
+ * @property-read ?int $max_cycles
+ * Presence-aware response; omitted optional fields return null. */
 final class BuyerPauseCapability extends Model {
     /** @param array{'enabled'?: bool, 'max_cycles'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPauseCapability')); }
-    /** @return bool
-     * @throws SdkError When enabled is omitted; use hasEnabled() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether buyers may pause. When false, a buyer's pause returns PAUSE_NOT_ALLOWED. Default: true.
+     * @return ?bool
      */
-    public function getEnabled(): bool { return $this->get('enabled'); }
+    public function getEnabled(): ?bool { return $this->get('enabled'); }
     public function hasEnabled(): bool { return $this->has('enabled'); }
-    /** @return int
-     * @throws SdkError When max_cycles is omitted; use hasMaxCycles() or valueOrDefault().
+    /** Shape $ (Value): integer. The longest pause a buyer may choose, in billing periods. When set, a buyer's pause must send pause_duration_cycles from 1 to this value. Omit it for no limit, which also lets a buyer pause until they resume. Format: int32. minimum: 1. maximum: 12.
+     * @return ?int
      */
-    public function getMaxCycles(): int { return $this->get('max_cycles'); }
+    public function getMaxCycles(): ?int { return $this->get('max_cycles'); }
     public function hasMaxCycles(): bool { return $this->has('max_cycles'); }
 }

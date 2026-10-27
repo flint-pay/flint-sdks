@@ -1,4 +1,0 @@
-
-import type { MoneyValue } from './MoneyValue.js';
-
-export type PayOrderRequestResume = { "action": "resume" | (string & {}); /** Buyer email and phone recorded on the order. A checkout session payment uses the session's saved contact for omitted fields. Email and phone cannot be null. */ "buyer_contact"?: ({ /** Email for the buyer, such as buyer@example.com. On checkout session updates, null clears the saved email. Format: email. maxLength: 255. */ "email"?: string | null; /** Phone for the buyer, in E.164 format, such as +14155551234. On checkout session updates, null clears the saved phone. pattern: ^\+[1-9][0-9]{1,14}$. */ "phone"?: string | null; }) & ({ "email"?: string; "phone"?: string; }); "expected_outstanding_money"?: MoneyValue; /** minLength: 1. */ "order_payment_attempt_id": string; };

@@ -8,12 +8,14 @@ namespace Flint;
 final class ProductsGetOptionInput extends Model {
     /** @param array{'product_id': string, 'option_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductsGetOptionInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When option_id is omitted; use hasOptionId() or valueOrDefault().
      */
     public function getOptionId(): string { return $this->get('option_id'); }

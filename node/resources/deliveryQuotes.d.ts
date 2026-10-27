@@ -1,110 +1,170 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { DeliveryQuote } from '../declarations/DeliveryQuote.js';
-import type { DeliveryQuoteListResponse } from '../declarations/DeliveryQuoteListResponse.js';
-import type { DeliveryQuotesListInput } from '../declarations/DeliveryQuotesListInput.js';
-import type { DeliveryQuotesListResponse } from '../declarations/DeliveryQuotesListResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    DeliveryQuote,
+    DeliveryQuoteListResponse,
+    DeliveryQuoteResponse,
+    DeliveryQuotesGetInput,
+    DeliveryQuotesListInput
+} from '../declarations/types-14.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    DeliveryQuote,
+    DeliveryQuoteResponse,
+    DeliveryQuoteListResponse,
+    DeliveryQuotesGetInput,
+    DeliveryQuotesListInput,
+    DeliveryQuoteChoiceGroupResource,
+    DeliveryQuoteExecutionLegResource,
+    DeliveryRecipientRequirement,
+    DeliveryQuoteLineItemResource,
+    DeliveryQuoteMethodResource
+} from '../declarations/types-14.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type {
+    DeliveryBuyerLocationRequest,
+    DeliveryAddressRequest,
+    DeliveryBuyerLocationInputAddress,
+    DeliveryBuyerLocationInputCoordinate,
+    DeliveryAddressAdvisoryResource,
+    DeliveryCandidateOutcomeResource,
+    DeliveryArrivalEstimate,
+    DeliveryCandidateOutcomeResourceAvailable,
+    DeliveryCandidateOutcomeResourceUnavailable,
+    DeliveryCandidateOutcomeResourceInputRequired,
+    DeliveryCandidateOutcomeResourceCannotCalculate,
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
+    DeliveryEligibilityMismatch
+} from '../declarations/types-11.js';
+export type { LocationCoordinate } from '../declarations/types-29.js';
+export type {
+    DeliveryInputRequirement,
+    DeliveryInputConstraint,
+    DeliveryOptionProjection,
+    DeliveryPlan,
+    DeliveryPickupDetails,
+    DeliveryLocationSummaryResource,
+    DeliveryMerchantDiagnostic,
+    DeliveryPendingCallerRateRequest
+} from '../declarations/types-12.js';
+export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-15.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { BuyerInstructionsConfig } from '../declarations/types-1.js';
+export { makeBuyerInstructionsConfig } from '../declarations/types-61.js';
+export {
+    makeDeliveryAddressRequest,
+    makeDeliveryBuyerLocationInputAddress,
+    makeDeliveryBuyerLocationInputCoordinate,
+    makeDeliveryBuyerLocationRequest
+} from '../declarations/types-65.js';
+export { makeDeliveryRecipientRequirement, makeDeliveryWindowRequest } from '../declarations/types-66.js';
+export { makeLocationCoordinate, makeMoneyValue } from '../declarations/types-68.js';
 export interface DeliveryQuotesResource {
     /**
+ * Returns a persisted delivery quote for diagnostics and recovery by its ID, using the same
+ * merchant view as the quote list.
+ * @see reference/deliveryQuotes.md#deliveryquotesget
+ * GET /v1/delivery-quotes/{delivery_quote_id}
+ * @example
+ * client.deliveryQuotes.get("example")
+ */
+    get(delivery_quote_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryQuote>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/deliveryQuotes.md#deliveryquotesget
+     */
+    getWithResponse(delivery_quote_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryQuoteResponse>>;
+    /**
  * Returns persisted delivery quote diagnostics in stable creation order.
+ * @see reference/deliveryQuotes.md#deliveryquoteslist
  * GET /v1/delivery-quotes
  * @example
  * client.deliveryQuotes.list()
  */
-    list(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryQuoteListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryQuotesListResponse>>;
-    listPages(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuoteListResponse>;
-    listPagesWithResponse(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryQuotesListResponse>>;
-    listItems(params?: { "checkout_session_id"?: InputValue<string>; "order_id"?: InputValue<string>; "status"?: InputValue<"active" | "consumed" | "stale" | "expired" | "revoked">; "evaluation_status"?: InputValue<"complete" | "incomplete" | "degraded">; "created_after"?: InputValue<string>; "created_before"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuote>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly deliveryQuotes: DeliveryQuotesResource;
+    list(params?: {
+        "checkout_session_id"?: InputValue<string>;
+        "order_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
+        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryQuoteListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/deliveryQuotes.md#deliveryquoteslist
+     */
+    listWithResponse(params?: {
+        "checkout_session_id"?: InputValue<string>;
+        "order_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
+        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryQuoteListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/deliveryQuotes.md#deliveryquoteslist
+     */
+    listPages(params?: {
+        "checkout_session_id"?: InputValue<string>;
+        "order_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
+        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuoteListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/deliveryQuotes.md#deliveryquoteslist
+     */
+    listPagesWithResponse(params?: {
+        "checkout_session_id"?: InputValue<string>;
+        "order_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
+        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryQuoteListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/deliveryQuotes.md#deliveryquoteslist
+     */
+    listItems(params?: {
+        "checkout_session_id"?: InputValue<string>;
+        "order_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "consumed" | "stale" | "expired" | "revoked">>;
+        "evaluation_status"?: InputValue<Array<"complete" | "incomplete" | "degraded">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuote>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { DeliveryQuoteListResponse } from '../declarations/DeliveryQuoteListResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { DeliveryQuotesListResponse } from '../declarations/DeliveryQuotesListResponse.js';
-export type { DeliveryQuote } from '../declarations/DeliveryQuote.js';
-export type { DeliveryQuotesListInput } from '../declarations/DeliveryQuotesListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { DeliveryBuyerLocationResource } from '../declarations/DeliveryBuyerLocationResource.js';
-export type { DeliveryAddressResource } from '../declarations/DeliveryAddressResource.js';
-export type { LocationAddress } from '../declarations/LocationAddress.js';
-export type { DeliveryCoordinateRequest } from '../declarations/DeliveryCoordinateRequest.js';
-export type { DeliveryQuoteChoiceGroupResource } from '../declarations/DeliveryQuoteChoiceGroupResource.js';
-export type { DeliveryCandidateOutcomeResource } from '../declarations/DeliveryCandidateOutcomeResource.js';
-export type { DeliveryAddressAdvisoryResource } from '../declarations/DeliveryAddressAdvisoryResource.js';
-export type { DeliveryAddressRequest } from '../declarations/DeliveryAddressRequest.js';
-export type { DeliveryInputRequirement } from '../declarations/DeliveryInputRequirement.js';
-export type { DeliveryInputConstraint } from '../declarations/DeliveryInputConstraint.js';
-export type { DeliveryWindowResource } from '../declarations/DeliveryWindowResource.js';
-export type { DeliveryWindowRequest } from '../declarations/DeliveryWindowRequest.js';
-export type { DeliveryOptionProjection } from '../declarations/DeliveryOptionProjection.js';
-export type { DeliveryArrivalEstimate } from '../declarations/DeliveryArrivalEstimate.js';
-export type { BuyerInstructionsConfig } from '../declarations/BuyerInstructionsConfig.js';
-export type { DeliveryPlan } from '../declarations/DeliveryPlan.js';
-export type { DeliveryQuoteExecutionLegResource } from '../declarations/DeliveryQuoteExecutionLegResource.js';
-export type { DeliveryLocalDeliveryDetails } from '../declarations/DeliveryLocalDeliveryDetails.js';
-export type { DeliveryShipmentDetails } from '../declarations/DeliveryShipmentDetails.js';
-export type { DeliveryPickupDetails } from '../declarations/DeliveryPickupDetails.js';
-export type { DeliveryLocationSummaryResource } from '../declarations/DeliveryLocationSummaryResource.js';
-export type { DeliveryRecipientRequirement } from '../declarations/DeliveryRecipientRequirement.js';
-export type { DeliveryQuoteLineItemResource } from '../declarations/DeliveryQuoteLineItemResource.js';
-export type { DeliveryPickupAvailabilityQuantityResource } from '../declarations/DeliveryPickupAvailabilityQuantityResource.js';
-export type { DeliveryMerchantDiagnostic } from '../declarations/DeliveryMerchantDiagnostic.js';
-export type { DeliveryEligibilityMismatch } from '../declarations/DeliveryEligibilityMismatch.js';
-export type { DeliveryQuoteMethodResource } from '../declarations/DeliveryQuoteMethodResource.js';
-export type { DeliveryPendingCallerRateRequest } from '../declarations/DeliveryPendingCallerRateRequest.js';
-export { makeDeliveryQuoteListResponse } from '../declarations/makeDeliveryQuoteListResponse.js';
-export { makeDeliveryQuote } from '../declarations/makeDeliveryQuote.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeDeliveryBuyerLocationResource } from '../declarations/makeDeliveryBuyerLocationResource.js';
-export { makeDeliveryAddressResource } from '../declarations/makeDeliveryAddressResource.js';
-export { makeLocationAddress } from '../declarations/makeLocationAddress.js';
-export { makeDeliveryCoordinateRequest } from '../declarations/makeDeliveryCoordinateRequest.js';
-export { makeDeliveryQuoteChoiceGroupResource } from '../declarations/makeDeliveryQuoteChoiceGroupResource.js';
-export { makeDeliveryCandidateOutcomeResource } from '../declarations/makeDeliveryCandidateOutcomeResource.js';
-export { makeDeliveryAddressAdvisoryResource } from '../declarations/makeDeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../declarations/makeDeliveryAddressRequest.js';
-export { makeDeliveryInputRequirement } from '../declarations/makeDeliveryInputRequirement.js';
-export { makeDeliveryInputConstraint } from '../declarations/makeDeliveryInputConstraint.js';
-export { makeDeliveryWindowResource } from '../declarations/makeDeliveryWindowResource.js';
-export { makeDeliveryWindowRequest } from '../declarations/makeDeliveryWindowRequest.js';
-export { makeDeliveryOptionProjection } from '../declarations/makeDeliveryOptionProjection.js';
-export { makeDeliveryArrivalEstimate } from '../declarations/makeDeliveryArrivalEstimate.js';
-export { makeBuyerInstructionsConfig } from '../declarations/makeBuyerInstructionsConfig.js';
-export { makeDeliveryPlan } from '../declarations/makeDeliveryPlan.js';
-export { makeDeliveryQuoteExecutionLegResource } from '../declarations/makeDeliveryQuoteExecutionLegResource.js';
-export { makeDeliveryLocalDeliveryDetails } from '../declarations/makeDeliveryLocalDeliveryDetails.js';
-export { makeDeliveryShipmentDetails } from '../declarations/makeDeliveryShipmentDetails.js';
-export { makeDeliveryPickupDetails } from '../declarations/makeDeliveryPickupDetails.js';
-export { makeDeliveryLocationSummaryResource } from '../declarations/makeDeliveryLocationSummaryResource.js';
-export { makeDeliveryRecipientRequirement } from '../declarations/makeDeliveryRecipientRequirement.js';
-export { makeDeliveryQuoteLineItemResource } from '../declarations/makeDeliveryQuoteLineItemResource.js';
-export { makeDeliveryPickupAvailabilityQuantityResource } from '../declarations/makeDeliveryPickupAvailabilityQuantityResource.js';
-export { makeDeliveryMerchantDiagnostic } from '../declarations/makeDeliveryMerchantDiagnostic.js';
-export { makeDeliveryEligibilityMismatch } from '../declarations/makeDeliveryEligibilityMismatch.js';
-export { makeDeliveryQuoteMethodResource } from '../declarations/makeDeliveryQuoteMethodResource.js';
-export { makeDeliveryPendingCallerRateRequest } from '../declarations/makeDeliveryPendingCallerRateRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly deliveryQuotes: DeliveryQuotesResource;
+}

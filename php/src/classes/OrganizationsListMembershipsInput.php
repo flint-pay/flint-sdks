@@ -9,17 +9,20 @@ namespace Flint;
 final class OrganizationsListMembershipsInput extends Model {
     /** @param array{'organization_id': string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrganizationsListMembershipsInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When organization_id is omitted; use hasOrganizationId() or valueOrDefault().
      */
     public function getOrganizationId(): string { return $this->get('organization_id'); }
     public function hasOrganizationId(): bool { return $this->has('organization_id'); }
-    /** @return int
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
+     * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }

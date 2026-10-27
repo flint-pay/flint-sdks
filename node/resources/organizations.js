@@ -2,41 +2,39 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/organizations.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/organizations.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createOrganization"]:r0,["deleteOrganization"]:r0,["getOrganization"]:r0,["grantOrganizationMembership"]:r0,["listOrganizationMemberships"]:r0,["listOrganizations"]:r0,["revokeOrganizationMembership"]:r0,["transferOrganizationOwnership"]:r0,["updateOrganization"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createOrganization"]:r0,["deleteOrganization"]:r0,["getOrganization"]:r0,["grantOrganizationMembership"]:r0,["listOrganizationMemberships"]:r0,["listOrganizations"]:r0,["removeOrganizationMembership"]:r0,["updateOrganization"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.organizations = Object.freeze({
       create: async (params, options) => this.#runtime.request("createOrganization", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrganization", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createOrganization", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (organization_id, params, options) => this.#runtime.request("deleteOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expected_version",
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteOrganization", result, path))),
       removeWithResponse: async (organization_id, params, options) => this.#runtime.request("deleteOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "expected_version",
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (organization_id, params, options) => this.#runtime.request("getOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrganization", result, path))),
       getWithResponse: async (organization_id, params, options) => this.#runtime.request("getOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
@@ -45,21 +43,19 @@ this.organizations = Object.freeze({
       grantMembership: async (organization_id, params, options) => this.#runtime.request("grantOrganizationMembership", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("grantOrganizationMembership", result, path))),
       grantMembershipWithResponse: async (organization_id, params, options) => this.#runtime.request("grantOrganizationMembership", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       listMemberships: async (organization_id, params, options) => this.#runtime.request("listOrganizationMemberships", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listOrganizationMemberships", result, path))),
       listMembershipsWithResponse: async (organization_id, params, options) => this.#runtime.request("listOrganizationMemberships", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
@@ -71,7 +67,7 @@ this.organizations = Object.freeze({
 ], [organization_id], [
   "page_size",
   "page_token"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listOrganizationMemberships", result, path)),
       listMembershipsPagesWithResponse: (organization_id, params, options) => _sdkResponsePages(this.#runtime.pages("listOrganizationMemberships", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
@@ -94,8 +90,9 @@ this.organizations = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "updated_before",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listOrganizations", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
   "status",
@@ -106,7 +103,8 @@ this.organizations = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
@@ -118,8 +116,9 @@ this.organizations = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
-], false, false, params), options), []),
+  "updated_before",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listOrganizations", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
   "status",
@@ -130,7 +129,8 @@ this.organizations = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listOrganizations", _sdkRequestInput([], [], [
   "parent_organization_id",
@@ -142,64 +142,37 @@ this.organizations = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options),
-      revokeMembership: async (organization_id, user_id, params, options) => this.#runtime.request("revokeOrganizationMembership", _sdkRequestInput([
+      revokeMembership: async (organization_id, user_id, params, options) => this.#runtime.request("removeOrganizationMembership", _sdkRequestInput([
   "organization_id",
   "user_id"
 ], [organization_id, user_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      revokeMembershipWithResponse: async (organization_id, user_id, params, options) => this.#runtime.request("revokeOrganizationMembership", _sdkRequestInput([
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("removeOrganizationMembership", result, path))),
+      revokeMembershipWithResponse: async (organization_id, user_id, params, options) => this.#runtime.request("removeOrganizationMembership", _sdkRequestInput([
   "organization_id",
   "user_id"
 ], [organization_id, user_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
-      transferOwnership: async (organization_id, params, options) => this.#runtime.request("transferOrganizationOwnership", _sdkRequestInput([
-  "organization_id"
-], [organization_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      transferOwnershipWithResponse: async (organization_id, params, options) => this.#runtime.request("transferOrganizationOwnership", _sdkRequestInput([
-  "organization_id"
-], [organization_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(_sdkResponse),
       update: async (organization_id, params, options) => this.#runtime.request("updateOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateOrganization", result, path))),
       updateWithResponse: async (organization_id, params, options) => this.#runtime.request("updateOrganization", _sdkRequestInput([
   "organization_id"
 ], [organization_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeOrganizationResponse } from '../models/OrganizationResponse.js';
-export { makeOrganizationMembershipResponse } from '../models/OrganizationMembershipResponse.js';
-export { makeOrganizationMembershipListResponse } from '../models/OrganizationMembershipListResponse.js';
-export { makeOrganizationMembership } from '../models/OrganizationMembership.js';
-export { makeOrganizationListResponse } from '../models/OrganizationListResponse.js';
-export { makeOrganization } from '../models/Organization.js';
-export { makeRevokeOrganizationMembershipResponse } from '../models/RevokeOrganizationMembershipResponse.js';
-export { makeTransferOrganizationOwnershipResponse } from '../models/TransferOrganizationOwnershipResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeRevokeOrganizationMembershipResult } from '../models/RevokeOrganizationMembershipResult.js';
-export { makeTransferOrganizationOwnershipResult } from '../models/TransferOrganizationOwnershipResult.js';
 export { makeCreateOrganizationRequest } from '../models/CreateOrganizationRequest.js';
+export { makeGrantOrganizationMembershipRequest } from '../models/GrantOrganizationMembershipRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeUpdateOrganizationRequest } from '../models/UpdateOrganizationRequest.js';

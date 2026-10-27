@@ -2,16 +2,26 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryLevels.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/inventoryLevels.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["listInventoryLevels"]:r0,["updateInventoryLevel"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["getInventoryLevel"]:r0,["listInventoryLevels"]:r0,["updateInventoryLevel"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.inventoryLevels = Object.freeze({
+      get: async (inventory_level_id, params, options) => this.#runtime.request("getInventoryLevel", _sdkRequestInput([
+  "inventory_level_id"
+], [inventory_level_id], [
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInventoryLevel", result, path))),
+      getWithResponse: async (inventory_level_id, params, options) => this.#runtime.request("getInventoryLevel", _sdkRequestInput([
+  "inventory_level_id"
+], [inventory_level_id], [
+  "expand"
+], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryLevels", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -27,7 +37,7 @@ this.inventoryLevels = Object.freeze({
   "updated_after",
   "updated_before",
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInventoryLevels", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryLevels", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -59,7 +69,7 @@ this.inventoryLevels = Object.freeze({
   "updated_after",
   "updated_before",
   "expand"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInventoryLevels", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryLevels", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -96,7 +106,7 @@ this.inventoryLevels = Object.freeze({
   "inventory_level_id"
 ], [inventory_level_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateInventoryLevel", result, path))),
       updateWithResponse: async (inventory_level_id, params, options) => this.#runtime.request("updateInventoryLevel", _sdkRequestInput([
   "inventory_level_id"
 ], [inventory_level_id], [
@@ -104,16 +114,8 @@ this.inventoryLevels = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeInventoryLevelListResponse } from '../models/InventoryLevelListResponse.js';
-export { makeInventoryLevel } from '../models/InventoryLevel.js';
-export { makeInventoryLevelUpdateResultResponse } from '../models/InventoryLevelUpdateResultResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeInventoryItem } from '../models/InventoryItem.js';
-export { makeInventoryLevelUpdateResult } from '../models/InventoryLevelUpdateResult.js';
 export { makeUpdateInventoryLevelRequest } from '../models/UpdateInventoryLevelRequest.js';

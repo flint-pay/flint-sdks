@@ -1,4 +1,0 @@
-import type { InputValue } from '../runtime.js';
-
-
-export type LocationsRemoveInput = { "location_id": InputValue<string>; /** minimum: 1. */ "expected_version"?: InputValue<number>; "Idempotency-Key"?: InputValue<string>; };

@@ -2,11 +2,60 @@
 
 Package 4.0.0; API 2026-09-07.
 
-[Back to the quickstart](README.md) · [API reference](REFERENCE.md)
+[Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 
 ## Client and request options
 
-The default baseUrl is `https://api.withflintpay.com`; pass baseUrl to select another environment. Pass per-request options as the last method argument: a plain object in Node, or RequestOptions in PHP.
+Import Client, ClientOptions, RequestOptions and SdkError from Flint; load your application's vendor/autoload.php. Use an explicit sandbox or local mock base URL for examples. HTTP requires allowInsecureHttp: true. No network request is made during client construction.
+
+### ClientOptions
+
+| Field | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| baseUrl | string | https://api.withflintpay.com | API environment URL. Set explicitly for sandbox or local tests. |
+| token | string, CredentialProvider or Closure | none | Legacy credential, or configured token shortcut only. |
+| ambientCredentials | boolean | true | Enable configured default credential discovery, when supported. |
+| allowedOrigins | list<string> | base URL origin | Allowlisted canonical destination origins. |
+| allowInsecureHttp | boolean | false | Permit HTTP for deliberate local tests. |
+| authMode | string | operation/client selection | Select a declared authentication mode. |
+| credentials | credential map | none | Client: mode → scheme → credential. Request: scheme → credential. |
+| timeoutMs | int | 10000 | Per-attempt timeout, including buffered body reads. |
+| deadlineMs | int | 30000 | Overall duration across attempts and waits, not a timestamp. |
+| maxAttempts | int | operation policy | Total attempts including the first; capped by the operation limit. |
+| transport | Closure | cURL | Caller-owned transport; honor cancellation, disable redirects and retries. |
+| diagnostics | Closure | none | Per-attempt metadata callback. Exceptions are ignored; no bodies or credentials. |
+| redactFields | list<string> | [] | Additional sensitive field names for SDK inspection. |
+| credentialCache | object (PSR-16) | null | Optional credential cache for configured discovery; protect as a credential store. |
+| apiKey | string, CredentialProvider or Closure | none | Configured authentication shortcut; see Authentication. |
+| checkoutToken | string, CredentialProvider or Closure | none | Configured authentication shortcut; see Authentication. |
+| customerToken | string, CredentialProvider or Closure | none | Configured authentication shortcut; see Authentication. |
+| invoiceToken | string, CredentialProvider or Closure | none | Configured authentication shortcut; see Authentication. |
+| onboardingToken | string, CredentialProvider or Closure | none | Configured authentication shortcut; see Authentication. |
+
+### RequestOptions
+
+| Field | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| authMode | string | inherit client | Select a declared authentication mode. |
+| credentials | credential map | inherit client | Client: mode → scheme → credential. Request: scheme → credential. |
+| timeoutMs | int | inherit client | Per-attempt timeout, including buffered body reads. |
+| deadlineMs | int | inherit client | Overall duration across attempts and waits, not a timestamp. |
+| maxAttempts | int | inherit client | Total attempts including the first; capped by the operation limit. |
+| headers | array<string, string> | {} | Request-local headers; managed credential/version headers remain controlled. |
+| idempotencyKey | string | operation policy | Saved action key; supported only on declared operations. |
+| ifMatch | string | none | Declared conditional request header. |
+| cancellation | Cancellation | none | Stop local work; remote work may continue. |
+| maxPages | int | 1000 | Lazy pagination page cap. |
+| maxItems | int | unlimited | Lazy pagination item cap. |
+| streamIdleTimeoutMs | int | operation policy or 30000 | Maximum idle duration while consuming SSE. |
+| streamLifetimeMs | int | unlimited | Optional total SSE lifetime. |
+| client_request_id | string | none | Caller correlation: 1–128 visible ASCII characters, no spaces. Forwarded only when the operation declares its request-ID header. |
+| apiKey | string, CredentialProvider or Closure | inherit client | Request-local authentication shortcut. |
+| checkoutToken | string, CredentialProvider or Closure | inherit client | Request-local authentication shortcut. |
+| customerToken | string, CredentialProvider or Closure | inherit client | Request-local authentication shortcut. |
+| invoiceToken | string, CredentialProvider or Closure | inherit client | Request-local authentication shortcut. |
+| onboardingToken | string, CredentialProvider or Closure | inherit client | Request-local authentication shortcut. |
+| token | string, CredentialProvider or Closure | inherit client | Request-local authentication shortcut. |
 
 ```php
 $result = $client->oauth->authorizePartnerInstall([
@@ -14,22 +63,22 @@ $result = $client->oauth->authorizePartnerInstall([
   'client_id' => 'example',
   'redirect_uri' => 'example',
   'mode' => 'test',
+  'code_challenge' => 'example',
+  'code_challenge_method' => 'S256',
   'state' => 'example',
 ], new RequestOptions(timeoutMs: 5000, deadlineMs: 15000, maxAttempts: 1));
 ```
 
-- Defaults are timeoutMs: 10000 per attempt and deadlineMs: 30000 for the overall duration (not an absolute timestamp). Request values override client defaults.
-- maxAttempts is a positive safe integer budget, capped at the operation limit. Request budgets override client budgets. Set maxAttempts: 1 to opt out of retries.
-- Without an explicit policy, GET/HEAD/OPTIONS allow three total attempts; other methods allow one. Mutations without an optional key send once.
-- Request headers carry tenant context without shared mutable state.
-- Legacy authenticated clients accept token. Composed clients accept configured shortcuts or authMode and credentials keyed by mode and scheme; requests can select a mode with request-local credentials. A combined scheme set must be complete.
-- The SDK does not discover credentials or read environment variables; the operation example scripts read API_BASE_URL and their named credential variables explicitly.
+## Calling convention
+
+This package configures positional path arguments on selected operations. Their signatures list the argument order; params contain flat body/query/header fields. Pass request options as the last argument, as a RequestOptions instance. The resource reference shows each exact signature.
 
 ## Authentication
 
 Authentication shortcuts are accepted on both client and request options:
 
 - `apiKey` selects `merchant` and supplies `BearerAuth`.
+- `checkoutToken` selects `checkout` and supplies `CheckoutSessionBearer`.
 - `customerToken` selects `customer` and supplies `CustomerSessionBearer`.
 - `invoiceToken` selects `invoice` and supplies `InvoiceAccessTokenBearer`.
 - `onboardingToken` selects `onboarding` and supplies `OnboardingSessionBearer`.
@@ -41,46 +90,38 @@ Set `authMode` to one of the modes below and put its credentials under `credenti
 
 | Mode | Required credential keys |
 | --- | --- |
-| `checkout` | `CheckoutSessionIDHeader`, `CheckoutSessionSecretHeader` |
+| `checkout` | `CheckoutSessionBearer` |
 | `customer` | `CustomerSessionBearer` |
 | `invoice` | `InvoiceAccessTokenBearer` |
 | `merchant` | `BearerAuth` |
 | `merchantKey` | `ApiKeyHeader` |
 | `onboarding` | `OnboardingSessionBearer` |
 
-TypeScript checks mode names, credential keys, and the modes permitted by each operation. Credentials themselves are never shown in SDK diagnostics.
+Credentials themselves are never shown in SDK diagnostics.
+
+Here credential is a nonempty value loaded from your secret store:
+
+```php
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  authMode: 'checkout',
+  credentials: ['checkout' => ['CheckoutSessionBearer' => $credential]],
+));
+```
+
+Credentials accept strings, CredentialProvider objects with getCredential(): Credential, or closures returning a string or Credential. A Credential holds a value and optional DateTimeInterface expiry.
+
+Providers resolve on every request attempt; the application owns caching and expiry. A replay-safe HTTP 401 invalidates providers implementing invalidate() and retries once, adding at most one attempt beyond the ordinary budget, even with maxAttempts: 1. The idempotency key is preserved. String credentials and closures never trigger this refresh retry. Provider exceptions become authentication errors without retaining potentially sensitive causes.
+
+This SDK does not discover credentials from environment variables. The example scripts explicitly read API_BASE_URL and their named credential variables.
 
 ## Responses and errors
 
-- Methods return the decoded body directly by default. A configured payloadPath explicitly selects a nested payload. WithResponse companions expose the full body, meta and raw response.
-- Operations configured with return: result instead return Result, whose data is the complete decoded HTTP response body and meta is HTTP metadata. A provider may also wrap its payload in a data field, making result.data.data the provider payload. For example, create may wrap a payment_intent while get returns that entity directly. The operation examples show the exact access path. The SDK preserves these shapes; do not assume all operations share an envelope.
-- Results expose data, meta and explicit raw response access. JSON raw values are text; PDF data/raw are Uint8Array in Node and binary-safe strings in PHP. SSE data is a closeable iterable carrying event names, IDs, decoded data and rawData. Node metadata uses properties; PHP metadata uses array keys.
+Payload methods return the decoded body or configured payload path directly. WithResponse companions return SdkResponse with body, meta and raw without unwrapping. Each invocation makes its own request; choose one form per action. Result-mode methods return Result with data (the complete body), meta and raw. API envelopes remain inside that body. Pagination Pages and polling Wait follow the base return mode; their WithResponse companions expose the complete body and metadata. Items yields individual items.
 
-### Response return modes
-
-Payload-mode methods return the decoded body, or their explicitly configured payload path, directly. Their WithResponse companions return SdkResponse with body, meta and raw, without unwrapping. Each invocation makes its own request; choose one form per action. Result-mode operations keep their existing data/meta/raw envelope. Pages and Wait follow the base method return mode: payload values in payload mode, full Results in result mode. Payload-mode PagesWithResponse and WaitWithResponse expose complete bodies, metadata and raw access. Items helpers yield individual items; pagination and polling paths still address the original body.
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$response = $client->orders->addChargeWithResponse('example', [
-  'charge' => (object) [
-    'name' => 'example',
-    'type' => 'service_fee',
-    'amount_money' => (object) [
-      'amount' => '0',
-      'currency' => 'USD',
-    ],
-  ],
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo $response->meta['requestId'] ?? '';
-// $response->body is the complete decoded body.
-```
+Metadata uses array keys, and binary bodies are binary-safe strings. Raw JSON is buffered text and may contain sensitive data.
 
 ### Errors
-
-Import SdkError from the package namespace and individual subclasses from its Errors sub-namespace. SdkError and kind remain the authoritative API.
 
 ```php
 use Flint\Errors\NotFoundError;
@@ -94,17 +135,49 @@ function handleSdkRequest(callable $request): void {
 }
 ```
 
-- SdkError exposes the server message (message in Node, getMessage() in PHP), status, kind, outcome, retryAllowed and optional metadata; provider codes use code in Node and errorCode in PHP.
-- outcome is not_sent, response or unknown. Reconcile an unknown mutation outcome with the provider and the original persisted idempotency key before resubmitting.
-- HTTP 404 uses kind not_found; HTTP 500–599 uses server. Status is undefined in Node or null in PHP when no response is available. Provider-specific details remain unknown in TypeScript.
-- The configured errors.messagePath selects the message (default message); missing, blank or non-string values fall back to API returned HTTP followed by the status code. Error paths traverse JSON objects and array indices; scalar values have no child fields.
-- Server messages and provider codes require original JSON strings; JSON numeric tokens never match string retry codes. Parsed details retain their usual exact numeric representation.
+## Error reference
+
+Every class below extends `SdkError`. Subclasses live in the `Errors` namespace.
+
+| Status or trigger | Kind | Class | Action |
+| --- | --- | --- | --- |
+| 400, 422 | validation | ValidationError | Fix the input; do not retry unchanged. |
+| 401, 403 | authentication | AuthenticationError | Fix credentials or permissions. |
+| 404 | not_found | NotFoundError | Check the identifier and environment. |
+| 409, 412 | conflict | ConflictError | Read current state and reconcile; 412 never retries. |
+| 429 | rate_limit | RateLimitError | Honor retryAfterMs within the retry budget. |
+| 500–599 | server | ServerError | Retry only when replay-safe; reconcile unknown mutations. |
+| Other HTTP errors | api | ApiError | Inspect the provider code and correct the request. |
+| No HTTP response | transport | ConnectionError | Retry when allowed; reconcile unknown outcomes. |
+| Attempt timeout | timeout | TimeoutError | Retry only when replay-safe; reconcile unknown outcomes. |
+| Overall deadline | deadline | DeadlineError | Reconcile before starting another call. |
+| Local cancellation | cancelled | CancelledError | Remote work may continue; reconcile its state. |
+| Invalid response | protocol | ProtocolError | Inspect raw explicitly; do not blindly resubmit. |
+| Rejected destination | destination | DestinationError | Fix baseUrl or allowedOrigins. |
+
+| Field | Meaning |
+| --- | --- |
+| errorCode | Provider or stable local reason; distinct from HTTP status. |
+| details | Structured provider/runtime details when available. |
+| meta['requestId'] | Server request ID for support and correlation; may be absent. |
+| idempotencyKey | Resolved key; persist it with the action. |
+| retryAfterMs | Valid server Retry-After, in milliseconds. |
+| outcome | not_sent: no dispatch; response: an HTTP response; unknown: remote completion uncertain. |
+| status | HTTP status, or null without a response. |
+| retryAllowed | Whether the failure permits another replay-safe attempt. |
+| raw | Original buffered body for explicit recovery; may contain sensitive data. |
+
+An unknown outcome requires reconciliation using the original action and saved key before resubmission. An automatic key protects one SDK call only; persist an application key for recovery across calls.
+
+### Provider error codes
+
+See the [declared provider error-code values](ERRORS.md#provider-error-codes).
 
 ### Undeclared and invalid responses
 
-Exact HTTP status declarations take precedence, followed by a declared `default`. If neither exists for an actual 2xx response, the SDK reuses the sole declared JSON 2xx response, including its codec and PHP model class. Metadata retains the actual status. Multiple JSON success declarations remain ambiguous, even when their schemas match; binary, streaming, empty and redirect responses are never inferred.
+Exact HTTP status declarations take precedence, followed by a declared `default`. If neither exists for an actual 2xx response, the SDK reuses the sole declared JSON 2xx response, including its response decoder. Metadata retains the actual status. Multiple JSON success declarations remain ambiguous, even when their schemas match; binary, streaming, empty and redirect responses are never inferred.
 
-Required fields and value types remain enforced. Schema failures are non-retryable `protocol` errors with `outcome: response`; the top-level message includes codec diagnostics such as `response.payment.id: required field is missing`, and the original cause remains available. The server may already have created the payment. Buffered JSON response failures and payload-extraction errors retain `raw` for explicit recovery; raw bodies are omitted from ordinary error inspection and diagnostics.
+Required fields and value types remain enforced. Schema failures are non-retryable `protocol` errors with `outcome: response`; the top-level message includes codec diagnostics such as `response.entity.id: required field is missing`, and the original cause remains available. The server may already have completed the action. Buffered JSON response failures and payload-extraction errors retain `raw` for explicit recovery; raw bodies are omitted from ordinary error inspection and diagnostics.
 
 Inside a catch block, a synthetic create response with a top-level string `id` can be recovered as below. Use the actual endpoint's ID path and reconcile its state before continuing. This parses an unvalidated body only to recover the ID; it does not restore the SDK's typed guarantees or justify resubmitting the mutation.
 
@@ -116,9 +189,9 @@ if ($error instanceof SdkError && $error->kind === 'protocol' &&
     } catch (\JsonException) {
         throw $error;
     }
-    $paymentId = is_array($body) && is_string($body['id'] ?? null) ? $body['id'] : null;
-    if ($paymentId === null) throw $error;
-    // Reconcile this payment ID with the provider; do not submit another create.
+    $entityId = is_array($body) && is_string($body['id'] ?? null) ? $body['id'] : null;
+    if ($entityId === null) throw $error;
+    // Reconcile this entity ID with the provider; do not submit another create.
 } else {
     throw $error;
 }
@@ -126,13 +199,20 @@ if ($error instanceof SdkError && $error->kind === 'protocol' &&
 
 ## Retries and idempotency
 
-- Retries count total attempts, include jitter and Retry-After, and never exceed the effective policy.
-- Without a declared retry policy, GET/HEAD/OPTIONS retry transport failures and HTTP 408, 429, 500, 502, 503 and 504, with three total attempts and a 100 ms exponential jitter base. Explicit policies replace these defaults.
-- Mutation retries require both declared retry and idempotency support plus a valid key; without an optional key the call sends once. Required keys remain required.
-- idempotencyKey is supported only on operations declaring that capability; TypeScript method options enforce this, and PHP validates it at runtime.
-- Persist an idempotency key across process restarts and submissions within the server's documented retention/scope. Automatic keys cover one SDK call only and can satisfy required idempotency headers; generated keys must pass the declared header validation.
-- Explicit keys from operation inputs, request headers or idempotencyKey are preserved; conflicting values fail before dispatch.
-- A timeout after dispatch can leave the remote outcome unknown; inspect SdkError.outcome. Disable nested transport/application retries to avoid multiplied attempts. 409/412 are distinct conflicts and never automatically overwritten.
+Without a declared policy, GET/HEAD/OPTIONS allow three total attempts for transport failures and HTTP 408, 429, 500, 502, 503 and 504. Other methods send once. Explicit operation policies replace those defaults; maxAttempts caps total attempts including the first. Mutations with optional idempotency keys send once when no key is supplied. HTTP 412 never retries.
+
+Backoff waits uniformly between half and all of baseDelayMs * 2^(attempt - 1), capped by maxDelayMs when declared. Retry-After is a minimum wait. Nonnegative decimal seconds or canonical GMT HTTP dates are accepted; malformed values are ignored. If the next wait exceeds the deadline, the last error is returned unchanged.
+
+### Idempotency
+
+| Policy | Header | Retention | Scope |
+| --- | --- | --- | --- |
+| 1 | `Idempotency-Key` | At least 24 hours for ordinary replay records; durable command identities follow their documented resource lifetime. Never reuse for a new business intent. | Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters. |
+
+Only operations declaring idempotency accept idempotencyKey. Persist a key with the original input before the first attempt and reuse it for the same action. When automatic keys are enabled, the SDK creates one per call and reuses it across attempts; automatic keys do not span separate calls. Resolved keys are exposed on errors and response metadata, including not_sent failures after key resolution.
+
+An outcome of unknown means remote completion is uncertain. Reconcile the action with the provider using the saved key before resubmitting. Cancellation and timeouts cannot undo remote work.
+
 
 ## Resume an action with its saved key
 
@@ -144,27 +224,25 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
 $baseUrl = getenv('API_BASE_URL');
-if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
 $apiKey = getenv('API_KEY');
 if ($apiKey === false || $apiKey === '') throw new \RuntimeException('Set API_KEY: this call requires a credential');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
+  allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
   apiKey: $apiKey,
 ));
 $idempotencyKey = getenv('API_IDEMPOTENCY_KEY');
 if (!$idempotencyKey) throw new \RuntimeException('Set API_IDEMPOTENCY_KEY to the key saved with this action');
-$result = $client->orders->addCharge('example', [
-  'charge' => (object) [
-    'name' => 'example',
-    'type' => 'service_fee',
-    'amount_money' => (object) [
-      'amount' => '0',
-      'currency' => 'USD',
-    ],
+$result = $client->giftCardAdjustments->create('example', [
+  'amount_money' => (object) [
+    'amount' => '100',
+    'currency' => 'USD',
   ],
+  'reason' => 'complimentary',
 ], new RequestOptions(idempotencyKey: $idempotencyKey, maxAttempts: 1));
-echo $result->order_id . PHP_EOL;
-echo $result->status . PHP_EOL;
+echo $result->gift_card->gift_card_id . PHP_EOL;
+echo $result->gift_card->merchant_id . PHP_EOL;
 $client->close();
 ```
 
@@ -172,25 +250,21 @@ $client->close();
 
 ```php
 foreach ($client->apiKeys->listItems([], new RequestOptions(maxItems: 100)) as $item) {
-  // Process $item before the next page is requested.
+  // Process each item.
 }
 ```
 
-- Pagination is lazy, supports maxPages/maxItems, and does not guarantee a stable snapshot or durable continuation.
-- Each pagination page gets a fresh deadline, including decoding; time spent processing yielded values does not consume it. Pagination has no overall iterator deadline; use cancellation or maxPages/maxItems to bound iteration.
-- Polling shares an overall deadline.
-- Generation rejects incompatible continuation/query representations, including an int64/uint64 continuation with an ordinary integer query parameter.
+Pagination is lazy and defaults to at most 1000 pages. maxPages and maxItems cap work. Repeated continuations (including cursor cycles) and two consecutive empty pages still advertising a continuation raise protocol errors. An isolated or terminal empty page is valid. Iteration does not guarantee a stable snapshot or durable continuation. Each page gets a fresh deadline; processing yielded values does not consume it. Polling shares an overall deadline. Per-operation references list helper names and terminal states.
 
 ## Timeouts, streaming and cancellation
 
-- Timeout is per attempt, including buffered body consumption. Deadline covers attempts and retry waits for each request.
-- For SSE, timeout/deadline bound connection setup; streamIdleTimeoutMs controls idle reads and streamLifetimeMs optionally bounds stream lifetime.
-- Close the returned stream (Result.data in result mode) or the client to release a stream; breaking iteration also closes it. Unknown event names retain raw strings. Reconnect and persist resume cursors explicitly; no yielded event is retried automatically.
-- Cancellation stops local work, not the remote operation. Node uses AbortSignal. PHP uses a Cancellation token checked during cURL progress and between waits; synchronous calls need an external signal handler to cancel while blocked.
+Timeout is per attempt, including buffered body consumption. Deadline covers attempts and retry waits for one call. Overall deadlines use DeadlineError with retryAllowed false. For SSE these limits bound setup; streamIdleTimeoutMs controls idle reads and streamLifetimeMs optionally caps lifetime. Malformed known events raise ProtocolError with code sse_invalid_event and details containing eventId and one-based position. Close streams or the client to release resources; breaking iteration also closes a stream. Resume cursors and reconnection belong to the application.
+
+Use Cancellation for cooperative cancellation. Synchronous transports must honor cancellation while blocked. cURL checks it during progress and between waits.
 
 ## Webhooks and recovery
 
-Use Flint\Webhooks::verify($rawBody, $headers, $secrets, $nowSeconds = null) to verify without client options, a base URL or API credentials. Client::verifyWebhook delegates to the same verifier. The static method keeps mixed arguments so invalid inputs produce SDK error subclasses. Call verifyWebhook(rawBody, headers, secrets, nowSeconds?) with original request bytes and `webhook-signature`, `webhook-timestamp`, `webhook-id`. This package uses standard-webhooks HMAC-SHA256 signing and a 300-second timestamp tolerance. Secrets must use the whsec_ prefix and canonical base64 encoding of exactly 32 key bytes. Pass one secret string or an array of active secrets during rotation. nowSeconds is an optional Unix time override for deterministic tests; normally omit it.
+Use Flint\Webhooks::verify($rawBody, $headers, $secrets, $nowSeconds = null) to verify without client options, a base URL or API credentials. Client::verifyWebhook delegates to the same verifier. The static method keeps mixed arguments so invalid inputs produce SDK error subclasses. Call verifyWebhook($rawBody, $headers, $secrets, $nowSeconds = null) with original request bytes and `webhook-signature`, `webhook-timestamp`, `webhook-id`. This package uses standard-webhooks HMAC-SHA256 signing and a 300-second timestamp tolerance. Secrets must use the whsec_ prefix and canonical base64 encoding of exactly 32 key bytes. Pass one secret string or an array of active secrets during rotation. nowSeconds is an optional Unix time override in seconds for deterministic tests; normally omit it. Millisecond-scale values raise an input error explaining the conversion. PHP emits event classes for supported single object envelopes. Multi-variant or ambiguous event schemas verify and validate normally but return stdClass values (with arrays for JSON lists), even when known is true. Check the event name and payload fields before using these values; known does not guarantee a generated PHP class. 
 
 ### PSR-7
 
@@ -244,7 +318,7 @@ try {
 }
 ```
 
-Never verify JSON.stringify(parsedBody) or json_encode(parsedBody): verification authenticates the original bytes, including whitespace and numeric spelling. A mismatch cannot distinguish a wrong secret from altered bytes. Repeated signature values are supported; timestamp and ID headers must each contain a single value.
+Never verify json_encode($parsedBody): verification authenticates the original bytes, including whitespace and numeric spelling. A mismatch cannot distinguish a wrong secret from altered bytes. Repeated signature values are supported; timestamp and ID headers must each contain a single value.
 
 known is true only for a registered event name whose payload matches a declared envelope. Authenticated unknown names return known: false with reason: unknown_event; declared names with unmatched envelopes use reason: unmatched_envelope. Known deliveries have no reason; nested response types retain their documented uncertainty. Malformed declared payloads produce a protocol error.
 
@@ -262,11 +336,12 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
 $baseUrl = getenv('API_BASE_URL');
-if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
 $apiKey = getenv('API_KEY');
 if ($apiKey === false || $apiKey === '') throw new \RuntimeException('Set API_KEY: this call requires a credential');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
+  allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
   apiKey: $apiKey,
 ));
 $result = $client->creditNotes->getPDF('example');
@@ -286,17 +361,18 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
 $baseUrl = getenv('API_BASE_URL');
-if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
-$apiKey = getenv('API_KEY') ?: null;
+if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
-  apiKey: $apiKey,
+  allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
 $result = $client->oauth->authorizePartnerInstall([
   'response_type' => 'code',
   'client_id' => 'example',
   'redirect_uri' => 'example',
   'mode' => 'test',
+  'code_challenge' => 'example',
+  'code_challenge_method' => 'S256',
   'state' => 'example',
 ]);
 // Location may be relative or use another origin. The SDK does not follow it.
@@ -308,77 +384,41 @@ $client->close();
 
 ## Destinations and API versions
 
-- Explicit allowedOrigins govern all destinations, including pagination. HTTP/HTTPS scheme and host capitalization are ignored, and default ports are normalized; other ports remain distinct origins. Supply explicit allowedOrigins as canonical origin strings with default ports omitted.
-- HTTPS is required, including on anonymous APIs, unless allowInsecureHttp is set for deliberate local tests. HTTP rejection names that option; a rejected origin names allowedOrigins.
-- Declared 302/307 responses return Location metadata without following redirects; undeclared redirects are rejected. Authentication is attached only after destination validation.
-- API version headers are pinned when configured; changing them does not update generated types. Credential headers and configured API-version headers are omitted from method inputs; credentials and the version pin supply their values. Declared idempotency and conditional headers remain optional input fields as well as request options. errors.requestIdHeader selects response metadata and does not supply an outgoing request ID. Required conditional headers may be supplied through ifMatch or request headers without duplicating them in the input. Effective managed header values are validated before dispatch.
+baseUrl must omit a path already present at the start of an operation path. allowedOrigins applies to all destinations, including pagination; use canonical origin strings with default ports omitted. HTTPS is required unless allowInsecureHttp is enabled for local tests. Declared 302/307 responses return Location metadata without following redirects; undeclared redirects fail. Credential and pinned API-version headers are controlled by client configuration. Request correlation is independent of the server's request ID.
 
 ## Client lifecycle and transports
 
-- Clients perform no network I/O at import/construction. No SDK telemetry is sent.
-- Node clients reuse the runtime's fetch connection pool; injected transports remain caller-owned and must honor AbortSignal and disable redirects/retries. Node requests keep headers/context local and support concurrent calls.
-- PHP owns a reusable cURL handle, released by close()/destruction; a client supports sequential calls within one PHP execution context. Do not concurrently share a PHP client across threads/fibers.
-- Requests use the media type selected by the provider profile. Schema validation counts encoded object properties, including explicit nulls, after optional-field omission.
-- Requests identify the selected package name/version and runtime through an overridable User-Agent header.
+The client owns a reusable cURL handle; call close() when finished. Share it sequentially within one execution context. Injected transports receive {url, method, headers, body, timeoutMs, cancellation} and return {status, headers, body}; they must disable redirects/retries and honor cancellation/timeouts. Streaming transports return a ByteStream in the stream field, with read(): ?string and close(): void.
+
+Injected transports are caller-owned and privileged: they see credentials and bodies. Here baseUrl selects your environment:
+
+```php
+$client = new Client(new ClientOptions(
+  baseUrl: $baseUrl,
+  transport: static function (array $request): array {
+    // Delegate to your HTTP adapter; it must honor timeoutMs/cancellation.
+    return applicationHttpAdapter($request);
+  },
+  diagnostics: static function (array $event): void {
+    error_log((string) ($event['operation'] ?? ''));
+  },
+));
+```
 
 ## Diagnostics and sensitive data
 
-- Diagnostics run once per attempted HTTP request, including transport failures, with operation, request ID, status, timing, attempt count and error kind only; hook failures are ignored. Bodies and credentials are excluded.
-- Error inspection includes the message, status, provider code, redacted details and stack frames; PHP debug traces omit arguments. Message extraction, provider codes and details honor schema and redactFields redaction.
-- Raw response text and headers require explicit access. Binary/stream result inspection omits raw headers and URLs; event inspection omits payloads.
-- Model debug printing redacts declared sensitive fields and additional field names supplied in ClientOptions.redactFields; printing arbitrary raw values is application responsibility. Injected transports are privileged and see credentials/bodies.
-
-## Custom helpers
-
-Custom helpers belong in custom/; they survive regeneration. Multi-call helpers are not atomic and must expose partial completion. See [reference](REFERENCE.md).
-
-## Package upgrades
-
-Review provider release notes before upgrading. Compatibility checks account for public declarations, required response values and PHP class identities. Complex schema changes can still require manual review.
+No SDK telemetry is sent. Diagnostics receive per-attempt operation, request ID, status, timing, attempt count and error kind only. Hook failures are ignored. Ordinary error inspection omits raw bodies, response headers, URLs and unsanitized causes; explicit raw access requires application redaction. redactFields adds sensitive model field names.
 
 ## Input and response values
 
 ### Numbers and dates
 
-- API responses and verified webhook payloads use the same numeric codecs. Their schemas determine representation independently: int64/uint64 fields decode to exact strings; plain integers decode to native safe integers and reject larger values. Plain number, float and double fields use finite native numbers (PHP int/float inputs and float outputs), with ordinary floating-point precision. Exact decimal fields require format: decimal; int64/uint64 also retain exact strings.
-- Large integers (int64) and decimals use exact strings, including numeric JSON wire values. Ambiguous numeric inputs automatically use new ExactNumber("1.2500") and plain strings retain their JSON string meaning. Integer responses accept integral decimal/exponent notation without rounding.
-- Exact numeric enum inputs use strings for decimal/int64/uint64 schemas; membership compares exact values, so equivalent decimal/exponent spellings are accepted.
-- Numeric anyOf branches merge equivalent values exactly and preserve the request token; oneOf still requires exactly one matching branch. Numeric conversions supported only by branches that stop matching fail validation before dispatch.
-- Mutually dependent numeric alternatives use joint matching, limited to 256 combinations per value path; exceeding this limit fails validation.
-- Configured money helpers reject whitespace, including trailing newlines, and excess precision when converting exact major-unit strings to minor units.
-- Date-time inputs accept strings or Date in Node and DateTimeInterface in PHP. Native dates serialize to UTC ISO 8601 with milliseconds without mutation; responses remain strings. Invalid Node dates are rejected. Timestamp responses remain strings.
-- Sparse Node input arrays fail before dispatch.
+int64/uint64 responses are integer strings. Integer inputs use decimal digits with an optional minus sign, never fractional or exponent spellings. Decimal fields retain exact numeric strings; ambiguous numeric inputs use ExactNumber. Plain numbers use finite native floating-point precision. Integer responses accept integral decimal/exponent tokens without rounding. Exact numeric enum membership compares mathematical values. Mutually dependent numeric alternatives are matched jointly with a limit of 256 combinations per value path; exceeding the limit fails validation. Date-time inputs accept strings or DateTimeInterface; native dates serialize to UTC without mutation and responses remain strings.
 
-### Objects, optional fields and unknown values
+### Inputs and models
 
-- Shaped TypeScript objects have no implicit index signature: misspelled input literals and response fields are errors. Explicitly open objects and dictionaries remain open; variables can still carry extra keys under structural typing.
-- Runtime request rules are unchanged and unknown response fields are preserved, requiring explicit narrowing or a dictionary assertion to inspect them. Unknown object variants require a known-variant guard.
-- Simple nullable wrappers preserve the known branch or null: TypeScript permits optional field access and PHP getters hydrate the existing named entity.
-- Unknown response fields, enum members, and tagged variants are retained; malformed known values fail response decoding.
-- Optional properties distinguish omission from null.
-- Portable digit/word pattern escapes retain their ASCII ECMAScript meaning in both targets, including inside character classes. Full request encoding checks run locally; server business effects require provider tests.
+Methods accept associative arrays or generated input classes. Omit a key to omit a field; explicit null is permitted only where declared. Response getters hydrate nested entities and lists. Omitted optional response fields return null; has() distinguishes omission from present-null. Missing required fields fail decoding with ProtocolError; omitted input fields throw on access. Properties are read-only. toArray()/jsonSerialize() preserve normalized wire shapes; toInputArray()/toInputValue() support rebuilding inputs. Accessors memoize hydrated children; untyped objects remain defensive copies. Getters normalize wire names, such as request_id → getRequestId(). Known verified webhook events use generated event classes.
 
-### PHP inputs and models
+## Custom helpers
 
-- PHP methods accept associative arrays or presence-aware typed input objects constructed from arrays: omit a key to omit it; include a key with null to clear only where permitted.
-- PHP models expose presence through has()/get() and generated hasField() methods. Use valueOrDefault("field", fallback) for optional values; explicit null stays null.
-- Response getters return generated entities for declared nested objects, lists of entities, and typed PHP arrays for dictionaries. Generated getters, get(), and property access return the same public values. Getters throw with the field name when a field is omitted.
-- toArray() and jsonSerialize() retain raw normalized objects and lists, including empty JSON objects. In object/array alternatives, PHP lists (including []) represent JSON arrays; use (object) [] for an empty JSON object.
-- PHP response wrapper class names include status codes and, for tagged alternatives, branch positions. Nested entities reuse configured component names; inline entities use their owning model and property path.
-- Getters normalize wire names: request_id becomes getRequestId() and hasRequestId(). Webhook class names use event names, for example WebhookEventPaymentIntentSucceeded. This replaces underscore getters and numbered webhook classes without aliases; update class checks and dictionary access when upgrading.
-- Adding a status can introduce a new return class even with an identical JSON shape; consult migration notes before upgrading class-based dispatch.
-
-### Model copies
-
-- Node Model.toJSON() returns a defensive copy of the public JSON representation, with exact numbers represented as strings. Rebuilding from that copy treats these as JSON strings in number/string alternatives.
-- To edit a Node input, retain the original input values, including ExactNumber instances, and construct a new model from the updated input. If editing a toJSON() copy, explicitly restore ExactNumber at fields intended to be JSON numbers in ambiguous alternatives.
-- PHP model accessors also return defensive copies; use toInputArray()/toInputValue() to edit and rebuild inputs while preserving exact numeric kinds.
-
-## Schema helpers
-
-The base Model constructor, Codec::normalize and Codec::redact accept application-supplied schemas. Codec::encode writes normalized values as JSON. These helpers use the package's local value execution rules and require no generator installation or schema registry service.
-
-- Generated clients defer descriptor loading until first use and reuse validated descriptors across clients. Generated methods and factories use the codecs included in the package.
-- Node resource subpaths (resources/RESOURCE) export scoped clients with the same resource methods.
-- PHP uses class-based Composer autoloading and individual class files; including vendor/autoload.php does not eagerly include SDK implementation files.
-- For a null-only schema, use {"type":"null"}. The legacy form {"type":["null"]} also permits non-null values in Node; PHP rejects them.
+Keep application helpers in custom/; regeneration preserves them. Multi-call helpers must expose partial completion.

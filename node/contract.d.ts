@@ -11,6 +11,7 @@ export type Schema = {
     'x-sdk-definitions'?: Record<string, Schema>;
     type?: string | string[];
     properties?: Record<string, Schema>;
+    propertyNames?: Schema;
     required?: string[];
     items?: Schema;
     enum?: Json[];
@@ -51,6 +52,7 @@ export type Schema = {
     [key: string]: unknown;
 };
 export interface Parameter {
+    'x-flint-request-option'?: string;
     name: string;
     in: 'path' | 'query' | 'header';
     required?: boolean;
@@ -68,6 +70,7 @@ export interface Retry {
     }[];
     transport: boolean;
     baseDelayMs: number;
+    maxDelayMs?: number;
 }
 export interface Capability {
     request?: RequestStyle;
@@ -89,6 +92,7 @@ export interface Capability {
         retention: string;
         scope: string;
         auto?: boolean;
+        autoKeyPrefix?: string;
     };
     pagination?: {
         kind: 'cursor' | 'offset' | 'link';
@@ -135,6 +139,19 @@ export interface Auth {
     type: 'bearer' | 'apiKey';
     header: string;
 }
+export interface DefaultCredentials {
+    mode: string;
+    scheme: string;
+    environment: {
+        apiKey: string;
+        token: string;
+    };
+    workloadIdentity: {
+        tokenPath: string;
+        credentialParameter: string;
+        envPrefix: string;
+    };
+}
 export type AuthShortcuts = Record<string, {
     mode: string;
     scheme: string;
@@ -156,7 +173,19 @@ export interface Webhook {
     events: Record<string, Schema>;
     typeField: string;
 }
+type DefaultCapability = 'idempotency' | 'retry' | 'pagination';
+export type CapabilityOverride = Omit<Capability, DefaultCapability>
+    & {
+    [K in DefaultCapability]?: {
+        [P in keyof NonNullable<Capability[K]>]?: NonNullable<Capability[K]>[P] | null;
+    }
+        | false;
+};
 export interface Config {
+    $schema?: string;
+    defaults?: {
+        [K in DefaultCapability]?: Partial<NonNullable<Capability[K]>>;
+    };
     requests?: RequestStyle;
     responses?: ResponseReturn;
     profiles?: string[];
@@ -167,12 +196,14 @@ export interface Config {
     validation?: 'encoding' | 'schema';
     auth?: {
         scheme: string;
-    } | {
+    }
+        | {
         modes: Record<string, {
             schemes: string[];
             operations?: string[];
         }>;
         shortcuts?: AuthShortcuts;
+        defaultCredentials?: DefaultCredentials;
     };
     targets?: ('node' | 'php')[];
     version: string;
@@ -191,7 +222,7 @@ export interface Config {
         name: string;
         namespace: string;
     };
-    operations?: Record<string, Capability>;
+    operations?: Record<string, CapabilityOverride>;
     models?: Record<string, string>;
     phpFieldClasses?: Record<string, Record<string, string>>;
     include?: string[];
@@ -208,6 +239,10 @@ export interface Config {
     license?: string;
     errors?: {
         codePath?: string;
+        retry?: {
+            path: string;
+            retryValues: string[];
+        };
         messagePath?: string;
         detailsPath?: string;
         requestIdHeader?: string;
@@ -225,7 +260,15 @@ export interface Config {
     };
 }
 export interface Contract {
-    /** Private publication provenance; excluded from compiled compatibility facts and effective output. */
+    /** Private compatibility proof captured before reference/composition inlining. */
+    schemaUsage?: {
+        fingerprint: string;
+        responseOnlyModels: string[];
+    };
+    /**
+     * Private publication provenance; excluded from compiled compatibility facts and effective
+     * output.
+     */
     exampleProtection?: {
         locations: string[];
         schemas: string[];

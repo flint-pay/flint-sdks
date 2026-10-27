@@ -1,0 +1,1 @@
+{"shared":"BuyerOrderTaxLocation","phpRepresentation":{"kind":"record","fields":{"address":{"kind":"entity","name":"Address"},"address_source":{"kind":"value","type":"string"},"address_type":{"kind":"value","type":"string"},"customer_id":{"kind":"value","type":"string"},"fulfillment_id":{"kind":"value","type":"string"}}},"dependencies":["Address","BuyerOrderTaxLocation"]}

@@ -8,12 +8,14 @@ namespace Flint;
 final class SelectableMerchantInput extends Model {
     /** @param array{'business_name': string, 'merchant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SelectableMerchantInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Merchant business name. Empty when no business name is available.
+     * @return string
      * @throws SdkError When business_name is omitted; use hasBusinessName() or valueOrDefault().
      */
     public function getBusinessName(): string { return $this->get('business_name'); }
     public function hasBusinessName(): bool { return $this->has('business_name'); }
-    /** @return string
+    /** Shape $ (Value): string. Flint merchant ID available for selection.
+     * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }

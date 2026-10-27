@@ -8,12 +8,14 @@ namespace Flint;
 final class OnboardingLaunchRecommendedPolicyInput extends Model {
     /** @param array{'collection_strategy': string, 'future_requirements': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingLaunchRecommendedPolicyInput')); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "upfront", "incremental".
+     * @return string
      * @throws SdkError When collection_strategy is omitted; use hasCollectionStrategy() or valueOrDefault().
      */
     public function getCollectionStrategy(): string { return $this->get('collection_strategy'); }
     public function hasCollectionStrategy(): bool { return $this->has('collection_strategy'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "omit", "include".
+     * @return string
      * @throws SdkError When future_requirements is omitted; use hasFutureRequirements() or valueOrDefault().
      */
     public function getFutureRequirements(): string { return $this->get('future_requirements'); }

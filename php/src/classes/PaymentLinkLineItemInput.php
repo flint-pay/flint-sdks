@@ -6,13 +6,17 @@ namespace Flint;
  * @property-read bool $allow_unit_price_adjustment
  * @property-read string $bundle_id
  * @property-read string $description
+ * @property-read bool $is_catalog_item_unavailable
  * @property-read string $key
  * @property-read int $max_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $max_unit_price_money
  * @property-read int $min_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $min_unit_price_money
  * @property-read string $name
+ * @property-read string $payment_link_line_item_id
  * @property-read int $quantity
+ * @property-read string $resolved_name
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $resolved_unit_price_money
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $suggested_unit_price_money_options
  * @property-read OrderLineItemTaxInput|array<array-key, mixed>|\stdClass $tax
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
@@ -21,77 +25,116 @@ namespace Flint;
 final class PaymentLinkLineItemInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkLineItemInput')); }
-    /** @return bool
+    /** Shape $ (Value): boolean.
+     * @return bool
      * @throws SdkError When allow_quantity_adjustment is omitted; use hasAllowQuantityAdjustment() or valueOrDefault().
      */
     public function getAllowQuantityAdjustment(): bool { return $this->get('allow_quantity_adjustment'); }
     public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
-    /** @return bool
+    /** Shape $ (Value): boolean.
+     * @return bool
      * @throws SdkError When allow_unit_price_adjustment is omitted; use hasAllowUnitPriceAdjustment() or valueOrDefault().
      */
     public function getAllowUnitPriceAdjustment(): bool { return $this->get('allow_unit_price_adjustment'); }
     public function hasAllowUnitPriceAdjustment(): bool { return $this->has('allow_unit_price_adjustment'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** @return string
+    /** Shape $ (Value): boolean. True when this line item references a variant or bundle that is missing, deleted, or inactive, so it cannot be sold right now. Always false on ad-hoc line items.
+     * @return bool
+     * @throws SdkError When is_catalog_item_unavailable is omitted; use hasIsCatalogItemUnavailable() or valueOrDefault().
+     */
+    public function getIsCatalogItemUnavailable(): bool { return $this->get('is_catalog_item_unavailable'); }
+    public function hasIsCatalogItemUnavailable(): bool { return $this->has('is_catalog_item_unavailable'); }
+    /** Shape $ (Value): string. Keys the resolve override maps. Stable line item key used in checkout overrides. Must not have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when omitted, skipping numbers already used by explicit keys; retained for an existing line item when omitted on update.
+     * @return string
      * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
      */
     public function getKey(): string { return $this->get('key'); }
     public function hasKey(): bool { return $this->has('key'); }
-    /** @return int
+    /** Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * @return int
      * @throws SdkError When max_quantity is omitted; use hasMaxQuantity() or valueOrDefault().
      */
     public function getMaxQuantity(): int { return $this->get('max_quantity'); }
     public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When max_unit_price_money is omitted; use hasMaxUnitPriceMoney() or valueOrDefault().
      */
     public function getMaxUnitPriceMoney(): mixed { return $this->get('max_unit_price_money'); }
     public function hasMaxUnitPriceMoney(): bool { return $this->has('max_unit_price_money'); }
-    /** @return int
+    /** Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * @return int
      * @throws SdkError When min_quantity is omitted; use hasMinQuantity() or valueOrDefault().
      */
     public function getMinQuantity(): int { return $this->get('min_quantity'); }
     public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When min_unit_price_money is omitted; use hasMinUnitPriceMoney() or valueOrDefault().
      */
     public function getMinUnitPriceMoney(): mixed { return $this->get('min_unit_price_money'); }
     public function hasMinUnitPriceMoney(): bool { return $this->has('min_unit_price_money'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return int
+    /** Shape $ (Value): string.
+     * @return string
+     * @throws SdkError When payment_link_line_item_id is omitted; use hasPaymentLinkLineItemId() or valueOrDefault().
+     */
+    public function getPaymentLinkLineItemId(): string { return $this->get('payment_link_line_item_id'); }
+    public function hasPaymentLinkLineItemId(): bool { return $this->has('payment_link_line_item_id'); }
+    /** Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** @return list<MoneyValueInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): string. Current catalog name of the referenced variant or bundle. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists.
+     * @return string
+     * @throws SdkError When resolved_name is omitted; use hasResolvedName() or valueOrDefault().
+     */
+    public function getResolvedName(): string { return $this->get('resolved_name'); }
+    public function hasResolvedName(): bool { return $this->has('resolved_name'); }
+    /** Shape $ (Value): {@see MoneyValueInput}. Current catalog unit price of the referenced variant or bundle. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items and when the catalog object no longer exists. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When resolved_unit_price_money is omitted; use hasResolvedUnitPriceMoney() or valueOrDefault().
+     */
+    public function getResolvedUnitPriceMoney(): mixed { return $this->get('resolved_unit_price_money'); }
+    public function hasResolvedUnitPriceMoney(): bool { return $this->has('resolved_unit_price_money'); }
+    /** Shape $ (Value): Array of {@see MoneyValueInput}. Shape $[] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return list<MoneyValueInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When suggested_unit_price_money_options is omitted; use hasSuggestedUnitPriceMoneyOptions() or valueOrDefault().
      */
     public function getSuggestedUnitPriceMoneyOptions(): array { return $this->get('suggested_unit_price_money_options'); }
     public function hasSuggestedUnitPriceMoneyOptions(): bool { return $this->has('suggested_unit_price_money_options'); }
-    /** @return OrderLineItemTaxInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see OrderLineItemTaxInput}. A line item's tax category and whether it is taxable.
+     * @return OrderLineItemTaxInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */
     public function getVariantId(): string { return $this->get('variant_id'); }

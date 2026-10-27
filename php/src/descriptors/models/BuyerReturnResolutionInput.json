@@ -1,0 +1,1 @@
+{"shared":"BuyerReturnResolution","dependencies":["BuyerReturnResolution","BuyerReturnResolutionAdjustment","BuyerReturnResolutionExecutionBlocker","MoneyValue","ReturnReplacementLineItem","ReturnResolutionLineItem"]}

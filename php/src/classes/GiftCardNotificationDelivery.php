@@ -3,31 +3,31 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<GiftCardNotificationDeliveryAttempt> $attempts
+ * @property-read list<GiftCardNotificationDeliveryEvent> $events
  * @property-read bool $has_more_attempts
- * @property-read bool $has_more_provider_outcomes
- * @property-read list<GiftCardNotificationProviderOutcome> $provider_outcomes
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read bool $has_more_events
+ * Presence-aware response; omitted optional fields return null. */
 final class GiftCardNotificationDelivery extends Model {
-    /** @param array{'attempts': list<mixed>, 'has_more_attempts': bool, 'has_more_provider_outcomes': bool, 'provider_outcomes': list<mixed>, ...}|object $values */
+    /** @param array{'attempts': list<mixed>, 'events': list<mixed>, 'has_more_attempts': bool, 'has_more_events': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardNotificationDelivery')); }
-    /** @return list<GiftCardNotificationDeliveryAttempt>
-     * @throws SdkError When attempts is omitted; use hasAttempts() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see GiftCardNotificationDeliveryAttempt}. maxItems: 20. Shape $[] (Value): {@see GiftCardNotificationDeliveryAttempt}. One attempt to send a gift card notification email, with its attempt number, status, and start and completion times.
+     * @return list<GiftCardNotificationDeliveryAttempt>
      */
     public function getAttempts(): array { return $this->get('attempts'); }
     public function hasAttempts(): bool { return $this->has('attempts'); }
-    /** @return bool
-     * @throws SdkError When has_more_attempts is omitted; use hasHasMoreAttempts() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see GiftCardNotificationDeliveryEvent}. maxItems: 50. Shape $[] (Value): {@see GiftCardNotificationDeliveryEvent}. A delivery event for a gift card notification email, such as accepted, delivered, bounced, or dropped, with when it occurred and was received.
+     * @return list<GiftCardNotificationDeliveryEvent>
+     */
+    public function getEvents(): array { return $this->get('events'); }
+    public function hasEvents(): bool { return $this->has('events'); }
+    /** Shape $ (Value): boolean.
+     * @return bool
      */
     public function getHasMoreAttempts(): bool { return $this->get('has_more_attempts'); }
     public function hasHasMoreAttempts(): bool { return $this->has('has_more_attempts'); }
-    /** @return bool
-     * @throws SdkError When has_more_provider_outcomes is omitted; use hasHasMoreProviderOutcomes() or valueOrDefault().
+    /** Shape $ (Value): boolean.
+     * @return bool
      */
-    public function getHasMoreProviderOutcomes(): bool { return $this->get('has_more_provider_outcomes'); }
-    public function hasHasMoreProviderOutcomes(): bool { return $this->has('has_more_provider_outcomes'); }
-    /** @return list<GiftCardNotificationProviderOutcome>
-     * @throws SdkError When provider_outcomes is omitted; use hasProviderOutcomes() or valueOrDefault().
-     */
-    public function getProviderOutcomes(): array { return $this->get('provider_outcomes'); }
-    public function hasProviderOutcomes(): bool { return $this->has('provider_outcomes'); }
+    public function getHasMoreEvents(): bool { return $this->get('has_more_events'); }
+    public function hasHasMoreEvents(): bool { return $this->has('has_more_events'); }
 }

@@ -3,27 +3,25 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $order_id
- * @property-read array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: mixed}|object $body
+ * @property-read array{'buyer_note'?: string|null, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: mixed, 'tax'?: mixed}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateInput extends Model {
-    /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: mixed}|object}|object $values */
+    /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'body': array{'buyer_note'?: string|null, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: mixed, 'tax'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersUpdateInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'order_revision'?: string, 'requested_tip'?: mixed, 'tax'?: mixed}|object
+    /** Shape $ (Value): object. The request body for: Update order. minProperties: 1.
+     * @return array{'buyer_note'?: string|null, 'customer_id'?: string, 'delivery_destination'?: array{'address': mixed, 'recipient'?: mixed}|object|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'inventory_routing_source'?: mixed, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'requested_tip'?: mixed, 'tax'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

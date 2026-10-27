@@ -197,6 +197,11 @@ function compileNode(input, output, depth) {
                 ])),
             }
             : {}),
+        ...(input.propertyNames
+            ? {
+                propertyNames: compileNode({ ...input.propertyNames, type: 'string' }, { ...input.propertyNames, type: 'string' }, depth + 1),
+            }
+            : {}),
         ...(input.items ? { element: compileNode(input.items, input.items, depth + 1) } : {}),
         ...(input.additionalProperties !== undefined
             ? {
@@ -408,7 +413,7 @@ export function assertCodecPlan(value, path = 'codec', depth = 0) {
         for (const [index, child] of children.entries())
             assertCodecPlan(child, `${path}.${key}[${index}]`, depth + 1);
     }
-    for (const key of ['element', 'exclude', 'includes'])
+    for (const key of ['element', 'propertyNames', 'exclude', 'includes'])
         if (node[key] !== undefined)
             assertCodecPlan(node[key], path + '.' + key, depth + 1);
     if (node.when !== undefined) {

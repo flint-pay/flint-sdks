@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryMethods.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/deliveryMethods.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryMethod"]:r0,["deleteDeliveryMethod"]:r0,["getDeliveryMethod"]:r0,["listDeliveryMethods"]:r0,["updateDeliveryMethod"]:r0});
 export class Client {
@@ -14,7 +14,7 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.deliveryMethods = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDeliveryMethod", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryMethod", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryMethod", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
@@ -23,7 +23,7 @@ this.deliveryMethods = Object.freeze({
 ], [delivery_method_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeliveryMethod", result, path))),
       removeWithResponse: async (delivery_method_id, params, options) => this.#runtime.request("deleteDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
 ], [delivery_method_id], [
@@ -32,7 +32,7 @@ this.deliveryMethods = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       get: async (delivery_method_id, params, options) => this.#runtime.request("getDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
-], [delivery_method_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [delivery_method_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeliveryMethod", result, path))),
       getWithResponse: async (delivery_method_id, params, options) => this.#runtime.request("getDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
 ], [delivery_method_id], [], false, false, params), options).then(_sdkResponse),
@@ -47,7 +47,7 @@ this.deliveryMethods = Object.freeze({
   "delivery_location_set_id",
   "delivery_rate_callback_id",
   "location_id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeliveryMethods", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -71,7 +71,7 @@ this.deliveryMethods = Object.freeze({
   "delivery_location_set_id",
   "delivery_rate_callback_id",
   "location_id"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDeliveryMethods", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -100,7 +100,7 @@ this.deliveryMethods = Object.freeze({
   "delivery_method_id"
 ], [delivery_method_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateDeliveryMethod", result, path))),
       updateWithResponse: async (delivery_method_id, params, options) => this.#runtime.request("updateDeliveryMethod", _sdkRequestInput([
   "delivery_method_id"
 ], [delivery_method_id], [
@@ -108,52 +108,69 @@ this.deliveryMethods = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeDeliveryMethodResponse } from '../models/DeliveryMethodResponse.js';
-export { makeDeliveryMethodListResponse } from '../models/DeliveryMethodListResponse.js';
-export { makeDeliveryMethod } from '../models/DeliveryMethod.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeDeliveryMethodConfiguration } from '../models/DeliveryMethodConfiguration.js';
+export { makeAddRiskListItemsRequest } from '../models/AddRiskListItemsRequest.js';
 export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
-export { makeDeliveryEligibilityExpression } from '../models/DeliveryEligibilityExpression.js';
-export { makeDeliveryCountryCondition } from '../models/DeliveryCountryCondition.js';
-export { makeDeliveryStateCondition } from '../models/DeliveryStateCondition.js';
-export { makeDeliveryCustomerGroupCondition } from '../models/DeliveryCustomerGroupCondition.js';
-export { makeDeliveryCustomerBooleanCondition } from '../models/DeliveryCustomerBooleanCondition.js';
-export { makeDeliveryPostalCodeCondition } from '../models/DeliveryPostalCodeCondition.js';
-export { makeDeliveryPostalCodeValue } from '../models/DeliveryPostalCodeValue.js';
-export { makeDeliveryRadiusCondition } from '../models/DeliveryRadiusCondition.js';
-export { makeDeliveryDistance } from '../models/DeliveryDistance.js';
-export { makeDeliveryRadiusOrigin } from '../models/DeliveryRadiusOrigin.js';
-export { makeDeliveryWindowTimeCondition } from '../models/DeliveryWindowTimeCondition.js';
-export { makeDeliveryZoneCondition } from '../models/DeliveryZoneCondition.js';
-export { makeDeliveryEstimateRule } from '../models/DeliveryEstimateRule.js';
-export { makeDeliveryScheduleWindowRule } from '../models/DeliveryScheduleWindowRule.js';
+export { makeCreateDeliveryMethodRequest } from '../models/CreateDeliveryMethodRequest.js';
+export { makeCreateDeliveryMethodRequestLocalDelivery } from '../models/CreateDeliveryMethodRequestLocalDelivery.js';
+export { makeCreateDeliveryMethodRequestPickup } from '../models/CreateDeliveryMethodRequestPickup.js';
+export { makeCreateDeliveryMethodRequestShipment } from '../models/CreateDeliveryMethodRequestShipment.js';
 export { makeDeliveryAvailability } from '../models/DeliveryAvailability.js';
 export { makeDeliveryBlackoutInterval } from '../models/DeliveryBlackoutInterval.js';
-export { makeDeliveryWeeklyInterval } from '../models/DeliveryWeeklyInterval.js';
-export { makeDeliveryTransitTimeRule } from '../models/DeliveryTransitTimeRule.js';
 export { makeDeliveryBusinessDayRange } from '../models/DeliveryBusinessDayRange.js';
-export { makeDeliveryMethodOriginSelector } from '../models/DeliveryMethodOriginSelector.js';
-export { makeDeliveryPricingStrategy } from '../models/DeliveryPricingStrategy.js';
-export { makeDeliveryCalculatedPricingStrategy } from '../models/DeliveryCalculatedPricingStrategy.js';
-export { makeDeliveryDistanceUnitPrice } from '../models/DeliveryDistanceUnitPrice.js';
+export { makeDeliveryCalculatedPricingStrategyRequest } from '../models/DeliveryCalculatedPricingStrategyRequest.js';
+export { makeDeliveryCallbackPricingStrategyRequest } from '../models/DeliveryCallbackPricingStrategyRequest.js';
+export { makeDeliveryCallerSuppliedPricingStrategyRequest } from '../models/DeliveryCallerSuppliedPricingStrategyRequest.js';
+export { makeDeliveryCountryCondition } from '../models/DeliveryCountryCondition.js';
+export { makeDeliveryCustomerBooleanCondition } from '../models/DeliveryCustomerBooleanCondition.js';
+export { makeDeliveryCustomerSegmentCondition } from '../models/DeliveryCustomerSegmentCondition.js';
+export { makeDeliveryDistance } from '../models/DeliveryDistance.js';
 export { makeDeliveryDistanceUnitPriceRequest } from '../models/DeliveryDistanceUnitPriceRequest.js';
-export { makeDeliveryWeightUnitPrice } from '../models/DeliveryWeightUnitPrice.js';
-export { makeDeliveryWeightUnitPriceRequest } from '../models/DeliveryWeightUnitPriceRequest.js';
-export { makeDeliveryExternalPricingStrategy } from '../models/DeliveryExternalPricingStrategy.js';
-export { makeDeliveryFixedPricingStrategy } from '../models/DeliveryFixedPricingStrategy.js';
+export { makeDeliveryEligibilityExpression } from '../models/DeliveryEligibilityExpression.js';
+export { makeDeliveryEstimateRuleRequest } from '../models/DeliveryEstimateRuleRequest.js';
 export { makeDeliveryFixedPricingStrategyRequest } from '../models/DeliveryFixedPricingStrategyRequest.js';
-export { makeDeliveryRateTablePricingStrategy } from '../models/DeliveryRateTablePricingStrategy.js';
-export { makeDeliveryPricingRate } from '../models/DeliveryPricingRate.js';
-export { makeDeliveryTieredPricingStrategy } from '../models/DeliveryTieredPricingStrategy.js';
-export { makeDeliveryTieredPricingStrategyRequest } from '../models/DeliveryTieredPricingStrategyRequest.js';
+export { makeDeliveryMethodConfigurationCreateRequest } from '../models/DeliveryMethodConfigurationCreateRequest.js';
+export { makeDeliveryMethodConfigurationPatchRequest } from '../models/DeliveryMethodConfigurationPatchRequest.js';
+export { makeDeliveryMethodConfigurationRequest } from '../models/DeliveryMethodConfigurationRequest.js';
+export { makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup } from '../models/DeliveryMethodOriginSelectorInputAllocatedOriginGroup.js';
+export { makeDeliveryMethodOriginSelectorInputFixedLocation } from '../models/DeliveryMethodOriginSelectorInputFixedLocation.js';
+export { makeDeliveryMethodOriginSelectorInputPickupLocationCollection } from '../models/DeliveryMethodOriginSelectorInputPickupLocationCollection.js';
+export { makeDeliveryMethodOriginSelectorRequest } from '../models/DeliveryMethodOriginSelectorRequest.js';
+export { makeDeliveryPostalCodeCondition } from '../models/DeliveryPostalCodeCondition.js';
+export { makeDeliveryPostalCodeValue } from '../models/DeliveryPostalCodeValue.js';
+export { makeDeliveryPricingRateCreateRequest } from '../models/DeliveryPricingRateCreateRequest.js';
+export { makeDeliveryPricingRateRequest } from '../models/DeliveryPricingRateRequest.js';
+export { makeDeliveryPricingStrategyCreateInputCalculated } from '../models/DeliveryPricingStrategyCreateInputCalculated.js';
+export { makeDeliveryPricingStrategyCreateInputCallback } from '../models/DeliveryPricingStrategyCreateInputCallback.js';
+export { makeDeliveryPricingStrategyCreateInputCallerSupplied } from '../models/DeliveryPricingStrategyCreateInputCallerSupplied.js';
+export { makeDeliveryPricingStrategyCreateInputFixed } from '../models/DeliveryPricingStrategyCreateInputFixed.js';
+export { makeDeliveryPricingStrategyCreateInputRateTable } from '../models/DeliveryPricingStrategyCreateInputRateTable.js';
+export { makeDeliveryPricingStrategyCreateInputTiered } from '../models/DeliveryPricingStrategyCreateInputTiered.js';
+export { makeDeliveryPricingStrategyCreateRequest } from '../models/DeliveryPricingStrategyCreateRequest.js';
+export { makeDeliveryPricingStrategyInputCalculated } from '../models/DeliveryPricingStrategyInputCalculated.js';
+export { makeDeliveryPricingStrategyInputCallback } from '../models/DeliveryPricingStrategyInputCallback.js';
+export { makeDeliveryPricingStrategyInputCallerSupplied } from '../models/DeliveryPricingStrategyInputCallerSupplied.js';
+export { makeDeliveryPricingStrategyInputFixed } from '../models/DeliveryPricingStrategyInputFixed.js';
+export { makeDeliveryPricingStrategyInputRateTable } from '../models/DeliveryPricingStrategyInputRateTable.js';
+export { makeDeliveryPricingStrategyInputTiered } from '../models/DeliveryPricingStrategyInputTiered.js';
+export { makeDeliveryPricingStrategyRequest } from '../models/DeliveryPricingStrategyRequest.js';
 export { makeDeliveryPricingTierBandRequest } from '../models/DeliveryPricingTierBandRequest.js';
-export { makeDeliveryPricingTierBand } from '../models/DeliveryPricingTierBand.js';
+export { makeDeliveryRadiusCondition } from '../models/DeliveryRadiusCondition.js';
+export { makeDeliveryRadiusOrigin } from '../models/DeliveryRadiusOrigin.js';
+export { makeDeliveryRateTablePricingStrategyCreateRequest } from '../models/DeliveryRateTablePricingStrategyCreateRequest.js';
+export { makeDeliveryRateTablePricingStrategyRequest } from '../models/DeliveryRateTablePricingStrategyRequest.js';
 export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
-export { makeSubscriptionCounts } from '../models/SubscriptionCounts.js';
+export { makeDeliveryScheduleWindowRuleRequest } from '../models/DeliveryScheduleWindowRuleRequest.js';
+export { makeDeliveryStateCondition } from '../models/DeliveryStateCondition.js';
+export { makeDeliveryTieredPricingStrategyInputQuantityOrMoney } from '../models/DeliveryTieredPricingStrategyInputQuantityOrMoney.js';
+export { makeDeliveryTieredPricingStrategyInputWeight } from '../models/DeliveryTieredPricingStrategyInputWeight.js';
+export { makeDeliveryTieredPricingStrategyRequest } from '../models/DeliveryTieredPricingStrategyRequest.js';
+export { makeDeliveryTransitTimeRule } from '../models/DeliveryTransitTimeRule.js';
+export { makeDeliveryWeeklyInterval } from '../models/DeliveryWeeklyInterval.js';
+export { makeDeliveryWeightUnitPriceRequest } from '../models/DeliveryWeightUnitPriceRequest.js';
+export { makeDeliveryWindowTimeCondition } from '../models/DeliveryWindowTimeCondition.js';
+export { makeDeliveryZoneCondition } from '../models/DeliveryZoneCondition.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateDeliveryMethodRequest } from '../models/UpdateDeliveryMethodRequest.js';

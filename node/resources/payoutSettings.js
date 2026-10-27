@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/payoutSettings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/payoutSettings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["deletePayoutDestination"]:r0,["getPayoutDestination"]:r0,["getPayoutSettings"]:r0,["listPayoutDestinations"]:r0,["updatePayoutDestination"]:r0,["updatePayoutSettings"]:r0});
 export class Client {
@@ -15,52 +15,38 @@ this.payoutSettings = Object.freeze({
       deletePayoutDestination: async (payout_destination_id, params, options) => this.#runtime.request("deletePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePayoutDestination", result, path))),
       deletePayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("deletePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(_sdkResponse),
+  "Idempotency-Key"
+], false, false, params), options).then(_sdkResponse),
       getPayoutDestination: async (payout_destination_id, params, options) => this.#runtime.request("getPayoutDestination", _sdkRequestInput([
   "payout_destination_id"
-], [payout_destination_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [payout_destination_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPayoutDestination", result, path))),
       getPayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("getPayoutDestination", _sdkRequestInput([
   "payout_destination_id"
-], [payout_destination_id], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
-      get: async (params, options) => this.#runtime.request("getPayoutSettings", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getWithResponse: async (params, options) => this.#runtime.request("getPayoutSettings", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+], [payout_destination_id], [], false, false, params), options).then(_sdkResponse),
+      get: async (params, options) => this.#runtime.request("getPayoutSettings", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPayoutSettings", result, path))),
+      getWithResponse: async (params, options) => this.#runtime.request("getPayoutSettings", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       listPayoutDestinations: async (params, options) => this.#runtime.request("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
   "type",
   "status",
   "available_payout_method",
   "default_for_currency",
-  "include_deleted",
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPayoutDestinations", result, path))),
       listPayoutDestinationsWithResponse: async (params, options) => this.#runtime.request("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
   "type",
   "status",
   "available_payout_method",
   "default_for_currency",
-  "include_deleted",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPayoutDestinationsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -68,21 +54,17 @@ this.payoutSettings = Object.freeze({
   "status",
   "available_payout_method",
   "default_for_currency",
-  "include_deleted",
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPayoutDestinations", result, path)),
       listPayoutDestinationsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
   "type",
   "status",
   "available_payout_method",
   "default_for_currency",
-  "include_deleted",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options)),
       listPayoutDestinationsItems: (params, options) => this.#runtime.items("listPayoutDestinations", _sdkRequestInput([], [], [
   "currency",
@@ -90,47 +72,30 @@ this.payoutSettings = Object.freeze({
   "status",
   "available_payout_method",
   "default_for_currency",
-  "include_deleted",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options),
       updatePayoutDestination: async (payout_destination_id, params, options) => this.#runtime.request("updatePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePayoutDestination", result, path))),
       updatePayoutDestinationWithResponse: async (payout_destination_id, params, options) => this.#runtime.request("updatePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
 ], [payout_destination_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updatePayoutSettings", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePayoutSettings", result, path))),
       updateWithResponse: async (params, options) => this.#runtime.request("updatePayoutSettings", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makePayoutDestinationResponse } from '../models/PayoutDestinationResponse.js';
-export { makePayoutSettingsResponse } from '../models/PayoutSettingsResponse.js';
-export { makePayoutDestinationListResponse } from '../models/PayoutDestinationListResponse.js';
-export { makePayoutDestination } from '../models/PayoutDestination.js';
-export { makePayoutSettings } from '../models/PayoutSettings.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeMoneyMovementListMeta } from '../models/MoneyMovementListMeta.js';
-export { makeMoneyMovementHistoryMeta } from '../models/MoneyMovementHistoryMeta.js';
-export { makeMoneyMovementBlockedReason } from '../models/MoneyMovementBlockedReason.js';
-export { makeCancelPayoutRequest } from '../models/CancelPayoutRequest.js';
 export { makeUpdatePayoutDestinationRequest } from '../models/UpdatePayoutDestinationRequest.js';
+export { makeUpdatePayoutSettingsRequest } from '../models/UpdatePayoutSettingsRequest.js';

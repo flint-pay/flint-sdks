@@ -2,61 +2,61 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue $amount_money
- * @property-read list<string> $digital_wallets
+ * @property-read ?MoneyValue $amount_money
+ * @property-read ?list<string> $digital_wallets
  * @property-read string $mode
  * @property-read string $next_step
  * @property-read string $payment_method_creation
- * @property-read array<array-key, mixed> $payment_method_options
+ * @property-read ?array<array-key, mixed> $payment_method_options
  * @property-read list<string> $payment_method_types
- * @property-read list<SelectableOrderPaymentIntent> $selectable_payment_intents
+ * @property-read ?list<SelectableOrderPaymentIntent> $selectable_payment_intents
  * @property-read string $submit_to
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class PaymentCollectionStripeElements extends Model {
     /** @param array{'amount_money'?: mixed, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: \stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<mixed>, 'submit_to': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripeElements')); }
-    /** @return MoneyValue
-     * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Amount and currency used to initialize the payment form. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return ?MoneyValue
      */
-    public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
+    public function getAmountMoney(): ?MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** @return list<string>
-     * @throws SdkError When digital_wallets is omitted; use hasDigitalWallets() or valueOrDefault().
+    /** Shape $ (Value): Array of string. Digital wallets that the payment form can offer. Shape $[] (Value): string.
+     * @return ?list<string>
      */
-    public function getDigitalWallets(): array { return $this->get('digital_wallets'); }
+    public function getDigitalWallets(): ?array { return $this->get('digital_wallets'); }
     public function hasDigitalWallets(): bool { return $this->has('digital_wallets'); }
-    /** @return string
-     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
+    /** Shape $ (Value): string. Whether Elements is collecting a payment source for an immediate payment or a setup source for future use. Value enum: "payment", "setup".
+     * @return string
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** @return string
-     * @throws SdkError When next_step is omitted; use hasNextStep() or valueOrDefault().
+    /** Shape $ (Value): string. Browser collection operation to perform before calling submit_to. Value enum: "collect_payment_source", "collect_setup_payment_source", "create_confirmation_token".
+     * @return string
      */
     public function getNextStep(): string { return $this->get('next_step'); }
     public function hasNextStep(): bool { return $this->has('next_step'); }
-    /** @return string
-     * @throws SdkError When payment_method_creation is omitted; use hasPaymentMethodCreation() or valueOrDefault().
+    /** Shape $ (Value): string. Stripe Elements payment method creation mode. Follow next_step: standalone PaymentIntents and checkout-authenticated order collection create a ConfirmationToken, while merchant-authenticated order collection and setup collection create a PaymentMethod. Value enum: "manual".
+     * @return string
      */
     public function getPaymentMethodCreation(): string { return $this->get('payment_method_creation'); }
     public function hasPaymentMethodCreation(): bool { return $this->has('payment_method_creation'); }
-    /** @return array<array-key, mixed>
-     * @throws SdkError When payment_method_options is omitted; use hasPaymentMethodOptions() or valueOrDefault().
+    /** Shape $ (Value): object. Payment method settings passed to the payment form.
+     * @return ?array<array-key, mixed>
      */
-    public function getPaymentMethodOptions(): array { return $this->get('payment_method_options'); }
+    public function getPaymentMethodOptions(): ?array { return $this->get('payment_method_options'); }
     public function hasPaymentMethodOptions(): bool { return $this->has('payment_method_options'); }
-    /** @return list<string>
-     * @throws SdkError When payment_method_types is omitted; use hasPaymentMethodTypes() or valueOrDefault().
+    /** Shape $ (Value): Array of string. Payment method types that the payment form can offer. Shape $[] (Value): string.
+     * @return list<string>
      */
     public function getPaymentMethodTypes(): array { return $this->get('payment_method_types'); }
     public function hasPaymentMethodTypes(): bool { return $this->has('payment_method_types'); }
-    /** @return list<SelectableOrderPaymentIntent>
-     * @throws SdkError When selectable_payment_intents is omitted; use hasSelectablePaymentIntents() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see SelectableOrderPaymentIntent}. Order payment intents that the buyer can select for collection. Shape $[] (Value): {@see SelectableOrderPaymentIntent}. A payment intent on an order the caller can pick, with its amount, status, and last payment error.
+     * @return ?list<SelectableOrderPaymentIntent>
      */
-    public function getSelectablePaymentIntents(): array { return $this->get('selectable_payment_intents'); }
+    public function getSelectablePaymentIntents(): ?array { return $this->get('selectable_payment_intents'); }
     public function hasSelectablePaymentIntents(): bool { return $this->has('selectable_payment_intents'); }
-    /** @return string
-     * @throws SdkError When submit_to is omitted; use hasSubmitTo() or valueOrDefault().
+    /** Shape $ (Value): string. Flint operation that accepts the result of next_step. Value enum: "pay_order", "confirm_payment_intent".
+     * @return string
      */
     public function getSubmitTo(): string { return $this->get('submit_to'); }
     public function hasSubmitTo(): bool { return $this->has('submit_to'); }

@@ -1,0 +1,1 @@
+{"shared":"GiftCardRestriction","phpRepresentation":{"kind":"record","fields":{"dispute_id":{"kind":"value","type":"string"},"dispute_status":{"kind":"value","type":"string"},"reason":{"kind":"value","type":"string"},"type":{"kind":"value","type":"string"}}},"dependencies":["GiftCardRestriction"]}

@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $external_reference_id
+ * @property-read string $gift_card_refund_destination
  * @property-read array<array-key, string>|\stdClass $metadata
  * @property-read string $pricing_basis
  * @property-read string $quantity
@@ -10,34 +11,46 @@ namespace Flint;
  * @property-read string $resolution_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnProcessResolutionRequestInput extends Model {
-    /** @param array{'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pricing_basis'?: string, 'quantity': string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string}|object $values */
+    /** @param array{'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pricing_basis'?: string, 'quantity': string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnProcessResolutionRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+     * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
+     * @return string
+     * @throws SdkError When gift_card_refund_destination is omitted; use hasGiftCardRefundDestination() or valueOrDefault().
+     */
+    public function getGiftCardRefundDestination(): string { return $this->get('gift_card_refund_destination'); }
+    public function hasGiftCardRefundDestination(): bool { return $this->has('gift_card_refund_destination'); }
+    /** Shape $ (Value): Map of string. Shape $.* (Value): string. minLength: 1.
+     * @return array<array-key, string>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "original_price", "current_price", "merchant_agreed_price".
+     * @return string
      * @throws SdkError When pricing_basis is omitted; use hasPricingBasis() or valueOrDefault().
      */
     public function getPricingBasis(): string { return $this->get('pricing_basis'); }
     public function hasPricingBasis(): bool { return $this->has('pricing_basis'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */
     public function getQuantity(): string { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** @return list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): Array of {@see ReturnReplacementLineItemRequestInput}. Shape $[] (Value): {@see ReturnReplacementLineItemRequestInput}. A replacement item to include in a return resolution, from a variant, a bundle, or a custom name and price.
+     * @return list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When replacement_line_items is omitted; use hasReplacementLineItems() or valueOrDefault().
      */
     public function getReplacementLineItems(): array { return $this->get('replacement_line_items'); }
     public function hasReplacementLineItems(): bool { return $this->has('replacement_line_items'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
+     * @return string
      * @throws SdkError When resolution_type is omitted; use hasResolutionType() or valueOrDefault().
      */
     public function getResolutionType(): string { return $this->get('resolution_type'); }

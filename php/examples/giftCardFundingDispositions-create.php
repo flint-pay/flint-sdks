@@ -1,22 +1,28 @@
 <?php
 declare(strict_types=1);
-require __DIR__ . '/../vendor/autoload.php';
+$autoload = __DIR__;
+while (!is_file($autoload . '/vendor/autoload.php') && !is_file($autoload . '/autoload.php')) {
+    $parent = dirname($autoload);
+    if ($parent === $autoload) throw new \RuntimeException('Run composer install in the application before running this example.');
+    $autoload = $parent;
+}
+require_once is_file($autoload . '/vendor/autoload.php') ? $autoload . '/vendor/autoload.php' : $autoload . '/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
 $baseUrl = getenv('API_BASE_URL');
-if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
 $apiKey = getenv('API_KEY');
 if ($apiKey === false || $apiKey === '') throw new \RuntimeException('Set API_KEY: this call requires a credential');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
+  allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
   apiKey: $apiKey,
 ));
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->giftCardFundingDispositions->create([
-  'disposition' => 'honor_value',
-  'dispute_id' => 'du_01JZXK4G8Q5V3N7M2P9R6T1W0Y',
-  'reason_message' => 'Honored after the dispute review.',
+  'dispute_id' => 'du_00000000000000000000000000',
+  'reason_message' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->dispute_id . PHP_EOL;
 echo $result->gift_card_funding_disposition_id . PHP_EOL;

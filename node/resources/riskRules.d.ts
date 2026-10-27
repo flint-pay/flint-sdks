@@ -1,147 +1,206 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { RiskPredicateNodeInput } from '../declarations/RiskPredicateNodeInput.js';
-import type { RiskRule } from '../declarations/RiskRule.js';
-import type { RiskRuleAttributeRegistryResponse } from '../declarations/RiskRuleAttributeRegistryResponse.js';
-import type { RiskRuleListResponse } from '../declarations/RiskRuleListResponse.js';
-import type { RiskRuleResponse } from '../declarations/RiskRuleResponse.js';
-import type { RiskRulesCreateInput } from '../declarations/RiskRulesCreateInput.js';
-import type { RiskRulesCreateResponse } from '../declarations/RiskRulesCreateResponse.js';
-import type { RiskRulesGetAttributeRegistryInput } from '../declarations/RiskRulesGetAttributeRegistryInput.js';
-import type { RiskRulesGetAttributeRegistryResponse } from '../declarations/RiskRulesGetAttributeRegistryResponse.js';
-import type { RiskRulesGetInput } from '../declarations/RiskRulesGetInput.js';
-import type { RiskRulesGetResponse } from '../declarations/RiskRulesGetResponse.js';
-import type { RiskRulesListInput } from '../declarations/RiskRulesListInput.js';
-import type { RiskRulesListResponse } from '../declarations/RiskRulesListResponse.js';
-import type { RiskRulesRemoveInput } from '../declarations/RiskRulesRemoveInput.js';
-import type { RiskRulesRemoveResponse } from '../declarations/RiskRulesRemoveResponse.js';
-import type { RiskRulesUpdateInput } from '../declarations/RiskRulesUpdateInput.js';
-import type { RiskRulesUpdateResponse } from '../declarations/RiskRulesUpdateResponse.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateRiskRuleRequestInput } from '../declarations/types-9.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type {
+    RiskAttributeRegistry,
+    RiskAttributeRegistryResponse,
+    RiskRule,
+    RiskRuleListResponse,
+    RiskRuleResponse,
+    RiskRulesCreateInput,
+    RiskRulesGetAttributeRegistryInput,
+    RiskRulesGetInput,
+    RiskRulesListInput,
+    RiskRulesRemoveInput,
+    RiskRulesUpdateInput,
+    SdkResponse
+} from '../declarations/types-43.js';
+import type { UpdateRiskRuleRequestInput } from '../declarations/types-49.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateRiskRuleRequestInput, Credentials } from '../declarations/types-9.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    RiskRule,
+    SdkResponse,
+    RiskRuleResponse,
+    RiskAttributeRegistry,
+    RiskAttributeRegistryResponse,
+    RiskRuleListResponse,
+    RiskRulesCreateInput,
+    RiskRulesRemoveInput,
+    RiskRulesGetInput,
+    RiskRulesGetAttributeRegistryInput,
+    RiskRulesListInput,
+    RiskRulesUpdateInput,
+    RiskPredicateNodeInput,
+    RiskRuleIssue,
+    RiskPredicateNode,
+    RiskAttribute
+} from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { UpdateRiskRuleRequestInput } from '../declarations/types-49.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export { makeCreateRiskRuleRequest } from '../declarations/types-64.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeRiskPredicateNode } from '../declarations/types-71.js';
+export { makeUpdateRiskRuleRequest } from '../declarations/types-72.js';
 export interface RiskRulesResource {
     /**
- * Create a risk rule for the authenticated merchant environment.
+ * Creates a rule that applies from the next payment attempt. Flint validates the predicate and
+ * checks every list before activating the rule. The rule is active unless you send status:
+ * inactive. An environment can have 100 active rules, counting Flint's defaults. To check a draft
+ * without saving it, use POST /v1/risk-previews.
+ * @see reference/riskRules.md#riskrulescreate
  * POST /v1/risk-rules
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskRules.create({action: "review", description: "Synthetic SDK example", predicate: {attribute: "payment_method_type", operator: "eq", value: "card"}}, { idempotencyKey: idempotencyKey })
+ * client.riskRules.create({action: "review", description: "Synthetic SDK example", predicate:
+ * {attribute: "payment_method_type", operator: "eq", value: "card"}}, { idempotencyKey:
+ * idempotencyKey })
  */
-    create(params: (InputValue<{ "action": "allow" | "block" | "review" | "require_3ds"; "description": string; "enabled"?: boolean; "predicate": (({ "all": Array<RiskPredicateNodeInput>; }) | ({ "any": Array<RiskPredicateNodeInput>; }) | ({ "not": RiskPredicateNodeInput; }) | ({ "attribute": string; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; "value": ((string) | (number) | (boolean)); }) | ({ "amount_money": MoneyValueInput; "attribute": "amount_money"; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; }) | ({ "attribute": string; "operator": "in"; "values": Array<((string) | (number) | (boolean))>; }) | ({ "attribute": string; "list_alias": string; "operator": "in_list"; }) | ({ "attribute": string; "operator": "is_missing"; })); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskRuleResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "action": "allow" | "block" | "review" | "require_3ds"; "description": string; "enabled"?: boolean; "predicate": (({ "all": Array<RiskPredicateNodeInput>; }) | ({ "any": Array<RiskPredicateNodeInput>; }) | ({ "not": RiskPredicateNodeInput; }) | ({ "attribute": string; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; "value": ((string) | (number) | (boolean)); }) | ({ "amount_money": MoneyValueInput; "attribute": "amount_money"; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; }) | ({ "attribute": string; "operator": "in"; "values": Array<((string) | (number) | (boolean))>; }) | ({ "attribute": string; "list_alias": string; "operator": "in_list"; }) | ({ "attribute": string; "operator": "is_missing"; })); }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRulesCreateResponse>>;
+    create(params: (InputValue<CreateRiskRuleRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskRule>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskRules.md#riskrulescreate
+     */
+    createWithResponse(params: (InputValue<CreateRiskRuleRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRuleResponse>>;
     /**
- * Retire a risk rule for the authenticated merchant environment.
+ * Archives a rule. It stops running at once and can't be changed or restored. Flint's default
+ * rules can't be archived; set them inactive instead.
+ * @see reference/riskRules.md#riskrulesremove
  * DELETE /v1/risk-rules/{risk_rule_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.riskRules.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(risk_rule_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskRuleResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(risk_rule_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRulesRemoveResponse>>;
+    remove(risk_rule_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskRule>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskRules.md#riskrulesremove
+     */
+    removeWithResponse(risk_rule_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRuleResponse>>;
     /**
- * Get a risk rule for the authenticated merchant environment.
+ * Retrieves a risk rule. The issues array lists anything that stops Flint from evaluating it.
+ * @see reference/riskRules.md#riskrulesget
  * GET /v1/risk-rules/{risk_rule_id}
  * @example
  * client.riskRules.get("example")
  */
-    get(risk_rule_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskRuleResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(risk_rule_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskRulesGetResponse>>;
+    get(risk_rule_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskRule>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskRules.md#riskrulesget
+     */
+    getWithResponse(risk_rule_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskRuleResponse>>;
     /**
- * Get the risk rule attribute registry for the authenticated merchant environment.
+ * Lists the attributes a predicate can read in this environment, with each one's value type,
+ * operators, and the stage it becomes available. An attribute with is_available: false can't be
+ * used yet. Payment intent metadata is also readable as payment_intent_metadata.{key}, which isn't
+ * listed.
+ * @see reference/riskRules.md#riskrulesgetattributeregistry
  * GET /v1/risk-rules/attributes
  * @example
  * client.riskRules.getAttributeRegistry()
  */
-    getAttributeRegistry(params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskRuleAttributeRegistryResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getAttributeRegistryWithResponse(params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskRulesGetAttributeRegistryResponse>>;
+    getAttributeRegistry(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskAttributeRegistry>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskRules.md#riskrulesgetattributeregistry
+     */
+    getAttributeRegistryWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskAttributeRegistryResponse>>;
     /**
- * List risk rules for the authenticated merchant environment.
+ * Lists risk rules, newest first, including Flint's default rules. By default, includes active and
+ * inactive rules. Archived rules appear only when status includes archived. This isn't the order
+ * Flint evaluates them in.
+ * @see reference/riskRules.md#riskruleslist
  * GET /v1/risk-rules
  * @example
  * client.riskRules.list()
  */
-    list(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskRuleListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskRulesListResponse>>;
-    listPages(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskRuleListResponse>;
-    listPagesWithResponse(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskRulesListResponse>>;
-    listItems(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskRule>;
+    list(params?: {
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskRuleListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskRules.md#riskruleslist
+     */
+    listWithResponse(params?: {
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskRuleListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/riskRules.md#riskruleslist
+     */
+    listPages(params?: {
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskRuleListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/riskRules.md#riskruleslist
+     */
+    listPagesWithResponse(params?: {
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskRuleListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/riskRules.md#riskruleslist
+     */
+    listItems(params?: {
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskRule>;
     /**
- * Update a risk rule for the authenticated merchant environment.
+ * Changes a rule's action, predicate, description, or status, and increases its version. Send
+ * expected_version to avoid overwriting another edit. Flint's default rules accept only status.
+ * Activating a rule validates it again.
+ * @see reference/riskRules.md#riskrulesupdate
  * PATCH /v1/risk-rules/{risk_rule_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.riskRules.update("example", {action: "allow"}, { idempotencyKey: idempotencyKey })
  */
-    update(risk_rule_id: InputValue<string>, params: (InputValue<({ "action"?: "allow" | "block" | "review" | "require_3ds"; "description"?: string; "enabled"?: boolean; "expected_version"?: string; "predicate"?: (({ "all": Array<RiskPredicateNodeInput>; }) | ({ "any": Array<RiskPredicateNodeInput>; }) | ({ "not": RiskPredicateNodeInput; }) | ({ "attribute": string; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; "value": ((string) | (number) | (boolean)); }) | ({ "amount_money": MoneyValueInput; "attribute": "amount_money"; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; }) | ({ "attribute": string; "operator": "in"; "values": Array<((string) | (number) | (boolean))>; }) | ({ "attribute": string; "list_alias": string; "operator": "in_list"; }) | ({ "attribute": string; "operator": "is_missing"; })); }) & (({ "action": unknown; }) | ({ "predicate": unknown; }) | ({ "description": unknown; }) | ({ "enabled": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskRuleResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(risk_rule_id: InputValue<string>, params: (InputValue<({ "action"?: "allow" | "block" | "review" | "require_3ds"; "description"?: string; "enabled"?: boolean; "expected_version"?: string; "predicate"?: (({ "all": Array<RiskPredicateNodeInput>; }) | ({ "any": Array<RiskPredicateNodeInput>; }) | ({ "not": RiskPredicateNodeInput; }) | ({ "attribute": string; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; "value": ((string) | (number) | (boolean)); }) | ({ "amount_money": MoneyValueInput; "attribute": "amount_money"; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; }) | ({ "attribute": string; "operator": "in"; "values": Array<((string) | (number) | (boolean))>; }) | ({ "attribute": string; "list_alias": string; "operator": "in_list"; }) | ({ "attribute": string; "operator": "is_missing"; })); }) & (({ "action": unknown; }) | ({ "predicate": unknown; }) | ({ "description": unknown; }) | ({ "enabled": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRulesUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly riskRules: RiskRulesResource;
+    update(risk_rule_id: InputValue<string>, params: (InputValue<UpdateRiskRuleRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskRule>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskRules.md#riskrulesupdate
+     */
+    updateWithResponse(risk_rule_id: InputValue<string>, params: (InputValue<UpdateRiskRuleRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskRuleResponse>>;
 }
-export type { RiskPredicateNodeInput } from '../declarations/RiskPredicateNodeInput.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { RiskRuleResponse } from '../declarations/RiskRuleResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { RiskRulesCreateResponse } from '../declarations/RiskRulesCreateResponse.js';
-export type { RiskRulesRemoveResponse } from '../declarations/RiskRulesRemoveResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RiskRulesGetResponse } from '../declarations/RiskRulesGetResponse.js';
-export type { RiskRuleAttributeRegistryResponse } from '../declarations/RiskRuleAttributeRegistryResponse.js';
-export type { RiskRulesGetAttributeRegistryResponse } from '../declarations/RiskRulesGetAttributeRegistryResponse.js';
-export type { RiskRuleListResponse } from '../declarations/RiskRuleListResponse.js';
-export type { RiskRulesListResponse } from '../declarations/RiskRulesListResponse.js';
-export type { RiskRule } from '../declarations/RiskRule.js';
-export type { RiskRulesUpdateResponse } from '../declarations/RiskRulesUpdateResponse.js';
-export type { RiskRulesCreateInput } from '../declarations/RiskRulesCreateInput.js';
-export type { RiskRulesRemoveInput } from '../declarations/RiskRulesRemoveInput.js';
-export type { RiskRulesGetInput } from '../declarations/RiskRulesGetInput.js';
-export type { RiskRulesGetAttributeRegistryInput } from '../declarations/RiskRulesGetAttributeRegistryInput.js';
-export type { RiskRulesListInput } from '../declarations/RiskRulesListInput.js';
-export type { RiskRulesUpdateInput } from '../declarations/RiskRulesUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { PublicRiskAttributeRegistry } from '../declarations/PublicRiskAttributeRegistry.js';
-export type { PublicRiskAttribute } from '../declarations/PublicRiskAttribute.js';
-export type { RiskPredicateNode } from '../declarations/RiskPredicateNode.js';
-export type { CreateRiskRuleRequestInput } from '../declarations/CreateRiskRuleRequestInput.js';
-export type { UpdateRiskRuleRequestInput } from '../declarations/UpdateRiskRuleRequestInput.js';
-export type { MeGetEmailPreferencesInput } from '../declarations/MeGetEmailPreferencesInput.js';
-export type { RiskListsListInput } from '../declarations/RiskListsListInput.js';
-export { makeRiskRuleResponse } from '../declarations/makeRiskRuleResponse.js';
-export { makeRiskRuleAttributeRegistryResponse } from '../declarations/makeRiskRuleAttributeRegistryResponse.js';
-export { makeRiskRuleListResponse } from '../declarations/makeRiskRuleListResponse.js';
-export { makeRiskRule } from '../declarations/makeRiskRule.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makePublicRiskAttributeRegistry } from '../declarations/makePublicRiskAttributeRegistry.js';
-export { makePublicRiskAttribute } from '../declarations/makePublicRiskAttribute.js';
-export { makeRiskPredicateNode } from '../declarations/makeRiskPredicateNode.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly riskRules: RiskRulesResource;
+}

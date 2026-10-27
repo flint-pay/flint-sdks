@@ -1,70 +1,95 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { DemoSessionResponse } from '../declarations/DemoSessionResponse.js';
-import type { DemoSessionsCreateInput } from '../declarations/DemoSessionsCreateInput.js';
-import type { DemoSessionsCreateResponse } from '../declarations/DemoSessionsCreateResponse.js';
-import type { DemoSessionsResetInput } from '../declarations/DemoSessionsResetInput.js';
-import type { DemoSessionsResetResponse } from '../declarations/DemoSessionsResetResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateDemoSessionRequestInput } from '../declarations/types-6.js';
+import type { DemoSession, DemoSessionResponse, DemoSessionsCreateInput, DemoSessionsResetInput } from '../declarations/types-15.js';
+import type { RequestOptions, ResetDemoSessionRequestInput } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateDemoSessionRequestInput } from '../declarations/types-6.js';
+export type { RequestOptions, ResetDemoSessionRequestInput, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    DemoSession,
+    DemoSessionResponse,
+    DemoSessionsCreateInput,
+    DemoSessionsResetInput,
+    DemoSessionAPIKey
+} from '../declarations/types-15.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeCreateDemoSessionRequest } from '../declarations/types-63.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeResetDemoSessionRequest } from '../declarations/types-70.js';
 export interface DemoSessionsResource {
     /**
- * Creates a temporary demo sandbox and returns a short-lived test API key. The secret key is displayed only at creation time and for a short idempotent retry window.
+ * Creates a temporary demo sandbox and returns a short-lived test API key. The secret key is
+ * displayed only at creation time and for a short idempotent retry window. Omit template to use
+ * quickstart; an explicit empty or unsupported value is invalid.
+ * @see reference/demoSessions.md#demosessionscreate
  * POST /v1/demo-sessions
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.demoSessions.create({}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "template"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<_SdkPayloadAt<DemoSessionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "template"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<never>): Promise<SdkResponse<DemoSessionsCreateResponse>>;
+    create(params: (InputValue<CreateDemoSessionRequestInput>)
+        & {
+        "X-Turnstile-Token"?: InputValue<string>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<never>): Promise<DemoSession>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/demoSessions.md#demosessionscreate
+     */
+    createWithResponse(params: (InputValue<CreateDemoSessionRequestInput>)
+        & {
+        "X-Turnstile-Token"?: InputValue<string>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<never>): Promise<SdkResponse<DemoSessionResponse>>;
     /**
- * Ends the caller's current demo sandbox (if any) and provisions a fresh one, returning a new temporary API key. Useful when the original one-time secret was lost. Subject to the same per-client email failure limit as creation.
+ * Ends the active or provisioning demo session identified by demo_session_id for this client and
+ * provisions a fresh one. A client that lost its create response gets the current demo_session_id
+ * from the error on ACTIVE_DEMO_SESSION_EXISTS or DEMO_SESSION_SECRET_REPLAY_EXPIRED. A retry with
+ * the same Idempotency-Key and body replays the replacement before checking the current session,
+ * including its secret during the secret delivery window. After that window, the retry returns
+ * DEMO_SESSION_SECRET_REPLAY_EXPIRED. The daily cap applies only to fresh executions. Omit
+ * template to use quickstart; an explicit empty or unsupported value is invalid.
+ * @see reference/demoSessions.md#demosessionsreset
  * POST /v1/demo-sessions/reset
  * @example
- * client.demoSessions.reset({})
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.demoSessions.reset({demo_session_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    reset(params: (InputValue<{ "template"?: string; }>) & { "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<_SdkPayloadAt<DemoSessionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resetWithResponse(params: (InputValue<{ "template"?: string; }>) & { "X-Turnstile-Token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<SdkResponse<DemoSessionsResetResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly demoSessions: DemoSessionsResource;
+    reset(params: (InputValue<ResetDemoSessionRequestInput>)
+        & {
+        "X-Turnstile-Token"?: InputValue<string>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<never>): Promise<DemoSession>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/demoSessions.md#demosessionsreset
+     */
+    resetWithResponse(params: (InputValue<ResetDemoSessionRequestInput>)
+        & {
+        "X-Turnstile-Token"?: InputValue<string>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<never>): Promise<SdkResponse<DemoSessionResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { DemoSessionResponse } from '../declarations/DemoSessionResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { DemoSessionsCreateResponse } from '../declarations/DemoSessionsCreateResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { DemoSessionsResetResponse } from '../declarations/DemoSessionsResetResponse.js';
-export type { DemoSessionsCreateInput } from '../declarations/DemoSessionsCreateInput.js';
-export type { DemoSessionsResetInput } from '../declarations/DemoSessionsResetInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { DemoSession } from '../declarations/DemoSession.js';
-export type { DemoSessionAPIKey } from '../declarations/DemoSessionAPIKey.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { CreateDemoSessionRequestInput } from '../declarations/CreateDemoSessionRequestInput.js';
-export { makeDemoSessionResponse } from '../declarations/makeDemoSessionResponse.js';
-export { makeDemoSession } from '../declarations/makeDemoSession.js';
-export { makeDemoSessionAPIKey } from '../declarations/makeDemoSessionAPIKey.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly demoSessions: DemoSessionsResource;
+}

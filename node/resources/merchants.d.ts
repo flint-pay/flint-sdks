@@ -1,82 +1,87 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { MerchantResponse } from '../declarations/MerchantResponse.js';
-import type { MerchantsGetInput } from '../declarations/MerchantsGetInput.js';
-import type { MerchantsGetResponse } from '../declarations/MerchantsGetResponse.js';
-import type { MerchantsUpdateInput } from '../declarations/MerchantsUpdateInput.js';
-import type { MerchantsUpdateResponse } from '../declarations/MerchantsUpdateResponse.js';
-import type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { Merchant, MerchantResponse } from '../declarations/types-30.js';
+import type { MerchantsGetInput, MerchantsUpdateInput } from '../declarations/types-31.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdateMerchantRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { Merchant, MerchantResponse, MerchantReadiness } from '../declarations/types-30.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { UpdateMerchantRequestInput } from '../declarations/types-48.js';
+export type {
+    MerchantsGetInput,
+    MerchantsUpdateInput,
+    NextAction,
+    NextActionMerchantAccountSession,
+    MoneyValue
+} from '../declarations/types-31.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { ImageAttachment, ImageRequestInput } from '../declarations/types-19.js';
+export type { ExpandedOrganizationSummary } from '../declarations/types-16.js';
+export type { CapabilityReadiness } from '../declarations/types-3.js';
+export type { ReadinessAction, ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessAxis } from '../declarations/types-39.js';
+export { makeAddressRequest } from '../declarations/types-61.js';
+export { makeImageRequest } from '../declarations/types-67.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeUpdateMerchantRequest } from '../declarations/types-72.js';
 export interface MerchantsResource {
     /**
  * Returns the authenticated merchant.
+ * @see reference/merchants.md#merchantsget
  * GET /v1/merchant
  * @example
  * client.merchants.get()
  */
-    get(params?: { "expand"?: InputValue<Array<"organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<MerchantResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(params?: { "expand"?: InputValue<Array<"organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantsGetResponse>>;
+    get(params?: {
+        "expand"?: InputValue<Array<"organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<Merchant>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/merchants.md#merchantsget
+     */
+    getWithResponse(params?: {
+        "expand"?: InputValue<Array<"organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<MerchantResponse>>;
     /**
- * Applies a sparse update to the authenticated merchant's public business profile fields.
+ * Applies a sparse update to the authenticated merchant's public business profile fields. The
+ * api_version field changes the merchant's live default and requires a live-mode API key or the
+ * live dashboard environment.
+ * @see reference/merchants.md#merchantsupdate
  * PATCH /v1/merchant
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.merchants.update({}, { idempotencyKey: idempotencyKey })
  */
-    update(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "logo"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<MerchantResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(params: (InputValue<{ "address"?: PostalAddressInput; "api_version"?: string; "business_name"?: string; "email"?: string; "expected_version"?: string; "icon"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "logo"?: (({ "alt"?: string; "external_reference_id"?: string; "source_url": string; }) | (null)); "metadata"?: Record<string, string | null> | null; "organization_id"?: string; "phone"?: string; "reporting_timezone"?: string; "support_email"?: string; "support_phone"?: string; "support_url"?: string; "website_url"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<MerchantsUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly merchants: MerchantsResource;
+    update(params: (InputValue<UpdateMerchantRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Merchant>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/merchants.md#merchantsupdate
+     */
+    updateWithResponse(params: (InputValue<UpdateMerchantRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<MerchantResponse>>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { MerchantResponse } from '../declarations/MerchantResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { MerchantsGetResponse } from '../declarations/MerchantsGetResponse.js';
-export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
-export type { MerchantsUpdateResponse } from '../declarations/MerchantsUpdateResponse.js';
-export type { MerchantsGetInput } from '../declarations/MerchantsGetInput.js';
-export type { MerchantsUpdateInput } from '../declarations/MerchantsUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { Merchant } from '../declarations/Merchant.js';
-export type { Address } from '../declarations/Address.js';
-export type { PostalAddress } from '../declarations/PostalAddress.js';
-export type { Banner } from '../declarations/Banner.js';
-export type { Image } from '../declarations/Image.js';
-export type { MerchantReadinessAxis } from '../declarations/MerchantReadinessAxis.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MerchantReadinessRequirements } from '../declarations/MerchantReadinessRequirements.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { UpdateMerchantRequestInput } from '../declarations/UpdateMerchantRequestInput.js';
-export { makeMerchantResponse } from '../declarations/makeMerchantResponse.js';
-export { makeMerchant } from '../declarations/makeMerchant.js';
-export { makeAddress } from '../declarations/makeAddress.js';
-export { makePostalAddress } from '../declarations/makePostalAddress.js';
-export { makeBanner } from '../declarations/makeBanner.js';
-export { makeImage } from '../declarations/makeImage.js';
-export { makeMerchantReadinessAxis } from '../declarations/makeMerchantReadinessAxis.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMerchantReadinessRequirements } from '../declarations/makeMerchantReadinessRequirements.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly merchants: MerchantsResource;
+}

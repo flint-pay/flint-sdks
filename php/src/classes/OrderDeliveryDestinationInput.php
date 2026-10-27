@@ -11,27 +11,32 @@ namespace Flint;
 final class OrderDeliveryDestinationInput extends Model {
     /** @param array{'address': OrderDeliveryDestinationAddressInput|array<array-key, mixed>|\stdClass, 'delivery_selection_id'?: string, 'frozen_at'?: string|\DateTimeInterface, 'recipient'?: OrderDeliveryDestinationRecipientInput|array<array-key, mixed>|\stdClass, 'source': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationInput')); }
-    /** @return OrderDeliveryDestinationAddressInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see OrderDeliveryDestinationAddressInput}. The delivery address on an order.
+     * @return OrderDeliveryDestinationAddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** @return string
+    /** Shape $ (Value): string. Delivery selection that controls this destination, when checkout collected it.
+     * @return string
      * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
      */
     public function getDeliverySelectionId(): string { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. Time payment froze this destination. Format: date-time.
+     * @return string|\DateTimeInterface
      * @throws SdkError When frozen_at is omitted; use hasFrozenAt() or valueOrDefault().
      */
     public function getFrozenAt(): string|\DateTimeInterface { return $this->get('frozen_at'); }
     public function hasFrozenAt(): bool { return $this->has('frozen_at'); }
-    /** @return OrderDeliveryDestinationRecipientInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see OrderDeliveryDestinationRecipientInput}. The name and phone number of the person receiving an order delivery.
+     * @return OrderDeliveryDestinationRecipientInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */
     public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "delivery_selection", "api", "dashboard".
+     * @return string
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
      */
     public function getSource(): string { return $this->get('source'); }

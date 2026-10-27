@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryZones.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/deliveryZones.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryZone"]:r0,["deleteDeliveryZone"]:r0,["getDeliveryZone"]:r0,["listDeliveryZones"]:r0,["updateDeliveryZone"]:r0});
 export class Client {
@@ -14,7 +14,7 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.deliveryZones = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDeliveryZone", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryZone", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryZone", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
@@ -23,7 +23,7 @@ this.deliveryZones = Object.freeze({
 ], [delivery_zone_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeliveryZone", result, path))),
       removeWithResponse: async (delivery_zone_id, params, options) => this.#runtime.request("deleteDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
 ], [delivery_zone_id], [
@@ -32,7 +32,7 @@ this.deliveryZones = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       get: async (delivery_zone_id, params, options) => this.#runtime.request("getDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
-], [delivery_zone_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [delivery_zone_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeliveryZone", result, path))),
       getWithResponse: async (delivery_zone_id, params, options) => this.#runtime.request("getDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
 ], [delivery_zone_id], [], false, false, params), options).then(_sdkResponse),
@@ -43,7 +43,7 @@ this.deliveryZones = Object.freeze({
   "external_reference_id",
   "status",
   "delivery_method_id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeliveryZones", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryZones", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -59,7 +59,7 @@ this.deliveryZones = Object.freeze({
   "external_reference_id",
   "status",
   "delivery_method_id"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDeliveryZones", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryZones", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -80,7 +80,7 @@ this.deliveryZones = Object.freeze({
   "delivery_zone_id"
 ], [delivery_zone_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateDeliveryZone", result, path))),
       updateWithResponse: async (delivery_zone_id, params, options) => this.#runtime.request("updateDeliveryZone", _sdkRequestInput([
   "delivery_zone_id"
 ], [delivery_zone_id], [
@@ -88,21 +88,17 @@ this.deliveryZones = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeDeliveryZoneResponse } from '../models/DeliveryZoneResponse.js';
-export { makeDeliveryZoneListResponse } from '../models/DeliveryZoneListResponse.js';
-export { makeDeliveryZone } from '../models/DeliveryZone.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeDeliveryZoneConfiguration } from '../models/DeliveryZoneConfiguration.js';
+export { makeCreateDeliveryZoneRequest } from '../models/CreateDeliveryZoneRequest.js';
 export { makeDeliveryCountryCondition } from '../models/DeliveryCountryCondition.js';
-export { makeDeliveryStateCondition } from '../models/DeliveryStateCondition.js';
+export { makeDeliveryDistance } from '../models/DeliveryDistance.js';
 export { makeDeliveryPostalCodeCondition } from '../models/DeliveryPostalCodeCondition.js';
 export { makeDeliveryPostalCodeValue } from '../models/DeliveryPostalCodeValue.js';
 export { makeDeliveryRadiusCondition } from '../models/DeliveryRadiusCondition.js';
-export { makeDeliveryDistance } from '../models/DeliveryDistance.js';
 export { makeDeliveryRadiusOrigin } from '../models/DeliveryRadiusOrigin.js';
+export { makeDeliveryStateCondition } from '../models/DeliveryStateCondition.js';
+export { makeDeliveryZoneConfiguration } from '../models/DeliveryZoneConfiguration.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateDeliveryZoneRequest } from '../models/UpdateDeliveryZoneRequest.js';

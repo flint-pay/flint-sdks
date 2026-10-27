@@ -1,5 +1,0 @@
-
-import type { MoneyValue } from './MoneyValue.js';
-import type { SignedMoney } from './SignedMoney.js';
-
-export type Balance = { "available_by_source_type"?: Record<string, SignedMoney>; /** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "available_money": SignedMoney; "balance_id": string; /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency": string; "held_by_type"?: Record<string, MoneyValue>; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "held_money": MoneyValue; "merchant_id": string; "payouts_enabled": boolean; "pending_by_source_type"?: Record<string, SignedMoney>; /** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "pending_money": SignedMoney; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "reserve_money": MoneyValue; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "unavailable_money": MoneyValue; };

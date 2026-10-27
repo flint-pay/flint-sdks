@@ -1,0 +1,8 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/** Presence-aware input; omitted fields throw when accessed. */
+final class PromotionApplicationMethodRequestInput extends Model {
+    /** @param array{'allocation'?: string, 'calculation_basis'?: string, 'discounted_item_rules'?: PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'max_discounted_quantity'?: int, 'percent_off': int|float, 'recurrence'?: PromotionRecurrenceInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'allocation'?: string, 'amount_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'discounted_item_rules'?: PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'recurrence'?: PromotionRecurrenceInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'allocation'?: string, 'buy_min_quantity': int, 'calculation_basis'?: string, 'discounted_item_rules': PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'get_percent_off': int|float, 'get_quantity': int, 'max_applications_per_order'?: int, 'qualifying_item_rules': PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'recurrence'?: PromotionRecurrenceInput|array<array-key, mixed>|\stdClass, 'reward_selection'?: string, 'type': string}|object $values */
+    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionApplicationMethodRequestInput')); }
+}

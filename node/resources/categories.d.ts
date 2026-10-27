@@ -1,123 +1,214 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { CategoriesCreateInput } from '../declarations/CategoriesCreateInput.js';
-import type { CategoriesCreateResponse } from '../declarations/CategoriesCreateResponse.js';
-import type { CategoriesGetInput } from '../declarations/CategoriesGetInput.js';
-import type { CategoriesGetResponse } from '../declarations/CategoriesGetResponse.js';
-import type { CategoriesListInput } from '../declarations/CategoriesListInput.js';
-import type { CategoriesListResponse } from '../declarations/CategoriesListResponse.js';
-import type { CategoriesRemoveInput } from '../declarations/CategoriesRemoveInput.js';
-import type { CategoriesRemoveResponse } from '../declarations/CategoriesRemoveResponse.js';
-import type { CategoriesUpdateInput } from '../declarations/CategoriesUpdateInput.js';
-import type { CategoriesUpdateResponse } from '../declarations/CategoriesUpdateResponse.js';
-import type { Category } from '../declarations/Category.js';
-import type { CategoryListResponse } from '../declarations/CategoryListResponse.js';
-import type { CategoryResponse } from '../declarations/CategoryResponse.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type {
+    CategoriesCreateInput,
+    CategoriesGetInput,
+    CategoriesListInput,
+    CategoriesRemoveInput,
+    CategoriesUpdateInput,
+    Category,
+    CategoryListResponse,
+    CategoryResponse
+} from '../declarations/types-3.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateCategoryRequestInput } from '../declarations/types-5.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdateCategoryRequestInput } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateCategoryRequestInput, CreateCategoryRequest } from '../declarations/types-5.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    Category,
+    CategoryResponse,
+    CategoryListResponse,
+    CategoriesCreateInput,
+    CategoriesRemoveInput,
+    CategoriesGetInput,
+    CategoriesListInput,
+    CategoriesUpdateInput
+} from '../declarations/types-3.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { UpdateCategoryRequestInput } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeCreateCategoryRequest } from '../declarations/types-62.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeUpdateCategoryRequest } from '../declarations/types-72.js';
 export interface CategoriesResource {
     /**
- * Creates a reusable category. If handle is omitted, Flint derives it from the name and never changes it on rename.
+ * Creates a reusable category. If handle is omitted, Flint derives it from the name and never
+ * changes it on rename.
+ * @see reference/categories.md#categoriescreate
  * POST /v1/categories
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.categories.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "handle"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "handle"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesCreateResponse>>;
+    create(params: (InputValue<CreateCategoryRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Category>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/categories.md#categoriescreate
+     */
+    createWithResponse(params: (InputValue<CreateCategoryRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoryResponse>>;
     /**
- * Permanently deletes an unreferenced category and returns it with status deleted. Deleted categories cannot be retrieved or listed. Remove all product, bundle, promotion, and return configuration references before deleting.
+ * Permanently deletes an unreferenced category and returns it with status deleted. Deleted
+ * categories cannot be retrieved or listed. Remove all product, bundle, promotion, and return
+ * configuration references before deleting.
+ * @see reference/categories.md#categoriesremove
  * DELETE /v1/categories/{category_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.categories.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(category_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(category_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesRemoveResponse>>;
+    remove(category_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Category>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/categories.md#categoriesremove
+     */
+    removeWithResponse(category_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoryResponse>>;
     /**
  * Get category.
+ * @see reference/categories.md#categoriesget
  * GET /v1/categories/{category_id}
  * @example
  * client.categories.get("example")
  */
-    get(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoriesGetResponse>>;
+    get(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Category>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/categories.md#categoriesget
+     */
+    getWithResponse(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoryResponse>>;
     /**
  * List categories.
+ * @see reference/categories.md#categorieslist
  * GET /v1/categories
  * @example
  * client.categories.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CategoryListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoriesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CategoryListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CategoriesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Category>;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "handle"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"handle" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CategoryListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/categories.md#categorieslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "handle"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"handle" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CategoryListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/categories.md#categorieslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "handle"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"handle" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CategoryListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/categories.md#categorieslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "handle"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"handle" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CategoryListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/categories.md#categorieslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "handle"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"handle" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Category>;
     /**
  * Update category.
+ * @see reference/categories.md#categoriesupdate
  * PATCH /v1/categories/{category_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.categories.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(category_id: InputValue<string>, params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CategoryResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(category_id: InputValue<string>, params: (InputValue<{ "description"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoriesUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly categories: CategoriesResource;
+    update(category_id: InputValue<string>, params: (InputValue<UpdateCategoryRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Category>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/categories.md#categoriesupdate
+     */
+    updateWithResponse(category_id: InputValue<string>, params: (InputValue<UpdateCategoryRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CategoryResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CategoryResponse } from '../declarations/CategoryResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { CategoriesCreateResponse } from '../declarations/CategoriesCreateResponse.js';
-export type { CategoriesRemoveResponse } from '../declarations/CategoriesRemoveResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { CategoriesGetResponse } from '../declarations/CategoriesGetResponse.js';
-export type { CategoryListResponse } from '../declarations/CategoryListResponse.js';
-export type { CategoriesListResponse } from '../declarations/CategoriesListResponse.js';
-export type { Category } from '../declarations/Category.js';
-export type { CategoriesUpdateResponse } from '../declarations/CategoriesUpdateResponse.js';
-export type { CategoriesCreateInput } from '../declarations/CategoriesCreateInput.js';
-export type { CategoriesRemoveInput } from '../declarations/CategoriesRemoveInput.js';
-export type { CategoriesGetInput } from '../declarations/CategoriesGetInput.js';
-export type { CategoriesListInput } from '../declarations/CategoriesListInput.js';
-export type { CategoriesUpdateInput } from '../declarations/CategoriesUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { CreateCategoryRequestInput } from '../declarations/CreateCategoryRequestInput.js';
-export type { UpdateCategoryRequestInput } from '../declarations/UpdateCategoryRequestInput.js';
-export type { CreateCategoryRequest } from '../declarations/CreateCategoryRequest.js';
-export type { UpdateCategoryRequest } from '../declarations/UpdateCategoryRequest.js';
-export { makeCategoryResponse } from '../declarations/makeCategoryResponse.js';
-export { makeCategoryListResponse } from '../declarations/makeCategoryListResponse.js';
-export { makeCategory } from '../declarations/makeCategory.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeCreateCategoryRequest } from '../declarations/makeCreateCategoryRequest.js';
-export { makeUpdateCategoryRequest } from '../declarations/makeUpdateCategoryRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly categories: CategoriesResource;
+}

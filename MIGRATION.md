@@ -1,20 +1,123 @@
 # SDK 4.0.0
 
-This guide covers upgrading from `3.0.0`. The API version stays `2026-09-07`.
+This guide covers upgrading from `3.0.0`. The API date stays `2026-09-07`. Install `@flintpay/node@4.0.0` or `flintpay/flint:^4.0` after publication. The earlier `4.0.0` preparation was never tagged or published; this entry includes its contract changes and the subsequent API and generator updates.
 
-## Orders
+## Runtime requirements and imports
 
-Order responses no longer include `requested_tip`. Read the requested tip from the `tips` entry that carries it, which also has its ID and resolved amount. `requested_tip` stays a request field on order create and update and invoice quick pay. The `RequestedTip` model is removed.
+Node ESM consumers need Node.js 22.3 or later; CommonJS consumers need 22.12 or later. TypeScript consumers must install the optional `@types/node` peer dependency. Import from the package root or public resource subpaths rather than internal generated files. Webhook-only code can use `@flintpay/node/webhooks`; root exports and client verification still work. Operation examples are now `.mjs` only and require an explicit `API_BASE_URL` for your sandbox or local mock.
 
-`orders.create`, `me.getOrder` and `me.getSubscription` no longer accept checkout session credentials. Remove `X-Checkout-Session-ID` and `X-Checkout-Session-Secret` from their params; `me.getOrder` and `me.getSubscription` use the customer session.
+`REFERENCE.md` is a resource index. Saved operation links move to `reference/<resource>.md`, and model pages live under `models/`. Each package includes `RUNTIME.md` and `llms.txt`; follow the generated links for the current signatures and model names.
 
-## Promotions
+## Types, numeric values and model reads
 
-Promotion rules that match charge types or delivery types accept only the listed values. Unknown values are rejected with `UNKNOWN_RULE_VALUE`. A request's `exclusivity` uses `PromotionExclusivityRequest`, and promotion application methods reject `max_discounted_quantity` where it does not apply.
+- TypeScript int64/uint64 strings use `${bigint}` and also accept bigint inputs. Replace unvalidated broad `string` variables with validated integer strings or bigint. Integer strings and integer `ExactNumber` inputs require integer spelling: use `"5000"`, not `"5e3"` or `"5000.00"`. Integer-string responses must be canonical; `+1`, `01`, `-01` and trailing whitespace produce protocol errors. Do not convert money or webhook amounts to floating-point numbers.
+- Request enums are closed. Correct unknown values rather than casting them into a request type; response enums continue to accept future strings. Dictionary key constraints such as metadata key lengths are now enforced.
+- Import canonical response model names from the regenerated references. Equivalent aliases share one name, and response-only `NameInput` types and `makeName` factories are removed. Request bodies use their source component's input name. Use the owning operation's input type when preparing a request.
+- Future object alternatives retain `Record<string, unknown>`. An `in` guard alone does not establish the value type; use a generated known-variant predicate or validate the field. An incompatible projected success payload raises a protocol error with the original `raw` response available.
+- PHP omitted optional response fields return `null` through getters and magic properties. Use `has()` to distinguish omission from present-null. Required response fields still fail decoding when absent. Repeated nested reads can return the same immutable entity.
+- PHP client resources are lazy read-only magic properties. Use property access or `isset()`, rather than reflection, `property_exists()` or `get_object_vars()`. `SchemaRegistry::definitions()` and `src/schema-definitions.json` are removed. Keep application-owned raw schemas for dynamic schema helpers; `contract()` and `codecs()` expose compiled plans.
 
-## Error codes
+## Credentials, errors and webhooks
 
-These codes are no longer returned: `AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS`, `CHECKOUT_PAYMENT_RESOLVING`, `PAYMENT_ATTEMPT_FROZEN`, `PAYMENT_ATTEMPT_IN_PROGRESS`, `PAYMENT_ATTEMPT_STILL_PROCESSING` and `PROMOTION_NO_ACTIVE_CODES`. Handle `PAYMENT_IN_PROGRESS` where you handled the payment attempt codes. New codes are `DISCOUNT_NOT_REMOVABLE`, `DUPLICATE_ORDER_DISCOUNT_ID`, `EXTERNAL_TAX_PAID_DELIVERY_UNSUPPORTED`, `NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE`, `PAYMENT_IN_PROGRESS` and `UNKNOWN_RULE_VALUE`.
+Replace checkout ID/secret credentials with `checkoutToken`, or the explicit `checkout` mode with `CheckoutSessionBearer`. The production `apiKey` shortcut continues to send a merchant bearer credential. Method params no longer carry credential or API-version headers.
+
+```js
+await client.orders.get(orderId, undefined, { checkoutToken });
+```
+
+```php
+$client->orders->get($orderId, null, new \Flint\RequestOptions(checkoutToken: $checkoutToken));
+```
+
+`checkoutSessions.create` now returns the `CheckoutSessionWithSecret` session directly. Read `url` and `checkout_auth_token` on that session instead of the retired `CheckoutAccess` / `CheckoutSessionLaunchResult` wrapper. Follow the generated result models for invoice, payment-link and Return checkout launches.
+
+Read resources from verified webhook `event.data.object`, rather than resource-specific fields such as `event.data.payment_intent`. Amounts are exact int64 strings, including values larger than JavaScript's safe integer range. Event names and required payload fields follow the pinned production contract; older stored events can return `known: false`, so retain an unknown-event path.
+
+Node error `code` offers known code completions with future strings. Narrow optional `details` before reading it: malformed or incompatible API details are `undefined`, while explicit `raw` recovery remains available. PHP error messages append HTTP status, provider code and request ID; use structured fields instead of exact message matching. PHP `getCode()` returns the HTTP status, or 0 without a response; `errorCode` remains the provider code. Errors and response metadata expose available idempotency keys, and errors expose a valid server wait as `retryAfterMs`.
+
+## Request signatures
+
+Most methods retain positional path IDs and flat params. These methods now take one object containing their path IDs and `body`, because their request bodies have alternatives:
+
+- `checkoutSessions.createCustomerVerification`, `deliveryPreviews.create`, `fulfillments.transition`, `inventoryAdjustments.create`, `inventoryCounts.transition`, `inventoryReservations.transition`, `inventoryTransfers.transition`.
+- `me.createSubscriptionPreview`, `orders.pay`, `packages.transition`, `paymentIntents.confirm`, `subscriptionPreviews.create`, `subscriptions.updateBillingSchedule`.
+
+The generated references are authoritative for the exact names. Inventory `apply`/`cancel` and `commit`/`consume`/`release` spellings remain as deprecated aliases of their respective transition operation. They use that operation's full input schema: the caller must explicitly send `action`; the method name does not insert or constrain it. Use `transition` for new code. Location `publishGeography` and `updateInventory` remain deprecated aliases of `locations.update` with its unified sparse-update schema.
+
+```js
+await client.inventoryCounts.apply(
+  {
+    inventory_count_id: countId,
+    body: { action: "apply", expected_version: "2" },
+  },
+  { idempotencyKey },
+);
+```
+
+`merchantBillingBalances.list` now returns the complete unpaginated body. Its `listItems`, `listPages` and `listPagesWithResponse` helpers are removed with the API pagination parameters; iterate the returned `data` array.
+
+Use the Node `clientRequestId` or PHP `client_request_id` request option where declared, rather than `X-Request-Id` in method params. Values must be 1 to 128 visible ASCII characters. The response request ID remains server-assigned.
+
+All requests keep a single attempt by default, with caller-supplied idempotency keys. Required keys still fail before dispatch. Pagination defaults to at most 1,000 pages, detects cursor cycles and repeated empty continuations, and applies `deadlineMs` per page. Use cancellation or explicit limits to bound the whole traversal.
+
+## Moved operations
+
+The SDK preserves these published names while calling the production routes. Parameters, result types and validation follow the new contract; a preserved method name is not a promise of the old request shape.
+
+| Published SDK method                | Production operation and consumer change                                                                                                |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `inventoryCounts.apply`             | `transitionInventoryCount`; send `body.action: "apply"`.                                                                                |
+| `inventoryCounts.cancel`            | `transitionInventoryCount`; send `body.action: "cancel"`.                                                                               |
+| `inventoryReservations.commit`      | `transitionInventoryReservation`; send `body.action: "commit"` and cumulative line targets.                                             |
+| `inventoryReservations.consume`     | `transitionInventoryReservation`; send `body.action: "consume"` and cumulative line targets.                                            |
+| `inventoryReservations.release`     | `transitionInventoryReservation`; send `body.action: "release"` and the target bucket quantities.                                       |
+| `reviews.approve`                   | `approvePaymentReview` on `/v1/payment-reviews/{payment_review_id}/approve`; approval does not capture payment.                         |
+| `reviews.decline`                   | `declinePaymentReview`; use `payment_review_id`; a 202 means resolution is still processing.                                            |
+| `reviews.get`                       | `getPaymentReview`; use `payment_review_id`; read the current payment-review schema.                                                    |
+| `reviews.list`                      | `listPaymentReviews`; use `opened_after`/`opened_before` filters and current expansion options.                                         |
+| `giftCardAdjustments.create`        | `adjustGiftCardBalance` at `/adjust-balance`; returns the current gift-card result.                                                     |
+| `giftCardCashOuts.create`           | `cashOutGiftCard` at `/cash-out`; send required `cash_out_reference` instead of the old external/payout reference.                      |
+| `merchantSubscriptionInvoices.get`  | `getMerchantBillingInvoice`; pass `merchant_billing_invoice_id`; fields use billing vocabulary.                                         |
+| `merchantSubscriptionInvoices.list` | `listMerchantBillingInvoices`; fields and status filters use billing vocabulary.                                                        |
+| `invoices.reverseManualPayment`     | `reverseInvoiceManualPayment`; pass both invoice and manual-payment IDs; reversal is for the named payment in full.                     |
+| `locations.publishGeography`        | Alias of `updateLocation`; send the unified geography fields. Address requires coordinate, and non-null coordinate requires its source. |
+| `locations.updateInventory`         | Alias of `updateLocation`; send `inventory_allocation_enabled` as a flat boolean; Location write and inventory authority apply.         |
+
+## Operations removed from the API
+
+These methods are removed without aliases:
+
+| Removed method                    | Replacement                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `capabilities.list`               | Read `readiness` from `merchant.get()`.                                                           |
+| `payouts.listEntries`             | Use `balanceTransactions.list({ payout_id })`; results are newest first rather than oldest first. |
+| `paymentMethods.setDefault`       | Set `default_payment_method_id` through `customers.update`; send null to clear it.                |
+| `me.setDefaultPaymentMethod`      | Set `default_payment_method_id` through `me.update`; send null to clear it.                       |
+| `organizations.transferOwnership` | Removed from the API. Account ownership changes are reserved for Flint.                           |
+
+`oauth.exchangePartnerInstallToken` is also no longer generated: the production OAuth token exchange now requires form encoding. It remains an API operation (`exchangeOAuthToken`), but form-only CLI/OAuth flows are outside these SDKs. Use a form-capable HTTP client for that exchange. Partner authorization entry is anonymous and requires PKCE `code_challenge` and `code_challenge_method`.
+
+## Routes with unchanged operation IDs
+
+| Preserved method                               | Consumer change                                                                                                                              |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `customers.createDeletionRequest`              | Call with `{ customer_id }` params instead of a positional customer ID; customer ID moved to the body.                                       |
+| `customers.getDeletionRequest`                 | Pass only the deletion-request ID; the customer ID is no longer in the route.                                                                |
+| `settings.validateCustomDomain`                | Pass `custom_domain_id`, not `domain_type`; the route validates a standalone domain resource.                                                |
+| `webhookEvents.listWebhookDeliveries`          | Call with `{ webhook_event_id, ...filters }` params instead of a positional event ID; deliveries are now a global filtered list.             |
+| `checkoutSessions.confirmCustomerVerification` | The second positional ID is now named `checkout_session_customer_verification_id`; object params and named PHP arguments must use that name. |
+
+Same-route operation-ID renames retain their published SDK names, including `orders.addCharge`, `orders.addLineItems`, `returns.processExisting`, `riskLists.addItems`, `paymentMethods.save` and `webhookEndpoints.rotateWebhookSecret`. Canonical input and result type names can still change.
+
+## Orders, promotions and other contract changes
+
+Order responses no longer include `requested_tip`. Read it from the relevant `tips` entry, which also has its ID and resolved amount. `requested_tip` stays a request field on order create/update and invoice quick pay. The `RequestedTip` model is removed. `orders.create`, `me.getOrder` and `me.getSubscription` do not accept checkout credentials; the two buyer reads use a customer session.
+
+Promotion rule values and request exclusivity are typed and request enums are closed. Promotion application requests accept only the fields appropriate to their variant. Risk-list additions require plural `values`; singular `value` is rejected. Return decisions use current override reasons and nullable `automatic_resolution_type` instead of `decision_basis` and `selected_resolution_type`; Return policies use `release_timing` instead of `refund_timing`.
+
+Payment-intent create/get results expose payment fields directly. Creation requires `payment_collection`; reads can omit it. Handle optional nullable `risk` and nullable `last_payment_error`. Capture/cancel/update return a payment intent; confirm uses the current action-bearing result. Payment methods use `archived` instead of `removed`; ordinary lists now include non-active unarchived methods, so card pickers should filter `status: ["active"]`.
+
+The contract also updates version fences, required response fields, request bounds, nullable fields, list filters and error envelopes across resources. Rebuild typed callers and review the affected generated resource/model references. Shared error codes now describe generic categories with facts and remediation in the error envelope; replace checks for retired codes with the current structured error contract. This includes the earlier retirement of `AMOUNT_REQUIRED_FOR_MIXED_REFUND_TARGETS`, `CHECKOUT_PAYMENT_RESOLVING`, `PAYMENT_ATTEMPT_FROZEN`, `PAYMENT_ATTEMPT_IN_PROGRESS`, `PAYMENT_ATTEMPT_STILL_PROCESSING` and `PROMOTION_NO_ACTIVE_CODES`.
 
 # SDK 3.0.0
 
@@ -131,14 +234,14 @@ await flint.paymentIntents.get(paymentIntentId);
 await flint.refunds.create(
   {
     payment_intent_id: paymentIntentId,
-    amount_money: { amount: '500', currency: 'USD' },
-    reason: 'requested_by_customer',
+    amount_money: { amount: "500", currency: "USD" },
+    reason: "requested_by_customer",
   },
   { idempotencyKey: savedKey },
 );
 await flint.customers.update(
   customerId,
-  { email: 'buyer@example.com' },
+  { email: "buyer@example.com" },
   { idempotencyKey: savedKey },
 );
 ```
@@ -159,7 +262,7 @@ Use the merchant bearer shortcut in Node:
 
 ```js
 const flint = new Client({
-  baseUrl: 'https://api.withflintpay.com',
+  baseUrl: "https://api.withflintpay.com",
   apiKey: process.env.FLINT_API_KEY,
 });
 ```

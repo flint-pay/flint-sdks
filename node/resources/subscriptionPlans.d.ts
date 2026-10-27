@@ -1,165 +1,252 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
-import type { InventoryRoutingSourceRequestInput } from '../declarations/InventoryRoutingSourceRequestInput.js';
-import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { SubscriptionIntervalOptionInput } from '../declarations/SubscriptionIntervalOptionInput.js';
-import type { SubscriptionPlan } from '../declarations/SubscriptionPlan.js';
-import type { SubscriptionPlanLineItemRequestInput } from '../declarations/SubscriptionPlanLineItemRequestInput.js';
-import type { SubscriptionPlanListResponse } from '../declarations/SubscriptionPlanListResponse.js';
-import type { SubscriptionPlanResponse } from '../declarations/SubscriptionPlanResponse.js';
-import type { SubscriptionPlansCreateInput } from '../declarations/SubscriptionPlansCreateInput.js';
-import type { SubscriptionPlansCreateResponse } from '../declarations/SubscriptionPlansCreateResponse.js';
-import type { SubscriptionPlansGetInput } from '../declarations/SubscriptionPlansGetInput.js';
-import type { SubscriptionPlansGetResponse } from '../declarations/SubscriptionPlansGetResponse.js';
-import type { SubscriptionPlansListInput } from '../declarations/SubscriptionPlansListInput.js';
-import type { SubscriptionPlansListResponse } from '../declarations/SubscriptionPlansListResponse.js';
-import type { SubscriptionPlansRemoveInput } from '../declarations/SubscriptionPlansRemoveInput.js';
-import type { SubscriptionPlansRemoveResponse } from '../declarations/SubscriptionPlansRemoveResponse.js';
-import type { SubscriptionPlansUpdateInput } from '../declarations/SubscriptionPlansUpdateInput.js';
-import type { SubscriptionPlansUpdateResponse } from '../declarations/SubscriptionPlansUpdateResponse.js';
-import type { UpdateSubscriptionPlanLineItemRequestInput } from '../declarations/UpdateSubscriptionPlanLineItemRequestInput.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateSubscriptionPlanRequestInput } from '../declarations/types-9.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type {
+    SubscriptionPlan,
+    SubscriptionPlanListResponse,
+    SubscriptionPlanResponse,
+    SubscriptionPlansCreateInput,
+    SubscriptionPlansGetInput,
+    SubscriptionPlansListInput,
+    SubscriptionPlansRemoveInput
+} from '../declarations/types-45.js';
+import type { SubscriptionPlansUpdateInput } from '../declarations/types-46.js';
+import type { UpdateSubscriptionPlanRequestInput } from '../declarations/types-49.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateSubscriptionPlanRequestInput, Credentials } from '../declarations/types-9.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    SubscriptionPlan,
+    SubscriptionPlanResponse,
+    SubscriptionPlanListResponse,
+    SubscriptionPlansCreateInput,
+    SubscriptionPlansRemoveInput,
+    SubscriptionPlansGetInput,
+    SubscriptionPlansListInput,
+    SubscriptionIntervalOptionInput,
+    SubscriptionPlanLineItemRequestInput,
+    SubscriptionIntervalOption,
+    SubscriptionDeliveryMethodCounts,
+    SubscriptionCounts,
+    SubscriptionPlanLineItem,
+    SubscriptionPlanSwapVariant
+} from '../declarations/types-45.js';
+export type { SdkResponse, SelectedProductOption } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { UpdateSubscriptionPlanRequestInput, UpdateSubscriptionPlanLineItemRequestInput } from '../declarations/types-49.js';
+export type { SubscriptionPlansUpdateInput } from '../declarations/types-46.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { ImageRequestInput, ImageAttachment, Image } from '../declarations/types-19.js';
+export type {
+    InventoryRoutingSourceRequestInput,
+    InventoryRoutingSourceInputFixedLocationInput,
+    InventoryRoutingSourceInputPolicyInput,
+    InventoryRoutingSourceInputPolicyRevisionInput,
+    InventoryRoutingSource
+} from '../declarations/types-25.js';
+export type {
+    OrderLineItemModifierRequestInput,
+    OrderLineItemTaxInput,
+    OrderLineItemModifier,
+    OrderLineItemTax
+} from '../declarations/types-32.js';
+export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-47.js';
+export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-0.js';
+export type { CategoryReference } from '../declarations/types-3.js';
+export { makeCreateSubscriptionPlanRequest } from '../declarations/types-64.js';
+export {
+    makeImageRequest,
+    makeInventoryRoutingSourceInputFixedLocation,
+    makeInventoryRoutingSourceInputPolicy,
+    makeInventoryRoutingSourceInputPolicyRevision,
+    makeInventoryRoutingSourceRequest
+} from '../declarations/types-67.js';
+export { makeMoneyValue, makeOrderLineItemModifierRequest, makeOrderLineItemTax } from '../declarations/types-68.js';
+export { makeSubscriptionIntervalOption, makeSubscriptionPlanLineItemRequest, makeTextModifierRequest } from '../declarations/types-71.js';
+export { makeUpdateSubscriptionPlanLineItemRequest, makeUpdateSubscriptionPlanRequest } from '../declarations/types-73.js';
 export interface SubscriptionPlansResource {
     /**
  * Creates a subscription plan for the authenticated merchant.
+ * @see reference/subscriptionPlans.md#subscriptionplanscreate
  * POST /v1/subscription-plans
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptionPlans.create({billing_interval: "daily", billing_interval_count: 1, currency: "USD", name: "example"}, { idempotencyKey: idempotencyKey })
+ * client.subscriptionPlans.create({billing_interval: "daily", billing_interval_count: 1, currency:
+ * "USD", line_items: [{variant_id: "example"}], name: "example"}, { idempotencyKey: idempotencyKey
+ * })
  */
-    create(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "billing_interval": "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count": number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "currency": string; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<SubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string>; "name": string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlansCreateResponse>>;
+    create(params: (InputValue<CreateSubscriptionPlanRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SubscriptionPlan>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptionPlans.md#subscriptionplanscreate
+     */
+    createWithResponse(params: (InputValue<CreateSubscriptionPlanRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlanResponse>>;
     /**
- * Retires a subscription plan. Plans with active subscriptions cannot be retired.
+ * Permanently archives a subscription plan from active or inactive status. Returns RESOURCE_IN_USE
+ * while active subscriptions, active payment links, or open checkout sessions reference the plan.
+ * To stop selling a plan while keeping its subscribers, set status to inactive.
+ * @see reference/subscriptionPlans.md#subscriptionplansremove
  * DELETE /v1/subscription-plans/{subscription_plan_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptionPlans.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(subscription_plan_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(subscription_plan_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlansRemoveResponse>>;
+    remove(subscription_plan_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SubscriptionPlan>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptionPlans.md#subscriptionplansremove
+     */
+    removeWithResponse(subscription_plan_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlanResponse>>;
     /**
  * Returns a single subscription plan by ID.
+ * @see reference/subscriptionPlans.md#subscriptionplansget
  * GET /v1/subscription-plans/{subscription_plan_id}
  * @example
  * client.subscriptionPlans.get("example")
  */
-    get(subscription_plan_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(subscription_plan_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPlansGetResponse>>;
+    get(subscription_plan_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPlan>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptionPlans.md#subscriptionplansget
+     */
+    getWithResponse(subscription_plan_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPlanResponse>>;
     /**
  * Returns a paginated list of subscription plans for the authenticated merchant.
+ * @see reference/subscriptionPlans.md#subscriptionplanslist
  * GET /v1/subscription-plans
  * @example
  * client.subscriptionPlans.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPlanListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPlansListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPlanListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionPlansListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPlan>;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPlanListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptionPlans.md#subscriptionplanslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPlanListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/subscriptionPlans.md#subscriptionplanslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPlanListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/subscriptionPlans.md#subscriptionplanslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionPlanListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/subscriptionPlans.md#subscriptionplanslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPlan>;
     /**
- * Applies a sparse update to mutable subscription plan fields. Send line_items with expected_version to replace the plan's line items; omit line_items to keep them.
+ * Applies a sparse update to mutable subscription plan fields. Setting status to inactive returns
+ * RESOURCE_IN_USE while active payment links use the plan. Open checkout sessions do not block
+ * this change; buyers in those sessions are refused with PLAN_NOT_ACTIVE when they pay. Send
+ * line_items with expected_version to replace the plan's line items; omit line_items to keep them.
+ * @see reference/subscriptionPlans.md#subscriptionplansupdate
  * PATCH /v1/subscription-plans/{subscription_plan_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptionPlans.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(subscription_plan_id: InputValue<string>, params: (InputValue<({ "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPlanResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(subscription_plan_id: InputValue<string>, params: (InputValue<({ "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>; "contract_term_months"?: number; "description"?: string; "early_termination_fee_money"?: MoneyValueInput; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "inventory_routing_source"?: InventoryRoutingSourceRequestInput; "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>; "metadata"?: Record<string, string | null> | null; "name"?: string; "quantity_options"?: Array<number>; "setup_fee_money"?: MoneyValueInput; "subscription_delivery_method_ids"?: Array<string>; "trial_period_days"?: number; }) & (((({ "images"?: never })) | ({ "expected_version": unknown; }))) & (((({ "line_items"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlansUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly subscriptionPlans: SubscriptionPlansResource;
+    update(subscription_plan_id: InputValue<string>, params: (InputValue<UpdateSubscriptionPlanRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SubscriptionPlan>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptionPlans.md#subscriptionplansupdate
+     */
+    updateWithResponse(subscription_plan_id: InputValue<string>, params: (InputValue<UpdateSubscriptionPlanRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionPlanResponse>>;
 }
-export type { SubscriptionIntervalOptionInput } from '../declarations/SubscriptionIntervalOptionInput.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
-export type { InventoryRoutingSourceRequestInput } from '../declarations/InventoryRoutingSourceRequestInput.js';
-export type { SubscriptionPlanLineItemRequestInput } from '../declarations/SubscriptionPlanLineItemRequestInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { SubscriptionPlanResponse } from '../declarations/SubscriptionPlanResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { SubscriptionPlansCreateResponse } from '../declarations/SubscriptionPlansCreateResponse.js';
-export type { SubscriptionPlansRemoveResponse } from '../declarations/SubscriptionPlansRemoveResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { SubscriptionPlansGetResponse } from '../declarations/SubscriptionPlansGetResponse.js';
-export type { SubscriptionPlanListResponse } from '../declarations/SubscriptionPlanListResponse.js';
-export type { SubscriptionPlansListResponse } from '../declarations/SubscriptionPlansListResponse.js';
-export type { SubscriptionPlan } from '../declarations/SubscriptionPlan.js';
-export type { UpdateSubscriptionPlanLineItemRequestInput } from '../declarations/UpdateSubscriptionPlanLineItemRequestInput.js';
-export type { SubscriptionPlansUpdateResponse } from '../declarations/SubscriptionPlansUpdateResponse.js';
-export type { SubscriptionPlansCreateInput } from '../declarations/SubscriptionPlansCreateInput.js';
-export type { SubscriptionPlansRemoveInput } from '../declarations/SubscriptionPlansRemoveInput.js';
-export type { SubscriptionPlansGetInput } from '../declarations/SubscriptionPlansGetInput.js';
-export type { SubscriptionPlansListInput } from '../declarations/SubscriptionPlansListInput.js';
-export type { SubscriptionPlansUpdateInput } from '../declarations/SubscriptionPlansUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { TextModifierRequestInput } from '../declarations/TextModifierRequestInput.js';
-export type { OrderLineItemTaxInput } from '../declarations/OrderLineItemTaxInput.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { SubscriptionIntervalOption } from '../declarations/SubscriptionIntervalOption.js';
-export type { SubscriptionDeliveryMethodCounts } from '../declarations/SubscriptionDeliveryMethodCounts.js';
-export type { SubscriptionCounts } from '../declarations/SubscriptionCounts.js';
-export type { Image } from '../declarations/Image.js';
-export type { InventoryRoutingSourceRequest } from '../declarations/InventoryRoutingSourceRequest.js';
-export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
-export type { BundleComponent } from '../declarations/BundleComponent.js';
-export type { BundleComponentVariantSummary } from '../declarations/BundleComponentVariantSummary.js';
-export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
-export type { CategoryReference } from '../declarations/CategoryReference.js';
-export type { OrderLineItemModifier } from '../declarations/OrderLineItemModifier.js';
-export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
-export type { SubscriptionPlanSwapVariant } from '../declarations/SubscriptionPlanSwapVariant.js';
-export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
-export type { CreateSubscriptionPlanRequestInput } from '../declarations/CreateSubscriptionPlanRequestInput.js';
-export type { UpdateSubscriptionPlanRequestInput } from '../declarations/UpdateSubscriptionPlanRequestInput.js';
-export type { ImageRequest } from '../declarations/ImageRequest.js';
-export type { ResolvePaymentLinkTextModifierRequest } from '../declarations/ResolvePaymentLinkTextModifierRequest.js';
-export { makeSubscriptionPlanResponse } from '../declarations/makeSubscriptionPlanResponse.js';
-export { makeSubscriptionPlanListResponse } from '../declarations/makeSubscriptionPlanListResponse.js';
-export { makeSubscriptionPlan } from '../declarations/makeSubscriptionPlan.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeSubscriptionIntervalOption } from '../declarations/makeSubscriptionIntervalOption.js';
-export { makeSubscriptionDeliveryMethodCounts } from '../declarations/makeSubscriptionDeliveryMethodCounts.js';
-export { makeSubscriptionCounts } from '../declarations/makeSubscriptionCounts.js';
-export { makeImage } from '../declarations/makeImage.js';
-export { makeInventoryRoutingSourceRequest } from '../declarations/makeInventoryRoutingSourceRequest.js';
-export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
-export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../declarations/makeBundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
-export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
-export { makeOrderLineItemModifier } from '../declarations/makeOrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
-export { makeSubscriptionPlanSwapVariant } from '../declarations/makeSubscriptionPlanSwapVariant.js';
-export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
-export { makeImageRequest } from '../declarations/makeImageRequest.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../declarations/makeResolvePaymentLinkTextModifierRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly subscriptionPlans: SubscriptionPlansResource;
+}

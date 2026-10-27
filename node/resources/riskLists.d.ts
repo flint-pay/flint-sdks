@@ -1,195 +1,298 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { RiskList } from '../declarations/RiskList.js';
-import type { RiskListItem } from '../declarations/RiskListItem.js';
-import type { RiskListItemListResponse } from '../declarations/RiskListItemListResponse.js';
-import type { RiskListItemResponse } from '../declarations/RiskListItemResponse.js';
-import type { RiskListItemResultsResponse } from '../declarations/RiskListItemResultsResponse.js';
-import type { RiskListListResponse } from '../declarations/RiskListListResponse.js';
-import type { RiskListResourceResponse } from '../declarations/RiskListResourceResponse.js';
-import type { RiskListsAddItemsInput } from '../declarations/RiskListsAddItemsInput.js';
-import type { RiskListsAddItemsResponse } from '../declarations/RiskListsAddItemsResponse.js';
-import type { RiskListsCreateInput } from '../declarations/RiskListsCreateInput.js';
-import type { RiskListsCreateResponse } from '../declarations/RiskListsCreateResponse.js';
-import type { RiskListsDeleteItemInput } from '../declarations/RiskListsDeleteItemInput.js';
-import type { RiskListsDeleteItemResponse } from '../declarations/RiskListsDeleteItemResponse.js';
-import type { RiskListsGetInput } from '../declarations/RiskListsGetInput.js';
-import type { RiskListsGetItemInput } from '../declarations/RiskListsGetItemInput.js';
-import type { RiskListsGetItemResponse } from '../declarations/RiskListsGetItemResponse.js';
-import type { RiskListsGetResponse } from '../declarations/RiskListsGetResponse.js';
-import type { RiskListsListInput } from '../declarations/RiskListsListInput.js';
-import type { RiskListsListResponse } from '../declarations/RiskListsListResponse.js';
-import type { RiskListsListRiskListItemsInput } from '../declarations/RiskListsListRiskListItemsInput.js';
-import type { RiskListsListRiskListItemsResponse } from '../declarations/RiskListsListRiskListItemsResponse.js';
-import type { RiskListsRemoveInput } from '../declarations/RiskListsRemoveInput.js';
-import type { RiskListsRemoveResponse } from '../declarations/RiskListsRemoveResponse.js';
-import type { RiskListsUpdateInput } from '../declarations/RiskListsUpdateInput.js';
-import type { RiskListsUpdateResponse } from '../declarations/RiskListsUpdateResponse.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { AddRiskListItemsRequestInput, AddRiskListItemsResponse, AddRiskListItemsResult } from '../declarations/types-0.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateRiskListRequestInput } from '../declarations/types-9.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type {
+    RiskList,
+    RiskListItem,
+    RiskListItemListResponse,
+    RiskListItemResponse,
+    RiskListListResponse,
+    RiskListResourceResponse,
+    RiskListsAddItemsInput,
+    RiskListsCreateInput,
+    RiskListsDeleteItemInput,
+    RiskListsGetInput,
+    RiskListsGetItemInput,
+    RiskListsListInput,
+    RiskListsListRiskListItemsInput,
+    RiskListsRemoveInput,
+    RiskListsUpdateInput,
+    SdkResponse
+} from '../declarations/types-43.js';
+import type { UpdateRiskListRequestInput } from '../declarations/types-49.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateRiskListRequestInput, Credentials } from '../declarations/types-9.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    RiskList,
+    SdkResponse,
+    RiskListResourceResponse,
+    RiskListItem,
+    RiskListItemResponse,
+    RiskListItemListResponse,
+    RiskListListResponse,
+    RiskListsCreateInput,
+    RiskListsAddItemsInput,
+    RiskListsRemoveInput,
+    RiskListsDeleteItemInput,
+    RiskListsGetInput,
+    RiskListsGetItemInput,
+    RiskListsListRiskListItemsInput,
+    RiskListsListInput,
+    RiskListsUpdateInput,
+    RiskListItemAddition
+} from '../declarations/types-43.js';
+export type {
+    AddRiskListItemsRequestInput,
+    AddRiskListItemsResult,
+    AddRiskListItemsResponse,
+    AuthMode,
+    AddRiskListItemsRequest
+} from '../declarations/types-0.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { UpdateRiskListRequestInput } from '../declarations/types-49.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeAddRiskListItemsRequest } from '../declarations/types-61.js';
+export { makeCreateRiskListRequest } from '../declarations/types-64.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeUpdateRiskListRequest } from '../declarations/types-72.js';
 export interface RiskListsResource {
     /**
- * Add risk list items for the authenticated merchant environment.
- * POST /v1/risk-lists/{risk_list_id}/items
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.riskLists.addItems("example", {values: ["sdk-example"]}, { idempotencyKey: idempotencyKey })
- */
-    addItems(risk_list_id: InputValue<string>, params: (InputValue<({ "value"?: string; "values": Array<string>; }) & ((({ "value": unknown; }) & ({ "values"?: never })) | (({ "values": unknown; }) & ({ "value"?: never })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListItemResultsResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    addItemsWithResponse(risk_list_id: InputValue<string>, params: (InputValue<({ "value"?: string; "values": Array<string>; }) & ((({ "value": unknown; }) & ({ "values"?: never })) | (({ "values": unknown; }) & ({ "value"?: never })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsAddItemsResponse>>;
-    /**
- * Create a risk list for the authenticated merchant environment.
+ * Creates an empty list. Rules refer to it by alias, which can't be changed or reused, even after
+ * the list is archived. item_type decides how values are validated and compared.
+ * @see reference/riskLists.md#risklistscreate
  * POST /v1/risk-lists
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.riskLists.create({alias: "example", name: "example", item_type: "card_fingerprint"}, { idempotencyKey: idempotencyKey })
+ * client.riskLists.create({alias: "example", name: "example", item_type: "card_fingerprint"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "alias": string; "item_type": "card_fingerprint" | "card_bin" | "email" | "email_domain" | "ip_address" | "country" | "customer_id" | "string" | "case_sensitive_string"; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "alias": string; "item_type": "card_fingerprint" | "card_bin" | "email" | "email_domain" | "ip_address" | "country" | "customer_id" | "string" | "case_sensitive_string"; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsCreateResponse>>;
+    create(params: (InputValue<CreateRiskListRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskList>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistscreate
+     */
+    createWithResponse(params: (InputValue<CreateRiskListRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListResourceResponse>>;
     /**
- * Retire a risk list for the authenticated merchant environment.
+ * Adds up to 500 values, each validated and normalized for the list's item_type. The additions
+ * array reports each value's outcome: values already on the list come back as existing, so a batch
+ * is safe to resend. Returns 201 when at least one value was added and 200 when none were.
+ * Payments see the change from the next attempt.
+ * @see reference/riskLists.md#risklistsadditems
+ * POST /v1/risk-lists/{risk_list_id}/items
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.riskLists.addItems("example", {values: ["sdk-example"]}, { idempotencyKey: idempotencyKey
+ * })
+ */
+    addItems(risk_list_id: InputValue<string>, params: (InputValue<AddRiskListItemsRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<AddRiskListItemsResult>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistsadditems
+     */
+    addItemsWithResponse(risk_list_id: InputValue<string>, params: (InputValue<AddRiskListItemsRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<AddRiskListItemsResponse>>;
+    /**
+ * Archives a list you created. Fails with 409 RESOURCE_IN_USE while an active rule names it.
+ * Archived lists can't be used by rules or edited.
+ * @see reference/riskLists.md#risklistsremove
  * DELETE /v1/risk-lists/{risk_list_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.riskLists.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(risk_list_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(risk_list_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsRemoveResponse>>;
+    remove(risk_list_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskList>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistsremove
+     */
+    removeWithResponse(risk_list_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListResourceResponse>>;
     /**
- * Delete a risk list item for the authenticated merchant environment.
+ * Removes a value from a list permanently. Payments see the change from the next attempt.
+ * @see reference/riskLists.md#risklistsdeleteitem
  * DELETE /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.riskLists.deleteItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListItemResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    deleteItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsDeleteItemResponse>>;
+    deleteItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskListItem>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistsdeleteitem
+     */
+    deleteItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListItemResponse>>;
     /**
- * Get a risk list for the authenticated merchant environment.
+ * Retrieves a risk list. item_count is its current number of values.
+ * @see reference/riskLists.md#risklistsget
  * GET /v1/risk-lists/{risk_list_id}
  * @example
  * client.riskLists.get("example")
  */
-    get(risk_list_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(risk_list_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsGetResponse>>;
+    get(risk_list_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskList>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistsget
+     */
+    getWithResponse(risk_list_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListResourceResponse>>;
     /**
- * Get a risk list item for the authenticated merchant environment.
+ * Retrieves one value on a list.
+ * @see reference/riskLists.md#risklistsgetitem
  * GET /v1/risk-lists/{risk_list_id}/items/{risk_list_item_id}
  * @example
  * client.riskLists.getItem("example", "example")
  */
-    getItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskListItemResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsGetItemResponse>>;
+    getItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListItem>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistsgetitem
+     */
+    getItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListItemResponse>>;
     /**
- * List risk list items for the authenticated merchant environment.
+ * Lists a list's values, newest first.
+ * @see reference/riskLists.md#risklistslistrisklistitems
  * GET /v1/risk-lists/{risk_list_id}/items
  * @example
  * client.riskLists.listRiskListItems("example")
  */
-    listRiskListItems(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListItemListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listRiskListItemsWithResponse(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsListRiskListItemsResponse>>;
-    listRiskListItemsPages(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItemListResponse>;
-    listRiskListItemsPagesWithResponse(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListsListRiskListItemsResponse>>;
-    listRiskListItemsItems(risk_list_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItem>;
+    listRiskListItems(risk_list_id: InputValue<string>, params?: {
+        "value"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListItemListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistslistrisklistitems
+     */
+    listRiskListItemsWithResponse(risk_list_id: InputValue<string>, params?: {
+        "value"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListItemListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/riskLists.md#risklistslistrisklistitems
+     */
+    listRiskListItemsPages(risk_list_id: InputValue<string>, params?: {
+        "value"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItemListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/riskLists.md#risklistslistrisklistitems
+     */
+    listRiskListItemsPagesWithResponse(risk_list_id: InputValue<string>, params?: {
+        "value"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListItemListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/riskLists.md#risklistslistrisklistitems
+     */
+    listRiskListItemsItems(risk_list_id: InputValue<string>, params?: {
+        "value"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItem>;
     /**
- * List risk lists for the authenticated merchant environment.
+ * Lists risk lists, newest first, including Flint's default block lists. Archived lists appear
+ * only when status includes archived.
+ * @see reference/riskLists.md#risklistslist
  * GET /v1/risk-lists
  * @example
  * client.riskLists.list()
  */
-    list(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListsListResponse>>;
-    listPages(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListListResponse>;
-    listPagesWithResponse(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListsListResponse>>;
-    listItems(params?: { "include_archived"?: InputValue<boolean>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskList>;
+    list(params?: {
+        "alias"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistslist
+     */
+    listWithResponse(params?: {
+        "alias"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/riskLists.md#risklistslist
+     */
+    listPages(params?: {
+        "alias"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/riskLists.md#risklistslist
+     */
+    listPagesWithResponse(params?: {
+        "alias"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/riskLists.md#risklistslist
+     */
+    listItems(params?: {
+        "alias"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskList>;
     /**
- * Update a risk list for the authenticated merchant environment.
+ * Renames a list you created. Flint's default lists can't be renamed.
+ * @see reference/riskLists.md#risklistsupdate
  * PATCH /v1/risk-lists/{risk_list_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.riskLists.update("example", {name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    update(risk_list_id: InputValue<string>, params: (InputValue<{ "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RiskListResourceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(risk_list_id: InputValue<string>, params: (InputValue<{ "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListsUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly riskLists: RiskListsResource;
+    update(risk_list_id: InputValue<string>, params: (InputValue<UpdateRiskListRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskList>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskLists.md#risklistsupdate
+     */
+    updateWithResponse(risk_list_id: InputValue<string>, params: (InputValue<UpdateRiskListRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListResourceResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { RiskListItemResultsResponse } from '../declarations/RiskListItemResultsResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { RiskListsAddItemsResponse } from '../declarations/RiskListsAddItemsResponse.js';
-export type { RiskListResourceResponse } from '../declarations/RiskListResourceResponse.js';
-export type { RiskListsCreateResponse } from '../declarations/RiskListsCreateResponse.js';
-export type { RiskListsRemoveResponse } from '../declarations/RiskListsRemoveResponse.js';
-export type { RiskListItemResponse } from '../declarations/RiskListItemResponse.js';
-export type { RiskListsDeleteItemResponse } from '../declarations/RiskListsDeleteItemResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RiskListsGetResponse } from '../declarations/RiskListsGetResponse.js';
-export type { RiskListsGetItemResponse } from '../declarations/RiskListsGetItemResponse.js';
-export type { RiskListItemListResponse } from '../declarations/RiskListItemListResponse.js';
-export type { RiskListsListRiskListItemsResponse } from '../declarations/RiskListsListRiskListItemsResponse.js';
-export type { RiskListItem } from '../declarations/RiskListItem.js';
-export type { RiskListListResponse } from '../declarations/RiskListListResponse.js';
-export type { RiskListsListResponse } from '../declarations/RiskListsListResponse.js';
-export type { RiskList } from '../declarations/RiskList.js';
-export type { RiskListsUpdateResponse } from '../declarations/RiskListsUpdateResponse.js';
-export type { RiskListsAddItemsInput } from '../declarations/RiskListsAddItemsInput.js';
-export type { RiskListsCreateInput } from '../declarations/RiskListsCreateInput.js';
-export type { RiskListsRemoveInput } from '../declarations/RiskListsRemoveInput.js';
-export type { RiskListsDeleteItemInput } from '../declarations/RiskListsDeleteItemInput.js';
-export type { RiskListsGetInput } from '../declarations/RiskListsGetInput.js';
-export type { RiskListsGetItemInput } from '../declarations/RiskListsGetItemInput.js';
-export type { RiskListsListRiskListItemsInput } from '../declarations/RiskListsListRiskListItemsInput.js';
-export type { RiskListsListInput } from '../declarations/RiskListsListInput.js';
-export type { RiskListsUpdateInput } from '../declarations/RiskListsUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { RiskListItemResultsData } from '../declarations/RiskListItemResultsData.js';
-export type { PublicRiskListItemResult } from '../declarations/PublicRiskListItemResult.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { AddRiskListItemsRequestInput } from '../declarations/AddRiskListItemsRequestInput.js';
-export type { CreateRiskListRequestInput } from '../declarations/CreateRiskListRequestInput.js';
-export type { UpdateRiskListRequestInput } from '../declarations/UpdateRiskListRequestInput.js';
-export { makeRiskListItemResultsResponse } from '../declarations/makeRiskListItemResultsResponse.js';
-export { makeRiskListResourceResponse } from '../declarations/makeRiskListResourceResponse.js';
-export { makeRiskListItemResponse } from '../declarations/makeRiskListItemResponse.js';
-export { makeRiskListItemListResponse } from '../declarations/makeRiskListItemListResponse.js';
-export { makeRiskListItem } from '../declarations/makeRiskListItem.js';
-export { makeRiskListListResponse } from '../declarations/makeRiskListListResponse.js';
-export { makeRiskList } from '../declarations/makeRiskList.js';
-export { makeRiskListItemResultsData } from '../declarations/makeRiskListItemResultsData.js';
-export { makePublicRiskListItemResult } from '../declarations/makePublicRiskListItemResult.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly riskLists: RiskListsResource;
+}

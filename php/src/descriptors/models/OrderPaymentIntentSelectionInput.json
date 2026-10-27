@@ -1,1 +1,1 @@
-{"shared":"OrderPaymentIntentSelection","dependencies":["OrderPaymentIntentSelection"]}
+{"shared":"OrderPaymentIntentSelection","dependencies":["OrderPaymentIntentSelection","SharedCodec974","SharedCodec975","SharedCodec976"]}

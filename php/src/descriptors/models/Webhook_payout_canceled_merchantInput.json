@@ -1,1 +1,1 @@
-{"shared":"Webhook_payout_canceled_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec250","Webhook_payout_canceled_merchant"]}
+{"shared":"Webhook_payout_canceled_merchant","dependencies":["ExpandedPayoutDestinationSummary","ExpandedPayoutSummary","MerchantWebhookEnvelope","MoneyValue","Payout","PayoutTraceID","SharedCodec1011","SharedCodec1012","SharedCodec1013","SharedCodec27","SharedCodec368","SharedCodec369","SharedCodec689","SignedMoney","Webhook_payout_canceled_merchant"]}

@@ -1,0 +1,1 @@
+{"shared":"BuyerReturnResolutionExecutionBlocker","phpRepresentation":{"kind":"record","fields":{"code":{"kind":"value","type":"string"},"return_line_item_id":{"kind":"value","type":"string"}}},"dependencies":["BuyerReturnResolutionExecutionBlocker"]}

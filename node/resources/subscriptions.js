@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptions.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/subscriptions.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPaymentMethod"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionLineItem"]:r0,["createSubscriptionPaymentRetry"]:r0,["deleteSubscriptionLineItem"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["reactivateSubscription"]:r0,["renewSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionBillingSchedule"]:r0,["updateSubscriptionLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPaymentMethod"]:r0,["changeSubscriptionPlan"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionLineItem"]:r0,["createSubscriptionPaymentRetry"]:r0,["deleteSubscriptionLineItem"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["reactivateSubscription"]:r0,["renewSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionBillingSchedule"]:r0,["updateSubscriptionLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -15,52 +15,54 @@ this.subscriptions = Object.freeze({
       cancel: async (subscription_id, params, options) => this.#runtime.request("cancelSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelSubscription", result, path))),
       cancelWithResponse: async (subscription_id, params, options) => this.#runtime.request("cancelSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       changePaymentMethod: async (subscription_id, params, options) => this.#runtime.request("changeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("changeSubscriptionPaymentMethod", result, path))),
       changePaymentMethodWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
+      changePlan: async (subscription_id, params, options) => this.#runtime.request("changeSubscriptionPlan", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("changeSubscriptionPlan", result, path))),
+      changePlanWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeSubscriptionPlan", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createSubscription", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSubscription", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createSubscription", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createAccessLink: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionAccessLink", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSubscriptionAccessLink", result, path))),
       createAccessLinkWithResponse: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionAccessLink", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       createLineItem: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionLineItem", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSubscriptionLineItem", result, path))),
       createLineItemWithResponse: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionLineItem", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -69,34 +71,32 @@ this.subscriptions = Object.freeze({
       createPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSubscriptionPaymentRetry", result, path))),
       createPaymentRetryWithResponse: async (subscription_id, params, options) => this.#runtime.request("createSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       deleteLineItem: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("deleteSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
-  "Idempotency-Key",
-  "expected_version"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expected_version",
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteSubscriptionLineItem", result, path))),
       deleteLineItemWithResponse: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("deleteSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
-  "Idempotency-Key",
-  "expected_version"
+  "expected_version",
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (subscription_id, params, options) => this.#runtime.request("getSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSubscription", result, path))),
       getWithResponse: async (subscription_id, params, options) => this.#runtime.request("getSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -105,7 +105,7 @@ this.subscriptions = Object.freeze({
       getPaymentRetry: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id",
   "subscription_payment_retry_id"
-], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSubscriptionPaymentRetry", result, path))),
       getPaymentRetryWithResponse: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id",
   "subscription_payment_retry_id"
@@ -116,7 +116,7 @@ this.subscriptions = Object.freeze({
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSubscriptionPaymentRetries", result, path))),
       listPaymentRetriesWithResponse: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -130,7 +130,7 @@ this.subscriptions = Object.freeze({
   "page_size",
   "page_token",
   "idempotency_key"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listSubscriptionPaymentRetries", result, path)),
       listPaymentRetriesPagesWithResponse: (subscription_id, params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -146,6 +146,7 @@ this.subscriptions = Object.freeze({
   "idempotency_key"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listSubscriptions", _sdkRequestInput([], [], [
+  "terms_type",
   "page_size",
   "page_token",
   "status",
@@ -165,12 +166,13 @@ this.subscriptions = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention",
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSubscriptions", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listSubscriptions", _sdkRequestInput([], [], [
+  "terms_type",
   "page_size",
   "page_token",
   "status",
@@ -190,12 +192,13 @@ this.subscriptions = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention",
   "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptions", _sdkRequestInput([], [], [
+  "terms_type",
   "page_size",
   "page_token",
   "status",
@@ -215,12 +218,13 @@ this.subscriptions = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention",
   "expand"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listSubscriptions", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptions", _sdkRequestInput([], [], [
+  "terms_type",
   "page_size",
   "page_token",
   "status",
@@ -240,12 +244,13 @@ this.subscriptions = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention",
   "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listSubscriptions", _sdkRequestInput([], [], [
+  "terms_type",
   "page_size",
   "page_token",
   "status",
@@ -265,40 +270,36 @@ this.subscriptions = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention",
   "expand"
 ], false, false, params), options),
       pause: async (subscription_id, params, options) => this.#runtime.request("pauseSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("pauseSubscription", result, path))),
       pauseWithResponse: async (subscription_id, params, options) => this.#runtime.request("pauseSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       reactivate: async (subscription_id, params, options) => this.#runtime.request("reactivateSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("reactivateSubscription", result, path))),
       reactivateWithResponse: async (subscription_id, params, options) => this.#runtime.request("reactivateSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+  "Idempotency-Key"
+], true, false, params), options).then(_sdkResponse),
       renew: async (subscription_id, params, options) => this.#runtime.request("renewSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("renewSubscription", result, path))),
       renewWithResponse: async (subscription_id, params, options) => this.#runtime.request("renewSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -307,47 +308,41 @@ this.subscriptions = Object.freeze({
       resume: async (subscription_id, params, options) => this.#runtime.request("resumeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resumeSubscription", result, path))),
       resumeWithResponse: async (subscription_id, params, options) => this.#runtime.request("resumeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+  "Idempotency-Key"
+], true, false, params), options).then(_sdkResponse),
       skipCycle: async (subscription_id, params, options) => this.#runtime.request("skipSubscriptionCycle", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("skipSubscriptionCycle", result, path))),
       skipCycleWithResponse: async (subscription_id, params, options) => this.#runtime.request("skipSubscriptionCycle", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (subscription_id, params, options) => this.#runtime.request("updateSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateSubscription", result, path))),
       updateWithResponse: async (subscription_id, params, options) => this.#runtime.request("updateSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      updateBillingSchedule: (input = {}, options) => this.#runtime.request("updateSubscriptionBillingSchedule", input, options).then(result => _sdkPayload(result, ["data"])),
+      updateBillingSchedule: (input = {}, options) => this.#runtime.request("updateSubscriptionBillingSchedule", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateSubscriptionBillingSchedule", result, path))),
       updateBillingScheduleWithResponse: (input = {}, options) => this.#runtime.request("updateSubscriptionBillingSchedule", input, options).then(_sdkResponse),
       updateLineItem: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateSubscriptionLineItem", result, path))),
       updateLineItemWithResponse: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
@@ -356,51 +351,64 @@ this.subscriptions = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeSubscriptionResponse } from '../models/SubscriptionResponse.js';
-export { makeAccessLinkResponse } from '../models/AccessLinkResponse.js';
-export { makeSubscriptionPaymentRetryResponse } from '../models/SubscriptionPaymentRetryResponse.js';
-export { makeSubscriptionPaymentRetryListResponse } from '../models/SubscriptionPaymentRetryListResponse.js';
-export { makeSubscriptionPaymentRetry } from '../models/SubscriptionPaymentRetry.js';
-export { makeSubscriptionListResponse } from '../models/SubscriptionListResponse.js';
-export { makeSubscription } from '../models/Subscription.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeAccessLink } from '../models/AccessLink.js';
-export { makeSubscriptionPaymentRetryFailure } from '../models/SubscriptionPaymentRetryFailure.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeBuyerAction } from '../models/BuyerAction.js';
-export { makeSubscriptionCancellationDetails } from '../models/SubscriptionCancellationDetails.js';
-export { makeSubscriptionDelivery } from '../models/SubscriptionDelivery.js';
-export { makeSubscriptionAddressVerification } from '../models/SubscriptionAddressVerification.js';
-export { makeSubscriptionDeliveryMethodSummary } from '../models/SubscriptionDeliveryMethodSummary.js';
-export { makeSubscriptionDeliveryDestination } from '../models/SubscriptionDeliveryDestination.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeDeliveryRecipientResource } from '../models/DeliveryRecipientResource.js';
-export { makeSubscriptionDeliveryHold } from '../models/SubscriptionDeliveryHold.js';
-export { makeSubscriptionInventoryWait } from '../models/SubscriptionInventoryWait.js';
-export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeImage } from '../models/Image.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeCardDetails } from '../models/CardDetails.js';
-export { makeSubscriptionServiceLocation } from '../models/SubscriptionServiceLocation.js';
-export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
-export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
-export { makeSubscriptionUpcomingDeliveryHold } from '../models/SubscriptionUpcomingDeliveryHold.js';
-export { makeOrderDeliveryDestinationAddressRequest } from '../models/OrderDeliveryDestinationAddressRequest.js';
+export { makeAddressRequest } from '../models/AddressRequest.js';
+export { makeCancelSubscriptionRequest } from '../models/CancelSubscriptionRequest.js';
+export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
+export { makeChangeSubscriptionPlanRequest } from '../models/ChangeSubscriptionPlanRequest.js';
+export { makeConfigurationVersionRequest } from '../models/ConfigurationVersionRequest.js';
+export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
+export { makeCreateSubscriptionAccessLinkRequest } from '../models/CreateSubscriptionAccessLinkRequest.js';
+export { makeCreateSubscriptionLineItemRequest } from '../models/CreateSubscriptionLineItemRequest.js';
+export { makeCreateSubscriptionRequest } from '../models/CreateSubscriptionRequest.js';
 export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeDimensions } from '../models/Dimensions.js';
+export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
+export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
+export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
+export { makeOrderDeliveryDestinationAddressRequest } from '../models/OrderDeliveryDestinationAddressRequest.js';
+export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makePauseSubscriptionRequest } from '../models/PauseSubscriptionRequest.js';
-export { makeInventoryCountTransitionRequest } from '../models/InventoryCountTransitionRequest.js';
+export { makePromotionRecurrence } from '../models/PromotionRecurrence.js';
+export { makePromotionRecurrenceForever } from '../models/PromotionRecurrenceForever.js';
+export { makePromotionRecurrenceOnce } from '../models/PromotionRecurrenceOnce.js';
+export { makePromotionRecurrenceRepeating } from '../models/PromotionRecurrenceRepeating.js';
+export { makeRenewSubscriptionRequest } from '../models/RenewSubscriptionRequest.js';
+export { makeResourceVersionRequest } from '../models/ResourceVersionRequest.js';
+export { makeSkipSubscriptionCycleRequest } from '../models/SkipSubscriptionCycleRequest.js';
+export { makeSubscriptionBillingScheduleInputExternal } from '../models/SubscriptionBillingScheduleInputExternal.js';
+export { makeSubscriptionBillingScheduleInputFlint } from '../models/SubscriptionBillingScheduleInputFlint.js';
+export { makeSubscriptionBillingScheduleRequest } from '../models/SubscriptionBillingScheduleRequest.js';
+export { makeSubscriptionBillingScheduleUpdateInputExternal } from '../models/SubscriptionBillingScheduleUpdateInputExternal.js';
+export { makeSubscriptionBillingScheduleUpdateInputFlint } from '../models/SubscriptionBillingScheduleUpdateInputFlint.js';
+export { makeSubscriptionBillingScheduleUpdateRequest } from '../models/SubscriptionBillingScheduleUpdateRequest.js';
+export { makeSubscriptionBillingStartInputImmediate } from '../models/SubscriptionBillingStartInputImmediate.js';
+export { makeSubscriptionBillingStartInputImported } from '../models/SubscriptionBillingStartInputImported.js';
+export { makeSubscriptionBillingStartInputScheduled } from '../models/SubscriptionBillingStartInputScheduled.js';
+export { makeSubscriptionBillingStartRequest } from '../models/SubscriptionBillingStartRequest.js';
+export { makeSubscriptionDeliveryDestinationInputAddress } from '../models/SubscriptionDeliveryDestinationInputAddress.js';
+export { makeSubscriptionDeliveryDestinationInputCustomerAddress } from '../models/SubscriptionDeliveryDestinationInputCustomerAddress.js';
+export { makeSubscriptionDeliveryDestinationRequest } from '../models/SubscriptionDeliveryDestinationRequest.js';
+export { makeSubscriptionDeliveryRequest } from '../models/SubscriptionDeliveryRequest.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeSubscriptionOfferLineItemRequest } from '../models/SubscriptionOfferLineItemRequest.js';
+export { makeSubscriptionOfferTermsRequest } from '../models/SubscriptionOfferTermsRequest.js';
+export { makeSubscriptionPlanTermsRequest } from '../models/SubscriptionPlanTermsRequest.js';
+export { makeSubscriptionServiceLocationInputAddress } from '../models/SubscriptionServiceLocationInputAddress.js';
+export { makeSubscriptionServiceLocationInputCustomerAddress } from '../models/SubscriptionServiceLocationInputCustomerAddress.js';
+export { makeSubscriptionServiceLocationRequest } from '../models/SubscriptionServiceLocationRequest.js';
+export { makeSubscriptionTermsRequest } from '../models/SubscriptionTermsRequest.js';
+export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
+export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
+export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
+export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeUpdateSubscriptionBillingScheduleRequest } from '../models/UpdateSubscriptionBillingScheduleRequest.js';
+export { makeUpdateSubscriptionBillingScheduleRequestExternal } from '../models/UpdateSubscriptionBillingScheduleRequestExternal.js';
+export { makeUpdateSubscriptionBillingScheduleRequestFlint } from '../models/UpdateSubscriptionBillingScheduleRequestFlint.js';
 export { makeUpdateSubscriptionLineItemRequest } from '../models/UpdateSubscriptionLineItemRequest.js';
+export { makeUpdateSubscriptionRequest } from '../models/UpdateSubscriptionRequest.js';
+export { makeWeight } from '../models/Weight.js';

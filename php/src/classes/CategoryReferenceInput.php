@@ -7,19 +7,22 @@ namespace Flint;
  * @property-read string $name
  * Presence-aware input; omitted fields throw when accessed. */
 final class CategoryReferenceInput extends Model {
-    /** @param array{'category_id'?: string, 'handle': string, 'name': string, ...}|object $values */
+    /** @param array{'category_id': string, 'handle': string, 'name': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CategoryReferenceInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Stable identifier of the category.
+     * @return string
      * @throws SdkError When category_id is omitted; use hasCategoryId() or valueOrDefault().
      */
     public function getCategoryId(): string { return $this->get('category_id'); }
     public function hasCategoryId(): bool { return $this->has('category_id'); }
-    /** @return string
+    /** Shape $ (Value): string. Category handle recorded with this reference.
+     * @return string
      * @throws SdkError When handle is omitted; use hasHandle() or valueOrDefault().
      */
     public function getHandle(): string { return $this->get('handle'); }
     public function hasHandle(): bool { return $this->has('handle'); }
-    /** @return string
+    /** Shape $ (Value): string. Category name recorded with this reference.
+     * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }

@@ -1,5 +1,0 @@
-
-import type { GiftCardNotificationDelivery } from './GiftCardNotificationDelivery.js';
-import type { GiftCardNotificationRecipient } from './GiftCardNotificationRecipient.js';
-
-export type GiftCardNotification = { /** RFC3339 timestamp. Format: date-time. */ "created_at": string; /** Included on notification retrieval. Contains the most recent sending attempts and signed provider outcomes, newest first. A failed attempt describes the send call; use notification.status to determine whether acceptance remains unconfirmed. */ "delivery"?: GiftCardNotificationDelivery; "gift_card_id": string; "gift_card_notification_id": string; "recipient": GiftCardNotificationRecipient; "resend_of_notification_id"?: string; /** RFC3339 timestamp. Format: date-time. */ "sent_at"?: string; "status": "scheduled" | "queued" | "sending" | "sent" | "failed" | "unconfirmed" | "bounced" | "canceled" | (string & {}); /** RFC3339 timestamp. Format: date-time. */ "updated_at": string; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "version": string; };

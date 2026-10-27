@@ -8,12 +8,14 @@ namespace Flint;
 final class DeliveryCountryConditionInput extends Model {
     /** @param array{'subject'?: string, 'values': list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryCountryConditionInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Address facts tested by this condition. destination_address is the shipping destination. buyer_location is the buyer's current pickup or local-delivery location. Default: "destination_address". Value enum: "destination_address", "buyer_location".
+     * @return string
      * @throws SdkError When subject is omitted; use hasSubject() or valueOrDefault().
      */
     public function getSubject(): string { return $this->get('subject'); }
     public function hasSubject(): bool { return $this->has('subject'); }
-    /** @return list<string>
+    /** Shape $ (Value): Array of string. Example: ["US"]. Shape $[] (Value): string. minLength: 1.
+     * @return list<string>
      * @throws SdkError When values is omitted; use hasValues() or valueOrDefault().
      */
     public function getValues(): array { return $this->get('values'); }

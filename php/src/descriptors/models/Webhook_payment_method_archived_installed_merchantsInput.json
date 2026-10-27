@@ -1,0 +1,1 @@
+{"shared":"Webhook_payment_method_archived_installed_merchants","dependencies":["CardDetails","ExpandedCustomerSummary","PartnerWebhookEnvelope","PaymentMethod","SharedCodec14","SharedCodec233","SharedCodec371","SharedCodec372","SharedCodec373","SharedCodec374","SharedCodec656","Webhook_payment_method_archived_installed_merchants"]}

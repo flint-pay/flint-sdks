@@ -1,1 +1,1 @@
-{"shared":"ResourceTimelineEntry","dependencies":["ResourceTimelineEntry","SharedCodec2","SharedCodec252"]}
+{"shared":"ResourceTimelineEntry","dependencies":["ResourceReference","ResourceTimelineEntry","ResourceType","SharedCodec1059","SharedCodec1060","SharedCodec1061","SharedCodec1062","SharedCodec233"]}

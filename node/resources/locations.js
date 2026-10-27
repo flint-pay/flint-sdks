@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/locations.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/locations.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createLocation"]:r0,["deleteLocation"]:r0,["getLocation"]:r0,["listLocations"]:r0,["publishLocationGeography"]:r0,["updateLocation"]:r0,["updateLocationInventory"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createLocation"]:r0,["deleteLocation"]:r0,["getLocation"]:r0,["listLocations"]:r0,["updateLocation"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -14,7 +14,7 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.locations = Object.freeze({
       create: async (params, options) => this.#runtime.request("createLocation", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createLocation", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createLocation", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
@@ -23,7 +23,7 @@ this.locations = Object.freeze({
 ], [location_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteLocation", result, path))),
       removeWithResponse: async (location_id, params, options) => this.#runtime.request("deleteLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
@@ -32,7 +32,7 @@ this.locations = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       get: async (location_id, params, options) => this.#runtime.request("getLocation", _sdkRequestInput([
   "location_id"
-], [location_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [location_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getLocation", result, path))),
       getWithResponse: async (location_id, params, options) => this.#runtime.request("getLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [], false, false, params), options).then(_sdkResponse),
@@ -40,15 +40,15 @@ this.locations = Object.freeze({
   "page_size",
   "page_token",
   "status",
-  "inventory_allocation_status",
+  "inventory_allocation_enabled",
   "external_reference_id",
   "query"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listLocations", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listLocations", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
-  "inventory_allocation_status",
+  "inventory_allocation_enabled",
   "external_reference_id",
   "query"
 ], false, false, params), options).then(_sdkResponse),
@@ -56,15 +56,15 @@ this.locations = Object.freeze({
   "page_size",
   "page_token",
   "status",
-  "inventory_allocation_status",
+  "inventory_allocation_enabled",
   "external_reference_id",
   "query"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listLocations", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listLocations", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
-  "inventory_allocation_status",
+  "inventory_allocation_enabled",
   "external_reference_id",
   "query"
 ], false, false, params), options)),
@@ -72,54 +72,47 @@ this.locations = Object.freeze({
   "page_size",
   "page_token",
   "status",
-  "inventory_allocation_status",
+  "inventory_allocation_enabled",
   "external_reference_id",
   "query"
 ], false, false, params), options),
-      publishGeography: async (location_id, params, options) => this.#runtime.request("publishLocationGeography", _sdkRequestInput([
-  "location_id"
-], [location_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      publishGeographyWithResponse: async (location_id, params, options) => this.#runtime.request("publishLocationGeography", _sdkRequestInput([
-  "location_id"
-], [location_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
       update: async (location_id, params, options) => this.#runtime.request("updateLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateLocation", result, path))),
       updateWithResponse: async (location_id, params, options) => this.#runtime.request("updateLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      updateInventory: async (location_id, params, options) => this.#runtime.request("updateLocationInventory", _sdkRequestInput([
+      publishGeography: async (location_id, params, options) => this.#runtime.request("updateLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      updateInventoryWithResponse: async (location_id, params, options) => this.#runtime.request("updateLocationInventory", _sdkRequestInput([
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateLocation", result, path))),
+      publishGeographyWithResponse: async (location_id, params, options) => this.#runtime.request("updateLocation", _sdkRequestInput([
+  "location_id"
+], [location_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
+      updateInventory: async (location_id, params, options) => this.#runtime.request("updateLocation", _sdkRequestInput([
+  "location_id"
+], [location_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateLocation", result, path))),
+      updateInventoryWithResponse: async (location_id, params, options) => this.#runtime.request("updateLocation", _sdkRequestInput([
   "location_id"
 ], [location_id], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeLocationResponse } from '../models/LocationResponse.js';
-export { makeLocationListResponse } from '../models/LocationListResponse.js';
-export { makeLocation } from '../models/Location.js';
-export { makeLocationInventoryResponse } from '../models/LocationInventoryResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeLocationAddress } from '../models/LocationAddress.js';
-export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
+export { makeCreateLocationRequest } from '../models/CreateLocationRequest.js';
+export { makeLocationAddressRequest } from '../models/LocationAddressRequest.js';
 export { makeLocationCoordinate } from '../models/LocationCoordinate.js';
-export { makeLocationInventory } from '../models/LocationInventory.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateLocationRequest } from '../models/UpdateLocationRequest.js';

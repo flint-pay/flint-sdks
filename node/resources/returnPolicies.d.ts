@@ -1,200 +1,308 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CreateReturnPolicyResponse } from '../declarations/CreateReturnPolicyResponse.js';
-import type { DeleteReturnPolicyResponse } from '../declarations/DeleteReturnPolicyResponse.js';
-import type { GetReturnPolicyResponse } from '../declarations/GetReturnPolicyResponse.js';
-import type { GetReturnPolicyRevisionResponse } from '../declarations/GetReturnPolicyRevisionResponse.js';
-import type { ListReturnPoliciesResponse } from '../declarations/ListReturnPoliciesResponse.js';
-import type { ListReturnPolicyRevisionsResponse } from '../declarations/ListReturnPolicyRevisionsResponse.js';
-import type { PublishReturnPolicyRevisionResponse } from '../declarations/PublishReturnPolicyRevisionResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { ReturnPoliciesCreateInput } from '../declarations/ReturnPoliciesCreateInput.js';
-import type { ReturnPoliciesCreateResponse } from '../declarations/ReturnPoliciesCreateResponse.js';
-import type { ReturnPoliciesGetInput } from '../declarations/ReturnPoliciesGetInput.js';
-import type { ReturnPoliciesGetResponse } from '../declarations/ReturnPoliciesGetResponse.js';
-import type { ReturnPoliciesGetRevisionInput } from '../declarations/ReturnPoliciesGetRevisionInput.js';
-import type { ReturnPoliciesGetRevisionResponse } from '../declarations/ReturnPoliciesGetRevisionResponse.js';
-import type { ReturnPoliciesListInput } from '../declarations/ReturnPoliciesListInput.js';
-import type { ReturnPoliciesListResponse } from '../declarations/ReturnPoliciesListResponse.js';
-import type { ReturnPoliciesListRevisionsInput } from '../declarations/ReturnPoliciesListRevisionsInput.js';
-import type { ReturnPoliciesListRevisionsResponse } from '../declarations/ReturnPoliciesListRevisionsResponse.js';
-import type { ReturnPoliciesPublishRevisionInput } from '../declarations/ReturnPoliciesPublishRevisionInput.js';
-import type { ReturnPoliciesPublishRevisionResponse } from '../declarations/ReturnPoliciesPublishRevisionResponse.js';
-import type { ReturnPoliciesRemoveInput } from '../declarations/ReturnPoliciesRemoveInput.js';
-import type { ReturnPoliciesRemoveResponse } from '../declarations/ReturnPoliciesRemoveResponse.js';
-import type { ReturnPoliciesUpdateInput } from '../declarations/ReturnPoliciesUpdateInput.js';
-import type { ReturnPoliciesUpdateResponse } from '../declarations/ReturnPoliciesUpdateResponse.js';
-import type { ReturnPolicy } from '../declarations/ReturnPolicy.js';
-import type { ReturnPolicyRevision } from '../declarations/ReturnPolicyRevision.js';
-import type { ReturnPolicyRevisionRequestInput } from '../declarations/ReturnPolicyRevisionRequestInput.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { UpdateReturnPolicyResponse } from '../declarations/UpdateReturnPolicyResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateReturnPolicyRequestInput } from '../declarations/types-8.js';
+import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-18.js';
+import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-28.js';
+import type { PublishReturnPolicyRevisionRequestInput } from '../declarations/types-38.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type {
+    ReturnPoliciesCreateInput,
+    ReturnPoliciesGetInput,
+    ReturnPoliciesGetRevisionInput,
+    ReturnPoliciesListInput,
+    ReturnPoliciesListRevisionsInput,
+    ReturnPoliciesPublishRevisionInput,
+    ReturnPoliciesRemoveInput,
+    ReturnPoliciesUpdateInput,
+    ReturnPolicy,
+    ReturnPolicyRevision
+} from '../declarations/types-41.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdateReturnPolicyRequestInput } from '../declarations/types-49.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateReturnPolicyRequestInput } from '../declarations/types-8.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    ReturnPolicy,
+    ReturnPolicyRevision,
+    ReturnPoliciesCreateInput,
+    ReturnPoliciesPublishRevisionInput,
+    ReturnPoliciesRemoveInput,
+    ReturnPoliciesGetInput,
+    ReturnPoliciesGetRevisionInput,
+    ReturnPoliciesListInput,
+    ReturnPoliciesListRevisionsInput,
+    ReturnPoliciesUpdateInput,
+    ReturnPolicyRevisionRequestInput,
+    ReturnPolicyScopeInput,
+    ReturnPolicyRevisionInputIneligibleInput,
+    ReturnPolicyRevisionInputReturnableInput,
+    ReturnPolicyScope
+} from '../declarations/types-41.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-18.js';
+export type { PublishReturnPolicyRevisionRequestInput } from '../declarations/types-38.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-28.js';
+export type { UpdateReturnPolicyRequestInput } from '../declarations/types-49.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type {
+    ReturnRestockingFeePolicyInput,
+    ReturnShippingPolicyInput,
+    ReturnWindowInput,
+    ReturnRestockingFeePolicy,
+    ReturnShippingPolicy,
+    ReturnWindow
+} from '../declarations/types-42.js';
+export type { MoneyValueInput, NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export { makeCreateReturnPolicyRequest } from '../declarations/types-64.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export {
+    makePublishReturnPolicyRevisionRequest,
+    makeReturnPolicyRevisionInputIneligible,
+    makeReturnPolicyRevisionInputReturnable,
+    makeReturnPolicyRevisionRequest,
+    makeReturnPolicyScope,
+    makeReturnRestockingFeePolicy,
+    makeReturnShippingPolicy,
+    makeReturnWindow
+} from '../declarations/types-70.js';
+export { makeUpdateReturnPolicyRequest } from '../declarations/types-72.js';
 export interface ReturnPoliciesResource {
     /**
- * Create a Return policy with its first revision. The policy ID is stable across revisions, and each published revision is immutable.
+ * Create a Return policy with its first revision. The policy ID is stable across revisions, and
+ * each published revision is immutable.
+ * @see reference/returnPolicies.md#returnpoliciescreate
  * POST /v1/return-policies
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnPolicies.create({name: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}}, { idempotencyKey: idempotencyKey })
+ * client.returnPolicies.create({name: "example", revision: {approval_mode: "automatic",
+ * eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope:
+ * {}}}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateReturnPolicyResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "external_reference_id"?: string; "metadata"?: Record<string, string>; "name": string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesCreateResponse>>;
+    create(params: (InputValue<CreateReturnPolicyRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnPolicy>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnPolicies.md#returnpoliciescreate
+     */
+    createWithResponse(params: (InputValue<CreateReturnPolicyRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnPolicyResponse>>;
+    /**
+ * Publish a new immutable Return policy revision while preserving the stable policy identity. Send
+ * the policy's current version as expected_version to reject a concurrent policy edit or publish.
+ * @see reference/returnPolicies.md#returnpoliciespublishrevision
+ * POST /v1/return-policies/{return_policy_id}/revisions
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.returnPolicies.publishRevision("example", {expected_version: "1", revision:
+ * {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required:
+ * true, priority: 1, scope: {}}}, { idempotencyKey: idempotencyKey })
+ */
+    publishRevision(return_policy_id: InputValue<string>, params: (InputValue<PublishReturnPolicyRevisionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnPolicy>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnPolicies.md#returnpoliciespublishrevision
+     */
+    publishRevisionWithResponse(return_policy_id: InputValue<string>, params: (InputValue<PublishReturnPolicyRevisionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnPolicyResponse>>;
     /**
  * Retire a Return policy so it is no longer evaluated and no longer appears as an active choice.
+ * @see reference/returnPolicies.md#returnpoliciesremove
  * DELETE /v1/return-policies/{return_policy_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.returnPolicies.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(return_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeleteReturnPolicyResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(return_policy_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesRemoveResponse>>;
+    remove(return_policy_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnPolicy>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnPolicies.md#returnpoliciesremove
+     */
+    removeWithResponse(return_policy_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnPolicyResponse>>;
     /**
  * Retrieve one Return policy. Supports expand for current_revision.
+ * @see reference/returnPolicies.md#returnpoliciesget
  * GET /v1/return-policies/{return_policy_id}
  * @example
  * client.returnPolicies.get("example")
  */
-    get(return_policy_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"current_revision">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnPolicyResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(return_policy_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"current_revision">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesGetResponse>>;
+    get(return_policy_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"current_revision">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnPolicy>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnPolicies.md#returnpoliciesget
+     */
+    getWithResponse(return_policy_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"current_revision">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnPolicyResponse>>;
     /**
  * Retrieve one immutable policy revision, including the exact rules a Return was evaluated against.
+ * @see reference/returnPolicies.md#returnpoliciesgetrevision
  * GET /v1/return-policies/{return_policy_id}/revisions/{return_policy_revision_id}
  * @example
  * client.returnPolicies.getRevision("example", "example")
  */
-    getRevision(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnPolicyRevisionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getRevisionWithResponse(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesGetRevisionResponse>>;
+    getRevision(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnPolicyRevision>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnPolicies.md#returnpoliciesgetrevision
+     */
+    getRevisionWithResponse(return_policy_id: InputValue<string>, return_policy_revision_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnPolicyRevisionResponse>>;
     /**
- * List Return policies with their status and current revision.
+ * List Return policies with their status. Include the current revision with
+ * expand=current_revision. Newest first: created_at descending, with return_policy_id descending
+ * as the tiebreak.
+ * @see reference/returnPolicies.md#returnpolicieslist
  * GET /v1/return-policies
  * @example
  * client.returnPolicies.list()
  */
-    list(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPoliciesResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesListResponse>>;
-    listPages(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnPoliciesResponse>;
-    listPagesWithResponse(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnPoliciesListResponse>>;
-    listItems(params?: { "external_reference_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "archived">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnPolicy>;
+    list(params?: {
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "expand"?: InputValue<Array<"current_revision">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPoliciesResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnPolicies.md#returnpolicieslist
+     */
+    listWithResponse(params?: {
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "expand"?: InputValue<Array<"current_revision">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnPoliciesResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/returnPolicies.md#returnpolicieslist
+     */
+    listPages(params?: {
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "expand"?: InputValue<Array<"current_revision">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnPoliciesResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/returnPolicies.md#returnpolicieslist
+     */
+    listPagesWithResponse(params?: {
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "expand"?: InputValue<Array<"current_revision">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnPoliciesResponse>>;
+    /** Iterate items lazily.
+     * @see reference/returnPolicies.md#returnpolicieslist
+     */
+    listItems(params?: {
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "expand"?: InputValue<Array<"current_revision">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnPolicy>;
     /**
- * List every published revision of a Return policy.
+ * List every published revision of a Return policy. Newest first: created_at descending, with
+ * return_policy_revision_id descending as the tiebreak.
+ * @see reference/returnPolicies.md#returnpolicieslistrevisions
  * GET /v1/return-policies/{return_policy_id}/revisions
  * @example
  * client.returnPolicies.listRevisions("example")
  */
-    listRevisions(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPolicyRevisionsResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listRevisionsWithResponse(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnPoliciesListRevisionsResponse>>;
-    listRevisionsPages(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnPolicyRevisionsResponse>;
-    listRevisionsPagesWithResponse(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnPoliciesListRevisionsResponse>>;
-    listRevisionsItems(return_policy_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnPolicyRevision>;
+    listRevisions(return_policy_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnPolicyRevisionsResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnPolicies.md#returnpolicieslistrevisions
+     */
+    listRevisionsWithResponse(return_policy_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnPolicyRevisionsResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/returnPolicies.md#returnpolicieslistrevisions
+     */
+    listRevisionsPages(return_policy_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnPolicyRevisionsResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/returnPolicies.md#returnpolicieslistrevisions
+     */
+    listRevisionsPagesWithResponse(return_policy_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnPolicyRevisionsResponse>>;
+    /** Iterate items lazily.
+     * @see reference/returnPolicies.md#returnpolicieslistrevisions
+     */
+    listRevisionsItems(return_policy_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnPolicyRevision>;
     /**
- * Publish a new immutable Return policy revision while preserving the stable policy identity.
- * POST /v1/return-policies/{return_policy_id}/revisions
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.returnPolicies.publishRevision("example", {expected_current_return_policy_revision_id: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {}}}, { idempotencyKey: idempotencyKey })
- */
-    publishRevision(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_current_return_policy_revision_id": string; "expected_version"?: string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PublishReturnPolicyRevisionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    publishRevisionWithResponse(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_current_return_policy_revision_id": string; "expected_version"?: string; "revision": ReturnPolicyRevisionRequestInput; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesPublishRevisionResponse>>;
-    /**
- * Update policy identity fields or set status to active or inactive. Rules live on revisions, so changing a window, fee, or scope means publishing a new revision.
+ * Update policy identity fields or set status to active or inactive. Rules live on revisions, so
+ * changing a window, fee, or scope means publishing a new revision.
+ * @see reference/returnPolicies.md#returnpoliciesupdate
  * PATCH /v1/return-policies/{return_policy_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.returnPolicies.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<UpdateReturnPolicyResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(return_policy_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "external_reference_id"?: string | null; "metadata"?: Record<string, string | null> | null; "name"?: string; "status"?: "active" | "inactive"; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnPoliciesUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly returnPolicies: ReturnPoliciesResource;
+    update(return_policy_id: InputValue<string>, params: (InputValue<UpdateReturnPolicyRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnPolicy>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnPolicies.md#returnpoliciesupdate
+     */
+    updateWithResponse(return_policy_id: InputValue<string>, params: (InputValue<UpdateReturnPolicyRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnPolicyResponse>>;
 }
-export type { ReturnPolicyRevisionRequestInput } from '../declarations/ReturnPolicyRevisionRequestInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CreateReturnPolicyResponse } from '../declarations/CreateReturnPolicyResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { ReturnPoliciesCreateResponse } from '../declarations/ReturnPoliciesCreateResponse.js';
-export type { DeleteReturnPolicyResponse } from '../declarations/DeleteReturnPolicyResponse.js';
-export type { ReturnPoliciesRemoveResponse } from '../declarations/ReturnPoliciesRemoveResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { GetReturnPolicyResponse } from '../declarations/GetReturnPolicyResponse.js';
-export type { ReturnPoliciesGetResponse } from '../declarations/ReturnPoliciesGetResponse.js';
-export type { GetReturnPolicyRevisionResponse } from '../declarations/GetReturnPolicyRevisionResponse.js';
-export type { ReturnPoliciesGetRevisionResponse } from '../declarations/ReturnPoliciesGetRevisionResponse.js';
-export type { ListReturnPoliciesResponse } from '../declarations/ListReturnPoliciesResponse.js';
-export type { ReturnPoliciesListResponse } from '../declarations/ReturnPoliciesListResponse.js';
-export type { ReturnPolicy } from '../declarations/ReturnPolicy.js';
-export type { ListReturnPolicyRevisionsResponse } from '../declarations/ListReturnPolicyRevisionsResponse.js';
-export type { ReturnPoliciesListRevisionsResponse } from '../declarations/ReturnPoliciesListRevisionsResponse.js';
-export type { ReturnPolicyRevision } from '../declarations/ReturnPolicyRevision.js';
-export type { PublishReturnPolicyRevisionResponse } from '../declarations/PublishReturnPolicyRevisionResponse.js';
-export type { ReturnPoliciesPublishRevisionResponse } from '../declarations/ReturnPoliciesPublishRevisionResponse.js';
-export type { UpdateReturnPolicyResponse } from '../declarations/UpdateReturnPolicyResponse.js';
-export type { ReturnPoliciesUpdateResponse } from '../declarations/ReturnPoliciesUpdateResponse.js';
-export type { ReturnPoliciesCreateInput } from '../declarations/ReturnPoliciesCreateInput.js';
-export type { ReturnPoliciesRemoveInput } from '../declarations/ReturnPoliciesRemoveInput.js';
-export type { ReturnPoliciesGetInput } from '../declarations/ReturnPoliciesGetInput.js';
-export type { ReturnPoliciesGetRevisionInput } from '../declarations/ReturnPoliciesGetRevisionInput.js';
-export type { ReturnPoliciesListInput } from '../declarations/ReturnPoliciesListInput.js';
-export type { ReturnPoliciesListRevisionsInput } from '../declarations/ReturnPoliciesListRevisionsInput.js';
-export type { ReturnPoliciesPublishRevisionInput } from '../declarations/ReturnPoliciesPublishRevisionInput.js';
-export type { ReturnPoliciesUpdateInput } from '../declarations/ReturnPoliciesUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { ReturnRestockingFeePolicyInput } from '../declarations/ReturnRestockingFeePolicyInput.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { ReturnShippingPolicyInput } from '../declarations/ReturnShippingPolicyInput.js';
-export type { ReturnWindowInput } from '../declarations/ReturnWindowInput.js';
-export type { ReturnPolicyScopeInput } from '../declarations/ReturnPolicyScopeInput.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { ReturnRestockingFeePolicy } from '../declarations/ReturnRestockingFeePolicy.js';
-export type { ReturnShippingPolicy } from '../declarations/ReturnShippingPolicy.js';
-export type { ReturnWindow } from '../declarations/ReturnWindow.js';
-export type { ReturnPolicyScope } from '../declarations/ReturnPolicyScope.js';
-export type { CreateReturnPolicyRequestInput } from '../declarations/CreateReturnPolicyRequestInput.js';
-export type { PublishReturnPolicyRevisionRequestInput } from '../declarations/PublishReturnPolicyRevisionRequestInput.js';
-export type { UpdateReturnPolicyRequestInput } from '../declarations/UpdateReturnPolicyRequestInput.js';
-export { makeCreateReturnPolicyResponse } from '../declarations/makeCreateReturnPolicyResponse.js';
-export { makeDeleteReturnPolicyResponse } from '../declarations/makeDeleteReturnPolicyResponse.js';
-export { makeGetReturnPolicyResponse } from '../declarations/makeGetReturnPolicyResponse.js';
-export { makeGetReturnPolicyRevisionResponse } from '../declarations/makeGetReturnPolicyRevisionResponse.js';
-export { makeListReturnPoliciesResponse } from '../declarations/makeListReturnPoliciesResponse.js';
-export { makeReturnPolicy } from '../declarations/makeReturnPolicy.js';
-export { makeListReturnPolicyRevisionsResponse } from '../declarations/makeListReturnPolicyRevisionsResponse.js';
-export { makeReturnPolicyRevision } from '../declarations/makeReturnPolicyRevision.js';
-export { makePublishReturnPolicyRevisionResponse } from '../declarations/makePublishReturnPolicyRevisionResponse.js';
-export { makeUpdateReturnPolicyResponse } from '../declarations/makeUpdateReturnPolicyResponse.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeReturnRestockingFeePolicy } from '../declarations/makeReturnRestockingFeePolicy.js';
-export { makeReturnShippingPolicy } from '../declarations/makeReturnShippingPolicy.js';
-export { makeReturnWindow } from '../declarations/makeReturnWindow.js';
-export { makeReturnPolicyScope } from '../declarations/makeReturnPolicyScope.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly returnPolicies: ReturnPoliciesResource;
+}

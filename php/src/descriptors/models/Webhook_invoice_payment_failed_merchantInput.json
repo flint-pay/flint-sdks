@@ -1,1 +1,0 @@
-{"shared":"Webhook_invoice_payment_failed_merchant","dependencies":["MerchantWebhookEnvelope","MoneyValue","SharedCodec176","SharedCodec250","SharedCodec357","Webhook_invoice_payment_failed_merchant"]}

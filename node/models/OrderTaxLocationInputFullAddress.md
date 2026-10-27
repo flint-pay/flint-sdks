@@ -1,0 +1,16 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## OrderTaxLocationInputFullAddress
+
+A full-address tax location with an explicit address type of tax, billing, or shipping address.
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `address` | Required | [OrderTaxLocationFullAddressRequest](../models/OrderTaxLocationFullAddressRequest.md#ordertaxlocationfulladdressrequest) | A full street address you supply as an order's tax location. |
+| `address_source` | Optional | string | Where the tax address comes from. The only accepted value is provided, which is the default. Default: `"provided"`. Values: `"provided"`. |
+| `address_type` | Required | string | Values: `"tax_address"`, `"billing_address"`, `"shipping_address"`. |
+

@@ -1,9 +1,12 @@
-import { d1634 as c0, d1648 as c1, d1669 as c2, d1654 as c3, d1653 as c4, d1652 as c5, d1659 as c6, d1658 as c7, d1657 as c8, d1656 as c9, d1655 as c10, d1662 as c11, d1661 as c12, d1660 as c13, d1665 as c14, d1664 as c15, d1663 as c16, d1668 as c17, d1667 as c18, d1666 as c19 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d1669 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d4069 as c0 } from '../descriptors/data/173.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3997 as c1, d3998 as c3, d3999 as c4, d4000 as c5, d3996 as c6, d3993 as c7, d3994 as c8, d3995 as c9 } from '../descriptors/data/169.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d702 as c2 } from '../descriptors/data/30.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4095 as c10, d4096 as c11, d4097 as c12, d4098 as c13, d4099 as c14, d4100 as c15, d4101 as c16, d4102 as c17, d4103 as c18, d4104 as c19, d4105 as c20, d4106 as c21, d4107 as c22, d4108 as c23, d4109 as c24, d4110 as c25, d4111 as c26, d4112 as c27, d4113 as c28 } from '../descriptors/data/174.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d702 as d702 } from '../descriptors/data/30.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1669;
+const read = d702;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InventorySourceSystemRequest"]:c0(),["InventoryTransferProvenanceRequest"]:c1(),["InventoryTransferTransitionRequest"]:c2(),["SharedCodec411"]:c3(),["SharedCodec412"]:c4(),["SharedCodec413"]:c5(),["SharedCodec414"]:c6(),["SharedCodec415"]:c7(),["SharedCodec416"]:c8(),["SharedCodec417"]:c9(),["SharedCodec418"]:c10(),["SharedCodec419"]:c11(),["SharedCodec420"]:c12(),["SharedCodec421"]:c13(),["SharedCodec422"]:c14(),["SharedCodec423"]:c15(),["SharedCodec424"]:c16(),["SharedCodec425"]:c17(),["SharedCodec426"]:c18(),["SharedCodec427"]:c19()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InventoryProvenanceRequest"]:c0(),["InventorySourceSystemRequest"]:c1(),["InventoryTransferTransitionRequest"]:c2(),["SharedCodec142"]:c3(),["SharedCodec143"]:c4(),["SharedCodec144"]:c5(),["SharedCodec145"]:c6(),["SharedCodec832"]:c7(),["SharedCodec833"]:c8(),["SharedCodec834"]:c9(),["SharedCodec861"]:c10(),["SharedCodec862"]:c11(),["SharedCodec863"]:c12(),["SharedCodec864"]:c13(),["SharedCodec865"]:c14(),["SharedCodec866"]:c15(),["SharedCodec867"]:c16(),["SharedCodec868"]:c17(),["SharedCodec869"]:c18(),["SharedCodec870"]:c19(),["SharedCodec871"]:c20(),["SharedCodec872"]:c21(),["SharedCodec873"]:c22(),["SharedCodec874"]:c23(),["SharedCodec875"]:c24(),["SharedCodec876"]:c25(),["SharedCodec877"]:c26(),["SharedCodec878"]:c27(),["SharedCodec879"]:c28()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInventoryTransferTransitionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

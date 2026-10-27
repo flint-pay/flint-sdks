@@ -1,1 +1,1 @@
-{"shared":"IssueSandboxAPIKeyRequest","dependencies":["IssueSandboxAPIKeyRequest"]}
+{"shared":"IssueSandboxAPIKeyRequest","dependencies":["IssueSandboxAPIKeyRequest","SharedCodec0","SharedCodec1","SharedCodec52","SharedCodec53"]}

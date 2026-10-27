@@ -1,1 +1,1 @@
-{"shared":"CheckoutDeliveryPinnedDependency","dependencies":["CheckoutDeliveryPinnedDependency"]}
+{"shared":"CheckoutDeliveryPinnedDependency","dependencies":["CheckoutDeliveryPinnedDependency","ResourceReference","ResourceType","SharedCodec45"]}

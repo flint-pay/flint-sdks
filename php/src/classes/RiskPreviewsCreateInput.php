@@ -5,14 +5,10 @@ namespace Flint;
  * @property-read mixed $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class RiskPreviewsCreateInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'body': mixed}|object $values */
+    /** @param array{'body': mixed}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskPreviewsCreateInput')); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return mixed
+    /** Shape $ (Value): object and Alternative shapes (see declared variants). The request body for: Create a risk preview.
+     * @return mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): mixed { return $this->get('body'); }

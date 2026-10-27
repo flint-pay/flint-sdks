@@ -1,226 +1,535 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CreatePromotionCodeRequestInput } from '../declarations/CreatePromotionCodeRequestInput.js';
-import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-import type { Promotion } from '../declarations/Promotion.js';
-import type { PromotionApplicationMethodInput } from '../declarations/PromotionApplicationMethodInput.js';
-import type { PromotionCode } from '../declarations/PromotionCode.js';
-import type { PromotionCodeListResponse } from '../declarations/PromotionCodeListResponse.js';
-import type { PromotionCodeResponse } from '../declarations/PromotionCodeResponse.js';
-import type { PromotionCombinesWithInput } from '../declarations/PromotionCombinesWithInput.js';
-import type { PromotionExclusivityRequestInput } from '../declarations/PromotionExclusivityRequestInput.js';
-import type { PromotionListResponse } from '../declarations/PromotionListResponse.js';
-import type { PromotionRecurrenceInput } from '../declarations/PromotionRecurrenceInput.js';
-import type { PromotionResponse } from '../declarations/PromotionResponse.js';
-import type { PromotionRuleGroupInput } from '../declarations/PromotionRuleGroupInput.js';
-import type { PromotionRuleInput } from '../declarations/PromotionRuleInput.js';
-import type { PromotionRuleValueInput } from '../declarations/PromotionRuleValueInput.js';
-import type { PromotionScheduleInput } from '../declarations/PromotionScheduleInput.js';
-import type { PromotionsCreateCodeInput } from '../declarations/PromotionsCreateCodeInput.js';
-import type { PromotionsCreateCodeResponse } from '../declarations/PromotionsCreateCodeResponse.js';
-import type { PromotionsCreateInput } from '../declarations/PromotionsCreateInput.js';
-import type { PromotionsCreateResponse } from '../declarations/PromotionsCreateResponse.js';
-import type { PromotionsDeleteCodeInput } from '../declarations/PromotionsDeleteCodeInput.js';
-import type { PromotionsDeleteCodeResponse } from '../declarations/PromotionsDeleteCodeResponse.js';
-import type { PromotionsGetInput } from '../declarations/PromotionsGetInput.js';
-import type { PromotionsGetResponse } from '../declarations/PromotionsGetResponse.js';
-import type { PromotionsListCodesInput } from '../declarations/PromotionsListCodesInput.js';
-import type { PromotionsListCodesResponse } from '../declarations/PromotionsListCodesResponse.js';
-import type { PromotionsListInput } from '../declarations/PromotionsListInput.js';
-import type { PromotionsListResponse } from '../declarations/PromotionsListResponse.js';
-import type { PromotionsRemoveInput } from '../declarations/PromotionsRemoveInput.js';
-import type { PromotionsRemoveResponse } from '../declarations/PromotionsRemoveResponse.js';
-import type { PromotionsUpdateCodeInput } from '../declarations/PromotionsUpdateCodeInput.js';
-import type { PromotionsUpdateCodeResponse } from '../declarations/PromotionsUpdateCodeResponse.js';
-import type { PromotionsUpdateInput } from '../declarations/PromotionsUpdateInput.js';
-import type { PromotionsUpdateResponse } from '../declarations/PromotionsUpdateResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreatePromotionCodeRequestInput, CreatePromotionRequestInput } from '../declarations/types-8.js';
+import type { Promotion } from '../declarations/types-37.js';
+import type {
+    PromotionCode,
+    PromotionCodeListResponse,
+    PromotionCodeResponse,
+    PromotionListResponse,
+    PromotionResponse,
+    PromotionsCreateCodeInput,
+    PromotionsCreateInput,
+    PromotionsDeleteCodeInput,
+    PromotionsGetCodeInput,
+    PromotionsGetInput,
+    PromotionsListCodesInput,
+    PromotionsListInput,
+    PromotionsRemoveInput,
+    PromotionsUpdateCodeInput,
+    PromotionsUpdateInput
+} from '../declarations/types-38.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreatePromotionRequestInput, CreatePromotionCodeRequestInput } from '../declarations/types-8.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    Promotion,
+    PromotionApplicationMethodRequestInput,
+    PromotionAmountOffMethodRequestInput,
+    PromotionApplicationMethod,
+    PromotionAmountOffMethod,
+    PromotionBuyXGetYMethod,
+    PromotionApplicationMethodPatchInput
+} from '../declarations/types-37.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type {
+    PromotionResponse,
+    PromotionCode,
+    PromotionCodeResponse,
+    PromotionCodeListResponse,
+    PromotionListResponse,
+    PromotionsCreateInput,
+    PromotionsCreateCodeInput,
+    PromotionsRemoveInput,
+    PromotionsDeleteCodeInput,
+    PromotionsGetInput,
+    PromotionsGetCodeInput,
+    PromotionsListCodesInput,
+    PromotionsListInput,
+    PromotionsUpdateInput,
+    PromotionsUpdateCodeInput,
+    PromotionPercentOffMethodRequestInput,
+    PromotionRuleGroupRequestInput,
+    PromotionRuleRequestInput,
+    PromotionRuleValueRequestInput,
+    PromotionRecurrenceInput,
+    PromotionRecurrenceOnceInput,
+    PromotionRecurrenceRepeatingInput,
+    PromotionRecurrenceForeverInput,
+    PromotionBuyXGetYMethodRequestInput,
+    PromotionCombinesWithRequestInput,
+    PromotionExclusivityRequestInput,
+    PromotionScheduleInput,
+    PromotionPercentOffMethod,
+    PromotionRuleGroup,
+    PromotionRule,
+    PromotionRuleValue,
+    PromotionRecurrence,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionRecurrenceForever,
+    PromotionCodesSummary,
+    PromotionCombinesWith,
+    PromotionExclusivity,
+    PromotionSchedule,
+    PromotionCombinesWithPatchInput,
+    PromotionExclusivityPatchInput,
+    PromotionSchedulePatchInput,
+    PromotionCombinesWithPatch,
+    PromotionExclusivityRequest,
+    PromotionExclusivityPatch
+} from '../declarations/types-38.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { UpdatePromotionRequestInput, UpdatePromotionCodeRequestInput } from '../declarations/types-48.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export { makeCreatePromotionCodeRequest, makeCreatePromotionRequest } from '../declarations/types-64.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export {
+    makePromotionAmountOffMethodRequest,
+    makePromotionApplicationMethodPatch,
+    makePromotionApplicationMethodRequest,
+    makePromotionBuyXGetYMethodRequest,
+    makePromotionCombinesWithPatch,
+    makePromotionCombinesWithRequest,
+    makePromotionExclusivityPatch,
+    makePromotionExclusivityRequest,
+    makePromotionPercentOffMethodRequest,
+    makePromotionRecurrence,
+    makePromotionRecurrenceForever,
+    makePromotionRecurrenceOnce,
+    makePromotionRecurrenceRepeating,
+    makePromotionRuleGroupRequest
+} from '../declarations/types-69.js';
+export {
+    makePromotionRuleRequest,
+    makePromotionRuleValueRequest,
+    makePromotionSchedule,
+    makePromotionSchedulePatch
+} from '../declarations/types-70.js';
+export { makeUpdatePromotionCodeRequest, makeUpdatePromotionRequest } from '../declarations/types-72.js';
 export interface PromotionsResource {
     /**
  * Creates a promotion for the authenticated merchant.
+ * @see reference/promotions.md#promotionscreate
  * POST /v1/promotions
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.promotions.create({application_method: {percent_off: 1}, name: "example"}, { idempotencyKey: idempotencyKey })
+ * client.promotions.create({application_method: {type: "percent_off", percent_off: 1}, name:
+ * "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | (({ "type"?: "amount_off"; "amount_off_money": unknown; }) & ({ "max_discounted_quantity"?: never })) | (({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }) & ({ "max_discounted_quantity"?: never }))); }) & ({ "application_method": PromotionApplicationMethodInput; "codes"?: Array<CreatePromotionCodeRequestInput>; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityRequestInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string>; "name": string; "redemption_type"?: "automatic" | "code"; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PromotionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | (({ "type"?: "amount_off"; "amount_off_money": unknown; }) & ({ "max_discounted_quantity"?: never })) | (({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }) & ({ "max_discounted_quantity"?: never }))); }) & ({ "application_method": PromotionApplicationMethodInput; "codes"?: Array<CreatePromotionCodeRequestInput>; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityRequestInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string>; "name": string; "redemption_type"?: "automatic" | "code"; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionsCreateResponse>>;
+    create(params: (InputValue<CreatePromotionRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Promotion>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionscreate
+     */
+    createWithResponse(params: (InputValue<CreatePromotionRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionResponse>>;
     /**
- * Creates a code for a code-gated promotion.
+ * Creates a code for a code-gated promotion. An archived resource returns 409 ACTION_NOT_ALLOWED
+ * with reason archived and current_status archived. The error identifies the archived resource; a
+ * create under an archived parent identifies that parent.
+ * @see reference/promotions.md#promotionscreatecode
  * POST /v1/promotions/{promotion_id}/codes
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.promotions.createCode("example", {code: "example"}, { idempotencyKey: idempotencyKey })
  */
-    createCode(promotion_id: InputValue<string>, params: (InputValue<{ "code": string; "expires_at"?: string | globalThis.Date; "max_uses"?: string; "metadata"?: Record<string, string>; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PromotionCodeResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createCodeWithResponse(promotion_id: InputValue<string>, params: (InputValue<{ "code": string; "expires_at"?: string | globalThis.Date; "max_uses"?: string; "metadata"?: Record<string, string>; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionsCreateCodeResponse>>;
+    createCode(promotion_id: InputValue<string>, params: (InputValue<CreatePromotionCodeRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PromotionCode>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionscreatecode
+     */
+    createCodeWithResponse(promotion_id: InputValue<string>, params: (InputValue<CreatePromotionCodeRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionCodeResponse>>;
     /**
- * Archives a promotion and returns its final state.
+ * Archives a promotion and returns the resource exactly as GET returns it. Repeating DELETE
+ * returns 200 without changing version or updated_at, sending a webhook, or checking references.
+ * @see reference/promotions.md#promotionsremove
  * DELETE /v1/promotions/{promotion_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.promotions.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(promotion_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PromotionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(promotion_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionsRemoveResponse>>;
+    remove(promotion_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Promotion>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionsremove
+     */
+    removeWithResponse(promotion_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionResponse>>;
     /**
- * Deletes a promotion code.
+ * Archives a promotion code. The code remains readable with status archived. Returns the archived
+ * resource exactly as GET returns it. Repeating DELETE returns 200 without changing version or
+ * updated_at, sending a webhook, or checking references.
+ * @see reference/promotions.md#promotionsdeletecode
  * DELETE /v1/promotions/{promotion_id}/codes/{promotion_code_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.promotions.deleteCode("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PromotionCodeResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    deleteCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionsDeleteCodeResponse>>;
+    deleteCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PromotionCode>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionsdeletecode
+     */
+    deleteCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionCodeResponse>>;
     /**
  * Returns a single promotion by ID.
+ * @see reference/promotions.md#promotionsget
  * GET /v1/promotions/{promotion_id}
  * @example
  * client.promotions.get("example")
  */
-    get(promotion_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PromotionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(promotion_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionsGetResponse>>;
+    get(promotion_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Promotion>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionsget
+     */
+    getWithResponse(promotion_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionResponse>>;
     /**
- * Returns a paginated list of promotion codes in every status, ordered by created_at descending, then promotion_code_id descending. Deleted codes are excluded.
+ * Returns a single promotion code by promotion ID and code ID. Archived codes remain readable,
+ * including codes of an archived promotion. Returns 404 when the code does not exist or belongs to
+ * another promotion, merchant, or environment.
+ * @see reference/promotions.md#promotionsgetcode
+ * GET /v1/promotions/{promotion_id}/codes/{promotion_code_id}
+ * @example
+ * client.promotions.getCode("example", "example")
+ */
+    getCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PromotionCode>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionsgetcode
+     */
+    getCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionCodeResponse>>;
+    /**
+ * Returns a paginated list of promotion codes in every status, ordered by created_at descending,
+ * then promotion_code_id descending. Archived codes are excluded unless status=archived.
+ * @see reference/promotions.md#promotionslistcodes
  * GET /v1/promotion-codes
  * @example
  * client.promotions.listCodes()
  */
-    listCodes(params?: { "promotion_id"?: InputValue<string>; "code"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "expired" | "exhausted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "expand"?: InputValue<Array<"promotion">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PromotionCodeListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listCodesWithResponse(params?: { "promotion_id"?: InputValue<string>; "code"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "expired" | "exhausted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "expand"?: InputValue<Array<"promotion">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionsListCodesResponse>>;
-    listCodesPages(params?: { "promotion_id"?: InputValue<string>; "code"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "expired" | "exhausted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "expand"?: InputValue<Array<"promotion">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionCodeListResponse>;
-    listCodesPagesWithResponse(params?: { "promotion_id"?: InputValue<string>; "code"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "expired" | "exhausted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "expand"?: InputValue<Array<"promotion">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PromotionsListCodesResponse>>;
-    listCodesItems(params?: { "promotion_id"?: InputValue<string>; "code"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "expired" | "exhausted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "expand"?: InputValue<Array<"promotion">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionCode>;
+    listCodes(params?: {
+        "promotion_id"?: InputValue<string>;
+        "code"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available" | "inactive" | "expired" | "exhausted" | "promotion_unavailable">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"promotion">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PromotionCodeListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionslistcodes
+     */
+    listCodesWithResponse(params?: {
+        "promotion_id"?: InputValue<string>;
+        "code"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available" | "inactive" | "expired" | "exhausted" | "promotion_unavailable">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"promotion">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionCodeListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/promotions.md#promotionslistcodes
+     */
+    listCodesPages(params?: {
+        "promotion_id"?: InputValue<string>;
+        "code"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available" | "inactive" | "expired" | "exhausted" | "promotion_unavailable">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"promotion">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionCodeListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/promotions.md#promotionslistcodes
+     */
+    listCodesPagesWithResponse(params?: {
+        "promotion_id"?: InputValue<string>;
+        "code"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available" | "inactive" | "expired" | "exhausted" | "promotion_unavailable">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"promotion">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PromotionCodeListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/promotions.md#promotionslistcodes
+     */
+    listCodesItems(params?: {
+        "promotion_id"?: InputValue<string>;
+        "code"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available" | "inactive" | "expired" | "exhausted" | "promotion_unavailable">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"promotion">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionCode>;
     /**
  * Returns a paginated list of promotions for the authenticated merchant.
+ * @see reference/promotions.md#promotionslist
  * GET /v1/promotions
  * @example
  * client.promotions.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "expired" | "not_yet_started" | "exhausted" | "no_active_codes" | "archived">>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "product_id"?: InputValue<string>; "variant_id"?: InputValue<string>; "bundle_id"?: InputValue<string>; "category_handle"?: InputValue<string>; "redemption_type"?: InputValue<"automatic" | "code">; "discount_class"?: InputValue<"order" | "line_item" | "service_charge">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PromotionListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "expired" | "not_yet_started" | "exhausted" | "no_active_codes" | "archived">>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "product_id"?: InputValue<string>; "variant_id"?: InputValue<string>; "bundle_id"?: InputValue<string>; "category_handle"?: InputValue<string>; "redemption_type"?: InputValue<"automatic" | "code">; "discount_class"?: InputValue<"order" | "line_item" | "service_charge">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "expired" | "not_yet_started" | "exhausted" | "no_active_codes" | "archived">>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "product_id"?: InputValue<string>; "variant_id"?: InputValue<string>; "bundle_id"?: InputValue<string>; "category_handle"?: InputValue<string>; "redemption_type"?: InputValue<"automatic" | "code">; "discount_class"?: InputValue<"order" | "line_item" | "service_charge">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "expired" | "not_yet_started" | "exhausted" | "no_active_codes" | "archived">>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "product_id"?: InputValue<string>; "variant_id"?: InputValue<string>; "bundle_id"?: InputValue<string>; "category_handle"?: InputValue<string>; "redemption_type"?: InputValue<"automatic" | "code">; "discount_class"?: InputValue<"order" | "line_item" | "service_charge">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PromotionsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"active" | "inactive" | "expired" | "not_yet_started" | "exhausted" | "no_active_codes" | "archived">>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "product_id"?: InputValue<string>; "variant_id"?: InputValue<string>; "bundle_id"?: InputValue<string>; "category_handle"?: InputValue<string>; "redemption_type"?: InputValue<"automatic" | "code">; "discount_class"?: InputValue<"order" | "line_item" | "service_charge">; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Promotion>;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available"
+            | "inactive"
+            | "archived"
+            | "not_yet_started"
+            | "expired"
+            | "exhausted"
+            | "no_active_codes">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "product_id"?: InputValue<string>;
+        "variant_id"?: InputValue<string>;
+        "bundle_id"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "redemption_type"?: InputValue<Array<"automatic" | "code">>;
+        "discount_class"?: InputValue<Array<"order" | "line_item" | "service_charge">>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PromotionListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available"
+            | "inactive"
+            | "archived"
+            | "not_yet_started"
+            | "expired"
+            | "exhausted"
+            | "no_active_codes">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "product_id"?: InputValue<string>;
+        "variant_id"?: InputValue<string>;
+        "bundle_id"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "redemption_type"?: InputValue<Array<"automatic" | "code">>;
+        "discount_class"?: InputValue<Array<"order" | "line_item" | "service_charge">>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/promotions.md#promotionslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available"
+            | "inactive"
+            | "archived"
+            | "not_yet_started"
+            | "expired"
+            | "exhausted"
+            | "no_active_codes">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "product_id"?: InputValue<string>;
+        "variant_id"?: InputValue<string>;
+        "bundle_id"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "redemption_type"?: InputValue<Array<"automatic" | "code">>;
+        "discount_class"?: InputValue<Array<"order" | "line_item" | "service_charge">>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/promotions.md#promotionslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available"
+            | "inactive"
+            | "archived"
+            | "not_yet_started"
+            | "expired"
+            | "exhausted"
+            | "no_active_codes">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "product_id"?: InputValue<string>;
+        "variant_id"?: InputValue<string>;
+        "bundle_id"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "redemption_type"?: InputValue<Array<"automatic" | "code">>;
+        "discount_class"?: InputValue<Array<"order" | "line_item" | "service_charge">>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PromotionListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/promotions.md#promotionslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "availability"?: InputValue<Array<"available"
+            | "inactive"
+            | "archived"
+            | "not_yet_started"
+            | "expired"
+            | "exhausted"
+            | "no_active_codes">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "product_id"?: InputValue<string>;
+        "variant_id"?: InputValue<string>;
+        "bundle_id"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "redemption_type"?: InputValue<Array<"automatic" | "code">>;
+        "discount_class"?: InputValue<Array<"order" | "line_item" | "service_charge">>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Promotion>;
     /**
- * Applies a sparse update to promotion fields.
+ * Applies a sparse update to promotion fields. application_method, schedule, and exclusivity patch
+ * by subfield presence. Omitted fields retain stored values; null clears only nullable fields.
+ * Sending a different application_method.type replaces the effect while preserving omitted shared
+ * settings, including discounted_item_rules. Archived promotions cannot be changed. An archived
+ * resource returns 409 ACTION_NOT_ALLOWED with reason archived and current_status archived. The
+ * error identifies the archived resource; a create under an archived parent identifies that
+ * parent.
+ * @see reference/promotions.md#promotionsupdate
  * PATCH /v1/promotions/{promotion_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.promotions.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(promotion_id: InputValue<string>, params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | (({ "type"?: "amount_off"; "amount_off_money": unknown; }) & ({ "max_discounted_quantity"?: never })) | (({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }) & ({ "max_discounted_quantity"?: never }))); }) & ({ "application_method"?: PromotionApplicationMethodInput; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityRequestInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; "status"?: "active" | "inactive"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PromotionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(promotion_id: InputValue<string>, params: (InputValue<({ "application_method"?: (({ "allocation"?: "each" | "across"; "amount_off_money"?: MoneyValueInput; "applies_to"?: never; "buy_min_quantity"?: number; "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax"; "currency_options"?: Record<string, MoneyValueInput>; "discounted_item_rules"?: PromotionRuleGroupInput; "get_percent_off"?: number; "get_quantity"?: number; "max_applications_per_order"?: number; "max_discounted_quantity"?: number; "percent_off"?: number; "qualifying_item_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "recurrence"?: PromotionRecurrenceInput; "reward_selection"?: "cheapest" | "highest_price" | "first_added"; "type"?: "percent_off" | "amount_off" | "buy_x_get_y"; }) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | ({ "type"?: "amount_off"; "amount_off_money": unknown; }) | ({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }))) & (({ "type"?: "percent_off"; "percent_off": unknown; }) | (({ "type"?: "amount_off"; "amount_off_money": unknown; }) & ({ "max_discounted_quantity"?: never })) | (({ "type"?: "buy_x_get_y"; "qualifying_item_rules": unknown; "buy_min_quantity": unknown; "discounted_item_rules": unknown; "get_quantity": unknown; "get_percent_off": unknown; }) & ({ "max_discounted_quantity"?: never }))); }) & ({ "application_method"?: PromotionApplicationMethodInput; "combines_with"?: PromotionCombinesWithInput; "description"?: string; "discount_class"?: "order" | "line_item" | "service_charge"; "display_name"?: string; "eligibility_rules"?: ((Array<PromotionRuleInput>) | ({ "all": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; }) | ({ "any": Array<(({ "attribute": string; "currency_options"?: Record<string, MoneyValueInput>; "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined"; "values"?: Array<PromotionRuleValueInput>; }) | (PromotionRuleGroupInput))>; })); "exclusivity"?: PromotionExclusivityRequestInput; "external_reference_id"?: string; "max_uses"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; "schedule"?: PromotionScheduleInput; "stacking_mode"?: "continue" | "stop_after"; "status"?: "active" | "inactive"; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionsUpdateResponse>>;
+    update(promotion_id: InputValue<string>, params: (InputValue<UpdatePromotionRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Promotion>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionsupdate
+     */
+    updateWithResponse(promotion_id: InputValue<string>, params: (InputValue<UpdatePromotionRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionResponse>>;
     /**
- * Applies a sparse update to a promotion code.
+ * Applies a sparse update to a promotion code. An archived resource returns 409 ACTION_NOT_ALLOWED
+ * with reason archived and current_status archived. The error identifies the archived resource; a
+ * create under an archived parent identifies that parent.
+ * @see reference/promotions.md#promotionsupdatecode
  * PATCH /v1/promotions/{promotion_id}/codes/{promotion_code_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.promotions.updateCode("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    updateCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params: (InputValue<{ "expires_at"?: string | globalThis.Date; "max_uses"?: string; "metadata"?: Record<string, string | null> | null; "status"?: "active" | "inactive"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PromotionCodeResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params: (InputValue<{ "expires_at"?: string | globalThis.Date; "max_uses"?: string; "metadata"?: Record<string, string | null> | null; "status"?: "active" | "inactive"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionsUpdateCodeResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly promotions: PromotionsResource;
+    updateCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params: (InputValue<UpdatePromotionCodeRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PromotionCode>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/promotions.md#promotionsupdatecode
+     */
+    updateCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params: (InputValue<UpdatePromotionCodeRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionCodeResponse>>;
 }
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { PromotionRuleGroupInput } from '../declarations/PromotionRuleGroupInput.js';
-export type { PromotionRuleInput } from '../declarations/PromotionRuleInput.js';
-export type { PromotionRuleValueInput } from '../declarations/PromotionRuleValueInput.js';
-export type { PromotionRecurrenceInput } from '../declarations/PromotionRecurrenceInput.js';
-export type { PromotionApplicationMethodInput } from '../declarations/PromotionApplicationMethodInput.js';
-export type { CreatePromotionCodeRequestInput } from '../declarations/CreatePromotionCodeRequestInput.js';
-export type { PromotionCombinesWithInput } from '../declarations/PromotionCombinesWithInput.js';
-export type { PromotionExclusivityRequestInput } from '../declarations/PromotionExclusivityRequestInput.js';
-export type { PromotionScheduleInput } from '../declarations/PromotionScheduleInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { PromotionResponse } from '../declarations/PromotionResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { PromotionsCreateResponse } from '../declarations/PromotionsCreateResponse.js';
-export type { PromotionCodeResponse } from '../declarations/PromotionCodeResponse.js';
-export type { PromotionsCreateCodeResponse } from '../declarations/PromotionsCreateCodeResponse.js';
-export type { PromotionsRemoveResponse } from '../declarations/PromotionsRemoveResponse.js';
-export type { PromotionsDeleteCodeResponse } from '../declarations/PromotionsDeleteCodeResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { PromotionsGetResponse } from '../declarations/PromotionsGetResponse.js';
-export type { PromotionCodeListResponse } from '../declarations/PromotionCodeListResponse.js';
-export type { PromotionsListCodesResponse } from '../declarations/PromotionsListCodesResponse.js';
-export type { PromotionCode } from '../declarations/PromotionCode.js';
-export type { PromotionListResponse } from '../declarations/PromotionListResponse.js';
-export type { PromotionsListResponse } from '../declarations/PromotionsListResponse.js';
-export type { Promotion } from '../declarations/Promotion.js';
-export type { PromotionsUpdateResponse } from '../declarations/PromotionsUpdateResponse.js';
-export type { PromotionsUpdateCodeResponse } from '../declarations/PromotionsUpdateCodeResponse.js';
-export type { PromotionsCreateInput } from '../declarations/PromotionsCreateInput.js';
-export type { PromotionsCreateCodeInput } from '../declarations/PromotionsCreateCodeInput.js';
-export type { PromotionsRemoveInput } from '../declarations/PromotionsRemoveInput.js';
-export type { PromotionsDeleteCodeInput } from '../declarations/PromotionsDeleteCodeInput.js';
-export type { PromotionsGetInput } from '../declarations/PromotionsGetInput.js';
-export type { PromotionsListCodesInput } from '../declarations/PromotionsListCodesInput.js';
-export type { PromotionsListInput } from '../declarations/PromotionsListInput.js';
-export type { PromotionsUpdateInput } from '../declarations/PromotionsUpdateInput.js';
-export type { PromotionsUpdateCodeInput } from '../declarations/PromotionsUpdateCodeInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { PromotionApplicationMethod } from '../declarations/PromotionApplicationMethod.js';
-export type { PromotionRuleGroup } from '../declarations/PromotionRuleGroup.js';
-export type { PromotionRule } from '../declarations/PromotionRule.js';
-export type { PromotionRuleValue } from '../declarations/PromotionRuleValue.js';
-export type { PromotionRecurrence } from '../declarations/PromotionRecurrence.js';
-export type { PromotionCodesSummary } from '../declarations/PromotionCodesSummary.js';
-export type { PromotionCombinesWith } from '../declarations/PromotionCombinesWith.js';
-export type { PromotionExclusivity } from '../declarations/PromotionExclusivity.js';
-export type { PromotionSchedule } from '../declarations/PromotionSchedule.js';
-export type { UpdatePromotionCodeRequestInput } from '../declarations/UpdatePromotionCodeRequestInput.js';
-export { makePromotionResponse } from '../declarations/makePromotionResponse.js';
-export { makePromotionCodeResponse } from '../declarations/makePromotionCodeResponse.js';
-export { makePromotionCodeListResponse } from '../declarations/makePromotionCodeListResponse.js';
-export { makePromotionCode } from '../declarations/makePromotionCode.js';
-export { makePromotionListResponse } from '../declarations/makePromotionListResponse.js';
-export { makePromotion } from '../declarations/makePromotion.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makePromotionApplicationMethod } from '../declarations/makePromotionApplicationMethod.js';
-export { makePromotionRuleGroup } from '../declarations/makePromotionRuleGroup.js';
-export { makePromotionRule } from '../declarations/makePromotionRule.js';
-export { makePromotionRuleValue } from '../declarations/makePromotionRuleValue.js';
-export { makePromotionRecurrence } from '../declarations/makePromotionRecurrence.js';
-export { makePromotionCodesSummary } from '../declarations/makePromotionCodesSummary.js';
-export { makePromotionCombinesWith } from '../declarations/makePromotionCombinesWith.js';
-export { makePromotionExclusivity } from '../declarations/makePromotionExclusivity.js';
-export { makePromotionSchedule } from '../declarations/makePromotionSchedule.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly promotions: PromotionsResource;
+}

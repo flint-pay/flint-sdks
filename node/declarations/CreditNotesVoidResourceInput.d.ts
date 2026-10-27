@@ -1,4 +1,0 @@
-import type { InputValue } from '../runtime.js';
-import type { ResourceVersionRequestInput } from './ResourceVersionRequestInput.js';
-
-export type CreditNotesVoidResourceInput = { "credit_note_id": InputValue<string>; "Idempotency-Key"?: InputValue<string>; "body"?: InputValue<ResourceVersionRequestInput>; };

@@ -8,12 +8,14 @@ namespace Flint;
 final class PromotionRefRequestInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionRefRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Human-entered promotion code. Use this when redeeming a campaign code. minLength: 1.
+     * @return string
      * @throws SdkError When promotion_code is omitted; use hasPromotionCode() or valueOrDefault().
      */
     public function getPromotionCode(): string { return $this->get('promotion_code'); }
     public function hasPromotionCode(): bool { return $this->has('promotion_code'); }
-    /** @return string
+    /** Shape $ (Value): string. Use `promotion_id` for server-side apply flows where you already know the promotion, including code-gated promotions, which then apply without a code and count only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`. minLength: 1.
+     * @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */
     public function getPromotionId(): string { return $this->get('promotion_id'); }

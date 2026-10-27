@@ -16,6 +16,8 @@ test("Node and PHP support apiKey, direct payloads, and full response access", a
     payment_options: ["card"],
     status: "succeeded",
     support_reference: "support_test",
+    metadata: {},
+    supported_actions: [],
     // The contract requires both fields; the API sends null when they do not apply.
     risk: null,
     last_payment_error: null,
@@ -23,19 +25,33 @@ test("Node and PHP support apiKey, direct payloads, and full response access", a
   const server = createServer((req, res) => {
     assert.equal(req.url, "/v1/payment-intents/pi_shortcut_test");
     authorizations.push(req.headers.authorization);
-    res.writeHead(200, { "content-type": "application/json", "x-request-id": "req_shortcut_test" });
+    res.writeHead(200, {
+      "content-type": "application/json",
+      "x-request-id": "req_shortcut_test",
+    });
     res.end(JSON.stringify({ data: payload, request_id: "req_shortcut_test" }));
   });
-  await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
-  t.after(() => { server.closeAllConnections(); server.close(); });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  t.after(() => {
+    server.closeAllConnections();
+    server.close();
+  });
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
-  const client = new Client({ baseUrl, allowInsecureHttp: true, apiKey: "client-test-key" });
+  const client = new Client({
+    baseUrl,
+    allowInsecureHttp: true,
+    apiKey: "client-test-key",
+  });
   const input = { payment_intent_id: payload.payment_intent_id };
   const payment = await client.paymentIntents.get(input.payment_intent_id);
   assert.equal(payment.payment_intent_id, payload.payment_intent_id);
   assert.equal(payment.amount_money.amount, "100");
   assert.equal(payment.data, undefined);
-  const response = await client.paymentIntents.getWithResponse(input.payment_intent_id, {}, { apiKey: "request-test-key" });
+  const response = await client.paymentIntents.getWithResponse(
+    input.payment_intent_id,
+    {},
+    { apiKey: "request-test-key" },
+  );
   assert.equal(response.body.data.payment_intent_id, payload.payment_intent_id);
   assert.equal(response.meta.requestId, "req_shortcut_test");
   assert.deepEqual(JSON.parse(response.raw).data, payload);
@@ -53,6 +69,14 @@ if ($response->meta['requestId'] !== 'req_shortcut_test') throw new \RuntimeExce
 if (json_decode($response->raw, true)['data']['payment_intent_id'] !== 'pi_shortcut_test') throw new \RuntimeException('Missing raw response');
 $client->close();
 `;
-  await exec("php", ["-r", php, baseUrl], { cwd: new URL("..", import.meta.url), timeout: 30000 });
-  assert.deepEqual(authorizations, ["Bearer client-test-key", "Bearer request-test-key", "Bearer client-test-key", "Bearer request-test-key"]);
+  await exec("php", ["-r", php, baseUrl], {
+    cwd: new URL("..", import.meta.url),
+    timeout: 30000,
+  });
+  assert.deepEqual(authorizations, [
+    "Bearer client-test-key",
+    "Bearer request-test-key",
+    "Bearer client-test-key",
+    "Bearer request-test-key",
+  ]);
 });

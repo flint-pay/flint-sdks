@@ -1,0 +1,82 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## SubscriptionPreviewsCreateResponse200
+
+The response for: Preview subscription.
+
+Response model.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `data` | Required | Alternative shapes (see declared variants) | `data`: [declared alternatives](../models/SubscriptionPreviewsCreateResponse200.md#subscriptionpreviewscreateresponse200data). |
+| `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
+| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+### SubscriptionPreviewsCreateResponse200.data
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `address_verification` | Conditional | [SubscriptionAddressVerification](../models/SubscriptionAddressVerification.md#subscriptionaddressverification) | The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`. |
+| `currency` | Conditional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
+| `delivery_methods` | Conditional | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Present in delivery_options mode ([] when no method applies); absent in create mode. |
+| `destination_address` | Conditional | [Address](../models/Address.md#address) | A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. `destination_address`: [field definitions](../models/CustomersCreateResponse200.md#customerscreateresponse200databilling_address). |
+| `errors` | Conditional | Array of [SubscriptionPreviewError](../models/SubscriptionPreviewError.md#subscriptionpreviewerror) | Present in create mode ([] when the subscription is valid); absent in delivery_options mode. |
+| `is_valid` | Conditional | boolean | Present in create mode; absent in delivery_options mode. |
+| `mode` | Required | string |  |
+| `subscription_id` | Conditional | string |  |
+| `delivery_method_id` | Conditional | string |  |
+| `no_longer_eligible_counts` | Conditional | [SubscriptionCounts](../models/SubscriptionCounts.md#subscriptioncounts) | Counts of subscriptions by status: active, past due, and paused. |
+| `subscription_counts` | Conditional | [SubscriptionCounts](../models/SubscriptionCounts.md#subscriptioncounts) | Counts of subscriptions by status: active, past due, and paused. |
+| `renewal` | Conditional | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax. `renewal`: [field definitions](../models/MeCreateSubscriptionPreviewResponse200.md#mecreatesubscriptionpreviewresponse200data-variant-2renewal). |
+| `billing_interval` | Conditional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Conditional | integer | Format: `int32`. |
+| `billing_starts` | Conditional | string | Values: `"now"`, `"next_renewal"`. |
+| `credit_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Unused paid item time credited when billing_starts is now; null for next_renewal. |
+| `quantity` | Conditional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
+| `recurring_subtotal_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `subscription_plan_id` | Conditional | string |  |
+
+### SubscriptionPreviewsCreateResponse200.data variant 1
+
+oneOf variant 1: A preview of a subscription. In `create` mode it reports validity and errors; in `delivery_options` mode it lists delivery methods..
+
+- Optional: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `errors`, `is_valid`, `subscription_id`.
+- Undeclared: `delivery_method_id`, `no_longer_eligible_counts`, `subscription_counts`, `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`.
+- Constraints for `mode`: Values: `"create"`, `"delivery_options"`.
+
+### SubscriptionPreviewsCreateResponse200.data variant 2: `mode` = `"delivery_method_update"`
+
+oneOf variant 2: How a delivery method change affects subscriptions: current counts and how many would no longer be eligible..
+
+- Required: `delivery_method_id`, `no_longer_eligible_counts`, `subscription_counts`.
+- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `errors`, `is_valid`, `subscription_id`, `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`.
+- Constraints for `mode`: Values: `"delivery_method_update"`.
+
+### SubscriptionPreviewsCreateResponse200.data variant 3: `mode` = `"next_renewal"`
+
+oneOf variant 3: A preview of a subscription's next renewal and its estimated pricing..
+
+- Required: `renewal`, `subscription_id`.
+- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `errors`, `is_valid`, `delivery_method_id`, `no_longer_eligible_counts`, `subscription_counts`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`.
+- Constraints for `mode`: Values: `"next_renewal"`.
+
+### SubscriptionPreviewsCreateResponse200.data variant 4: `mode` = `"plan_change"`
+
+oneOf variant 4: Estimated pricing for a subscription plan change, including the recurring item subtotal and renewal amounts..
+
+- Required: `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`, `subscription_plan_id`.
+- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `errors`, `is_valid`, `delivery_method_id`, `no_longer_eligible_counts`, `subscription_counts`.
+- Constraints for `mode`: Values: `"plan_change"`.
+
+### SubscriptionPreviewsCreateResponse200.data variant 1.destination_address
+
+Field definitions: [CustomersCreateResponse200.data.billing_address](../models/CustomersCreateResponse200.md#customerscreateresponse200databilling_address).
+
+### SubscriptionPreviewsCreateResponse200.data variant 3.renewal
+
+Field definitions: [MeCreateSubscriptionPreviewResponse200.data variant 2.renewal](../models/MeCreateSubscriptionPreviewResponse200.md#mecreatesubscriptionpreviewresponse200data-variant-2renewal).
+
+### SubscriptionPreviewsCreateResponse200.data variant 4.renewal
+
+Field definitions: [MeCreateSubscriptionPreviewResponse200.data variant 2.renewal](../models/MeCreateSubscriptionPreviewResponse200.md#mecreatesubscriptionpreviewresponse200data-variant-2renewal).
+

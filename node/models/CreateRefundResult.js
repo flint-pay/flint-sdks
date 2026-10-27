@@ -1,9 +1,0 @@
-import { d136 as c0, d435 as c1, d90 as c2, d42 as c3, d100 as c4, d323 as c5, d2013 as c6, d2014 as c7, d2015 as c8, d2017 as c9, d2056 as c10, d433 as c11, d2127 as c12, d2129 as c13, d2130 as c14, d2132 as c15, d2134 as c16, d2136 as c17, d2137 as c18, d2138 as c19, d2141 as c20, d2143 as c21, d2148 as c22, d2334 as c23, d2340 as c24, d434 as c25, d91 as c26, d92 as c27, d101 as c28, d753 as c29, d2034 as c30 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d435 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d435;
-let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CategoryReference"]:c0(),["CreateRefundResult"]:c1(),["ExpandedCustomerSummary"]:c2(),["ExpandedOrderSummary"]:c3(),["ExpandedPaymentIntentSummary"]:c4(),["MoneyValue"]:c5(),["PaymentRefund"]:c6(),["PaymentSourceAchDebitSummary"]:c7(),["PaymentSourceCardSummary"]:c8(),["PaymentSourceSummary"]:c9(),["PricingAmounts"]:c10(),["Refund"]:c11(),["RefundAdjustmentReason"]:c12(),["RefundGiftCardCode"]:c13(),["RefundGiftCardDestination"]:c14(),["RefundLineItemAdjustment"]:c15(),["RefundLineItemAdjustmentRefund"]:c16(),["RefundLineItemAllocation"]:c17(),["RefundLineItemAutomaticRefund"]:c18(),["RefundLineItemModifierAllocation"]:c19(),["RefundTaxBreakdownRefund"]:c20(),["RefundTenderAllocation"]:c21(),["RefundUnissuedGiftCardRecovery"]:c22(),["SelectedProductOption"]:c23(),["SettlementAmounts"]:c24(),["SharedCodec146"]:c25(),["SharedCodec16"]:c26(),["SharedCodec17"]:c27(),["SharedCodec18"]:c28(),["SharedCodec228"]:c29(),["SignedMoney"]:c30()}); }
-export { codec as _validate };
-import { modelFromCodec } from '../runtime.js';
-export function makeCreateRefundResult(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

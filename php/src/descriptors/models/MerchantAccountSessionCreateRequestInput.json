@@ -1,1 +1,1 @@
-{"shared":"MerchantAccountSessionCreateRequest","dependencies":["MerchantAccountSessionCreateRequest"]}
+{"shared":"MerchantAccountSessionCreateRequest","dependencies":["MerchantAccountSessionCreateRequest","SharedCodec956","SharedCodec957"]}

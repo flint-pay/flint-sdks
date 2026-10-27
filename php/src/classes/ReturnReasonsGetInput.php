@@ -7,7 +7,8 @@ namespace Flint;
 final class ReturnReasonsGetInput extends Model {
     /** @param array{'return_reason_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReasonsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */
     public function getReturnReasonId(): string { return $this->get('return_reason_id'); }

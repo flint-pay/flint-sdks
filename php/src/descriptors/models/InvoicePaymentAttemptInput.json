@@ -1,1 +1,1 @@
-{"shared":"InvoicePaymentAttempt","dependencies":["InvoicePaymentAttempt","MoneyValue"]}
+{"shared":"InvoicePaymentAttempt","dependencies":["ErrorRemediation","InvoicePaymentAttempt","MoneyValue","NextAction","NextActionMerchantAccountSession","PaymentErrorSummary","SharedCodec1","SharedCodec23","SharedCodec26","SharedCodec963"]}

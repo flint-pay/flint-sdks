@@ -9,17 +9,20 @@ namespace Flint;
 final class DeliveryPickupAvailabilityLocationSummaryInput extends Model {
     /** @param array{'address'?: DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass, 'location_id': string, 'name': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityLocationSummaryInput')); }
-    /** @return DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryAddressResourceInput}. An address as returned on delivery quotes, selections, previews, and pickup locations.
+     * @return DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }

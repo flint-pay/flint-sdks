@@ -1,65 +1,68 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CreateOrderDiscountInput } from '../declarations/CreateOrderDiscountInput.js';
-import type { DiscountPreviewResponse } from '../declarations/DiscountPreviewResponse.js';
-import type { DiscountPreviewsCreateInput } from '../declarations/DiscountPreviewsCreateInput.js';
-import type { DiscountPreviewsCreateResponse } from '../declarations/DiscountPreviewsCreateResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    DiscountPreview,
+    DiscountPreviewRequestInput,
+    DiscountPreviewResponse,
+    DiscountPreviewsCreateInput
+} from '../declarations/types-16.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type {
+    DiscountPreviewRequestInput,
+    DiscountPreview,
+    DiscountPreviewResponse,
+    DiscountPreviewsCreateInput
+} from '../declarations/types-16.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { CreateOrderDiscountInput } from '../declarations/types-7.js';
+export type { ManualDiscountRequestInput } from '../declarations/types-29.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { PromotionRefRequestInput, PromotionCandidate, PromotionCombinesWith, PromotionExclusivity } from '../declarations/types-38.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export { makeCreateOrderDiscount } from '../declarations/types-64.js';
+export { makeDiscountPreviewRequest } from '../declarations/types-66.js';
+export { makeManualDiscountRequest, makeMoneyValue } from '../declarations/types-68.js';
+export { makePromotionRefRequest } from '../declarations/types-69.js';
 export interface DiscountPreviewsResource {
     /**
- * Evaluates promotion outcomes for an order without changing it. Returns the complete result inside data, without creating a resource or requiring an idempotency key. Use `promotion_id` for server-side apply flows where you already know the promotion, including code-gated promotions, which then apply without a code and count only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`. The response includes applied, skipped, and single-threshold available promotion candidates.
+ * Evaluates promotion outcomes for an order without changing it. Returns the complete result
+ * inside data, without creating a resource or requiring an idempotency key. Use `promotion_id` for
+ * server-side apply flows where you already know the promotion, including code-gated promotions,
+ * which then apply without a code and count only toward the promotion's `max_uses`. Checkout
+ * credentials must use `promotion_code`. The response includes applied, skipped, and
+ * single-threshold available promotion candidates.
+ * @see reference/discountPreviews.md#discountpreviewscreate
  * POST /v1/discount-previews
  * @example
  * client.discountPreviews.create({order_id: "example"})
  */
-    create(params: (InputValue<{ "discount"?: CreateOrderDiscountInput; "order_id": string; }>) & { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DiscountPreviewResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "discount"?: CreateOrderDiscountInput; "order_id": string; }>) & { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<DiscountPreviewsCreateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly discountPreviews: DiscountPreviewsResource;
+    create(params: (InputValue<DiscountPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<DiscountPreview>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/discountPreviews.md#discountpreviewscreate
+     */
+    createWithResponse(params: (InputValue<DiscountPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<DiscountPreviewResponse>>;
 }
-export type { CreateOrderDiscountInput } from '../declarations/CreateOrderDiscountInput.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { DiscountPreviewResponse } from '../declarations/DiscountPreviewResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { DiscountPreviewsCreateResponse } from '../declarations/DiscountPreviewsCreateResponse.js';
-export type { DiscountPreviewsCreateInput } from '../declarations/DiscountPreviewsCreateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { ManualDiscountRequestInput } from '../declarations/ManualDiscountRequestInput.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { PromotionRefRequestInput } from '../declarations/PromotionRefRequestInput.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { DiscountPreview } from '../declarations/DiscountPreview.js';
-export type { PromotionCandidate } from '../declarations/PromotionCandidate.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { PromotionCombinesWith } from '../declarations/PromotionCombinesWith.js';
-export type { PromotionExclusivity } from '../declarations/PromotionExclusivity.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { DiscountPreviewRequestInput } from '../declarations/DiscountPreviewRequestInput.js';
-export type { ApplyDiscountRequestInput } from '../declarations/ApplyDiscountRequestInput.js';
-export { makeDiscountPreviewResponse } from '../declarations/makeDiscountPreviewResponse.js';
-export { makeDiscountPreview } from '../declarations/makeDiscountPreview.js';
-export { makePromotionCandidate } from '../declarations/makePromotionCandidate.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makePromotionCombinesWith } from '../declarations/makePromotionCombinesWith.js';
-export { makePromotionExclusivity } from '../declarations/makePromotionExclusivity.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly discountPreviews: DiscountPreviewsResource;
+}

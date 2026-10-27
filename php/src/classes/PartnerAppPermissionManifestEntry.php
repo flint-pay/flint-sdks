@@ -3,36 +3,36 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $description
- * @property-read bool $optional
+ * @property-read ?bool $optional
  * @property-read string $permission_id
  * @property-read list<string> $required_scopes
  * @property-read string $title
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppPermissionManifestEntry extends Model {
     /** @param array{'description': string, 'optional'?: bool, 'permission_id': string, 'required_scopes': list<string>, 'title': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppPermissionManifestEntry')); }
-    /** @return string
-     * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** @return bool
-     * @throws SdkError When optional is omitted; use hasOptional() or valueOrDefault().
+    /** Shape $ (Value): boolean.
+     * @return ?bool
      */
-    public function getOptional(): bool { return $this->get('optional'); }
+    public function getOptional(): ?bool { return $this->get('optional'); }
     public function hasOptional(): bool { return $this->has('optional'); }
-    /** @return string
-     * @throws SdkError When permission_id is omitted; use hasPermissionId() or valueOrDefault().
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      */
     public function getPermissionId(): string { return $this->get('permission_id'); }
     public function hasPermissionId(): bool { return $this->has('permission_id'); }
-    /** @return list<string>
-     * @throws SdkError When required_scopes is omitted; use hasRequiredScopes() or valueOrDefault().
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
+     * @return list<string>
      */
     public function getRequiredScopes(): array { return $this->get('required_scopes'); }
     public function hasRequiredScopes(): bool { return $this->has('required_scopes'); }
-    /** @return string
-     * @throws SdkError When title is omitted; use hasTitle() or valueOrDefault().
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      */
     public function getTitle(): string { return $this->get('title'); }
     public function hasTitle(): bool { return $this->has('title'); }

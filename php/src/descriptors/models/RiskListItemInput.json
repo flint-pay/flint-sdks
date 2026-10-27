@@ -1,1 +1,1 @@
-{"shared":"RiskListItem","dependencies":["RiskListItem"]}
+{"shared":"RiskListItem","dependencies":["ResourceReference","ResourceType","RiskListItem","SharedCodec45"]}

@@ -1,0 +1,1 @@
+{"shared":"InvoicePaymentOptionCostComparison","phpRepresentation":{"kind":"record","fields":{"compared_with_payment_option":{"kind":"value","type":"string"},"estimated_savings_money":{"kind":"entity","name":"MoneyValue"},"lower_cost_payment_option":{"kind":"value","type":"string"}}},"dependencies":["InvoicePaymentOptionCostComparison","MoneyValue"]}

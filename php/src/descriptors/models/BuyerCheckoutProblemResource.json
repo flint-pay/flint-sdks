@@ -1,0 +1,1 @@
+{"shared":"BuyerCheckoutProblemResource","phpRepresentation":{"kind":"record","fields":{"blocks_completion":{"kind":"value","type":"bool"},"code":{"kind":"value","type":"string"},"remediation":{"kind":"entity","name":"BuyerErrorRemediation"},"severity":{"kind":"value","type":"string"}}},"dependencies":["BuyerCheckoutProblemResource","BuyerErrorRemediation"]}

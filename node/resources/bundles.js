@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/bundles.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/bundles.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createBundle"]:r0,["deleteBundle"]:r0,["getBundle"]:r0,["listBundleComponents"]:r0,["listBundles"]:r0,["updateBundle"]:r0});
 export class Client {
@@ -13,32 +13,28 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.bundles = Object.freeze({
       create: async (params, options) => this.#runtime.request("createBundle", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createBundle", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createBundle", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (bundle_id, params, options) => this.#runtime.request("deleteBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteBundle", result, path))),
       removeWithResponse: async (bundle_id, params, options) => this.#runtime.request("deleteBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (bundle_id, params, options) => this.#runtime.request("getBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getBundle", result, path))),
       getWithResponse: async (bundle_id, params, options) => this.#runtime.request("getBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
@@ -51,7 +47,7 @@ this.bundles = Object.freeze({
   "page_token",
   "delivery_profile_id",
   "delivery_configuration_status"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listBundleComponents", result, path))),
       listComponentsWithResponse: async (bundle_id, params, options) => this.#runtime.request("listBundleComponents", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
@@ -67,7 +63,7 @@ this.bundles = Object.freeze({
   "page_token",
   "delivery_profile_id",
   "delivery_configuration_status"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listBundleComponents", result, path)),
       listComponentsPagesWithResponse: (bundle_id, params, options) => _sdkResponsePages(this.#runtime.pages("listBundleComponents", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
@@ -95,8 +91,13 @@ this.bundles = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listBundles", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listBundles", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -108,7 +109,12 @@ this.bundles = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listBundles", _sdkRequestInput([], [], [
   "page_size",
@@ -121,8 +127,13 @@ this.bundles = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
-], false, false, params), options), []),
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listBundles", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listBundles", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -134,7 +145,12 @@ this.bundles = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listBundles", _sdkRequestInput([], [], [
   "page_size",
@@ -147,44 +163,32 @@ this.bundles = Object.freeze({
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options),
       update: async (bundle_id, params, options) => this.#runtime.request("updateBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateBundle", result, path))),
       updateWithResponse: async (bundle_id, params, options) => this.#runtime.request("updateBundle", _sdkRequestInput([
   "bundle_id"
 ], [bundle_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeBundleResponse } from '../models/BundleResponse.js';
-export { makeBundleComponentListResponse } from '../models/BundleComponentListResponse.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleListResponse } from '../models/BundleListResponse.js';
-export { makeBundle } from '../models/Bundle.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeImage } from '../models/Image.js';
-export { makeModifierSetGroup } from '../models/ModifierSetGroup.js';
-export { makeModifierGroup } from '../models/ModifierGroup.js';
-export { makeModifier } from '../models/Modifier.js';
-export { makeTextModifierConfig } from '../models/TextModifierConfig.js';
-export { makeAvailableTextModifierConfig } from '../models/AvailableTextModifierConfig.js';
-export { makeModifierOverride } from '../models/ModifierOverride.js';
 export { makeCreateBundleComponentRequest } from '../models/CreateBundleComponentRequest.js';
+export { makeCreateBundleRequest } from '../models/CreateBundleRequest.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
+export { makeModifierOverride } from '../models/ModifierOverride.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeUpdateBundleComponentRequest } from '../models/UpdateBundleComponentRequest.js';
+export { makeUpdateBundleRequest } from '../models/UpdateBundleRequest.js';

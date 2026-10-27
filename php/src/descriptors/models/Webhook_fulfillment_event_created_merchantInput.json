@@ -1,0 +1,1 @@
+{"shared":"Webhook_fulfillment_event_created_merchant","dependencies":["CheckoutBuyerContact","ExpandedOrderSummary","FulfillmentEvent","MerchantWebhookEnvelope","MoneyValue","PricingAmounts","SettlementAmounts","SharedCodec368","SharedCodec369","SharedCodec5","SharedCodec532","SignedMoney","Webhook_fulfillment_event_created_merchant"]}

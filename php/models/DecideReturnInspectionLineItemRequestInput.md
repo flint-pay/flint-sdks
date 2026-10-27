@@ -1,0 +1,15 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DecideReturnInspectionLineItemRequestInput
+
+The request body for: Decide return inspection line item.
+
+Request input.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `acceptance_decision_reason` | Required | string | Values: `"inspection_result"`, `"return_policy"`, `"manual_review"`, `"other"`. |
+| `acceptance_decision_reason_message` | Optional | string | minLength: `1`. |
+| `acceptance_status` | Required | string | Values: `"accepted"`, `"rejected"`, `"review_required"`. |
+| `expected_version` | Optional | integer string | Optional version of the return inspection. A stale value returns VERSION_CONFLICT with the inspection ID and its current version. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+

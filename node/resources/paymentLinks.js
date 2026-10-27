@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentLinks.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/paymentLinks.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createPaymentLink"]:r0,["getPaymentLink"]:r0,["getPaymentLinkPublic"]:r0,["listPaymentLinks"]:r0,["resolvePaymentLink"]:r0,["updatePaymentLink"]:r0});
 export class Client {
@@ -13,18 +13,16 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.paymentLinks = Object.freeze({
       create: async (params, options) => this.#runtime.request("createPaymentLink", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPaymentLink", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createPaymentLink", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPaymentLink", result, path))),
       getWithResponse: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
@@ -32,14 +30,10 @@ this.paymentLinks = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       getPublic: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLinkPublic", _sdkRequestInput([
   "payment_link_id"
-], [payment_link_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [payment_link_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPaymentLinkPublic", result, path))),
       getPublicWithResponse: async (payment_link_id, params, options) => this.#runtime.request("getPaymentLinkPublic", _sdkRequestInput([
   "payment_link_id"
-], [payment_link_id], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+], [payment_link_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -47,12 +41,15 @@ this.paymentLinks = Object.freeze({
   "external_reference_id",
   "query",
   "payment_link_type",
-  "has_plan",
+  "has_subscription_plan",
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPaymentLinks", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -60,11 +57,14 @@ this.paymentLinks = Object.freeze({
   "external_reference_id",
   "query",
   "payment_link_type",
-  "has_plan",
+  "has_subscription_plan",
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -73,12 +73,15 @@ this.paymentLinks = Object.freeze({
   "external_reference_id",
   "query",
   "payment_link_type",
-  "has_plan",
+  "has_subscription_plan",
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
-], false, false, params), options), []),
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPaymentLinks", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -86,11 +89,14 @@ this.paymentLinks = Object.freeze({
   "external_reference_id",
   "query",
   "payment_link_type",
-  "has_plan",
+  "has_subscription_plan",
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentLinks", _sdkRequestInput([], [], [
   "page_size",
@@ -99,163 +105,77 @@ this.paymentLinks = Object.freeze({
   "external_reference_id",
   "query",
   "payment_link_type",
-  "has_plan",
+  "has_subscription_plan",
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options),
       resolve: async (payment_link_id, params, options) => this.#runtime.request("resolvePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resolvePaymentLink", result, path))),
       resolveWithResponse: async (payment_link_id, params, options) => this.#runtime.request("resolvePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (payment_link_id, params, options) => this.#runtime.request("updatePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePaymentLink", result, path))),
       updateWithResponse: async (payment_link_id, params, options) => this.#runtime.request("updatePaymentLink", _sdkRequestInput([
   "payment_link_id"
 ], [payment_link_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makePaymentLinkResponse } from '../models/PaymentLinkResponse.js';
-export { makePublicPaymentLinkResponse } from '../models/PublicPaymentLinkResponse.js';
-export { makePaymentLinkListResponse } from '../models/PaymentLinkListResponse.js';
-export { makePaymentLink } from '../models/PaymentLink.js';
-export { makeResolvePaymentLinkResponse } from '../models/ResolvePaymentLinkResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePublicPaymentLinkResult } from '../models/PublicPaymentLinkResult.js';
-export { makeThemeConfig } from '../models/ThemeConfig.js';
-export { makeImage } from '../models/Image.js';
-export { makePublicPaymentLink } from '../models/PublicPaymentLink.js';
-export { makePaymentLinkCustomField } from '../models/PaymentLinkCustomField.js';
-export { makeCheckoutCustomTextConfig } from '../models/CheckoutCustomTextConfig.js';
-export { makeCheckoutCustomTextWriteConfig } from '../models/CheckoutCustomTextWriteConfig.js';
-export { makePaymentLinkEventConfig } from '../models/PaymentLinkEventConfig.js';
-export { makeCheckoutLegalConfig } from '../models/CheckoutLegalConfig.js';
-export { makeLegalSettings } from '../models/LegalSettings.js';
-export { makePaymentLinkLineItem } from '../models/PaymentLinkLineItem.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
-export { makeCheckoutPaymentConfig } from '../models/CheckoutPaymentConfig.js';
-export { makePublicResolvedLineItemInfo } from '../models/PublicResolvedLineItemInfo.js';
-export { makePublicResolvedModifierGroup } from '../models/PublicResolvedModifierGroup.js';
-export { makePublicResolvedModifierOption } from '../models/PublicResolvedModifierOption.js';
-export { makePublicResolvedTextModifier } from '../models/PublicResolvedTextModifier.js';
-export { makeTextModifierConfigRequest } from '../models/TextModifierConfigRequest.js';
-export { makePublicResolvedBundleComponent } from '../models/PublicResolvedBundleComponent.js';
-export { makePublicResolvedBundleVariantSummary } from '../models/PublicResolvedBundleVariantSummary.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makePaymentLinkSubscriptionPreview } from '../models/PaymentLinkSubscriptionPreview.js';
-export { makePaymentLinkCustomerConfig } from '../models/PaymentLinkCustomerConfig.js';
-export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig.js';
-export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
-export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
-export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
-export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
-export { makeCheckoutSavedPaymentDetailsSettings } from '../models/CheckoutSavedPaymentDetailsSettings.js';
-export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
-export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaunchResponse.js';
-export { makeGetOrCreateReturnResolutionCheckoutSessionResponse } from '../models/GetOrCreateReturnResolutionCheckoutSessionResponse.js';
-export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
-export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
-export { makeCheckoutSession } from '../models/CheckoutSession.js';
-export { makeOrderPaymentAttempt } from '../models/OrderPaymentAttempt.js';
-export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
-export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
-export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
-export { makeErrorRemediation } from '../models/ErrorRemediation.js';
-export { makeOrderPaymentAttemptPaymentMethodSave } from '../models/OrderPaymentAttemptPaymentMethodSave.js';
-export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
-export { makePaymentClientAction } from '../models/PaymentClientAction.js';
-export { makeStripePaymentClientAction } from '../models/StripePaymentClientAction.js';
-export { makeStripePaymentIntentClientAction } from '../models/StripePaymentIntentClientAction.js';
-export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentClientAction.js';
-export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
-export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
-export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
-export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
-export { makeCheckoutBuyerContact } from '../models/CheckoutBuyerContact.js';
-export { makeCheckoutCustomerConfig } from '../models/CheckoutCustomerConfig.js';
-export { makePrefilledCustomerInfo } from '../models/PrefilledCustomerInfo.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeCheckoutCustomerPrefill } from '../models/CheckoutCustomerPrefill.js';
-export { makeCheckoutDeliveryPinnedDependency } from '../models/CheckoutDeliveryPinnedDependency.js';
-export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
-export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
-export { makeDeliveryAddressAdvisoryResource } from '../models/DeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
-export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
-export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
-export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
-export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeDeliveryOptionProjection } from '../models/DeliveryOptionProjection.js';
-export { makeDeliveryArrivalEstimate } from '../models/DeliveryArrivalEstimate.js';
 export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
-export { makeDeliveryPlan } from '../models/DeliveryPlan.js';
-export { makeDeliveryQuoteExecutionLegResource } from '../models/DeliveryQuoteExecutionLegResource.js';
-export { makeDeliveryLocalDeliveryDetails } from '../models/DeliveryLocalDeliveryDetails.js';
-export { makeDeliveryShipmentDetails } from '../models/DeliveryShipmentDetails.js';
-export { makeDeliveryPickupDetails } from '../models/DeliveryPickupDetails.js';
-export { makeDeliveryLocationSummaryResource } from '../models/DeliveryLocationSummaryResource.js';
-export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
-export { makeLocationAddress } from '../models/LocationAddress.js';
+export { makeCheckoutBuyerFields } from '../models/CheckoutBuyerFields.js';
+export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
+export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
+export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
+export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
+export { makeCreatePaymentLinkRequest } from '../models/CreatePaymentLinkRequest.js';
+export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
 export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
-export { makeDeliveryQuoteLineItemResource } from '../models/DeliveryQuoteLineItemResource.js';
-export { makeDeliveryPickupAvailabilityQuantityResource } from '../models/DeliveryPickupAvailabilityQuantityResource.js';
-export { makeDeliveryMerchantDiagnostic } from '../models/DeliveryMerchantDiagnostic.js';
-export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMismatch.js';
-export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../models/BuyerDeliveryQuoteChoiceGroupResource.js';
-export { makeBuyerDeliveryInputRequirementResource } from '../models/BuyerDeliveryInputRequirementResource.js';
-export { makeBuyerDeliveryOptionResource } from '../models/BuyerDeliveryOptionResource.js';
-export { makeCheckoutGiftCardChallenge } from '../models/CheckoutGiftCardChallenge.js';
-export { makeCheckoutMerchantSupport } from '../models/CheckoutMerchantSupport.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';
-export { makePaymentCollection } from '../models/PaymentCollection.js';
-export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
-export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
-export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
-export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
-export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
-export { makeCheckoutPaymentMethodSave } from '../models/CheckoutPaymentMethodSave.js';
-export { makeCheckoutProblemResource } from '../models/CheckoutProblemResource.js';
-export { makeCheckoutSubscriptionTerms } from '../models/CheckoutSubscriptionTerms.js';
-export { makeCheckoutSubscriptionRecurringShipping } from '../models/CheckoutSubscriptionRecurringShipping.js';
-export { makePaymentLinkCustomTextConfig } from '../models/PaymentLinkCustomTextConfig.js';
-export { makePaymentLinkExpirationConfig } from '../models/PaymentLinkExpirationConfig.js';
+export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
+export { makeInventoryRoutingSourceInputFixedLocation } from '../models/InventoryRoutingSourceInputFixedLocation.js';
+export { makeInventoryRoutingSourceInputPolicy } from '../models/InventoryRoutingSourceInputPolicy.js';
+export { makeInventoryRoutingSourceInputPolicyRevision } from '../models/InventoryRoutingSourceInputPolicyRevision.js';
+export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
+export { makePaymentLinkCustomFieldPatchRequest } from '../models/PaymentLinkCustomFieldPatchRequest.js';
+export { makePaymentLinkCustomFieldRequest } from '../models/PaymentLinkCustomFieldRequest.js';
+export { makePaymentLinkCustomTextConfig } from '../models/PaymentLinkCustomTextConfig.js';
+export { makePaymentLinkCustomTextPatchRequest } from '../models/PaymentLinkCustomTextPatchRequest.js';
+export { makePaymentLinkEventConfigPatchRequest } from '../models/PaymentLinkEventConfigPatchRequest.js';
+export { makePaymentLinkEventConfigRequest } from '../models/PaymentLinkEventConfigRequest.js';
 export { makePaymentLinkLegalConfig } from '../models/PaymentLinkLegalConfig.js';
+export { makePaymentLinkLegalPatchRequest } from '../models/PaymentLinkLegalPatchRequest.js';
+export { makePaymentLinkLineItemPatchRequest } from '../models/PaymentLinkLineItemPatchRequest.js';
+export { makePaymentLinkLineItemRequest } from '../models/PaymentLinkLineItemRequest.js';
 export { makePaymentLinkPaymentConfig } from '../models/PaymentLinkPaymentConfig.js';
-export { makePaymentLinkRedirectsConfig } from '../models/PaymentLinkRedirectsConfig.js';
+export { makePaymentLinkPaymentPatchRequest } from '../models/PaymentLinkPaymentPatchRequest.js';
+export { makePaymentLinkRedirectsPatchRequest } from '../models/PaymentLinkRedirectsPatchRequest.js';
 export { makePaymentLinkThemeConfig } from '../models/PaymentLinkThemeConfig.js';
+export { makePaymentLinkThemePatchRequest } from '../models/PaymentLinkThemePatchRequest.js';
+export { makeResolvePaymentLinkLineItemModifierRequest } from '../models/ResolvePaymentLinkLineItemModifierRequest.js';
+export { makeResolvePaymentLinkLineItemModifiers } from '../models/ResolvePaymentLinkLineItemModifiers.js';
+export { makeResolvePaymentLinkRequest } from '../models/ResolvePaymentLinkRequest.js';
 export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeTextModifierConfigRequest } from '../models/TextModifierConfigRequest.js';
+export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeUpdatePaymentLinkRequest } from '../models/UpdatePaymentLinkRequest.js';

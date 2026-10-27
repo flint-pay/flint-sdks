@@ -2,20 +2,22 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $name
- * @property-read string $phone
+ * @property-read string|null $name
+ * @property-read string|null $phone
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderDeliveryDestinationRecipientRequestInput extends Model {
-    /** @param mixed $values */
-    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationRecipientRequestInput')); }
-    /** @return string
+    /** @param array{'name'?: string|null, 'phone'?: string|null}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestinationRecipientRequestInput')); }
+    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 255.
+     * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
-    public function getName(): string { return $this->get('name'); }
+    public function getName(): string|null { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return string
+    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 30.
+     * @return string|null
      * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
      */
-    public function getPhone(): string { return $this->get('phone'); }
+    public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
 }

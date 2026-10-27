@@ -1,9 +1,11 @@
-import { d1703 as c0, d1698 as c1, d1697 as c2, d1699 as c3, d1700 as c4, d1701 as c5, d1702 as c6 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d1703 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d4129 as c0 } from '../descriptors/data/175.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3354 as c1, d3355 as c2, d3357 as c3, d3359 as c4 } from '../descriptors/data/135.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4166 as c5, d4167 as c6, d4168 as c7, d4169 as c8, d4170 as c9, d4171 as c10, d4172 as c11 } from '../descriptors/data/177.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4129 as d4129 } from '../descriptors/data/175.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1703;
+const read = d4129;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentDueRequest"]:c0(),["SharedCodec436"]:c1(),["SharedCodec437"]:c2(),["SharedCodec438"]:c3(),["SharedCodec439"]:c4(),["SharedCodec440"]:c5(),["SharedCodec441"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentDueRequest"]:c0(),["SharedCodec898"]:c1(),["SharedCodec899"]:c2(),["SharedCodec901"]:c3(),["SharedCodec903"]:c4(),["SharedCodec904"]:c5(),["SharedCodec905"]:c6(),["SharedCodec906"]:c7(),["SharedCodec907"]:c8(),["SharedCodec908"]:c9(),["SharedCodec909"]:c10(),["SharedCodec910"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoicePaymentDueRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -1,1 +1,1 @@
-{"shared":"CheckoutCustomerPrefill","dependencies":["CheckoutCustomerPrefill","PostalAddress"]}
+{"shared":"CheckoutCustomerPrefill","dependencies":["Address","CheckoutCustomerPrefill"]}

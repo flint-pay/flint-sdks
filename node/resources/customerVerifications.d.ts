@@ -1,69 +1,94 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CustomerVerificationResponse } from '../declarations/CustomerVerificationResponse.js';
-import type { CustomerVerificationsConfirmInput } from '../declarations/CustomerVerificationsConfirmInput.js';
-import type { CustomerVerificationsConfirmResponse } from '../declarations/CustomerVerificationsConfirmResponse.js';
-import type { CustomerVerificationsCreateInput } from '../declarations/CustomerVerificationsCreateInput.js';
-import type { CustomerVerificationsCreateResponse } from '../declarations/CustomerVerificationsCreateResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { ConfirmCustomerVerificationRequestInput, CreateCustomerVerificationRequestInput } from '../declarations/types-5.js';
+import type {
+    CustomerVerification,
+    CustomerVerificationResponse,
+    CustomerVerificationsConfirmInput,
+    CustomerVerificationsCreateInput
+} from '../declarations/types-10.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { ConfirmCustomerVerificationRequestInput, CreateCustomerVerificationRequestInput } from '../declarations/types-5.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    CustomerVerification,
+    CustomerVerificationResponse,
+    CustomerVerificationsConfirmInput,
+    CustomerVerificationsCreateInput
+} from '../declarations/types-10.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeConfirmCustomerVerificationRequest } from '../declarations/types-62.js';
+export { makeCreateCustomerVerificationRequest } from '../declarations/types-63.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface CustomerVerificationsResource {
     /**
- * Confirms the Flint-sent code and returns a verification that can link guest purchases for its customer. A confirmed verification expires in 15 minutes and can be redeemed once.
+ * Confirms the Flint-sent code and returns a verification that can link guest purchases for its
+ * customer. A confirmed verification expires in 15 minutes and can be redeemed once.
+ * @see reference/customerVerifications.md#customerverificationsconfirm
  * POST /v1/customer-verifications/{customer_verification_id}/confirm
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerVerifications.confirm("cver_example", {code: "123456"}, { idempotencyKey: idempotencyKey })
+ * client.customerVerifications.confirm("example", {code: "123456"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    confirm(customer_verification_id: InputValue<string>, params: (InputValue<{ "code": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerVerificationResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    confirmWithResponse(customer_verification_id: InputValue<string>, params: (InputValue<{ "code": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationsConfirmResponse>>;
+    confirm(customer_verification_id: InputValue<string>, params: (InputValue<ConfirmCustomerVerificationRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerVerification>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customerVerifications.md#customerverificationsconfirm
+     */
+    confirmWithResponse(customer_verification_id: InputValue<string>, params: (InputValue<ConfirmCustomerVerificationRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationResponse>>;
     /**
- * Sends the buyer a Flint verification code for linking guest purchases. Set purpose to link_guest_purchases. The only channel is email, which is also the default. The response has the same shape whether a code was sent. Enter the code through the confirm operation before linking purchases.
+ * Sends a Flint verification code to the customer's current email for linking guest purchases. A
+ * customer without an email returns 409 ACTION_NOT_ALLOWED. Set purpose to link_guest_purchases;
+ * email is the only channel and the default. Confirm the code before linking purchases. To prove
+ * an email inside a checkout, use POST
+ * /v1/checkout-sessions/{checkout_session_id}/customer-verifications.
+ * @see reference/customerVerifications.md#customerverificationscreate
  * POST /v1/customer-verifications
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerVerifications.create({channel: "email", customer_id: "cus_example", email: "buyer@example.com", purpose: "link_guest_purchases"}, { idempotencyKey: idempotencyKey })
+ * client.customerVerifications.create({customer_id: "example", purpose: "link_guest_purchases"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "channel"?: "email"; "customer_id": string; "email": string; "purpose": "link_guest_purchases"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerVerificationResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "channel"?: "email"; "customer_id": string; "email": string; "purpose": "link_guest_purchases"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationsCreateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly customerVerifications: CustomerVerificationsResource;
+    create(params: (InputValue<CreateCustomerVerificationRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerVerification>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customerVerifications.md#customerverificationscreate
+     */
+    createWithResponse(params: (InputValue<CreateCustomerVerificationRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CustomerVerificationResponse } from '../declarations/CustomerVerificationResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { CustomerVerificationsConfirmResponse } from '../declarations/CustomerVerificationsConfirmResponse.js';
-export type { CustomerVerificationsCreateResponse } from '../declarations/CustomerVerificationsCreateResponse.js';
-export type { CustomerVerificationsConfirmInput } from '../declarations/CustomerVerificationsConfirmInput.js';
-export type { CustomerVerificationsCreateInput } from '../declarations/CustomerVerificationsCreateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { CustomerVerification } from '../declarations/CustomerVerification.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { ConfirmCustomerVerificationRequestInput } from '../declarations/ConfirmCustomerVerificationRequestInput.js';
-export type { CreateCustomerVerificationRequestInput } from '../declarations/CreateCustomerVerificationRequestInput.js';
-export { makeCustomerVerificationResponse } from '../declarations/makeCustomerVerificationResponse.js';
-export { makeCustomerVerification } from '../declarations/makeCustomerVerification.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly customerVerifications: CustomerVerificationsResource;
+}

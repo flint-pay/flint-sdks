@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $dispute_id
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read WebhookEventDisputeUpdatedDataObject $object
+ * Presence-aware response; omitted optional fields return null. */
 final class WebhookEventDisputeUpdatedData extends Model {
-    /** @param array{'dispute_id': string, ...}|object $values */
+    /** @param array{'object': \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventDisputeUpdatedData')); }
-    /** @return string
-     * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
+    /** Shape $ (Value): {@see WebhookEventDisputeUpdatedDataObject}. A challenge to a collected payment.
+     * @return WebhookEventDisputeUpdatedDataObject
      */
-    public function getDisputeId(): string { return $this->get('dispute_id'); }
-    public function hasDisputeId(): bool { return $this->has('dispute_id'); }
+    public function getObject(): WebhookEventDisputeUpdatedDataObject { return $this->get('object'); }
+    public function hasObject(): bool { return $this->has('object'); }
 }

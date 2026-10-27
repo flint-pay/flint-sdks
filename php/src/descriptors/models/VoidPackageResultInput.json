@@ -1,1 +1,0 @@
-{"shared":"VoidPackageResult","dependencies":["ExpandedOrderSummary","FulfillmentEvent","FulfillmentNotification","MoneyValue","Package","PricingAmounts","ReturnShipmentLineItemAllocation","SettlementAmounts","SharedCodec17","SharedCodec233","SharedCodec5","ShippingDimensions","ShippingWeight","SignedMoney","VoidPackageResult"]}

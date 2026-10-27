@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/products.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/products.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createProduct"]:r0,["createProductVariant"]:r0,["deleteProduct"]:r0,["deleteProductVariant"]:r0,["getProduct"]:r0,["getProductOption"]:r0,["getProductVariant"]:r0,["listProductOptions"]:r0,["listProducts"]:r0,["listProductVariants"]:r0,["updateProduct"]:r0,["updateProductVariant"]:r0});
 export class Client {
@@ -13,60 +13,52 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.products = Object.freeze({
       create: async (params, options) => this.#runtime.request("createProduct", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createProduct", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createProduct", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createVariant: async (product_id, params, options) => this.#runtime.request("createProductVariant", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createProductVariant", result, path))),
       createVariantWithResponse: async (product_id, params, options) => this.#runtime.request("createProductVariant", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (product_id, params, options) => this.#runtime.request("deleteProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteProduct", result, path))),
       removeWithResponse: async (product_id, params, options) => this.#runtime.request("deleteProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       deleteVariant: async (product_id, variant_id, params, options) => this.#runtime.request("deleteProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteProductVariant", result, path))),
       deleteVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("deleteProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (product_id, params, options) => this.#runtime.request("getProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getProduct", result, path))),
       getWithResponse: async (product_id, params, options) => this.#runtime.request("getProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
@@ -75,7 +67,7 @@ this.products = Object.freeze({
       getOption: async (product_id, option_id, params, options) => this.#runtime.request("getProductOption", _sdkRequestInput([
   "product_id",
   "option_id"
-], [product_id, option_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [product_id, option_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getProductOption", result, path))),
       getOptionWithResponse: async (product_id, option_id, params, options) => this.#runtime.request("getProductOption", _sdkRequestInput([
   "product_id",
   "option_id"
@@ -85,7 +77,7 @@ this.products = Object.freeze({
   "variant_id"
 ], [product_id, variant_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getProductVariant", result, path))),
       getVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("getProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
@@ -98,7 +90,7 @@ this.products = Object.freeze({
   "page_size",
   "page_token",
   "status"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listProductOptions", result, path))),
       listOptionsWithResponse: async (product_id, params, options) => this.#runtime.request("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
@@ -112,7 +104,7 @@ this.products = Object.freeze({
   "page_size",
   "page_token",
   "status"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listProductOptions", result, path)),
       listOptionsPagesWithResponse: (product_id, params, options) => _sdkResponsePages(this.#runtime.pages("listProductOptions", _sdkRequestInput([
   "product_id"
 ], [product_id], [
@@ -135,6 +127,8 @@ this.products = Object.freeze({
   "category_handle",
   "external_reference_id",
   "sku",
+  "variant_external_reference_id",
+  "inventory_item_id",
   "query",
   "delivery_profile_id",
   "delivery_configuration_status",
@@ -143,8 +137,9 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "updated_before",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listProducts", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listProducts", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -153,6 +148,8 @@ this.products = Object.freeze({
   "category_handle",
   "external_reference_id",
   "sku",
+  "variant_external_reference_id",
+  "inventory_item_id",
   "query",
   "delivery_profile_id",
   "delivery_configuration_status",
@@ -161,7 +158,8 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -171,6 +169,8 @@ this.products = Object.freeze({
   "category_handle",
   "external_reference_id",
   "sku",
+  "variant_external_reference_id",
+  "inventory_item_id",
   "query",
   "delivery_profile_id",
   "delivery_configuration_status",
@@ -179,8 +179,9 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
-], false, false, params), options), []),
+  "updated_before",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listProducts", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listProducts", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -189,6 +190,8 @@ this.products = Object.freeze({
   "category_handle",
   "external_reference_id",
   "sku",
+  "variant_external_reference_id",
+  "inventory_item_id",
   "query",
   "delivery_profile_id",
   "delivery_configuration_status",
@@ -197,7 +200,8 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listProducts", _sdkRequestInput([], [], [
   "page_size",
@@ -207,6 +211,8 @@ this.products = Object.freeze({
   "category_handle",
   "external_reference_id",
   "sku",
+  "variant_external_reference_id",
+  "inventory_item_id",
   "query",
   "delivery_profile_id",
   "delivery_configuration_status",
@@ -215,7 +221,8 @@ this.products = Object.freeze({
   "created_after",
   "created_before",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options),
       listVariants: async (product_id, params, options) => this.#runtime.request("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -224,12 +231,19 @@ this.products = Object.freeze({
   "page_token",
   "status",
   "external_reference_id",
+  "sku",
+  "inventory_item_id",
   "query",
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listProductVariants", result, path))),
       listVariantsWithResponse: async (product_id, params, options) => this.#runtime.request("listProductVariants", _sdkRequestInput([
   "product_id"
 ], [product_id], [
@@ -237,11 +251,18 @@ this.products = Object.freeze({
   "page_token",
   "status",
   "external_reference_id",
+  "sku",
+  "inventory_item_id",
   "query",
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listVariantsPages: (product_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -250,12 +271,19 @@ this.products = Object.freeze({
   "page_token",
   "status",
   "external_reference_id",
+  "sku",
+  "inventory_item_id",
   "query",
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
-], false, false, params), options), []),
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listProductVariants", result, path)),
       listVariantsPagesWithResponse: (product_id, params, options) => _sdkResponsePages(this.#runtime.pages("listProductVariants", _sdkRequestInput([
   "product_id"
 ], [product_id], [
@@ -263,11 +291,18 @@ this.products = Object.freeze({
   "page_token",
   "status",
   "external_reference_id",
+  "sku",
+  "inventory_item_id",
   "query",
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options)),
       listVariantsItems: (product_id, params, options) => this.#runtime.items("listProductVariants", _sdkRequestInput([
   "product_id"
@@ -276,70 +311,60 @@ this.products = Object.freeze({
   "page_token",
   "status",
   "external_reference_id",
+  "sku",
+  "inventory_item_id",
   "query",
   "sort_by",
   "sort_direction",
   "delivery_profile_id",
-  "delivery_configuration_status"
+  "delivery_configuration_status",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options),
       update: async (product_id, params, options) => this.#runtime.request("updateProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateProduct", result, path))),
       updateWithResponse: async (product_id, params, options) => this.#runtime.request("updateProduct", _sdkRequestInput([
   "product_id"
 ], [product_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       updateVariant: async (product_id, variant_id, params, options) => this.#runtime.request("updateProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateProductVariant", result, path))),
       updateVariantWithResponse: async (product_id, variant_id, params, options) => this.#runtime.request("updateProductVariant", _sdkRequestInput([
   "product_id",
   "variant_id"
 ], [product_id, variant_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeProductResponse } from '../models/ProductResponse.js';
-export { makeProductVariantResponse } from '../models/ProductVariantResponse.js';
-export { makeProductOptionResponse } from '../models/ProductOptionResponse.js';
-export { makeProductOptionListResponse } from '../models/ProductOptionListResponse.js';
-export { makeProductOption } from '../models/ProductOption.js';
-export { makeProductListResponse } from '../models/ProductListResponse.js';
-export { makeProduct } from '../models/Product.js';
-export { makeProductVariantListResponse } from '../models/ProductVariantListResponse.js';
-export { makeProductVariant } from '../models/ProductVariant.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeProductOptionValue } from '../models/ProductOptionValue.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeImage } from '../models/Image.js';
-export { makeProductVariantMatch } from '../models/ProductVariantMatch.js';
-export { makeModifierSetGroup } from '../models/ModifierSetGroup.js';
-export { makeModifierGroup } from '../models/ModifierGroup.js';
-export { makeModifier } from '../models/Modifier.js';
-export { makeTextModifierConfig } from '../models/TextModifierConfig.js';
-export { makeAvailableTextModifierConfig } from '../models/AvailableTextModifierConfig.js';
-export { makeModifierOverride } from '../models/ModifierOverride.js';
-export { makeProductPriceRange } from '../models/ProductPriceRange.js';
-export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
+export { makeCreateProductOptionRequest } from '../models/CreateProductOptionRequest.js';
+export { makeCreateProductOptionValueRequest } from '../models/CreateProductOptionValueRequest.js';
+export { makeCreateProductRequest } from '../models/CreateProductRequest.js';
+export { makeDimensions } from '../models/Dimensions.js';
 export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
+export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
 export { makeInventoryItemCreateRequest } from '../models/InventoryItemCreateRequest.js';
+export { makeModifierOverride } from '../models/ModifierOverride.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeProductVariantRequest } from '../models/ProductVariantRequest.js';
 export { makeProductVariantSelectedOptionRequest } from '../models/ProductVariantSelectedOptionRequest.js';
+export { makeUpdateProductOptionRequest } from '../models/UpdateProductOptionRequest.js';
+export { makeUpdateProductOptionValueRequest } from '../models/UpdateProductOptionValueRequest.js';
+export { makeUpdateProductRequest } from '../models/UpdateProductRequest.js';
+export { makeUpdateProductVariantRequest } from '../models/UpdateProductVariantRequest.js';
+export { makeWeight } from '../models/Weight.js';

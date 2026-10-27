@@ -1,1 +1,1 @@
-{"shared":"Webhook_customer_created_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec250","Webhook_customer_created_merchant"]}
+{"shared":"Webhook_customer_created_merchant","dependencies":["Address","CardDetails","Customer","CustomerReceivableBalance","CustomerReceivables","DocumentTaxID","ExpandedPaymentMethodSummary","MerchantWebhookEnvelope","MoneyValue","SharedCodec10","SharedCodec11","SharedCodec239","SharedCodec368","SharedCodec369","SharedCodec530","TaxIdentity","Webhook_customer_created_merchant"]}

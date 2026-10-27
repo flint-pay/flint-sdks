@@ -49,6 +49,7 @@ final class EventStream implements \IteratorAggregate
         $skipLF = false;
         $bytes = 0;
         $first = true;
+        $position = 0;
         try {
             while (!$this->closed) {
                 if (($this->settings['cancellation'] ?? null)?->isCancelled()) {
@@ -169,10 +170,30 @@ final class EventStream implements \IteratorAggregate
                     if ($line === '') {
                         if ($data !== '') {
                             $raw = substr($data, 0, -1);
+                            $position++;
+                            try {
+                                $decoded = ($this->decode)(
+                                    $event === '' ? 'message' : $event,
+                                    $raw,
+                                );
+                            } catch (\Throwable $cause) {
+                                throw SdkError::create(
+                                    'protocol',
+                                    'Invalid SSE event payload at event ' .
+                                        $position .
+                                        '; inspect details.eventId and details.position',
+                                    'response',
+                                    false,
+                                    $this->meta,
+                                    'sse_invalid_event',
+                                    ['eventId' => $id, 'position' => $position],
+                                    previous: $cause,
+                                );
+                            }
                             yield new ServerSentEvent(
                                 $event === '' ? 'message' : $event,
                                 $id,
-                                ($this->decode)($event === '' ? 'message' : $event, $raw),
+                                $decoded,
                                 $raw,
                                 $retry,
                             );

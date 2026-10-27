@@ -1,0 +1,1 @@
+{"shared":"CreateDeveloperSandboxResult","phpRepresentation":{"kind":"record","fields":{"api_key":{"kind":"entity","name":"APIKey"},"sandbox":{"kind":"entity","name":"DeveloperSandbox"},"secret_key":{"kind":"value","type":"string"}}},"dependencies":["APIKey","CreateDeveloperSandboxResult","DeveloperSandbox","ResourceReference","ResourceType","SharedCodec0","SharedCodec1"]}

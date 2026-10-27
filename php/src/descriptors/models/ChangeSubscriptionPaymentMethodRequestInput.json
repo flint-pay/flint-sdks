@@ -1,1 +1,1 @@
-{"shared":"PendingPaymentActionSetupPaymentSourceSubject","dependencies":["PendingPaymentActionSetupPaymentSourceSubject"]}
+{"shared":"ChangeSubscriptionPaymentMethodRequest","dependencies":["ChangeSubscriptionPaymentMethodRequest"]}

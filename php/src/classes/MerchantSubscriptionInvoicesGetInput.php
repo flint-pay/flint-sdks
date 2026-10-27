@@ -2,19 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $merchant_subscription_invoice_id
+ * @property-read string $merchant_billing_invoice_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantSubscriptionInvoicesGetInput extends Model {
-    /** @param array{'merchant_subscription_invoice_id': string, 'X-Request-Id'?: string}|object $values */
+    /** @param array{'merchant_billing_invoice_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantSubscriptionInvoicesGetInput')); }
-    /** @return string
-     * @throws SdkError When merchant_subscription_invoice_id is omitted; use hasMerchantSubscriptionInvoiceId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
+     * @throws SdkError When merchant_billing_invoice_id is omitted; use hasMerchantBillingInvoiceId() or valueOrDefault().
      */
-    public function getMerchantSubscriptionInvoiceId(): string { return $this->get('merchant_subscription_invoice_id'); }
-    public function hasMerchantSubscriptionInvoiceId(): bool { return $this->has('merchant_subscription_invoice_id'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
+    public function getMerchantBillingInvoiceId(): string { return $this->get('merchant_billing_invoice_id'); }
+    public function hasMerchantBillingInvoiceId(): bool { return $this->has('merchant_billing_invoice_id'); }
 }

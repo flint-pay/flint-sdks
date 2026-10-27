@@ -2,43 +2,43 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $maximum_request_bytes
- * @property-read string $maximum_response_bytes
- * @property-read bool $preview_enabled
- * @property-read string $redirect_policy
- * @property-read float $request_timeout_seconds
+ * @property-read ?string $maximum_request_bytes
+ * @property-read ?string $maximum_response_bytes
+ * @property-read ?bool $preview_enabled
+ * @property-read ?string $redirect_policy
+ * @property-read ?float $request_timeout_seconds
  * @property-read string $url
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class DeliveryRateCallbackConfiguration extends Model {
     /** @param array{'maximum_request_bytes'?: string, 'maximum_response_bytes'?: string, 'preview_enabled'?: bool, 'redirect_policy'?: string, 'request_timeout_seconds'?: float, 'url': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbackConfiguration')); }
-    /** @return string
-     * @throws SdkError When maximum_request_bytes is omitted; use hasMaximumRequestBytes() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     * @return ?string
      */
-    public function getMaximumRequestBytes(): string { return $this->get('maximum_request_bytes'); }
+    public function getMaximumRequestBytes(): ?string { return $this->get('maximum_request_bytes'); }
     public function hasMaximumRequestBytes(): bool { return $this->has('maximum_request_bytes'); }
-    /** @return string
-     * @throws SdkError When maximum_response_bytes is omitted; use hasMaximumResponseBytes() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1. maximum: 1048576. Default: 262144.
+     * @return ?string
      */
-    public function getMaximumResponseBytes(): string { return $this->get('maximum_response_bytes'); }
+    public function getMaximumResponseBytes(): ?string { return $this->get('maximum_response_bytes'); }
     public function hasMaximumResponseBytes(): bool { return $this->has('maximum_response_bytes'); }
-    /** @return bool
-     * @throws SdkError When preview_enabled is omitted; use hasPreviewEnabled() or valueOrDefault().
+    /** Shape $ (Value): boolean. Default: false.
+     * @return ?bool
      */
-    public function getPreviewEnabled(): bool { return $this->get('preview_enabled'); }
+    public function getPreviewEnabled(): ?bool { return $this->get('preview_enabled'); }
     public function hasPreviewEnabled(): bool { return $this->has('preview_enabled'); }
-    /** @return string
-     * @throws SdkError When redirect_policy is omitted; use hasRedirectPolicy() or valueOrDefault().
+    /** Shape $ (Value): string. Default: "reject". Value enum: "reject".
+     * @return ?string
      */
-    public function getRedirectPolicy(): string { return $this->get('redirect_policy'); }
+    public function getRedirectPolicy(): ?string { return $this->get('redirect_policy'); }
     public function hasRedirectPolicy(): bool { return $this->has('redirect_policy'); }
-    /** @return float
-     * @throws SdkError When request_timeout_seconds is omitted; use hasRequestTimeoutSeconds() or valueOrDefault().
+    /** Shape $ (Value): number. minimum: 0.1. maximum: 10. Default: 2.
+     * @return ?float
      */
-    public function getRequestTimeoutSeconds(): float { return $this->get('request_timeout_seconds'); }
+    public function getRequestTimeoutSeconds(): ?float { return $this->get('request_timeout_seconds'); }
     public function hasRequestTimeoutSeconds(): bool { return $this->has('request_timeout_seconds'); }
-    /** @return string
-     * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      */
     public function getUrl(): string { return $this->get('url'); }
     public function hasUrl(): bool { return $this->has('url'); }

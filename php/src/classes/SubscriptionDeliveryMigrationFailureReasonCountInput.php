@@ -8,12 +8,14 @@ namespace Flint;
 final class SubscriptionDeliveryMigrationFailureReasonCountInput extends Model {
     /** @param array{'count': string, 'reason': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMigrationFailureReasonCountInput')); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When count is omitted; use hasCount() or valueOrDefault().
      */
     public function getCount(): string { return $this->get('count'); }
     public function hasCount(): bool { return $this->has('count'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "method_not_offered", "destination_not_served", "rate_unavailable", "method_unavailable", "no_longer_applicable", "not_movable".
+     * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }

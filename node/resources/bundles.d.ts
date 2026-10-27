@@ -1,175 +1,326 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { Bundle } from '../declarations/Bundle.js';
-import type { BundleComponent } from '../declarations/BundleComponent.js';
-import type { BundleComponentListResponse } from '../declarations/BundleComponentListResponse.js';
-import type { BundleListResponse } from '../declarations/BundleListResponse.js';
-import type { BundleResponse } from '../declarations/BundleResponse.js';
-import type { BundlesCreateInput } from '../declarations/BundlesCreateInput.js';
-import type { BundlesCreateResponse } from '../declarations/BundlesCreateResponse.js';
-import type { BundlesGetInput } from '../declarations/BundlesGetInput.js';
-import type { BundlesGetResponse } from '../declarations/BundlesGetResponse.js';
-import type { BundlesListComponentsInput } from '../declarations/BundlesListComponentsInput.js';
-import type { BundlesListComponentsResponse } from '../declarations/BundlesListComponentsResponse.js';
-import type { BundlesListInput } from '../declarations/BundlesListInput.js';
-import type { BundlesListResponse } from '../declarations/BundlesListResponse.js';
-import type { BundlesRemoveInput } from '../declarations/BundlesRemoveInput.js';
-import type { BundlesRemoveResponse } from '../declarations/BundlesRemoveResponse.js';
-import type { BundlesUpdateInput } from '../declarations/BundlesUpdateInput.js';
-import type { BundlesUpdateResponse } from '../declarations/BundlesUpdateResponse.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CreateBundleComponentRequestInput } from '../declarations/CreateBundleComponentRequestInput.js';
-import type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
-import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { UpdateBundleComponentRequestInput } from '../declarations/UpdateBundleComponentRequestInput.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type {
+    Bundle,
+    BundleComponent,
+    BundleComponentListResponse,
+    BundleListResponse,
+    BundleResponse,
+    BundlesCreateInput
+} from '../declarations/types-0.js';
+import type {
+    BundlesGetInput,
+    BundlesListComponentsInput,
+    BundlesListInput,
+    BundlesRemoveInput,
+    BundlesUpdateInput
+} from '../declarations/types-1.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateBundleRequestInput } from '../declarations/types-5.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdateBundleRequestInput } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-5.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    Bundle,
+    BundleResponse,
+    BundleComponentListResponse,
+    BundleComponent,
+    BundleListResponse,
+    BundlesCreateInput,
+    AuthMode,
+    BundleComponentVariantSummary
+} from '../declarations/types-0.js';
+export type { SdkResponse, SelectedProductOption } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type {
+    UpdateBundleRequestInput,
+    TextModifierConfig,
+    UpdateBundleComponentRequestInput,
+    UpdateBundleComponentRequest
+} from '../declarations/types-47.js';
+export type {
+    BundlesRemoveInput,
+    BundlesGetInput,
+    BundlesListComponentsInput,
+    BundlesListInput,
+    BundlesUpdateInput
+} from '../declarations/types-1.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { ImageRequestInput, ImageAttachment } from '../declarations/types-19.js';
+export type {
+    MoneyValueInput,
+    ModifierSet,
+    ModifierSetGroup,
+    ModifierGroup,
+    Modifier,
+    MoneyValue,
+    ModifierOverride,
+    ModifierSetGroupExisting,
+    ModifierSetGroupInline,
+    NextAction,
+    NextActionMerchantAccountSession
+} from '../declarations/types-31.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { CategoryReference } from '../declarations/types-3.js';
+export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-62.js';
+export { makeImageRequest } from '../declarations/types-67.js';
+export { makeModifierOverride, makeMoneyValue } from '../declarations/types-68.js';
+export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-72.js';
 export interface BundlesResource {
     /**
  * Create bundle.
+ * @see reference/bundles.md#bundlescreate
  * POST /v1/bundles
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.bundles.create({name: "example", unit_price_money: {amount: "0", currency: "USD"}}, { idempotencyKey: idempotencyKey })
+ * client.bundles.create({name: "example", unit_price_money: {amount: "100", currency: "USD"}}, {
+ * idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "barcode"?: string; "categories"?: Array<string>; "components"?: Array<CreateBundleComponentRequestInput>; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money": MoneyValueInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<BundleResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "barcode"?: string; "categories"?: Array<string>; "components"?: Array<CreateBundleComponentRequestInput>; "description"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string>; "modifier_set_id"?: string | null; "name": string; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money": MoneyValueInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundlesCreateResponse>>;
+    create(params: (InputValue<CreateBundleRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Bundle>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/bundles.md#bundlescreate
+     */
+    createWithResponse(params: (InputValue<CreateBundleRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundleResponse>>;
     /**
- * Archives a bundle and returns its final state.
+ * Archives a bundle and returns its final state. Returns the archived resource exactly as GET
+ * returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a
+ * webhook, or checking references. When expected_version is present, it is compared before the
+ * archived replay; a stale version returns 409 VERSION_CONFLICT with current_version.
+ * @see reference/bundles.md#bundlesremove
  * DELETE /v1/bundles/{bundle_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.bundles.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(bundle_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<BundleResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(bundle_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundlesRemoveResponse>>;
+    remove(bundle_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Bundle>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/bundles.md#bundlesremove
+     */
+    removeWithResponse(bundle_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundleResponse>>;
     /**
  * Get bundle.
+ * @see reference/bundles.md#bundlesget
  * GET /v1/bundles/{bundle_id}
  * @example
  * client.bundles.get("example")
  */
-    get(bundle_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"modifier_set">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<BundleResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(bundle_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"modifier_set">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundlesGetResponse>>;
+    get(bundle_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"modifier_set">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Bundle>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/bundles.md#bundlesget
+     */
+    getWithResponse(bundle_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"modifier_set">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundleResponse>>;
     /**
  * List bundle components.
+ * @see reference/bundles.md#bundleslistcomponents
  * GET /v1/bundles/{bundle_id}/components
  * @example
  * client.bundles.listComponents("example")
  */
-    listComponents(bundle_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BundleComponentListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listComponentsWithResponse(bundle_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundlesListComponentsResponse>>;
-    listComponentsPages(bundle_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleComponentListResponse>;
-    listComponentsPagesWithResponse(bundle_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<BundlesListComponentsResponse>>;
-    listComponentsItems(bundle_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleComponent>;
+    listComponents(bundle_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BundleComponentListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/bundles.md#bundleslistcomponents
+     */
+    listComponentsWithResponse(bundle_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundleComponentListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/bundles.md#bundleslistcomponents
+     */
+    listComponentsPages(bundle_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleComponentListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/bundles.md#bundleslistcomponents
+     */
+    listComponentsPagesWithResponse(bundle_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<BundleComponentListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/bundles.md#bundleslistcomponents
+     */
+    listComponentsItems(bundle_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleComponent>;
     /**
  * List bundles.
+ * @see reference/bundles.md#bundleslist
  * GET /v1/bundles
  * @example
  * client.bundles.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "category_handle"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sort_by"?: InputValue<"created_at" | "updated_at" | "name">; "sort_direction"?: InputValue<"asc" | "desc">; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BundleListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "category_handle"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sort_by"?: InputValue<"created_at" | "updated_at" | "name">; "sort_direction"?: InputValue<"asc" | "desc">; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundlesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "category_handle"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sort_by"?: InputValue<"created_at" | "updated_at" | "name">; "sort_direction"?: InputValue<"asc" | "desc">; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "category_handle"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sort_by"?: InputValue<"created_at" | "updated_at" | "name">; "sort_direction"?: InputValue<"asc" | "desc">; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<BundlesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "sku"?: InputValue<string>; "query"?: InputValue<string>; "category_handle"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "sort_by"?: InputValue<"created_at" | "updated_at" | "name">; "sort_direction"?: InputValue<"asc" | "desc">; "delivery_profile_id"?: InputValue<string>; "delivery_configuration_status"?: InputValue<"configured" | "action_required" | "not_applicable"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Bundle>;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "sku"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"modifier_set">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BundleListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/bundles.md#bundleslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "sku"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"modifier_set">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BundleListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/bundles.md#bundleslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "sku"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"modifier_set">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<BundleListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/bundles.md#bundleslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "sku"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"modifier_set">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<BundleListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/bundles.md#bundleslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "sku"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "category_handle"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "delivery_profile_id"?: InputValue<string>;
+        "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"modifier_set">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Bundle>;
     /**
- * Update bundle.
+ * Update bundle. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived and
+ * current_status archived. The error identifies the archived resource; a create under an archived
+ * parent identifies that parent.
+ * @see reference/bundles.md#bundlesupdate
  * PATCH /v1/bundles/{bundle_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.bundles.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(bundle_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "categories"?: Array<string>; "components"?: Array<UpdateBundleComponentRequestInput>; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "components"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<BundleResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(bundle_id: InputValue<string>, params: (InputValue<({ "barcode"?: string; "categories"?: Array<string>; "components"?: Array<UpdateBundleComponentRequestInput>; "description"?: string; "expected_version"?: string; "external_reference_id"?: string; "images"?: Array<ImageRequestInput>; "line_item_tax_category"?: "general" | "physical_goods" | "digital_goods" | "software" | "saas" | "services" | "professional_services" | "food" | "prepared_food" | "clothing" | "medical_goods" | "admission"; "metadata"?: Record<string, string | null> | null; "modifier_set_id"?: string | null; "name"?: string; "sku"?: string; "status"?: "active" | "inactive"; "taxable"?: boolean; "unit_price_money"?: MoneyValueInput; }) & (((({ "categories"?: never })) | ({ "expected_version": unknown; }))) & (((({ "components"?: never })) | ({ "expected_version": unknown; }))) & (((({ "images"?: never })) | ({ "expected_version": unknown; })))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundlesUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly bundles: BundlesResource;
+    update(bundle_id: InputValue<string>, params: (InputValue<UpdateBundleRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Bundle>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/bundles.md#bundlesupdate
+     */
+    updateWithResponse(bundle_id: InputValue<string>, params: (InputValue<UpdateBundleRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<BundleResponse>>;
 }
-export type { CreateBundleComponentRequestInput } from '../declarations/CreateBundleComponentRequestInput.js';
-export type { ImageRequestInput } from '../declarations/ImageRequestInput.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { BundleResponse } from '../declarations/BundleResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { BundlesCreateResponse } from '../declarations/BundlesCreateResponse.js';
-export type { BundlesRemoveResponse } from '../declarations/BundlesRemoveResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { BundlesGetResponse } from '../declarations/BundlesGetResponse.js';
-export type { BundleComponentListResponse } from '../declarations/BundleComponentListResponse.js';
-export type { BundlesListComponentsResponse } from '../declarations/BundlesListComponentsResponse.js';
-export type { BundleComponent } from '../declarations/BundleComponent.js';
-export type { BundleListResponse } from '../declarations/BundleListResponse.js';
-export type { BundlesListResponse } from '../declarations/BundlesListResponse.js';
-export type { Bundle } from '../declarations/Bundle.js';
-export type { UpdateBundleComponentRequestInput } from '../declarations/UpdateBundleComponentRequestInput.js';
-export type { BundlesUpdateResponse } from '../declarations/BundlesUpdateResponse.js';
-export type { BundlesCreateInput } from '../declarations/BundlesCreateInput.js';
-export type { BundlesRemoveInput } from '../declarations/BundlesRemoveInput.js';
-export type { BundlesGetInput } from '../declarations/BundlesGetInput.js';
-export type { BundlesListComponentsInput } from '../declarations/BundlesListComponentsInput.js';
-export type { BundlesListInput } from '../declarations/BundlesListInput.js';
-export type { BundlesUpdateInput } from '../declarations/BundlesUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { BundleComponentVariantSummary } from '../declarations/BundleComponentVariantSummary.js';
-export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
-export type { CategoryReference } from '../declarations/CategoryReference.js';
-export type { Image } from '../declarations/Image.js';
-export type { ModifierSetGroup } from '../declarations/ModifierSetGroup.js';
-export type { ModifierGroup } from '../declarations/ModifierGroup.js';
-export type { Modifier } from '../declarations/Modifier.js';
-export type { TextModifierConfig } from '../declarations/TextModifierConfig.js';
-export type { AvailableTextModifierConfig } from '../declarations/AvailableTextModifierConfig.js';
-export type { ModifierOverride } from '../declarations/ModifierOverride.js';
-export type { CreateBundleRequestInput } from '../declarations/CreateBundleRequestInput.js';
-export type { UpdateBundleRequestInput } from '../declarations/UpdateBundleRequestInput.js';
-export type { CreateBundleComponentRequest } from '../declarations/CreateBundleComponentRequest.js';
-export type { ImageRequest } from '../declarations/ImageRequest.js';
-export type { UpdateBundleComponentRequest } from '../declarations/UpdateBundleComponentRequest.js';
-export { makeBundleResponse } from '../declarations/makeBundleResponse.js';
-export { makeBundleComponentListResponse } from '../declarations/makeBundleComponentListResponse.js';
-export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
-export { makeBundleListResponse } from '../declarations/makeBundleListResponse.js';
-export { makeBundle } from '../declarations/makeBundle.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeBundleComponentVariantSummary } from '../declarations/makeBundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
-export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
-export { makeImage } from '../declarations/makeImage.js';
-export { makeModifierSetGroup } from '../declarations/makeModifierSetGroup.js';
-export { makeModifierGroup } from '../declarations/makeModifierGroup.js';
-export { makeModifier } from '../declarations/makeModifier.js';
-export { makeTextModifierConfig } from '../declarations/makeTextModifierConfig.js';
-export { makeAvailableTextModifierConfig } from '../declarations/makeAvailableTextModifierConfig.js';
-export { makeModifierOverride } from '../declarations/makeModifierOverride.js';
-export { makeCreateBundleComponentRequest } from '../declarations/makeCreateBundleComponentRequest.js';
-export { makeImageRequest } from '../declarations/makeImageRequest.js';
-export { makeUpdateBundleComponentRequest } from '../declarations/makeUpdateBundleComponentRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly bundles: BundlesResource;
+}

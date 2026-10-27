@@ -2,73 +2,73 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $completed_at
+ * @property-read ?string $completed_at
  * @property-read string $created_at
- * @property-read SubscriptionPaymentRetryFailure $failure
  * @property-read string $idempotency_key
- * @property-read string $order_id
- * @property-read string $order_payment_attempt_id
- * @property-read string $started_at
+ * @property-read ?PaymentErrorSummary $last_payment_error
+ * @property-read ?string $order_id
+ * @property-read ?string $order_payment_attempt_id
+ * @property-read ?string $started_at
  * @property-read string $status
  * @property-read string $subscription_id
  * @property-read string $subscription_payment_retry_id
  * @property-read string $updated_at
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPaymentRetry extends Model {
-    /** @param array{'completed_at'?: string, 'created_at': string, 'failure'?: mixed, 'idempotency_key': string, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'completed_at'?: string, 'created_at': string, 'idempotency_key': string, 'last_payment_error'?: mixed, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPaymentRetry')); }
-    /** @return string
-     * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getCompletedAt(): string { return $this->get('completed_at'); }
+    public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return SubscriptionPaymentRetryFailure
-     * @throws SdkError When failure is omitted; use hasFailure() or valueOrDefault().
-     */
-    public function getFailure(): SubscriptionPaymentRetryFailure { return $this->get('failure'); }
-    public function hasFailure(): bool { return $this->has('failure'); }
-    /** @return string
-     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return string
-     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+    /** Shape $ (Value): {@see PaymentErrorSummary}. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation.
+     * @return ?PaymentErrorSummary
      */
-    public function getOrderId(): string { return $this->get('order_id'); }
+    public function getLastPaymentError(): ?PaymentErrorSummary { return $this->get('last_payment_error'); }
+    public function hasLastPaymentError(): bool { return $this->has('last_payment_error'); }
+    /** Shape $ (Value): string.
+     * @return ?string
+     */
+    public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** @return string
-     * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }
+    public function getOrderPaymentAttemptId(): ?string { return $this->get('order_payment_attempt_id'); }
     public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
-    /** @return string
-     * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getStartedAt(): string { return $this->get('started_at'); }
+    public function getStartedAt(): ?string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "pending", "processing", "succeeded", "failed".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getSubscriptionId(): string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** @return string
-     * @throws SdkError When subscription_payment_retry_id is omitted; use hasSubscriptionPaymentRetryId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getSubscriptionPaymentRetryId(): string { return $this->get('subscription_payment_retry_id'); }
     public function hasSubscriptionPaymentRetryId(): bool { return $this->has('subscription_payment_retry_id'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }

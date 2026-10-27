@@ -2,32 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $idempotency_key
  * @property-read InventoryAdjustment $inventory_adjustment
- * @property-read list<string> $inventory_movement_ids
- * @property-read list<InventoryLevel> $resulting_inventory_levels
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read list<InventoryLevel> $inventory_levels
+ * Presence-aware response; omitted optional fields return null. */
 final class InventoryAdjustmentResult extends Model {
-    /** @param array{'idempotency_key': string, 'inventory_adjustment': mixed, 'inventory_movement_ids': list<string>, 'resulting_inventory_levels': list<mixed>, ...}|object $values */
+    /** @param array{'inventory_adjustment': mixed, 'inventory_levels': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentResult')); }
-    /** @return string
-     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return InventoryAdjustment
-     * @throws SdkError When inventory_adjustment is omitted; use hasInventoryAdjustment() or valueOrDefault().
+    /** Shape $ (Value): {@see InventoryAdjustment}. A recorded stock change with its reason and the quantity changes Flint computed.
+     * @return InventoryAdjustment
      */
     public function getInventoryAdjustment(): InventoryAdjustment { return $this->get('inventory_adjustment'); }
     public function hasInventoryAdjustment(): bool { return $this->has('inventory_adjustment'); }
-    /** @return list<string>
-     * @throws SdkError When inventory_movement_ids is omitted; use hasInventoryMovementIds() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see InventoryLevel}. Post-commit state of every level this command touched, one entry per level. A replay returns the levels the original command produced. Empty when no levels changed. Shape $[] (Value): {@see InventoryLevel}. The quantity state of one inventory item at one Location.
+     * @return list<InventoryLevel>
      */
-    public function getInventoryMovementIds(): array { return $this->get('inventory_movement_ids'); }
-    public function hasInventoryMovementIds(): bool { return $this->has('inventory_movement_ids'); }
-    /** @return list<InventoryLevel>
-     * @throws SdkError When resulting_inventory_levels is omitted; use hasResultingInventoryLevels() or valueOrDefault().
-     */
-    public function getResultingInventoryLevels(): array { return $this->get('resulting_inventory_levels'); }
-    public function hasResultingInventoryLevels(): bool { return $this->has('resulting_inventory_levels'); }
+    public function getInventoryLevels(): array { return $this->get('inventory_levels'); }
+    public function hasInventoryLevels(): bool { return $this->has('inventory_levels'); }
 }

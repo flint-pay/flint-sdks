@@ -1,9 +1,0 @@
-import { d136 as c0, d90 as c1, d42 as c2, d100 as c3, d323 as c4, d2013 as c5, d2014 as c6, d2015 as c7, d2017 as c8, d2056 as c9, d433 as c10, d2127 as c11, d2130 as c12, d2132 as c13, d2134 as c14, d2136 as c15, d2137 as c16, d2138 as c17, d2141 as c18, d2143 as c19, d2148 as c20, d2334 as c21, d2340 as c22, d91 as c23, d92 as c24, d101 as c25, d753 as c26, d2034 as c27 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d433 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d433;
-let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CategoryReference"]:c0(),["ExpandedCustomerSummary"]:c1(),["ExpandedOrderSummary"]:c2(),["ExpandedPaymentIntentSummary"]:c3(),["MoneyValue"]:c4(),["PaymentRefund"]:c5(),["PaymentSourceAchDebitSummary"]:c6(),["PaymentSourceCardSummary"]:c7(),["PaymentSourceSummary"]:c8(),["PricingAmounts"]:c9(),["Refund"]:c10(),["RefundAdjustmentReason"]:c11(),["RefundGiftCardDestination"]:c12(),["RefundLineItemAdjustment"]:c13(),["RefundLineItemAdjustmentRefund"]:c14(),["RefundLineItemAllocation"]:c15(),["RefundLineItemAutomaticRefund"]:c16(),["RefundLineItemModifierAllocation"]:c17(),["RefundTaxBreakdownRefund"]:c18(),["RefundTenderAllocation"]:c19(),["RefundUnissuedGiftCardRecovery"]:c20(),["SelectedProductOption"]:c21(),["SettlementAmounts"]:c22(),["SharedCodec16"]:c23(),["SharedCodec17"]:c24(),["SharedCodec18"]:c25(),["SharedCodec228"]:c26(),["SignedMoney"]:c27()}); }
-export { codec as _validate };
-import { modelFromCodec } from '../runtime.js';
-export function makeRefund(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

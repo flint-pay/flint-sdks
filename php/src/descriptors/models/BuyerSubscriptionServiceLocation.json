@@ -1,0 +1,1 @@
+{"shared":"BuyerSubscriptionServiceLocation","phpRepresentation":{"kind":"record","fields":{"address":{"kind":"entity","name":"Address"}}},"dependencies":["Address","BuyerSubscriptionServiceLocation"]}

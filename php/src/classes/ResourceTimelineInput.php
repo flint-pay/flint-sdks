@@ -3,35 +3,33 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass> $entries
- * @property-read string $environment_id
  * @property-read string $resource_id
- * @property-read string $resource_type
+ * @property-read ResourceTypeInput|array<array-key, mixed>|\stdClass $resource_type
  * @property-read bool $test
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResourceTimelineInput extends Model {
-    /** @param array{'entries': list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass>, 'environment_id'?: string, 'resource_id': string, 'resource_type': string, 'test': bool, ...}|object $values */
+    /** @param array{'entries': list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass>, 'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass, 'test': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineInput')); }
-    /** @return list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): Array of {@see ResourceTimelineEntryInput}. Shape $[] (Value): {@see ResourceTimelineEntryInput}. One entry in a resource timeline. The `entry_type` selects which of the request, webhook, or image fields are present.
+     * @return list<ResourceTimelineEntryInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When entries is omitted; use hasEntries() or valueOrDefault().
      */
     public function getEntries(): array { return $this->get('entries'); }
     public function hasEntries(): bool { return $this->has('entries'); }
-    /** @return string
-     * @throws SdkError When environment_id is omitted; use hasEnvironmentId() or valueOrDefault().
-     */
-    public function getEnvironmentId(): string { return $this->get('environment_id'); }
-    public function hasEnvironmentId(): bool { return $this->has('environment_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When resource_id is omitted; use hasResourceId() or valueOrDefault().
      */
     public function getResourceId(): string { return $this->get('resource_id'); }
     public function hasResourceId(): bool { return $this->has('resource_id'); }
-    /** @return string
+    /** Shape $ (Value): {@see ResourceTypeInput}. Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Value enum: "api_key", "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component", "category", "checkout_session", "checkout_session_customer_verification", "credit_note", "credit_note_allocation", "custom_domain", "customer", "customer_address", "customer_deletion_request", "customer_session", "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection", "delivery_zone", "device", "discount", "dispute", "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "inventory_adjustment", "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count", "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation", "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location", "merchant", "merchant_billing_balance", "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt", "organization", "package", "package_item", "partner_app", "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination", "payout_settings", "product", "product_option", "product_option_value", "product_variant", "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment", "report", "report_download", "return", "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy", "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item", "subscription_offer", "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user", "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     * @return ResourceTypeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When resource_type is omitted; use hasResourceType() or valueOrDefault().
      */
-    public function getResourceType(): string { return $this->get('resource_type'); }
+    public function getResourceType(): mixed { return $this->get('resource_type'); }
     public function hasResourceType(): bool { return $this->has('resource_type'); }
-    /** @return bool
+    /** Shape $ (Value): boolean.
+     * @return bool
      * @throws SdkError When test is omitted; use hasTest() or valueOrDefault().
      */
     public function getTest(): bool { return $this->get('test'); }

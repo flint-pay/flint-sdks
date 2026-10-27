@@ -7,7 +7,8 @@ namespace Flint;
 final class SpecificationGetInput extends Model {
     /** @param array{'version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SpecificationGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */
     public function getVersion(): string { return $this->get('version'); }

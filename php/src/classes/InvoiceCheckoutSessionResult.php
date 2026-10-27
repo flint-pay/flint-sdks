@@ -2,38 +2,32 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read CheckoutAccess $checkout_access
+ * @property-read string $checkout_auth_token
  * @property-read CheckoutSession $checkout_session
  * @property-read Invoice $invoice
- * @property-read InvoicePaymentAttempt $invoice_payment_attempt
- * @property-read bool $reused_existing
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?InvoicePaymentAttempt $invoice_payment_attempt
+ * Presence-aware response; omitted optional fields return null. */
 final class InvoiceCheckoutSessionResult extends Model {
-    /** @param array{'checkout_access': mixed, 'checkout_session': mixed, 'invoice': mixed, 'invoice_payment_attempt'?: mixed, 'reused_existing': bool, ...}|object $values */
+    /** @param array{'checkout_auth_token': string, 'checkout_session': mixed, 'invoice': mixed, 'invoice_payment_attempt'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceCheckoutSessionResult')); }
-    /** @return CheckoutAccess
-     * @throws SdkError When checkout_access is omitted; use hasCheckoutAccess() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
-    public function getCheckoutAccess(): CheckoutAccess { return $this->get('checkout_access'); }
-    public function hasCheckoutAccess(): bool { return $this->has('checkout_access'); }
-    /** @return CheckoutSession
-     * @throws SdkError When checkout_session is omitted; use hasCheckoutSession() or valueOrDefault().
+    public function getCheckoutAuthToken(): string { return $this->get('checkout_auth_token'); }
+    public function hasCheckoutAuthToken(): bool { return $this->has('checkout_auth_token'); }
+    /** Shape $ (Value): {@see CheckoutSession}. A session in which a buyer completes an order's payment.
+     * @return CheckoutSession
      */
     public function getCheckoutSession(): CheckoutSession { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
-    /** @return Invoice
-     * @throws SdkError When invoice is omitted; use hasInvoice() or valueOrDefault().
+    /** Shape $ (Value): {@see Invoice}. A bill issued to a customer.
+     * @return Invoice
      */
     public function getInvoice(): Invoice { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** @return InvoicePaymentAttempt
-     * @throws SdkError When invoice_payment_attempt is omitted; use hasInvoicePaymentAttempt() or valueOrDefault().
+    /** Shape $ (Value): {@see InvoicePaymentAttempt}. An attempt to collect payment for an invoice.
+     * @return ?InvoicePaymentAttempt
      */
-    public function getInvoicePaymentAttempt(): InvoicePaymentAttempt { return $this->get('invoice_payment_attempt'); }
+    public function getInvoicePaymentAttempt(): ?InvoicePaymentAttempt { return $this->get('invoice_payment_attempt'); }
     public function hasInvoicePaymentAttempt(): bool { return $this->has('invoice_payment_attempt'); }
-    /** @return bool
-     * @throws SdkError When reused_existing is omitted; use hasReusedExisting() or valueOrDefault().
-     */
-    public function getReusedExisting(): bool { return $this->get('reused_existing'); }
-    public function hasReusedExisting(): bool { return $this->has('reused_existing'); }
 }

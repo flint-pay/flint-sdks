@@ -7,7 +7,8 @@ namespace Flint;
 final class CancelOrderPaymentAttemptRequestInput extends Model {
     /** @param array{'cancellation_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CancelOrderPaymentAttemptRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned".
+     * @return string
      * @throws SdkError When cancellation_reason is omitted; use hasCancellationReason() or valueOrDefault().
      */
     public function getCancellationReason(): string { return $this->get('cancellation_reason'); }

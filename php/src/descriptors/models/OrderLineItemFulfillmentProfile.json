@@ -1,0 +1,1 @@
+{"shared":"OrderLineItemFulfillmentProfile","phpRepresentation":{"kind":"record","fields":{"allowed_types":{"kind":"list","value":{"kind":"value","type":"string"}},"requirement":{"kind":"value","type":"string"}}},"dependencies":["OrderLineItemFulfillmentProfile"]}

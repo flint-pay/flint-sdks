@@ -7,7 +7,8 @@ namespace Flint;
 final class WaiveInvoiceLateFeeRequestInput extends Model {
     /** @param array{'reason_message': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WaiveInvoiceLateFeeRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Your note explaining this action. minLength: 1. maxLength: 4096.
+     * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }

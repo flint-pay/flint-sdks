@@ -1,9 +1,14 @@
-import { d808 as c0, d66 as c1, d67 as c2, d2478 as c3, d2479 as c4, d2481 as c5, d2482 as c6, d2484 as c7, d318 as c8, d317 as c9, d2463 as c10, d2477 as c11, d2485 as c12, d2480 as c13, d2483 as c14 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d2485 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d3148 as c0 } from '../descriptors/data/124.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3872 as c1, d3869 as c9, d3870 as c11, d3871 as c12 } from '../descriptors/data/163.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3841 as c2, d3842 as c3, d3843 as c4, d3844 as c5, d3845 as c6 } from '../descriptors/data/161.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3432 as c7 } from '../descriptors/data/139.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3868 as c8 } from '../descriptors/data/162.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d2433 as c10 } from '../descriptors/data/96.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d2433 as d2433 } from '../descriptors/data/96.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2485;
+const read = d2433;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["FulfillmentRecipient"]:c0(),["PostalAddress"]:c1(),["SharedCodec14"]:c2(),["SharedCodec620"]:c3(),["SharedCodec621"]:c4(),["SharedCodec622"]:c5(),["SharedCodec623"]:c6(),["SharedCodec624"]:c7(),["SharedCodec91"]:c8(),["SharedCodec92"]:c9(),["UpdateDeliveryFulfillmentDetails"]:c10(),["UpdateDigitalFulfillmentDetails"]:c11(),["UpdateFulfillmentRequest"]:c12(),["UpdatePickupFulfillmentDetails"]:c13(),["UpdateServiceFulfillmentDetails"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["FulfillmentRecipientRequest"]:c1(),["SharedCodec1175"]:c2(),["SharedCodec1176"]:c3(),["SharedCodec1177"]:c4(),["SharedCodec1178"]:c5(),["SharedCodec1179"]:c6(),["SharedCodec951"]:c7(),["UpdateDeliveryFulfillmentDetails"]:c8(),["UpdateDigitalFulfillmentDetails"]:c9(),["UpdateFulfillmentRequest"]:c10(),["UpdatePickupFulfillmentDetails"]:c11(),["UpdateServiceFulfillmentDetails"]:c12()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateFulfillmentRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

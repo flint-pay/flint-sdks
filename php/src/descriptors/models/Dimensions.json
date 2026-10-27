@@ -1,1 +1,1 @@
-{"shared":"Dimensions","phpRepresentation":{"kind":"record","fields":{"height":{"kind":"value","type":"string"},"length":{"kind":"value","type":"string"},"unit":{"kind":"value","type":"string"},"width":{"kind":"value","type":"string"}}},"dependencies":["Dimensions"]}
+{"shared":"Dimensions","phpRepresentation":{"kind":"record","fields":{"height":{"kind":"value","type":"float"},"length":{"kind":"value","type":"float"},"unit":{"kind":"value","type":"string"},"width":{"kind":"value","type":"float"}}},"dependencies":["Dimensions"]}

@@ -1,0 +1,1 @@
+{"shared":"CheckoutSessionTax","phpRepresentation":{"kind":"record","fields":{"enabled":{"kind":"value","type":"bool"},"location_fixed_by_merchant":{"kind":"entity","name":"CheckoutTaxLocation"}}},"dependencies":["CheckoutSessionTax","CheckoutTaxLocation"]}

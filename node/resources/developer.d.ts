@@ -1,430 +1,1556 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { APIRequestLog } from '../declarations/APIRequestLog.js';
-import type { APIRequestLogDetailResponse } from '../declarations/APIRequestLogDetailResponse.js';
-import type { APIRequestLogListResponse } from '../declarations/APIRequestLogListResponse.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CreateAPIKeyResponse } from '../declarations/CreateAPIKeyResponse.js';
-import type { CreatePartnerAppResponse } from '../declarations/CreatePartnerAppResponse.js';
-import type { DeveloperAuthContext } from '../declarations/DeveloperAuthContext.js';
-import type { DeveloperAuthContextInput } from '../declarations/DeveloperAuthContextInput.js';
-import type { DeveloperAuthContextResponse } from '../declarations/DeveloperAuthContextResponse.js';
-import type { DeveloperAuthContextResponseInput } from '../declarations/DeveloperAuthContextResponseInput.js';
-import type { DeveloperCreatePartnerAppInput } from '../declarations/DeveloperCreatePartnerAppInput.js';
-import type { DeveloperCreatePartnerAppResponse } from '../declarations/DeveloperCreatePartnerAppResponse.js';
-import type { DeveloperCreateSandboxInput } from '../declarations/DeveloperCreateSandboxInput.js';
-import type { DeveloperCreateSandboxResponse } from '../declarations/DeveloperCreateSandboxResponse.js';
-import type { DeveloperDeleteSandboxInput } from '../declarations/DeveloperDeleteSandboxInput.js';
-import type { DeveloperDeleteSandboxResponse } from '../declarations/DeveloperDeleteSandboxResponse.js';
-import type { DeveloperGetAuthContextInput } from '../declarations/DeveloperGetAuthContextInput.js';
-import type { DeveloperGetAuthContextResponse } from '../declarations/DeveloperGetAuthContextResponse.js';
-import type { DeveloperGetCurrentAPIKeyRequestLogInput } from '../declarations/DeveloperGetCurrentAPIKeyRequestLogInput.js';
-import type { DeveloperGetCurrentAPIKeyRequestLogResponse } from '../declarations/DeveloperGetCurrentAPIKeyRequestLogResponse.js';
-import type { DeveloperGetPartnerAppInput } from '../declarations/DeveloperGetPartnerAppInput.js';
-import type { DeveloperGetPartnerAppInstallInput } from '../declarations/DeveloperGetPartnerAppInstallInput.js';
-import type { DeveloperGetPartnerAppInstallResponse } from '../declarations/DeveloperGetPartnerAppInstallResponse.js';
-import type { DeveloperGetPartnerAppResponse } from '../declarations/DeveloperGetPartnerAppResponse.js';
-import type { DeveloperGetResourceTimelineInput } from '../declarations/DeveloperGetResourceTimelineInput.js';
-import type { DeveloperGetResourceTimelineResponse } from '../declarations/DeveloperGetResourceTimelineResponse.js';
-import type { DeveloperGetSandboxInput } from '../declarations/DeveloperGetSandboxInput.js';
-import type { DeveloperGetSandboxResponse } from '../declarations/DeveloperGetSandboxResponse.js';
-import type { DeveloperInitialAPIKeyRequest } from '../declarations/DeveloperInitialAPIKeyRequest.js';
-import type { DeveloperInitialAPIKeyRequestInput } from '../declarations/DeveloperInitialAPIKeyRequestInput.js';
-import type { DeveloperIssueSandboxTestKeyInput } from '../declarations/DeveloperIssueSandboxTestKeyInput.js';
-import type { DeveloperIssueSandboxTestKeyResponse } from '../declarations/DeveloperIssueSandboxTestKeyResponse.js';
-import type { DeveloperListCurrentAPIKeyRequestLogsInput } from '../declarations/DeveloperListCurrentAPIKeyRequestLogsInput.js';
-import type { DeveloperListCurrentAPIKeyRequestLogsResponse } from '../declarations/DeveloperListCurrentAPIKeyRequestLogsResponse.js';
-import type { DeveloperListPartnerAppInstallsInput } from '../declarations/DeveloperListPartnerAppInstallsInput.js';
-import type { DeveloperListPartnerAppInstallsResponse } from '../declarations/DeveloperListPartnerAppInstallsResponse.js';
-import type { DeveloperListPartnerAppsInput } from '../declarations/DeveloperListPartnerAppsInput.js';
-import type { DeveloperListPartnerAppsResponse } from '../declarations/DeveloperListPartnerAppsResponse.js';
-import type { DeveloperListSandboxesInput } from '../declarations/DeveloperListSandboxesInput.js';
-import type { DeveloperListSandboxesResponse } from '../declarations/DeveloperListSandboxesResponse.js';
-import type { DeveloperResetSandboxInput } from '../declarations/DeveloperResetSandboxInput.js';
-import type { DeveloperResetSandboxResponse } from '../declarations/DeveloperResetSandboxResponse.js';
-import type { DeveloperRevokePartnerAppInstallInput } from '../declarations/DeveloperRevokePartnerAppInstallInput.js';
-import type { DeveloperRevokePartnerAppInstallResponse } from '../declarations/DeveloperRevokePartnerAppInstallResponse.js';
-import type { DeveloperRevokePartnerEnvironmentGrantInput } from '../declarations/DeveloperRevokePartnerEnvironmentGrantInput.js';
-import type { DeveloperRevokePartnerEnvironmentGrantResponse } from '../declarations/DeveloperRevokePartnerEnvironmentGrantResponse.js';
-import type { DeveloperRotatePartnerAppSecretInput } from '../declarations/DeveloperRotatePartnerAppSecretInput.js';
-import type { DeveloperRotatePartnerAppSecretResponse } from '../declarations/DeveloperRotatePartnerAppSecretResponse.js';
-import type { DeveloperSandbox } from '../declarations/DeveloperSandbox.js';
-import type { DeveloperSandboxInput } from '../declarations/DeveloperSandboxInput.js';
-import type { DeveloperSandboxWithAPIKey } from '../declarations/DeveloperSandboxWithAPIKey.js';
-import type { DeveloperSandboxWithAPIKeyInput } from '../declarations/DeveloperSandboxWithAPIKeyInput.js';
-import type { DeveloperUpdatePartnerAppInput } from '../declarations/DeveloperUpdatePartnerAppInput.js';
-import type { DeveloperUpdatePartnerAppResponse } from '../declarations/DeveloperUpdatePartnerAppResponse.js';
-import type { PartnerApp } from '../declarations/PartnerApp.js';
-import type { PartnerAppInstall } from '../declarations/PartnerAppInstall.js';
-import type { PartnerAppInstallListResponse } from '../declarations/PartnerAppInstallListResponse.js';
-import type { PartnerAppInstallResponse } from '../declarations/PartnerAppInstallResponse.js';
-import type { PartnerAppListResponse } from '../declarations/PartnerAppListResponse.js';
-import type { PartnerAppPermissionManifestEntryInput } from '../declarations/PartnerAppPermissionManifestEntryInput.js';
-import type { PartnerAppResponse } from '../declarations/PartnerAppResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { ResourceTimelineResponse } from '../declarations/ResourceTimelineResponse.js';
-import type { RotatePartnerAppSecretResponse } from '../declarations/RotatePartnerAppSecretResponse.js';
-import type { SandboxListResponse } from '../declarations/SandboxListResponse.js';
-import type { SandboxResponse } from '../declarations/SandboxResponse.js';
-import type { SandboxWithAPIKeyResponse } from '../declarations/SandboxWithAPIKeyResponse.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type {
+    APIKeyWithSecret,
+    APIRequestLog,
+    APIRequestLogDetail,
+    APIRequestLogDetailResponse,
+    APIRequestLogListResponse
+} from '../declarations/types-0.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateAPIKeyResponse } from '../declarations/types-5.js';
+import type { CreateDeveloperSandboxResult } from '../declarations/types-6.js';
+import type { CreatePartnerAppRequestInput } from '../declarations/types-7.js';
+import type { CreateSandboxRequestInput } from '../declarations/types-9.js';
+import type {
+    DeveloperAuthContext,
+    DeveloperAuthContextResponse,
+    DeveloperCreatePartnerAppInput,
+    DeveloperCreateSandboxInput,
+    DeveloperDeletePartnerAppInput,
+    DeveloperDeleteSandboxInput,
+    DeveloperGetAuthContextInput,
+    DeveloperGetCurrentAPIKeyRequestLogInput,
+    DeveloperGetPartnerAppInput,
+    DeveloperGetPartnerAppInstallInput,
+    DeveloperGetResourceTimelineInput,
+    DeveloperGetSandboxInput,
+    DeveloperInitialAPIKeyRequest,
+    DeveloperInitialAPIKeyRequestInput,
+    DeveloperIssueSandboxTestKeyInput,
+    DeveloperListCurrentAPIKeyRequestLogsInput,
+    DeveloperListPartnerAppInstallsInput,
+    DeveloperListPartnerAppsInput,
+    DeveloperListPartnerInstallsInput,
+    DeveloperListSandboxesInput,
+    DeveloperResetSandboxInput,
+    DeveloperRevokePartnerAppInstallInput,
+    DeveloperRevokePartnerEnvironmentGrantInput,
+    DeveloperRotatePartnerAppSecretInput
+} from '../declarations/types-15.js';
+import type { DeveloperSandbox, DeveloperUpdatePartnerAppInput } from '../declarations/types-16.js';
+import type { IssueSandboxAPIKeyRequestInput } from '../declarations/types-28.js';
+import type {
+    PartnerApp,
+    PartnerAppInstall,
+    PartnerAppInstallListResponse,
+    PartnerAppInstallResponse,
+    PartnerAppListResponse
+} from '../declarations/types-34.js';
+import type { PartnerAppResponse, PartnerAppWithSecret, PartnerAppWithSecretResponse } from '../declarations/types-35.js';
+import type { RequestOptions, ResourceTimeline, ResourceTimelineResponse } from '../declarations/types-40.js';
+import type {
+    RotatePartnerAppSecretRequestInput,
+    SandboxListResponse,
+    SandboxResponse,
+    SandboxWithAPIKeyResponse,
+    SdkResponse
+} from '../declarations/types-43.js';
+import type { UpdatePartnerAppRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreatePartnerAppRequestInput } from '../declarations/types-7.js';
+export type {
+    RequestOptions,
+    ResourceTimeline,
+    ResourceTimelineResponse,
+    ResponseMeta,
+    ResponseWarning,
+    ResourceReference,
+    ResourceType,
+    ResourceTimelineEntry,
+    ResourceTimelineAPIRequestEntry,
+    ResourceTimelineWebhookEventEntry,
+    ResourceTimelineWebhookDeliveryAttemptEntry,
+    ResourceTimelineImageMutationEntry
+} from '../declarations/types-40.js';
+export type {
+    PartnerAppWithSecret,
+    PartnerAppWithSecretResponse,
+    PartnerAppResponse,
+    PartnerAppPermissionManifestEntryInput,
+    PartnerEnvironmentGrant
+} from '../declarations/types-35.js';
+export type {
+    SdkResponse,
+    SandboxWithAPIKeyResponse,
+    SandboxResponse,
+    SandboxListResponse,
+    RotatePartnerAppSecretRequestInput
+} from '../declarations/types-43.js';
+export type { CreateSandboxRequestInput, Credentials } from '../declarations/types-9.js';
+export type { CreateDeveloperSandboxResult } from '../declarations/types-6.js';
+export type {
+    PartnerApp,
+    PartnerAppInstall,
+    PartnerAppInstallResponse,
+    PartnerAppInstallListResponse,
+    PartnerAppListResponse,
+    PartnerAppPermissionManifestEntry
+} from '../declarations/types-34.js';
+export type { DeveloperSandbox, DeveloperUpdatePartnerAppInput } from '../declarations/types-16.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type {
+    APIRequestLogDetail,
+    APIRequestLogDetailResponse,
+    APIKeyWithSecret,
+    APIRequestLogListResponse,
+    APIRequestLog,
+    AuthMode,
+    APIKey,
+    APIRequestLogQueryParam,
+    APIRequestLogReproduction
+} from '../declarations/types-0.js';
+export type {
+    DeveloperAuthContext,
+    DeveloperAuthContextResponse,
+    DeveloperInitialAPIKeyRequest,
+    DeveloperInitialAPIKeyRequestInput,
+    DeveloperCreatePartnerAppInput,
+    DeveloperCreateSandboxInput,
+    DeveloperDeletePartnerAppInput,
+    DeveloperDeleteSandboxInput,
+    DeveloperGetCurrentAPIKeyRequestLogInput,
+    DeveloperGetAuthContextInput,
+    DeveloperGetPartnerAppInput,
+    DeveloperGetPartnerAppInstallInput,
+    DeveloperGetSandboxInput,
+    DeveloperGetResourceTimelineInput,
+    DeveloperIssueSandboxTestKeyInput,
+    DeveloperListCurrentAPIKeyRequestLogsInput,
+    DeveloperListPartnerAppInstallsInput,
+    DeveloperListPartnerAppsInput,
+    DeveloperListPartnerInstallsInput,
+    DeveloperListSandboxesInput,
+    DeveloperResetSandboxInput,
+    DeveloperRevokePartnerAppInstallInput,
+    DeveloperRevokePartnerEnvironmentGrantInput,
+    DeveloperRotatePartnerAppSecretInput
+} from '../declarations/types-15.js';
+export type { IssueSandboxAPIKeyRequestInput } from '../declarations/types-28.js';
+export type { CreateAPIKeyResponse } from '../declarations/types-5.js';
+export type { UpdatePartnerAppRequestInput } from '../declarations/types-48.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeCreatePartnerAppRequest, makeCreateSandboxRequest } from '../declarations/types-64.js';
+export { makeDeveloperInitialAPIKeyRequest } from '../declarations/types-66.js';
+export { makeIssueSandboxAPIKeyRequest, makeMoneyValue } from '../declarations/types-68.js';
+export { makePartnerAppPermissionManifestEntry } from '../declarations/types-69.js';
+export { makeRotatePartnerAppSecretRequest } from '../declarations/types-71.js';
+export { makeUpdatePartnerAppRequest } from '../declarations/types-72.js';
 export interface DeveloperResource {
     /**
- * Creates a partner app owned by the authenticated merchant. Use a developer setup session during setup or a normal external API key afterward.
+ * Creates a partner app owned by the authenticated merchant. Use a developer setup session during
+ * setup or a normal external API key afterward.
+ * @see reference/developer.md#developercreatepartnerapp
  * POST /v1/developer/partner/apps
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.developer.createPartnerApp({name: "example", permission_manifest: [], redirect_uris: []}, { idempotencyKey: idempotencyKey })
+ * client.developer.createPartnerApp({name: "example", permission_manifest: [], redirect_uris: []},
+ * { idempotencyKey: idempotencyKey })
  */
-    createPartnerApp(params: (InputValue<{ "api_version"?: string; "app_type"?: "server" | "plugin"; "default_requested_permissions"?: Array<string>; "name": string; "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>; "redirect_uris": Array<string>; "visibility"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<CreatePartnerAppResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createPartnerAppWithResponse(params: (InputValue<{ "api_version"?: string; "app_type"?: "server" | "plugin"; "default_requested_permissions"?: Array<string>; "name": string; "permission_manifest": Array<PartnerAppPermissionManifestEntryInput>; "redirect_uris": Array<string>; "visibility"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperCreatePartnerAppResponse>>;
+    createPartnerApp(params: (InputValue<CreatePartnerAppRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<PartnerAppWithSecret>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developercreatepartnerapp
+     */
+    createPartnerAppWithResponse(params: (InputValue<CreatePartnerAppRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<PartnerAppWithSecretResponse>>;
     /**
- * Creates a new test sandbox for the current merchant. Optionally seeds the new empty sandbox with the merchant's live defaults and issues a sandbox-bound test key as part of creation.
+ * Creates a new empty test sandbox for the current merchant. Send `issue_test_key: true` to also
+ * receive a test key bound to it.
+ * @see reference/developer.md#developercreatesandbox
  * POST /v1/developer/sandboxes
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.developer.createSandbox({name: "example"}, { idempotencyKey: idempotencyKey })
+ * client.developer.createSandbox({name: "example", issue_test_key: true, scopes: []}, {
+ * idempotencyKey: idempotencyKey })
  */
-    createSandbox(params: (InputValue<{ "issue_test_key"?: boolean; "name": string; "scopes"?: Array<string>; "test_key_name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<SandboxWithAPIKeyResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createSandboxWithResponse(params: (InputValue<{ "issue_test_key"?: boolean; "name": string; "scopes"?: Array<string>; "test_key_name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperCreateSandboxResponse>>;
+    createSandbox(params: (InputValue<CreateSandboxRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<CreateDeveloperSandboxResult>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developercreatesandbox
+     */
+    createSandboxWithResponse(params: (InputValue<CreateSandboxRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<SandboxWithAPIKeyResponse>>;
+    /**
+ * Archives a partner app (soft delete). The app stays readable with status archived; it cannot be
+ * installed, exchange tokens, or receive events, and its client ID is never reused. Revoke every
+ * active install first; pending installs are revoked with the app. Delete the app’s webhook
+ * endpoints separately.
+ * @see reference/developer.md#developerdeletepartnerapp
+ * DELETE /v1/developer/partner/apps/{partner_app_id}
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.developer.deletePartnerApp("example", {}, { idempotencyKey: idempotencyKey })
+ */
+    deletePartnerApp(partner_app_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PartnerApp>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerdeletepartnerapp
+     */
+    deletePartnerAppWithResponse(partner_app_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PartnerAppResponse>>;
     /**
  * Retires a non-default sandbox and frees its original name for reuse.
+ * @see reference/developer.md#developerdeletesandbox
  * DELETE /v1/developer/sandboxes/{sandbox_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.developer.deleteSandbox("example", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteSandbox(sandbox_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<SandboxResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    deleteSandboxWithResponse(sandbox_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperDeleteSandboxResponse>>;
+    deleteSandbox(sandbox_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<DeveloperSandbox>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerdeletesandbox
+     */
+    deleteSandboxWithResponse(sandbox_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<SandboxResponse>>;
     /**
- * Returns redacted request log detail for a request generated by the authenticated API key. Detail responses remain current-key scoped and redact headers, query parameters, request bodies, and response bodies before returning them.
+ * Returns one request with redacted headers, the redacted request and response bodies for write
+ * routes that capture them, and a curl reproduction. Detail older than 14 days has no headers or
+ * bodies.
+ * @see reference/developer.md#developergetcurrentapikeyrequestlog
  * GET /v1/developer/request-logs/{api_request_log_id}
  * @example
  * client.developer.getCurrentAPIKeyRequestLog("example")
  */
-    getCurrentAPIKeyRequestLog(api_request_log_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<APIRequestLogDetailResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getCurrentAPIKeyRequestLogWithResponse(api_request_log_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeveloperGetCurrentAPIKeyRequestLogResponse>>;
+    getCurrentAPIKeyRequestLog(api_request_log_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<APIRequestLogDetail>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developergetcurrentapikeyrequestlog
+     */
+    getCurrentAPIKeyRequestLogWithResponse(api_request_log_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<APIRequestLogDetailResponse>>;
     /**
- * Returns non-secret metadata for an API key or CLI OAuth access token, including its merchant, environment, sandbox binding, and granted scopes. CLI OAuth sessions include auth_type=oauth and a stable oauth_grant_id instead of api_key_id. Multi-context tokens also include oauth_session_id, context_id, and the context name. No additional API scope is required.
+ * Returns non-secret metadata for an API key or CLI OAuth access token, including its merchant,
+ * environment, sandbox binding, and granted scopes. CLI OAuth sessions include auth_type=oauth and
+ * a stable oauth_grant_id instead of api_key_id. Multi-context tokens also include
+ * oauth_session_id, context_id, and the context name. No additional API scope is required.
+ * @see reference/developer.md#developergetauthcontext
  * GET /v1/developer/auth-context
  * @example
  * client.developer.getAuthContext()
  */
-    getAuthContext(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeveloperAuthContextResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getAuthContextWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeveloperGetAuthContextResponse>>;
+    getAuthContext(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeveloperAuthContext>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developergetauthcontext
+     */
+    getAuthContextWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeveloperAuthContextResponse>>;
     /**
  * Returns a single partner app owned by the authenticated merchant.
+ * @see reference/developer.md#developergetpartnerapp
  * GET /v1/developer/partner/apps/{partner_app_id}
  * @example
  * client.developer.getPartnerApp("example")
  */
-    getPartnerApp(partner_app_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<_SdkPayloadAt<PartnerAppResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getPartnerAppWithResponse(partner_app_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<DeveloperGetPartnerAppResponse>>;
+    getPartnerApp(partner_app_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerApp>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developergetpartnerapp
+     */
+    getPartnerAppWithResponse(partner_app_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppResponse>>;
     /**
- * Returns a single install for a partner app owned by the authenticated merchant.
+ * Returns a single install for the installing merchant or the partner app owner.
+ * @see reference/developer.md#developergetpartnerappinstall
  * GET /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}
  * @example
  * client.developer.getPartnerAppInstall("example", "example")
  */
-    getPartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<_SdkPayloadAt<PartnerAppInstallResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getPartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<DeveloperGetPartnerAppInstallResponse>>;
+    getPartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppInstall>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developergetpartnerappinstall
+     */
+    getPartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallResponse>>;
     /**
  * Returns a single sandbox by ID.
+ * @see reference/developer.md#developergetsandbox
  * GET /v1/developer/sandboxes/{sandbox_id}
  * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.developer.getSandbox("example", {"Idempotency-Key": idempotencyKey})
+ * client.developer.getSandbox("example")
  */
-    getSandbox(sandbox_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<_SdkPayloadAt<SandboxResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getSandboxWithResponse(sandbox_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<DeveloperGetSandboxResponse>>;
+    getSandbox(sandbox_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<DeveloperSandbox>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developergetsandbox
+     */
+    getSandboxWithResponse(sandbox_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<SandboxResponse>>;
     /**
- * Returns summary-only API request, webhook event, and webhook delivery attempt entries for a single public API resource. The caller must have developer.resource_timelines.read and the matching read scope for the requested resource type.
+ * Returns summary-only API request, webhook event, webhook delivery attempt, and image mutation
+ * entries for a single public API resource. The caller must have developer.resource_timelines.read
+ * and the matching read scope for the requested resource type.
+ * @see reference/developer.md#developergetresourcetimeline
  * GET /v1/developer/resource-timelines/{resource_id}
  * @example
  * client.developer.getResourceTimeline("example")
  */
-    getResourceTimeline(resource_id: InputValue<string>, params?: { "resource_type"?: InputValue<string>; "include"?: InputValue<Array<"requests" | "webhooks" | "attempts">>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ResourceTimelineResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getResourceTimelineWithResponse(resource_id: InputValue<string>, params?: { "resource_type"?: InputValue<string>; "include"?: InputValue<Array<"requests" | "webhooks" | "attempts">>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeveloperGetResourceTimelineResponse>>;
+    getResourceTimeline(resource_id: InputValue<string>, params?: {
+        "resource_type"?: InputValue<"balance"
+            | "balance_transaction"
+            | "bundle"
+            | "category"
+            | "checkout_session"
+            | "credit_note"
+            | "credit_note_allocation"
+            | "customer"
+            | "dispute"
+            | "fraud_warning"
+            | "inventory_count"
+            | "inventory_level"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_reservation_line"
+            | "inventory_transfer"
+            | "invoice"
+            | "invoice_payment_term"
+            | "merchant_billing_balance"
+            | "merchant_billing_invoice"
+            | "modifier"
+            | "modifier_group"
+            | "modifier_set"
+            | "order"
+            | "payment_intent"
+            | "payment_link"
+            | "payment_method"
+            | "payment_method_domain"
+            | "payment_review"
+            | "payout"
+            | "payout_destination"
+            | "payout_settings"
+            | "product"
+            | "product_variant"
+            | "promotion"
+            | "promotion_code"
+            | "refund"
+            | "return"
+            | "return_activity"
+            | "return_disposition"
+            | "return_inspection"
+            | "return_receipt"
+            | "return_resolution"
+            | "risk_list"
+            | "risk_list_item"
+            | "risk_rule"
+            | "subscription"
+            | "subscription_plan">;
+        "include"?: InputValue<Array<"requests" | "webhooks" | "attempts" | "image_mutations">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ResourceTimeline>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developergetresourcetimeline
+     */
+    getResourceTimelineWithResponse(resource_id: InputValue<string>, params?: {
+        "resource_type"?: InputValue<"balance"
+            | "balance_transaction"
+            | "bundle"
+            | "category"
+            | "checkout_session"
+            | "credit_note"
+            | "credit_note_allocation"
+            | "customer"
+            | "dispute"
+            | "fraud_warning"
+            | "inventory_count"
+            | "inventory_level"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_reservation_line"
+            | "inventory_transfer"
+            | "invoice"
+            | "invoice_payment_term"
+            | "merchant_billing_balance"
+            | "merchant_billing_invoice"
+            | "modifier"
+            | "modifier_group"
+            | "modifier_set"
+            | "order"
+            | "payment_intent"
+            | "payment_link"
+            | "payment_method"
+            | "payment_method_domain"
+            | "payment_review"
+            | "payout"
+            | "payout_destination"
+            | "payout_settings"
+            | "product"
+            | "product_variant"
+            | "promotion"
+            | "promotion_code"
+            | "refund"
+            | "return"
+            | "return_activity"
+            | "return_disposition"
+            | "return_inspection"
+            | "return_receipt"
+            | "return_resolution"
+            | "risk_list"
+            | "risk_list_item"
+            | "risk_rule"
+            | "subscription"
+            | "subscription_plan">;
+        "include"?: InputValue<Array<"requests" | "webhooks" | "attempts" | "image_mutations">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ResourceTimelineResponse>>;
     /**
  * Creates a new test API key that is bound to the target sandbox.
+ * @see reference/developer.md#developerissuesandboxtestkey
  * POST /v1/developer/sandboxes/{sandbox_id}/test-key
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.developer.issueSandboxTestKey("example", {name: "example"}, { idempotencyKey: idempotencyKey })
+ * client.developer.issueSandboxTestKey("example", {name: "example", scopes: []}, { idempotencyKey:
+ * idempotencyKey })
  */
-    issueSandboxTestKey(sandbox_id: InputValue<string>, params: (InputValue<{ "name": string; "scopes"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<CreateAPIKeyResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    issueSandboxTestKeyWithResponse(sandbox_id: InputValue<string>, params: (InputValue<{ "name": string; "scopes"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperIssueSandboxTestKeyResponse>>;
+    issueSandboxTestKey(sandbox_id: InputValue<string>, params: (InputValue<IssueSandboxAPIKeyRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<APIKeyWithSecret>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerissuesandboxtestkey
+     */
+    issueSandboxTestKeyWithResponse(sandbox_id: InputValue<string>, params: (InputValue<IssueSandboxAPIKeyRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<CreateAPIKeyResponse>>;
     /**
- * Returns request log summaries generated by the authenticated API key. Results are always scoped to the calling key. Full request and response bodies are intentionally omitted from this public API surface to reduce the risk of sensitive data leakage.
+ * Returns request summaries, newest first. With developer.request_logs.read the list covers every
+ * caller in the credential's environment. With developer.request_logs.self.read it covers only the
+ * calling credential's requests. Headers, bodies and a reproduction are on the detail route.
+ * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
  * GET /v1/developer/request-logs
  * @example
  * client.developer.listCurrentAPIKeyRequestLogs()
  */
-    listCurrentAPIKeyRequestLogs(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "request_id"?: InputValue<string>; "http_method"?: InputValue<string>; "path_query"?: InputValue<string>; "resource_type"?: InputValue<string>; "resource_id"?: InputValue<string>; "status_bucket"?: InputValue<"all" | "success" | "client_error" | "server_error">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<APIRequestLogListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listCurrentAPIKeyRequestLogsWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "request_id"?: InputValue<string>; "http_method"?: InputValue<string>; "path_query"?: InputValue<string>; "resource_type"?: InputValue<string>; "resource_id"?: InputValue<string>; "status_bucket"?: InputValue<"all" | "success" | "client_error" | "server_error">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeveloperListCurrentAPIKeyRequestLogsResponse>>;
-    listCurrentAPIKeyRequestLogsPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "request_id"?: InputValue<string>; "http_method"?: InputValue<string>; "path_query"?: InputValue<string>; "resource_type"?: InputValue<string>; "resource_id"?: InputValue<string>; "status_bucket"?: InputValue<"all" | "success" | "client_error" | "server_error">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<APIRequestLogListResponse>;
-    listCurrentAPIKeyRequestLogsPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "request_id"?: InputValue<string>; "http_method"?: InputValue<string>; "path_query"?: InputValue<string>; "resource_type"?: InputValue<string>; "resource_id"?: InputValue<string>; "status_bucket"?: InputValue<"all" | "success" | "client_error" | "server_error">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeveloperListCurrentAPIKeyRequestLogsResponse>>;
-    listCurrentAPIKeyRequestLogsItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "request_id"?: InputValue<string>; "http_method"?: InputValue<string>; "path_query"?: InputValue<string>; "resource_type"?: InputValue<string>; "resource_id"?: InputValue<string>; "status_bucket"?: InputValue<"all" | "success" | "client_error" | "server_error">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<APIRequestLog>;
+    listCurrentAPIKeyRequestLogs(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "caller_type"?: InputValue<Array<"api_key"
+            | "user"
+            | "partner_app_install"
+            | "checkout_session"
+            | "customer_session"
+            | "invoice"
+            | "workload_identity">>;
+        "caller_id"?: InputValue<string>;
+        "request_id"?: InputValue<string>;
+        "client_request_id"?: InputValue<string>;
+        "client_trace_id"?: InputValue<string>;
+        "http_method"?: InputValue<Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "CONNECT" | "TRACE">>;
+        "path_query"?: InputValue<string>;
+        "resource_type"?: InputValue<Array<"api_key"
+            | "api_request_log"
+            | "balance"
+            | "balance_transaction"
+            | "bundle"
+            | "bundle_component"
+            | "category"
+            | "checkout_session"
+            | "checkout_session_customer_verification"
+            | "credit_note"
+            | "credit_note_allocation"
+            | "custom_domain"
+            | "customer"
+            | "customer_address"
+            | "customer_deletion_request"
+            | "customer_session"
+            | "customer_verification"
+            | "delivery_location_set"
+            | "delivery_method"
+            | "delivery_profile"
+            | "delivery_quote"
+            | "delivery_rate"
+            | "delivery_rate_callback"
+            | "delivery_revocation"
+            | "delivery_selection"
+            | "delivery_zone"
+            | "device"
+            | "discount"
+            | "dispute"
+            | "email_change_request"
+            | "environment_grant"
+            | "feedback_report"
+            | "file"
+            | "flint_wallet"
+            | "flint_wallet_card"
+            | "fraud_warning"
+            | "fulfillment"
+            | "fulfillment_event"
+            | "fulfillment_notification"
+            | "gift_card"
+            | "gift_card_funding_disposition"
+            | "gift_card_load"
+            | "gift_card_notification"
+            | "gift_card_redemption"
+            | "gift_card_transaction"
+            | "inventory_adjustment"
+            | "inventory_allocation_policy"
+            | "inventory_allocation_policy_revision"
+            | "inventory_count"
+            | "inventory_item"
+            | "inventory_level"
+            | "inventory_movement"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_reservation_line"
+            | "inventory_transfer"
+            | "inventory_transfer_line"
+            | "invoice"
+            | "invoice_delivery_attempt"
+            | "invoice_late_fee"
+            | "invoice_line_item"
+            | "invoice_manual_payment"
+            | "invoice_payment_attempt"
+            | "invoice_payment_term"
+            | "location"
+            | "merchant"
+            | "merchant_billing_balance"
+            | "merchant_billing_entry"
+            | "merchant_billing_invoice"
+            | "modifier"
+            | "modifier_group"
+            | "modifier_set"
+            | "order"
+            | "order_charge"
+            | "order_line_item"
+            | "order_line_item_modifier"
+            | "order_payment_attempt"
+            | "organization"
+            | "package"
+            | "package_item"
+            | "partner_app"
+            | "partner_app_install"
+            | "payment_intent"
+            | "payment_link"
+            | "payment_link_custom_field"
+            | "payment_link_line_item"
+            | "payment_method"
+            | "payment_method_domain"
+            | "payment_review"
+            | "payout"
+            | "payout_destination"
+            | "payout_settings"
+            | "product"
+            | "product_option"
+            | "product_option_value"
+            | "product_variant"
+            | "promotion"
+            | "promotion_code"
+            | "purchase_refund_allocation"
+            | "refund"
+            | "refund_allocation"
+            | "refund_line_item_adjustment"
+            | "report"
+            | "report_download"
+            | "return"
+            | "return_activity"
+            | "return_disposition"
+            | "return_inspection"
+            | "return_inspection_line_item"
+            | "return_line_item"
+            | "return_policy"
+            | "return_policy_revision"
+            | "return_reason"
+            | "return_receipt"
+            | "return_receipt_line_item"
+            | "return_resolution"
+            | "risk_list"
+            | "risk_list_item"
+            | "risk_rule"
+            | "sandbox"
+            | "settings"
+            | "shipment"
+            | "subscription"
+            | "subscription_delivery_migration"
+            | "subscription_line_item"
+            | "subscription_offer"
+            | "subscription_payment_retry"
+            | "subscription_plan"
+            | "subscription_plan_line_item"
+            | "user"
+            | "webhook_delivery"
+            | "webhook_endpoint"
+            | "webhook_event"
+            | "workload_identity">>;
+        "resource_id"?: InputValue<string>;
+        "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<APIRequestLogListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
+     */
+    listCurrentAPIKeyRequestLogsWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "caller_type"?: InputValue<Array<"api_key"
+            | "user"
+            | "partner_app_install"
+            | "checkout_session"
+            | "customer_session"
+            | "invoice"
+            | "workload_identity">>;
+        "caller_id"?: InputValue<string>;
+        "request_id"?: InputValue<string>;
+        "client_request_id"?: InputValue<string>;
+        "client_trace_id"?: InputValue<string>;
+        "http_method"?: InputValue<Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "CONNECT" | "TRACE">>;
+        "path_query"?: InputValue<string>;
+        "resource_type"?: InputValue<Array<"api_key"
+            | "api_request_log"
+            | "balance"
+            | "balance_transaction"
+            | "bundle"
+            | "bundle_component"
+            | "category"
+            | "checkout_session"
+            | "checkout_session_customer_verification"
+            | "credit_note"
+            | "credit_note_allocation"
+            | "custom_domain"
+            | "customer"
+            | "customer_address"
+            | "customer_deletion_request"
+            | "customer_session"
+            | "customer_verification"
+            | "delivery_location_set"
+            | "delivery_method"
+            | "delivery_profile"
+            | "delivery_quote"
+            | "delivery_rate"
+            | "delivery_rate_callback"
+            | "delivery_revocation"
+            | "delivery_selection"
+            | "delivery_zone"
+            | "device"
+            | "discount"
+            | "dispute"
+            | "email_change_request"
+            | "environment_grant"
+            | "feedback_report"
+            | "file"
+            | "flint_wallet"
+            | "flint_wallet_card"
+            | "fraud_warning"
+            | "fulfillment"
+            | "fulfillment_event"
+            | "fulfillment_notification"
+            | "gift_card"
+            | "gift_card_funding_disposition"
+            | "gift_card_load"
+            | "gift_card_notification"
+            | "gift_card_redemption"
+            | "gift_card_transaction"
+            | "inventory_adjustment"
+            | "inventory_allocation_policy"
+            | "inventory_allocation_policy_revision"
+            | "inventory_count"
+            | "inventory_item"
+            | "inventory_level"
+            | "inventory_movement"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_reservation_line"
+            | "inventory_transfer"
+            | "inventory_transfer_line"
+            | "invoice"
+            | "invoice_delivery_attempt"
+            | "invoice_late_fee"
+            | "invoice_line_item"
+            | "invoice_manual_payment"
+            | "invoice_payment_attempt"
+            | "invoice_payment_term"
+            | "location"
+            | "merchant"
+            | "merchant_billing_balance"
+            | "merchant_billing_entry"
+            | "merchant_billing_invoice"
+            | "modifier"
+            | "modifier_group"
+            | "modifier_set"
+            | "order"
+            | "order_charge"
+            | "order_line_item"
+            | "order_line_item_modifier"
+            | "order_payment_attempt"
+            | "organization"
+            | "package"
+            | "package_item"
+            | "partner_app"
+            | "partner_app_install"
+            | "payment_intent"
+            | "payment_link"
+            | "payment_link_custom_field"
+            | "payment_link_line_item"
+            | "payment_method"
+            | "payment_method_domain"
+            | "payment_review"
+            | "payout"
+            | "payout_destination"
+            | "payout_settings"
+            | "product"
+            | "product_option"
+            | "product_option_value"
+            | "product_variant"
+            | "promotion"
+            | "promotion_code"
+            | "purchase_refund_allocation"
+            | "refund"
+            | "refund_allocation"
+            | "refund_line_item_adjustment"
+            | "report"
+            | "report_download"
+            | "return"
+            | "return_activity"
+            | "return_disposition"
+            | "return_inspection"
+            | "return_inspection_line_item"
+            | "return_line_item"
+            | "return_policy"
+            | "return_policy_revision"
+            | "return_reason"
+            | "return_receipt"
+            | "return_receipt_line_item"
+            | "return_resolution"
+            | "risk_list"
+            | "risk_list_item"
+            | "risk_rule"
+            | "sandbox"
+            | "settings"
+            | "shipment"
+            | "subscription"
+            | "subscription_delivery_migration"
+            | "subscription_line_item"
+            | "subscription_offer"
+            | "subscription_payment_retry"
+            | "subscription_plan"
+            | "subscription_plan_line_item"
+            | "user"
+            | "webhook_delivery"
+            | "webhook_endpoint"
+            | "webhook_event"
+            | "workload_identity">>;
+        "resource_id"?: InputValue<string>;
+        "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<APIRequestLogListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
+     */
+    listCurrentAPIKeyRequestLogsPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "caller_type"?: InputValue<Array<"api_key"
+            | "user"
+            | "partner_app_install"
+            | "checkout_session"
+            | "customer_session"
+            | "invoice"
+            | "workload_identity">>;
+        "caller_id"?: InputValue<string>;
+        "request_id"?: InputValue<string>;
+        "client_request_id"?: InputValue<string>;
+        "client_trace_id"?: InputValue<string>;
+        "http_method"?: InputValue<Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "CONNECT" | "TRACE">>;
+        "path_query"?: InputValue<string>;
+        "resource_type"?: InputValue<Array<"api_key"
+            | "api_request_log"
+            | "balance"
+            | "balance_transaction"
+            | "bundle"
+            | "bundle_component"
+            | "category"
+            | "checkout_session"
+            | "checkout_session_customer_verification"
+            | "credit_note"
+            | "credit_note_allocation"
+            | "custom_domain"
+            | "customer"
+            | "customer_address"
+            | "customer_deletion_request"
+            | "customer_session"
+            | "customer_verification"
+            | "delivery_location_set"
+            | "delivery_method"
+            | "delivery_profile"
+            | "delivery_quote"
+            | "delivery_rate"
+            | "delivery_rate_callback"
+            | "delivery_revocation"
+            | "delivery_selection"
+            | "delivery_zone"
+            | "device"
+            | "discount"
+            | "dispute"
+            | "email_change_request"
+            | "environment_grant"
+            | "feedback_report"
+            | "file"
+            | "flint_wallet"
+            | "flint_wallet_card"
+            | "fraud_warning"
+            | "fulfillment"
+            | "fulfillment_event"
+            | "fulfillment_notification"
+            | "gift_card"
+            | "gift_card_funding_disposition"
+            | "gift_card_load"
+            | "gift_card_notification"
+            | "gift_card_redemption"
+            | "gift_card_transaction"
+            | "inventory_adjustment"
+            | "inventory_allocation_policy"
+            | "inventory_allocation_policy_revision"
+            | "inventory_count"
+            | "inventory_item"
+            | "inventory_level"
+            | "inventory_movement"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_reservation_line"
+            | "inventory_transfer"
+            | "inventory_transfer_line"
+            | "invoice"
+            | "invoice_delivery_attempt"
+            | "invoice_late_fee"
+            | "invoice_line_item"
+            | "invoice_manual_payment"
+            | "invoice_payment_attempt"
+            | "invoice_payment_term"
+            | "location"
+            | "merchant"
+            | "merchant_billing_balance"
+            | "merchant_billing_entry"
+            | "merchant_billing_invoice"
+            | "modifier"
+            | "modifier_group"
+            | "modifier_set"
+            | "order"
+            | "order_charge"
+            | "order_line_item"
+            | "order_line_item_modifier"
+            | "order_payment_attempt"
+            | "organization"
+            | "package"
+            | "package_item"
+            | "partner_app"
+            | "partner_app_install"
+            | "payment_intent"
+            | "payment_link"
+            | "payment_link_custom_field"
+            | "payment_link_line_item"
+            | "payment_method"
+            | "payment_method_domain"
+            | "payment_review"
+            | "payout"
+            | "payout_destination"
+            | "payout_settings"
+            | "product"
+            | "product_option"
+            | "product_option_value"
+            | "product_variant"
+            | "promotion"
+            | "promotion_code"
+            | "purchase_refund_allocation"
+            | "refund"
+            | "refund_allocation"
+            | "refund_line_item_adjustment"
+            | "report"
+            | "report_download"
+            | "return"
+            | "return_activity"
+            | "return_disposition"
+            | "return_inspection"
+            | "return_inspection_line_item"
+            | "return_line_item"
+            | "return_policy"
+            | "return_policy_revision"
+            | "return_reason"
+            | "return_receipt"
+            | "return_receipt_line_item"
+            | "return_resolution"
+            | "risk_list"
+            | "risk_list_item"
+            | "risk_rule"
+            | "sandbox"
+            | "settings"
+            | "shipment"
+            | "subscription"
+            | "subscription_delivery_migration"
+            | "subscription_line_item"
+            | "subscription_offer"
+            | "subscription_payment_retry"
+            | "subscription_plan"
+            | "subscription_plan_line_item"
+            | "user"
+            | "webhook_delivery"
+            | "webhook_endpoint"
+            | "webhook_event"
+            | "workload_identity">>;
+        "resource_id"?: InputValue<string>;
+        "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<APIRequestLogListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
+     */
+    listCurrentAPIKeyRequestLogsPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "caller_type"?: InputValue<Array<"api_key"
+            | "user"
+            | "partner_app_install"
+            | "checkout_session"
+            | "customer_session"
+            | "invoice"
+            | "workload_identity">>;
+        "caller_id"?: InputValue<string>;
+        "request_id"?: InputValue<string>;
+        "client_request_id"?: InputValue<string>;
+        "client_trace_id"?: InputValue<string>;
+        "http_method"?: InputValue<Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "CONNECT" | "TRACE">>;
+        "path_query"?: InputValue<string>;
+        "resource_type"?: InputValue<Array<"api_key"
+            | "api_request_log"
+            | "balance"
+            | "balance_transaction"
+            | "bundle"
+            | "bundle_component"
+            | "category"
+            | "checkout_session"
+            | "checkout_session_customer_verification"
+            | "credit_note"
+            | "credit_note_allocation"
+            | "custom_domain"
+            | "customer"
+            | "customer_address"
+            | "customer_deletion_request"
+            | "customer_session"
+            | "customer_verification"
+            | "delivery_location_set"
+            | "delivery_method"
+            | "delivery_profile"
+            | "delivery_quote"
+            | "delivery_rate"
+            | "delivery_rate_callback"
+            | "delivery_revocation"
+            | "delivery_selection"
+            | "delivery_zone"
+            | "device"
+            | "discount"
+            | "dispute"
+            | "email_change_request"
+            | "environment_grant"
+            | "feedback_report"
+            | "file"
+            | "flint_wallet"
+            | "flint_wallet_card"
+            | "fraud_warning"
+            | "fulfillment"
+            | "fulfillment_event"
+            | "fulfillment_notification"
+            | "gift_card"
+            | "gift_card_funding_disposition"
+            | "gift_card_load"
+            | "gift_card_notification"
+            | "gift_card_redemption"
+            | "gift_card_transaction"
+            | "inventory_adjustment"
+            | "inventory_allocation_policy"
+            | "inventory_allocation_policy_revision"
+            | "inventory_count"
+            | "inventory_item"
+            | "inventory_level"
+            | "inventory_movement"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_reservation_line"
+            | "inventory_transfer"
+            | "inventory_transfer_line"
+            | "invoice"
+            | "invoice_delivery_attempt"
+            | "invoice_late_fee"
+            | "invoice_line_item"
+            | "invoice_manual_payment"
+            | "invoice_payment_attempt"
+            | "invoice_payment_term"
+            | "location"
+            | "merchant"
+            | "merchant_billing_balance"
+            | "merchant_billing_entry"
+            | "merchant_billing_invoice"
+            | "modifier"
+            | "modifier_group"
+            | "modifier_set"
+            | "order"
+            | "order_charge"
+            | "order_line_item"
+            | "order_line_item_modifier"
+            | "order_payment_attempt"
+            | "organization"
+            | "package"
+            | "package_item"
+            | "partner_app"
+            | "partner_app_install"
+            | "payment_intent"
+            | "payment_link"
+            | "payment_link_custom_field"
+            | "payment_link_line_item"
+            | "payment_method"
+            | "payment_method_domain"
+            | "payment_review"
+            | "payout"
+            | "payout_destination"
+            | "payout_settings"
+            | "product"
+            | "product_option"
+            | "product_option_value"
+            | "product_variant"
+            | "promotion"
+            | "promotion_code"
+            | "purchase_refund_allocation"
+            | "refund"
+            | "refund_allocation"
+            | "refund_line_item_adjustment"
+            | "report"
+            | "report_download"
+            | "return"
+            | "return_activity"
+            | "return_disposition"
+            | "return_inspection"
+            | "return_inspection_line_item"
+            | "return_line_item"
+            | "return_policy"
+            | "return_policy_revision"
+            | "return_reason"
+            | "return_receipt"
+            | "return_receipt_line_item"
+            | "return_resolution"
+            | "risk_list"
+            | "risk_list_item"
+            | "risk_rule"
+            | "sandbox"
+            | "settings"
+            | "shipment"
+            | "subscription"
+            | "subscription_delivery_migration"
+            | "subscription_line_item"
+            | "subscription_offer"
+            | "subscription_payment_retry"
+            | "subscription_plan"
+            | "subscription_plan_line_item"
+            | "user"
+            | "webhook_delivery"
+            | "webhook_endpoint"
+            | "webhook_event"
+            | "workload_identity">>;
+        "resource_id"?: InputValue<string>;
+        "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<APIRequestLogListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/developer.md#developerlistcurrentapikeyrequestlogs
+     */
+    listCurrentAPIKeyRequestLogsItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "caller_type"?: InputValue<Array<"api_key"
+            | "user"
+            | "partner_app_install"
+            | "checkout_session"
+            | "customer_session"
+            | "invoice"
+            | "workload_identity">>;
+        "caller_id"?: InputValue<string>;
+        "request_id"?: InputValue<string>;
+        "client_request_id"?: InputValue<string>;
+        "client_trace_id"?: InputValue<string>;
+        "http_method"?: InputValue<Array<"GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS" | "CONNECT" | "TRACE">>;
+        "path_query"?: InputValue<string>;
+        "resource_type"?: InputValue<Array<"api_key"
+            | "api_request_log"
+            | "balance"
+            | "balance_transaction"
+            | "bundle"
+            | "bundle_component"
+            | "category"
+            | "checkout_session"
+            | "checkout_session_customer_verification"
+            | "credit_note"
+            | "credit_note_allocation"
+            | "custom_domain"
+            | "customer"
+            | "customer_address"
+            | "customer_deletion_request"
+            | "customer_session"
+            | "customer_verification"
+            | "delivery_location_set"
+            | "delivery_method"
+            | "delivery_profile"
+            | "delivery_quote"
+            | "delivery_rate"
+            | "delivery_rate_callback"
+            | "delivery_revocation"
+            | "delivery_selection"
+            | "delivery_zone"
+            | "device"
+            | "discount"
+            | "dispute"
+            | "email_change_request"
+            | "environment_grant"
+            | "feedback_report"
+            | "file"
+            | "flint_wallet"
+            | "flint_wallet_card"
+            | "fraud_warning"
+            | "fulfillment"
+            | "fulfillment_event"
+            | "fulfillment_notification"
+            | "gift_card"
+            | "gift_card_funding_disposition"
+            | "gift_card_load"
+            | "gift_card_notification"
+            | "gift_card_redemption"
+            | "gift_card_transaction"
+            | "inventory_adjustment"
+            | "inventory_allocation_policy"
+            | "inventory_allocation_policy_revision"
+            | "inventory_count"
+            | "inventory_item"
+            | "inventory_level"
+            | "inventory_movement"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_reservation_line"
+            | "inventory_transfer"
+            | "inventory_transfer_line"
+            | "invoice"
+            | "invoice_delivery_attempt"
+            | "invoice_late_fee"
+            | "invoice_line_item"
+            | "invoice_manual_payment"
+            | "invoice_payment_attempt"
+            | "invoice_payment_term"
+            | "location"
+            | "merchant"
+            | "merchant_billing_balance"
+            | "merchant_billing_entry"
+            | "merchant_billing_invoice"
+            | "modifier"
+            | "modifier_group"
+            | "modifier_set"
+            | "order"
+            | "order_charge"
+            | "order_line_item"
+            | "order_line_item_modifier"
+            | "order_payment_attempt"
+            | "organization"
+            | "package"
+            | "package_item"
+            | "partner_app"
+            | "partner_app_install"
+            | "payment_intent"
+            | "payment_link"
+            | "payment_link_custom_field"
+            | "payment_link_line_item"
+            | "payment_method"
+            | "payment_method_domain"
+            | "payment_review"
+            | "payout"
+            | "payout_destination"
+            | "payout_settings"
+            | "product"
+            | "product_option"
+            | "product_option_value"
+            | "product_variant"
+            | "promotion"
+            | "promotion_code"
+            | "purchase_refund_allocation"
+            | "refund"
+            | "refund_allocation"
+            | "refund_line_item_adjustment"
+            | "report"
+            | "report_download"
+            | "return"
+            | "return_activity"
+            | "return_disposition"
+            | "return_inspection"
+            | "return_inspection_line_item"
+            | "return_line_item"
+            | "return_policy"
+            | "return_policy_revision"
+            | "return_reason"
+            | "return_receipt"
+            | "return_receipt_line_item"
+            | "return_resolution"
+            | "risk_list"
+            | "risk_list_item"
+            | "risk_rule"
+            | "sandbox"
+            | "settings"
+            | "shipment"
+            | "subscription"
+            | "subscription_delivery_migration"
+            | "subscription_line_item"
+            | "subscription_offer"
+            | "subscription_payment_retry"
+            | "subscription_plan"
+            | "subscription_plan_line_item"
+            | "user"
+            | "webhook_delivery"
+            | "webhook_endpoint"
+            | "webhook_event"
+            | "workload_identity">>;
+        "resource_id"?: InputValue<string>;
+        "status_bucket"?: InputValue<Array<"success" | "client_error" | "server_error">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<APIRequestLog>;
     /**
  * Returns installs for a partner app owned by the authenticated merchant.
+ * @see reference/developer.md#developerlistpartnerappinstalls
  * GET /v1/developer/partner/apps/{partner_app_id}/installs
  * @example
  * client.developer.listPartnerAppInstalls("example")
  */
-    listPartnerAppInstalls(partner_app_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppInstallListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listPartnerAppInstallsWithResponse(partner_app_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<DeveloperListPartnerAppInstallsResponse>>;
-    listPartnerAppInstallsPages(partner_app_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstallListResponse>;
-    listPartnerAppInstallsPagesWithResponse(partner_app_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<DeveloperListPartnerAppInstallsResponse>>;
-    listPartnerAppInstallsItems(partner_app_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstall>;
+    listPartnerAppInstalls(partner_app_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "merchant_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppInstallListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerlistpartnerappinstalls
+     */
+    listPartnerAppInstallsWithResponse(partner_app_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "merchant_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/developer.md#developerlistpartnerappinstalls
+     */
+    listPartnerAppInstallsPages(partner_app_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "merchant_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstallListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/developer.md#developerlistpartnerappinstalls
+     */
+    listPartnerAppInstallsPagesWithResponse(partner_app_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "merchant_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppInstallListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/developer.md#developerlistpartnerappinstalls
+     */
+    listPartnerAppInstallsItems(partner_app_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "merchant_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstall>;
     /**
  * Returns partner apps owned by the authenticated merchant.
+ * @see reference/developer.md#developerlistpartnerapps
  * GET /v1/developer/partner/apps
  * @example
  * client.developer.listPartnerApps()
  */
-    listPartnerApps(params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listPartnerAppsWithResponse(params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<DeveloperListPartnerAppsResponse>>;
-    listPartnerAppsPages(params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppListResponse>;
-    listPartnerAppsPagesWithResponse(params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<DeveloperListPartnerAppsResponse>>;
-    listPartnerAppsItems(params?: { "X-Request-Id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerApp>;
+    listPartnerApps(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerlistpartnerapps
+     */
+    listPartnerAppsWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/developer.md#developerlistpartnerapps
+     */
+    listPartnerAppsPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/developer.md#developerlistpartnerapps
+     */
+    listPartnerAppsPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/developer.md#developerlistpartnerapps
+     */
+    listPartnerAppsItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerApp>;
     /**
- * Returns the merchant's sandboxes, including archived sandboxes. Flint guarantees a default test sandbox for every merchant. Use an onboarding session token during setup or a normal external API key afterward.
+ * Lists partner app installs on the authenticated merchant, across live and test mode. Requires a
+ * live API key.
+ * @see reference/developer.md#developerlistpartnerinstalls
+ * GET /v1/developer/partner/installs
+ * @example
+ * client.developer.listPartnerInstalls()
+ */
+    listPartnerInstalls(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "partner_app_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<PartnerAppInstallListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerlistpartnerinstalls
+     */
+    listPartnerInstallsWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "partner_app_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<PartnerAppInstallListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/developer.md#developerlistpartnerinstalls
+     */
+    listPartnerInstallsPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "partner_app_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstallListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/developer.md#developerlistpartnerinstalls
+     */
+    listPartnerInstallsPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "partner_app_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<PartnerAppInstallListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/developer.md#developerlistpartnerinstalls
+     */
+    listPartnerInstallsItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "partner_app_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<PartnerAppInstall>;
+    /**
+ * Returns the merchant's sandboxes. Flint guarantees a default test sandbox for every merchant.
+ * Use an onboarding session token during setup or a normal external API key afterward.
+ * @see reference/developer.md#developerlistsandboxes
  * GET /v1/developer/sandboxes
  * @example
  * client.developer.listSandboxes()
  */
-    listSandboxes(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived" | "all"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SandboxListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listSandboxesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived" | "all"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<DeveloperListSandboxesResponse>>;
-    listSandboxesPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived" | "all"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SandboxListResponse>;
-    listSandboxesPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived" | "all"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<DeveloperListSandboxesResponse>>;
-    listSandboxesItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "archived" | "all"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<DeveloperSandbox>;
+    listSandboxes(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SandboxListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerlistsandboxes
+     */
+    listSandboxesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<SandboxListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/developer.md#developerlistsandboxes
+     */
+    listSandboxesPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SandboxListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/developer.md#developerlistsandboxes
+     */
+    listSandboxesPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<SdkResponse<SandboxListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/developer.md#developerlistsandboxes
+     */
+    listSandboxesItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): AsyncGenerator<DeveloperSandbox>;
     /**
- * Clears a non-default sandbox and returns its replacement environment. The replacement has a new sandbox ID, retains the stable provider-account lineage, and requires newly issued test keys.
+ * Clears a non-default sandbox and returns its replacement environment. The replacement has a new
+ * sandbox ID, retains the stable provider-account lineage, and requires newly issued test keys.
+ * The archived sandbox's `replaced_by_sandbox_id` names the replacement.
+ * @see reference/developer.md#developerresetsandbox
  * POST /v1/developer/sandboxes/{sandbox_id}/reset
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.developer.resetSandbox("example", {}, { idempotencyKey: idempotencyKey })
  */
-    resetSandbox(sandbox_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<SandboxResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resetSandboxWithResponse(sandbox_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperResetSandboxResponse>>;
+    resetSandbox(sandbox_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<DeveloperSandbox>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerresetsandbox
+     */
+    resetSandboxWithResponse(sandbox_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<SandboxResponse>>;
     /**
- * Revokes a partner app install and all of its environment grants.
+ * The installing merchant or partner app owner can revoke an install and all of its environment
+ * grants.
+ * @see reference/developer.md#developerrevokepartnerappinstall
  * POST /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}/revoke
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.developer.revokePartnerAppInstall("example", "example", {}, { idempotencyKey: idempotencyKey })
+ * client.developer.revokePartnerAppInstall("example", "example", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    revokePartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PartnerAppInstallResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    revokePartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeveloperRevokePartnerAppInstallResponse>>;
+    revokePartnerAppInstall(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PartnerAppInstall>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerrevokepartnerappinstall
+     */
+    revokePartnerAppInstallWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PartnerAppInstallResponse>>;
     /**
- * Revokes a single test or live environment grant for a partner app install.
- * POST /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke
+ * The installing merchant or partner app owner can revoke a single test or live environment grant
+ * for an install.
+ * @see reference/developer.md#developerrevokepartnerenvironmentgrant
+ * POST
+ * /v1/developer/partner/apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.developer.revokePartnerEnvironmentGrant("example", "example", "example", {}, { idempotencyKey: idempotencyKey })
+ * client.developer.revokePartnerEnvironmentGrant("example", "example", "example", {}, {
+ * idempotencyKey: idempotencyKey })
  */
-    revokePartnerEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PartnerAppInstallResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    revokePartnerEnvironmentGrantWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeveloperRevokePartnerEnvironmentGrantResponse>>;
+    revokePartnerEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PartnerAppInstall>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerrevokepartnerenvironmentgrant
+     */
+    revokePartnerEnvironmentGrantWithResponse(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PartnerAppInstallResponse>>;
     /**
- * Rotates the client secret for a partner app owned by the authenticated merchant. The new client_secret is only returned once.
+ * Issues a new client secret, returned once. The previous secret keeps working until
+ * previous_secret_expires_at: 24 hours by default, or the time in expire_previous_secret_at, up to
+ * 7 days. Send a time at or before now to stop the previous secret immediately, for example when
+ * it leaked. Rotating again during an overlap ends the older secret at once.
+ * @see reference/developer.md#developerrotatepartnerappsecret
  * POST /v1/developer/partner/apps/{partner_app_id}/rotate-secret
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.developer.rotatePartnerAppSecret("example", {}, { idempotencyKey: idempotencyKey })
+ * client.developer.rotatePartnerAppSecret("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    rotatePartnerAppSecret(partner_app_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RotatePartnerAppSecretResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    rotatePartnerAppSecretWithResponse(partner_app_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeveloperRotatePartnerAppSecretResponse>>;
+    rotatePartnerAppSecret(partner_app_id: InputValue<string>, params?: (InputValue<RotatePartnerAppSecretRequestInput>
+        | {
+        "expected_version"?: never;
+        "expire_previous_secret_at"?: never;
+    })
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PartnerAppWithSecret>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerrotatepartnerappsecret
+     */
+    rotatePartnerAppSecretWithResponse(partner_app_id: InputValue<string>, params?: (InputValue<RotatePartnerAppSecretRequestInput>
+        | {
+        "expected_version"?: never;
+        "expire_previous_secret_at"?: never;
+    })
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PartnerAppWithSecretResponse>>;
     /**
- * Updates the API version for a partner app owned by the authenticated merchant. Any supported version can be selected.
+ * Updates a partner app owned by the authenticated merchant. Send only the fields to change.
+ * permission_manifest replaces the whole manifest and requires expected_version. An existing
+ * permission can drop scopes but not gain them; removing or narrowing a permission narrows
+ * existing environment grants immediately, and tokens issued with the removed scopes stop working.
+ * Adding a permission changes no install until the merchant authorizes again.
+ * @see reference/developer.md#developerupdatepartnerapp
  * PATCH /v1/developer/partner/apps/{partner_app_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.developer.updatePartnerApp("example", {}, { idempotencyKey: idempotencyKey })
+ * client.developer.updatePartnerApp("example", {api_version: "example", name: "example"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    updatePartnerApp(partner_app_id: InputValue<string>, params: (InputValue<{ "api_version"?: string; "expected_api_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<PartnerAppResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updatePartnerAppWithResponse(partner_app_id: InputValue<string>, params: (InputValue<{ "api_version"?: string; "expected_api_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<DeveloperUpdatePartnerAppResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly developer: DeveloperResource;
+    updatePartnerApp(partner_app_id: InputValue<string>, params: (InputValue<UpdatePartnerAppRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<PartnerApp>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/developer.md#developerupdatepartnerapp
+     */
+    updatePartnerAppWithResponse(partner_app_id: InputValue<string>, params: (InputValue<UpdatePartnerAppRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<PartnerAppResponse>>;
 }
-export type { PartnerAppPermissionManifestEntryInput } from '../declarations/PartnerAppPermissionManifestEntryInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CreatePartnerAppResponse } from '../declarations/CreatePartnerAppResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { DeveloperCreatePartnerAppResponse } from '../declarations/DeveloperCreatePartnerAppResponse.js';
-export type { SandboxWithAPIKeyResponse } from '../declarations/SandboxWithAPIKeyResponse.js';
-export type { DeveloperCreateSandboxResponse } from '../declarations/DeveloperCreateSandboxResponse.js';
-export type { SandboxResponse } from '../declarations/SandboxResponse.js';
-export type { DeveloperDeleteSandboxResponse } from '../declarations/DeveloperDeleteSandboxResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { APIRequestLogDetailResponse } from '../declarations/APIRequestLogDetailResponse.js';
-export type { DeveloperGetCurrentAPIKeyRequestLogResponse } from '../declarations/DeveloperGetCurrentAPIKeyRequestLogResponse.js';
-export type { DeveloperAuthContextResponse } from '../declarations/DeveloperAuthContextResponse.js';
-export type { DeveloperGetAuthContextResponse } from '../declarations/DeveloperGetAuthContextResponse.js';
-export type { PartnerAppResponse } from '../declarations/PartnerAppResponse.js';
-export type { DeveloperGetPartnerAppResponse } from '../declarations/DeveloperGetPartnerAppResponse.js';
-export type { PartnerAppInstallResponse } from '../declarations/PartnerAppInstallResponse.js';
-export type { DeveloperGetPartnerAppInstallResponse } from '../declarations/DeveloperGetPartnerAppInstallResponse.js';
-export type { DeveloperGetSandboxResponse } from '../declarations/DeveloperGetSandboxResponse.js';
-export type { ResourceTimelineResponse } from '../declarations/ResourceTimelineResponse.js';
-export type { DeveloperGetResourceTimelineResponse } from '../declarations/DeveloperGetResourceTimelineResponse.js';
-export type { CreateAPIKeyResponse } from '../declarations/CreateAPIKeyResponse.js';
-export type { DeveloperIssueSandboxTestKeyResponse } from '../declarations/DeveloperIssueSandboxTestKeyResponse.js';
-export type { APIRequestLogListResponse } from '../declarations/APIRequestLogListResponse.js';
-export type { DeveloperListCurrentAPIKeyRequestLogsResponse } from '../declarations/DeveloperListCurrentAPIKeyRequestLogsResponse.js';
-export type { APIRequestLog } from '../declarations/APIRequestLog.js';
-export type { PartnerAppInstallListResponse } from '../declarations/PartnerAppInstallListResponse.js';
-export type { DeveloperListPartnerAppInstallsResponse } from '../declarations/DeveloperListPartnerAppInstallsResponse.js';
-export type { PartnerAppInstall } from '../declarations/PartnerAppInstall.js';
-export type { PartnerAppListResponse } from '../declarations/PartnerAppListResponse.js';
-export type { DeveloperListPartnerAppsResponse } from '../declarations/DeveloperListPartnerAppsResponse.js';
-export type { PartnerApp } from '../declarations/PartnerApp.js';
-export type { SandboxListResponse } from '../declarations/SandboxListResponse.js';
-export type { DeveloperListSandboxesResponse } from '../declarations/DeveloperListSandboxesResponse.js';
-export type { DeveloperSandbox } from '../declarations/DeveloperSandbox.js';
-export type { DeveloperResetSandboxResponse } from '../declarations/DeveloperResetSandboxResponse.js';
-export type { DeveloperRevokePartnerAppInstallResponse } from '../declarations/DeveloperRevokePartnerAppInstallResponse.js';
-export type { DeveloperRevokePartnerEnvironmentGrantResponse } from '../declarations/DeveloperRevokePartnerEnvironmentGrantResponse.js';
-export type { RotatePartnerAppSecretResponse } from '../declarations/RotatePartnerAppSecretResponse.js';
-export type { DeveloperRotatePartnerAppSecretResponse } from '../declarations/DeveloperRotatePartnerAppSecretResponse.js';
-export type { DeveloperUpdatePartnerAppResponse } from '../declarations/DeveloperUpdatePartnerAppResponse.js';
-export type { DeveloperAuthContext } from '../declarations/DeveloperAuthContext.js';
-export type { DeveloperAuthContextInput } from '../declarations/DeveloperAuthContextInput.js';
-export type { DeveloperAuthContextResponseInput } from '../declarations/DeveloperAuthContextResponseInput.js';
-export type { DeveloperInitialAPIKeyRequest } from '../declarations/DeveloperInitialAPIKeyRequest.js';
-export type { DeveloperInitialAPIKeyRequestInput } from '../declarations/DeveloperInitialAPIKeyRequestInput.js';
-export type { DeveloperSandboxInput } from '../declarations/DeveloperSandboxInput.js';
-export type { DeveloperSandboxWithAPIKey } from '../declarations/DeveloperSandboxWithAPIKey.js';
-export type { DeveloperSandboxWithAPIKeyInput } from '../declarations/DeveloperSandboxWithAPIKeyInput.js';
-export type { DeveloperCreatePartnerAppInput } from '../declarations/DeveloperCreatePartnerAppInput.js';
-export type { DeveloperCreateSandboxInput } from '../declarations/DeveloperCreateSandboxInput.js';
-export type { DeveloperDeleteSandboxInput } from '../declarations/DeveloperDeleteSandboxInput.js';
-export type { DeveloperGetCurrentAPIKeyRequestLogInput } from '../declarations/DeveloperGetCurrentAPIKeyRequestLogInput.js';
-export type { DeveloperGetAuthContextInput } from '../declarations/DeveloperGetAuthContextInput.js';
-export type { DeveloperGetPartnerAppInput } from '../declarations/DeveloperGetPartnerAppInput.js';
-export type { DeveloperGetPartnerAppInstallInput } from '../declarations/DeveloperGetPartnerAppInstallInput.js';
-export type { DeveloperGetSandboxInput } from '../declarations/DeveloperGetSandboxInput.js';
-export type { DeveloperGetResourceTimelineInput } from '../declarations/DeveloperGetResourceTimelineInput.js';
-export type { DeveloperIssueSandboxTestKeyInput } from '../declarations/DeveloperIssueSandboxTestKeyInput.js';
-export type { DeveloperListCurrentAPIKeyRequestLogsInput } from '../declarations/DeveloperListCurrentAPIKeyRequestLogsInput.js';
-export type { DeveloperListPartnerAppInstallsInput } from '../declarations/DeveloperListPartnerAppInstallsInput.js';
-export type { DeveloperListPartnerAppsInput } from '../declarations/DeveloperListPartnerAppsInput.js';
-export type { DeveloperListSandboxesInput } from '../declarations/DeveloperListSandboxesInput.js';
-export type { DeveloperResetSandboxInput } from '../declarations/DeveloperResetSandboxInput.js';
-export type { DeveloperRevokePartnerAppInstallInput } from '../declarations/DeveloperRevokePartnerAppInstallInput.js';
-export type { DeveloperRevokePartnerEnvironmentGrantInput } from '../declarations/DeveloperRevokePartnerEnvironmentGrantInput.js';
-export type { DeveloperRotatePartnerAppSecretInput } from '../declarations/DeveloperRotatePartnerAppSecretInput.js';
-export type { DeveloperUpdatePartnerAppInput } from '../declarations/DeveloperUpdatePartnerAppInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { PartnerAppWithSecret } from '../declarations/PartnerAppWithSecret.js';
-export type { PartnerAppPermissionManifestEntry } from '../declarations/PartnerAppPermissionManifestEntry.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { APIRequestLogDetail } from '../declarations/APIRequestLogDetail.js';
-export type { APIRequestLogQueryParam } from '../declarations/APIRequestLogQueryParam.js';
-export type { APIRequestLogReproduction } from '../declarations/APIRequestLogReproduction.js';
-export type { ApiRequestLogResponseShapeMetadata } from '../declarations/ApiRequestLogResponseShapeMetadata.js';
-export type { ApiRequestLogExpansionShape } from '../declarations/ApiRequestLogExpansionShape.js';
-export type { ResourceTimeline } from '../declarations/ResourceTimeline.js';
-export type { ResourceTimelineEntry } from '../declarations/ResourceTimelineEntry.js';
-export type { APIKeyWithSecret } from '../declarations/APIKeyWithSecret.js';
-export type { PartnerEnvironmentGrant } from '../declarations/PartnerEnvironmentGrant.js';
-export type { PartnerAppSecretRotationResult } from '../declarations/PartnerAppSecretRotationResult.js';
-export type { ResponseMetaInput } from '../declarations/ResponseMetaInput.js';
-export type { ResponseWarningInput } from '../declarations/ResponseWarningInput.js';
-export type { NextActionInput } from '../declarations/NextActionInput.js';
-export type { NextActionMerchantAccountSessionInput } from '../declarations/NextActionMerchantAccountSessionInput.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { APIKey } from '../declarations/APIKey.js';
-export type { APIKeyInput } from '../declarations/APIKeyInput.js';
-export type { CreatePartnerAppRequestInput } from '../declarations/CreatePartnerAppRequestInput.js';
-export type { CreateSandboxRequestInput } from '../declarations/CreateSandboxRequestInput.js';
-export type { IssueSandboxAPIKeyRequestInput } from '../declarations/IssueSandboxAPIKeyRequestInput.js';
-export type { UpdatePartnerAppRequestInput } from '../declarations/UpdatePartnerAppRequestInput.js';
-export type { CreateSandboxRequest } from '../declarations/CreateSandboxRequest.js';
-export type { IssueSandboxAPIKeyRequest } from '../declarations/IssueSandboxAPIKeyRequest.js';
-export type { UpdatePartnerAppRequest } from '../declarations/UpdatePartnerAppRequest.js';
-export { makeCreatePartnerAppResponse } from '../declarations/makeCreatePartnerAppResponse.js';
-export { makeSandboxWithAPIKeyResponse } from '../declarations/makeSandboxWithAPIKeyResponse.js';
-export { makeSandboxResponse } from '../declarations/makeSandboxResponse.js';
-export { makeAPIRequestLogDetailResponse } from '../declarations/makeAPIRequestLogDetailResponse.js';
-export { makeDeveloperAuthContextResponse } from '../declarations/makeDeveloperAuthContextResponse.js';
-export { makePartnerAppResponse } from '../declarations/makePartnerAppResponse.js';
-export { makePartnerAppInstallResponse } from '../declarations/makePartnerAppInstallResponse.js';
-export { makeResourceTimelineResponse } from '../declarations/makeResourceTimelineResponse.js';
-export { makeCreateAPIKeyResponse } from '../declarations/makeCreateAPIKeyResponse.js';
-export { makeAPIRequestLogListResponse } from '../declarations/makeAPIRequestLogListResponse.js';
-export { makeAPIRequestLog } from '../declarations/makeAPIRequestLog.js';
-export { makePartnerAppInstallListResponse } from '../declarations/makePartnerAppInstallListResponse.js';
-export { makePartnerAppInstall } from '../declarations/makePartnerAppInstall.js';
-export { makePartnerAppListResponse } from '../declarations/makePartnerAppListResponse.js';
-export { makePartnerApp } from '../declarations/makePartnerApp.js';
-export { makeSandboxListResponse } from '../declarations/makeSandboxListResponse.js';
-export { makeDeveloperSandbox } from '../declarations/makeDeveloperSandbox.js';
-export { makeRotatePartnerAppSecretResponse } from '../declarations/makeRotatePartnerAppSecretResponse.js';
-export { makeDeveloperAuthContext } from '../declarations/makeDeveloperAuthContext.js';
-export { makeDeveloperInitialAPIKeyRequest } from '../declarations/makeDeveloperInitialAPIKeyRequest.js';
-export { makeDeveloperSandboxWithAPIKey } from '../declarations/makeDeveloperSandboxWithAPIKey.js';
-export { makePartnerAppWithSecret } from '../declarations/makePartnerAppWithSecret.js';
-export { makePartnerAppPermissionManifestEntry } from '../declarations/makePartnerAppPermissionManifestEntry.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeAPIRequestLogDetail } from '../declarations/makeAPIRequestLogDetail.js';
-export { makeAPIRequestLogQueryParam } from '../declarations/makeAPIRequestLogQueryParam.js';
-export { makeAPIRequestLogReproduction } from '../declarations/makeAPIRequestLogReproduction.js';
-export { makeApiRequestLogResponseShapeMetadata } from '../declarations/makeApiRequestLogResponseShapeMetadata.js';
-export { makeApiRequestLogExpansionShape } from '../declarations/makeApiRequestLogExpansionShape.js';
-export { makeResourceTimeline } from '../declarations/makeResourceTimeline.js';
-export { makeResourceTimelineEntry } from '../declarations/makeResourceTimelineEntry.js';
-export { makeAPIKeyWithSecret } from '../declarations/makeAPIKeyWithSecret.js';
-export { makePartnerEnvironmentGrant } from '../declarations/makePartnerEnvironmentGrant.js';
-export { makePartnerAppSecretRotationResult } from '../declarations/makePartnerAppSecretRotationResult.js';
-export { makeAPIKey } from '../declarations/makeAPIKey.js';
-export { makeCreateSandboxRequest } from '../declarations/makeCreateSandboxRequest.js';
-export { makeIssueSandboxAPIKeyRequest } from '../declarations/makeIssueSandboxAPIKeyRequest.js';
-export { makeUpdatePartnerAppRequest } from '../declarations/makeUpdatePartnerAppRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly developer: DeveloperResource;
+}

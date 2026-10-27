@@ -1,0 +1,37 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string|null $default_delivery_tax_category
+ * @property-read bool $default_delivery_taxable
+ * @property-read bool $default_enabled
+ * @property-read string|null $default_line_item_tax_category
+ * Presence-aware input; omitted fields throw when accessed. */
+final class TaxSettingsRequestInput extends Model {
+    /** @param array{'default_delivery_tax_category'?: string|null, 'default_delivery_taxable'?: bool, 'default_enabled'?: bool, 'default_line_item_tax_category'?: string|null, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxSettingsRequestInput')); }
+    /** Shape $ (Value): string or null. Charge category inherited by delivery methods that omit charge_tax_category. Null derives the category from the method type. Send null to clear it. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     * @return string|null
+     * @throws SdkError When default_delivery_tax_category is omitted; use hasDefaultDeliveryTaxCategory() or valueOrDefault().
+     */
+    public function getDefaultDeliveryTaxCategory(): string|null { return $this->get('default_delivery_tax_category'); }
+    public function hasDefaultDeliveryTaxCategory(): bool { return $this->has('default_delivery_tax_category'); }
+    /** Shape $ (Value): boolean. Taxability inherited by delivery methods that omit taxable. Defaults to true because Flint cannot yet derive delivery-charge taxability from category and jurisdiction alone.
+     * @return bool
+     * @throws SdkError When default_delivery_taxable is omitted; use hasDefaultDeliveryTaxable() or valueOrDefault().
+     */
+    public function getDefaultDeliveryTaxable(): bool { return $this->get('default_delivery_taxable'); }
+    public function hasDefaultDeliveryTaxable(): bool { return $this->has('default_delivery_taxable'); }
+    /** Shape $ (Value): boolean. Whether new checkouts and orders calculate tax by default. This does not decide whether an individual line item or delivery charge is taxable.
+     * @return bool
+     * @throws SdkError When default_enabled is omitted; use hasDefaultEnabled() or valueOrDefault().
+     */
+    public function getDefaultEnabled(): bool { return $this->get('default_enabled'); }
+    public function hasDefaultEnabled(): bool { return $this->has('default_enabled'); }
+    /** Shape $ (Value): string or null. Flint line-item tax category. Send null to clear it. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission", null.
+     * @return string|null
+     * @throws SdkError When default_line_item_tax_category is omitted; use hasDefaultLineItemTaxCategory() or valueOrDefault().
+     */
+    public function getDefaultLineItemTaxCategory(): string|null { return $this->get('default_line_item_tax_category'); }
+    public function hasDefaultLineItemTaxCategory(): bool { return $this->has('default_line_item_tax_category'); }
+}

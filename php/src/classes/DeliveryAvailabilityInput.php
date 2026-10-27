@@ -13,37 +13,44 @@ namespace Flint;
 final class DeliveryAvailabilityInput extends Model {
     /** @param array{'blackout_intervals'?: list<DeliveryBlackoutIntervalInput|array<array-key, mixed>|\stdClass>, 'dst_disambiguation'?: string, 'maximum_scheduling_horizon_days': int, 'preparation_lead_time_seconds': string, 'same_day_cutoff_minute'?: int, 'timezone': string, 'weekly_intervals': list<DeliveryWeeklyIntervalInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryAvailabilityInput')); }
-    /** @return list<DeliveryBlackoutIntervalInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): Array of {@see DeliveryBlackoutIntervalInput}. Shape $[] (Value): {@see DeliveryBlackoutIntervalInput}. A local start and end time during which a delivery schedule offers no windows.
+     * @return list<DeliveryBlackoutIntervalInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When blackout_intervals is omitted; use hasBlackoutIntervals() or valueOrDefault().
      */
     public function getBlackoutIntervals(): array { return $this->get('blackout_intervals'); }
     public function hasBlackoutIntervals(): bool { return $this->has('blackout_intervals'); }
-    /** @return string
+    /** Shape $ (Value): string. Default: "earlier". Value enum: "earlier", "later".
+     * @return string
      * @throws SdkError When dst_disambiguation is omitted; use hasDstDisambiguation() or valueOrDefault().
      */
     public function getDstDisambiguation(): string { return $this->get('dst_disambiguation'); }
     public function hasDstDisambiguation(): bool { return $this->has('dst_disambiguation'); }
-    /** @return int
+    /** Shape $ (Value): integer.
+     * @return int
      * @throws SdkError When maximum_scheduling_horizon_days is omitted; use hasMaximumSchedulingHorizonDays() or valueOrDefault().
      */
     public function getMaximumSchedulingHorizonDays(): int { return $this->get('maximum_scheduling_horizon_days'); }
     public function hasMaximumSchedulingHorizonDays(): bool { return $this->has('maximum_scheduling_horizon_days'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Notice the merchant needs before a window starts, in seconds. A buyer can choose a window until this long before it starts. Quotes offer only windows that can still be chosen, so a window already under way is not offered. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When preparation_lead_time_seconds is omitted; use hasPreparationLeadTimeSeconds() or valueOrDefault().
      */
     public function getPreparationLeadTimeSeconds(): string { return $this->get('preparation_lead_time_seconds'); }
     public function hasPreparationLeadTimeSeconds(): bool { return $this->has('preparation_lead_time_seconds'); }
-    /** @return int
+    /** Shape $ (Value): integer.
+     * @return int
      * @throws SdkError When same_day_cutoff_minute is omitted; use hasSameDayCutoffMinute() or valueOrDefault().
      */
     public function getSameDayCutoffMinute(): int { return $this->get('same_day_cutoff_minute'); }
     public function hasSameDayCutoffMinute(): bool { return $this->has('same_day_cutoff_minute'); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
     public function getTimezone(): string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** @return list<DeliveryWeeklyIntervalInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): Array of {@see DeliveryWeeklyIntervalInput}. Shape $[] (Value): {@see DeliveryWeeklyIntervalInput}. A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a delivery method's availability schedule.
+     * @return list<DeliveryWeeklyIntervalInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When weekly_intervals is omitted; use hasWeeklyIntervals() or valueOrDefault().
      */
     public function getWeeklyIntervals(): array { return $this->get('weekly_intervals'); }

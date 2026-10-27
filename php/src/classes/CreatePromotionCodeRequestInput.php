@@ -6,32 +6,44 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $max_uses
  * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read string $status
  * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePromotionCodeRequestInput extends Model {
-    /** @param array{'code': string, 'expires_at'?: string|\DateTimeInterface, 'max_uses'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'timezone'?: string, ...}|object $values */
+    /** @param array{'code': string, 'expires_at'?: string|\DateTimeInterface, 'max_uses'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'status'?: string, 'timezone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePromotionCodeRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Code a buyer enters to redeem the promotion. minLength: 1. maxLength: 100.
+     * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. When the code stops being redeemable, as an absolute RFC3339 timestamp. Omit for no expiry. Format: date-time. minLength: 1.
+     * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Maximum number of times this code can be redeemed. Omit for no redemption limit. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When max_uses is omitted; use hasMaxUses() or valueOrDefault().
      */
     public function getMaxUses(): string { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
-    /** @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
+     * @return array<array-key, string>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return string
+    /** Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a code that cannot be redeemed. Default: "active". Value enum: "active", "inactive".
+     * @return string
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+     */
+    public function getStatus(): string { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Shape $ (Value): string. IANA zone the code's times were entered in, used for display. expires_at is an absolute timestamp, so this does not change when the code expires. minLength: 1. maxLength: 255.
+     * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
     public function getTimezone(): string { return $this->get('timezone'); }

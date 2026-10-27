@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fulfillmentNotifications.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/fulfillmentNotifications.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getFulfillmentNotification"]:r0,["listFulfillmentNotifications"]:r0});
 export class Client {
@@ -15,14 +15,12 @@ this.fulfillmentNotifications = Object.freeze({
       get: async (fulfillment_notification_id, params, options) => this.#runtime.request("getFulfillmentNotification", _sdkRequestInput([
   "fulfillment_notification_id"
 ], [fulfillment_notification_id], [
-  "expand",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getFulfillmentNotification", result, path))),
       getWithResponse: async (fulfillment_notification_id, params, options) => this.#runtime.request("getFulfillmentNotification", _sdkRequestInput([
   "fulfillment_notification_id"
 ], [fulfillment_notification_id], [
-  "expand",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -33,8 +31,8 @@ this.fulfillmentNotifications = Object.freeze({
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listFulfillmentNotifications", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
   "order_id",
@@ -44,7 +42,7 @@ this.fulfillmentNotifications = Object.freeze({
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -55,8 +53,8 @@ this.fulfillmentNotifications = Object.freeze({
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listFulfillmentNotifications", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
   "order_id",
@@ -66,7 +64,7 @@ this.fulfillmentNotifications = Object.freeze({
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFulfillmentNotifications", _sdkRequestInput([], [], [
   "fulfillment_id",
@@ -77,20 +75,11 @@ this.fulfillmentNotifications = Object.freeze({
   "channel",
   "status",
   "notification_type",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeFulfillmentNotificationResponse } from '../models/FulfillmentNotificationResponse.js';
-export { makeFulfillmentNotificationListResponse } from '../models/FulfillmentNotificationListResponse.js';
-export { makeFulfillmentNotification } from '../models/FulfillmentNotification.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';

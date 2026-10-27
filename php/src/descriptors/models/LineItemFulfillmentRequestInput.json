@@ -1,1 +1,1 @@
-{"shared":"LineItemFulfillmentRequest","dependencies":["LineItemFulfillmentOriginRequest","LineItemFulfillmentRequest","LineItemFulfillmentSizeRequest","LineItemFulfillmentWeightRequest"]}
+{"shared":"LineItemFulfillmentRequest","dependencies":["LineItemFulfillmentOriginRequest","LineItemFulfillmentRequest"]}

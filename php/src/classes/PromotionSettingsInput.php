@@ -9,17 +9,20 @@ namespace Flint;
 final class PromotionSettingsInput extends Model {
     /** @param array{'automatic_enabled'?: bool, 'codes_enabled'?: bool, 'max_promotions_per_order'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionSettingsInput')); }
-    /** @return bool
+    /** Shape $ (Value): boolean.
+     * @return bool
      * @throws SdkError When automatic_enabled is omitted; use hasAutomaticEnabled() or valueOrDefault().
      */
     public function getAutomaticEnabled(): bool { return $this->get('automatic_enabled'); }
     public function hasAutomaticEnabled(): bool { return $this->has('automatic_enabled'); }
-    /** @return bool
+    /** Shape $ (Value): boolean. Merchant promotion code redemption policy. Explicit false rejects promotion-code application even when a checkout or payment link asks to show code entry.
+     * @return bool
      * @throws SdkError When codes_enabled is omitted; use hasCodesEnabled() or valueOrDefault().
      */
     public function getCodesEnabled(): bool { return $this->get('codes_enabled'); }
     public function hasCodesEnabled(): bool { return $this->has('codes_enabled'); }
-    /** @return int
+    /** Shape $ (Value): integer. Maximum promotion discounts on an order, from 1 to 10, default 2. Manual discounts do not count. See Promotion for the evaluation order. Format: int32. minimum: 1. maximum: 10. Default: 2.
+     * @return int
      * @throws SdkError When max_promotions_per_order is omitted; use hasMaxPromotionsPerOrder() or valueOrDefault().
      */
     public function getMaxPromotionsPerOrder(): int { return $this->get('max_promotions_per_order'); }

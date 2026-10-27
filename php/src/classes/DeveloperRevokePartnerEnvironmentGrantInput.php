@@ -7,31 +7,30 @@ namespace Flint;
  * @property-read string $environment_grant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperRevokePartnerEnvironmentGrantInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'environment_grant_id': string}|object $values */
+    /** @param array{'partner_app_id': string, 'partner_app_install_id': string, 'environment_grant_id': string, 'Idempotency-Key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeveloperRevokePartnerEnvironmentGrantInput')); }
-    /** @return string
-     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When partner_app_install_id is omitted; use hasPartnerAppInstallId() or valueOrDefault().
      */
     public function getPartnerAppInstallId(): string { return $this->get('partner_app_install_id'); }
     public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When environment_grant_id is omitted; use hasEnvironmentGrantId() or valueOrDefault().
      */
     public function getEnvironmentGrantId(): string { return $this->get('environment_grant_id'); }
     public function hasEnvironmentGrantId(): bool { return $this->has('environment_grant_id'); }
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
+     * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
 }

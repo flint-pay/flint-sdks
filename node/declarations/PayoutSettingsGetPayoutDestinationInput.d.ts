@@ -1,4 +1,0 @@
-import type { InputValue } from '../runtime.js';
-
-
-export type PayoutSettingsGetPayoutDestinationInput = { "payout_destination_id": InputValue<string>; "X-Request-Id"?: InputValue<string>; };

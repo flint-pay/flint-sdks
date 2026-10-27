@@ -5,16 +5,12 @@ namespace Flint;
  * @property-read string $customer_deletion_request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeGetDeletionRequestInput extends Model {
-    /** @param array{'customer_deletion_request_id': string, 'X-Request-Id'?: string}|object $values */
+    /** @param array{'customer_deletion_request_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetDeletionRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When customer_deletion_request_id is omitted; use hasCustomerDeletionRequestId() or valueOrDefault().
      */
     public function getCustomerDeletionRequestId(): string { return $this->get('customer_deletion_request_id'); }
     public function hasCustomerDeletionRequestId(): bool { return $this->has('customer_deletion_request_id'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
 }

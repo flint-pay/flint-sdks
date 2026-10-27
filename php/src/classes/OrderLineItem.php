@@ -4,198 +4,216 @@ namespace Flint;
 /**
  * @property-read MoneyValue $base_subtotal_money
  * @property-read list<BundleComponent> $bundle_components
- * @property-read string $bundle_id
+ * @property-read ?string $bundle_id
  * @property-read list<CategoryReference> $categories
- * @property-read string $description
+ * @property-read ?string $description
  * @property-read MoneyValue $discount_money
- * @property-read GiftCardPurchaseSnapshot $gift_card_purchase
- * @property-read Image $image
+ * @property-read ?list<OrderLineItemFulfillmentQuantities> $fulfillment_quantities
+ * @property-read ?OrderLineItemFulfillmentRequirements $fulfillment_requirements
+ * @property-read ?GiftCardPurchaseSnapshot $gift_card_purchase
+ * @property-read ?Image $image
  * @property-read LineItemInventorySnapshot|null $inventory_snapshot
- * @property-read array<array-key, string> $metadata
+ * @property-read ?array<array-key, string> $metadata
  * @property-read MoneyValue $modifier_total_money
  * @property-read list<OrderLineItemModifier> $modifiers
  * @property-read string $name
  * @property-read string $order_line_item_id
- * @property-read string $product_id
+ * @property-read ?string $product_id
  * @property-read list<PurchasedGiftCard> $purchased_gift_cards
  * @property-read string $quantity
  * @property-read MoneyValue $refunded_money
  * @property-read string $refunded_quantity
  * @property-read list<SelectedProductOption> $selected_options
- * @property-read string $sku
- * @property-read string $source_type
- * @property-read SubscribedLine $subscription
- * @property-read string $subscription_id
- * @property-read OrderLineSubscriptionOfferSummary $subscription_offer
+ * @property-read ?string $sku
+ * @property-read ?string $source_type
+ * @property-read ?SubscribedLine $subscription
+ * @property-read ?string $subscription_id
+ * @property-read ?OrderLineSubscriptionOfferSummary $subscription_offer
  * @property-read MoneyValue $subtotal_money
- * @property-read OrderCalculatedLineItemTax $tax
+ * @property-read ?OrderCalculatedLineItemTax $tax
  * @property-read MoneyValue $tax_money
  * @property-read SignedMoney $total_money
+ * @property-read ?Dimensions $unit_dimensions
  * @property-read MoneyValue $unit_price_money
- * @property-read string $variant_id
- * @property-read string $version
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?Weight $unit_weight
+ * @property-read ?string $variant_id
+ * Presence-aware response; omitted optional fields return null. */
 final class OrderLineItem extends Model {
-    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'discount_money': mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot'?: mixed, 'metadata'?: \stdClass, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'purchased_gift_cards'?: list<mixed>, 'quantity': string, 'refunded_money': mixed, 'refunded_quantity': string, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_price_money': mixed, 'variant_id'?: string, 'version': string, ...}|object $values */
+    /** @param array{'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'metadata'?: \stdClass, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'purchased_gift_cards': list<mixed>, 'quantity': string, 'refunded_money': mixed, 'refunded_quantity': string, 'selected_options': list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItem')); }
-    /** @return MoneyValue
-     * @throws SdkError When base_subtotal_money is omitted; use hasBaseSubtotalMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getBaseSubtotalMoney(): MoneyValue { return $this->get('base_subtotal_money'); }
     public function hasBaseSubtotalMoney(): bool { return $this->has('base_subtotal_money'); }
-    /** @return list<BundleComponent>
-     * @throws SdkError When bundle_components is omitted; use hasBundleComponents() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see BundleComponent}. Shape $[] (Value): {@see BundleComponent}. An item included in a bundle.
+     * @return list<BundleComponent>
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** @return string
-     * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getBundleId(): string { return $this->get('bundle_id'); }
+    public function getBundleId(): ?string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** @return list<CategoryReference>
-     * @throws SdkError When categories is omitted; use hasCategories() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see CategoryReference}. Shape $[] (Value): {@see CategoryReference}. A reference to a product category by ID, handle, and name.
+     * @return list<CategoryReference>
      */
     public function getCategories(): array { return $this->get('categories'); }
     public function hasCategories(): bool { return $this->has('categories'); }
-    /** @return string
-     * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getDescription(): string { return $this->get('description'); }
+    public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** @return MoneyValue
-     * @throws SdkError When discount_money is omitted; use hasDiscountMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getDiscountMoney(): MoneyValue { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** @return GiftCardPurchaseSnapshot
-     * @throws SdkError When gift_card_purchase is omitted; use hasGiftCardPurchase() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see OrderLineItemFulfillmentQuantities}. Current quantities for each required fulfillment obligation: one entry for a single item or one per bundle component that requires fulfillment. Quantities use line units for single items and component units for bundles. required_quantity equals unassigned_quantity + assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity. Omitted when the line needs no fulfillment or the order's obligations cannot be computed, including older lines without recorded requirements. Shape $[] (Value): {@see OrderLineItemFulfillmentQuantities}. Counts of how much of an order line item is assigned, fulfilled, failed, canceled, or still unassigned for fulfillment.
+     * @return ?list<OrderLineItemFulfillmentQuantities>
      */
-    public function getGiftCardPurchase(): GiftCardPurchaseSnapshot { return $this->get('gift_card_purchase'); }
+    public function getFulfillmentQuantities(): ?array { return $this->get('fulfillment_quantities'); }
+    public function hasFulfillmentQuantities(): bool { return $this->has('fulfillment_quantities'); }
+    /** Shape $ (Value): {@see OrderLineItemFulfillmentRequirements}. Fulfillment requirements fixed when the line item was created. direct describes a single item; components describes each bundle component. Omitted for older line items without recorded requirements. Fulfillment requirements for an order line item, given for a single item or for each component of a bundle.
+     * @return ?OrderLineItemFulfillmentRequirements
+     */
+    public function getFulfillmentRequirements(): ?OrderLineItemFulfillmentRequirements { return $this->get('fulfillment_requirements'); }
+    public function hasFulfillmentRequirements(): bool { return $this->has('fulfillment_requirements'); }
+    /** Shape $ (Value): {@see GiftCardPurchaseSnapshot}. The gift card purchase details saved on an order line item: configuration, face value, price paid, and recipient.
+     * @return ?GiftCardPurchaseSnapshot
+     */
+    public function getGiftCardPurchase(): ?GiftCardPurchaseSnapshot { return $this->get('gift_card_purchase'); }
     public function hasGiftCardPurchase(): bool { return $this->has('gift_card_purchase'); }
-    /** @return Image
-     * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
+    /** Shape $ (Value): {@see Image}. An image with its `url`, `width`, and `height`, and optional `alt` text.
+     * @return ?Image
      */
-    public function getImage(): Image { return $this->get('image'); }
+    public function getImage(): ?Image { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** @return LineItemInventorySnapshot|null
-     * @throws SdkError When inventory_snapshot is omitted; use hasInventorySnapshot() or valueOrDefault().
+    /** Shape $ (Value): {@see LineItemInventorySnapshot} or null. Shape $.anyOf[1] (Value): {@see LineItemInventorySnapshot}. Whether an order line item tracks inventory, and the inventory item quantities each unit demands. Shape $.anyOf[2] (Value): null.
+     * @return LineItemInventorySnapshot|null
      */
     public function getInventorySnapshot(): LineItemInventorySnapshot|null { return $this->get('inventory_snapshot'); }
     public function hasInventorySnapshot(): bool { return $this->has('inventory_snapshot'); }
-    /** @return array<array-key, string>
-     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+     * @return ?array<array-key, string>
      */
-    public function getMetadata(): array { return $this->get('metadata'); }
+    public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return MoneyValue
-     * @throws SdkError When modifier_total_money is omitted; use hasModifierTotalMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getModifierTotalMoney(): MoneyValue { return $this->get('modifier_total_money'); }
     public function hasModifierTotalMoney(): bool { return $this->has('modifier_total_money'); }
-    /** @return list<OrderLineItemModifier>
-     * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see OrderLineItemModifier}. Shape $[] (Value): {@see OrderLineItemModifier}. A modifier selected on an order line item, with its quantity, price change, total, and display flags.
+     * @return list<OrderLineItemModifier>
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** @return string
-     * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return string
-     * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** @return string
-     * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getProductId(): string { return $this->get('product_id'); }
+    public function getProductId(): ?string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** @return list<PurchasedGiftCard>
-     * @throws SdkError When purchased_gift_cards is omitted; use hasPurchasedGiftCards() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see PurchasedGiftCard}. Masked card identities for fully funded units of this purchase line. Partial consideration does not issue a card. Shape $[] (Value): {@see PurchasedGiftCard}. A gift card issued for one unit of a purchased order line item, with its last four code characters and any card it replaced.
+     * @return list<PurchasedGiftCard>
      */
     public function getPurchasedGiftCards(): array { return $this->get('purchased_gift_cards'); }
     public function hasPurchasedGiftCards(): bool { return $this->has('purchased_gift_cards'); }
-    /** @return string
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
+    /** Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      */
     public function getQuantity(): string { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** @return MoneyValue
-     * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** @return string
-     * @throws SdkError When refunded_quantity is omitted; use hasRefundedQuantity() or valueOrDefault().
+    /** Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      */
     public function getRefundedQuantity(): string { return $this->get('refunded_quantity'); }
     public function hasRefundedQuantity(): bool { return $this->has('refunded_quantity'); }
-    /** @return list<SelectedProductOption>
-     * @throws SdkError When selected_options is omitted; use hasSelectedOptions() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see SelectedProductOption}. Shape $[] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
+     * @return list<SelectedProductOption>
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** @return string
-     * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getSku(): string { return $this->get('sku'); }
+    public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** @return string
-     * @throws SdkError When source_type is omitted; use hasSourceType() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "variant", "bundle".
+     * @return ?string
      */
-    public function getSourceType(): string { return $this->get('source_type'); }
+    public function getSourceType(): ?string { return $this->get('source_type'); }
     public function hasSourceType(): bool { return $this->has('source_type'); }
-    /** @return SubscribedLine
-     * @throws SdkError When subscription is omitted; use hasSubscription() or valueOrDefault().
+    /** Shape $ (Value): {@see SubscribedLine}. Recurring offer and cadence frozen for this line at signup. The subscription offer and billing interval an order line was bought under, with the recurring amount.
+     * @return ?SubscribedLine
      */
-    public function getSubscription(): SubscribedLine { return $this->get('subscription'); }
+    public function getSubscription(): ?SubscribedLine { return $this->get('subscription'); }
     public function hasSubscription(): bool { return $this->has('subscription'); }
-    /** @return string
-     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+    /** Shape $ (Value): string. Subscription created for this line after the order is paid.
+     * @return ?string
      */
-    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function getSubscriptionId(): ?string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** @return OrderLineSubscriptionOfferSummary
-     * @throws SdkError When subscription_offer is omitted; use hasSubscriptionOffer() or valueOrDefault().
+    /** Shape $ (Value): {@see OrderLineSubscriptionOfferSummary}. Applicable active offer for a one-time line, or the offer terms frozen for a subscribed line. A subscription offer attached to an order line item, with its name, discount, and billing interval options.
+     * @return ?OrderLineSubscriptionOfferSummary
      */
-    public function getSubscriptionOffer(): OrderLineSubscriptionOfferSummary { return $this->get('subscription_offer'); }
+    public function getSubscriptionOffer(): ?OrderLineSubscriptionOfferSummary { return $this->get('subscription_offer'); }
     public function hasSubscriptionOffer(): bool { return $this->has('subscription_offer'); }
-    /** @return MoneyValue
-     * @throws SdkError When subtotal_money is omitted; use hasSubtotalMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** @return OrderCalculatedLineItemTax
-     * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
+    /** Shape $ (Value): {@see OrderCalculatedLineItemTax}. Tax settings for an order line item calculated by Flint or supplied by you, including the line item tax category and whether it is taxable.
+     * @return ?OrderCalculatedLineItemTax
      */
-    public function getTax(): OrderCalculatedLineItemTax { return $this->get('tax'); }
+    public function getTax(): ?OrderCalculatedLineItemTax { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** @return MoneyValue
-     * @throws SdkError When tax_money is omitted; use hasTaxMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getTaxMoney(): MoneyValue { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** @return SignedMoney
-     * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see SignedMoney}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return SignedMoney
      */
     public function getTotalMoney(): SignedMoney { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** @return MoneyValue
-     * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see Dimensions}. Dimensions of one unit fixed when the line was created. Omitted when unknown and for bundle lines. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     * @return ?Dimensions
+     */
+    public function getUnitDimensions(): ?Dimensions { return $this->get('unit_dimensions'); }
+    public function hasUnitDimensions(): bool { return $this->has('unit_dimensions'); }
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getUnitPriceMoney(): MoneyValue { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** @return string
-     * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
+    /** Shape $ (Value): {@see Weight}. Weight of one unit fixed when the line was created. Omitted when unknown and for bundle lines. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     * @return ?Weight
      */
-    public function getVariantId(): string { return $this->get('variant_id'); }
+    public function getUnitWeight(): ?Weight { return $this->get('unit_weight'); }
+    public function hasUnitWeight(): bool { return $this->has('unit_weight'); }
+    /** Shape $ (Value): string.
+     * @return ?string
+     */
+    public function getVariantId(): ?string { return $this->get('variant_id'); }
     public function hasVariantId(): bool { return $this->has('variant_id'); }
-    /** @return string
-     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
-     */
-    public function getVersion(): string { return $this->get('version'); }
-    public function hasVersion(): bool { return $this->has('version'); }
 }

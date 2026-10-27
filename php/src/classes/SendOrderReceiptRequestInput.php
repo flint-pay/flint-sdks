@@ -7,7 +7,8 @@ namespace Flint;
 final class SendOrderReceiptRequestInput extends Model {
     /** @param array{'email'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SendOrderReceiptRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Receipt email, limited to 254 characters (Unicode code points) after trimming surrounding whitespace. Format: email. minLength: 1. maxLength: 254.
+     * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }

@@ -1,1 +1,1 @@
-{"shared":"InvoiceScheduleDue","dependencies":["InvoiceScheduleDue"]}
+{"shared":"InvoiceScheduleDue","dependencies":["InvoiceScheduleDue","SharedCodec929","SharedCodec930","SharedCodec931"]}

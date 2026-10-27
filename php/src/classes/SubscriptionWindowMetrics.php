@@ -2,26 +2,26 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $canceled_subscriptions
- * @property-read string $new_subscriptions
- * @property-read list<MoneyValue> $subscription_collected_money_by_currency
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read string $canceled_subscriptions_count
+ * @property-read MoneyValue $collected_money
+ * @property-read string $new_subscriptions_count
+ * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionWindowMetrics extends Model {
-    /** @param array{'canceled_subscriptions': string, 'new_subscriptions': string, 'subscription_collected_money_by_currency'?: list<mixed>, ...}|object $values */
+    /** @param array{'canceled_subscriptions_count': string, 'collected_money': mixed, 'new_subscriptions_count': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionWindowMetrics')); }
-    /** @return string
-     * @throws SdkError When canceled_subscriptions is omitted; use hasCanceledSubscriptions() or valueOrDefault().
+    /** Shape $ (Value): integer string. Subscriptions selected by canceled_at in the period, across currencies. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      */
-    public function getCanceledSubscriptions(): string { return $this->get('canceled_subscriptions'); }
-    public function hasCanceledSubscriptions(): bool { return $this->has('canceled_subscriptions'); }
-    /** @return string
-     * @throws SdkError When new_subscriptions is omitted; use hasNewSubscriptions() or valueOrDefault().
+    public function getCanceledSubscriptionsCount(): string { return $this->get('canceled_subscriptions_count'); }
+    public function hasCanceledSubscriptionsCount(): bool { return $this->has('canceled_subscriptions_count'); }
+    /** Shape $ (Value): {@see MoneyValue}. Subscription-sourced payment amounts with a succeeded payment activity selected by activity created_at in the period, counted once per payment. Includes recurring charges and setup fees, restricted to currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
-    public function getNewSubscriptions(): string { return $this->get('new_subscriptions'); }
-    public function hasNewSubscriptions(): bool { return $this->has('new_subscriptions'); }
-    /** @return list<MoneyValue>
-     * @throws SdkError When subscription_collected_money_by_currency is omitted; use hasSubscriptionCollectedMoneyByCurrency() or valueOrDefault().
+    public function getCollectedMoney(): MoneyValue { return $this->get('collected_money'); }
+    public function hasCollectedMoney(): bool { return $this->has('collected_money'); }
+    /** Shape $ (Value): integer string. Subscriptions selected by subscription created_at in the period whose current status is trialing, active, paused, or past_due. Excludes incomplete and canceled subscriptions; past counts can change with current status. Spans currencies. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      */
-    public function getSubscriptionCollectedMoneyByCurrency(): array { return $this->get('subscription_collected_money_by_currency'); }
-    public function hasSubscriptionCollectedMoneyByCurrency(): bool { return $this->has('subscription_collected_money_by_currency'); }
+    public function getNewSubscriptionsCount(): string { return $this->get('new_subscriptions_count'); }
+    public function hasNewSubscriptionsCount(): bool { return $this->has('new_subscriptions_count'); }
 }

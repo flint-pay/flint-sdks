@@ -8,12 +8,14 @@ namespace Flint;
 final class IssueInvoiceRequestInput extends Model {
     /** @param array{'delivery_mode'?: string, 'expected_version'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('IssueInvoiceRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. merchant_default uses the merchant invoice delivery setting; email sends the invoice to its recipient; caller_managed returns the buyer-access link for you to deliver. Default: "merchant_default". Value enum: "merchant_default", "email", "caller_managed".
+     * @return string
      * @throws SdkError When delivery_mode is omitted; use hasDeliveryMode() or valueOrDefault().
      */
     public function getDeliveryMode(): string { return $this->get('delivery_mode'); }
     public function hasDeliveryMode(): bool { return $this->has('delivery_mode'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }

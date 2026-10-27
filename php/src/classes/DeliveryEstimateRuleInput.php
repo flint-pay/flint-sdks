@@ -9,17 +9,20 @@ namespace Flint;
 final class DeliveryEstimateRuleInput extends Model {
     /** @param array{'schedule_window'?: DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass, 'transit_time'?: DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryEstimateRuleInput')); }
-    /** @return DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryScheduleWindowRuleInput}. Estimate rule for a scheduled-window delivery method, defined by its `availability` schedule.
+     * @return DeliveryScheduleWindowRuleInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When schedule_window is omitted; use hasScheduleWindow() or valueOrDefault().
      */
     public function getScheduleWindow(): mixed { return $this->get('schedule_window'); }
     public function hasScheduleWindow(): bool { return $this->has('schedule_window'); }
-    /** @return DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryTransitTimeRuleInput}. Estimate rule giving a delivery method's handling time and transit time as ranges of business days.
+     * @return DeliveryTransitTimeRuleInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When transit_time is omitted; use hasTransitTime() or valueOrDefault().
      */
     public function getTransitTime(): mixed { return $this->get('transit_time'); }
     public function hasTransitTime(): bool { return $this->has('transit_time'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "none", "transit_time", "schedule_window".
+     * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }

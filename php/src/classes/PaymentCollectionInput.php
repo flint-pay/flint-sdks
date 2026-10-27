@@ -7,7 +7,8 @@ namespace Flint;
 final class PaymentCollectionInput extends Model {
     /** @param array{'stripe'?: PaymentCollectionStripeInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionInput')); }
-    /** @return PaymentCollectionStripeInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see PaymentCollectionStripeInput}. Client configuration for collecting the payment through Stripe. Stripe details for collecting payment in the browser: account ID, publishable key, return URL, and Elements options.
+     * @return PaymentCollectionStripeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When stripe is omitted; use hasStripe() or valueOrDefault().
      */
     public function getStripe(): mixed { return $this->get('stripe'); }

@@ -1,0 +1,1 @@
+{"shared":"PaymentReviewRisk","phpRepresentation":{"kind":"record","fields":{"level":{"kind":"value","type":"string"},"score":{"kind":"value","type":"int"}}},"dependencies":["PaymentReviewRisk"]}

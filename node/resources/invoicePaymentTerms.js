@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoicePaymentTerms.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/invoicePaymentTerms.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createInvoicePaymentTerm"]:r0,["deleteInvoicePaymentTerm"]:r0,["getInvoicePaymentTerm"]:r0,["listInvoicePaymentTerms"]:r0,["updateInvoicePaymentTerm"]:r0});
 export class Client {
@@ -14,7 +14,7 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.invoicePaymentTerms = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInvoicePaymentTerm", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoicePaymentTerm", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createInvoicePaymentTerm", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
@@ -23,7 +23,7 @@ this.invoicePaymentTerms = Object.freeze({
 ], [invoice_payment_term_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteInvoicePaymentTerm", result, path))),
       removeWithResponse: async (invoice_payment_term_id, params, options) => this.#runtime.request("deleteInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
 ], [invoice_payment_term_id], [
@@ -32,7 +32,7 @@ this.invoicePaymentTerms = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       get: async (invoice_payment_term_id, params, options) => this.#runtime.request("getInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
-], [invoice_payment_term_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [invoice_payment_term_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInvoicePaymentTerm", result, path))),
       getWithResponse: async (invoice_payment_term_id, params, options) => this.#runtime.request("getInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
 ], [invoice_payment_term_id], [], false, false, params), options).then(_sdkResponse),
@@ -42,7 +42,7 @@ this.invoicePaymentTerms = Object.freeze({
   "status",
   "external_reference_id",
   "query"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoicePaymentTerms", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listInvoicePaymentTerms", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -56,7 +56,7 @@ this.invoicePaymentTerms = Object.freeze({
   "status",
   "external_reference_id",
   "query"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInvoicePaymentTerms", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInvoicePaymentTerms", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -75,7 +75,7 @@ this.invoicePaymentTerms = Object.freeze({
   "invoice_payment_term_id"
 ], [invoice_payment_term_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateInvoicePaymentTerm", result, path))),
       updateWithResponse: async (invoice_payment_term_id, params, options) => this.#runtime.request("updateInvoicePaymentTerm", _sdkRequestInput([
   "invoice_payment_term_id"
 ], [invoice_payment_term_id], [
@@ -83,16 +83,18 @@ this.invoicePaymentTerms = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeInvoicePaymentTermResponse } from '../models/InvoicePaymentTermResponse.js';
-export { makeInvoicePaymentTermListResponse } from '../models/InvoicePaymentTermListResponse.js';
-export { makeInvoicePaymentTerm } from '../models/InvoicePaymentTerm.js';
-export { makeInvoicePaymentTermsSnapshot } from '../models/InvoicePaymentTermsSnapshot.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeInvoicePaymentTermCalculation } from '../models/InvoicePaymentTermCalculation.js';
+export { makeCreateInvoicePaymentTermRequest } from '../models/CreateInvoicePaymentTermRequest.js';
 export { makeInvoiceLateFeePolicy } from '../models/InvoiceLateFeePolicy.js';
+export { makeInvoiceLateFeePolicyFixed } from '../models/InvoiceLateFeePolicyFixed.js';
+export { makeInvoiceLateFeePolicyPercentage } from '../models/InvoiceLateFeePolicyPercentage.js';
+export { makeInvoicePaymentTermCalculation } from '../models/InvoicePaymentTermCalculation.js';
+export { makeInvoicePaymentTermCalculationDayOfMonth } from '../models/InvoicePaymentTermCalculationDayOfMonth.js';
+export { makeInvoicePaymentTermCalculationDayOfNextMonth } from '../models/InvoicePaymentTermCalculationDayOfNextMonth.js';
+export { makeInvoicePaymentTermCalculationDaysAfterMonthEnd } from '../models/InvoicePaymentTermCalculationDaysAfterMonthEnd.js';
+export { makeInvoicePaymentTermCalculationNetDays } from '../models/InvoicePaymentTermCalculationNetDays.js';
+export { makeInvoicePaymentTermCalculationOnReceipt } from '../models/InvoicePaymentTermCalculationOnReceipt.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateInvoicePaymentTermRequest } from '../models/UpdateInvoicePaymentTermRequest.js';

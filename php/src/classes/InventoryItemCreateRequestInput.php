@@ -10,22 +10,26 @@ namespace Flint;
 final class InventoryItemCreateRequestInput extends Model {
     /** @param array{'barcode'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemCreateRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Barcode assigned to the new inventory item. minLength: 1. maxLength: 255.
+     * @return string
      * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
      */
     public function getBarcode(): string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): Map of string. Caller-owned metadata for the new inventory item. Shape $.* (Value): string. minLength: 1.
+     * @return array<array-key, string>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return string
+    /** Shape $ (Value): string. Name of the inventory item to create for this variant. minLength: 1. maxLength: 255.
+     * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return string
+    /** Shape $ (Value): string. Stock keeping unit assigned to the new inventory item. minLength: 1. maxLength: 255.
+     * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
     public function getSku(): string { return $this->get('sku'); }

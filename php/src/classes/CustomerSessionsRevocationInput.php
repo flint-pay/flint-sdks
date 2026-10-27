@@ -8,12 +8,14 @@ namespace Flint;
 final class CustomerSessionsRevocationInput extends Model {
     /** @param array{'customer_id': string, 'revoked_count': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionsRevocationInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When revoked_count is omitted; use hasRevokedCount() or valueOrDefault().
      */
     public function getRevokedCount(): string { return $this->get('revoked_count'); }

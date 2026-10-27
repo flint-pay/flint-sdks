@@ -2,19 +2,25 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/webhookDeliveries.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/webhookDeliveries.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["getWebhookDelivery"]:r0,["listWebhookDeliveryAttempts"]:r0,["resendWebhookDelivery"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createWebhookDelivery"]:r0,["getWebhookDelivery"]:r0,["listWebhookDeliveryAttempts"]:r0,["resendWebhookDelivery"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.webhookDeliveries = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createWebhookDelivery", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createWebhookDelivery", result, path))),
+      createWithResponse: async (params, options) => this.#runtime.request("createWebhookDelivery", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
       get: async (webhook_delivery_id, params, options) => this.#runtime.request("getWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
-], [webhook_delivery_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [webhook_delivery_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getWebhookDelivery", result, path))),
       getWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("getWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [], false, false, params), options).then(_sdkResponse),
@@ -23,7 +29,7 @@ this.webhookDeliveries = Object.freeze({
 ], [webhook_delivery_id], [
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listWebhookDeliveryAttempts", result, path))),
       listAttemptsWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
@@ -35,7 +41,7 @@ this.webhookDeliveries = Object.freeze({
 ], [webhook_delivery_id], [
   "page_size",
   "page_token"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listWebhookDeliveryAttempts", result, path)),
       listAttemptsPagesWithResponse: (webhook_delivery_id, params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookDeliveryAttempts", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
@@ -52,7 +58,7 @@ this.webhookDeliveries = Object.freeze({
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
   "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resendWebhookDelivery", result, path))),
       resendWithResponse: async (webhook_delivery_id, params, options) => this.#runtime.request("resendWebhookDelivery", _sdkRequestInput([
   "webhook_delivery_id"
 ], [webhook_delivery_id], [
@@ -60,17 +66,9 @@ this.webhookDeliveries = Object.freeze({
 ], true, false, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeWebhookDeliveryResponse } from '../models/WebhookDeliveryResponse.js';
-export { makeWebhookDeliveryAttemptListResponse } from '../models/WebhookDeliveryAttemptListResponse.js';
-export { makeWebhookDeliveryAttempt } from '../models/WebhookDeliveryAttempt.js';
-export { makeWebhookDeliveryActionResponse } from '../models/WebhookDeliveryActionResponse.js';
-export { makeWebhookDelivery } from '../models/WebhookDelivery.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateWebhookDeliveryRequest } from '../models/CreateWebhookDeliveryRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeWebhookDeliveryAction } from '../models/WebhookDeliveryAction.js';
 export { makeResendWebhookDeliveryRequest } from '../models/ResendWebhookDeliveryRequest.js';

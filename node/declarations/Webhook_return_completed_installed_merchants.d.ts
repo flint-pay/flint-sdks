@@ -1,4 +1,0 @@
-
-import type { Webhook_delivery_location_set_activated_installed_merchants } from './Webhook_delivery_location_set_activated_installed_merchants.js';
-
-export type Webhook_return_completed_installed_merchants = Webhook_delivery_location_set_activated_installed_merchants;

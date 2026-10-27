@@ -1,4 +1,0 @@
-import type { InputValue } from '../runtime.js';
-
-
-export type CategoriesRemoveInput = { "category_id": InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; };

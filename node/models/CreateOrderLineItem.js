@@ -1,9 +1,0 @@
-import { d382 as c0, d872 as c1, d878 as c2, d895 as c3, d1754 as c4, d1755 as c5, d1756 as c6, d1757 as c7, d323 as c8, d1863 as c9, d1864 as c10, d1865 as c11, d1866 as c12, d1867 as c13, d371 as c14, d373 as c15, d372 as c16, d370 as c17, d369 as c18, d377 as c19, d375 as c20, d374 as c21, d376 as c22, d379 as c23, d378 as c24, d381 as c25, d380 as c26, d853 as c27, d2353 as c28, d2431 as c29 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d382 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d382;
-let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateOrderLineItem"]:c0(),["GiftCardPurchaseRecipient"]:c1(),["GiftCardPurchaseRequest"]:c2(),["ImageReferenceRequest"]:c3(),["LineItemFulfillmentOriginRequest"]:c4(),["LineItemFulfillmentRequest"]:c5(),["LineItemFulfillmentSizeRequest"]:c6(),["LineItemFulfillmentWeightRequest"]:c7(),["MoneyValue"]:c8(),["OrderDraftLineItemInventoryDemandRequest"]:c9(),["OrderDraftLineItemTaxCalculationRequest"]:c10(),["OrderDraftLineItemTaxRequest"]:c11(),["OrderDraftTaxComponentRequest"]:c12(),["OrderDraftTaxJurisdictionRequest"]:c13(),["OrderLineItemModifierRequest"]:c14(),["SharedCodec114"]:c15(),["SharedCodec115"]:c16(),["SharedCodec116"]:c17(),["SharedCodec117"]:c18(),["SharedCodec118"]:c19(),["SharedCodec119"]:c20(),["SharedCodec120"]:c21(),["SharedCodec121"]:c22(),["SharedCodec122"]:c23(),["SharedCodec123"]:c24(),["SharedCodec124"]:c25(),["SharedCodec125"]:c26(),["SharedCodec247"]:c27(),["SubscribedLineRequest"]:c28(),["TextModifierRequest"]:c29()}); }
-export { codec as _validate };
-import { modelFromCodec } from '../runtime.js';
-export function makeCreateOrderLineItem(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

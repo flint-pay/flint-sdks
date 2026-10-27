@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnResolutions.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/returnResolutions.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnResolution"]:r0,["confirmReturnResolution"]:r0,["getOrCreateReturnResolutionCheckoutSession"]:r0,["getReturnResolution"]:r0,["listReturnResolutions"]:r0,["releaseReturnResolution"]:r0,["retryReturnResolution"]:r0,["updateReturnResolution"]:r0});
 export class Client {
@@ -16,7 +16,7 @@ this.returnResolutions = Object.freeze({
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelReturnResolution", result, path))),
       cancelWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("cancelReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -26,7 +26,7 @@ this.returnResolutions = Object.freeze({
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("confirmReturnResolution", result, path))),
       confirmWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("confirmReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -36,7 +36,7 @@ this.returnResolutions = Object.freeze({
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrCreateReturnResolutionCheckoutSession", result, path))),
       getOrCreateCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("getOrCreateReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -46,7 +46,7 @@ this.returnResolutions = Object.freeze({
   "return_resolution_id"
 ], [return_resolution_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getReturnResolution", result, path))),
       getWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("getReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -67,8 +67,9 @@ this.returnResolutions = Object.freeze({
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "updated_before",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listReturnResolutions", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
   "corrects_return_resolution_id",
@@ -84,7 +85,8 @@ this.returnResolutions = Object.freeze({
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
@@ -101,8 +103,9 @@ this.returnResolutions = Object.freeze({
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before"
-], false, false, params), options), []),
+  "updated_before",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listReturnResolutions", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
   "corrects_return_resolution_id",
@@ -118,7 +121,8 @@ this.returnResolutions = Object.freeze({
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnResolutions", _sdkRequestInput([], [], [
   "action_required_by",
@@ -135,13 +139,14 @@ this.returnResolutions = Object.freeze({
   "return_policy_revision_id",
   "status",
   "updated_after",
-  "updated_before"
+  "updated_before",
+  "expand"
 ], false, false, params), options),
       release: async (return_resolution_id, params, options) => this.#runtime.request("releaseReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("releaseReturnResolution", result, path))),
       releaseWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("releaseReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -151,7 +156,7 @@ this.returnResolutions = Object.freeze({
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("retryReturnResolution", result, path))),
       retryWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("retryReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -161,7 +166,7 @@ this.returnResolutions = Object.freeze({
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateReturnResolution", result, path))),
       updateWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("updateReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -169,124 +174,26 @@ this.returnResolutions = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeCancelReturnResolutionResponse } from '../models/CancelReturnResolutionResponse.js';
-export { makeConfirmReturnResolutionResponse } from '../models/ConfirmReturnResolutionResponse.js';
-export { makeGetOrCreateReturnResolutionCheckoutSessionResponse } from '../models/GetOrCreateReturnResolutionCheckoutSessionResponse.js';
-export { makeGetReturnResolutionResponse } from '../models/GetReturnResolutionResponse.js';
-export { makeListReturnResolutionsResponse } from '../models/ListReturnResolutionsResponse.js';
-export { makeReturnResolution } from '../models/ReturnResolution.js';
-export { makeReleaseReturnResolutionResponse } from '../models/ReleaseReturnResolutionResponse.js';
-export { makeRetryReturnResolutionResponse } from '../models/RetryReturnResolutionResponse.js';
-export { makeUpdateReturnResolutionResponse } from '../models/UpdateReturnResolutionResponse.js';
-export { makeCreateReturnResolutionResponse } from '../models/CreateReturnResolutionResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaunchResponse.js';
-export { makeResolvePaymentLinkResponse } from '../models/ResolvePaymentLinkResponse.js';
-export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
-export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
-export { makeCheckoutSession } from '../models/CheckoutSession.js';
-export { makeOrderPaymentAttempt } from '../models/OrderPaymentAttempt.js';
-export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
-export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
-export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
-export { makeErrorRemediation } from '../models/ErrorRemediation.js';
-export { makeOrderPaymentAttemptPaymentMethodSave } from '../models/OrderPaymentAttemptPaymentMethodSave.js';
-export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
-export { makePaymentClientAction } from '../models/PaymentClientAction.js';
-export { makeStripePaymentClientAction } from '../models/StripePaymentClientAction.js';
-export { makeStripePaymentIntentClientAction } from '../models/StripePaymentIntentClientAction.js';
-export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentClientAction.js';
-export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
-export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
-export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
-export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
-export { makeCheckoutBuyerContact } from '../models/CheckoutBuyerContact.js';
-export { makeCheckoutCustomTextConfig } from '../models/CheckoutCustomTextConfig.js';
-export { makeCheckoutCustomTextWriteConfig } from '../models/CheckoutCustomTextWriteConfig.js';
-export { makeCheckoutCustomerConfig } from '../models/CheckoutCustomerConfig.js';
-export { makePrefilledCustomerInfo } from '../models/PrefilledCustomerInfo.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeCheckoutCustomerPrefill } from '../models/CheckoutCustomerPrefill.js';
-export { makeCheckoutDeliveryPinnedDependency } from '../models/CheckoutDeliveryPinnedDependency.js';
-export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig.js';
-export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
-export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
-export { makeDeliveryAddressAdvisoryResource } from '../models/DeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
-export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
-export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
-export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
-export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeDeliveryOptionProjection } from '../models/DeliveryOptionProjection.js';
-export { makeDeliveryArrivalEstimate } from '../models/DeliveryArrivalEstimate.js';
 export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
-export { makeDeliveryPlan } from '../models/DeliveryPlan.js';
-export { makeDeliveryQuoteExecutionLegResource } from '../models/DeliveryQuoteExecutionLegResource.js';
-export { makeDeliveryLocalDeliveryDetails } from '../models/DeliveryLocalDeliveryDetails.js';
-export { makeDeliveryShipmentDetails } from '../models/DeliveryShipmentDetails.js';
-export { makeDeliveryPickupDetails } from '../models/DeliveryPickupDetails.js';
-export { makeDeliveryLocationSummaryResource } from '../models/DeliveryLocationSummaryResource.js';
-export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
-export { makeLocationAddress } from '../models/LocationAddress.js';
-export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
-export { makeDeliveryQuoteLineItemResource } from '../models/DeliveryQuoteLineItemResource.js';
-export { makeDeliveryPickupAvailabilityQuantityResource } from '../models/DeliveryPickupAvailabilityQuantityResource.js';
-export { makeDeliveryMerchantDiagnostic } from '../models/DeliveryMerchantDiagnostic.js';
-export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMismatch.js';
-export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../models/BuyerDeliveryQuoteChoiceGroupResource.js';
-export { makeBuyerDeliveryInputRequirementResource } from '../models/BuyerDeliveryInputRequirementResource.js';
-export { makeBuyerDeliveryOptionResource } from '../models/BuyerDeliveryOptionResource.js';
-export { makeCheckoutGiftCardChallenge } from '../models/CheckoutGiftCardChallenge.js';
-export { makeCheckoutLegalConfig } from '../models/CheckoutLegalConfig.js';
-export { makeLegalSettings } from '../models/LegalSettings.js';
-export { makeCheckoutMerchantSupport } from '../models/CheckoutMerchantSupport.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';
-export { makePaymentCollection } from '../models/PaymentCollection.js';
-export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
-export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
-export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
-export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
-export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
-export { makeCheckoutPaymentMethodSave } from '../models/CheckoutPaymentMethodSave.js';
-export { makeCheckoutPaymentConfig } from '../models/CheckoutPaymentConfig.js';
-export { makeCheckoutProblemResource } from '../models/CheckoutProblemResource.js';
+export { makeCancelReturnRequest } from '../models/CancelReturnRequest.js';
+export { makeCancelReturnResolutionRequest } from '../models/CancelReturnResolutionRequest.js';
+export { makeCheckoutBuyerFields } from '../models/CheckoutBuyerFields.js';
 export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
-export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.js';
-export { makeCheckoutSubscriptionTerms } from '../models/CheckoutSubscriptionTerms.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeCheckoutSubscriptionRecurringShipping } from '../models/CheckoutSubscriptionRecurringShipping.js';
-export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
-export { makeCheckoutSavedPaymentDetailsSettings } from '../models/CheckoutSavedPaymentDetailsSettings.js';
-export { makeThemeConfig } from '../models/ThemeConfig.js';
+export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
-export { makeReturnResolutionAdjustment } from '../models/ReturnResolutionAdjustment.js';
-export { makeReturnActor } from '../models/ReturnActor.js';
-export { makeReturnResolutionExecutionBlocker } from '../models/ReturnResolutionExecutionBlocker.js';
-export { makeReturnResolutionLineItem } from '../models/ReturnResolutionLineItem.js';
-export { makeRefund } from '../models/Refund.js';
-export { makeRefundLineItemAllocation } from '../models/RefundLineItemAllocation.js';
-export { makeRefundLineItemAdjustmentRefund } from '../models/RefundLineItemAdjustmentRefund.js';
-export { makeRefundLineItemAdjustment } from '../models/RefundLineItemAdjustment.js';
-export { makeRefundAdjustmentReason } from '../models/RefundAdjustmentReason.js';
-export { makeRefundLineItemAutomaticRefund } from '../models/RefundLineItemAutomaticRefund.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeRefundLineItemModifierAllocation } from '../models/RefundLineItemModifierAllocation.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeRefundTaxBreakdownRefund } from '../models/RefundTaxBreakdownRefund.js';
-export { makePaymentRefund } from '../models/PaymentRefund.js';
-export { makeRefundTenderAllocation } from '../models/RefundTenderAllocation.js';
-export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestination.js';
-export { makeRefundUnissuedGiftCardRecovery } from '../models/RefundUnissuedGiftCardRecovery.js';
-export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineItem.js';
-export { makeReturnResolutionLineItemReplacementRequest } from '../models/ReturnResolutionLineItemReplacementRequest.js';
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
+export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
+export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
+export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
+export { makeGetOrCreateReturnResolutionCheckoutSessionRequest } from '../models/GetOrCreateReturnResolutionCheckoutSessionRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeReleaseReturnResolutionRequest } from '../models/ReleaseReturnResolutionRequest.js';
+export { makeRetryReturnResolutionRequest } from '../models/RetryReturnResolutionRequest.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeUpdateReturnReplacementLineItemRequest } from '../models/UpdateReturnReplacementLineItemRequest.js';
+export { makeUpdateReturnResolutionAdjustmentRequest } from '../models/UpdateReturnResolutionAdjustmentRequest.js';
+export { makeUpdateReturnResolutionLineItemRequest } from '../models/UpdateReturnResolutionLineItemRequest.js';
+export { makeUpdateReturnResolutionRequest } from '../models/UpdateReturnResolutionRequest.js';

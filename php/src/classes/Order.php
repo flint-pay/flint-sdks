@@ -2,320 +2,362 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read OrderPaymentAttempt $active_payment_attempt
- * @property-read list<AppliedDiscount> $applied_discounts
- * @property-read OrderAuthorizationAmounts $authorization_amounts
+ * @property-read ?OrderPaymentAttempt $active_payment_attempt
+ * @property-read ?OrderAuthorizationAmounts $authorization_amounts
  * @property-read list<BuyerAction> $buyer_actions
- * @property-read CheckoutBuyerContact $buyer_contact
- * @property-read string $buyer_note
+ * @property-read ?CheckoutBuyerContact $buyer_contact
+ * @property-read ?string $buyer_note
  * @property-read list<OrderCharge> $charges
  * @property-read list<string> $checkout_session_ids
- * @property-read string $closed_reason
- * @property-read string $created_at
+ * @property-read ?string $closed_at
+ * @property-read ?string $closed_reason
+ * @property-read ?string $closed_reason_message
+ * @property-read ?string $created_at
  * @property-read ExpandedCustomerSummary|null $customer
- * @property-read string $customer_id
- * @property-read OrderDeliveryDestination $delivery_destination
- * @property-read string $external_reference_id
- * @property-read string $fulfillment_status
+ * @property-read ?string $customer_id
+ * @property-read ?OrderDeliveryDestination $delivery_destination
+ * @property-read list<OrderDiscount> $discounts
+ * @property-read ?string $external_reference_id
+ * @property-read ?string $fulfillment_status
  * @property-read list<Fulfillment> $fulfillments
- * @property-read OrderGiftCardEstimate $gift_card_estimate
+ * @property-read ?OrderGiftCardEstimate $gift_card_estimate
  * @property-read list<OrderGiftCardSettlement> $gift_card_settlements
  * @property-read bool $gift_card_tender_enabled
  * @property-read list<OrderGiftCardSelection> $gift_cards
- * @property-read string $internal_note
- * @property-read string $inventory_exception_status
- * @property-read string $inventory_reservation_id
- * @property-read InventoryRoutingSource $inventory_routing_source
+ * @property-read ?string $governing_delivery_selection_id
+ * @property-read ?string $internal_note
+ * @property-read ?string $inventory_exception_reason
+ * @property-read ?string $inventory_exception_resolution_message
+ * @property-read ?string $inventory_exception_status
+ * @property-read ?string $inventory_reservation_id
+ * @property-read ?InventoryRoutingSource $inventory_routing_source
  * @property-read list<OrderLineItem> $line_items
- * @property-read string $merchant_id
- * @property-read array<array-key, string> $metadata
+ * @property-read ?string $merchant_id
+ * @property-read ?array<array-key, string> $metadata
  * @property-read string $order_id
- * @property-read string $order_number
- * @property-read string $order_revision
- * @property-read string $origin
- * @property-read PaymentCollection $payment_collection
+ * @property-read ?string $order_number
+ * @property-read ?string $origin
+ * @property-read ?PaymentCollection $payment_collection
  * @property-read list<string> $payment_intent_ids
- * @property-read list<ExpandedPaymentIntentSummary> $payment_intents
+ * @property-read ?list<ExpandedPaymentIntentSummary> $payment_intents
+ * @property-read ?string $payment_link_id
  * @property-read string $payment_status
  * @property-read PricingAmounts $pricing_amounts
- * @property-read PurchasedEvent $purchased_event
  * @property-read list<string> $refund_ids
  * @property-read string $refund_status
  * @property-read list<OrderReturnCreditSettlement> $return_credit_settlements
+ * @property-read ?string $return_resolution_id
  * @property-read SettlementAmounts $settlement_amounts
- * @property-read PaymentCollection $setup_collection
+ * @property-read ?PaymentCollection $setup_collection
  * @property-read string $status
  * @property-read ExpandedSubscriptionSummary|null $subscription
- * @property-read string $subscription_cycle
- * @property-read string $subscription_delivery_changed_at
- * @property-read string $subscription_id
+ * @property-read ?string $subscription_cycle
+ * @property-read ?string $subscription_delivery_changed_at
+ * @property-read ?string $subscription_id
  * @property-read ExpandedSubscriptionPlanSummary|null $subscription_plan
- * @property-read string $subscription_plan_id
+ * @property-read ?string $subscription_plan_id
  * @property-read OrderTax $tax
+ * @property-read ?TicketedEvent $ticketed_event
  * @property-read list<Tip> $tips
- * @property-read string $updated_at
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?string $updated_at
+ * @property-read string $version
+ * Presence-aware response; omitted optional fields return null. */
 final class Order extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'applied_discounts'?: list<mixed>, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges'?: list<mixed>, 'checkout_session_ids'?: list<string>, 'closed_reason'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: mixed, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments'?: list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements'?: list<mixed>, 'gift_card_tender_enabled'?: bool, 'gift_cards'?: list<mixed>, 'internal_note'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'order_revision'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_status': string, 'pricing_amounts': mixed, 'purchased_event'?: mixed, 'refund_ids'?: list<string>, 'refund_status': string, 'return_credit_settlements'?: list<mixed>, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: string, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax': mixed, 'tips'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'closed_at'?: string, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id'?: string, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'payment_link_id'?: string, 'payment_status': string, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: string, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Order')); }
-    /** @return OrderPaymentAttempt
-     * @throws SdkError When active_payment_attempt is omitted; use hasActivePaymentAttempt() or valueOrDefault().
+    /** Shape $ (Value): {@see OrderPaymentAttempt}. An attempt to pay an order.
+     * @return ?OrderPaymentAttempt
      */
-    public function getActivePaymentAttempt(): OrderPaymentAttempt { return $this->get('active_payment_attempt'); }
+    public function getActivePaymentAttempt(): ?OrderPaymentAttempt { return $this->get('active_payment_attempt'); }
     public function hasActivePaymentAttempt(): bool { return $this->has('active_payment_attempt'); }
-    /** @return list<AppliedDiscount>
-     * @throws SdkError When applied_discounts is omitted; use hasAppliedDiscounts() or valueOrDefault().
+    /** Shape $ (Value): {@see OrderAuthorizationAmounts}. The amounts authorized and still capturable on an order's payments, with the authorization expiry.
+     * @return ?OrderAuthorizationAmounts
      */
-    public function getAppliedDiscounts(): array { return $this->get('applied_discounts'); }
-    public function hasAppliedDiscounts(): bool { return $this->has('applied_discounts'); }
-    /** @return OrderAuthorizationAmounts
-     * @throws SdkError When authorization_amounts is omitted; use hasAuthorizationAmounts() or valueOrDefault().
-     */
-    public function getAuthorizationAmounts(): OrderAuthorizationAmounts { return $this->get('authorization_amounts'); }
+    public function getAuthorizationAmounts(): ?OrderAuthorizationAmounts { return $this->get('authorization_amounts'); }
     public function hasAuthorizationAmounts(): bool { return $this->has('authorization_amounts'); }
-    /** @return list<BuyerAction>
-     * @throws SdkError When buyer_actions is omitted; use hasBuyerActions() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see BuyerAction}. What the buyer can do with the order, in this order: start_return, then resend_receipt. A buyer's read through a customer session on /v1/me, or in Flint's buyer account, lists both every time; a merchant read gets an empty list. A list of orders leaves start_return out, since only a read of one order checks return eligibility. start_return is due when the last open return window ends. Shape $[] (Value): {@see BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
+     * @return list<BuyerAction>
      */
     public function getBuyerActions(): array { return $this->get('buyer_actions'); }
     public function hasBuyerActions(): bool { return $this->has('buyer_actions'); }
-    /** @return CheckoutBuyerContact
-     * @throws SdkError When buyer_contact is omitted; use hasBuyerContact() or valueOrDefault().
+    /** Shape $ (Value): {@see CheckoutBuyerContact}. Email and phone saved when payment started, from the pay request's buyer_contact or the paying checkout session's saved contact. It does not change the linked customer. Buyer contact supplied with payment or saved during checkout.
+     * @return ?CheckoutBuyerContact
      */
-    public function getBuyerContact(): CheckoutBuyerContact { return $this->get('buyer_contact'); }
+    public function getBuyerContact(): ?CheckoutBuyerContact { return $this->get('buyer_contact'); }
     public function hasBuyerContact(): bool { return $this->has('buyer_contact'); }
-    /** @return string
-     * @throws SdkError When buyer_note is omitted; use hasBuyerNote() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getBuyerNote(): string { return $this->get('buyer_note'); }
+    public function getBuyerNote(): ?string { return $this->get('buyer_note'); }
     public function hasBuyerNote(): bool { return $this->has('buyer_note'); }
-    /** @return list<OrderCharge>
-     * @throws SdkError When charges is omitted; use hasCharges() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see OrderCharge}. Shape $[] (Value): {@see OrderCharge}. An additional charge applied to an order.
+     * @return list<OrderCharge>
      */
     public function getCharges(): array { return $this->get('charges'); }
     public function hasCharges(): bool { return $this->has('charges'); }
-    /** @return list<string>
-     * @throws SdkError When checkout_session_ids is omitted; use hasCheckoutSessionIds() or valueOrDefault().
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+     * @return list<string>
      */
     public function getCheckoutSessionIds(): array { return $this->get('checkout_session_ids'); }
     public function hasCheckoutSessionIds(): bool { return $this->has('checkout_session_ids'); }
-    /** @return string
-     * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
+    /** Shape $ (Value): string. When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: date-time.
+     * @return ?string
      */
-    public function getClosedReason(): string { return $this->get('closed_reason'); }
+    public function getClosedAt(): ?string { return $this->get('closed_at'); }
+    public function hasClosedAt(): bool { return $this->has('closed_at'); }
+    /** Shape $ (Value): string. Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+     * @return ?string
+     */
+    public function getClosedReason(): ?string { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. The caller note supplied when closing the order. System closures leave it absent. It is not shown to the buyer.
+     * @return ?string
      */
-    public function getCreatedAt(): string { return $this->get('created_at'); }
+    public function getClosedReasonMessage(): ?string { return $this->get('closed_reason_message'); }
+    public function hasClosedReasonMessage(): bool { return $this->has('closed_reason_message'); }
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
+     */
+    public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return ExpandedCustomerSummary|null
-     * @throws SdkError When customer is omitted; use hasCustomer() or valueOrDefault().
+    /** Shape $ (Value): {@see ExpandedCustomerSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. Shape $.anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummary|null
      */
     public function getCustomer(): ExpandedCustomerSummary|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
-    /** @return string
-     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getCustomerId(): string { return $this->get('customer_id'); }
+    public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** @return OrderDeliveryDestination
-     * @throws SdkError When delivery_destination is omitted; use hasDeliveryDestination() or valueOrDefault().
+    /** Shape $ (Value): {@see OrderDeliveryDestination}. The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. Where an order is delivered: the address, the recipient, and where the destination came from.
+     * @return ?OrderDeliveryDestination
      */
-    public function getDeliveryDestination(): OrderDeliveryDestination { return $this->get('delivery_destination'); }
+    public function getDeliveryDestination(): ?OrderDeliveryDestination { return $this->get('delivery_destination'); }
     public function hasDeliveryDestination(): bool { return $this->has('delivery_destination'); }
-    /** @return string
-     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see OrderDiscount}. Shape $[] (Value): {@see OrderDiscount}. A discount applied to an order, with its amount, status, and the line items and charges it covers. It comes from a manual discount or a promotion.
+     * @return list<OrderDiscount>
      */
-    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function getDiscounts(): array { return $this->get('discounts'); }
+    public function hasDiscounts(): bool { return $this->has('discounts'); }
+    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+     * @return ?string
+     */
+    public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return string
-     * @throws SdkError When fulfillment_status is omitted; use hasFulfillmentStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Aggregate progress across the order's fulfillment quantities. Value enum: "not_fulfilled", "partially_fulfilled", "fulfilled", "canceled", "not_applicable", "closed".
+     * @return ?string
      */
-    public function getFulfillmentStatus(): string { return $this->get('fulfillment_status'); }
+    public function getFulfillmentStatus(): ?string { return $this->get('fulfillment_status'); }
     public function hasFulfillmentStatus(): bool { return $this->has('fulfillment_status'); }
-    /** @return list<Fulfillment>
-     * @throws SdkError When fulfillments is omitted; use hasFulfillments() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see Fulfillment}. Shape $[] (Value): {@see Fulfillment}. Work required to deliver an order's items.
+     * @return list<Fulfillment>
      */
     public function getFulfillments(): array { return $this->get('fulfillments'); }
     public function hasFulfillments(): bool { return $this->has('fulfillments'); }
-    /** @return OrderGiftCardEstimate
-     * @throws SdkError When gift_card_estimate is omitted; use hasGiftCardEstimate() or valueOrDefault().
+    /** Shape $ (Value): {@see OrderGiftCardEstimate}. An estimate of how an order total splits between gift cards and the payment processor, and whether gift cards can pay it.
+     * @return ?OrderGiftCardEstimate
      */
-    public function getGiftCardEstimate(): OrderGiftCardEstimate { return $this->get('gift_card_estimate'); }
+    public function getGiftCardEstimate(): ?OrderGiftCardEstimate { return $this->get('gift_card_estimate'); }
     public function hasGiftCardEstimate(): bool { return $this->has('gift_card_estimate'); }
-    /** @return list<OrderGiftCardSettlement>
-     * @throws SdkError When gift_card_settlements is omitted; use hasGiftCardSettlements() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see OrderGiftCardSettlement}. Shape $[] (Value): {@see OrderGiftCardSettlement}. A gift card redemption applied to an order payment, with the amount, tip, and gift card.
+     * @return list<OrderGiftCardSettlement>
      */
     public function getGiftCardSettlements(): array { return $this->get('gift_card_settlements'); }
     public function hasGiftCardSettlements(): bool { return $this->has('gift_card_settlements'); }
-    /** @return bool
-     * @throws SdkError When gift_card_tender_enabled is omitted; use hasGiftCardTenderEnabled() or valueOrDefault().
+    /** Shape $ (Value): boolean.
+     * @return bool
      */
     public function getGiftCardTenderEnabled(): bool { return $this->get('gift_card_tender_enabled'); }
     public function hasGiftCardTenderEnabled(): bool { return $this->has('gift_card_tender_enabled'); }
-    /** @return list<OrderGiftCardSelection>
-     * @throws SdkError When gift_cards is omitted; use hasGiftCards() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see OrderGiftCardSelection}. Shape $[] (Value): {@see OrderGiftCardSelection}. A gift card available to pay an order, with its available balance and the last four characters of its code.
+     * @return list<OrderGiftCardSelection>
      */
     public function getGiftCards(): array { return $this->get('gift_cards'); }
     public function hasGiftCards(): bool { return $this->has('gift_cards'); }
-    /** @return string
-     * @throws SdkError When internal_note is omitted; use hasInternalNote() or valueOrDefault().
+    /** Shape $ (Value): string. ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Read with GET /v1/orders/{order_id}; other order responses may omit this field. While present, change the destination through the delivery selection. Omitted when no selection governs the order.
+     * @return ?string
      */
-    public function getInternalNote(): string { return $this->get('internal_note'); }
+    public function getGoverningDeliverySelectionId(): ?string { return $this->get('governing_delivery_selection_id'); }
+    public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
+    /** Shape $ (Value): string.
+     * @return ?string
+     */
+    public function getInternalNote(): ?string { return $this->get('internal_note'); }
     public function hasInternalNote(): bool { return $this->has('internal_note'); }
-    /** @return string
-     * @throws SdkError When inventory_exception_status is omitted; use hasInventoryExceptionStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Why inventory could not be committed after payment. The cause remains after resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values may be added. Value enum: "inventory_deduction_failed", "inventory_handoff_failed", "auto_refund_required", "auto_refund_failed", "policy_resolution_failed", "other".
+     * @return ?string
      */
-    public function getInventoryExceptionStatus(): string { return $this->get('inventory_exception_status'); }
+    public function getInventoryExceptionReason(): ?string { return $this->get('inventory_exception_reason'); }
+    public function hasInventoryExceptionReason(): bool { return $this->has('inventory_exception_reason'); }
+    /** Shape $ (Value): string. The merchant note supplied when resolving the inventory exception. It is not shown to the buyer.
+     * @return ?string
+     */
+    public function getInventoryExceptionResolutionMessage(): ?string { return $this->get('inventory_exception_resolution_message'); }
+    public function hasInventoryExceptionResolutionMessage(): bool { return $this->has('inventory_exception_resolution_message'); }
+    /** Shape $ (Value): string. Whether an inventory problem after payment needs attention. Value enum: "paid_inventory_failed", "resolved".
+     * @return ?string
+     */
+    public function getInventoryExceptionStatus(): ?string { return $this->get('inventory_exception_status'); }
     public function hasInventoryExceptionStatus(): bool { return $this->has('inventory_exception_status'); }
-    /** @return string
-     * @throws SdkError When inventory_reservation_id is omitted; use hasInventoryReservationId() or valueOrDefault().
+    /** Shape $ (Value): string. The reservation holding stock for this order, when one exists.
+     * @return ?string
      */
-    public function getInventoryReservationId(): string { return $this->get('inventory_reservation_id'); }
+    public function getInventoryReservationId(): ?string { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** @return InventoryRoutingSource
-     * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
+    /** Shape $ (Value): {@see InventoryRoutingSource}. Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+     * @return ?InventoryRoutingSource
      */
-    public function getInventoryRoutingSource(): InventoryRoutingSource { return $this->get('inventory_routing_source'); }
+    public function getInventoryRoutingSource(): ?InventoryRoutingSource { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /** @return list<OrderLineItem>
-     * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see OrderLineItem}. Shape $[] (Value): {@see OrderLineItem}. An item purchased in an order.
+     * @return list<OrderLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** @return string
-     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return array<array-key, string>
-     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+     * @return ?array<array-key, string>
      */
-    public function getMetadata(): array { return $this->get('metadata'); }
+    public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return string
-     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** @return string
-     * @throws SdkError When order_number is omitted; use hasOrderNumber() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getOrderNumber(): string { return $this->get('order_number'); }
+    public function getOrderNumber(): ?string { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
-    /** @return string
-     * @throws SdkError When order_revision is omitted; use hasOrderRevision() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription".
+     * @return ?string
      */
-    public function getOrderRevision(): string { return $this->get('order_revision'); }
-    public function hasOrderRevision(): bool { return $this->has('order_revision'); }
-    /** @return string
-     * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
-     */
-    public function getOrigin(): string { return $this->get('origin'); }
+    public function getOrigin(): ?string { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
-    /** @return PaymentCollection
-     * @throws SdkError When payment_collection is omitted; use hasPaymentCollection() or valueOrDefault().
+    /** Shape $ (Value): {@see PaymentCollection}. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
+     * @return ?PaymentCollection
      */
-    public function getPaymentCollection(): PaymentCollection { return $this->get('payment_collection'); }
+    public function getPaymentCollection(): ?PaymentCollection { return $this->get('payment_collection'); }
     public function hasPaymentCollection(): bool { return $this->has('payment_collection'); }
-    /** @return list<string>
-     * @throws SdkError When payment_intent_ids is omitted; use hasPaymentIntentIds() or valueOrDefault().
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+     * @return list<string>
      */
     public function getPaymentIntentIds(): array { return $this->get('payment_intent_ids'); }
     public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /** @return list<ExpandedPaymentIntentSummary>
-     * @throws SdkError When payment_intents is omitted; use hasPaymentIntents() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see ExpandedPaymentIntentSummary}. Shape $[] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
+     * @return ?list<ExpandedPaymentIntentSummary>
      */
-    public function getPaymentIntents(): array { return $this->get('payment_intents'); }
+    public function getPaymentIntents(): ?array { return $this->get('payment_intents'); }
     public function hasPaymentIntents(): bool { return $this->has('payment_intents'); }
-    /** @return string
-     * @throws SdkError When payment_status is omitted; use hasPaymentStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Payment link whose checkout created this order. Absent for orders that did not come from a payment link. Filter GET /v1/orders by payment_link_id to list a link's orders.
+     * @return ?string
+     */
+    public function getPaymentLinkId(): ?string { return $this->get('payment_link_id'); }
+    public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
+    /** Shape $ (Value): string. Collection progress. An invoice write-off also completes collection without receiving the written-off amount. Value enum: "unpaid", "partially_paid", "paid".
+     * @return string
      */
     public function getPaymentStatus(): string { return $this->get('payment_status'); }
     public function hasPaymentStatus(): bool { return $this->has('payment_status'); }
-    /** @return PricingAmounts
-     * @throws SdkError When pricing_amounts is omitted; use hasPricingAmounts() or valueOrDefault().
+    /** Shape $ (Value): {@see PricingAmounts}. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmounts
      */
     public function getPricingAmounts(): PricingAmounts { return $this->get('pricing_amounts'); }
     public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
-    /** @return PurchasedEvent
-     * @throws SdkError When purchased_event is omitted; use hasPurchasedEvent() or valueOrDefault().
-     */
-    public function getPurchasedEvent(): PurchasedEvent { return $this->get('purchased_event'); }
-    public function hasPurchasedEvent(): bool { return $this->has('purchased_event'); }
-    /** @return list<string>
-     * @throws SdkError When refund_ids is omitted; use hasRefundIds() or valueOrDefault().
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string.
+     * @return list<string>
      */
     public function getRefundIds(): array { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /** @return string
-     * @throws SdkError When refund_status is omitted; use hasRefundStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Refund progress for collected money. Value enum: "none", "partially_refunded", "refunded".
+     * @return string
      */
     public function getRefundStatus(): string { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** @return list<OrderReturnCreditSettlement>
-     * @throws SdkError When return_credit_settlements is omitted; use hasReturnCreditSettlements() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see OrderReturnCreditSettlement}. Value applied to this order from items the buyer returned, such as an exchange's replacement order. Included in settlement_amounts.paid_money. Shape $[] (Value): {@see OrderReturnCreditSettlement}. A return credit applied to an order payment, with the amount and the return and resolution it came from.
+     * @return list<OrderReturnCreditSettlement>
      */
     public function getReturnCreditSettlements(): array { return $this->get('return_credit_settlements'); }
     public function hasReturnCreditSettlements(): bool { return $this->has('return_credit_settlements'); }
-    /** @return SettlementAmounts
-     * @throws SdkError When settlement_amounts is omitted; use hasSettlementAmounts() or valueOrDefault().
+    /** Shape $ (Value): string. ID of the return resolution that created this order as a replacement. Omitted for orders a return did not create.
+     * @return ?string
+     */
+    public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }
+    public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
+    /** Shape $ (Value): {@see SettlementAmounts}. How much of an order has been paid, refunded, credited, written off, and settled as tips, and what balance and outstanding amount remain.
+     * @return SettlementAmounts
      */
     public function getSettlementAmounts(): SettlementAmounts { return $this->get('settlement_amounts'); }
     public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
-    /** @return PaymentCollection
-     * @throws SdkError When setup_collection is omitted; use hasSetupCollection() or valueOrDefault().
+    /** Shape $ (Value): {@see PaymentCollection}. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
+     * @return ?PaymentCollection
      */
-    public function getSetupCollection(): PaymentCollection { return $this->get('setup_collection'); }
+    public function getSetupCollection(): ?PaymentCollection { return $this->get('setup_collection'); }
     public function hasSetupCollection(): bool { return $this->has('setup_collection'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value enum: "open", "closed".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return ExpandedSubscriptionSummary|null
-     * @throws SdkError When subscription is omitted; use hasSubscription() or valueOrDefault().
+    /** Shape $ (Value): {@see ExpandedSubscriptionSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedSubscriptionSummary}. A subscription's summary fields, including status, billing period, and next billing time, returned when the subscription is expanded. Shape $.anyOf[2] (Value): null.
+     * @return ExpandedSubscriptionSummary|null
      */
     public function getSubscription(): ExpandedSubscriptionSummary|null { return $this->get('subscription'); }
     public function hasSubscription(): bool { return $this->has('subscription'); }
-    /** @return string
-     * @throws SdkError When subscription_cycle is omitted; use hasSubscriptionCycle() or valueOrDefault().
+    /** Shape $ (Value): integer string. Charged subscription cycle associated with this order. Signup is cycle 1; unpaid retries and skipped renewals do not advance the cycle. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+     * @return ?string
      */
-    public function getSubscriptionCycle(): string { return $this->get('subscription_cycle'); }
+    public function getSubscriptionCycle(): ?string { return $this->get('subscription_cycle'); }
     public function hasSubscriptionCycle(): bool { return $this->has('subscription_cycle'); }
-    /** @return string
-     * @throws SdkError When subscription_delivery_changed_at is omitted; use hasSubscriptionDeliveryChangedAt() or valueOrDefault().
+    /** Shape $ (Value): string. Time the subscriber changed delivery after this paid renewal was prepared. The order keeps its committed destination until you correct it or refund and replace it. Format: date-time.
+     * @return ?string
      */
-    public function getSubscriptionDeliveryChangedAt(): string { return $this->get('subscription_delivery_changed_at'); }
+    public function getSubscriptionDeliveryChangedAt(): ?string { return $this->get('subscription_delivery_changed_at'); }
     public function hasSubscriptionDeliveryChangedAt(): bool { return $this->has('subscription_delivery_changed_at'); }
-    /** @return string
-     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function getSubscriptionId(): ?string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** @return ExpandedSubscriptionPlanSummary|null
-     * @throws SdkError When subscription_plan is omitted; use hasSubscriptionPlan() or valueOrDefault().
+    /** Shape $ (Value): {@see ExpandedSubscriptionPlanSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including name, billing interval, currency, and status, returned when the plan is expanded. Shape $.anyOf[2] (Value): null.
+     * @return ExpandedSubscriptionPlanSummary|null
      */
     public function getSubscriptionPlan(): ExpandedSubscriptionPlanSummary|null { return $this->get('subscription_plan'); }
     public function hasSubscriptionPlan(): bool { return $this->has('subscription_plan'); }
-    /** @return string
-     * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
+    public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** @return OrderTax
-     * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
+    /** Shape $ (Value): {@see OrderTax}. An order's tax state, including its mode, price mode, status, location, exemption, and tax breakdowns.
+     * @return OrderTax
      */
     public function getTax(): OrderTax { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** @return list<Tip>
-     * @throws SdkError When tips is omitted; use hasTips() or valueOrDefault().
+    /** Shape $ (Value): {@see TicketedEvent}. Event and tickets this order sold through an event payment link. Absent on other orders. Event details for a ticketed order: name, location, start time, time zone, and the tickets issued.
+     * @return ?TicketedEvent
+     */
+    public function getTicketedEvent(): ?TicketedEvent { return $this->get('ticketed_event'); }
+    public function hasTicketedEvent(): bool { return $this->has('ticketed_event'); }
+    /** Shape $ (Value): Array of {@see Tip}. Shape $[] (Value): {@see Tip}. A tip on an order, with its requested, settled, and refunded amounts, status, and how it was paid.
+     * @return list<Tip>
      */
     public function getTips(): array { return $this->get('tips'); }
     public function hasTips(): bool { return $this->has('tips'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getUpdatedAt(): string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Shape $ (Value): integer string. Order version for optimistic concurrency. Send this value as the expected version when changing the order. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

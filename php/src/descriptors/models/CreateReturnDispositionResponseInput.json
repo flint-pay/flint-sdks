@@ -1,1 +1,1 @@
-{"shared":"RetryReturnDispositionResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","RetryReturnDispositionResponse","ReturnActor","ReturnDisposition","SharedCodec1","SharedCodec467"]}
+{"shared":"RetryReturnDispositionResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","RetryReturnDispositionResponse","ReturnActor","ReturnDisposition","SharedCodec0","SharedCodec1","SharedCodec963"]}

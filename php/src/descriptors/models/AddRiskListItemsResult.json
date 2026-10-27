@@ -1,0 +1,1 @@
+{"shared":"AddRiskListItemsResult","phpRepresentation":{"kind":"record","fields":{"additions":{"kind":"list","value":{"kind":"entity","name":"RiskListItemAddition"}}}},"dependencies":["AddRiskListItemsResult","ResourceReference","ResourceType","RiskListItem","RiskListItemAddition","SharedCodec45"]}

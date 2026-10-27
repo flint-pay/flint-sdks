@@ -2,139 +2,121 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $api_version
+ * @property-read ?string $api_version
  * @property-read int $attempt_number
- * @property-read string $completed_at
+ * @property-read ?string $completed_at
  * @property-read string $delivery_trigger
- * @property-read string $diagnostic_category
- * @property-read string $duration_milliseconds
- * @property-read string $error_category
- * @property-read string $error_message
- * @property-read string $error_summary
- * @property-read string $reason_message
- * @property-read string $recommended_action
- * @property-read string $reference_url
- * @property-read string $response_body_excerpt
- * @property-read string $response_content_type
- * @property-read string $response_headers
- * @property-read bool $retryable
- * @property-read string $started_at
+ * @property-read ?string $duration_milliseconds
+ * @property-read ?string $error_category
+ * @property-read ?string $error_summary
+ * @property-read ?string $reason_message
+ * @property-read ?string $recommended_action
+ * @property-read ?string $response_body_excerpt
+ * @property-read ?string $response_content_type
+ * @property-read ?array<array-key, string> $response_headers
+ * @property-read ?bool $retryable
+ * @property-read ?string $started_at
  * @property-read string $status
- * @property-read int $status_code
+ * @property-read ?int $status_code
  * @property-read string $webhook_delivery_attempt_id
  * @property-read string $webhook_delivery_id
  * @property-read string $webhook_event_id
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class WebhookDeliveryAttempt extends Model {
-    /** @param array{'api_version'?: string, 'attempt_number': int, 'completed_at'?: string, 'delivery_trigger': string, 'diagnostic_category'?: string, 'duration_milliseconds'?: string, 'error_category'?: string, 'error_message'?: string, 'error_summary'?: string, 'reason_message'?: string, 'recommended_action'?: string, 'reference_url'?: string, 'response_body_excerpt'?: string, 'response_content_type'?: string, 'response_headers'?: string, 'retryable'?: bool, 'started_at'?: string, 'status': string, 'status_code'?: int, 'webhook_delivery_attempt_id': string, 'webhook_delivery_id': string, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'api_version'?: string, 'attempt_number': int, 'completed_at'?: string, 'delivery_trigger': string, 'duration_milliseconds'?: string, 'error_category'?: string, 'error_summary'?: string, 'reason_message'?: string, 'recommended_action'?: string, 'response_body_excerpt'?: string, 'response_content_type'?: string, 'response_headers'?: \stdClass, 'retryable'?: bool, 'started_at'?: string, 'status': string, 'status_code'?: int, 'webhook_delivery_attempt_id': string, 'webhook_delivery_id': string, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveryAttempt')); }
-    /** @return string
-     * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
+    /** Shape $ (Value): string. API version used for this delivery attempt. Omitted when the version was not recorded or payload rendering failed. Format: date.
+     * @return ?string
      */
-    public function getApiVersion(): string { return $this->get('api_version'); }
+    public function getApiVersion(): ?string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** @return int
-     * @throws SdkError When attempt_number is omitted; use hasAttemptNumber() or valueOrDefault().
+    /** Shape $ (Value): integer. Format: int32.
+     * @return int
      */
     public function getAttemptNumber(): int { return $this->get('attempt_number'); }
     public function hasAttemptNumber(): bool { return $this->has('attempt_number'); }
-    /** @return string
-     * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getCompletedAt(): string { return $this->get('completed_at'); }
+    public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** @return string
-     * @throws SdkError When delivery_trigger is omitted; use hasDeliveryTrigger() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "automatic_delivery", "automatic_retry", "manual_resend", "manual_delivery", "test_event".
+     * @return string
      */
     public function getDeliveryTrigger(): string { return $this->get('delivery_trigger'); }
     public function hasDeliveryTrigger(): bool { return $this->has('delivery_trigger'); }
-    /** @return string
-     * @throws SdkError When diagnostic_category is omitted; use hasDiagnosticCategory() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return ?string
      */
-    public function getDiagnosticCategory(): string { return $this->get('diagnostic_category'); }
-    public function hasDiagnosticCategory(): bool { return $this->has('diagnostic_category'); }
-    /** @return string
-     * @throws SdkError When duration_milliseconds is omitted; use hasDurationMilliseconds() or valueOrDefault().
-     */
-    public function getDurationMilliseconds(): string { return $this->get('duration_milliseconds'); }
+    public function getDurationMilliseconds(): ?string { return $this->get('duration_milliseconds'); }
     public function hasDurationMilliseconds(): bool { return $this->has('duration_milliseconds'); }
-    /** @return string
-     * @throws SdkError When error_category is omitted; use hasErrorCategory() or valueOrDefault().
+    /** Shape $ (Value): string. The kind of failure on the most recent failed attempt. Absent before any attempt, and when delivered or suppressed. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls", "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect", "webhook_http_4xx", "webhook_http_5xx", "server_error", "webhook_delivery".
+     * @return ?string
      */
-    public function getErrorCategory(): string { return $this->get('error_category'); }
+    public function getErrorCategory(): ?string { return $this->get('error_category'); }
     public function hasErrorCategory(): bool { return $this->has('error_category'); }
-    /** @return string
-     * @throws SdkError When error_message is omitted; use hasErrorMessage() or valueOrDefault().
+    /** Shape $ (Value): string. A concise explanation of the failed attempt. Absent before any attempt, and when delivered or suppressed.
+     * @return ?string
      */
-    public function getErrorMessage(): string { return $this->get('error_message'); }
-    public function hasErrorMessage(): bool { return $this->has('error_message'); }
-    /** @return string
-     * @throws SdkError When error_summary is omitted; use hasErrorSummary() or valueOrDefault().
-     */
-    public function getErrorSummary(): string { return $this->get('error_summary'); }
+    public function getErrorSummary(): ?string { return $this->get('error_summary'); }
     public function hasErrorSummary(): bool { return $this->has('error_summary'); }
-    /** @return string
-     * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
+    /** Shape $ (Value): string. The note supplied when this action was requested.
+     * @return ?string
      */
-    public function getReasonMessage(): string { return $this->get('reason_message'); }
+    public function getReasonMessage(): ?string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** @return string
-     * @throws SdkError When recommended_action is omitted; use hasRecommendedAction() or valueOrDefault().
+    /** Shape $ (Value): string. The next step to resolve the failed delivery attempt.
+     * @return ?string
      */
-    public function getRecommendedAction(): string { return $this->get('recommended_action'); }
+    public function getRecommendedAction(): ?string { return $this->get('recommended_action'); }
     public function hasRecommendedAction(): bool { return $this->has('recommended_action'); }
-    /** @return string
-     * @throws SdkError When reference_url is omitted; use hasReferenceUrl() or valueOrDefault().
+    /** Shape $ (Value): string. Receiver response body excerpt. Omitted unless the caller can read the event's resource.
+     * @return ?string
      */
-    public function getReferenceUrl(): string { return $this->get('reference_url'); }
-    public function hasReferenceUrl(): bool { return $this->has('reference_url'); }
-    /** @return string
-     * @throws SdkError When response_body_excerpt is omitted; use hasResponseBodyExcerpt() or valueOrDefault().
-     */
-    public function getResponseBodyExcerpt(): string { return $this->get('response_body_excerpt'); }
+    public function getResponseBodyExcerpt(): ?string { return $this->get('response_body_excerpt'); }
     public function hasResponseBodyExcerpt(): bool { return $this->has('response_body_excerpt'); }
-    /** @return string
-     * @throws SdkError When response_content_type is omitted; use hasResponseContentType() or valueOrDefault().
+    /** Shape $ (Value): string. Receiver response content type. Omitted unless the caller can read the event's resource.
+     * @return ?string
      */
-    public function getResponseContentType(): string { return $this->get('response_content_type'); }
+    public function getResponseContentType(): ?string { return $this->get('response_content_type'); }
     public function hasResponseContentType(): bool { return $this->has('response_content_type'); }
-    /** @return string
-     * @throws SdkError When response_headers is omitted; use hasResponseHeaders() or valueOrDefault().
+    /** Shape $ (Value): Map of string. Receiver response headers, keyed by lowercase header name. Repeated values are joined with ", ". Sensitive values read [REDACTED]. Absent when no response was received, after the 14-day response-detail retention, or unless the caller can read the event's resource. Shape $.* (Value): string.
+     * @return ?array<array-key, string>
      */
-    public function getResponseHeaders(): string { return $this->get('response_headers'); }
+    public function getResponseHeaders(): ?array { return $this->get('response_headers'); }
     public function hasResponseHeaders(): bool { return $this->has('response_headers'); }
-    /** @return bool
-     * @throws SdkError When retryable is omitted; use hasRetryable() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether sending this delivery again without changing your endpoint is likely to succeed. While the delivery is pending, Flint retries automatically either way.
+     * @return ?bool
      */
-    public function getRetryable(): bool { return $this->get('retryable'); }
+    public function getRetryable(): ?bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** @return string
-     * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getStartedAt(): string { return $this->get('started_at'); }
+    public function getStartedAt(): ?string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "queued", "sending", "delivered", "failed".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return int
-     * @throws SdkError When status_code is omitted; use hasStatusCode() or valueOrDefault().
+    /** Shape $ (Value): integer. Format: int32.
+     * @return ?int
      */
-    public function getStatusCode(): int { return $this->get('status_code'); }
+    public function getStatusCode(): ?int { return $this->get('status_code'); }
     public function hasStatusCode(): bool { return $this->has('status_code'); }
-    /** @return string
-     * @throws SdkError When webhook_delivery_attempt_id is omitted; use hasWebhookDeliveryAttemptId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getWebhookDeliveryAttemptId(): string { return $this->get('webhook_delivery_attempt_id'); }
     public function hasWebhookDeliveryAttemptId(): bool { return $this->has('webhook_delivery_attempt_id'); }
-    /** @return string
-     * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getWebhookDeliveryId(): string { return $this->get('webhook_delivery_id'); }
     public function hasWebhookDeliveryId(): bool { return $this->has('webhook_delivery_id'); }
-    /** @return string
-     * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }
     public function hasWebhookEventId(): bool { return $this->has('webhook_event_id'); }

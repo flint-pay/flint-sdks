@@ -5,16 +5,12 @@ namespace Flint;
  * @property-read string $merchant_billing_balance_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantBillingBalancesGetInput extends Model {
-    /** @param array{'merchant_billing_balance_id': string, 'X-Request-Id'?: string}|object $values */
+    /** @param array{'merchant_billing_balance_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingBalancesGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When merchant_billing_balance_id is omitted; use hasMerchantBillingBalanceId() or valueOrDefault().
      */
     public function getMerchantBillingBalanceId(): string { return $this->get('merchant_billing_balance_id'); }
     public function hasMerchantBillingBalanceId(): bool { return $this->has('merchant_billing_balance_id'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
 }

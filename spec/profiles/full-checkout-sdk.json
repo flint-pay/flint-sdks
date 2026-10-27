@@ -3,8 +3,10 @@
   "include": [
     "applyOrderDiscount",
     "applyOrderGiftCard",
+    "authorizePartnerInstall",
     "cancelOrderPayment",
     "cancelOrderPaymentAttempt",
+    "cancelPaymentIntent",
     "confirmCheckoutSessionCustomerVerification",
     "createCheckoutSessionCustomerVerification",
     "createCheckoutSessionDeliveryQuote",
@@ -14,7 +16,6 @@
     "createDiscountPreview",
     "createOrderPaymentIntent",
     "deleteCheckoutSessionCurrentDeliverySelection",
-    "exchangePartnerInstallToken",
     "getCheckoutSession",
     "getCheckoutSessionCurrentDeliverySelection",
     "getCheckoutSessionDeliveryQuote",
@@ -45,12 +46,13 @@
   "auth": {
     "modes": {
       "checkout": {
-        "schemes": ["CheckoutSessionIDHeader", "CheckoutSessionSecretHeader"],
+        "schemes": ["CheckoutSessionBearer"],
         "operations": [
           "applyOrderDiscount",
           "applyOrderGiftCard",
           "cancelOrderPayment",
           "cancelOrderPaymentAttempt",
+          "cancelPaymentIntent",
           "confirmCheckoutSessionCustomerVerification",
           "createCheckoutSessionCustomerVerification",
           "createCheckoutSessionDeliveryQuote",
@@ -79,11 +81,12 @@
           "updateOrderLineItem"
         ]
       }
-    }
-  },
-  "operations": {
-    "exchangePartnerInstallToken": {
-      "requestMediaType": "application/json"
+    },
+    "shortcuts": {
+      "checkoutToken": {
+        "mode": "checkout",
+        "scheme": "CheckoutSessionBearer"
+      }
     }
   }
 }

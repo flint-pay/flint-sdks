@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getEffectiveSettings"]:r0,["getSettings"]:r0,["updateSettings"]:r0,["validateCustomDomain"]:r0});
 export class Client {
@@ -12,81 +12,62 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.settings = Object.freeze({
-      getEffective: async (params, options) => this.#runtime.request("getEffectiveSettings", _sdkRequestInput([], [], [
-  "location_id",
-  "device_id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getEffectiveWithResponse: async (params, options) => this.#runtime.request("getEffectiveSettings", _sdkRequestInput([], [], [
-  "location_id",
-  "device_id"
-], false, false, params), options).then(_sdkResponse),
-      get: async (params, options) => this.#runtime.request("getSettings", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      getEffective: async (params, options) => this.#runtime.request("getEffectiveSettings", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getEffectiveSettings", result, path))),
+      getEffectiveWithResponse: async (params, options) => this.#runtime.request("getEffectiveSettings", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
+      get: async (params, options) => this.#runtime.request("getSettings", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSettings", result, path))),
       getWithResponse: async (params, options) => this.#runtime.request("getSettings", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updateSettings", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateSettings", result, path))),
       updateWithResponse: async (params, options) => this.#runtime.request("updateSettings", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      validateCustomDomain: async (domain_type, params, options) => this.#runtime.request("validateCustomDomain", _sdkRequestInput([
-  "domain_type"
-], [domain_type], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      validateCustomDomainWithResponse: async (domain_type, params, options) => this.#runtime.request("validateCustomDomain", _sdkRequestInput([
-  "domain_type"
-], [domain_type], [
-  "Idempotency-Key",
-  "X-Request-Id"
+      validateCustomDomain: async (custom_domain_id, params, options) => this.#runtime.request("validateCustomDomain", _sdkRequestInput([
+  "custom_domain_id"
+], [custom_domain_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("validateCustomDomain", result, path))),
+      validateCustomDomainWithResponse: async (custom_domain_id, params, options) => this.#runtime.request("validateCustomDomain", _sdkRequestInput([
+  "custom_domain_id"
+], [custom_domain_id], [
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeSettingsResponse } from '../models/SettingsResponse.js';
-export { makeCustomDomainStatus } from '../models/CustomDomainStatus.js';
-export { makeSettings } from '../models/Settings.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeCustomerAccountDNSRecord } from '../models/CustomerAccountDNSRecord.js';
-export { makeBrandingSettings } from '../models/BrandingSettings.js';
-export { makeCatalogSettings } from '../models/CatalogSettings.js';
-export { makeCheckoutSettings } from '../models/CheckoutSettings.js';
-export { makeCheckoutRecoveryEmailSettings } from '../models/CheckoutRecoveryEmailSettings.js';
-export { makeCheckoutSavedPaymentDetailsSettings } from '../models/CheckoutSavedPaymentDetailsSettings.js';
-export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
-export { makeCustomerAccountSettings } from '../models/CustomerAccountSettings.js';
+export { makeAddressRequest } from '../models/AddressRequest.js';
+export { makeBrandingSettingsRequest } from '../models/BrandingSettingsRequest.js';
 export { makeBuyerCapabilities } from '../models/BuyerCapabilities.js';
 export { makeBuyerPauseCapability } from '../models/BuyerPauseCapability.js';
 export { makeBuyerRetentionOffer } from '../models/BuyerRetentionOffer.js';
 export { makeBuyerSkipCapability } from '../models/BuyerSkipCapability.js';
+export { makeCheckoutRecoveryEmailSettings } from '../models/CheckoutRecoveryEmailSettings.js';
+export { makeCheckoutSavedPaymentDetailsSettings } from '../models/CheckoutSavedPaymentDetailsSettings.js';
+export { makeCheckoutSettings } from '../models/CheckoutSettings.js';
+export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
 export { makeCustomerAccountPresentation } from '../models/CustomerAccountPresentation.js';
 export { makeCustomerAccountRouteTemplates } from '../models/CustomerAccountRouteTemplates.js';
+export { makeCustomerAccountSettings } from '../models/CustomerAccountSettings.js';
 export { makeCustomerEmailDeliverySettings } from '../models/CustomerEmailDeliverySettings.js';
+export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
 export { makeFulfillmentSettings } from '../models/FulfillmentSettings.js';
-export { makeInventorySettings } from '../models/InventorySettings.js';
 export { makeInventoryOriginPolicy } from '../models/InventoryOriginPolicy.js';
-export { makeInvoiceSettings } from '../models/InvoiceSettings.js';
+export { makeInventorySettings } from '../models/InventorySettings.js';
 export { makeInvoiceAutopayRetryPolicy } from '../models/InvoiceAutopayRetryPolicy.js';
-export { makeInvoicePaymentPolicy } from '../models/InvoicePaymentPolicy.js';
 export { makeInvoicePaymentOptionLimit } from '../models/InvoicePaymentOptionLimit.js';
+export { makeInvoicePaymentPolicy } from '../models/InvoicePaymentPolicy.js';
 export { makeInvoiceReminderPolicy } from '../models/InvoiceReminderPolicy.js';
 export { makeInvoiceReminderRule } from '../models/InvoiceReminderRule.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeLegalSettings } from '../models/LegalSettings.js';
-export { makeCheckoutLegalConfig } from '../models/CheckoutLegalConfig.js';
-export { makePaymentLimitSettings } from '../models/PaymentLimitSettings.js';
+export { makeInvoiceSettingsPatch } from '../models/InvoiceSettingsPatch.js';
+export { makeLegalSettingsRequest } from '../models/LegalSettingsRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makePaymentLimitSettingsPatch } from '../models/PaymentLimitSettingsPatch.js';
 export { makePromotionSettings } from '../models/PromotionSettings.js';
-export { makeReceiptSettings } from '../models/ReceiptSettings.js';
+export { makeReceiptSettingsRequest } from '../models/ReceiptSettingsRequest.js';
 export { makeSubscriptionSettings } from '../models/SubscriptionSettings.js';
-export { makeTaxSettings } from '../models/TaxSettings.js';
-export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
-export { makeTippingSettings } from '../models/TippingSettings.js';
-export { makeUpdateCatalogSettings } from '../models/UpdateCatalogSettings.js';
+export { makeTaxIdentityPatch } from '../models/TaxIdentityPatch.js';
+export { makeTaxSettingsRequest } from '../models/TaxSettingsRequest.js';
+export { makeTippingSettingsPatch } from '../models/TippingSettingsPatch.js';
+export { makeUpdateSettingsRequest } from '../models/UpdateSettingsRequest.js';

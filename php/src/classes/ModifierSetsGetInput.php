@@ -7,7 +7,8 @@ namespace Flint;
 final class ModifierSetsGetInput extends Model {
     /** @param array{'modifier_set_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSetsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
      */
     public function getModifierSetId(): string { return $this->get('modifier_set_id'); }

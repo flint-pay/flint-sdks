@@ -1,9 +1,20 @@
-import { d896 as c0, d1631 as c1, d323 as c2, d371 as c3, d1880 as c4, d373 as c5, d372 as c6, d370 as c7, d369 as c8, d1628 as c9, d1629 as c10, d1630 as c11, d1995 as c12, d1994 as c13, d2397 as c14, d2396 as c15, d2399 as c16, d2398 as c17, d2449 as c18, d2529 as c19, d2381 as c20, d2431 as c21, d2572 as c22, d2573 as c23 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d2573 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d3069 as c0 } from '../descriptors/data/119.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4070 as c1, d4071 as c17, d4072 as c18, d4073 as c19 } from '../descriptors/data/173.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3000 as c2 } from '../descriptors/data/114.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3632 as c3, d3633 as c11, d3634 as c12, d3635 as c13, d3636 as c14 } from '../descriptors/data/149.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3237 as c4, d3240 as c15, d3236 as c16 } from '../descriptors/data/129.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d5107 as c5, d5108 as c6, d5109 as c7, d5110 as c8 } from '../descriptors/data/233.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3081 as c9 } from '../descriptors/data/120.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3396 as c10 } from '../descriptors/data/137.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3202 as c20 } from '../descriptors/data/127.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3030 as c21 } from '../descriptors/data/117.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d5118 as c22 } from '../descriptors/data/234.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d2486 as c23 } from '../descriptors/data/100.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d2486 as d2486 } from '../descriptors/data/100.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2573;
+const read = d2486;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["InventoryRoutingSourceRequest"]:c1(),["MoneyValue"]:c2(),["OrderLineItemModifierRequest"]:c3(),["OrderLineItemTax"]:c4(),["SharedCodec114"]:c5(),["SharedCodec115"]:c6(),["SharedCodec116"]:c7(),["SharedCodec117"]:c8(),["SharedCodec404"]:c9(),["SharedCodec405"]:c10(),["SharedCodec406"]:c11(),["SharedCodec500"]:c12(),["SharedCodec501"]:c13(),["SharedCodec591"]:c14(),["SharedCodec592"]:c15(),["SharedCodec593"]:c16(),["SharedCodec594"]:c17(),["SharedCodec607"]:c18(),["SharedCodec643"]:c19(),["SubscriptionIntervalOption"]:c20(),["TextModifierRequest"]:c21(),["UpdateSubscriptionPlanLineItemRequest"]:c22(),["UpdateSubscriptionPlanRequest"]:c23()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ImageRequest"]:c0(),["InventoryRoutingSourceRequest"]:c1(),["MoneyValue"]:c2(),["OrderLineItemModifierRequest"]:c3(),["OrderLineItemTax"]:c4(),["SharedCodec1139"]:c5(),["SharedCodec1140"]:c6(),["SharedCodec1141"]:c7(),["SharedCodec1142"]:c8(),["SharedCodec1162"]:c9(),["SharedCodec1163"]:c10(),["SharedCodec163"]:c11(),["SharedCodec164"]:c12(),["SharedCodec165"]:c13(),["SharedCodec166"]:c14(),["SharedCodec33"]:c15(),["SharedCodec34"]:c16(),["SharedCodec854"]:c17(),["SharedCodec855"]:c18(),["SharedCodec856"]:c19(),["SubscriptionIntervalOption"]:c20(),["TextModifierRequest"]:c21(),["UpdateSubscriptionPlanLineItemRequest"]:c22(),["UpdateSubscriptionPlanRequest"]:c23()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateSubscriptionPlanRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

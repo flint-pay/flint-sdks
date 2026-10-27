@@ -3,186 +3,192 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read bool $available_for_sale
- * @property-read string $barcode
- * @property-read string $created_at
- * @property-read string $current_delivery_profile_revision_id
- * @property-read string $delivery_configuration_reason
+ * @property-read ?string $barcode
+ * @property-read ?string $created_at
+ * @property-read ?string $delivery_configuration_reason
  * @property-read string $delivery_configuration_status
- * @property-read string $delivery_profile_id
- * @property-read list<Image> $effective_images
- * @property-read string $external_reference_id
- * @property-read GiftCardProductConfiguration $gift_card_configuration
- * @property-read list<Image> $images
+ * @property-read ?string $delivery_profile_id
+ * @property-read list<ImageAttachment> $effective_images
+ * @property-read ?string $external_reference_id
+ * @property-read ?GiftCardProductConfiguration $gift_card_configuration
+ * @property-read list<ImageAttachment> $images
  * @property-read bool $images_inherited
- * @property-read string $inventory_item_id
+ * @property-read ?string $inventory_item_id
  * @property-read string $inventory_tracking
- * @property-read string $line_item_tax_category
- * @property-read string $merchant_id
- * @property-read array<array-key, string> $metadata
+ * @property-read ?string $line_item_tax_category
+ * @property-read ?string $merchant_id
+ * @property-read ?array<array-key, string> $metadata
  * @property-read ModifierSet|null $modifier_set
  * @property-read string|null $modifier_set_id
- * @property-read string $name
+ * @property-read ?string $name
  * @property-read int $position
  * @property-read string $product_id
  * @property-read list<SelectedProductOption> $selected_options
- * @property-read string $sku
+ * @property-read ?string $sku
  * @property-read string $status
- * @property-read bool $taxable
+ * @property-read ?bool $taxable
+ * @property-read ?Dimensions $unit_dimensions
  * @property-read MoneyValue $unit_price_money
- * @property-read string $updated_at
+ * @property-read ?Weight $unit_weight
+ * @property-read ?string $updated_at
  * @property-read string $variant_id
  * @property-read string $version
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class ProductVariant extends Model {
-    /** @param array{'available_for_sale': bool, 'barcode'?: string, 'created_at'?: string, 'current_delivery_profile_revision_id'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: mixed, 'images': list<mixed>, 'images_inherited': bool, 'inventory_item_id'?: string, 'inventory_tracking': string, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'selected_options'?: list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_price_money': mixed, 'updated_at'?: string, 'variant_id': string, 'version': string, ...}|object $values */
+    /** @param array{'available_for_sale': bool, 'barcode'?: string, 'created_at'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: mixed, 'images': list<mixed>, 'images_inherited': bool, 'inventory_item_id'?: string, 'inventory_tracking': string, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'updated_at'?: string, 'variant_id': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariant')); }
-    /** @return bool
-     * @throws SdkError When available_for_sale is omitted; use hasAvailableForSale() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether the variant and its product are both active.
+     * @return bool
      */
     public function getAvailableForSale(): bool { return $this->get('available_for_sale'); }
     public function hasAvailableForSale(): bool { return $this->has('available_for_sale'); }
-    /** @return string
-     * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
+    /** Shape $ (Value): string. Barcode assigned to this sellable item.
+     * @return ?string
      */
-    public function getBarcode(): string { return $this->get('barcode'); }
+    public function getBarcode(): ?string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. When this resource was created, as an RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getCreatedAt(): string { return $this->get('created_at'); }
+    public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
-     * @throws SdkError When current_delivery_profile_revision_id is omitted; use hasCurrentDeliveryProfileRevisionId() or valueOrDefault().
+    /** Shape $ (Value): string. Reason the variant's delivery configuration needs attention. Value enum: "delivery_profile_missing", "delivery_profile_inactive".
+     * @return ?string
      */
-    public function getCurrentDeliveryProfileRevisionId(): string { return $this->get('current_delivery_profile_revision_id'); }
-    public function hasCurrentDeliveryProfileRevisionId(): bool { return $this->has('current_delivery_profile_revision_id'); }
-    /** @return string
-     * @throws SdkError When delivery_configuration_reason is omitted; use hasDeliveryConfigurationReason() or valueOrDefault().
-     */
-    public function getDeliveryConfigurationReason(): string { return $this->get('delivery_configuration_reason'); }
+    public function getDeliveryConfigurationReason(): ?string { return $this->get('delivery_configuration_reason'); }
     public function hasDeliveryConfigurationReason(): bool { return $this->has('delivery_configuration_reason'); }
-    /** @return string
-     * @throws SdkError When delivery_configuration_status is omitted; use hasDeliveryConfigurationStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Whether the variant's delivery configuration is ready, needs attention, or does not apply. Value enum: "configured", "action_required", "not_applicable".
+     * @return string
      */
     public function getDeliveryConfigurationStatus(): string { return $this->get('delivery_configuration_status'); }
     public function hasDeliveryConfigurationStatus(): bool { return $this->has('delivery_configuration_status'); }
-    /** @return string
-     * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
+    /** Shape $ (Value): string. Identifier of the delivery profile assigned to this variant.
+     * @return ?string
      */
-    public function getDeliveryProfileId(): string { return $this->get('delivery_profile_id'); }
+    public function getDeliveryProfileId(): ?string { return $this->get('delivery_profile_id'); }
     public function hasDeliveryProfileId(): bool { return $this->has('delivery_profile_id'); }
-    /** @return list<Image>
-     * @throws SdkError When effective_images is omitted; use hasEffectiveImages() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see ImageAttachment}. Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. Shape $[] (Value): {@see ImageAttachment}. An image attached to a resource, with its display properties and attachment metadata.
+     * @return list<ImageAttachment>
      */
     public function getEffectiveImages(): array { return $this->get('effective_images'); }
     public function hasEffectiveImages(): bool { return $this->has('effective_images'); }
-    /** @return string
-     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+     * @return ?string
      */
-    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return GiftCardProductConfiguration
-     * @throws SdkError When gift_card_configuration is omitted; use hasGiftCardConfiguration() or valueOrDefault().
+    /** Shape $ (Value): {@see GiftCardProductConfiguration}. Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
+     * @return ?GiftCardProductConfiguration
      */
-    public function getGiftCardConfiguration(): GiftCardProductConfiguration { return $this->get('gift_card_configuration'); }
+    public function getGiftCardConfiguration(): ?GiftCardProductConfiguration { return $this->get('gift_card_configuration'); }
     public function hasGiftCardConfiguration(): bool { return $this->has('gift_card_configuration'); }
-    /** @return list<Image>
-     * @throws SdkError When images is omitted; use hasImages() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see ImageAttachment}. The variant's own images in display order. An empty gallery inherits the product's images. Shape $[] (Value): {@see ImageAttachment}. An image attached to a resource, with its display properties and attachment metadata.
+     * @return list<ImageAttachment>
      */
     public function getImages(): array { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
-    /** @return bool
-     * @throws SdkError When images_inherited is omitted; use hasImagesInherited() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether effective_images comes from the product's gallery because this variant's gallery is empty.
+     * @return bool
      */
     public function getImagesInherited(): bool { return $this->get('images_inherited'); }
     public function hasImagesInherited(): bool { return $this->has('images_inherited'); }
-    /** @return string
-     * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
+    /** Shape $ (Value): string. The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item.
+     * @return ?string
      */
-    public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
+    public function getInventoryItemId(): ?string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** @return string
-     * @throws SdkError When inventory_tracking is omitted; use hasInventoryTracking() or valueOrDefault().
+    /** Shape $ (Value): string. Whether sales of this variant consume an inventory item. Value enum: "not_tracked", "tracked".
+     * @return string
      */
     public function getInventoryTracking(): string { return $this->get('inventory_tracking'); }
     public function hasInventoryTracking(): bool { return $this->has('inventory_tracking'); }
-    /** @return string
-     * @throws SdkError When line_item_tax_category is omitted; use hasLineItemTaxCategory() or valueOrDefault().
+    /** Shape $ (Value): string. Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * @return ?string
      */
-    public function getLineItemTaxCategory(): string { return $this->get('line_item_tax_category'); }
+    public function getLineItemTaxCategory(): ?string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** @return string
-     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+    /** Shape $ (Value): string. Identifier of the merchant that owns this resource.
+     * @return ?string
      */
-    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return array<array-key, string>
-     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+    /** Shape $ (Value): Map of string. Caller-owned metadata stored on this resource. Shape $.* (Value): string.
+     * @return ?array<array-key, string>
      */
-    public function getMetadata(): array { return $this->get('metadata'); }
+    public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return ModifierSet|null
-     * @throws SdkError When modifier_set is omitted; use hasModifierSet() or valueOrDefault().
+    /** Shape $ (Value): {@see ModifierSet} or null. Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Shape $.anyOf[1] (Value): {@see ModifierSet}. A reusable collection of customization groups. Shape $.anyOf[2] (Value): null.
+     * @return ModifierSet|null
      */
     public function getModifierSet(): ModifierSet|null { return $this->get('modifier_set'); }
     public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** @return string|null
-     * @throws SdkError When modifier_set_id is omitted; use hasModifierSetId() or valueOrDefault().
+    /** Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
+     * @return string|null
      */
     public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }
     public function hasModifierSetId(): bool { return $this->has('modifier_set_id'); }
-    /** @return string
-     * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
+    /** Shape $ (Value): string. Variant name that distinguishes it from the product's other variants.
+     * @return ?string
      */
-    public function getName(): string { return $this->get('name'); }
+    public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return int
-     * @throws SdkError When position is omitted; use hasPosition() or valueOrDefault().
+    /** Shape $ (Value): integer. Display order among the product's variants, starting at zero. Format: int32.
+     * @return int
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** @return string
-     * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
+    /** Shape $ (Value): string. Identifier of the product this variant belongs to.
+     * @return string
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** @return list<SelectedProductOption>
-     * @throws SdkError When selected_options is omitted; use hasSelectedOptions() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see SelectedProductOption}. Always present. Empty collections are returned as []. Shape $[] (Value): {@see SelectedProductOption}. An option and value chosen for a product variant, such as size Large.
+     * @return list<SelectedProductOption>
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** @return string
-     * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
+    /** Shape $ (Value): string. Stock keeping unit assigned to this sellable item.
+     * @return ?string
      */
-    public function getSku(): string { return $this->get('sku'); }
+    public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Variant lifecycle status. Archived variants remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return bool
-     * @throws SdkError When taxable is omitted; use hasTaxable() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether this item is subject to tax.
+     * @return ?bool
      */
-    public function getTaxable(): bool { return $this->get('taxable'); }
+    public function getTaxable(): ?bool { return $this->get('taxable'); }
     public function hasTaxable(): bool { return $this->has('taxable'); }
-    /** @return MoneyValue
-     * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see Dimensions}. Per-unit measurement. Omitted when unknown. Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     * @return ?Dimensions
+     */
+    public function getUnitDimensions(): ?Dimensions { return $this->get('unit_dimensions'); }
+    public function hasUnitDimensions(): bool { return $this->has('unit_dimensions'); }
+    /** Shape $ (Value): {@see MoneyValue}. Price charged for one unit, in the currency's smallest unit. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getUnitPriceMoney(): MoneyValue { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): {@see Weight}. Per-unit measurement. Omitted when unknown. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     * @return ?Weight
      */
-    public function getUpdatedAt(): string { return $this->get('updated_at'); }
+    public function getUnitWeight(): ?Weight { return $this->get('unit_weight'); }
+    public function hasUnitWeight(): bool { return $this->has('unit_weight'); }
+    /** Shape $ (Value): string. When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+     * @return ?string
+     */
+    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
+    /** Shape $ (Value): string. Stable identifier of the product variant.
+     * @return string
      */
     public function getVariantId(): string { return $this->get('variant_id'); }
     public function hasVariantId(): bool { return $this->has('variant_id'); }
-    /** @return string
-     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+    /** Shape $ (Value): integer string. Current resource version. Send it as expected_version to reject a write if the resource has changed. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+     * @return string
      */
     public function getVersion(): string { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }

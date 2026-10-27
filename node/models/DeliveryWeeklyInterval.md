@@ -1,0 +1,17 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DeliveryWeeklyInterval
+
+A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a delivery method's availability schedule.
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `end_minute` | Required | integer |  |
+| `end_weekday` | Required | integer |  |
+| `start_minute` | Required | integer |  |
+| `start_weekday` | Required | integer |  |
+

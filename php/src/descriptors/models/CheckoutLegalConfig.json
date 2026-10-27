@@ -1,0 +1,1 @@
+{"shared":"LegalSettings","phpRepresentation":{"kind":"record","fields":{"contract_url":{"kind":"value","type":"string"},"refund_policy_url":{"kind":"value","type":"string"},"require_terms_of_service":{"kind":"value","type":"bool"},"shipping_policy_url":{"kind":"value","type":"string"},"terms_of_service_url":{"kind":"value","type":"string"}}},"dependencies":["LegalSettings"]}

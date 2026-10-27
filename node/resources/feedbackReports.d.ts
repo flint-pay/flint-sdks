@@ -1,92 +1,135 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { FeedbackReport } from '../declarations/FeedbackReport.js';
-import type { FeedbackReportListResponse } from '../declarations/FeedbackReportListResponse.js';
-import type { FeedbackReportResponse } from '../declarations/FeedbackReportResponse.js';
-import type { FeedbackReportingClientInput } from '../declarations/FeedbackReportingClientInput.js';
-import type { FeedbackReportsCreateInput } from '../declarations/FeedbackReportsCreateInput.js';
-import type { FeedbackReportsCreateResponse } from '../declarations/FeedbackReportsCreateResponse.js';
-import type { FeedbackReportsGetInput } from '../declarations/FeedbackReportsGetInput.js';
-import type { FeedbackReportsGetResponse } from '../declarations/FeedbackReportsGetResponse.js';
-import type { FeedbackReportsListInput } from '../declarations/FeedbackReportsListInput.js';
-import type { FeedbackReportsListResponse } from '../declarations/FeedbackReportsListResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateFeedbackReportRequestInput } from '../declarations/types-6.js';
+import type { FeedbackReport, FeedbackReportListResponse } from '../declarations/types-16.js';
+import type {
+    FeedbackReportResponse,
+    FeedbackReportsCreateInput,
+    FeedbackReportsGetInput,
+    FeedbackReportsListInput
+} from '../declarations/types-17.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type {
+    CreateFeedbackReportRequestInput,
+    CreateFeedbackReportRatingInput,
+    CreateFeedbackReportNarrativeInput
+} from '../declarations/types-6.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { FeedbackReport, FeedbackReportListResponse, FeedbackReportRating, FeedbackReportNarrative } from '../declarations/types-16.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type {
+    FeedbackReportResponse,
+    FeedbackReportsCreateInput,
+    FeedbackReportsGetInput,
+    FeedbackReportsListInput,
+    FeedbackReportingClientInput,
+    FeedbackReportingClient
+} from '../declarations/types-17.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export {
+    makeCreateFeedbackReportNarrative,
+    makeCreateFeedbackReportRating,
+    makeCreateFeedbackReportRequest
+} from '../declarations/types-63.js';
+export { makeFeedbackReportingClient } from '../declarations/types-66.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface FeedbackReportsResource {
     /**
- * Stores one immutable occurrence of Flint feedback. Use one report per root cause and include only the evidence needed to describe Flint's behavior.
+ * Stores one immutable occurrence of Flint feedback. Use one report per root cause and include
+ * only the evidence needed to describe Flint's behavior.
+ * @see reference/feedbackReports.md#feedbackreportscreate
  * POST /v1/feedback-reports
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.feedbackReports.create({kind: "rating", surface: "api", sentiment: "positive"}, { idempotencyKey: idempotencyKey })
+ * client.feedbackReports.create({kind: "rating", surface: "api", sentiment: "positive"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<({ "actual_behavior"?: string; "canonical_command"?: string; "code_location"?: string; "component"?: string; "description"?: string; "expected_behavior"?: string; "kind": "papercut" | "bug" | "feature_request" | "rating" | "praise" | "other"; "related_request_id"?: string; "related_resource_ids"?: Array<string>; "reporter_kind"?: "human" | "ai_agent"; "reporting_client"?: FeedbackReportingClientInput; "reproduction_steps"?: Array<string>; "sentiment"?: "positive" | "negative" | "neutral"; "summary"?: string; "surface": "api" | "cli" | "mcp" | "sdk" | "docs" | "dashboard" | "checkout" | "payment_links" | "webhooks" | "onboarding" | "mobile" | "other"; "surface_route"?: string; }) & (({ "kind": "rating"; "surface": unknown; "sentiment": unknown; }) | ({ "kind": "papercut" | "bug" | "feature_request" | "praise" | "other"; "surface": unknown; "summary": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<FeedbackReportResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<({ "actual_behavior"?: string; "canonical_command"?: string; "code_location"?: string; "component"?: string; "description"?: string; "expected_behavior"?: string; "kind": "papercut" | "bug" | "feature_request" | "rating" | "praise" | "other"; "related_request_id"?: string; "related_resource_ids"?: Array<string>; "reporter_kind"?: "human" | "ai_agent"; "reporting_client"?: FeedbackReportingClientInput; "reproduction_steps"?: Array<string>; "sentiment"?: "positive" | "negative" | "neutral"; "summary"?: string; "surface": "api" | "cli" | "mcp" | "sdk" | "docs" | "dashboard" | "checkout" | "payment_links" | "webhooks" | "onboarding" | "mobile" | "other"; "surface_route"?: string; }) & (({ "kind": "rating"; "surface": unknown; "sentiment": unknown; }) | ({ "kind": "papercut" | "bug" | "feature_request" | "praise" | "other"; "surface": unknown; "summary": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<FeedbackReportsCreateResponse>>;
+    create(params: (InputValue<CreateFeedbackReportRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<FeedbackReport>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/feedbackReports.md#feedbackreportscreate
+     */
+    createWithResponse(params: (InputValue<CreateFeedbackReportRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<FeedbackReportResponse>>;
     /**
  * Returns one immutable feedback report in the credential's merchant and environment.
+ * @see reference/feedbackReports.md#feedbackreportsget
  * GET /v1/feedback-reports/{feedback_report_id}
  * @example
  * client.feedbackReports.get("example")
  */
-    get(feedback_report_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<FeedbackReportResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(feedback_report_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FeedbackReportsGetResponse>>;
+    get(feedback_report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FeedbackReport>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/feedbackReports.md#feedbackreportsget
+     */
+    getWithResponse(feedback_report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FeedbackReportResponse>>;
     /**
- * Lists feedback reports in descending creation order for the credential's merchant and environment.
+ * Lists feedback reports in descending creation order for the credential's merchant and
+ * environment.
+ * @see reference/feedbackReports.md#feedbackreportslist
  * GET /v1/feedback-reports
  * @example
  * client.feedbackReports.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FeedbackReportListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FeedbackReportsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FeedbackReportListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<FeedbackReportsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FeedbackReport>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly feedbackReports: FeedbackReportsResource;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<FeedbackReportListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/feedbackReports.md#feedbackreportslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FeedbackReportListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/feedbackReports.md#feedbackreportslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FeedbackReportListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/feedbackReports.md#feedbackreportslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<FeedbackReportListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/feedbackReports.md#feedbackreportslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<FeedbackReport>;
 }
-export type { FeedbackReportingClientInput } from '../declarations/FeedbackReportingClientInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { FeedbackReportResponse } from '../declarations/FeedbackReportResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { FeedbackReportsCreateResponse } from '../declarations/FeedbackReportsCreateResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { FeedbackReportsGetResponse } from '../declarations/FeedbackReportsGetResponse.js';
-export type { FeedbackReportListResponse } from '../declarations/FeedbackReportListResponse.js';
-export type { FeedbackReportsListResponse } from '../declarations/FeedbackReportsListResponse.js';
-export type { FeedbackReport } from '../declarations/FeedbackReport.js';
-export type { FeedbackReportsCreateInput } from '../declarations/FeedbackReportsCreateInput.js';
-export type { FeedbackReportsGetInput } from '../declarations/FeedbackReportsGetInput.js';
-export type { FeedbackReportsListInput } from '../declarations/FeedbackReportsListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { FeedbackReportingClient } from '../declarations/FeedbackReportingClient.js';
-export type { CreateFeedbackReportRequestInput } from '../declarations/CreateFeedbackReportRequestInput.js';
-export { makeFeedbackReportResponse } from '../declarations/makeFeedbackReportResponse.js';
-export { makeFeedbackReportListResponse } from '../declarations/makeFeedbackReportListResponse.js';
-export { makeFeedbackReport } from '../declarations/makeFeedbackReport.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeFeedbackReportingClient } from '../declarations/makeFeedbackReportingClient.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly feedbackReports: FeedbackReportsResource;
+}

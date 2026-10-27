@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnReceipts.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/returnReceipts.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getReturnReceipt"]:r0,["listReturnReceipts"]:r0,["verifyReturnReceiptLineItem"]:r0});
 export class Client {
@@ -14,7 +14,7 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.returnReceipts = Object.freeze({
       get: async (return_receipt_id, params, options) => this.#runtime.request("getReturnReceipt", _sdkRequestInput([
   "return_receipt_id"
-], [return_receipt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_receipt_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getReturnReceipt", result, path))),
       getWithResponse: async (return_receipt_id, params, options) => this.#runtime.request("getReturnReceipt", _sdkRequestInput([
   "return_receipt_id"
 ], [return_receipt_id], [], false, false, params), options).then(_sdkResponse),
@@ -33,8 +33,10 @@ this.returnReceipts = Object.freeze({
   "shipment_id",
   "source_system_type",
   "status",
+  "updated_after",
+  "updated_before",
   "verification_status"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listReturnReceipts", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnReceipts", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -50,6 +52,8 @@ this.returnReceipts = Object.freeze({
   "shipment_id",
   "source_system_type",
   "status",
+  "updated_after",
+  "updated_before",
   "verification_status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnReceipts", _sdkRequestInput([], [], [
@@ -67,8 +71,10 @@ this.returnReceipts = Object.freeze({
   "shipment_id",
   "source_system_type",
   "status",
+  "updated_after",
+  "updated_before",
   "verification_status"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listReturnReceipts", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnReceipts", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -84,6 +90,8 @@ this.returnReceipts = Object.freeze({
   "shipment_id",
   "source_system_type",
   "status",
+  "updated_after",
+  "updated_before",
   "verification_status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnReceipts", _sdkRequestInput([], [], [
@@ -101,6 +109,8 @@ this.returnReceipts = Object.freeze({
   "shipment_id",
   "source_system_type",
   "status",
+  "updated_after",
+  "updated_before",
   "verification_status"
 ], false, false, params), options),
       verifyLineItem: async (return_receipt_id, return_receipt_line_item_id, params, options) => this.#runtime.request("verifyReturnReceiptLineItem", _sdkRequestInput([
@@ -108,7 +118,7 @@ this.returnReceipts = Object.freeze({
   "return_receipt_line_item_id"
 ], [return_receipt_id, return_receipt_line_item_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("verifyReturnReceiptLineItem", result, path))),
       verifyLineItemWithResponse: async (return_receipt_id, return_receipt_line_item_id, params, options) => this.#runtime.request("verifyReturnReceiptLineItem", _sdkRequestInput([
   "return_receipt_id",
   "return_receipt_line_item_id"
@@ -117,19 +127,10 @@ this.returnReceipts = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeGetReturnReceiptResponse } from '../models/GetReturnReceiptResponse.js';
-export { makeListReturnReceiptsResponse } from '../models/ListReturnReceiptsResponse.js';
-export { makeReturnReceipt } from '../models/ReturnReceipt.js';
-export { makeVerifyReturnReceiptLineItemResponse } from '../models/VerifyReturnReceiptLineItemResponse.js';
-export { makeCreateReturnReceiptResponse } from '../models/CreateReturnReceiptResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeReturnDisposition } from '../models/ReturnDisposition.js';
-export { makeReturnActor } from '../models/ReturnActor.js';
-export { makeReturnReceiptLineItem } from '../models/ReturnReceiptLineItem.js';
+export { makeReturnSourceSystem } from '../models/ReturnSourceSystem.js';
 export { makeReturnUnverifiedItem } from '../models/ReturnUnverifiedItem.js';
+export { makeVerifyReturnReceiptLineItemRequest } from '../models/VerifyReturnReceiptLineItemRequest.js';

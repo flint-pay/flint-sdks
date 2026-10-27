@@ -6,24 +6,22 @@ namespace Flint;
  * @property-read array{'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'unit_price_overrides'?: array<array-key, mixed>|\stdClass, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksResolveInput extends Model {
-    /** @param array{'payment_link_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array{'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'unit_price_overrides'?: array<array-key, mixed>|\stdClass, ...}|object}|object $values */
+    /** @param array{'payment_link_id': string, 'Idempotency-Key'?: string, 'body': array{'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'unit_price_overrides'?: array<array-key, mixed>|\stdClass, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinksResolveInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return array{'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'unit_price_overrides'?: array<array-key, mixed>|\stdClass, ...}|object
+    /** Shape $ (Value): object. The request body for: Resolve payment link.
+     * @return array{'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'unit_price_overrides'?: array<array-key, mixed>|\stdClass, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

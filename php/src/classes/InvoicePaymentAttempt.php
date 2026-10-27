@@ -2,110 +2,104 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $canceled_at
- * @property-read string $cancellation_requested_at
- * @property-read string $checkout_session_id
+ * @property-read ?string $canceled_at
+ * @property-read ?string $cancellation_requested_at
+ * @property-read ?string $checkout_session_id
  * @property-read MoneyValue $expected_amount_money
- * @property-read string $expected_settlement_at
- * @property-read string $expires_at
- * @property-read string $failure_code
- * @property-read string $failure_message
+ * @property-read ?string $expected_settlement_at
+ * @property-read ?string $expires_at
  * @property-read string $invoice_id
  * @property-read string $invoice_payment_attempt_id
- * @property-read string $invoice_schedule_entry_id
- * @property-read string $payment_intent_id
+ * @property-read ?string $invoice_schedule_entry_id
+ * @property-read ?PaymentErrorSummary $last_payment_error
+ * @property-read ?string $payment_intent_id
  * @property-read string $rail
- * @property-read string $settled_at
- * @property-read string $started_at
+ * @property-read ?string $settled_at
+ * @property-read ?string $started_at
  * @property-read string $status
- * @property-read string $updated_at
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?string $updated_at
+ * Presence-aware response; omitted optional fields return null. */
 final class InvoicePaymentAttempt extends Model {
-    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expected_settlement_at'?: string, 'expires_at'?: string, 'failure_code'?: string, 'failure_message'?: string, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expected_settlement_at'?: string, 'expires_at'?: string, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentAttempt')); }
-    /** @return string
-     * @throws SdkError When canceled_at is omitted; use hasCanceledAt() or valueOrDefault().
+    /** Shape $ (Value): string. When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: date-time.
+     * @return ?string
      */
-    public function getCanceledAt(): string { return $this->get('canceled_at'); }
+    public function getCanceledAt(): ?string { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** @return string
-     * @throws SdkError When cancellation_requested_at is omitted; use hasCancellationRequestedAt() or valueOrDefault().
+    /** Shape $ (Value): string. When cancellation of this attempt was last requested. It stays set when the payment processor refuses the cancellation or the payment settles first, so read status and canceled_at for the outcome. Format: date-time.
+     * @return ?string
      */
-    public function getCancellationRequestedAt(): string { return $this->get('cancellation_requested_at'); }
+    public function getCancellationRequestedAt(): ?string { return $this->get('cancellation_requested_at'); }
     public function hasCancellationRequestedAt(): bool { return $this->has('cancellation_requested_at'); }
-    /** @return string
-     * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
+    /** Shape $ (Value): string. The hosted or embedded checkout session the buyer pays through. Absent for automatic charges.
+     * @return ?string
      */
-    public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
+    public function getCheckoutSessionId(): ?string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** @return MoneyValue
-     * @throws SdkError When expected_amount_money is omitted; use hasExpectedAmountMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. The amount this attempt collects: the outstanding balance, or the targeted schedule entry's outstanding amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getExpectedAmountMoney(): MoneyValue { return $this->get('expected_amount_money'); }
     public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
-    /** @return string
-     * @throws SdkError When expected_settlement_at is omitted; use hasExpectedSettlementAt() or valueOrDefault().
+    /** Shape $ (Value): string. When an ACH debit is expected to settle, when Flint has an estimate. Format: date-time.
+     * @return ?string
      */
-    public function getExpectedSettlementAt(): string { return $this->get('expected_settlement_at'); }
+    public function getExpectedSettlementAt(): ?string { return $this->get('expected_settlement_at'); }
     public function hasExpectedSettlementAt(): bool { return $this->has('expected_settlement_at'); }
-    /** @return string
-     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
+    /** Shape $ (Value): string. When a checkout attempt expires, matching its checkout session. Absent for automatic charges. Format: date-time.
+     * @return ?string
      */
-    public function getExpiresAt(): string { return $this->get('expires_at'); }
+    public function getExpiresAt(): ?string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** @return string
-     * @throws SdkError When failure_code is omitted; use hasFailureCode() or valueOrDefault().
-     */
-    public function getFailureCode(): string { return $this->get('failure_code'); }
-    public function hasFailureCode(): bool { return $this->has('failure_code'); }
-    /** @return string
-     * @throws SdkError When failure_message is omitted; use hasFailureMessage() or valueOrDefault().
-     */
-    public function getFailureMessage(): string { return $this->get('failure_message'); }
-    public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** @return string
-     * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
+    /** Shape $ (Value): string. The invoice this attempt collects.
+     * @return string
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** @return string
-     * @throws SdkError When invoice_payment_attempt_id is omitted; use hasInvoicePaymentAttemptId() or valueOrDefault().
+    /** Shape $ (Value): string. Flint invoice payment attempt ID.
+     * @return string
      */
     public function getInvoicePaymentAttemptId(): string { return $this->get('invoice_payment_attempt_id'); }
     public function hasInvoicePaymentAttemptId(): bool { return $this->has('invoice_payment_attempt_id'); }
-    /** @return string
-     * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
+    /** Shape $ (Value): string. The schedule entry this attempt collects. Absent when the attempt collects the invoice balance.
+     * @return ?string
      */
-    public function getInvoiceScheduleEntryId(): string { return $this->get('invoice_schedule_entry_id'); }
+    public function getInvoiceScheduleEntryId(): ?string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** @return string
-     * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
+    /** Shape $ (Value): {@see PaymentErrorSummary}. Why the payment failed. Present only when status is failed. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation.
+     * @return ?PaymentErrorSummary
      */
-    public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
+    public function getLastPaymentError(): ?PaymentErrorSummary { return $this->get('last_payment_error'); }
+    public function hasLastPaymentError(): bool { return $this->has('last_payment_error'); }
+    /** Shape $ (Value): string. The payment intent behind this attempt. Absent until payment starts, such as a hosted attempt the buyer hasn't paid yet.
+     * @return ?string
+     */
+    public function getPaymentIntentId(): ?string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** @return string
-     * @throws SdkError When rail is omitted; use hasRail() or valueOrDefault().
+    /** Shape $ (Value): string. How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit. Value enum: "card", "ach_debit".
+     * @return string
      */
     public function getRail(): string { return $this->get('rail'); }
     public function hasRail(): bool { return $this->has('rail'); }
-    /** @return string
-     * @throws SdkError When settled_at is omitted; use hasSettledAt() or valueOrDefault().
+    /** Shape $ (Value): string. When this attempt first settled successfully. Duplicate payment notifications preserve this timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getSettledAt(): string { return $this->get('settled_at'); }
+    public function getSettledAt(): ?string { return $this->get('settled_at'); }
     public function hasSettledAt(): bool { return $this->has('settled_at'); }
-    /** @return string
-     * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().
+    /** Shape $ (Value): string. When the attempt was created. Format: date-time.
+     * @return ?string
      */
-    public function getStartedAt(): string { return $this->get('started_at'); }
+    public function getStartedAt(): ?string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Current payment attempt status. settled means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.settled reports that completion. Value enum: "open", "settled", "failed", "canceled", "expired", "processing".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. When this attempt last changed. Duplicate payment notifications preserve this timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getUpdatedAt(): string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
 }

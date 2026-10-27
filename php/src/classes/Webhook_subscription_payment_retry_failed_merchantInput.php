@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'object': SubscriptionPaymentRetryInput|array<array-key, mixed>|\stdClass, ...}|object $data
- * @property-read string $event_type
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
+ * @property-read array{'object': array{'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'idempotency_key': string, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string|\DateTimeInterface, ...}|object}|object $data
+ * @property-read string $event_type
  * @property-read string $merchant_id
  * @property-read string $mode
  * @property-read int $payload_version
@@ -14,54 +14,64 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_subscription_payment_retry_failed_merchantInput extends Model {
-    /** @param array{'data': array{'object': SubscriptionPaymentRetryInput|array<array-key, mixed>|\stdClass, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'object': array{'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'idempotency_key': string, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string|\DateTimeInterface, ...}|object}|object, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test': bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_subscription_payment_retry_failed_merchantInput')); }
-    /** @return array{'object': SubscriptionPaymentRetryInput|array<array-key, mixed>|\stdClass, ...}|object
-     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
-     */
-    public function getData(): array|object { return $this->get('data'); }
-    public function hasData(): bool { return $this->has('data'); }
-    /** @return string
-     * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
-     */
-    public function getEventType(): string { return $this->get('event_type'); }
-    public function hasEventType(): bool { return $this->has('event_type'); }
-    /** @return string
+    /** Shape $ (Value): string. Format: date.
+     * @return string
      * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. Format: date-time.
+     * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
+    /** Shape $ (Value): object. Shape $.object (Required): object and {@see SubscriptionPaymentRetryInput}. An attempt to collect a subscription's overdue payment. Shape $.object.completed_at (Optional): string. RFC3339 timestamp. Format: date-time. Shape $.object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Shape $.object.idempotency_key (Required): string. Shape $.object.last_payment_error (Optional): {@see PaymentErrorSummaryInput}. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. Shape $.object.order_id (Optional): string. Shape $.object.order_payment_attempt_id (Optional): string. Shape $.object.started_at (Optional): string. RFC3339 timestamp. Format: date-time. Shape $.object.status (Required): string.  Value enum: "pending", "processing", "succeeded", "failed". Shape $.object.subscription_id (Required): string. Shape $.object.subscription_payment_retry_id (Required): string. Shape $.object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
+     * @return array{'object': array{'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'idempotency_key': string, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string|\DateTimeInterface, ...}|object}|object
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** Shape $ (Value): string.  Value enum: "subscription_payment_retry.failed".
+     * @return string
+     * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
+     */
+    public function getEventType(): string { return $this->get('event_type'); }
+    public function hasEventType(): bool { return $this->has('event_type'); }
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "test", "live".
+     * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** @return int
+    /** Shape $ (Value): integer. 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Value enum: 1, 2.
+     * @return int
      * @throws SdkError When payload_version is omitted; use hasPayloadVersion() or valueOrDefault().
      */
     public function getPayloadVersion(): int { return $this->get('payload_version'); }
     public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
-    /** @return array{'id': string, 'idempotency_key'?: string}|object|null
+    /** Shape $ (Value): object or null. Shape $.id (Required): string. Shape $.idempotency_key (Optional): string. The Idempotency-Key the originating request sent. Absent when it sent none.
+     * @return array{'id': string, 'idempotency_key'?: string}|object|null
      * @throws SdkError When request is omitted; use hasRequest() or valueOrDefault().
      */
     public function getRequest(): array|object|null { return $this->get('request'); }
     public function hasRequest(): bool { return $this->has('request'); }
-    /** @return bool
+    /** Shape $ (Value): boolean. true for a synthetic event sent from the test-events endpoint, false otherwise.
+     * @return bool
      * @throws SdkError When test is omitted; use hasTest() or valueOrDefault().
      */
     public function getTest(): bool { return $this->get('test'); }
     public function hasTest(): bool { return $this->has('test'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
      */
     public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }

@@ -2,22 +2,24 @@
   "profiles": ["full-common-sdk.json"],
   "include": [
     "advanceOnboarding",
+    "authorizePartnerInstall",
     "createDemoSession",
     "createDeveloperPartnerApp",
     "createDeveloperSandbox",
     "createMerchantAccountSession",
     "createOnboardingAPIKey",
     "deleteDeveloperSandbox",
-    "exchangePartnerInstallToken",
     "getDeveloperPartnerApp",
     "getDeveloperPartnerAppInstall",
     "getDeveloperSandbox",
+    "getMerchant",
     "getOnboardingState",
     "getOpenAPISpec",
     "getPaymentLinkPublic",
     "issueDeveloperSandboxTestKey",
     "listDeveloperPartnerAppInstalls",
     "listDeveloperPartnerApps",
+    "listDeveloperPartnerInstalls",
     "listDeveloperSandboxes",
     "previewPartnerInstallAuthorization",
     "refreshCustomerSession",
@@ -43,10 +45,12 @@
           "getDeveloperPartnerApp",
           "getDeveloperPartnerAppInstall",
           "getDeveloperSandbox",
+          "getMerchant",
           "getOnboardingState",
           "issueDeveloperSandboxTestKey",
           "listDeveloperPartnerAppInstalls",
           "listDeveloperPartnerApps",
+          "listDeveloperPartnerInstalls",
           "listDeveloperSandboxes",
           "refreshMerchantAccountSession",
           "resetDeveloperSandbox",
@@ -59,11 +63,6 @@
         "mode": "onboarding",
         "scheme": "OnboardingSessionBearer"
       }
-    }
-  },
-  "operations": {
-    "exchangePartnerInstallToken": {
-      "requestMediaType": "application/json"
     }
   }
 }

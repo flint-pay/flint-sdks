@@ -2,24 +2,27 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string $condition
  * @property-read string $inventory_item_id
- * @property-read string $physical_condition
  * @property-read string $requested_quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransferLineRequestInput extends Model {
-    /** @param array{'inventory_item_id': string, 'physical_condition'?: string, 'requested_quantity': string}|object $values */
+    /** @param array{'condition'?: string, 'inventory_item_id': string, 'requested_quantity': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransferLineRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Default: "sellable". Value enum: "sellable", "quality_control", "damaged", "quarantined".
+     * @return string
+     * @throws SdkError When condition is omitted; use hasCondition() or valueOrDefault().
+     */
+    public function getCondition(): string { return $this->get('condition'); }
+    public function hasCondition(): bool { return $this->has('condition'); }
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** @return string
-     * @throws SdkError When physical_condition is omitted; use hasPhysicalCondition() or valueOrDefault().
-     */
-    public function getPhysicalCondition(): string { return $this->get('physical_condition'); }
-    public function hasPhysicalCondition(): bool { return $this->has('physical_condition'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * @return string
      * @throws SdkError When requested_quantity is omitted; use hasRequestedQuantity() or valueOrDefault().
      */
     public function getRequestedQuantity(): string { return $this->get('requested_quantity'); }

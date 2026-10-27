@@ -1,0 +1,1 @@
+{"shared":"ImageAttachment","phpRepresentation":{"kind":"record","fields":{"alt":{"kind":"value","type":"string"},"file_id":{"kind":"value","type":"string"},"height":{"kind":"value","type":"int"},"source_reference":{"kind":"value","type":"string"},"url":{"kind":"value","type":"string"},"width":{"kind":"value","type":"int"}}},"dependencies":["ImageAttachment"]}

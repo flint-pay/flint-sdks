@@ -1,85 +1,111 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { MerchantAccountSessionResponse } from '../declarations/MerchantAccountSessionResponse.js';
-import type { MerchantAccountSessionsCreateInput } from '../declarations/MerchantAccountSessionsCreateInput.js';
-import type { MerchantAccountSessionsCreateResponse } from '../declarations/MerchantAccountSessionsCreateResponse.js';
-import type { MerchantAccountSessionsRefreshInput } from '../declarations/MerchantAccountSessionsRefreshInput.js';
-import type { MerchantAccountSessionsRefreshResponse } from '../declarations/MerchantAccountSessionsRefreshResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    MerchantAccountSession,
+    MerchantAccountSessionCreateRequestInput,
+    MerchantAccountSessionRefreshRequestInput,
+    MerchantAccountSessionResponse,
+    MerchantAccountSessionsCreateInput,
+    MerchantAccountSessionsRefreshInput
+} from '../declarations/types-30.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type {
+    MerchantAccountSessionCreateRequestInput,
+    MerchantAccountSession,
+    MerchantAccountSessionResponse,
+    MerchantAccountSessionRefreshRequestInput,
+    MerchantAccountSessionsCreateInput,
+    MerchantAccountSessionsRefreshInput,
+    MerchantAccountSessionClientSession,
+    MerchantAccountSessionStripe,
+    MerchantAccountSessionStripeComponent,
+    MerchantAccountSessionStripeCollectionOptions,
+    MerchantAccountSessionStripeRequirements,
+    MerchantAccountSessionEffectivePolicy,
+    MerchantAccountSessionRefreshRequest
+} from '../declarations/types-30.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { DisputeResponseSessionStripeAccountSession } from '../declarations/types-16.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export {
+    makeMerchantAccountSessionCreateRequest,
+    makeMerchantAccountSessionRefreshRequest,
+    makeMoneyValue
+} from '../declarations/types-68.js';
 export interface MerchantAccountSessionsResource {
     /**
- * Creates an embedded browser handoff for one or more allowlisted account components. An onboarding session is limited to the merchant's default sandbox unless sandbox_id in the JSON body names another sandbox of the same merchant. Live onboarding requires a live API key.
+ * Creates an embedded browser handoff for one or more allowlisted account components. An
+ * onboarding session is limited to the merchant's default sandbox unless sandbox_id in the JSON
+ * body names another sandbox of the same merchant. Live onboarding requires a live API key. A
+ * completed retry with the same Idempotency-Key creates a fresh launch session instead of
+ * replaying a prior client secret.
+ * @see reference/merchantAccountSessions.md#merchantaccountsessionscreate
  * POST /v1/merchant-account-sessions
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.merchantAccountSessions.create({components: ["account_onboarding"]}, { idempotencyKey: idempotencyKey })
+ * client.merchantAccountSessions.create({components: ["account_onboarding"]}, { idempotencyKey:
+ * idempotencyKey })
  */
-    create(params: (InputValue<{ "collection_strategy"?: "upfront" | "incremental"; "components": Array<"account_onboarding" | "account_management" | "payouts" | "balances" | "tax_documents" | "notification_banner">; "future_requirements"?: "omit" | "include"; "sandbox_id"?: string; "targeted_requirement_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<MerchantAccountSessionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "collection_strategy"?: "upfront" | "incremental"; "components": Array<"account_onboarding" | "account_management" | "payouts" | "balances" | "tax_documents" | "notification_banner">; "future_requirements"?: "omit" | "include"; "sandbox_id"?: string; "targeted_requirement_ids"?: Array<string>; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionsCreateResponse>>;
+    create(params: (InputValue<MerchantAccountSessionCreateRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<MerchantAccountSession>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/merchantAccountSessions.md#merchantaccountsessionscreate
+     */
+    createWithResponse(params: (InputValue<MerchantAccountSessionCreateRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionResponse>>;
     /**
- * Creates a fresh provider session from a signed launch token after rechecking the authenticated principal, merchant environment, account controller, and component grant. An onboarding session can refresh only sandbox launch tokens created by the same user with an onboarding session. The sandbox is pinned by the launch token, using the merchant's default sandbox unless sandbox_id named another sandbox of the same merchant at creation. Live onboarding requires a live API key, and refresh requires the same API key that created the launch token.
+ * Creates a fresh provider session from a signed launch token after rechecking the authenticated
+ * principal, merchant environment, account controller, and component grant. An onboarding session
+ * can refresh only sandbox launch tokens created by the same user with an onboarding session. The
+ * sandbox is pinned by the launch token, using the merchant's default sandbox unless sandbox_id
+ * named another sandbox of the same merchant at creation. Live onboarding requires a live API key,
+ * and refresh requires the same API key that created the launch token. A completed retry with the
+ * same Idempotency-Key creates a fresh launch session instead of replaying a prior client secret.
+ * @see reference/merchantAccountSessions.md#merchantaccountsessionsrefresh
  * POST /v1/merchant-account-sessions/refresh
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.merchantAccountSessions.refresh({launch_token: "example"}, { idempotencyKey: idempotencyKey })
+ * client.merchantAccountSessions.refresh({launch_token: "example"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    refresh(params: (InputValue<{ "launch_token": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<_SdkPayloadAt<MerchantAccountSessionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    refreshWithResponse(params: (InputValue<{ "launch_token": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionsRefreshResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly merchantAccountSessions: MerchantAccountSessionsResource;
+    refresh(params: (InputValue<MerchantAccountSessionRefreshRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<MerchantAccountSession>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/merchantAccountSessions.md#merchantaccountsessionsrefresh
+     */
+    refreshWithResponse(params: (InputValue<MerchantAccountSessionRefreshRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<MerchantAccountSessionResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { MerchantAccountSessionResponse } from '../declarations/MerchantAccountSessionResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { MerchantAccountSessionsCreateResponse } from '../declarations/MerchantAccountSessionsCreateResponse.js';
-export type { MerchantAccountSessionsRefreshResponse } from '../declarations/MerchantAccountSessionsRefreshResponse.js';
-export type { MerchantAccountSessionsCreateInput } from '../declarations/MerchantAccountSessionsCreateInput.js';
-export type { MerchantAccountSessionsRefreshInput } from '../declarations/MerchantAccountSessionsRefreshInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { MerchantAccountSession } from '../declarations/MerchantAccountSession.js';
-export type { MerchantAccountSessionClientSession } from '../declarations/MerchantAccountSessionClientSession.js';
-export type { MerchantAccountSessionStripe } from '../declarations/MerchantAccountSessionStripe.js';
-export type { MerchantAccountSessionStripeAccountSession } from '../declarations/MerchantAccountSessionStripeAccountSession.js';
-export type { MerchantAccountSessionStripeComponent } from '../declarations/MerchantAccountSessionStripeComponent.js';
-export type { MerchantAccountSessionStripeCollectionOptions } from '../declarations/MerchantAccountSessionStripeCollectionOptions.js';
-export type { MerchantAccountSessionStripeRequirements } from '../declarations/MerchantAccountSessionStripeRequirements.js';
-export type { MerchantAccountSessionEffectivePolicy } from '../declarations/MerchantAccountSessionEffectivePolicy.js';
-export type { OnboardingRequirements } from '../declarations/OnboardingRequirements.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { MerchantAccountSessionCreateRequestInput } from '../declarations/MerchantAccountSessionCreateRequestInput.js';
-export type { MerchantAccountSessionRefreshRequestInput } from '../declarations/MerchantAccountSessionRefreshRequestInput.js';
-export { makeMerchantAccountSessionResponse } from '../declarations/makeMerchantAccountSessionResponse.js';
-export { makeMerchantAccountSession } from '../declarations/makeMerchantAccountSession.js';
-export { makeMerchantAccountSessionClientSession } from '../declarations/makeMerchantAccountSessionClientSession.js';
-export { makeMerchantAccountSessionStripe } from '../declarations/makeMerchantAccountSessionStripe.js';
-export { makeMerchantAccountSessionStripeAccountSession } from '../declarations/makeMerchantAccountSessionStripeAccountSession.js';
-export { makeMerchantAccountSessionStripeComponent } from '../declarations/makeMerchantAccountSessionStripeComponent.js';
-export { makeMerchantAccountSessionStripeCollectionOptions } from '../declarations/makeMerchantAccountSessionStripeCollectionOptions.js';
-export { makeMerchantAccountSessionStripeRequirements } from '../declarations/makeMerchantAccountSessionStripeRequirements.js';
-export { makeMerchantAccountSessionEffectivePolicy } from '../declarations/makeMerchantAccountSessionEffectivePolicy.js';
-export { makeOnboardingRequirements } from '../declarations/makeOnboardingRequirements.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly merchantAccountSessions: MerchantAccountSessionsResource;
+}

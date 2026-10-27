@@ -1,0 +1,1 @@
+{"shared":"CheckoutBuyerFields","phpRepresentation":{"kind":"record","fields":{"address_autocomplete_enabled":{"kind":"value","type":"bool"},"require_billing_address":{"kind":"value","type":"bool"},"require_email":{"kind":"value","type":"bool"},"require_phone":{"kind":"value","type":"bool"}}},"dependencies":["CheckoutBuyerFields"]}

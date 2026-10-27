@@ -1,1 +1,1 @@
-{"shared":"AnalyticsOverview","dependencies":["AnalyticsOverview","CountMetric","MoneyMetric","SignedMoney"]}
+{"shared":"AnalyticsOverview","dependencies":["AnalyticsOverview","MoneyValue"]}

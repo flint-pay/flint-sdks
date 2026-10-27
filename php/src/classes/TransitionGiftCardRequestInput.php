@@ -7,19 +7,22 @@ namespace Flint;
  * @property-read string $reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class TransitionGiftCardRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'action': string, 'expected_version'?: string, 'reason': string}|object|array{'action': string, 'expected_version'?: string, 'reason'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TransitionGiftCardRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "freeze", "unfreeze", "close".
+     * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
     public function getAction(): string { return $this->get('action'); }
     public function hasAction(): bool { return $this->has('action'); }
-    /** @return string
+    /** Shape $ (Value): integer string. The gift card version last read. The command changes this card only when its current version matches. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "suspicious_activity", "customer_request", "support_issue".
+     * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }

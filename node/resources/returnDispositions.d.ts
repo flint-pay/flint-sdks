@@ -1,114 +1,288 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { CancelReturnDispositionResponse } from '../declarations/CancelReturnDispositionResponse.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { GetReturnDispositionResponse } from '../declarations/GetReturnDispositionResponse.js';
-import type { ListReturnDispositionsResponse } from '../declarations/ListReturnDispositionsResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { RetryReturnDispositionResponse } from '../declarations/RetryReturnDispositionResponse.js';
-import type { ReturnDisposition } from '../declarations/ReturnDisposition.js';
-import type { ReturnDispositionsCancelInput } from '../declarations/ReturnDispositionsCancelInput.js';
-import type { ReturnDispositionsCancelResponse } from '../declarations/ReturnDispositionsCancelResponse.js';
-import type { ReturnDispositionsGetInput } from '../declarations/ReturnDispositionsGetInput.js';
-import type { ReturnDispositionsGetResponse } from '../declarations/ReturnDispositionsGetResponse.js';
-import type { ReturnDispositionsListInput } from '../declarations/ReturnDispositionsListInput.js';
-import type { ReturnDispositionsListResponse } from '../declarations/ReturnDispositionsListResponse.js';
-import type { ReturnDispositionsRetryInput } from '../declarations/ReturnDispositionsRetryInput.js';
-import type { ReturnDispositionsRetryResponse } from '../declarations/ReturnDispositionsRetryResponse.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { CancelReturnDispositionRequestInput } from '../declarations/types-3.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { GetReturnDispositionResponse } from '../declarations/types-18.js';
+import type { ListReturnDispositionsResponse } from '../declarations/types-28.js';
+import type {
+    RequestOptions,
+    RetryReturnDispositionRequestInput,
+    ReturnDisposition,
+    ReturnDispositionsCancelInput,
+    ReturnDispositionsGetInput,
+    ReturnDispositionsListInput,
+    ReturnDispositionsRetryInput
+} from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CancelReturnDispositionRequestInput } from '../declarations/types-3.js';
+export type {
+    RequestOptions,
+    ReturnDisposition,
+    RetryReturnDispositionRequestInput,
+    ReturnDispositionsCancelInput,
+    ReturnDispositionsGetInput,
+    ReturnDispositionsListInput,
+    ReturnDispositionsRetryInput,
+    ReturnActor,
+    ResponseMeta,
+    ResponseWarning
+} from '../declarations/types-40.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { GetReturnDispositionResponse } from '../declarations/types-18.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ListReturnDispositionsResponse } from '../declarations/types-28.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeCancelReturnDispositionRequest } from '../declarations/types-62.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeRetryReturnDispositionRequest } from '../declarations/types-70.js';
 export interface ReturnDispositionsResource {
     /**
- * Cancel a disposition that has not started its inventory effect. Cancellation is refused once the effect is processing.
+ * Cancel a disposition that has not started its inventory effect. Cancellation is refused once the
+ * effect is processing.
+ * @see reference/returnDispositions.md#returndispositionscancel
  * POST /v1/return-dispositions/{return_disposition_id}/cancel
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnDispositions.cancel("example", {reason: "created_in_error"}, { idempotencyKey: idempotencyKey })
+ * client.returnDispositions.cancel("example", {reason: "created_in_error"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    cancel(return_disposition_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CancelReturnDispositionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    cancelWithResponse(return_disposition_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "created_in_error" | "changed_disposition" | "duplicate" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnDispositionsCancelResponse>>;
+    cancel(return_disposition_id: InputValue<string>, params: (InputValue<CancelReturnDispositionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnDisposition>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnDispositions.md#returndispositionscancel
+     */
+    cancelWithResponse(return_disposition_id: InputValue<string>, params: (InputValue<CancelReturnDispositionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnDispositionResponse>>;
     /**
- * Retrieve one disposition with its type, destination, quantity, status, and any linked inventory effect.
+ * Retrieve one disposition with its type, destination, quantity, status, and any linked inventory
+ * effect.
+ * @see reference/returnDispositions.md#returndispositionsget
  * GET /v1/return-dispositions/{return_disposition_id}
  * @example
  * client.returnDispositions.get("example")
  */
-    get(return_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnDispositionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(return_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnDispositionsGetResponse>>;
+    get(return_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnDisposition>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnDispositions.md#returndispositionsget
+     */
+    getWithResponse(return_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnDispositionResponse>>;
     /**
- * List merchandise dispositions. Omitting return_id lists dispositions across every Return for the merchant.
+ * List merchandise dispositions. Omitting return_id lists dispositions across every Return for the
+ * merchant. Newest first: created_at descending, with return_disposition_id descending as the
+ * tiebreak.
+ * @see reference/returnDispositions.md#returndispositionslist
  * GET /v1/return-dispositions
  * @example
  * client.returnDispositions.list()
  */
-    list(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "disposition_type"?: InputValue<"sellable" | "quality_control" | "damaged" | "quarantined" | "repair" | "refurbish" | "liquidate" | "donate" | "discard" | "return_to_buyer" | "lost">; "external_reference_id"?: InputValue<string>; "inventory_location_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "replaces_return_disposition_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_inspection_line_item_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_line_item_id"?: InputValue<string>; "status"?: InputValue<"pending" | "succeeded" | "failed" | "canceled">; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnDispositionsResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "disposition_type"?: InputValue<"sellable" | "quality_control" | "damaged" | "quarantined" | "repair" | "refurbish" | "liquidate" | "donate" | "discard" | "return_to_buyer" | "lost">; "external_reference_id"?: InputValue<string>; "inventory_location_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "replaces_return_disposition_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_inspection_line_item_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_line_item_id"?: InputValue<string>; "status"?: InputValue<"pending" | "succeeded" | "failed" | "canceled">; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnDispositionsListResponse>>;
-    listPages(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "disposition_type"?: InputValue<"sellable" | "quality_control" | "damaged" | "quarantined" | "repair" | "refurbish" | "liquidate" | "donate" | "discard" | "return_to_buyer" | "lost">; "external_reference_id"?: InputValue<string>; "inventory_location_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "replaces_return_disposition_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_inspection_line_item_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_line_item_id"?: InputValue<string>; "status"?: InputValue<"pending" | "succeeded" | "failed" | "canceled">; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnDispositionsResponse>;
-    listPagesWithResponse(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "disposition_type"?: InputValue<"sellable" | "quality_control" | "damaged" | "quarantined" | "repair" | "refurbish" | "liquidate" | "donate" | "discard" | "return_to_buyer" | "lost">; "external_reference_id"?: InputValue<string>; "inventory_location_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "replaces_return_disposition_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_inspection_line_item_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_line_item_id"?: InputValue<string>; "status"?: InputValue<"pending" | "succeeded" | "failed" | "canceled">; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnDispositionsListResponse>>;
-    listItems(params?: { "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "disposition_type"?: InputValue<"sellable" | "quality_control" | "damaged" | "quarantined" | "repair" | "refurbish" | "liquidate" | "donate" | "discard" | "return_to_buyer" | "lost">; "external_reference_id"?: InputValue<string>; "inventory_location_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "replaces_return_disposition_id"?: InputValue<string>; "return_id"?: InputValue<string>; "return_inspection_line_item_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_line_item_id"?: InputValue<string>; "status"?: InputValue<"pending" | "succeeded" | "failed" | "canceled">; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnDisposition>;
+    list(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "disposition_type"?: InputValue<Array<"sellable"
+            | "quality_control"
+            | "damaged"
+            | "quarantined"
+            | "repair"
+            | "refurbish"
+            | "liquidate"
+            | "donate"
+            | "discard"
+            | "return_to_buyer"
+            | "lost">>;
+        "external_reference_id"?: InputValue<string>;
+        "inventory_location_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "replaces_return_disposition_id"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_inspection_line_item_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_line_item_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed" | "canceled">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnDispositionsResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnDispositions.md#returndispositionslist
+     */
+    listWithResponse(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "disposition_type"?: InputValue<Array<"sellable"
+            | "quality_control"
+            | "damaged"
+            | "quarantined"
+            | "repair"
+            | "refurbish"
+            | "liquidate"
+            | "donate"
+            | "discard"
+            | "return_to_buyer"
+            | "lost">>;
+        "external_reference_id"?: InputValue<string>;
+        "inventory_location_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "replaces_return_disposition_id"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_inspection_line_item_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_line_item_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed" | "canceled">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnDispositionsResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/returnDispositions.md#returndispositionslist
+     */
+    listPages(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "disposition_type"?: InputValue<Array<"sellable"
+            | "quality_control"
+            | "damaged"
+            | "quarantined"
+            | "repair"
+            | "refurbish"
+            | "liquidate"
+            | "donate"
+            | "discard"
+            | "return_to_buyer"
+            | "lost">>;
+        "external_reference_id"?: InputValue<string>;
+        "inventory_location_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "replaces_return_disposition_id"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_inspection_line_item_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_line_item_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed" | "canceled">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnDispositionsResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/returnDispositions.md#returndispositionslist
+     */
+    listPagesWithResponse(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "disposition_type"?: InputValue<Array<"sellable"
+            | "quality_control"
+            | "damaged"
+            | "quarantined"
+            | "repair"
+            | "refurbish"
+            | "liquidate"
+            | "donate"
+            | "discard"
+            | "return_to_buyer"
+            | "lost">>;
+        "external_reference_id"?: InputValue<string>;
+        "inventory_location_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "replaces_return_disposition_id"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_inspection_line_item_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_line_item_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed" | "canceled">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnDispositionsResponse>>;
+    /** Iterate items lazily.
+     * @see reference/returnDispositions.md#returndispositionslist
+     */
+    listItems(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "disposition_type"?: InputValue<Array<"sellable"
+            | "quality_control"
+            | "damaged"
+            | "quarantined"
+            | "repair"
+            | "refurbish"
+            | "liquidate"
+            | "donate"
+            | "discard"
+            | "return_to_buyer"
+            | "lost">>;
+        "external_reference_id"?: InputValue<string>;
+        "inventory_location_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "replaces_return_disposition_id"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_inspection_line_item_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_line_item_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed" | "canceled">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnDisposition>;
     /**
- * Retry a failed disposition with the same immutable intent. Disposition and effect identities are preserved, so a retry does not move stock twice.
+ * Retry a failed disposition with the same immutable intent. Disposition and effect identities are
+ * preserved, so a retry does not move stock twice.
+ * @see reference/returnDispositions.md#returndispositionsretry
  * POST /v1/return-dispositions/{return_disposition_id}/retry
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnDispositions.retry("example", {reason: "dependency_recovered"}, { idempotencyKey: idempotencyKey })
+ * client.returnDispositions.retry("example", {reason: "dependency_recovered"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    retry(return_disposition_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "dependency_recovered" | "mapping_corrected" | "operator_retry" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RetryReturnDispositionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    retryWithResponse(return_disposition_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "reason": "dependency_recovered" | "mapping_corrected" | "operator_retry" | "other"; "reason_message"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnDispositionsRetryResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly returnDispositions: ReturnDispositionsResource;
+    retry(return_disposition_id: InputValue<string>, params: (InputValue<RetryReturnDispositionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnDisposition>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnDispositions.md#returndispositionsretry
+     */
+    retryWithResponse(return_disposition_id: InputValue<string>, params: (InputValue<RetryReturnDispositionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnDispositionResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CancelReturnDispositionResponse } from '../declarations/CancelReturnDispositionResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { ReturnDispositionsCancelResponse } from '../declarations/ReturnDispositionsCancelResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { GetReturnDispositionResponse } from '../declarations/GetReturnDispositionResponse.js';
-export type { ReturnDispositionsGetResponse } from '../declarations/ReturnDispositionsGetResponse.js';
-export type { ListReturnDispositionsResponse } from '../declarations/ListReturnDispositionsResponse.js';
-export type { ReturnDispositionsListResponse } from '../declarations/ReturnDispositionsListResponse.js';
-export type { ReturnDisposition } from '../declarations/ReturnDisposition.js';
-export type { RetryReturnDispositionResponse } from '../declarations/RetryReturnDispositionResponse.js';
-export type { ReturnDispositionsRetryResponse } from '../declarations/ReturnDispositionsRetryResponse.js';
-export type { ReturnDispositionsCancelInput } from '../declarations/ReturnDispositionsCancelInput.js';
-export type { ReturnDispositionsGetInput } from '../declarations/ReturnDispositionsGetInput.js';
-export type { ReturnDispositionsListInput } from '../declarations/ReturnDispositionsListInput.js';
-export type { ReturnDispositionsRetryInput } from '../declarations/ReturnDispositionsRetryInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { CreateReturnDispositionResponse } from '../declarations/CreateReturnDispositionResponse.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { ReturnActor } from '../declarations/ReturnActor.js';
-export type { CancelReturnDispositionRequestInput } from '../declarations/CancelReturnDispositionRequestInput.js';
-export type { RetryReturnDispositionRequestInput } from '../declarations/RetryReturnDispositionRequestInput.js';
-export { makeCancelReturnDispositionResponse } from '../declarations/makeCancelReturnDispositionResponse.js';
-export { makeGetReturnDispositionResponse } from '../declarations/makeGetReturnDispositionResponse.js';
-export { makeListReturnDispositionsResponse } from '../declarations/makeListReturnDispositionsResponse.js';
-export { makeReturnDisposition } from '../declarations/makeReturnDisposition.js';
-export { makeRetryReturnDispositionResponse } from '../declarations/makeRetryReturnDispositionResponse.js';
-export { makeCreateReturnDispositionResponse } from '../declarations/makeCreateReturnDispositionResponse.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeReturnActor } from '../declarations/makeReturnActor.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly returnDispositions: ReturnDispositionsResource;
+}

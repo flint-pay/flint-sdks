@@ -2,350 +2,78 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $blocking_resource_count
- * @property-read list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass> $blocking_resources
- * @property-read string $capability
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $capturable_money
  * @property-read string $code
- * @property-read list<CheckoutSessionRevisionConflictDetailInput|array<array-key, mixed>|\stdClass> $conflict_details
- * @property-read list<string> $conflicting_fields
- * @property-read string $current_checkout_session_id
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $current_money
- * @property-read array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object|array{'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object|array{'carrier'?: string, 'dimensions'?: ShippingDimensionsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'external_system'?: string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'service_code'?: string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: ShippingWeightInput|array<array-key, mixed>|\stdClass, ...}|object $current_resource
- * @property-read string $current_selection_id
- * @property-read string $current_status
- * @property-read string $current_version
- * @property-read string $delivery_method_id
  * @property-read list<ErrorDetailInput|array<array-key, mixed>|\stdClass> $details
  * @property-read string $doc_url
  * @property-read string $error_source
- * @property-read string $existing_checkout_session_id
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_attempt_outstanding_money
- * @property-read string $failure_category
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $gap_money
- * @property-read string $invoice_payment_attempt_id
- * @property-read bool $is_resumable
- * @property-read string $limit
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $maximum_money
  * @property-read string $message
- * @property-read list<string> $missing_scopes
- * @property-read string $order_charge_id
- * @property-read string $order_line_item_id
- * @property-read string $order_payment_attempt_id
  * @property-read string $param
- * @property-read string $payment_attempt_status
- * @property-read list<string> $payment_intent_ids
- * @property-read string $payment_option
- * @property-read string|\DateTimeInterface $payout_terms_expires_at
- * @property-read string|\DateTimeInterface $previous_key_expires_at
- * @property-read string $product_id
- * @property-read QuotaDetailsInput|array<array-key, mixed>|\stdClass $quota
- * @property-read string $reason
- * @property-read ErrorRemediationInput|array<array-key, mixed>|\stdClass $remediation
+ * @property-read array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null $remediation
  * @property-read string $request_id
  * @property-read string $request_log_url
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $required_money
- * @property-read string $return_resolution_id
- * @property-read ScopeRequirementInput|array<array-key, mixed>|\stdClass $scope_requirement
- * @property-read list<SelectableMerchantInput|array<array-key, mixed>|\stdClass> $selectable_merchants
- * @property-read list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass> $selectable_payment_intents
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $submitted_money
- * @property-read string $subscription_delivery_migration_id
- * @property-read string $subscription_offer_id
- * @property-read string $subscription_plan_line_item_id
- * @property-read list<string> $supported_actions
- * @property-read string $surface
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tip_capable_money
  * @property-read string $type
- * @property-read string $unavailable_reason
- * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ErrorObjectInput extends Model {
-    /** @param array{'blocking_resource_count'?: string, 'blocking_resources'?: list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass>, 'capability'?: string, 'capturable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'code': string, 'conflict_details'?: list<CheckoutSessionRevisionConflictDetailInput|array<array-key, mixed>|\stdClass>, 'conflicting_fields'?: list<string>, 'current_checkout_session_id'?: string, 'current_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'current_resource'?: array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object|array{'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object|array{'carrier'?: string, 'dimensions'?: ShippingDimensionsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'external_system'?: string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'service_code'?: string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: ShippingWeightInput|array<array-key, mixed>|\stdClass, ...}|object, 'current_selection_id'?: string, 'current_status'?: string, 'current_version'?: string, 'delivery_method_id'?: string, 'details'?: list<ErrorDetailInput|array<array-key, mixed>|\stdClass>, 'doc_url': string, 'error_source': string, 'existing_checkout_session_id'?: string, 'expected_attempt_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_category'?: string, 'gap_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_payment_attempt_id'?: string, 'is_resumable'?: bool, 'limit'?: string, 'maximum_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'message': string, 'missing_scopes'?: list<string>, 'order_charge_id'?: string, 'order_line_item_id'?: string, 'order_payment_attempt_id'?: string, 'param'?: string, 'payment_attempt_status'?: string, 'payment_intent_ids'?: list<string>, 'payment_option'?: string, 'payout_terms_expires_at'?: string|\DateTimeInterface, 'previous_key_expires_at'?: string|\DateTimeInterface, 'product_id'?: string, 'quota'?: QuotaDetailsInput|array<array-key, mixed>|\stdClass, 'reason'?: string, 'remediation'?: ErrorRemediationInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, 'request_log_url'?: string, 'required_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'return_resolution_id'?: string, 'scope_requirement'?: ScopeRequirementInput|array<array-key, mixed>|\stdClass, 'selectable_merchants'?: list<SelectableMerchantInput|array<array-key, mixed>|\stdClass>, 'selectable_payment_intents'?: list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'submitted_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'subscription_delivery_migration_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'supported_actions'?: list<string>, 'surface'?: string, 'tip_capable_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unavailable_reason'?: string, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'code': string, 'details'?: list<ErrorDetailInput|array<array-key, mixed>|\stdClass>, 'doc_url': string, 'error_source': string, 'message': string, 'param'?: string, 'remediation': array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null, 'request_id'?: string, 'request_log_url'?: string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorObjectInput')); }
-    /** @return string
-     * @throws SdkError When blocking_resource_count is omitted; use hasBlockingResourceCount() or valueOrDefault().
-     */
-    public function getBlockingResourceCount(): string { return $this->get('blocking_resource_count'); }
-    public function hasBlockingResourceCount(): bool { return $this->has('blocking_resource_count'); }
-    /** @return list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When blocking_resources is omitted; use hasBlockingResources() or valueOrDefault().
-     */
-    public function getBlockingResources(): array { return $this->get('blocking_resources'); }
-    public function hasBlockingResources(): bool { return $this->has('blocking_resources'); }
-    /** @return string
-     * @throws SdkError When capability is omitted; use hasCapability() or valueOrDefault().
-     */
-    public function getCapability(): string { return $this->get('capability'); }
-    public function hasCapability(): bool { return $this->has('capability'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When capturable_money is omitted; use hasCapturableMoney() or valueOrDefault().
-     */
-    public function getCapturableMoney(): mixed { return $this->get('capturable_money'); }
-    public function hasCapturableMoney(): bool { return $this->has('capturable_money'); }
-    /** @return string
+    /** Shape $ (Value): string. Stable Flint error code. Each operation lists its codes in x-flint-error-codes, and each error response lists the codes it can carry at that status. Value enum: "ACCESS_LINK_CUSTOMER_REQUIRED", "ACCESS_LINK_MERCHANT_HOSTED", "ACCOUNT_SETUP_CONFIGURATION_CONFLICT", "ACCOUNT_SETUP_REPAIR_REQUIRED", "ACCOUNT_SETUP_UNAVAILABLE", "ACH_TRANSACTION_PURPOSE_UNRESOLVED", "ACTION_NOT_ALLOWED", "ACTIVE_DEMO_SESSION_EXISTS", "ACTIVE_LINE_ITEM_SOURCE_CHANGE", "ACTIVE_OPTION_SELECTOR_COLLAPSE", "AFFIRM_REFUND_RETRY_NOT_ALLOWED", "ALREADY_EXISTS", "AMOUNT_EXCEEDS_BALANCE", "AMOUNT_EXCEEDS_REFUNDABLE", "AMOUNT_MISMATCH", "AMOUNT_NOT_ADJUSTABLE", "API_KEY_ALREADY_REVOKED", "API_KEY_CHANGED", "API_VERSION_RETIRED", "AUTHENTICATION_REQUIRED", "AUTOMATIC_PAYOUT_NOT_CANCELABLE", "AUTOMATIC_PROMOTIONS_DISABLED", "AUTOMATIC_TAX_CONNECTION_REQUIRED", "AUTOMATIC_TAX_ORIGIN_ADDRESS_REQUIRED", "AUTOMATIC_TAX_UNAVAILABLE", "BILLING_INTERVAL_CHANGE_NOT_ALLOWED", "BUNDLE_COMPONENT_PRODUCT_NOT_ACTIVE", "BUNDLE_COMPONENT_VARIANT_NOT_ACTIVE", "BUNDLE_NOT_SELLABLE", "CANCEL_IMMEDIATELY_NOT_ALLOWED", "CAPABILITIES_IMMUTABLE", "CAPABILITY_NOT_REQUESTED", "CAPTURE_AMOUNT_EXCEEDS_CAPTURABLE", "CATALOG_INVENTORY_RELATIONSHIP_INVALID", "CATALOG_LINE_ITEM_CURRENCY_CHANGED", "CATALOG_LINE_ITEM_SOURCE_CHANGED", "CHECKOUT_CREDENTIAL_CHANGED", "CHECKOUT_CUSTOMER_ALREADY_AUTHORIZED", "CHECKOUT_CUSTOMER_CHANGED", "CHECKOUT_SESSION_CURRENT_CHANGED", "CHECKOUT_SESSION_EXPIRED", "CHECKOUT_SESSION_MODIFIERS_READ_ONLY", "CHECKOUT_SESSION_NOT_OPEN", "CHECKOUT_SESSION_SCOPE_MISMATCH", "CHECKOUT_SPLIT_PAYMENT_UNSUPPORTED", "CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED", "CHECKOUT_TAX_CALCULATION_LIMIT_REACHED", "CONCURRENT_MODIFICATION", "CONFIRMATION_TOKEN_ALREADY_USED", "CONFIRMATION_TOKEN_EXPIRED", "COUNTRY_IMMUTABLE", "CREDIT_NOTE_ALLOCATION_ALREADY_REVERSED", "CREDIT_NOTE_ALLOCATION_EXCEEDS_BALANCE", "CREDIT_NOTE_AMOUNT_EXCEEDS_CREDITABLE", "CREDIT_NOTE_ISSUE_IN_PROGRESS", "CREDIT_NOTE_NOT_DRAFT", "CREDIT_NOTE_NOT_ISSUED", "CREDIT_NOTE_REFUND_EXCEEDS_BALANCE", "CUSTOMER_DELETION_ALREADY_APPROVED", "CUSTOMER_DELETION_BLOCKED", "CUSTOMER_DELETION_PROCESSING", "CUSTOMER_DELETION_REQUEST_NOT_PENDING", "CUSTOMER_DELETION_STATE_CHANGED", "CUSTOMER_EMAIL_BUYER_MANAGED", "CUSTOMER_EMAIL_REQUIRED", "CUSTOMER_PAYMENT_TERM_UNAVAILABLE", "CUSTOMER_VERIFICATION_ALREADY_CONFIRMED", "CUSTOMER_VERIFICATION_ATTEMPTS_EXHAUSTED", "CUSTOMER_VERIFICATION_EMAIL_CHANGED", "CUSTOMER_VERIFICATION_EXPIRED", "CUSTOMER_VERIFICATION_LIMIT_REACHED", "CUSTOMER_VERIFICATION_NOT_CONFIRMED", "CUSTOMER_VERIFICATION_NOT_OFFERED", "CUSTOMER_VERIFICATION_NOT_SENT", "CUSTOMER_VERIFICATION_TEXT_UNAVAILABLE", "CUSTOMER_VERIFICATION_USED", "CUSTOM_DOMAIN_NOT_VERIFIED", "CUSTOM_DOMAIN_SUBSCRIPTION_REQUIRED", "CUSTOM_DOMAIN_UNAVAILABLE", "DEFAULT_ENVIRONMENT_REQUIRED", "DEFAULT_PAYMENT_METHOD_CONFLICT", "DEFAULT_PAYOUT_DESTINATIONS_MANAGED_EXTERNALLY", "DEFAULT_PAYOUT_DESTINATION_INVALID", "DEFAULT_PAYOUT_DESTINATION_REPLACEMENT_REQUIRED", "DEFAULT_PAYOUT_DESTINATION_REQUIRED", "DEFAULT_SANDBOX_CANNOT_BE_ARCHIVED", "DEFAULT_SANDBOX_CANNOT_BE_RESET", "DELIVERY_CALCULATION_EXPIRED", "DELIVERY_COMMERCE_TREATMENT_UNSUPPORTED", "DELIVERY_DEPENDENCY_REVOKED", "DELIVERY_DESTINATION_CONTROLLED_BY_SELECTION", "DELIVERY_DESTINATION_FROZEN", "DELIVERY_ELIGIBILITY_CONTEXT_CHANGED", "DELIVERY_EXTERNAL_REFERENCE_REUSED", "DELIVERY_GROUPING_UNSUPPORTED", "DELIVERY_OPTION_ALREADY_SELECTED", "DELIVERY_OPTION_EXPIRED", "DELIVERY_PICKUP_AVAILABILITY_CHANGED", "DELIVERY_PICKUP_LOCATION_UNAVAILABLE", "DELIVERY_PREVIEW_REQUIRES_CHECKOUT", "DELIVERY_QUOTE_BASIS_INVALID", "DELIVERY_QUOTE_EXPIRED", "DELIVERY_QUOTE_INCOMPLETE", "DELIVERY_QUOTE_INPUT_CHANGED", "DELIVERY_QUOTE_REVOKED", "DELIVERY_QUOTE_STALE", "DELIVERY_RATE_CALLBACK_SECRET_ROTATION_OVERLAP_ACTIVE", "DELIVERY_REQUOTE_REQUIRED", "DELIVERY_RESOURCE_VERSION_CONFLICT", "DELIVERY_SELECTION_CHANGED", "DELIVERY_SELECTION_EXPIRED", "DELIVERY_SELECTION_NOT_MUTABLE_AFTER_PAYMENT", "DELIVERY_SELECTION_REPLACEMENT_LIMIT_REACHED", "DELIVERY_STATE_CONFLICT", "DELIVERY_UPDATE_NOT_ALLOWED", "DELIVERY_WINDOW_EXPIRED", "DEMO_SESSION_NOT_CURRENT", "DEMO_SESSION_SECRET_REPLAY_EXPIRED", "DEVICE_ARCHIVED", "DEVICE_LOCATION_MISMATCH", "DISCOUNT_NOT_REMOVABLE", "DUPLICATE_CODE", "EMAIL_ALREADY_LINKED", "EMAIL_CHANGE_ALREADY_CONFIRMED", "EMAIL_CHANGE_ATTEMPTS_EXHAUSTED", "EMAIL_CHANGE_CONFIRMATION_EXPIRED", "EMAIL_CHANGE_SUPERSEDED", "EMAIL_PREFERENCE_LINK_INVALID", "EVENT_SOLD_OUT", "EVENT_TICKETS_INSUFFICIENT", "EXTERNAL_PAID_ORDER_ALLOWANCE_EXHAUSTED", "EXTERNAL_SERVICE_ERROR", "FILE_NOT_UPLOADED", "FLAT_TAX_PAYMENT_ATTRIBUTION_UNAVAILABLE", "FLAT_TAX_REFUND_STATE_INVALID", "FORBIDDEN", "FULFILLMENT_ACTIVE_SHIPMENT_EXECUTION", "FULFILLMENT_APPROVAL_REQUIRED", "FULFILLMENT_CHANGED", "FULFILLMENT_COMPLETED", "FULFILLMENT_COMPLETED_DETAILS_REPLACEMENT", "FULFILLMENT_COMPLETION_TIMESTAMP_REQUIRES_COMPLETE", "FULFILLMENT_CONFIGURATION_ACTION_REQUIRED", "FULFILLMENT_EVENT_DEDUPE_CONFLICT", "FULFILLMENT_EVENT_SUBJECT_INVALID", "FULFILLMENT_INACTIVE", "FULFILLMENT_METHOD_ASSIGNMENT_UNSATISFIABLE", "FULFILLMENT_METHOD_UNAVAILABLE", "FULFILLMENT_PROFILE_REVISION_UNUSABLE", "FULFILLMENT_PROFILE_UNAVAILABLE", "FULFILLMENT_QUANTITY_EXCEEDS_AVAILABLE", "FULFILLMENT_QUANTITY_EXCEEDS_LINE_ITEM", "FULFILLMENT_SELECTION_REQUIRED", "FULFILLMENT_SHIPMENT_NOT_VOIDABLE", "FULFILLMENT_STATUS_CONFLICT", "GIFT_CARD_ALLOCATION_CHANGED", "GIFT_CARD_BUYER_EMAIL_REQUIRED", "GIFT_CARD_CHALLENGE_REQUIRED", "GIFT_CARD_FUNDING_LIMIT_EXCEEDED", "GIFT_CARD_INSUFFICIENT_VALUE", "GIFT_CARD_PURCHASE_CONFLICT", "GIFT_CARD_PURCHASE_LIMIT_EXCEEDED", "GIFT_CARD_PURCHASE_REFUND_CONFLICT", "GIFT_CARD_REFUND_DESTINATION_REQUIRED", "GIFT_CARD_STATE_CONFLICT", "IDEMPOTENCY_KEY_IN_PROGRESS", "IDEMPOTENCY_KEY_REUSED", "IDEMPOTENCY_RECOVERY_REQUIRED", "IDENTITY_VERIFICATION_REQUIRED", "IMAGE_ASSET_NOT_ATTACHABLE", "IMAGE_INGESTION_EXPIRED", "IMAGE_INGESTION_IN_PROGRESS", "IMAGE_INGESTION_RESTART_REQUIRED", "IMAGE_NOT_ATTACHABLE", "IMAGE_OWNER_NOT_MUTABLE", "IMAGE_PROCESSING_CAPACITY_EXCEEDED", "IMAGE_PROCESSING_FAILED", "IMAGE_PROCESSING_TIMEOUT", "IMAGE_REVISION_MISMATCH", "IMAGE_SOURCE_TIMEOUT", "IMAGE_SOURCE_UNAVAILABLE", "IMAGE_STORAGE_QUOTA_EXCEEDED", "INITIAL_API_KEY_ALREADY_CREATED", "INSTANT_PAYOUTS_UNAVAILABLE", "INSUFFICIENT_AVAILABLE_BALANCE", "INSUFFICIENT_SCOPE", "INTERNAL_ERROR", "INVALID_CREDENTIAL", "INVALID_INVOICE_LATE_FEE_AMOUNT", "INVALID_MERCHANT_SELECTION", "INVALID_ORDER_STATUS", "INVALID_REQUEST", "INVALID_STATUS_TRANSITION", "INVALID_VALUE", "INVENTORY_COUNT_INCOMPLETE", "INVENTORY_INSUFFICIENT", "INVENTORY_ITEM_INACTIVE", "INVENTORY_ITEM_UNAVAILABLE", "INVENTORY_LOCATION_ALLOCATION_DISABLED", "INVENTORY_LOCATION_INELIGIBLE", "INVENTORY_POLICY_UNAVAILABLE", "INVENTORY_QUANTITY_CONFLICT", "INVENTORY_RECEIPT_CONFLICT", "INVENTORY_ROUTING_LOCATION_LIMIT_EXCEEDED", "INVENTORY_SHORTAGE", "INVENTORY_SOURCE_SEQUENCE_CHANGED", "INVENTORY_TRANSFER_LINE_CONFLICT", "INVENTORY_UNAVAILABLE", "INVOICE_AUTOPAY_PAYMENT_METHOD_REQUIRED", "INVOICE_BALANCE_CHANGED", "INVOICE_CHECKOUT_REPLACEMENT_NOT_ALLOWED", "INVOICE_COLLECTION_BLOCKED", "INVOICE_COLLECTION_CHANGED", "INVOICE_COLLECTION_MODE_UNSUPPORTED", "INVOICE_ISSUE_IN_PROGRESS", "INVOICE_LATE_FEE_NOT_COLLECTIBLE", "INVOICE_LATE_FEE_NOT_DUE", "INVOICE_LATE_FEE_POLICY_REQUIRED", "INVOICE_LINK_UNAVAILABLE", "INVOICE_LOCKED_ORDER_FINANCIALS", "INVOICE_NOT_COLLECTIBLE", "INVOICE_NOT_CREDITABLE", "INVOICE_NOT_DRAFT", "INVOICE_NOT_ISSUED", "INVOICE_NOT_MARKABLE_UNCOLLECTIBLE", "INVOICE_NOT_REVERSIBLE", "INVOICE_NOT_VOIDABLE", "INVOICE_PAYMENT_ALREADY_SETTLED", "INVOICE_PAYMENT_ATTEMPT_ACTIVE", "INVOICE_PAYMENT_NOT_APPLIED", "INVOICE_PAYMENT_PROCESSING", "INVOICE_PAYMENT_RESOLVING", "INVOICE_PAYMENT_TERM_CURRENCY_MISMATCH", "INVOICE_PAYMENT_TERM_UNAVAILABLE", "INVOICE_REMINDER_CHANGED", "INVOICE_SCHEDULE_ENTRY_NOT_COLLECTIBLE", "INVOICE_TAX_SNAPSHOT_MISSING", "INVOICE_TAX_SNAPSHOT_STALE", "ITEMS_REQUIRED", "LIMIT_EXCEEDED", "LIMIT_REACHED", "LINE_ITEM_REFUND_QUANTITY_EXCEEDS_REFUNDABLE", "LIST_RESERVED", "LOCATION_NOT_ACTIVE", "LOCATION_UNAVAILABLE", "MAX_COMPLETIONS_BELOW_COMPLETED", "MAX_TOTAL_QUANTITY_BELOW_SOLD", "MERCHANT_ACCOUNT_DOMAIN_NOT_VERIFIED", "MERCHANT_ACCOUNT_NOT_READY", "MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REPAIR_REQUIRED", "MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_REQUIRED", "MERCHANT_ACCOUNT_SESSION_ACCOUNT_SETUP_UNAVAILABLE", "MERCHANT_ACCOUNT_SESSION_CONTROLLER_MISMATCH", "MERCHANT_ACCOUNT_SESSION_INELIGIBLE", "MERCHANT_ACCOUNT_SESSION_PROVIDER_GRANT_MISMATCH", "MERCHANT_ACCOUNT_SESSION_TARGETED_REMEDIATION_UNAVAILABLE", "MERCHANT_ACCOUNT_SESSION_UNMAPPABLE_REQUIREMENT_ID", "MERCHANT_BILLING_SUSPENDED", "MERCHANT_NOT_READY", "MERCHANT_ONBOARDING_REQUIRED", "MERCHANT_PROCESSING_RESTRICTED", "MERCHANT_SELECTION_REQUIRED", "MERCHANT_UNDER_REVIEW", "METHOD_NOT_ALLOWED", "MODIFIER_GROUP_UNAVAILABLE", "MONEY_MOVEMENT_OPERATION_BLOCKED", "MONEY_MOVEMENT_PROVIDER_NOT_CONFIGURED", "MULTIPLE_IDENTITIES_FOUND", "NEW_ACCOUNT_PAYOUT_TERMS_ACTIVE", "NOTHING_TO_REFUND", "NOTHING_TO_REFUND_FOR_CHARGE", "NOTHING_TO_REFUND_FOR_LINE_ITEM", "NOTHING_TO_REFUND_FOR_TAX_BREAKDOWN", "NOT_ALLOWED", "NO_DISCOUNTABLE_BALANCE", "NO_PAYMENTS_FOR_ORDER", "ONBOARDING_CONTROLLER_VERSION_UNSUPPORTED", "ONBOARDING_PROFILE_PROVIDER_MANAGED", "OPERATION_IN_PROGRESS", "ORDER_ALREADY_HAS_ACTIVE_INVOICE", "ORDER_ALREADY_HAS_PAYMENTS", "ORDER_ALREADY_HAS_REFUNDS", "ORDER_ALREADY_PAID", "ORDER_CHANGED_REFRESH_REQUIRED", "ORDER_CHECKOUT_SESSION_CHANGED", "ORDER_COLLECTION_ALREADY_ACTIVE", "ORDER_COLLECTION_IN_PROGRESS", "ORDER_CONFLICT", "ORDER_CUSTOMER_ALREADY_SET", "ORDER_CUSTOMER_CHECKOUT_ACTIVE", "ORDER_CUSTOMER_NOT_UPDATABLE_AFTER_PAYMENT", "ORDER_DELIVERY_DESTINATION_REPRICE_REQUIRED", "ORDER_FINANCIAL_MUTATION_NOT_ALLOWED", "ORDER_HAS_ACTIVE_PAYMENT_INTENT", "ORDER_HAS_COLLECTED_MONEY", "ORDER_HAS_MANUAL_PAYMENTS", "ORDER_HAS_NO_LINE_ITEMS", "ORDER_HAS_NO_REFUNDABLE_CHARGES", "ORDER_HAS_NO_REFUNDABLE_LINE_ITEMS", "ORDER_HAS_OPEN_CHECKOUT", "ORDER_INVENTORY_EXCEPTION_NOT_RESOLVABLE", "ORDER_INVENTORY_EXCEPTION_UNRESOLVED", "ORDER_NOT_FULFILLABLE", "ORDER_NOT_OPEN", "ORDER_PAYMENT_ATTEMPT_ACTIVE", "ORDER_PAYMENT_CUSTOMER_MISMATCH", "ORDER_PAYMENT_INTENT_CREATE_IN_PROGRESS", "ORDER_PAYMENT_INTENT_CREATE_REQUIRES_REVIEW", "ORDER_PAYMENT_LEG_ALREADY_SETTLED", "ORDER_PAYMENT_LEG_CHECKOUT_ACTIVE", "ORDER_RECEIPT_EMAIL_ON_FILE", "ORDER_RECEIPT_EMAIL_UNAVAILABLE", "ORDER_RECEIPT_MERCHANT_MANAGED", "ORDER_RECEIPT_NOT_AVAILABLE", "ORDER_RECEIPT_RECIPIENT_LIMIT_REACHED", "ORDER_RECONCILIATION_REQUIRED", "ORDER_TAX_NOT_READY", "ORDER_TAX_NOT_UPDATABLE", "ORDER_TOTALS_UNAVAILABLE", "ORDER_TOTAL_BELOW_NET_COLLECTED", "ORGANIZATION_CYCLE", "ORGANIZATION_NOT_ACTIVE", "PACKAGE_CHANGED", "PACKAGE_PARENT_CHANGED", "PAID_LINE_ITEM_MODIFIER_CHANGE_FORBIDDEN", "PAID_LINE_ITEM_PRICE_CHANGE_FORBIDDEN", "PAID_LINE_ITEM_QUANTITY_CHANGE_FORBIDDEN", "PAID_LINE_ITEM_QUANTITY_DECREASE_FORBIDDEN", "PAID_LINE_ITEM_REMOVAL_FORBIDDEN", "PAID_LINE_ITEM_TAX_CHANGE_FORBIDDEN", "PAUSE_NOT_ALLOWED", "PAYMENT_ACTION_WINDOW_TOO_SHORT", "PAYMENT_ALREADY_SETTLED", "PAYMENT_AMOUNT_CHANGED", "PAYMENT_ATTEMPT_ACTIVE", "PAYMENT_ATTEMPT_MISMATCH", "PAYMENT_ATTEMPT_NOT_CANCELABLE", "PAYMENT_ATTEMPT_NOT_RESUMABLE", "PAYMENT_ATTEMPT_REQUIRES_CAPTURE", "PAYMENT_CONFIRMATION_STATE_CHANGED", "PAYMENT_CONFIRM_IN_PROGRESS", "PAYMENT_INTENT_DISPUTED", "PAYMENT_INTENT_LIMIT_REACHED", "PAYMENT_IN_PROGRESS", "PAYMENT_LEG_SELECTION_REQUIRED", "PAYMENT_LINK_CHANGED_RETRY", "PAYMENT_LINK_FULFILLMENT_UNAVAILABLE", "PAYMENT_LINK_INACTIVE", "PAYMENT_LINK_MAX_COMPLETIONS_REACHED", "PAYMENT_LINK_RESOLUTION_CONTEXT_REFRESH_REQUIRED", "PAYMENT_LINK_RESOLUTION_REPLAY_UNAVAILABLE", "PAYMENT_LINK_SALES_ENDED", "PAYMENT_METHOD_CUSTOMER_MISMATCH", "PAYMENT_METHOD_DOMAIN_OPERATION_IN_PROGRESS", "PAYMENT_METHOD_HAS_ACTIVE_SUBSCRIPTIONS", "PAYMENT_METHOD_NOT_ACTIVE", "PAYMENT_METHOD_NOT_READY", "PAYMENT_METHOD_ON_SESSION_ONLY", "PAYMENT_METHOD_REQUIRED", "PAYMENT_METHOD_SAVE_EMAIL_UNAVAILABLE", "PAYMENT_METHOD_SAVE_NOT_PENDING", "PAYMENT_METHOD_SAVE_NOT_READY", "PAYMENT_NOT_REQUIRED", "PAYMENT_OPERATION_IN_PROGRESS", "PAYMENT_OPTION_LIMIT_EXCEEDED", "PAYMENT_OPTION_NOT_READY", "PAYMENT_OPTION_UNAVAILABLE", "PAYMENT_PROCESSING_NOT_ENABLED", "PAYMENT_PROCESSING_UNAVAILABLE", "PAYMENT_PROCESSOR_REJECTED", "PAYMENT_PROCESSOR_UNAVAILABLE", "PAYMENT_REVIEW_OPEN", "PAYMENT_SOURCE_UNAVAILABLE", "PAYOUTS_NOT_ENABLED", "PAYOUT_DELAY_PROVIDER_CONTROLLED", "PAYOUT_DESTINATIONS_MANAGEMENT_UNAVAILABLE", "PAYOUT_FEE_NOT_DETERMINABLE", "PAYOUT_NOT_CANCELABLE", "PAYOUT_SETTINGS_MANAGED_EXTERNALLY", "PAYOUT_SETTINGS_MANAGEMENT_UNAVAILABLE", "PAYOUT_STATUS_NOT_CANCELABLE", "PLAN_NOT_ACTIVE", "PROCESSING_FEE_PRICING_NOT_AUTHORIZED", "PROCESSOR_NOT_CONFIGURED", "PROFILE_UPDATE_STATUS_UNKNOWN", "PROMOTION_CODES_DISABLED", "PROMOTION_DECLINED", "PROMOTION_HAS_ACTIVE_SUBSCRIPTION_OFFERS", "PROMOTION_NOT_REDEEMABLE", "PROMOTION_SHAPE_IMMUTABLE", "PROVIDER_ACCOUNT_CLEANUP_REQUIRED", "QUANTITY_CHANGE_NOT_ALLOWED", "QUANTITY_NOT_ADJUSTABLE", "RATE_LIMIT_EXCEEDED", "REFUND_ADJUSTMENT_PAYMENT_INTENT_NOT_REFUNDABLE", "REFUND_ADJUSTMENT_REFUND_EXCEEDS_PAYMENT_INTENT_REFUNDABLE", "REFUND_ADJUSTMENT_REFUND_EXCEEDS_REMAINING", "REFUND_SUBMISSION_DEADLINE_EXPIRED", "REFUND_TENDER_CAPACITY_CONFLICT", "REPORT_DOWNLOAD_EXPIRED", "REQUEST_BLOCKED", "REQUEST_BODY_TOO_LARGE", "REQUEST_CANCELED", "REQUEST_TIMEOUT", "REQUIRED", "RESOURCE_IN_USE", "RESOURCE_NOT_FOUND", "RETURN_CHECKOUT_REQUIRED", "RETURN_COMPLETION_BLOCKED", "RETURN_DISPOSITION_QUANTITY_EXCEEDED", "RETURN_FULFILLMENT_ALLOCATION_AMBIGUOUS", "RETURN_INSPECTION_QUANTITY_EXCEEDED", "RETURN_LINE_CANCELLATION_CONFLICT", "RETURN_POLICY_CONFLICT", "RETURN_RECEIPT_QUANTITY_EXCEEDED", "RETURN_SELF_SERVICE_NOT_ALLOWED", "RETURN_SHIPMENT_QUANTITY_EXCEEDS_AVAILABLE", "RETURN_VALUE_EXCEEDED", "RETURN_VERSION_CONFLICT", "RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_FLOW", "RISK_ACTION_NOT_SUPPORTED_FOR_PAYMENT_OPTION", "RISK_RULE_LIMIT_REACHED", "ROUTE_NOT_FOUND", "RULE_RESERVED", "SANDBOX_ARCHIVED", "SANDBOX_INACTIVE", "SAVE_PAYMENT_METHOD_CODE_LIMIT_REACHED", "SAVE_PAYMENT_METHOD_NOT_OFFERED", "SAVE_PAYMENT_METHOD_VERIFICATION_REQUIRED", "SENSITIVE_IDEMPOTENCY_RESULT_INVALID", "SERVICE_UNAVAILABLE", "SETUP_SOURCE_NON_ZERO_ORDER", "SHIPMENT_CHANGED", "SHIPMENT_PACKAGE_ITEM_QUANTITY_EXCEEDS_FULFILLMENT", "SHIPMENT_PACKAGE_NOT_VOIDABLE", "SKIP_LIMIT_REACHED", "SKIP_NOT_ALLOWED", "STANDARD_PAYOUTS_UNAVAILABLE", "STANDARD_PAYOUT_REQUIRES_MANUAL_SCHEDULE", "SUBSCRIPTION_DELIVERY_LINES_NOT_COMBINABLE", "SUBSCRIPTION_DELIVERY_MIGRATION_IN_PROGRESS", "SUBSCRIPTION_DELIVERY_MIGRATION_TARGET_UNAVAILABLE", "SUBSCRIPTION_DELIVERY_PROFILE_ACTION_REQUIRED", "SUBSCRIPTION_DELIVERY_PROFILE_MISSING", "SUBSCRIPTION_DELIVERY_UNAVAILABLE", "SUBSCRIPTION_NEXT_BILLING_AT_BEFORE_PERIOD_START", "SUBSCRIPTION_NEXT_BILLING_AT_TOO_FAR", "SUBSCRIPTION_OFFER_ARCHIVED", "SUBSCRIPTION_OFFER_NOT_ACTIVE", "SUBSCRIPTION_OFFER_PROMOTION_UNAVAILABLE", "SUBSCRIPTION_OFFER_TARGET_CONFLICT", "SUBSCRIPTION_PAYMENT_RETRY_IN_PROGRESS", "SUBSCRIPTION_PAYMENT_RETRY_LIMIT_REACHED", "SUBSCRIPTION_START_OVERRIDE_NOT_ALLOWED", "SWAP_NOT_ALLOWED", "TAX_BREAKDOWN_REFUND_EXCEEDS_REMAINING", "TAX_CATEGORY_REQUIRED", "TEST_PROCESSOR_NOT_CONFIGURED", "TICKET_PREFIX_LOCKED", "TIP_ALLOCATION_CAPACITY_EXCEEDED", "UNKNOWN_FIELD", "UNSUPPORTED_CONTENT_TYPE", "UNSUPPORTED_PROCESSOR", "VARIANT_NOT_SELLABLE", "VERSION_CONFLICT", "WEBHOOK_DELIVERY_IN_FLIGHT", "WEBHOOK_ENDPOINT_NOT_ACTIVE", "WEBHOOK_ENDPOINT_NOT_SUBSCRIBED", "WEBHOOK_EVENT_PAYLOAD_EXPIRED", "WORKLOAD_IDENTITY_LIMIT_REACHED".
+     * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** @return list<CheckoutSessionRevisionConflictDetailInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When conflict_details is omitted; use hasConflictDetails() or valueOrDefault().
-     */
-    public function getConflictDetails(): array { return $this->get('conflict_details'); }
-    public function hasConflictDetails(): bool { return $this->has('conflict_details'); }
-    /** @return list<string>
-     * @throws SdkError When conflicting_fields is omitted; use hasConflictingFields() or valueOrDefault().
-     */
-    public function getConflictingFields(): array { return $this->get('conflicting_fields'); }
-    public function hasConflictingFields(): bool { return $this->has('conflicting_fields'); }
-    /** @return string
-     * @throws SdkError When current_checkout_session_id is omitted; use hasCurrentCheckoutSessionId() or valueOrDefault().
-     */
-    public function getCurrentCheckoutSessionId(): string { return $this->get('current_checkout_session_id'); }
-    public function hasCurrentCheckoutSessionId(): bool { return $this->has('current_checkout_session_id'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When current_money is omitted; use hasCurrentMoney() or valueOrDefault().
-     */
-    public function getCurrentMoney(): mixed { return $this->get('current_money'); }
-    public function hasCurrentMoney(): bool { return $this->has('current_money'); }
-    /** @return array{'completed_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: DeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object|array{'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_id'?: string, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object|array{'carrier'?: string, 'dimensions'?: ShippingDimensionsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'external_system'?: string, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'service_code'?: string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: ShippingWeightInput|array<array-key, mixed>|\stdClass, ...}|object
-     * @throws SdkError When current_resource is omitted; use hasCurrentResource() or valueOrDefault().
-     */
-    public function getCurrentResource(): mixed { return $this->get('current_resource'); }
-    public function hasCurrentResource(): bool { return $this->has('current_resource'); }
-    /** @return string
-     * @throws SdkError When current_selection_id is omitted; use hasCurrentSelectionId() or valueOrDefault().
-     */
-    public function getCurrentSelectionId(): string { return $this->get('current_selection_id'); }
-    public function hasCurrentSelectionId(): bool { return $this->has('current_selection_id'); }
-    /** @return string
-     * @throws SdkError When current_status is omitted; use hasCurrentStatus() or valueOrDefault().
-     */
-    public function getCurrentStatus(): string { return $this->get('current_status'); }
-    public function hasCurrentStatus(): bool { return $this->has('current_status'); }
-    /** @return string
-     * @throws SdkError When current_version is omitted; use hasCurrentVersion() or valueOrDefault().
-     */
-    public function getCurrentVersion(): string { return $this->get('current_version'); }
-    public function hasCurrentVersion(): bool { return $this->has('current_version'); }
-    /** @return string
-     * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
-     */
-    public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
-    public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** @return list<ErrorDetailInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): Array of {@see ErrorDetailInput}. Individual failures belonging to this error. Present on every validation error and every error carrying facts. On non-validation errors the first item repeats the top-level code and param. Facts appear only in typed detail fields; param contains public request field paths. Shape $[] (Value): {@see ErrorDetailInput}. One specific failure within an error, with a `code` and `message` plus fields that depend on the code, such as the `param`, resource, quantity, or amount involved.
+     * @return list<ErrorDetailInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When details is omitted; use hasDetails() or valueOrDefault().
      */
     public function getDetails(): array { return $this->get('details'); }
     public function hasDetails(): bool { return $this->has('details'); }
-    /** @return string
+    /** Shape $ (Value): string. Error reference at https://developers.withflintpay.com/docs/errors# followed by the lowercase error code.
+     * @return string
      * @throws SdkError When doc_url is omitted; use hasDocUrl() or valueOrDefault().
      */
     public function getDocUrl(): string { return $this->get('doc_url'); }
     public function hasDocUrl(): bool { return $this->has('doc_url'); }
-    /** @return string
+    /** Shape $ (Value): string. System boundary responsible for correcting the failure. Value enum: "merchant", "integration", "flint".
+     * @return string
      * @throws SdkError When error_source is omitted; use hasErrorSource() or valueOrDefault().
      */
     public function getErrorSource(): string { return $this->get('error_source'); }
     public function hasErrorSource(): bool { return $this->has('error_source'); }
-    /** @return string
-     * @throws SdkError When existing_checkout_session_id is omitted; use hasExistingCheckoutSessionId() or valueOrDefault().
-     */
-    public function getExistingCheckoutSessionId(): string { return $this->get('existing_checkout_session_id'); }
-    public function hasExistingCheckoutSessionId(): bool { return $this->has('existing_checkout_session_id'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When expected_attempt_outstanding_money is omitted; use hasExpectedAttemptOutstandingMoney() or valueOrDefault().
-     */
-    public function getExpectedAttemptOutstandingMoney(): mixed { return $this->get('expected_attempt_outstanding_money'); }
-    public function hasExpectedAttemptOutstandingMoney(): bool { return $this->has('expected_attempt_outstanding_money'); }
-    /** @return string
-     * @throws SdkError When failure_category is omitted; use hasFailureCategory() or valueOrDefault().
-     */
-    public function getFailureCategory(): string { return $this->get('failure_category'); }
-    public function hasFailureCategory(): bool { return $this->has('failure_category'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When gap_money is omitted; use hasGapMoney() or valueOrDefault().
-     */
-    public function getGapMoney(): mixed { return $this->get('gap_money'); }
-    public function hasGapMoney(): bool { return $this->has('gap_money'); }
-    /** @return string
-     * @throws SdkError When invoice_payment_attempt_id is omitted; use hasInvoicePaymentAttemptId() or valueOrDefault().
-     */
-    public function getInvoicePaymentAttemptId(): string { return $this->get('invoice_payment_attempt_id'); }
-    public function hasInvoicePaymentAttemptId(): bool { return $this->has('invoice_payment_attempt_id'); }
-    /** @return bool
-     * @throws SdkError When is_resumable is omitted; use hasIsResumable() or valueOrDefault().
-     */
-    public function getIsResumable(): bool { return $this->get('is_resumable'); }
-    public function hasIsResumable(): bool { return $this->has('is_resumable'); }
-    /** @return string
-     * @throws SdkError When limit is omitted; use hasLimit() or valueOrDefault().
-     */
-    public function getLimit(): string { return $this->get('limit'); }
-    public function hasLimit(): bool { return $this->has('limit'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When maximum_money is omitted; use hasMaximumMoney() or valueOrDefault().
-     */
-    public function getMaximumMoney(): mixed { return $this->get('maximum_money'); }
-    public function hasMaximumMoney(): bool { return $this->has('maximum_money'); }
-    /** @return string
+    /** Shape $ (Value): string. Human-readable explanation for your logs. The wording can change, so branch on code, and do not show it to buyers as is.
+     * @return string
      * @throws SdkError When message is omitted; use hasMessage() or valueOrDefault().
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** @return list<string>
-     * @throws SdkError When missing_scopes is omitted; use hasMissingScopes() or valueOrDefault().
-     */
-    public function getMissingScopes(): array { return $this->get('missing_scopes'); }
-    public function hasMissingScopes(): bool { return $this->has('missing_scopes'); }
-    /** @return string
-     * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
-     */
-    public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
-    public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
-    /** @return string
-     * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
-     */
-    public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
-    public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** @return string
-     * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
-     */
-    public function getOrderPaymentAttemptId(): string { return $this->get('order_payment_attempt_id'); }
-    public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
-    /** @return string
+    /** Shape $ (Value): string. Public JSON request field path that caused the failure, such as line_items[0].name, when the failure concerns one field.
+     * @return string
      * @throws SdkError When param is omitted; use hasParam() or valueOrDefault().
      */
     public function getParam(): string { return $this->get('param'); }
     public function hasParam(): bool { return $this->has('param'); }
-    /** @return string
-     * @throws SdkError When payment_attempt_status is omitted; use hasPaymentAttemptStatus() or valueOrDefault().
-     */
-    public function getPaymentAttemptStatus(): string { return $this->get('payment_attempt_status'); }
-    public function hasPaymentAttemptStatus(): bool { return $this->has('payment_attempt_status'); }
-    /** @return list<string>
-     * @throws SdkError When payment_intent_ids is omitted; use hasPaymentIntentIds() or valueOrDefault().
-     */
-    public function getPaymentIntentIds(): array { return $this->get('payment_intent_ids'); }
-    public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /** @return string
-     * @throws SdkError When payment_option is omitted; use hasPaymentOption() or valueOrDefault().
-     */
-    public function getPaymentOption(): string { return $this->get('payment_option'); }
-    public function hasPaymentOption(): bool { return $this->has('payment_option'); }
-    /** @return string|\DateTimeInterface
-     * @throws SdkError When payout_terms_expires_at is omitted; use hasPayoutTermsExpiresAt() or valueOrDefault().
-     */
-    public function getPayoutTermsExpiresAt(): string|\DateTimeInterface { return $this->get('payout_terms_expires_at'); }
-    public function hasPayoutTermsExpiresAt(): bool { return $this->has('payout_terms_expires_at'); }
-    /** @return string|\DateTimeInterface
-     * @throws SdkError When previous_key_expires_at is omitted; use hasPreviousKeyExpiresAt() or valueOrDefault().
-     */
-    public function getPreviousKeyExpiresAt(): string|\DateTimeInterface { return $this->get('previous_key_expires_at'); }
-    public function hasPreviousKeyExpiresAt(): bool { return $this->has('previous_key_expires_at'); }
-    /** @return string
-     * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
-     */
-    public function getProductId(): string { return $this->get('product_id'); }
-    public function hasProductId(): bool { return $this->has('product_id'); }
-    /** @return QuotaDetailsInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When quota is omitted; use hasQuota() or valueOrDefault().
-     */
-    public function getQuota(): mixed { return $this->get('quota'); }
-    public function hasQuota(): bool { return $this->has('quota'); }
-    /** @return string
-     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
-     */
-    public function getReason(): string { return $this->get('reason'); }
-    public function hasReason(): bool { return $this->has('reason'); }
-    /** @return ErrorRemediationInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see ErrorRemediationInput} or null. Recovery guidance: whether retrying can succeed and what to do next. Shape $.anyOf[1] (Value): {@see ErrorRemediationInput}. Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested actions. Shape $.anyOf[2] (Value): null.
+     * @return array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null
      * @throws SdkError When remediation is omitted; use hasRemediation() or valueOrDefault().
      */
     public function getRemediation(): mixed { return $this->get('remediation'); }
     public function hasRemediation(): bool { return $this->has('remediation'); }
-    /** @return string
+    /** Shape $ (Value): string. ID of this request, also sent in the X-Request-Id response header. Include it when you contact Flint support. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * @return string
      * @throws SdkError When request_id is omitted; use hasRequestId() or valueOrDefault().
      */
     public function getRequestId(): string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
-    /** @return string
+    /** Shape $ (Value): string. Path of this request's log in the request-logs API, present when the credential can read it. Flint writes the log just after responding, so a read sent immediately can return 404 RESOURCE_NOT_FOUND; retry after a second.
+     * @return string
      * @throws SdkError When request_log_url is omitted; use hasRequestLogUrl() or valueOrDefault().
      */
     public function getRequestLogUrl(): string { return $this->get('request_log_url'); }
     public function hasRequestLogUrl(): bool { return $this->has('request_log_url'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When required_money is omitted; use hasRequiredMoney() or valueOrDefault().
-     */
-    public function getRequiredMoney(): mixed { return $this->get('required_money'); }
-    public function hasRequiredMoney(): bool { return $this->has('required_money'); }
-    /** @return string
-     * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
-     */
-    public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
-    public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** @return ScopeRequirementInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When scope_requirement is omitted; use hasScopeRequirement() or valueOrDefault().
-     */
-    public function getScopeRequirement(): mixed { return $this->get('scope_requirement'); }
-    public function hasScopeRequirement(): bool { return $this->has('scope_requirement'); }
-    /** @return list<SelectableMerchantInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When selectable_merchants is omitted; use hasSelectableMerchants() or valueOrDefault().
-     */
-    public function getSelectableMerchants(): array { return $this->get('selectable_merchants'); }
-    public function hasSelectableMerchants(): bool { return $this->has('selectable_merchants'); }
-    /** @return list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When selectable_payment_intents is omitted; use hasSelectablePaymentIntents() or valueOrDefault().
-     */
-    public function getSelectablePaymentIntents(): array { return $this->get('selectable_payment_intents'); }
-    public function hasSelectablePaymentIntents(): bool { return $this->has('selectable_payment_intents'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When submitted_money is omitted; use hasSubmittedMoney() or valueOrDefault().
-     */
-    public function getSubmittedMoney(): mixed { return $this->get('submitted_money'); }
-    public function hasSubmittedMoney(): bool { return $this->has('submitted_money'); }
-    /** @return string
-     * @throws SdkError When subscription_delivery_migration_id is omitted; use hasSubscriptionDeliveryMigrationId() or valueOrDefault().
-     */
-    public function getSubscriptionDeliveryMigrationId(): string { return $this->get('subscription_delivery_migration_id'); }
-    public function hasSubscriptionDeliveryMigrationId(): bool { return $this->has('subscription_delivery_migration_id'); }
-    /** @return string
-     * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
-     */
-    public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }
-    public function hasSubscriptionOfferId(): bool { return $this->has('subscription_offer_id'); }
-    /** @return string
-     * @throws SdkError When subscription_plan_line_item_id is omitted; use hasSubscriptionPlanLineItemId() or valueOrDefault().
-     */
-    public function getSubscriptionPlanLineItemId(): string { return $this->get('subscription_plan_line_item_id'); }
-    public function hasSubscriptionPlanLineItemId(): bool { return $this->has('subscription_plan_line_item_id'); }
-    /** @return list<string>
-     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** @return string
-     * @throws SdkError When surface is omitted; use hasSurface() or valueOrDefault().
-     */
-    public function getSurface(): string { return $this->get('surface'); }
-    public function hasSurface(): bool { return $this->has('surface'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When tip_capable_money is omitted; use hasTipCapableMoney() or valueOrDefault().
-     */
-    public function getTipCapableMoney(): mixed { return $this->get('tip_capable_money'); }
-    public function hasTipCapableMoney(): bool { return $this->has('tip_capable_money'); }
-    /** @return string
+    /** Shape $ (Value): string. Coarse category determined by the HTTP status. 400: validation_error; 401: authentication_error; 403: authorization_error; 404: not_found_error; 405, 410, 413, 415, 499: protocol_error; 409: conflict_error; 429: rate_limit_error; 502: external_service_error; 503: unavailable_error; 504: timeout_error. All other error statuses: internal_error. Value enum: "authentication_error", "authorization_error", "validation_error", "not_found_error", "conflict_error", "rate_limit_error", "external_service_error", "timeout_error", "unavailable_error", "internal_error", "protocol_error".
+     * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** @return string
-     * @throws SdkError When unavailable_reason is omitted; use hasUnavailableReason() or valueOrDefault().
-     */
-    public function getUnavailableReason(): string { return $this->get('unavailable_reason'); }
-    public function hasUnavailableReason(): bool { return $this->has('unavailable_reason'); }
-    /** @return string
-     * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
-     */
-    public function getVariantId(): string { return $this->get('variant_id'); }
-    public function hasVariantId(): bool { return $this->has('variant_id'); }
 }

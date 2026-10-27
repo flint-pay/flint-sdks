@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/oauth.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/oauth.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["authorizePartnerInstall"]:r0,["exchangePartnerInstallToken"]:r0,["previewPartnerInstallAuthorization"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["authorizePartnerInstall"]:r0,["previewPartnerInstallAuthorization"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -17,33 +17,39 @@ this.oauth = Object.freeze({
   "client_id",
   "redirect_uri",
   "mode",
-  "permission_ids",
-  "environment_id",
+  "code_challenge",
+  "code_challenge_method",
+  "scope",
+  "sandbox_id",
   "merchant_id",
   "state"
 ], false, false, params), options),
-      exchangePartnerInstallToken: async (params, options) => this.#runtime.request("exchangePartnerInstallToken", _sdkRequestInput([], [], [], true, true, params), options),
       previewPartnerInstallAuthorization: async (params, options) => this.#runtime.request("previewPartnerInstallAuthorization", _sdkRequestInput([], [], [
+  "response_type",
   "client_id",
   "redirect_uri",
   "mode",
-  "permission_ids"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "code_challenge",
+  "code_challenge_method",
+  "scope",
+  "sandbox_id",
+  "state"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("previewPartnerInstallAuthorization", result, path))),
       previewPartnerInstallAuthorizationWithResponse: async (params, options) => this.#runtime.request("previewPartnerInstallAuthorization", _sdkRequestInput([], [], [
+  "response_type",
   "client_id",
   "redirect_uri",
   "mode",
-  "permission_ids"
+  "code_challenge",
+  "code_challenge_method",
+  "scope",
+  "sandbox_id",
+  "state"
 ], false, false, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makePartnerAuthorizePreviewResponse } from '../models/PartnerAuthorizePreviewResponse.js';
-export { makePartnerAuthorizePreview } from '../models/PartnerAuthorizePreview.js';
-export { makePartnerAuthorizePreviewPermission } from '../models/PartnerAuthorizePreviewPermission.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makePartnerAppPermissionManifestEntry } from '../models/PartnerAppPermissionManifestEntry.js';

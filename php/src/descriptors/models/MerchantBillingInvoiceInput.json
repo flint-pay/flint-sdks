@@ -1,0 +1,1 @@
+{"shared":"MerchantBillingInvoice","dependencies":["MerchantBillingInvoice","MerchantBillingInvoiceLineItem","MoneyValue"]}

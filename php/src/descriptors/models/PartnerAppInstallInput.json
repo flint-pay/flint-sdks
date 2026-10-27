@@ -1,1 +1,1 @@
-{"shared":"PartnerAppInstall","dependencies":["PartnerAppInstall","PartnerEnvironmentGrant"]}
+{"shared":"PartnerAppInstall","dependencies":["PartnerAppInstall","PartnerAppPermissionManifestEntry","PartnerEnvironmentGrant","SharedCodec374"]}

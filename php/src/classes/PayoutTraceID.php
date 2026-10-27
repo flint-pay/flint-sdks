@@ -3,19 +3,19 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $status
- * @property-read string $value
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?string $value
+ * Presence-aware response; omitted optional fields return null. */
 final class PayoutTraceID extends Model {
     /** @param array{'status': string, 'value'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutTraceID')); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Whether a bank trace ID is available. Unmapped trace states are returned as unsupported. Value enum: "pending", "available", "unsupported".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getValue(): string { return $this->get('value'); }
+    public function getValue(): ?string { return $this->get('value'); }
     public function hasValue(): bool { return $this->has('value'); }
 }

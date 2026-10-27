@@ -1,81 +1,197 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { InventoryLevel } from '../declarations/InventoryLevel.js';
-import type { InventoryLevelListResponse } from '../declarations/InventoryLevelListResponse.js';
-import type { InventoryLevelUpdateResultResponse } from '../declarations/InventoryLevelUpdateResultResponse.js';
-import type { InventoryLevelsListInput } from '../declarations/InventoryLevelsListInput.js';
-import type { InventoryLevelsListResponse } from '../declarations/InventoryLevelsListResponse.js';
-import type { InventoryLevelsUpdateInput } from '../declarations/InventoryLevelsUpdateInput.js';
-import type { InventoryLevelsUpdateResponse } from '../declarations/InventoryLevelsUpdateResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    InventoryLevel,
+    InventoryLevelListResponse,
+    InventoryLevelResponse,
+    InventoryLevelsGetInput,
+    InventoryLevelsListInput,
+    InventoryLevelsUpdateInput
+} from '../declarations/types-24.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdateInventoryLevelRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    InventoryLevel,
+    InventoryLevelResponse,
+    InventoryLevelListResponse,
+    InventoryLevelsGetInput,
+    InventoryLevelsListInput,
+    InventoryLevelsUpdateInput,
+    InventoryItem
+} from '../declarations/types-24.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { UpdateInventoryLevelRequestInput } from '../declarations/types-48.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeUpdateInventoryLevelRequest } from '../declarations/types-72.js';
 export interface InventoryLevelsResource {
     /**
- * List inventory levels. Send expand=inventory_item to render each level's inventory item inline, so a stock table needs no read per row. Filter by inventory_item_status to see only the levels behind items that can be sold. Levels are strongly consistent individually, but pages may reflect different committed instants.
+ * Retrieve an inventory level's current quantities and version by ID.
+ * @see reference/inventoryLevels.md#inventorylevelsget
+ * GET /v1/inventory-levels/{inventory_level_id}
+ * @example
+ * client.inventoryLevels.get("example")
+ */
+    get(inventory_level_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryLevel>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/inventoryLevels.md#inventorylevelsget
+     */
+    getWithResponse(inventory_level_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryLevelResponse>>;
+    /**
+ * List inventory levels. Send expand=inventory_item to render each level's inventory item inline,
+ * so a stock table needs no read per row. Filter by inventory_item_status to see only the levels
+ * behind items that can be sold. Levels are strongly consistent individually, but pages may
+ * reflect different committed instants.
+ * @see reference/inventoryLevels.md#inventorylevelslist
  * GET /v1/inventory-levels
  * @example
  * client.inventoryLevels.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "inventory_item_status"?: InputValue<"active" | "inactive" | "archived">; "has_available_quantity"?: InputValue<boolean>; "has_unavailable_condition"?: InputValue<boolean>; "has_shortage"?: InputValue<boolean>; "query"?: InputValue<string>; "min_available_quantity"?: InputValue<string>; "max_available_quantity"?: InputValue<string>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"inventory_item">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryLevelListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "inventory_item_status"?: InputValue<"active" | "inactive" | "archived">; "has_available_quantity"?: InputValue<boolean>; "has_unavailable_condition"?: InputValue<boolean>; "has_shortage"?: InputValue<boolean>; "query"?: InputValue<string>; "min_available_quantity"?: InputValue<string>; "max_available_quantity"?: InputValue<string>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"inventory_item">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryLevelsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "inventory_item_status"?: InputValue<"active" | "inactive" | "archived">; "has_available_quantity"?: InputValue<boolean>; "has_unavailable_condition"?: InputValue<boolean>; "has_shortage"?: InputValue<boolean>; "query"?: InputValue<string>; "min_available_quantity"?: InputValue<string>; "max_available_quantity"?: InputValue<string>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"inventory_item">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryLevelListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "inventory_item_status"?: InputValue<"active" | "inactive" | "archived">; "has_available_quantity"?: InputValue<boolean>; "has_unavailable_condition"?: InputValue<boolean>; "has_shortage"?: InputValue<boolean>; "query"?: InputValue<string>; "min_available_quantity"?: InputValue<string>; "max_available_quantity"?: InputValue<string>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"inventory_item">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryLevelsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "inventory_item_status"?: InputValue<"active" | "inactive" | "archived">; "has_available_quantity"?: InputValue<boolean>; "has_unavailable_condition"?: InputValue<boolean>; "has_shortage"?: InputValue<boolean>; "query"?: InputValue<string>; "min_available_quantity"?: InputValue<string>; "max_available_quantity"?: InputValue<string>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"inventory_item">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryLevel>;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "inventory_item_status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "has_available_quantity"?: InputValue<boolean>;
+        "has_unavailable_condition"?: InputValue<boolean>;
+        "has_shortage"?: InputValue<boolean>;
+        "query"?: InputValue<string>;
+        "min_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "max_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryLevelListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/inventoryLevels.md#inventorylevelslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "inventory_item_status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "has_available_quantity"?: InputValue<boolean>;
+        "has_unavailable_condition"?: InputValue<boolean>;
+        "has_shortage"?: InputValue<boolean>;
+        "query"?: InputValue<string>;
+        "min_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "max_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryLevelListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/inventoryLevels.md#inventorylevelslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "inventory_item_status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "has_available_quantity"?: InputValue<boolean>;
+        "has_unavailable_condition"?: InputValue<boolean>;
+        "has_shortage"?: InputValue<boolean>;
+        "query"?: InputValue<string>;
+        "min_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "max_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryLevelListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/inventoryLevels.md#inventorylevelslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "inventory_item_status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "has_available_quantity"?: InputValue<boolean>;
+        "has_unavailable_condition"?: InputValue<boolean>;
+        "has_shortage"?: InputValue<boolean>;
+        "query"?: InputValue<string>;
+        "min_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "max_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryLevelListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/inventoryLevels.md#inventorylevelslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "inventory_item_status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "has_available_quantity"?: InputValue<boolean>;
+        "has_unavailable_condition"?: InputValue<boolean>;
+        "has_shortage"?: InputValue<boolean>;
+        "query"?: InputValue<string>;
+        "min_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "max_available_quantity"?: InputValue<`${bigint}` | bigint>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryLevel>;
     /**
- * Set one inventory level's safety_stock_quantity. Returns the updated level with durable command evidence.
+ * Set one inventory level's safety_stock_quantity. expected_version is optional and enforced when
+ * sent. The version changes on every quantity or claim change, including holds and commits, so
+ * read the level immediately before a PATCH. Returns the updated inventory level. Idempotency is
+ * scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the
+ * canonical request body. To recover the command's effects after a lost response, read the
+ * relevant resource or inventory movement list.
+ * @see reference/inventoryLevels.md#inventorylevelsupdate
  * PATCH /v1/inventory-levels/{inventory_level_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.inventoryLevels.update("example", {safety_stock_quantity: "0"}, { idempotencyKey: idempotencyKey })
+ * client.inventoryLevels.update("example", {safety_stock_quantity: "0"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    update(inventory_level_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "safety_stock_quantity": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<InventoryLevelUpdateResultResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(inventory_level_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "safety_stock_quantity": string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryLevelsUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly inventoryLevels: InventoryLevelsResource;
+    update(inventory_level_id: InputValue<string>, params: (InputValue<UpdateInventoryLevelRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryLevel>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/inventoryLevels.md#inventorylevelsupdate
+     */
+    updateWithResponse(inventory_level_id: InputValue<string>, params: (InputValue<UpdateInventoryLevelRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryLevelResponse>>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { InventoryLevelListResponse } from '../declarations/InventoryLevelListResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { InventoryLevelsListResponse } from '../declarations/InventoryLevelsListResponse.js';
-export type { InventoryLevel } from '../declarations/InventoryLevel.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { InventoryLevelUpdateResultResponse } from '../declarations/InventoryLevelUpdateResultResponse.js';
-export type { InventoryLevelsUpdateResponse } from '../declarations/InventoryLevelsUpdateResponse.js';
-export type { InventoryLevelsListInput } from '../declarations/InventoryLevelsListInput.js';
-export type { InventoryLevelsUpdateInput } from '../declarations/InventoryLevelsUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { InventoryItem } from '../declarations/InventoryItem.js';
-export type { InventoryLevelUpdateResult } from '../declarations/InventoryLevelUpdateResult.js';
-export type { UpdateInventoryLevelRequestInput } from '../declarations/UpdateInventoryLevelRequestInput.js';
-export type { UpdateInventoryLevelRequest } from '../declarations/UpdateInventoryLevelRequest.js';
-export { makeInventoryLevelListResponse } from '../declarations/makeInventoryLevelListResponse.js';
-export { makeInventoryLevel } from '../declarations/makeInventoryLevel.js';
-export { makeInventoryLevelUpdateResultResponse } from '../declarations/makeInventoryLevelUpdateResultResponse.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeInventoryItem } from '../declarations/makeInventoryItem.js';
-export { makeInventoryLevelUpdateResult } from '../declarations/makeInventoryLevelUpdateResult.js';
-export { makeUpdateInventoryLevelRequest } from '../declarations/makeUpdateInventoryLevelRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly inventoryLevels: InventoryLevelsResource;
+}

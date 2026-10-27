@@ -1,1 +1,1 @@
-{"shared":"IssueCreditNoteRequest","dependencies":["CreditNoteRefundRequest","IssueCreditNoteRequest","MoneyValue"]}
+{"shared":"IssueCreditNoteRequest","dependencies":["CreditNoteIssueAllocationRequest","CreditNoteRefundRequest","IssueCreditNoteRequest","MoneyValue"]}

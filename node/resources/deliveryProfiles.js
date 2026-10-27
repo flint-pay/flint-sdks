@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryProfiles.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/deliveryProfiles.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["assignToUnconfiguredDeliveryProfile"]:r0,["createDeliveryProfile"]:r0,["deleteDeliveryProfile"]:r0,["getDeliveryProfile"]:r0,["listDeliveryProfiles"]:r0,["updateDeliveryProfile"]:r0});
 export class Client {
@@ -16,7 +16,7 @@ this.deliveryProfiles = Object.freeze({
   "delivery_profile_id"
 ], [delivery_profile_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("assignToUnconfiguredDeliveryProfile", result, path))),
       assignToUnconfiguredWithResponse: async (delivery_profile_id, params, options) => this.#runtime.request("assignToUnconfiguredDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
@@ -24,7 +24,7 @@ this.deliveryProfiles = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createDeliveryProfile", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryProfile", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryProfile", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
@@ -33,7 +33,7 @@ this.deliveryProfiles = Object.freeze({
 ], [delivery_profile_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeliveryProfile", result, path))),
       removeWithResponse: async (delivery_profile_id, params, options) => this.#runtime.request("deleteDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
@@ -44,7 +44,7 @@ this.deliveryProfiles = Object.freeze({
   "delivery_profile_id"
 ], [delivery_profile_id], [
   "include_diagnostics"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeliveryProfile", result, path))),
       getWithResponse: async (delivery_profile_id, params, options) => this.#runtime.request("getDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
@@ -56,15 +56,17 @@ this.deliveryProfiles = Object.freeze({
   "query",
   "external_reference_id",
   "status",
+  "is_default",
   "resolution_mode",
   "include_diagnostics"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeliveryProfiles", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryProfiles", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "query",
   "external_reference_id",
   "status",
+  "is_default",
   "resolution_mode",
   "include_diagnostics"
 ], false, false, params), options).then(_sdkResponse),
@@ -74,15 +76,17 @@ this.deliveryProfiles = Object.freeze({
   "query",
   "external_reference_id",
   "status",
+  "is_default",
   "resolution_mode",
   "include_diagnostics"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDeliveryProfiles", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryProfiles", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "query",
   "external_reference_id",
   "status",
+  "is_default",
   "resolution_mode",
   "include_diagnostics"
 ], false, false, params), options)),
@@ -92,6 +96,7 @@ this.deliveryProfiles = Object.freeze({
   "query",
   "external_reference_id",
   "status",
+  "is_default",
   "resolution_mode",
   "include_diagnostics"
 ], false, false, params), options),
@@ -99,7 +104,7 @@ this.deliveryProfiles = Object.freeze({
   "delivery_profile_id"
 ], [delivery_profile_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateDeliveryProfile", result, path))),
       updateWithResponse: async (delivery_profile_id, params, options) => this.#runtime.request("updateDeliveryProfile", _sdkRequestInput([
   "delivery_profile_id"
 ], [delivery_profile_id], [
@@ -107,21 +112,15 @@ this.deliveryProfiles = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeDeliveryProfileAssignmentResponse } from '../models/DeliveryProfileAssignmentResponse.js';
-export { makeDeliveryProfileResponse } from '../models/DeliveryProfileResponse.js';
-export { makeDeliveryProfileListResponse } from '../models/DeliveryProfileListResponse.js';
-export { makeDeliveryProfile } from '../models/DeliveryProfile.js';
-export { makeDeliveryProfileAssignment } from '../models/DeliveryProfileAssignment.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeDeliveryProfileConfiguration } from '../models/DeliveryProfileConfiguration.js';
-export { makeDimensions } from '../models/Dimensions.js';
-export { makeDeliveryProfileOriginPolicy } from '../models/DeliveryProfileOriginPolicy.js';
-export { makeWeight } from '../models/Weight.js';
-export { makeDeliveryProfileDiagnostics } from '../models/DeliveryProfileDiagnostics.js';
 export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../models/AssignToUnconfiguredDeliveryProfileRequest.js';
+export { makeCreateDeliveryProfileRequest } from '../models/CreateDeliveryProfileRequest.js';
+export { makeDeliveryProfileConfigurationRequest } from '../models/DeliveryProfileConfigurationRequest.js';
+export { makeDeliveryProfileOriginPolicyInputFixedLocation } from '../models/DeliveryProfileOriginPolicyInputFixedLocation.js';
+export { makeDeliveryProfileOriginPolicyInputInventoryRouting } from '../models/DeliveryProfileOriginPolicyInputInventoryRouting.js';
+export { makeDeliveryProfileOriginPolicyInputMethodOrigin } from '../models/DeliveryProfileOriginPolicyInputMethodOrigin.js';
+export { makeDeliveryProfileOriginPolicyRequest } from '../models/DeliveryProfileOriginPolicyRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateDeliveryProfileRequest } from '../models/UpdateDeliveryProfileRequest.js';

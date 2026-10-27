@@ -1,99 +1,212 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { DecideReturnInspectionLineItemResponse } from '../declarations/DecideReturnInspectionLineItemResponse.js';
-import type { GetReturnInspectionResponse } from '../declarations/GetReturnInspectionResponse.js';
-import type { ListReturnInspectionsResponse } from '../declarations/ListReturnInspectionsResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { ReturnInspection } from '../declarations/ReturnInspection.js';
-import type { ReturnInspectionsDecideLineItemInput } from '../declarations/ReturnInspectionsDecideLineItemInput.js';
-import type { ReturnInspectionsDecideLineItemResponse } from '../declarations/ReturnInspectionsDecideLineItemResponse.js';
-import type { ReturnInspectionsGetInput } from '../declarations/ReturnInspectionsGetInput.js';
-import type { ReturnInspectionsGetResponse } from '../declarations/ReturnInspectionsGetResponse.js';
-import type { ReturnInspectionsListInput } from '../declarations/ReturnInspectionsListInput.js';
-import type { ReturnInspectionsListResponse } from '../declarations/ReturnInspectionsListResponse.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { DecideReturnInspectionLineItemRequestInput } from '../declarations/types-11.js';
+import type { GetReturnInspectionResponse } from '../declarations/types-18.js';
+import type { ListReturnInspectionsResponse } from '../declarations/types-28.js';
+import type {
+    RequestOptions,
+    ReturnInspection,
+    ReturnInspectionsDecideLineItemInput,
+    ReturnInspectionsGetInput,
+    ReturnInspectionsListInput
+} from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { DecideReturnInspectionLineItemRequestInput } from '../declarations/types-11.js';
+export type {
+    RequestOptions,
+    ReturnInspection,
+    ReturnInspectionsDecideLineItemInput,
+    ReturnInspectionsGetInput,
+    ReturnInspectionsListInput,
+    ReturnDisposition,
+    ReturnActor,
+    ReturnInspectionLineItem,
+    ResponseMeta,
+    ResponseWarning
+} from '../declarations/types-40.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { GetReturnInspectionResponse } from '../declarations/types-18.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ListReturnInspectionsResponse } from '../declarations/types-28.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { ReturnSourceSystem } from '../declarations/types-42.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeReturnSourceSystem } from '../declarations/types-70.js';
 export interface ReturnInspectionsResource {
     /**
- * Record the accept or reject outcome for inspected quantity. Accepted quantity becomes dispositionable and satisfies after_inspection refund timing.
- * POST /v1/return-inspections/{return_inspection_id}/line-items/{return_inspection_line_item_id}/decide
+ * Record the accept or reject outcome for inspected quantity. expected_version compares against
+ * the inspection version. Accepted quantity becomes dispositionable and satisfies after_inspection
+ * release timing.
+ * @see reference/returnInspections.md#returninspectionsdecidelineitem
+ * POST
+ * /v1/return-inspections/{return_inspection_id}/line-items/{return_inspection_line_item_id}/decide
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnInspections.decideLineItem("example", "example", {acceptance_decision_reason: "inspection_result", acceptance_status: "accepted"}, { idempotencyKey: idempotencyKey })
+ * client.returnInspections.decideLineItem("example", "example", {acceptance_decision_reason:
+ * "inspection_result", acceptance_status: "accepted"}, { idempotencyKey: idempotencyKey })
  */
-    decideLineItem(return_inspection_id: InputValue<string>, return_inspection_line_item_id: InputValue<string>, params: (InputValue<{ "acceptance_decision_reason": "inspection_result" | "return_policy" | "manual_review" | "other"; "acceptance_decision_reason_message"?: string; "acceptance_status": "accepted" | "rejected" | "review_required"; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DecideReturnInspectionLineItemResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    decideLineItemWithResponse(return_inspection_id: InputValue<string>, return_inspection_line_item_id: InputValue<string>, params: (InputValue<{ "acceptance_decision_reason": "inspection_result" | "return_policy" | "manual_review" | "other"; "acceptance_decision_reason_message"?: string; "acceptance_status": "accepted" | "rejected" | "review_required"; "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReturnInspectionsDecideLineItemResponse>>;
+    decideLineItem(return_inspection_id: InputValue<string>, return_inspection_line_item_id: InputValue<string>, params: (InputValue<DecideReturnInspectionLineItemRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnInspection>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnInspections.md#returninspectionsdecidelineitem
+     */
+    decideLineItemWithResponse(return_inspection_id: InputValue<string>, return_inspection_line_item_id: InputValue<string>, params: (InputValue<DecideReturnInspectionLineItemRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnInspectionResponse>>;
     /**
- * Retrieve one inspection with its line items, findings, and current or superseded observation status.
+ * Retrieve one inspection with its line items, findings, and current or superseded observation
+ * status.
+ * @see reference/returnInspections.md#returninspectionsget
  * GET /v1/return-inspections/{return_inspection_id}
  * @example
  * client.returnInspections.get("example")
  */
-    get(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GetReturnInspectionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnInspectionsGetResponse>>;
+    get(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnInspection>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnInspections.md#returninspectionsget
+     */
+    getWithResponse(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnInspectionResponse>>;
     /**
- * List inspection observations. Omitting return_id lists inspections across every Return for the merchant.
+ * List inspection observations. Omitting return_id lists inspections across every Return for the
+ * merchant. Newest first: created_at descending, with return_inspection_id descending as the
+ * tiebreak.
+ * @see reference/returnInspections.md#returninspectionslist
  * GET /v1/return-inspections
  * @example
  * client.returnInspections.list()
  */
-    list(params?: { "acceptance_status"?: InputValue<"accepted" | "rejected" | "review_required">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "inspected_after"?: InputValue<string | globalThis.Date>; "inspected_before"?: InputValue<string | globalThis.Date>; "location_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnInspectionsResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "acceptance_status"?: InputValue<"accepted" | "rejected" | "review_required">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "inspected_after"?: InputValue<string | globalThis.Date>; "inspected_before"?: InputValue<string | globalThis.Date>; "location_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReturnInspectionsListResponse>>;
-    listPages(params?: { "acceptance_status"?: InputValue<"accepted" | "rejected" | "review_required">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "inspected_after"?: InputValue<string | globalThis.Date>; "inspected_before"?: InputValue<string | globalThis.Date>; "location_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnInspectionsResponse>;
-    listPagesWithResponse(params?: { "acceptance_status"?: InputValue<"accepted" | "rejected" | "review_required">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "inspected_after"?: InputValue<string | globalThis.Date>; "inspected_before"?: InputValue<string | globalThis.Date>; "location_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReturnInspectionsListResponse>>;
-    listItems(params?: { "acceptance_status"?: InputValue<"accepted" | "rejected" | "review_required">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "inspected_after"?: InputValue<string | globalThis.Date>; "inspected_before"?: InputValue<string | globalThis.Date>; "location_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "return_id"?: InputValue<string>; "return_line_item_id"?: InputValue<string>; "return_receipt_id"?: InputValue<string>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "other" | "flint">; "status"?: InputValue<"current" | "superseded"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnInspection>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly returnInspections: ReturnInspectionsResource;
+    list(params?: {
+        "acceptance_status"?: InputValue<Array<"accepted" | "rejected" | "review_required">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "external_reference_id"?: InputValue<string>;
+        "inspected_after"?: InputValue<string | globalThis.Date>;
+        "inspected_before"?: InputValue<string | globalThis.Date>;
+        "inspection_location_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_id"?: InputValue<string>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "other" | "flint">>;
+        "status"?: InputValue<Array<"current" | "superseded">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnInspectionsResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/returnInspections.md#returninspectionslist
+     */
+    listWithResponse(params?: {
+        "acceptance_status"?: InputValue<Array<"accepted" | "rejected" | "review_required">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "external_reference_id"?: InputValue<string>;
+        "inspected_after"?: InputValue<string | globalThis.Date>;
+        "inspected_before"?: InputValue<string | globalThis.Date>;
+        "inspection_location_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_id"?: InputValue<string>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "other" | "flint">>;
+        "status"?: InputValue<Array<"current" | "superseded">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnInspectionsResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/returnInspections.md#returninspectionslist
+     */
+    listPages(params?: {
+        "acceptance_status"?: InputValue<Array<"accepted" | "rejected" | "review_required">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "external_reference_id"?: InputValue<string>;
+        "inspected_after"?: InputValue<string | globalThis.Date>;
+        "inspected_before"?: InputValue<string | globalThis.Date>;
+        "inspection_location_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_id"?: InputValue<string>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "other" | "flint">>;
+        "status"?: InputValue<Array<"current" | "superseded">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnInspectionsResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/returnInspections.md#returninspectionslist
+     */
+    listPagesWithResponse(params?: {
+        "acceptance_status"?: InputValue<Array<"accepted" | "rejected" | "review_required">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "external_reference_id"?: InputValue<string>;
+        "inspected_after"?: InputValue<string | globalThis.Date>;
+        "inspected_before"?: InputValue<string | globalThis.Date>;
+        "inspection_location_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_id"?: InputValue<string>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "other" | "flint">>;
+        "status"?: InputValue<Array<"current" | "superseded">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnInspectionsResponse>>;
+    /** Iterate items lazily.
+     * @see reference/returnInspections.md#returninspectionslist
+     */
+    listItems(params?: {
+        "acceptance_status"?: InputValue<Array<"accepted" | "rejected" | "review_required">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "external_reference_id"?: InputValue<string>;
+        "inspected_after"?: InputValue<string | globalThis.Date>;
+        "inspected_before"?: InputValue<string | globalThis.Date>;
+        "inspection_location_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_line_item_id"?: InputValue<string>;
+        "return_receipt_id"?: InputValue<string>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "other" | "flint">>;
+        "status"?: InputValue<Array<"current" | "superseded">>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnInspection>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { DecideReturnInspectionLineItemResponse } from '../declarations/DecideReturnInspectionLineItemResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { ReturnInspectionsDecideLineItemResponse } from '../declarations/ReturnInspectionsDecideLineItemResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { GetReturnInspectionResponse } from '../declarations/GetReturnInspectionResponse.js';
-export type { ReturnInspectionsGetResponse } from '../declarations/ReturnInspectionsGetResponse.js';
-export type { ListReturnInspectionsResponse } from '../declarations/ListReturnInspectionsResponse.js';
-export type { ReturnInspectionsListResponse } from '../declarations/ReturnInspectionsListResponse.js';
-export type { ReturnInspection } from '../declarations/ReturnInspection.js';
-export type { ReturnInspectionsDecideLineItemInput } from '../declarations/ReturnInspectionsDecideLineItemInput.js';
-export type { ReturnInspectionsGetInput } from '../declarations/ReturnInspectionsGetInput.js';
-export type { ReturnInspectionsListInput } from '../declarations/ReturnInspectionsListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { CreateReturnInspectionResponse } from '../declarations/CreateReturnInspectionResponse.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { ReturnDisposition } from '../declarations/ReturnDisposition.js';
-export type { ReturnActor } from '../declarations/ReturnActor.js';
-export type { ReturnInspectionLineItem } from '../declarations/ReturnInspectionLineItem.js';
-export type { DecideReturnInspectionLineItemRequestInput } from '../declarations/DecideReturnInspectionLineItemRequestInput.js';
-export { makeDecideReturnInspectionLineItemResponse } from '../declarations/makeDecideReturnInspectionLineItemResponse.js';
-export { makeGetReturnInspectionResponse } from '../declarations/makeGetReturnInspectionResponse.js';
-export { makeListReturnInspectionsResponse } from '../declarations/makeListReturnInspectionsResponse.js';
-export { makeReturnInspection } from '../declarations/makeReturnInspection.js';
-export { makeCreateReturnInspectionResponse } from '../declarations/makeCreateReturnInspectionResponse.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeReturnDisposition } from '../declarations/makeReturnDisposition.js';
-export { makeReturnActor } from '../declarations/makeReturnActor.js';
-export { makeReturnInspectionLineItem } from '../declarations/makeReturnInspectionLineItem.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly returnInspections: ReturnInspectionsResource;
+}

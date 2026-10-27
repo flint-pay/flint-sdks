@@ -1,6 +1,0 @@
-
-import type { GiftCardPurchaseRefundRecovery } from './GiftCardPurchaseRefundRecovery.js';
-import type { GiftCardPurchaseRefundValueAllocation } from './GiftCardPurchaseRefundValueAllocation.js';
-import type { MoneyValue } from './MoneyValue.js';
-
-export type GiftCardPurchaseRefundAllocation = { /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "consideration_money": MoneyValue; /** RFC3339 timestamp. Format: date-time. */ "created_at": string; "order_manual_reversal_id"?: string; "purchase_refund_allocation_id": string; "recovery"?: GiftCardPurchaseRefundRecovery; "refund_id"?: string; "status": "pending" | "succeeded" | "failed" | (string & {}); /** RFC3339 timestamp. Format: date-time. */ "updated_at": string; /** Actual value lots reserved or reversed for this original cash refund. Omitted when all value remains on the original load. */ "value_allocations"?: Array<GiftCardPurchaseRefundValueAllocation>; /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */ "value_money": MoneyValue; /** Use an exact numeric string, not a floating-point number. Format: int64. */ "version": string; };

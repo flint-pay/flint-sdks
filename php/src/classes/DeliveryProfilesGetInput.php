@@ -8,12 +8,14 @@ namespace Flint;
 final class DeliveryProfilesGetInput extends Model {
     /** @param array{'delivery_profile_id': string, 'include_diagnostics'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfilesGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
      */
     public function getDeliveryProfileId(): string { return $this->get('delivery_profile_id'); }
     public function hasDeliveryProfileId(): bool { return $this->has('delivery_profile_id'); }
-    /** @return bool
+    /** Shape $ (Value): boolean. Default: false.
+     * @return bool
      * @throws SdkError When include_diagnostics is omitted; use hasIncludeDiagnostics() or valueOrDefault().
      */
     public function getIncludeDiagnostics(): bool { return $this->get('include_diagnostics'); }

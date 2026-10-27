@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/discountPreviews.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/discountPreviews.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDiscountPreview"]:r0});
 export class Client {
@@ -12,23 +12,15 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.discountPreviews = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createDiscountPreview", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      createWithResponse: async (params, options) => this.#runtime.request("createDiscountPreview", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], true, true, params), options).then(_sdkResponse),
+      create: async (params, options) => this.#runtime.request("createDiscountPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDiscountPreview", result, path))),
+      createWithResponse: async (params, options) => this.#runtime.request("createDiscountPreview", _sdkRequestInput([], [], [], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeDiscountPreviewResponse } from '../models/DiscountPreviewResponse.js';
-export { makeDiscountPreview } from '../models/DiscountPreview.js';
-export { makePromotionCandidate } from '../models/PromotionCandidate.js';
+export { makeCreateOrderDiscount } from '../models/CreateOrderDiscount.js';
+export { makeDiscountPreviewRequest } from '../models/DiscountPreviewRequest.js';
+export { makeManualDiscountRequest } from '../models/ManualDiscountRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePromotionCombinesWith } from '../models/PromotionCombinesWith.js';
-export { makePromotionExclusivity } from '../models/PromotionExclusivity.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makePromotionRefRequest } from '../models/PromotionRefRequest.js';

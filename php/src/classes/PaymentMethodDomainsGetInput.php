@@ -7,7 +7,8 @@ namespace Flint;
 final class PaymentMethodDomainsGetInput extends Model {
     /** @param array{'payment_method_domain_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodDomainsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When payment_method_domain_id is omitted; use hasPaymentMethodDomainId() or valueOrDefault().
      */
     public function getPaymentMethodDomainId(): string { return $this->get('payment_method_domain_id'); }

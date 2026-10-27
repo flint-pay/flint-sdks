@@ -4,59 +4,65 @@ namespace Flint;
 /**
  * @property-read InventoryAllocationPolicyConfiguration $configuration
  * @property-read string $created_at
- * @property-read string $external_reference_id
+ * @property-read string $current_inventory_allocation_policy_revision_id
+ * @property-read ?string $external_reference_id
  * @property-read string $inventory_allocation_policy_id
  * @property-read array<array-key, string> $metadata
  * @property-read string $name
  * @property-read string $status
  * @property-read string $updated_at
  * @property-read string $version
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class InventoryAllocationPolicy extends Model {
-    /** @param array{'configuration': mixed, 'created_at': string, 'external_reference_id'?: string, 'inventory_allocation_policy_id': string, 'metadata': \stdClass, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'configuration': object{'location_groups': list<mixed>, 'maximum_locations_per_assignment': int, 'splitting_behavior': string, 'within_group_order': string}, 'created_at': string, 'current_inventory_allocation_policy_revision_id': string, 'external_reference_id'?: string, 'inventory_allocation_policy_id': string, 'metadata': \stdClass, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAllocationPolicy')); }
-    /** @return InventoryAllocationPolicyConfiguration
-     * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
+    /** Shape $ (Value): {@see InventoryAllocationPolicyConfiguration}.
+     * @return InventoryAllocationPolicyConfiguration
      */
     public function getConfiguration(): InventoryAllocationPolicyConfiguration { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
-     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+    /** Shape $ (Value): string. The immutable revision containing this policy's current routing configuration. Replacing configuration publishes a new revision; other policy edits keep this ID.
+     * @return string
      */
-    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function getCurrentInventoryAllocationPolicyRevisionId(): string { return $this->get('current_inventory_allocation_policy_revision_id'); }
+    public function hasCurrentInventoryAllocationPolicyRevisionId(): bool { return $this->has('current_inventory_allocation_policy_revision_id'); }
+    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+     * @return ?string
+     */
+    public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return string
-     * @throws SdkError When inventory_allocation_policy_id is omitted; use hasInventoryAllocationPolicyId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getInventoryAllocationPolicyId(): string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** @return array<array-key, string>
-     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+     * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return string
-     * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "active", "inactive", "archived".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+     * @return string
      */
     public function getVersion(): string { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }

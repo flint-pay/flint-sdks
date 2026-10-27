@@ -8,12 +8,14 @@ namespace Flint;
 final class OrderLineSubscriptionOfferDiscountInput extends Model {
     /** @param array{'amount_off_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent_off'?: int|float, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineSubscriptionOfferDiscountInput')); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_off_money is omitted; use hasAmountOffMoney() or valueOrDefault().
      */
     public function getAmountOffMoney(): mixed { return $this->get('amount_off_money'); }
     public function hasAmountOffMoney(): bool { return $this->has('amount_off_money'); }
-    /** @return int|float
+    /** Shape $ (Value): number. multipleOf: 0.0001.
+     * @return int|float
      * @throws SdkError When percent_off is omitted; use hasPercentOff() or valueOrDefault().
      */
     public function getPercentOff(): int|float { return $this->get('percent_off'); }

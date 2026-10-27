@@ -62,7 +62,10 @@ final class CurlByteStream implements ByteStream
             while (!$this->headersDone && !$this->done) {
                 $this->pump($this->started, (int) $request['timeoutMs']);
             }
-            $this->checkFailure();
+            // Preserve received headers so Runtime can classify a failed response.
+            if (!$this->headersDone) {
+                $this->checkFailure();
+            }
         } catch (\Throwable $error) {
             $this->close();
             throw $error;
@@ -77,9 +80,18 @@ final class CurlByteStream implements ByteStream
         if ($this->failure !== null && $this->failure !== CURLE_OK) {
             if (!$this->streaming) {
                 // Before delivery, Runtime owns retry classification.
-                throw new \RuntimeException('Streaming connection failed');
+                throw new \RuntimeException(curl_strerror($this->failure), $this->failure);
             }
-            throw SdkError::create('transport', 'Streaming transport failed', 'unknown');
+            throw SdkError::create(
+                $this->failure === CURLE_OPERATION_TIMEDOUT ? 'timeout' : 'transport',
+                'Streaming transport failed: ' . curl_strerror($this->failure),
+                'response',
+                false,
+                details: [
+                    'curlCode' => $this->failure,
+                    'curlError' => curl_strerror($this->failure),
+                ],
+            );
         }
     }
     private function checkRequestTimeout(): void
@@ -87,13 +99,17 @@ final class CurlByteStream implements ByteStream
         if (!$this->streaming && self::now() - $this->started >= $this->request['timeoutMs']) {
             // Let Runtime classify the exhausted overall/per-attempt budget and
             // retain its normal transport retry policy for buffered responses.
-            throw new \RuntimeException('Response exceeded the request timeout');
+            throw new \RuntimeException(
+                curl_strerror(CURLE_OPERATION_TIMEDOUT),
+                CURLE_OPERATION_TIMEDOUT,
+            );
         }
     }
     /** Transfer connection ownership only after Runtime accepts an SSE response. */
     public function startStream(): void
     {
         try {
+            $this->checkFailure();
             $this->checkRequestTimeout();
             $this->streaming = true;
             $this->started = self::now();

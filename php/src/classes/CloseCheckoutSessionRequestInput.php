@@ -7,7 +7,8 @@ namespace Flint;
 final class CloseCheckoutSessionRequestInput extends Model {
     /** @param array{'reason_message'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CloseCheckoutSessionRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Your note explaining why you are closing the checkout session. It is not shown to the buyer. minLength: 1.
+     * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }

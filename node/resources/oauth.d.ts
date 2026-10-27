@@ -1,77 +1,110 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { Result, InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { OauthAuthorizePartnerInstallInput } from '../declarations/OauthAuthorizePartnerInstallInput.js';
-import type { OauthAuthorizePartnerInstallResponse } from '../declarations/OauthAuthorizePartnerInstallResponse.js';
-import type { OauthExchangePartnerInstallTokenInput } from '../declarations/OauthExchangePartnerInstallTokenInput.js';
-import type { OauthExchangePartnerInstallTokenResponse } from '../declarations/OauthExchangePartnerInstallTokenResponse.js';
-import type { OauthPreviewPartnerInstallAuthorizationInput } from '../declarations/OauthPreviewPartnerInstallAuthorizationInput.js';
-import type { OauthPreviewPartnerInstallAuthorizationResponse } from '../declarations/OauthPreviewPartnerInstallAuthorizationResponse.js';
-import type { PartnerAuthorizePreviewResponse } from '../declarations/PartnerAuthorizePreviewResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    OauthAuthorizePartnerInstallInput,
+    OauthAuthorizePartnerInstallResponse,
+    OauthPreviewPartnerInstallAuthorizationInput
+} from '../declarations/types-31.js';
+import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-35.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    OauthAuthorizePartnerInstallResponse,
+    OauthAuthorizePartnerInstallInput,
+    OauthPreviewPartnerInstallAuthorizationInput,
+    NextAction,
+    NextActionMerchantAccountSession,
+    MoneyValue
+} from '../declarations/types-31.js';
+export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-35.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { PartnerAppPermissionManifestEntry } from '../declarations/types-34.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makePartnerAppPermissionManifestEntry } from '../declarations/types-69.js';
 export interface OauthResource {
     /**
- * Authenticates the merchant in Flint, validates the requested partner app install, and redirects back to the partner's redirect_uri with an authorization code.
+ * Starts a partner app install in the merchant's browser. Flint validates the request, then
+ * redirects to Flint's consent screen, where the merchant signs in, chooses a merchant, and
+ * approves or denies the requested permissions. Flint then redirects to redirect_uri with code,
+ * state, and mode, or with an OAuth error. Request errors found before consent also redirect with
+ * an OAuth error once client_id and redirect_uri are validated. Unknown or inactive clients and
+ * missing or unregistered redirect URIs return the Flint error envelope. Flint ignores
+ * unrecognized parameters.
+ * @see reference/oauth.md#oauthauthorizepartnerinstall
  * GET /v1/oauth/authorize
  * @example
- * client.oauth.authorizePartnerInstall({response_type: "code", client_id: "example", redirect_uri: "example", mode: "test", state: "example"})
+ * client.oauth.authorizePartnerInstall({response_type: "code", client_id: "example", redirect_uri:
+ * "example", mode: "test", code_challenge: "example", code_challenge_method: "S256", state:
+ * "example"})
  */
-    authorizePartnerInstall(params: { "response_type": InputValue<"code">; "client_id": InputValue<string>; "redirect_uri": InputValue<string>; "mode": InputValue<"test" | "live">; "permission_ids"?: InputValue<string>; "environment_id"?: InputValue<string>; "merchant_id"?: InputValue<string>; "state": InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Result<OauthAuthorizePartnerInstallResponse>>;
+    authorizePartnerInstall(params: {
+        "response_type": InputValue<"code">;
+        "client_id": InputValue<string>;
+        "redirect_uri": InputValue<string>;
+        "mode": InputValue<"test" | "live">;
+        "code_challenge": InputValue<string>;
+        "code_challenge_method": InputValue<"S256">;
+        "scope"?: InputValue<string>;
+        "sandbox_id"?: InputValue<string>;
+        "merchant_id"?: InputValue<string>;
+        "state": InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<Result<OauthAuthorizePartnerInstallResponse>>;
     /**
- * Exchanges an authorization code or refresh token for an installation-scoped bearer token. This endpoint follows OAuth token endpoint conventions: it accepts application/x-www-form-urlencoded requests as well as JSON and returns OAuth token error objects for token exchange failures instead of the normal Flint error envelope. The public client flint-cli also supports the RFC 8628 device_code grant and rotating refresh tokens using form requests. Pending device requests return authorization_pending; early polling returns slow_down and increases the required interval by five seconds; denial returns access_denied; expired or consumed codes return expired_token. Access tokens last 15 minutes. CLI sessions expire after 30 days idle or 90 days total. Reusing a rotated refresh token revokes its family, including when the previous response was lost. A fresh browser login is then required. With session_mode=contexts at authorization, tokens include oauth_session_id and context_id. Refresh requires an explicitly authorized context_id; invalid_context and context_access_denied do not consume the refresh token. Each access token is limited to one context. Ordinary rotation preserves other unexpired access tokens; removing consent immediately invalidates affected tokens. Legacy sessions retain their original response and authorization semantics.
- * POST /v1/oauth/token
- * @example
- * client.oauth.exchangePartnerInstallToken({client_id: "example", client_secret: "example", grant_type: "authorization_code"})
- */
-    exchangePartnerInstallToken(params: (InputValue<{ "client_id": string; "client_secret": string; "code"?: string; "grant_type": "authorization_code" | "refresh_token"; "redirect_uri"?: string; "refresh_token"?: string; }>), options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<Result<OauthExchangePartnerInstallTokenResponse>>;
-    /**
- * Validates the install link inputs and returns the partner app metadata and requested permissions for the consent screen.
+ * Validates the install link inputs and returns the partner app metadata and requested permissions
+ * for the consent screen. Flint ignores unrecognized parameters.
+ * @see reference/oauth.md#oauthpreviewpartnerinstallauthorization
  * GET /v1/oauth/authorize/preview
  * @example
- * client.oauth.previewPartnerInstallAuthorization({client_id: "example", redirect_uri: "example", mode: "test"})
+ * client.oauth.previewPartnerInstallAuthorization({client_id: "example", redirect_uri: "example",
+ * mode: "test"})
  */
-    previewPartnerInstallAuthorization(params: { "client_id": InputValue<string>; "redirect_uri": InputValue<string>; "mode": InputValue<"test" | "live">; "permission_ids"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<_SdkPayloadAt<PartnerAuthorizePreviewResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    previewPartnerInstallAuthorizationWithResponse(params: { "client_id": InputValue<string>; "redirect_uri": InputValue<string>; "mode": InputValue<"test" | "live">; "permission_ids"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<SdkResponse<OauthPreviewPartnerInstallAuthorizationResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly oauth: OauthResource;
+    previewPartnerInstallAuthorization(params: {
+        "response_type"?: InputValue<"code">;
+        "client_id": InputValue<string>;
+        "redirect_uri": InputValue<string>;
+        "mode": InputValue<"test" | "live">;
+        "code_challenge"?: InputValue<string>;
+        "code_challenge_method"?: InputValue<"S256">;
+        "scope"?: InputValue<string>;
+        "sandbox_id"?: InputValue<string>;
+        "state"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<PartnerAuthorizePreview>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/oauth.md#oauthpreviewpartnerinstallauthorization
+     */
+    previewPartnerInstallAuthorizationWithResponse(params: {
+        "response_type"?: InputValue<"code">;
+        "client_id": InputValue<string>;
+        "redirect_uri": InputValue<string>;
+        "mode": InputValue<"test" | "live">;
+        "code_challenge"?: InputValue<string>;
+        "code_challenge_method"?: InputValue<"S256">;
+        "scope"?: InputValue<string>;
+        "sandbox_id"?: InputValue<string>;
+        "state"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<never>>): Promise<SdkResponse<PartnerAuthorizePreviewResponse>>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { OauthAuthorizePartnerInstallResponse } from '../declarations/OauthAuthorizePartnerInstallResponse.js';
-export type { OauthExchangePartnerInstallTokenResponse } from '../declarations/OauthExchangePartnerInstallTokenResponse.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { PartnerAuthorizePreviewResponse } from '../declarations/PartnerAuthorizePreviewResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { OauthPreviewPartnerInstallAuthorizationResponse } from '../declarations/OauthPreviewPartnerInstallAuthorizationResponse.js';
-export type { OauthAuthorizePartnerInstallInput } from '../declarations/OauthAuthorizePartnerInstallInput.js';
-export type { OauthExchangePartnerInstallTokenInput } from '../declarations/OauthExchangePartnerInstallTokenInput.js';
-export type { OauthPreviewPartnerInstallAuthorizationInput } from '../declarations/OauthPreviewPartnerInstallAuthorizationInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { PartnerAuthorizePreview } from '../declarations/PartnerAuthorizePreview.js';
-export type { PartnerAuthorizePreviewPermission } from '../declarations/PartnerAuthorizePreviewPermission.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { PartnerTokenRequestInput } from '../declarations/PartnerTokenRequestInput.js';
-export { makePartnerAuthorizePreviewResponse } from '../declarations/makePartnerAuthorizePreviewResponse.js';
-export { makePartnerAuthorizePreview } from '../declarations/makePartnerAuthorizePreview.js';
-export { makePartnerAuthorizePreviewPermission } from '../declarations/makePartnerAuthorizePreviewPermission.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly oauth: OauthResource;
+}

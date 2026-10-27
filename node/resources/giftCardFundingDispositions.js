@@ -2,32 +2,72 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/giftCardFundingDispositions.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/giftCardFundingDispositions.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createGiftCardFundingDisposition"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createGiftCardFundingDisposition"]:r0,["getGiftCardFundingDisposition"]:r0,["listGiftCardFundingDispositions"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.giftCardFundingDispositions = Object.freeze({
       create: async (params, options) => this.#runtime.request("createGiftCardFundingDisposition", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createGiftCardFundingDisposition", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createGiftCardFundingDisposition", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
+      get: async (gift_card_funding_disposition_id, params, options) => this.#runtime.request("getGiftCardFundingDisposition", _sdkRequestInput([
+  "gift_card_funding_disposition_id"
+], [gift_card_funding_disposition_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getGiftCardFundingDisposition", result, path))),
+      getWithResponse: async (gift_card_funding_disposition_id, params, options) => this.#runtime.request("getGiftCardFundingDisposition", _sdkRequestInput([
+  "gift_card_funding_disposition_id"
+], [gift_card_funding_disposition_id], [], false, false, params), options).then(_sdkResponse),
+      list: async (params, options) => this.#runtime.request("listGiftCardFundingDispositions", _sdkRequestInput([], [], [
+  "created_after",
+  "created_before",
+  "dispute_id",
+  "idempotency_key",
+  "page_size",
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listGiftCardFundingDispositions", result, path))),
+      listWithResponse: async (params, options) => this.#runtime.request("listGiftCardFundingDispositions", _sdkRequestInput([], [], [
+  "created_after",
+  "created_before",
+  "dispute_id",
+  "idempotency_key",
+  "page_size",
+  "page_token"
+], false, false, params), options).then(_sdkResponse),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardFundingDispositions", _sdkRequestInput([], [], [
+  "created_after",
+  "created_before",
+  "dispute_id",
+  "idempotency_key",
+  "page_size",
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listGiftCardFundingDispositions", result, path)),
+      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardFundingDispositions", _sdkRequestInput([], [], [
+  "created_after",
+  "created_before",
+  "dispute_id",
+  "idempotency_key",
+  "page_size",
+  "page_token"
+], false, false, params), options)),
+      listItems: (params, options) => this.#runtime.items("listGiftCardFundingDispositions", _sdkRequestInput([], [], [
+  "created_after",
+  "created_before",
+  "dispute_id",
+  "idempotency_key",
+  "page_size",
+  "page_token"
+], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeGiftCardFundingDispositionResponse } from '../models/GiftCardFundingDispositionResponse.js';
-export { makeGiftCardFundingDisposition } from '../models/GiftCardFundingDisposition.js';
+export { makeCreateGiftCardFundingDispositionRequest } from '../models/CreateGiftCardFundingDispositionRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';

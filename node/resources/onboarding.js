@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/onboarding.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/onboarding.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["advanceOnboarding"]:r0,["createOnboardingAPIKey"]:r0,["getOnboardingState"]:r0,["startOnboarding"]:r0,["verifyOnboardingEmail"]:r0});
 export class Client {
@@ -12,64 +12,44 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.onboarding = Object.freeze({
-      advance: (input = {}, options) => this.#runtime.request("advanceOnboarding", input, options).then(result => _sdkPayload(result, ["data"])),
-      advanceWithResponse: (input = {}, options) => this.#runtime.request("advanceOnboarding", input, options).then(_sdkResponse),
-      createAPIKey: (input = {}, options) => this.#runtime.request("createOnboardingAPIKey", input, options).then(result => _sdkPayload(result, ["data"])),
-      createAPIKeyWithResponse: (input = {}, options) => this.#runtime.request("createOnboardingAPIKey", input, options).then(_sdkResponse),
+      advance: async (params, options) => this.#runtime.request("advanceOnboarding", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("advanceOnboarding", result, path))),
+      advanceWithResponse: async (params, options) => this.#runtime.request("advanceOnboarding", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
+      createAPIKey: async (params, options) => this.#runtime.request("createOnboardingAPIKey", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOnboardingAPIKey", result, path))),
+      createAPIKeyWithResponse: async (params, options) => this.#runtime.request("createOnboardingAPIKey", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
       getState: async (params, options) => this.#runtime.request("getOnboardingState", _sdkRequestInput([], [], [
   "sandbox_id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOnboardingState", result, path))),
       getStateWithResponse: async (params, options) => this.#runtime.request("getOnboardingState", _sdkRequestInput([], [], [
   "sandbox_id"
 ], false, false, params), options).then(_sdkResponse),
       startFlow: async (params, options) => this.#runtime.request("startOnboarding", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("startOnboarding", result, path))),
       startFlowWithResponse: async (params, options) => this.#runtime.request("startOnboarding", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       verifyEmailCode: async (params, options) => this.#runtime.request("verifyOnboardingEmail", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("verifyOnboardingEmail", result, path))),
       verifyEmailCodeWithResponse: async (params, options) => this.#runtime.request("verifyOnboardingEmail", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeOnboardingStateResponse } from '../models/OnboardingStateResponse.js';
-export { makeCreateAPIKeyResponse } from '../models/CreateAPIKeyResponse.js';
-export { makeOnboardingStartResponse } from '../models/OnboardingStartResponse.js';
-export { makeOnboardingVerifyEmailResponse } from '../models/OnboardingVerifyEmailResponse.js';
-export { makeOnboardingAdvanceRequest } from '../models/OnboardingAdvanceRequest.js';
-export { makeOnboardingLaunchRecommendedPolicy } from '../models/OnboardingLaunchRecommendedPolicy.js';
-export { makeOnboardingLaunchReference } from '../models/OnboardingLaunchReference.js';
-export { makeOnboardingNextStep } from '../models/OnboardingNextStep.js';
-export { makeOnboardingProfile } from '../models/OnboardingProfile.js';
-export { makeOnboardingProfileRequest } from '../models/OnboardingProfileRequest.js';
-export { makeOnboardingRequirements } from '../models/OnboardingRequirements.js';
-export { makeOnboardingStartRequest } from '../models/OnboardingStartRequest.js';
-export { makeOnboardingStartResult } from '../models/OnboardingStartResult.js';
-export { makeOnboardingState } from '../models/OnboardingState.js';
-export { makeOnboardingVerifyEmailRequest } from '../models/OnboardingVerifyEmailRequest.js';
-export { makeOnboardingVerifyEmailResult } from '../models/OnboardingVerifyEmailResult.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeAPIKeyWithSecret } from '../models/APIKeyWithSecret.js';
-export { makeMerchant } from '../models/Merchant.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeBanner } from '../models/Banner.js';
-export { makeImage } from '../models/Image.js';
-export { makeMerchantReadinessAxis } from '../models/MerchantReadinessAxis.js';
-export { makeMerchantReadinessRequirements } from '../models/MerchantReadinessRequirements.js';
-export { makeUser } from '../models/User.js';
 export { makeDeveloperInitialAPIKeyRequest } from '../models/DeveloperInitialAPIKeyRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOnboardingAdvanceRequest } from '../models/OnboardingAdvanceRequest.js';
+export { makeOnboardingProfileRequest } from '../models/OnboardingProfileRequest.js';
+export { makeOnboardingStartRequest } from '../models/OnboardingStartRequest.js';
+export { makeOnboardingVerifyEmailRequest } from '../models/OnboardingVerifyEmailRequest.js';

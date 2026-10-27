@@ -1,91 +1,61 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { GiftCardCashOutsCreateInput } from '../declarations/GiftCardCashOutsCreateInput.js';
-import type { GiftCardCashOutsCreateResponse } from '../declarations/GiftCardCashOutsCreateResponse.js';
-import type { GiftCardCommandResponse } from '../declarations/GiftCardCommandResponse.js';
-import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
+import type { CashOutGiftCardRequestInput, CashOutGiftCardResult, CashOutGiftCardResultResponse } from '../declarations/types-3.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { GiftCardCashOutsCreateInput } from '../declarations/types-18.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CashOutGiftCardRequestInput, CashOutGiftCardResult, CashOutGiftCardResultResponse } from '../declarations/types-3.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { GiftCardCashOutsCreateInput, GiftCard } from '../declarations/types-18.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { GiftCardRestriction, GiftCardTransaction } from '../declarations/types-19.js';
+export { makeCashOutGiftCardRequest } from '../declarations/types-62.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface GiftCardCashOutsResource {
     /**
- * Records cash that the merchant attests it paid to the cardholder. Flint does not send cash. The amount cannot exceed available value or consume payment reservations; the external reference identifies the merchant's disbursement record.
- * POST /v1/gift-cards/{gift_card_id}/cash-outs
+ * Records cash that the merchant attests it paid to the cardholder. Flint does not send cash. The
+ * amount cannot exceed available value or consume payment reservations; cash_out_reference
+ * identifies the cash disbursement the merchant made outside Flint. expected_version fences the
+ * gift card version.
+ * @see reference/giftCardCashOuts.md#giftcardcashoutscreate
+ * POST /v1/gift-cards/{gift_card_id}/cash-out
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCardCashOuts.create("example", {amount_money: {amount: "0", currency: "USD"}, external_reference_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.giftCardCashOuts.create("example", {amount_money: {amount: "100", currency: "USD"},
+ * cash_out_reference: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(gift_card_id: InputValue<string>, params: (InputValue<{ "amount_money": MoneyValueInput; "expected_version"?: string; "external_reference_id": string; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardCashOutsCreateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly giftCardCashOuts: GiftCardCashOutsResource;
+    create(gift_card_id: InputValue<string>, params: (InputValue<CashOutGiftCardRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CashOutGiftCardResult>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/giftCardCashOuts.md#giftcardcashoutscreate
+     */
+    createWithResponse(gift_card_id: InputValue<string>, params: (InputValue<CashOutGiftCardRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CashOutGiftCardResultResponse>>;
 }
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { GiftCardCommandResponse } from '../declarations/GiftCardCommandResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { GiftCardCashOutsCreateResponse } from '../declarations/GiftCardCashOutsCreateResponse.js';
-export type { GiftCardCashOutsCreateInput } from '../declarations/GiftCardCashOutsCreateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { GiftCardCommandResult } from '../declarations/GiftCardCommandResult.js';
-export type { GiftCard } from '../declarations/GiftCard.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { GiftCardLoad } from '../declarations/GiftCardLoad.js';
-export type { GiftCardFundingDispute } from '../declarations/GiftCardFundingDispute.js';
-export type { GiftCardFundingLossResolution } from '../declarations/GiftCardFundingLossResolution.js';
-export type { GiftCardPurchaseRefundValueHold } from '../declarations/GiftCardPurchaseRefundValueHold.js';
-export type { GiftCardPurchaseRefundAllocation } from '../declarations/GiftCardPurchaseRefundAllocation.js';
-export type { GiftCardPurchaseRefundRecovery } from '../declarations/GiftCardPurchaseRefundRecovery.js';
-export type { GiftCardPurchaseRefundRecoveryDestination } from '../declarations/GiftCardPurchaseRefundRecoveryDestination.js';
-export type { GiftCardPurchaseRefundValueAllocation } from '../declarations/GiftCardPurchaseRefundValueAllocation.js';
-export type { GiftCardPurchaseRestoration } from '../declarations/GiftCardPurchaseRestoration.js';
-export type { GiftCardRefundProvenance } from '../declarations/GiftCardRefundProvenance.js';
-export type { GiftCardFundingSource } from '../declarations/GiftCardFundingSource.js';
-export type { GiftCardNotification } from '../declarations/GiftCardNotification.js';
-export type { GiftCardNotificationDelivery } from '../declarations/GiftCardNotificationDelivery.js';
-export type { GiftCardNotificationDeliveryAttempt } from '../declarations/GiftCardNotificationDeliveryAttempt.js';
-export type { GiftCardNotificationProviderOutcome } from '../declarations/GiftCardNotificationProviderOutcome.js';
-export type { GiftCardNotificationRecipient } from '../declarations/GiftCardNotificationRecipient.js';
-export type { GiftCardRedemption } from '../declarations/GiftCardRedemption.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { CreateGiftCardCashOutRequestInput } from '../declarations/CreateGiftCardCashOutRequestInput.js';
-export { makeGiftCardCommandResponse } from '../declarations/makeGiftCardCommandResponse.js';
-export { makeGiftCardCommandResult } from '../declarations/makeGiftCardCommandResult.js';
-export { makeGiftCard } from '../declarations/makeGiftCard.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeGiftCardLoad } from '../declarations/makeGiftCardLoad.js';
-export { makeGiftCardFundingDispute } from '../declarations/makeGiftCardFundingDispute.js';
-export { makeGiftCardFundingLossResolution } from '../declarations/makeGiftCardFundingLossResolution.js';
-export { makeGiftCardPurchaseRefundValueHold } from '../declarations/makeGiftCardPurchaseRefundValueHold.js';
-export { makeGiftCardPurchaseRefundAllocation } from '../declarations/makeGiftCardPurchaseRefundAllocation.js';
-export { makeGiftCardPurchaseRefundRecovery } from '../declarations/makeGiftCardPurchaseRefundRecovery.js';
-export { makeGiftCardPurchaseRefundRecoveryDestination } from '../declarations/makeGiftCardPurchaseRefundRecoveryDestination.js';
-export { makeGiftCardPurchaseRefundValueAllocation } from '../declarations/makeGiftCardPurchaseRefundValueAllocation.js';
-export { makeGiftCardPurchaseRestoration } from '../declarations/makeGiftCardPurchaseRestoration.js';
-export { makeGiftCardRefundProvenance } from '../declarations/makeGiftCardRefundProvenance.js';
-export { makeGiftCardFundingSource } from '../declarations/makeGiftCardFundingSource.js';
-export { makeGiftCardNotification } from '../declarations/makeGiftCardNotification.js';
-export { makeGiftCardNotificationDelivery } from '../declarations/makeGiftCardNotificationDelivery.js';
-export { makeGiftCardNotificationDeliveryAttempt } from '../declarations/makeGiftCardNotificationDeliveryAttempt.js';
-export { makeGiftCardNotificationProviderOutcome } from '../declarations/makeGiftCardNotificationProviderOutcome.js';
-export { makeGiftCardNotificationRecipient } from '../declarations/makeGiftCardNotificationRecipient.js';
-export { makeGiftCardRedemption } from '../declarations/makeGiftCardRedemption.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly giftCardCashOuts: GiftCardCashOutsResource;
+}

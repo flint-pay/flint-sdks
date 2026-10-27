@@ -2,21 +2,37 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentMethods.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/paymentMethods.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["getPaymentMethod"]:r0,["listPaymentMethods"]:r0,["removePaymentMethod"]:r0,["savePaymentMethod"]:r0,["setDefaultPaymentMethod"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createPaymentMethod"]:r0,["deletePaymentMethod"]:r0,["getPaymentMethod"]:r0,["listPaymentMethods"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.paymentMethods = Object.freeze({
+      save: async (params, options) => this.#runtime.request("createPaymentMethod", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPaymentMethod", result, path))),
+      saveWithResponse: async (params, options) => this.#runtime.request("createPaymentMethod", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
+      remove: async (payment_method_id, params, options) => this.#runtime.request("deletePaymentMethod", _sdkRequestInput([
+  "payment_method_id"
+], [payment_method_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePaymentMethod", result, path))),
+      removeWithResponse: async (payment_method_id, params, options) => this.#runtime.request("deletePaymentMethod", _sdkRequestInput([
+  "payment_method_id"
+], [payment_method_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(_sdkResponse),
       get: async (payment_method_id, params, options) => this.#runtime.request("getPaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPaymentMethod", result, path))),
       getWithResponse: async (payment_method_id, params, options) => this.#runtime.request("getPaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [
@@ -28,15 +44,21 @@ this.paymentMethods = Object.freeze({
   "page_token",
   "type",
   "status",
-  "usage"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "usage",
+  "created_after",
+  "created_before",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPaymentMethods", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage"
+  "usage",
+  "created_after",
+  "created_before",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
@@ -44,15 +66,21 @@ this.paymentMethods = Object.freeze({
   "page_token",
   "type",
   "status",
-  "usage"
-], false, false, params), options), []),
+  "usage",
+  "created_after",
+  "created_before",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPaymentMethods", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage"
+  "usage",
+  "created_after",
+  "created_before",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPaymentMethods", _sdkRequestInput([], [], [
   "customer_id",
@@ -60,57 +88,15 @@ this.paymentMethods = Object.freeze({
   "page_token",
   "type",
   "status",
-  "usage"
+  "usage",
+  "created_after",
+  "created_before",
+  "expand"
 ], false, false, params), options),
-      remove: async (payment_method_id, params, options) => this.#runtime.request("removePaymentMethod", _sdkRequestInput([
-  "payment_method_id"
-], [payment_method_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      removeWithResponse: async (payment_method_id, params, options) => this.#runtime.request("removePaymentMethod", _sdkRequestInput([
-  "payment_method_id"
-], [payment_method_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
-      save: async (params, options) => this.#runtime.request("savePaymentMethod", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      saveWithResponse: async (params, options) => this.#runtime.request("savePaymentMethod", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(_sdkResponse),
-      setDefault: async (payment_method_id, params, options) => this.#runtime.request("setDefaultPaymentMethod", _sdkRequestInput([
-  "payment_method_id"
-], [payment_method_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      setDefaultWithResponse: async (payment_method_id, params, options) => this.#runtime.request("setDefaultPaymentMethod", _sdkRequestInput([
-  "payment_method_id"
-], [payment_method_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makePaymentMethodResponse } from '../models/PaymentMethodResponse.js';
-export { makePaymentMethodListResponse } from '../models/PaymentMethodListResponse.js';
-export { makePaymentMethod } from '../models/PaymentMethod.js';
-export { makeActionResponse } from '../models/ActionResponse.js';
-export { makeSavePaymentMethodResponse } from '../models/SavePaymentMethodResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeCardDetails } from '../models/CardDetails.js';
-export { makeActionResult } from '../models/ActionResult.js';
-export { makeSavePaymentMethodResult } from '../models/SavePaymentMethodResult.js';
-export { makeStripeClientSetup } from '../models/StripeClientSetup.js';
-export { makeStripeClientSetupStripe } from '../models/StripeClientSetupStripe.js';
-export { makeStripeClientAuthority } from '../models/StripeClientAuthority.js';
+export { makeSavePaymentMethodRequest } from '../models/SavePaymentMethodRequest.js';

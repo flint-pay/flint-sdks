@@ -1,1 +1,1 @@
-{"shared":"APIRequestLog","dependencies":["APIRequestLog","ApiRequestLogExpansionShape","ApiRequestLogResponseShapeMetadata","SharedCodec2"]}
+{"shared":"APIRequestLog","dependencies":["APIRequestLog","ResourceReference","ResourceType"]}

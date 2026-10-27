@@ -1,1 +1,1 @@
-{"shared":"DeliveryWindowResource","dependencies":["DeliveryWindowResource","MoneyValue"]}
+{"shared":"DeliveryWindowRequest","dependencies":["DeliveryWindowRequest","MoneyValue"]}

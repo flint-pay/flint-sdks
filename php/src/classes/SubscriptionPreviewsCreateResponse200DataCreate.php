@@ -2,56 +2,56 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read SubscriptionAddressVerification $address_verification
- * @property-read string $currency
- * @property-read list<SubscriptionDeliveryOption> $delivery_methods
- * @property-read PostalAddress $destination_address
- * @property-read list<SubscriptionPreviewError> $errors
- * @property-read bool $is_valid
+ * @property-read ?SubscriptionAddressVerification $address_verification
+ * @property-read ?string $currency
+ * @property-read ?list<SubscriptionDeliveryOption> $delivery_methods
+ * @property-read ?Address $destination_address
+ * @property-read ?list<SubscriptionPreviewError> $errors
+ * @property-read ?bool $is_valid
  * @property-read string $mode
- * @property-read string $subscription_id
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?string $subscription_id
+ * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPreviewsCreateResponse200DataCreate extends Model {
     /** @param array{'address_verification'?: mixed, 'currency'?: string, 'delivery_methods'?: list<mixed>, 'destination_address'?: mixed, 'errors'?: list<mixed>, 'is_valid'?: bool, 'mode': string, 'subscription_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewsCreateResponse200DataCreate')); }
-    /** @return SubscriptionAddressVerification
-     * @throws SdkError When address_verification is omitted; use hasAddressVerification() or valueOrDefault().
+    /** Shape $ (Value): {@see SubscriptionAddressVerification}. The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
+     * @return ?SubscriptionAddressVerification
      */
-    public function getAddressVerification(): SubscriptionAddressVerification { return $this->get('address_verification'); }
+    public function getAddressVerification(): ?SubscriptionAddressVerification { return $this->get('address_verification'); }
     public function hasAddressVerification(): bool { return $this->has('address_verification'); }
-    /** @return string
-     * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
+    /** Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * @return ?string
      */
-    public function getCurrency(): string { return $this->get('currency'); }
+    public function getCurrency(): ?string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** @return list<SubscriptionDeliveryOption>
-     * @throws SdkError When delivery_methods is omitted; use hasDeliveryMethods() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see SubscriptionDeliveryOption}. Present in delivery_options mode ([] when no method applies); absent in create mode. Shape $[] (Value): {@see SubscriptionDeliveryOption}. A delivery method offered for a subscription, with its availability, price, and the reason it is unavailable if it is.
+     * @return ?list<SubscriptionDeliveryOption>
      */
-    public function getDeliveryMethods(): array { return $this->get('delivery_methods'); }
+    public function getDeliveryMethods(): ?array { return $this->get('delivery_methods'); }
     public function hasDeliveryMethods(): bool { return $this->has('delivery_methods'); }
-    /** @return PostalAddress
-     * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
+    /** Shape $ (Value): {@see Address}. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
+     * @return ?Address
      */
-    public function getDestinationAddress(): PostalAddress { return $this->get('destination_address'); }
+    public function getDestinationAddress(): ?Address { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** @return list<SubscriptionPreviewError>
-     * @throws SdkError When errors is omitted; use hasErrors() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see SubscriptionPreviewError}. Present in create mode ([] when the subscription is valid); absent in delivery_options mode. Shape $[] (Value): {@see SubscriptionPreviewError}. An error found while previewing a subscription, with a `code`, message, and the parameter at fault.
+     * @return ?list<SubscriptionPreviewError>
      */
-    public function getErrors(): array { return $this->get('errors'); }
+    public function getErrors(): ?array { return $this->get('errors'); }
     public function hasErrors(): bool { return $this->has('errors'); }
-    /** @return bool
-     * @throws SdkError When is_valid is omitted; use hasIsValid() or valueOrDefault().
+    /** Shape $ (Value): boolean. Present in create mode; absent in delivery_options mode.
+     * @return ?bool
      */
-    public function getIsValid(): bool { return $this->get('is_valid'); }
+    public function getIsValid(): ?bool { return $this->get('is_valid'); }
     public function hasIsValid(): bool { return $this->has('is_valid'); }
-    /** @return string
-     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "create", "delivery_options".
+     * @return string
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** @return string
-     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function getSubscriptionId(): ?string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
 }

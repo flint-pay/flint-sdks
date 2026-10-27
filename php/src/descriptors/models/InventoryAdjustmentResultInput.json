@@ -1,1 +1,1 @@
-{"shared":"InventoryAdjustmentResult","dependencies":["AdjustmentLine","InventoryAdjustment","InventoryAdjustmentResult","InventoryItem","InventoryLevel","InventorySourceSystem","SharedCodec42"]}
+{"shared":"InventoryAdjustmentResult","dependencies":["InventoryAdjustment","InventoryAdjustmentLine","InventoryAdjustmentResult","InventoryItem","InventoryLevel","InventorySourceSystem","SharedCodec145","SharedCodec831","SharedCodec832","SharedCodec833","SharedCodec834"]}

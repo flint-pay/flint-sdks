@@ -1,0 +1,27 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read ?APIKey $api_key
+ * @property-read DeveloperSandbox $sandbox
+ * @property-read ?string $secret_key
+ * Presence-aware response; omitted optional fields return null. */
+final class CreateDeveloperSandboxResult extends Model {
+    /** @param array{'api_key'?: mixed, 'sandbox': mixed, 'secret_key'?: string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDeveloperSandboxResult')); }
+    /** Shape $ (Value): {@see APIKey}. The newly issued test API key. Present exactly when issue_test_key is true. A credential used to authenticate API requests.
+     * @return ?APIKey
+     */
+    public function getApiKey(): ?APIKey { return $this->get('api_key'); }
+    public function hasApiKey(): bool { return $this->has('api_key'); }
+    /** Shape $ (Value): {@see DeveloperSandbox}. An isolated environment for testing an integration.
+     * @return DeveloperSandbox
+     */
+    public function getSandbox(): DeveloperSandbox { return $this->get('sandbox'); }
+    public function hasSandbox(): bool { return $this->has('sandbox'); }
+    /** Shape $ (Value): string. The one-time secret for api_key. Present exactly when issue_test_key is true.
+     * @return ?string
+     */
+    public function getSecretKey(): ?string { return $this->get('secret_key'); }
+    public function hasSecretKey(): bool { return $this->has('secret_key'); }
+}

@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/me.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionBillingInterval"]:r0,["changeMeSubscriptionDelivery"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["changeMeSubscriptionQuantity"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["createMeSubscriptionPreview"]:r0,["deleteMeAddress"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePaymentMethod"]:r0,["getMeReturn"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFlintWalletPaymentMethods"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["removeMePaymentMethod"]:r0,["renewMeSubscription"]:r0,["resumeMeSubscription"]:r0,["saveMeGiftCard"]:r0,["saveMePaymentMethod"]:r0,["sendMeOrderReceipt"]:r0,["setDefaultMeAddress"]:r0,["setDefaultMePaymentMethod"]:r0,["skipMeSubscriptionCycle"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0,["updateMeSubscriptionLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionBillingInterval"]:r0,["changeMeSubscriptionDelivery"]:r0,["changeMeSubscriptionPaymentMethod"]:r0,["changeMeSubscriptionQuantity"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMePaymentMethod"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["createMeSubscriptionPreview"]:r0,["deleteMeAddress"]:r0,["deleteMePaymentMethod"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeFulfillment"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMePackage"]:r0,["getMePayment"]:r0,["getMePaymentMethod"]:r0,["getMeRefund"]:r0,["getMeReturn"]:r0,["getMeReturnResolution"]:r0,["getMeShipment"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFlintWalletPaymentMethods"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentMethods"]:r0,["listMePayments"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptions"]:r0,["pauseMeSubscription"]:r0,["reactivateMeSubscription"]:r0,["removeMeGiftCard"]:r0,["renewMeSubscription"]:r0,["resumeMeSubscription"]:r0,["revokeMeSession"]:r0,["saveMeGiftCard"]:r0,["sendMeOrderReceipt"]:r0,["setDefaultMeAddress"]:r0,["skipMeSubscriptionCycle"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0,["updateMeSubscription"]:r0,["updateMeSubscriptionLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -16,7 +16,7 @@ this.me = Object.freeze({
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelMeReturn", result, path))),
       cancelReturnWithResponse: async (return_id, params, options) => this.#runtime.request("cancelMeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -25,20 +25,18 @@ this.me = Object.freeze({
       cancelSubscription: async (subscription_id, params, options) => this.#runtime.request("cancelMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelMeSubscription", result, path))),
       cancelSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("cancelMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       changeSubscriptionBillingInterval: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionBillingInterval", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("changeMeSubscriptionBillingInterval", result, path))),
       changeSubscriptionBillingIntervalWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionBillingInterval", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -48,7 +46,7 @@ this.me = Object.freeze({
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("changeMeSubscriptionDelivery", result, path))),
       changeSubscriptionDeliveryWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionDelivery", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -57,20 +55,18 @@ this.me = Object.freeze({
       changeSubscriptionPaymentMethod: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("changeMeSubscriptionPaymentMethod", result, path))),
       changeSubscriptionPaymentMethodWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       changeSubscriptionQuantity: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionQuantity", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("changeMeSubscriptionQuantity", result, path))),
       changeSubscriptionQuantityWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeMeSubscriptionQuantity", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -79,44 +75,36 @@ this.me = Object.freeze({
       confirmEmailChangeRequest: async (email_change_request_id, params, options) => this.#runtime.request("confirmMeEmailChangeRequest", _sdkRequestInput([
   "email_change_request_id"
 ], [email_change_request_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("confirmMeEmailChangeRequest", result, path))),
       confirmEmailChangeRequestWithResponse: async (email_change_request_id, params, options) => this.#runtime.request("confirmMeEmailChangeRequest", _sdkRequestInput([
   "email_change_request_id"
 ], [email_change_request_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createAddress: async (params, options) => this.#runtime.request("createMeAddress", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeAddress", result, path))),
       createAddressWithResponse: async (params, options) => this.#runtime.request("createMeAddress", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createDeletionRequest: async (params, options) => this.#runtime.request("createMeDeletionRequest", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeDeletionRequest", result, path))),
       createDeletionRequestWithResponse: async (params, options) => this.#runtime.request("createMeDeletionRequest", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       createEmailChangeRequest: async (params, options) => this.#runtime.request("createMeEmailChangeRequest", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeEmailChangeRequest", result, path))),
       createEmailChangeRequestWithResponse: async (params, options) => this.#runtime.request("createMeEmailChangeRequest", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createFlintWalletStoreSetup: async (id, params, options) => this.#runtime.request("createMeFlintWalletStoreSetup", _sdkRequestInput([
   "id"
 ], [id], [
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeFlintWalletStoreSetup", result, path))),
       createFlintWalletStoreSetupWithResponse: async (id, params, options) => this.#runtime.request("createMeFlintWalletStoreSetup", _sdkRequestInput([
   "id"
 ], [id], [
@@ -125,28 +113,32 @@ this.me = Object.freeze({
       createInvoiceCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createMeInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeInvoiceCheckoutSession", result, path))),
       createInvoiceCheckoutSessionWithResponse: async (invoice_id, params, options) => this.#runtime.request("createMeInvoiceCheckoutSession", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
+      savePaymentMethod: async (params, options) => this.#runtime.request("createMePaymentMethod", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMePaymentMethod", result, path))),
+      savePaymentMethodWithResponse: async (params, options) => this.#runtime.request("createMePaymentMethod", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
       createReturn: async (params, options) => this.#runtime.request("createMeReturn", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeReturn", result, path))),
       createReturnWithResponse: async (params, options) => this.#runtime.request("createMeReturn", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      createReturnPreview: async (params, options) => this.#runtime.request("createMeReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      createReturnPreview: async (params, options) => this.#runtime.request("createMeReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeReturnPreview", result, path))),
       createReturnPreviewWithResponse: async (params, options) => this.#runtime.request("createMeReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(_sdkResponse),
       createReturnResolutionCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeReturnResolutionCheckoutSession", result, path))),
       createReturnResolutionCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -155,45 +147,47 @@ this.me = Object.freeze({
       createSubscriptionPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeSubscriptionPaymentRetry", result, path))),
       createSubscriptionPaymentRetryWithResponse: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
-      createSubscriptionPreview: async (params, options) => this.#runtime.request("createMeSubscriptionPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      createSubscriptionPreviewWithResponse: async (params, options) => this.#runtime.request("createMeSubscriptionPreview", _sdkRequestInput([], [], [], true, true, params), options).then(_sdkResponse),
+      createSubscriptionPreview: (input = {}, options) => this.#runtime.request("createMeSubscriptionPreview", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeSubscriptionPreview", result, path))),
+      createSubscriptionPreviewWithResponse: (input = {}, options) => this.#runtime.request("createMeSubscriptionPreview", input, options).then(_sdkResponse),
       deleteAddress: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteMeAddress", result, path))),
       deleteAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("deleteMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
-      get: async (params, options) => this.#runtime.request("getMe", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      removePaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("deleteMePaymentMethod", _sdkRequestInput([
+  "payment_method_id"
+], [payment_method_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteMePaymentMethod", result, path))),
+      removePaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("deleteMePaymentMethod", _sdkRequestInput([
+  "payment_method_id"
+], [payment_method_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(_sdkResponse),
+      get: async (params, options) => this.#runtime.request("getMe", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMe", result, path))),
       getWithResponse: async (params, options) => this.#runtime.request("getMe", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       getAddress: async (customer_address_id, params, options) => this.#runtime.request("getMeAddress", _sdkRequestInput([
   "customer_address_id"
-], [customer_address_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [customer_address_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeAddress", result, path))),
       getAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("getMeAddress", _sdkRequestInput([
   "customer_address_id"
-], [customer_address_id], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+], [customer_address_id], [], false, false, params), options).then(_sdkResponse),
       getCreditNote: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
   "invoice_id",
   "credit_note_id"
-], [invoice_id, credit_note_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [invoice_id, credit_note_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeCreditNote", result, path))),
       getCreditNoteWithResponse: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
   "invoice_id",
   "credit_note_id"
@@ -204,33 +198,27 @@ this.me = Object.freeze({
 ], [invoice_id, credit_note_id], [], false, false, params), options),
       getDeletionRequest: async (customer_deletion_request_id, params, options) => this.#runtime.request("getMeDeletionRequest", _sdkRequestInput([
   "customer_deletion_request_id"
-], [customer_deletion_request_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [customer_deletion_request_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeDeletionRequest", result, path))),
       getDeletionRequestWithResponse: async (customer_deletion_request_id, params, options) => this.#runtime.request("getMeDeletionRequest", _sdkRequestInput([
   "customer_deletion_request_id"
-], [customer_deletion_request_id], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
-      getEmailPreferences: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+], [customer_deletion_request_id], [], false, false, params), options).then(_sdkResponse),
+      getEmailPreferences: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeEmailPreferences", result, path))),
+      getEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
+      getFulfillment: async (fulfillment_id, params, options) => this.#runtime.request("getMeFulfillment", _sdkRequestInput([
+  "fulfillment_id"
+], [fulfillment_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeFulfillment", result, path))),
+      getFulfillmentWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("getMeFulfillment", _sdkRequestInput([
+  "fulfillment_id"
+], [fulfillment_id], [], false, false, params), options).then(_sdkResponse),
       getGiftCard: async (gift_card_id, params, options) => this.#runtime.request("getMeGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [gift_card_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeGiftCard", result, path))),
       getGiftCardWithResponse: async (gift_card_id, params, options) => this.#runtime.request("getMeGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+], [gift_card_id], [], false, false, params), options).then(_sdkResponse),
       getInvoice: async (invoice_id, params, options) => this.#runtime.request("getMeInvoice", _sdkRequestInput([
   "invoice_id"
-], [invoice_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [invoice_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeInvoice", result, path))),
       getInvoiceWithResponse: async (invoice_id, params, options) => this.#runtime.request("getMeInvoice", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [], false, false, params), options).then(_sdkResponse),
@@ -239,67 +227,92 @@ this.me = Object.freeze({
 ], [invoice_id], [], false, false, params), options),
       getOrder: async (order_id, params, options) => this.#runtime.request("getMeOrder", _sdkRequestInput([
   "order_id"
-], [order_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [order_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeOrder", result, path))),
       getOrderWithResponse: async (order_id, params, options) => this.#runtime.request("getMeOrder", _sdkRequestInput([
   "order_id"
 ], [order_id], [], false, false, params), options).then(_sdkResponse),
+      getPackage: async (package_id, params, options) => this.#runtime.request("getMePackage", _sdkRequestInput([
+  "package_id"
+], [package_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMePackage", result, path))),
+      getPackageWithResponse: async (package_id, params, options) => this.#runtime.request("getMePackage", _sdkRequestInput([
+  "package_id"
+], [package_id], [], false, false, params), options).then(_sdkResponse),
+      getPayment: async (payment_intent_id, params, options) => this.#runtime.request("getMePayment", _sdkRequestInput([
+  "payment_intent_id"
+], [payment_intent_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMePayment", result, path))),
+      getPaymentWithResponse: async (payment_intent_id, params, options) => this.#runtime.request("getMePayment", _sdkRequestInput([
+  "payment_intent_id"
+], [payment_intent_id], [], false, false, params), options).then(_sdkResponse),
       getPaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("getMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
-], [payment_method_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [payment_method_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMePaymentMethod", result, path))),
       getPaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("getMePaymentMethod", _sdkRequestInput([
   "payment_method_id"
 ], [payment_method_id], [], false, false, params), options).then(_sdkResponse),
+      getRefund: async (refund_id, params, options) => this.#runtime.request("getMeRefund", _sdkRequestInput([
+  "refund_id"
+], [refund_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeRefund", result, path))),
+      getRefundWithResponse: async (refund_id, params, options) => this.#runtime.request("getMeRefund", _sdkRequestInput([
+  "refund_id"
+], [refund_id], [], false, false, params), options).then(_sdkResponse),
       getReturn: async (return_id, params, options) => this.#runtime.request("getMeReturn", _sdkRequestInput([
   "return_id"
-], [return_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeReturn", result, path))),
       getReturnWithResponse: async (return_id, params, options) => this.#runtime.request("getMeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [], false, false, params), options).then(_sdkResponse),
+      getReturnResolution: async (return_resolution_id, params, options) => this.#runtime.request("getMeReturnResolution", _sdkRequestInput([
+  "return_resolution_id"
+], [return_resolution_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeReturnResolution", result, path))),
+      getReturnResolutionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("getMeReturnResolution", _sdkRequestInput([
+  "return_resolution_id"
+], [return_resolution_id], [], false, false, params), options).then(_sdkResponse),
+      getShipment: async (shipment_id, params, options) => this.#runtime.request("getMeShipment", _sdkRequestInput([
+  "shipment_id"
+], [shipment_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeShipment", result, path))),
+      getShipmentWithResponse: async (shipment_id, params, options) => this.#runtime.request("getMeShipment", _sdkRequestInput([
+  "shipment_id"
+], [shipment_id], [], false, false, params), options).then(_sdkResponse),
       getSubscription: async (subscription_id, params, options) => this.#runtime.request("getMeSubscription", _sdkRequestInput([
   "subscription_id"
-], [subscription_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeSubscription", result, path))),
       getSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("getMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [], false, false, params), options).then(_sdkResponse),
       getSubscriptionPaymentRetry: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id",
   "subscription_payment_retry_id"
-], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeSubscriptionPaymentRetry", result, path))),
       getSubscriptionPaymentRetryWithResponse: async (subscription_id, subscription_payment_retry_id, params, options) => this.#runtime.request("getMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id",
   "subscription_payment_retry_id"
 ], [subscription_id, subscription_payment_retry_id], [], false, false, params), options).then(_sdkResponse),
       listAddresses: async (params, options) => this.#runtime.request("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeAddresses", result, path))),
       listAddressesWithResponse: async (params, options) => this.#runtime.request("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listAddressesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeAddresses", result, path)),
       listAddressesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options)),
       listAddressesItems: (params, options) => this.#runtime.items("listMeAddresses", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options),
       listCreditNotes: async (invoice_id, params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeCreditNotes", result, path))),
       listCreditNotesWithResponse: async (invoice_id, params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -311,7 +324,7 @@ this.me = Object.freeze({
 ], [invoice_id], [
   "page_size",
   "page_token"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeCreditNotes", result, path)),
       listCreditNotesPagesWithResponse: (invoice_id, params, options) => _sdkResponsePages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -327,34 +340,29 @@ this.me = Object.freeze({
       listDeletionRequests: async (params, options) => this.#runtime.request("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeDeletionRequests", result, path))),
       listDeletionRequestsWithResponse: async (params, options) => this.#runtime.request("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listDeletionRequestsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeDeletionRequests", result, path)),
       listDeletionRequestsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options)),
       listDeletionRequestsItems: (params, options) => this.#runtime.items("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options),
-      listFlintWalletPaymentMethods: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+      listFlintWalletPaymentMethods: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeFlintWalletPaymentMethods", result, path))),
       listFlintWalletPaymentMethodsWithResponse: async (params, options) => this.#runtime.request("listMeFlintWalletPaymentMethods", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       listFulfillmentEvents: async (params, options) => this.#runtime.request("listMeFulfillmentEvents", _sdkRequestInput([], [], [
   "order_id",
@@ -363,7 +371,7 @@ this.me = Object.freeze({
   "package_id",
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeFulfillmentEvents", result, path))),
       listFulfillmentEventsWithResponse: async (params, options) => this.#runtime.request("listMeFulfillmentEvents", _sdkRequestInput([], [], [
   "order_id",
   "fulfillment_id",
@@ -379,7 +387,7 @@ this.me = Object.freeze({
   "package_id",
   "page_size",
   "page_token"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeFulfillmentEvents", result, path)),
       listFulfillmentEventsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeFulfillmentEvents", _sdkRequestInput([], [], [
   "order_id",
   "fulfillment_id",
@@ -397,142 +405,112 @@ this.me = Object.freeze({
   "page_token"
 ], false, false, params), options),
       listFulfillments: async (params, options) => this.#runtime.request("listMeFulfillments", _sdkRequestInput([], [], [
-  "order_id",
   "page_size",
   "page_token",
-  "external_reference_id",
-  "query",
+  "order_id",
   "status",
   "type",
-  "location_id",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "sort_direction"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeFulfillments", result, path))),
       listFulfillmentsWithResponse: async (params, options) => this.#runtime.request("listMeFulfillments", _sdkRequestInput([], [], [
-  "order_id",
   "page_size",
   "page_token",
-  "external_reference_id",
-  "query",
+  "order_id",
   "status",
   "type",
-  "location_id",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
+  "sort_direction"
 ], false, false, params), options).then(_sdkResponse),
       listFulfillmentsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeFulfillments", _sdkRequestInput([], [], [
-  "order_id",
   "page_size",
   "page_token",
-  "external_reference_id",
-  "query",
+  "order_id",
   "status",
   "type",
-  "location_id",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "sort_direction"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeFulfillments", result, path)),
       listFulfillmentsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeFulfillments", _sdkRequestInput([], [], [
-  "order_id",
   "page_size",
   "page_token",
-  "external_reference_id",
-  "query",
+  "order_id",
   "status",
   "type",
-  "location_id",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
+  "sort_direction"
 ], false, false, params), options)),
       listFulfillmentsItems: (params, options) => this.#runtime.items("listMeFulfillments", _sdkRequestInput([], [], [
-  "order_id",
   "page_size",
   "page_token",
-  "external_reference_id",
-  "query",
+  "order_id",
   "status",
   "type",
-  "location_id",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
+  "sort_direction"
 ], false, false, params), options),
       listGiftCards: async (params, options) => this.#runtime.request("listMeGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeGiftCards", result, path))),
       listGiftCardsWithResponse: async (params, options) => this.#runtime.request("listMeGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "page_size",
   "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listGiftCardsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "page_size",
   "page_token"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeGiftCards", result, path)),
       listGiftCardsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "page_size",
   "page_token"
 ], false, false, params), options)),
       listGiftCardsItems: (params, options) => this.#runtime.items("listMeGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "page_size",
   "page_token"
 ], false, false, params), options),
       listGiftCardTransactions: async (gift_card_id, params, options) => this.#runtime.request("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeGiftCardTransactions", result, path))),
       listGiftCardTransactionsWithResponse: async (gift_card_id, params, options) => this.#runtime.request("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "page_size",
   "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listGiftCardTransactionsPages: (gift_card_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "page_size",
   "page_token"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeGiftCardTransactions", result, path)),
       listGiftCardTransactionsPagesWithResponse: (gift_card_id, params, options) => _sdkResponsePages(this.#runtime.pages("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "page_size",
   "page_token"
 ], false, false, params), options)),
       listGiftCardTransactionsItems: (gift_card_id, params, options) => this.#runtime.items("listMeGiftCardTransactions", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "page_size",
   "page_token"
 ], false, false, params), options),
@@ -541,80 +519,70 @@ this.me = Object.freeze({
   "page_token",
   "status",
   "order_id",
-  "external_reference_id",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
-  "sort_direction",
-  "query"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "sort_direction"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeInvoices", result, path))),
       listInvoicesWithResponse: async (params, options) => this.#runtime.request("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "order_id",
-  "external_reference_id",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
-  "sort_direction",
-  "query"
+  "sort_direction"
 ], false, false, params), options).then(_sdkResponse),
       listInvoicesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "order_id",
-  "external_reference_id",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
-  "sort_direction",
-  "query"
-], false, false, params), options), []),
+  "sort_direction"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeInvoices", result, path)),
       listInvoicesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "order_id",
-  "external_reference_id",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
-  "sort_direction",
-  "query"
+  "sort_direction"
 ], false, false, params), options)),
       listInvoicesItems: (params, options) => this.#runtime.items("listMeInvoices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "order_id",
-  "external_reference_id",
   "created_after",
   "created_before",
   "due_after",
   "due_before",
   "is_overdue",
-  "has_amount_due",
+  "has_outstanding_balance",
   "sort_by",
-  "sort_direction",
-  "query"
+  "sort_direction"
 ], false, false, params), options),
       listOrderActivities: async (order_id, params, options) => this.#runtime.request("listMeOrderActivities", _sdkRequestInput([
   "order_id"
@@ -622,15 +590,15 @@ this.me = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "activity_type"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeOrderActivities", result, path))),
       listOrderActivitiesWithResponse: async (order_id, params, options) => this.#runtime.request("listMeOrderActivities", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
+  "activity_type"
 ], false, false, params), options).then(_sdkResponse),
       listOrderActivitiesPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeOrderActivities", _sdkRequestInput([
   "order_id"
@@ -638,15 +606,15 @@ this.me = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
-], false, false, params), options), []),
+  "activity_type"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeOrderActivities", result, path)),
       listOrderActivitiesPagesWithResponse: (order_id, params, options) => _sdkResponsePages(this.#runtime.pages("listMeOrderActivities", _sdkRequestInput([
   "order_id"
 ], [order_id], [
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
+  "activity_type"
 ], false, false, params), options)),
       listOrderActivitiesItems: (order_id, params, options) => this.#runtime.items("listMeOrderActivities", _sdkRequestInput([
   "order_id"
@@ -654,23 +622,21 @@ this.me = Object.freeze({
   "page_size",
   "page_token",
   "sort_direction",
-  "type"
+  "activity_type"
 ], false, false, params), options),
       listOrders: async (params, options) => this.#runtime.request("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "closed_reason",
   "status",
   "payment_status",
   "refund_status",
   "fulfillment_status",
   "order_number",
-  "external_reference_id",
   "origin",
   "query",
   "subscription_id",
   "subscription_delivery_changed",
-  "return_id",
-  "return_resolution_id",
   "min_amount",
   "max_amount",
   "currency",
@@ -680,22 +646,20 @@ this.me = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeOrders", result, path))),
       listOrdersWithResponse: async (params, options) => this.#runtime.request("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "closed_reason",
   "status",
   "payment_status",
   "refund_status",
   "fulfillment_status",
   "order_number",
-  "external_reference_id",
   "origin",
   "query",
   "subscription_id",
   "subscription_delivery_changed",
-  "return_id",
-  "return_resolution_id",
   "min_amount",
   "max_amount",
   "currency",
@@ -709,18 +673,16 @@ this.me = Object.freeze({
       listOrdersPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "closed_reason",
   "status",
   "payment_status",
   "refund_status",
   "fulfillment_status",
   "order_number",
-  "external_reference_id",
   "origin",
   "query",
   "subscription_id",
   "subscription_delivery_changed",
-  "return_id",
-  "return_resolution_id",
   "min_amount",
   "max_amount",
   "currency",
@@ -730,22 +692,20 @@ this.me = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeOrders", result, path)),
       listOrdersPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "closed_reason",
   "status",
   "payment_status",
   "refund_status",
   "fulfillment_status",
   "order_number",
-  "external_reference_id",
   "origin",
   "query",
   "subscription_id",
   "subscription_delivery_changed",
-  "return_id",
-  "return_resolution_id",
   "min_amount",
   "max_amount",
   "currency",
@@ -759,18 +719,16 @@ this.me = Object.freeze({
       listOrdersItems: (params, options) => this.#runtime.items("listMeOrders", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "closed_reason",
   "status",
   "payment_status",
   "refund_status",
   "fulfillment_status",
   "order_number",
-  "external_reference_id",
   "origin",
   "query",
   "subscription_id",
   "subscription_delivery_changed",
-  "return_id",
-  "return_resolution_id",
   "min_amount",
   "max_amount",
   "currency",
@@ -787,21 +745,17 @@ this.me = Object.freeze({
   "order_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "created_after",
+  "created_before"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMePackages", result, path))),
       listPackagesWithResponse: async (params, options) => this.#runtime.request("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
   "fulfillment_id",
   "order_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
-  "X-Request-Id"
+  "created_after",
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listPackagesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -809,21 +763,17 @@ this.me = Object.freeze({
   "order_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "created_after",
+  "created_before"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMePackages", result, path)),
       listPackagesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
   "fulfillment_id",
   "order_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
-  "X-Request-Id"
+  "created_after",
+  "created_before"
 ], false, false, params), options)),
       listPackagesItems: (params, options) => this.#runtime.items("listMePackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -831,45 +781,53 @@ this.me = Object.freeze({
   "order_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
-  "X-Request-Id"
+  "created_after",
+  "created_before"
 ], false, false, params), options),
       listPaymentMethods: async (params, options) => this.#runtime.request("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "usage",
+  "created_after",
+  "created_before"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMePaymentMethods", result, path))),
       listPaymentMethodsWithResponse: async (params, options) => this.#runtime.request("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage"
+  "usage",
+  "created_after",
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listPaymentMethodsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage"
-], false, false, params), options), []),
+  "usage",
+  "created_after",
+  "created_before"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMePaymentMethods", result, path)),
       listPaymentMethodsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage"
+  "usage",
+  "created_after",
+  "created_before"
 ], false, false, params), options)),
       listPaymentMethodsItems: (params, options) => this.#runtime.items("listMePaymentMethods", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "type",
   "status",
-  "usage"
+  "usage",
+  "created_after",
+  "created_before"
 ], false, false, params), options),
       listPayments: async (params, options) => this.#runtime.request("listMePayments", _sdkRequestInput([], [], [
   "page_size",
@@ -877,43 +835,29 @@ this.me = Object.freeze({
   "order_id",
   "invoice_id",
   "status",
-  "origin",
-  "risk_level",
   "payment_flow",
-  "external_reference_id",
-  "return_id",
-  "return_resolution_id",
-  "query",
   "min_amount",
   "max_amount",
   "currency",
   "refund_status",
-  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMePayments", result, path))),
       listPaymentsWithResponse: async (params, options) => this.#runtime.request("listMePayments", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "order_id",
   "invoice_id",
   "status",
-  "origin",
-  "risk_level",
   "payment_flow",
-  "external_reference_id",
-  "return_id",
-  "return_resolution_id",
-  "query",
   "min_amount",
   "max_amount",
   "currency",
   "refund_status",
-  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -927,43 +871,29 @@ this.me = Object.freeze({
   "order_id",
   "invoice_id",
   "status",
-  "origin",
-  "risk_level",
   "payment_flow",
-  "external_reference_id",
-  "return_id",
-  "return_resolution_id",
-  "query",
   "min_amount",
   "max_amount",
   "currency",
   "refund_status",
-  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMePayments", result, path)),
       listPaymentsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMePayments", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "order_id",
   "invoice_id",
   "status",
-  "origin",
-  "risk_level",
   "payment_flow",
-  "external_reference_id",
-  "return_id",
-  "return_resolution_id",
-  "query",
   "min_amount",
   "max_amount",
   "currency",
   "refund_status",
-  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -977,18 +907,11 @@ this.me = Object.freeze({
   "order_id",
   "invoice_id",
   "status",
-  "origin",
-  "risk_level",
   "payment_flow",
-  "external_reference_id",
-  "return_id",
-  "return_resolution_id",
-  "query",
   "min_amount",
   "max_amount",
   "currency",
   "refund_status",
-  "dispute_status",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1000,39 +923,27 @@ this.me = Object.freeze({
   "page_size",
   "page_token",
   "order_id",
-  "payment_intent_id",
   "status",
-  "reason",
-  "refund_method",
   "min_amount",
   "max_amount",
   "currency",
-  "external_reference_id",
   "return_id",
-  "return_resolution_id",
-  "query",
   "sort_by",
   "sort_direction",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeRefunds", result, path))),
       listRefundsWithResponse: async (params, options) => this.#runtime.request("listMeRefunds", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "order_id",
-  "payment_intent_id",
   "status",
-  "reason",
-  "refund_method",
   "min_amount",
   "max_amount",
   "currency",
-  "external_reference_id",
   "return_id",
-  "return_resolution_id",
-  "query",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1044,39 +955,27 @@ this.me = Object.freeze({
   "page_size",
   "page_token",
   "order_id",
-  "payment_intent_id",
   "status",
-  "reason",
-  "refund_method",
   "min_amount",
   "max_amount",
   "currency",
-  "external_reference_id",
   "return_id",
-  "return_resolution_id",
-  "query",
   "sort_by",
   "sort_direction",
   "created_after",
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeRefunds", result, path)),
       listRefundsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeRefunds", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "order_id",
-  "payment_intent_id",
   "status",
-  "reason",
-  "refund_method",
   "min_amount",
   "max_amount",
   "currency",
-  "external_reference_id",
   "return_id",
-  "return_resolution_id",
-  "query",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1088,17 +987,11 @@ this.me = Object.freeze({
   "page_size",
   "page_token",
   "order_id",
-  "payment_intent_id",
   "status",
-  "reason",
-  "refund_method",
   "min_amount",
   "max_amount",
   "currency",
-  "external_reference_id",
   "return_id",
-  "return_resolution_id",
-  "query",
   "sort_by",
   "sort_direction",
   "created_after",
@@ -1110,187 +1003,140 @@ this.me = Object.freeze({
   "created_after",
   "created_before",
   "decision_status",
-  "external_reference_id",
   "merchandise_status",
   "order_id",
   "page_size",
   "page_token",
-  "query",
-  "receiving_location_id",
   "resolution_status",
-  "resolution_type",
   "return_number",
   "return_reason_id",
   "status",
   "updated_after",
-  "updated_before",
-  "work_type"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "updated_before"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeReturns", result, path))),
       listReturnsWithResponse: async (params, options) => this.#runtime.request("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
   "decision_status",
-  "external_reference_id",
   "merchandise_status",
   "order_id",
   "page_size",
   "page_token",
-  "query",
-  "receiving_location_id",
   "resolution_status",
-  "resolution_type",
   "return_number",
   "return_reason_id",
   "status",
   "updated_after",
-  "updated_before",
-  "work_type"
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listReturnsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
   "decision_status",
-  "external_reference_id",
   "merchandise_status",
   "order_id",
   "page_size",
   "page_token",
-  "query",
-  "receiving_location_id",
   "resolution_status",
-  "resolution_type",
   "return_number",
   "return_reason_id",
   "status",
   "updated_after",
-  "updated_before",
-  "work_type"
-], false, false, params), options), []),
+  "updated_before"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeReturns", result, path)),
       listReturnsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
   "decision_status",
-  "external_reference_id",
   "merchandise_status",
   "order_id",
   "page_size",
   "page_token",
-  "query",
-  "receiving_location_id",
   "resolution_status",
-  "resolution_type",
   "return_number",
   "return_reason_id",
   "status",
   "updated_after",
-  "updated_before",
-  "work_type"
+  "updated_before"
 ], false, false, params), options)),
       listReturnsItems: (params, options) => this.#runtime.items("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
   "decision_status",
-  "external_reference_id",
   "merchandise_status",
   "order_id",
   "page_size",
   "page_token",
-  "query",
-  "receiving_location_id",
   "resolution_status",
-  "resolution_type",
   "return_number",
   "return_reason_id",
   "status",
   "updated_after",
-  "updated_before",
-  "work_type"
+  "updated_before"
 ], false, false, params), options),
       listShipments: async (params, options) => this.#runtime.request("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
   "fulfillment_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
   "return_id",
   "handed_off_after",
   "handed_off_before",
   "created_after",
-  "created_before",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "created_before"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeShipments", result, path))),
       listShipmentsWithResponse: async (params, options) => this.#runtime.request("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
   "fulfillment_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
   "return_id",
   "handed_off_after",
   "handed_off_before",
   "created_after",
-  "created_before",
-  "X-Request-Id"
+  "created_before"
 ], false, false, params), options).then(_sdkResponse),
       listShipmentsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
   "fulfillment_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
   "return_id",
   "handed_off_after",
   "handed_off_before",
   "created_after",
-  "created_before",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "created_before"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeShipments", result, path)),
       listShipmentsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
   "fulfillment_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
   "return_id",
   "handed_off_after",
   "handed_off_before",
   "created_after",
-  "created_before",
-  "X-Request-Id"
+  "created_before"
 ], false, false, params), options)),
       listShipmentsItems: (params, options) => this.#runtime.items("listMeShipments", _sdkRequestInput([], [], [
   "order_id",
   "fulfillment_id",
   "page_size",
   "page_token",
-  "external_system",
-  "external_reference_id",
-  "query",
   "return_id",
   "handed_off_after",
   "handed_off_before",
   "created_after",
-  "created_before",
-  "X-Request-Id"
+  "created_before"
 ], false, false, params), options),
       listSubscriptions: async (params, options) => this.#runtime.request("listMeSubscriptions", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "billing_schedule_owner",
-  "awaiting_billing_schedule",
   "cancel_at_period_end",
   "delivery_method_id",
   "hold_reason",
-  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1298,20 +1144,18 @@ this.me = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeSubscriptions", result, path))),
       listSubscriptionsWithResponse: async (params, options) => this.#runtime.request("listMeSubscriptions", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "billing_schedule_owner",
-  "awaiting_billing_schedule",
   "cancel_at_period_end",
   "delivery_method_id",
   "hold_reason",
-  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1319,8 +1163,8 @@ this.me = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention"
 ], false, false, params), options).then(_sdkResponse),
       listSubscriptionsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeSubscriptions", _sdkRequestInput([], [], [
@@ -1328,11 +1172,9 @@ this.me = Object.freeze({
   "page_token",
   "status",
   "billing_schedule_owner",
-  "awaiting_billing_schedule",
   "cancel_at_period_end",
   "delivery_method_id",
   "hold_reason",
-  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1340,20 +1182,18 @@ this.me = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMeSubscriptions", result, path)),
       listSubscriptionsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMeSubscriptions", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "billing_schedule_owner",
-  "awaiting_billing_schedule",
   "cancel_at_period_end",
   "delivery_method_id",
   "hold_reason",
-  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1361,8 +1201,8 @@ this.me = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention"
 ], false, false, params), options)),
       listSubscriptionsItems: (params, options) => this.#runtime.items("listMeSubscriptions", _sdkRequestInput([], [], [
@@ -1370,11 +1210,9 @@ this.me = Object.freeze({
   "page_token",
   "status",
   "billing_schedule_owner",
-  "awaiting_billing_schedule",
   "cancel_at_period_end",
   "delivery_method_id",
   "hold_reason",
-  "subscription_offer_id",
   "subscription_plan_id",
   "sort_by",
   "sort_direction",
@@ -1382,63 +1220,45 @@ this.me = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "next_billing_at_after",
-  "next_billing_at_before",
+  "next_billing_after",
+  "next_billing_before",
   "needs_attention"
 ], false, false, params), options),
       pauseSubscription: async (subscription_id, params, options) => this.#runtime.request("pauseMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("pauseMeSubscription", result, path))),
       pauseSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("pauseMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       reactivateSubscription: async (subscription_id, params, options) => this.#runtime.request("reactivateMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("reactivateMeSubscription", result, path))),
       reactivateSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("reactivateMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+  "Idempotency-Key"
+], true, false, params), options).then(_sdkResponse),
       removeGiftCard: async (gift_card_id, params, options) => this.#runtime.request("removeMeGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("removeMeGiftCard", result, path))),
       removeGiftCardWithResponse: async (gift_card_id, params, options) => this.#runtime.request("removeMeGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "Idempotency-Key"
-], false, false, params), options).then(_sdkResponse),
-      removePaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("removeMePaymentMethod", _sdkRequestInput([
-  "payment_method_id"
-], [payment_method_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      removePaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("removeMePaymentMethod", _sdkRequestInput([
-  "payment_method_id"
-], [payment_method_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
 ], false, false, params), options).then(_sdkResponse),
       renewSubscription: async (subscription_id, params, options) => this.#runtime.request("renewMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("renewMeSubscription", result, path))),
       renewSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("renewMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -1447,111 +1267,93 @@ this.me = Object.freeze({
       resumeSubscription: async (subscription_id, params, options) => this.#runtime.request("resumeMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resumeMeSubscription", result, path))),
       resumeSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("resumeMeSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
+], true, false, params), options).then(_sdkResponse),
+      revokeSession: async (params, options) => this.#runtime.request("revokeMeSession", _sdkRequestInput([], [], [
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeMeSession", result, path))),
+      revokeSessionWithResponse: async (params, options) => this.#runtime.request("revokeMeSession", _sdkRequestInput([], [], [
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       saveGiftCard: async (params, options) => this.#runtime.request("saveMeGiftCard", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("saveMeGiftCard", result, path))),
       saveGiftCardWithResponse: async (params, options) => this.#runtime.request("saveMeGiftCard", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
-      savePaymentMethod: async (params, options) => this.#runtime.request("saveMePaymentMethod", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      savePaymentMethodWithResponse: async (params, options) => this.#runtime.request("saveMePaymentMethod", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
 ], true, true, params), options).then(_sdkResponse),
       sendOrderReceipt: async (order_id, params, options) => this.#runtime.request("sendMeOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("sendMeOrderReceipt", result, path))),
       sendOrderReceiptWithResponse: async (order_id, params, options) => this.#runtime.request("sendMeOrderReceipt", _sdkRequestInput([
   "order_id"
 ], [order_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       setDefaultAddress: async (customer_address_id, params, options) => this.#runtime.request("setDefaultMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("setDefaultMeAddress", result, path))),
       setDefaultAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("setDefaultMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      setDefaultPaymentMethod: async (payment_method_id, params, options) => this.#runtime.request("setDefaultMePaymentMethod", _sdkRequestInput([
-  "payment_method_id"
-], [payment_method_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      setDefaultPaymentMethodWithResponse: async (payment_method_id, params, options) => this.#runtime.request("setDefaultMePaymentMethod", _sdkRequestInput([
-  "payment_method_id"
-], [payment_method_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
       skipSubscriptionCycle: async (subscription_id, params, options) => this.#runtime.request("skipMeSubscriptionCycle", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("skipMeSubscriptionCycle", result, path))),
       skipSubscriptionCycleWithResponse: async (subscription_id, params, options) => this.#runtime.request("skipMeSubscriptionCycle", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updateMe", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateMe", result, path))),
       updateWithResponse: async (params, options) => this.#runtime.request("updateMe", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       updateAddress: async (customer_address_id, params, options) => this.#runtime.request("updateMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateMeAddress", result, path))),
       updateAddressWithResponse: async (customer_address_id, params, options) => this.#runtime.request("updateMeAddress", _sdkRequestInput([
   "customer_address_id"
 ], [customer_address_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       updateEmailPreferences: async (params, options) => this.#runtime.request("updateMeEmailPreferences", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateMeEmailPreferences", result, path))),
       updateEmailPreferencesWithResponse: async (params, options) => this.#runtime.request("updateMeEmailPreferences", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
+      updateSubscription: async (subscription_id, params, options) => this.#runtime.request("updateMeSubscription", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateMeSubscription", result, path))),
+      updateSubscriptionWithResponse: async (subscription_id, params, options) => this.#runtime.request("updateMeSubscription", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       updateSubscriptionLineItem: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateMeSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
 ], [subscription_id, subscription_line_item_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateMeSubscriptionLineItem", result, path))),
       updateSubscriptionLineItemWithResponse: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateMeSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
@@ -1560,337 +1362,99 @@ this.me = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeCancelReturnResponse } from '../models/CancelReturnResponse.js';
-export { makeSubscriptionResponse } from '../models/SubscriptionResponse.js';
-export { makeEmailChangeRequestResponse } from '../models/EmailChangeRequestResponse.js';
-export { makeCustomerAddressResponse } from '../models/CustomerAddressResponse.js';
-export { makeCustomerDeletionRequestResponse } from '../models/CustomerDeletionRequestResponse.js';
-export { makeMeFlintWalletStoreSetupResponse } from '../models/MeFlintWalletStoreSetupResponse.js';
-export { makeBuyerInvoiceCheckoutSessionResponse } from '../models/BuyerInvoiceCheckoutSessionResponse.js';
-export { makeCreateReturnResponse } from '../models/CreateReturnResponse.js';
-export { makeCreateReturnPreviewResponse } from '../models/CreateReturnPreviewResponse.js';
-export { makeGetOrCreateReturnResolutionCheckoutSessionResponse } from '../models/GetOrCreateReturnResolutionCheckoutSessionResponse.js';
-export { makeBuyerSubscriptionPaymentRetryResponse } from '../models/BuyerSubscriptionPaymentRetryResponse.js';
-export { makeSubscriptionPreviewResponse } from '../models/SubscriptionPreviewResponse.js';
-export { makeActionResponse } from '../models/ActionResponse.js';
-export { makeCustomerResponse } from '../models/CustomerResponse.js';
-export { makeBuyerCreditNoteResponse } from '../models/BuyerCreditNoteResponse.js';
-export { makeCustomerEmailPreferencesResponse } from '../models/CustomerEmailPreferencesResponse.js';
-export { makeBuyerGiftCardResponse } from '../models/BuyerGiftCardResponse.js';
-export { makeBuyerInvoiceResponse } from '../models/BuyerInvoiceResponse.js';
-export { makeOrderResponse } from '../models/OrderResponse.js';
-export { makePaymentMethodResponse } from '../models/PaymentMethodResponse.js';
-export { makeGetReturnResponse } from '../models/GetReturnResponse.js';
-export { makeCustomerAddressListResponse } from '../models/CustomerAddressListResponse.js';
-export { makeCustomerAddress } from '../models/CustomerAddress.js';
-export { makeBuyerCreditNoteListResponse } from '../models/BuyerCreditNoteListResponse.js';
-export { makeBuyerCreditNote } from '../models/BuyerCreditNote.js';
-export { makeCustomerDeletionRequestListResponse } from '../models/CustomerDeletionRequestListResponse.js';
-export { makeCustomerDeletionRequest } from '../models/CustomerDeletionRequest.js';
-export { makeMeFlintWalletCardListResponse } from '../models/MeFlintWalletCardListResponse.js';
-export { makeBuyerFulfillmentEventListResponse } from '../models/BuyerFulfillmentEventListResponse.js';
-export { makeBuyerFulfillmentEvent } from '../models/BuyerFulfillmentEvent.js';
-export { makeFulfillmentListResponse } from '../models/FulfillmentListResponse.js';
-export { makeFulfillment } from '../models/Fulfillment.js';
-export { makeBuyerGiftCardListResponse } from '../models/BuyerGiftCardListResponse.js';
-export { makeBuyerGiftCard } from '../models/BuyerGiftCard.js';
-export { makeBuyerGiftCardTransactionListResponse } from '../models/BuyerGiftCardTransactionListResponse.js';
-export { makeBuyerGiftCardTransaction } from '../models/BuyerGiftCardTransaction.js';
-export { makeBuyerInvoiceListResponse } from '../models/BuyerInvoiceListResponse.js';
-export { makeBuyerInvoice } from '../models/BuyerInvoice.js';
-export { makeOrderActivityListResponse } from '../models/OrderActivityListResponse.js';
-export { makeOrderActivity } from '../models/OrderActivity.js';
-export { makeOrderListResponse } from '../models/OrderListResponse.js';
-export { makeOrder } from '../models/Order.js';
-export { makePackageListResponse } from '../models/PackageListResponse.js';
-export { makePackage } from '../models/Package.js';
-export { makePaymentMethodListResponse } from '../models/PaymentMethodListResponse.js';
-export { makePaymentMethod } from '../models/PaymentMethod.js';
-export { makePaymentIntentListResponse } from '../models/PaymentIntentListResponse.js';
-export { makePaymentIntent } from '../models/PaymentIntent.js';
-export { makeBuyerRefundListResponse } from '../models/BuyerRefundListResponse.js';
-export { makeBuyerRefund } from '../models/BuyerRefund.js';
-export { makeListReturnsResponse } from '../models/ListReturnsResponse.js';
-export { makeReturnResource } from '../models/ReturnResource.js';
-export { makeShipmentListResponse } from '../models/ShipmentListResponse.js';
-export { makeShipment } from '../models/Shipment.js';
-export { makeSubscriptionListResponse } from '../models/SubscriptionListResponse.js';
-export { makeSubscription } from '../models/Subscription.js';
-export { makeSavePaymentMethodResponse } from '../models/SavePaymentMethodResponse.js';
-export { makeMeFlintWalletCard } from '../models/MeFlintWalletCard.js';
-export { makeMeFlintWalletStoreSetup } from '../models/MeFlintWalletStoreSetup.js';
-export { makeMerchant } from '../models/Merchant.js';
-export { makeMerchantAccountSession } from '../models/MerchantAccountSession.js';
-export { makeMerchantAccountSessionClientSession } from '../models/MerchantAccountSessionClientSession.js';
-export { makeMerchantAccountSessionCreateRequest } from '../models/MerchantAccountSessionCreateRequest.js';
-export { makeMerchantAccountSessionEffectivePolicy } from '../models/MerchantAccountSessionEffectivePolicy.js';
-export { makeMerchantAccountSessionRefreshRequest } from '../models/MerchantAccountSessionRefreshRequest.js';
-export { makeMerchantAccountSessionResponse } from '../models/MerchantAccountSessionResponse.js';
-export { makeMerchantAccountSessionStripe } from '../models/MerchantAccountSessionStripe.js';
-export { makeMerchantAccountSessionStripeAccountSession } from '../models/MerchantAccountSessionStripeAccountSession.js';
-export { makeMerchantAccountSessionStripeCollectionOptions } from '../models/MerchantAccountSessionStripeCollectionOptions.js';
-export { makeMerchantAccountSessionStripeComponent } from '../models/MerchantAccountSessionStripeComponent.js';
-export { makeMerchantAccountSessionStripeRequirements } from '../models/MerchantAccountSessionStripeRequirements.js';
-export { makeMerchantBillingBalance } from '../models/MerchantBillingBalance.js';
-export { makeMerchantBillingBalanceListResponse } from '../models/MerchantBillingBalanceListResponse.js';
-export { makeMerchantBillingBalanceResponse } from '../models/MerchantBillingBalanceResponse.js';
-export { makeMerchantReadinessAxis } from '../models/MerchantReadinessAxis.js';
-export { makeMerchantReadinessRequirements } from '../models/MerchantReadinessRequirements.js';
-export { makeMerchantResponse } from '../models/MerchantResponse.js';
-export { makeMerchantSubscriptionInvoice } from '../models/MerchantSubscriptionInvoice.js';
-export { makeMerchantSubscriptionInvoiceLine } from '../models/MerchantSubscriptionInvoiceLine.js';
-export { makeMerchantSubscriptionInvoiceListResponse } from '../models/MerchantSubscriptionInvoiceListResponse.js';
-export { makeMerchantSubscriptionInvoiceResponse } from '../models/MerchantSubscriptionInvoiceResponse.js';
-export { makeMerchantWebhookEnvelope } from '../models/MerchantWebhookEnvelope.js';
-export { makeAddReturnLineItemResponse } from '../models/AddReturnLineItemResponse.js';
-export { makeCancelReturnLineItemResponse } from '../models/CancelReturnLineItemResponse.js';
-export { makeCompleteReturnResponse } from '../models/CompleteReturnResponse.js';
-export { makeDecideReturnResponse } from '../models/DecideReturnResponse.js';
-export { makeDeleteReturnLineItemResponse } from '../models/DeleteReturnLineItemResponse.js';
-export { makeReopenReturnResponse } from '../models/ReopenReturnResponse.js';
-export { makeUpdateReturnLineItemResponse } from '../models/UpdateReturnLineItemResponse.js';
-export { makeUpdateReturnResponse } from '../models/UpdateReturnResponse.js';
-export { makeWaiveReturnLineInspectionResponse } from '../models/WaiveReturnLineInspectionResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeEmailChangeRequest } from '../models/EmailChangeRequest.js';
-export { makeBuyerInvoiceCheckoutSessionResult } from '../models/BuyerInvoiceCheckoutSessionResult.js';
-export { makeCheckoutAccess } from '../models/CheckoutAccess.js';
-export { makeCheckoutSession } from '../models/CheckoutSession.js';
-export { makeOrderPaymentAttempt } from '../models/OrderPaymentAttempt.js';
-export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
-export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
-export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
-export { makeErrorRemediation } from '../models/ErrorRemediation.js';
-export { makeOrderPaymentAttemptPaymentMethodSave } from '../models/OrderPaymentAttemptPaymentMethodSave.js';
-export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
-export { makePaymentClientAction } from '../models/PaymentClientAction.js';
-export { makeStripePaymentClientAction } from '../models/StripePaymentClientAction.js';
-export { makeStripePaymentIntentClientAction } from '../models/StripePaymentIntentClientAction.js';
-export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentClientAction.js';
-export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
-export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
-export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
-export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
-export { makeCheckoutBuyerContact } from '../models/CheckoutBuyerContact.js';
-export { makeCheckoutCustomTextConfig } from '../models/CheckoutCustomTextConfig.js';
-export { makeCheckoutCustomTextWriteConfig } from '../models/CheckoutCustomTextWriteConfig.js';
-export { makeCheckoutCustomerConfig } from '../models/CheckoutCustomerConfig.js';
-export { makePrefilledCustomerInfo } from '../models/PrefilledCustomerInfo.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeCheckoutCustomerPrefill } from '../models/CheckoutCustomerPrefill.js';
-export { makeCheckoutDeliveryPinnedDependency } from '../models/CheckoutDeliveryPinnedDependency.js';
-export { makeCheckoutExpirationConfig } from '../models/CheckoutExpirationConfig.js';
-export { makeDeliveryQuoteChoiceGroupResource } from '../models/DeliveryQuoteChoiceGroupResource.js';
-export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
-export { makeDeliveryAddressAdvisoryResource } from '../models/DeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
-export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
-export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
-export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
-export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeDeliveryOptionProjection } from '../models/DeliveryOptionProjection.js';
-export { makeDeliveryArrivalEstimate } from '../models/DeliveryArrivalEstimate.js';
+export { makeAddressRequest } from '../models/AddressRequest.js';
+export { makeBuyerCreateReturnPreviewRequest } from '../models/BuyerCreateReturnPreviewRequest.js';
+export { makeBuyerCreateReturnRequest } from '../models/BuyerCreateReturnRequest.js';
+export { makeBuyerCreateReturnResolutionPreviewRequest } from '../models/BuyerCreateReturnResolutionPreviewRequest.js';
 export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
-export { makeDeliveryPlan } from '../models/DeliveryPlan.js';
-export { makeDeliveryQuoteExecutionLegResource } from '../models/DeliveryQuoteExecutionLegResource.js';
-export { makeDeliveryLocalDeliveryDetails } from '../models/DeliveryLocalDeliveryDetails.js';
-export { makeDeliveryShipmentDetails } from '../models/DeliveryShipmentDetails.js';
-export { makeDeliveryPickupDetails } from '../models/DeliveryPickupDetails.js';
-export { makeDeliveryLocationSummaryResource } from '../models/DeliveryLocationSummaryResource.js';
-export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
-export { makeLocationAddress } from '../models/LocationAddress.js';
-export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
-export { makeDeliveryQuoteLineItemResource } from '../models/DeliveryQuoteLineItemResource.js';
-export { makeDeliveryPickupAvailabilityQuantityResource } from '../models/DeliveryPickupAvailabilityQuantityResource.js';
-export { makeDeliveryMerchantDiagnostic } from '../models/DeliveryMerchantDiagnostic.js';
-export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMismatch.js';
-export { makeBuyerDeliveryQuoteChoiceGroupResource } from '../models/BuyerDeliveryQuoteChoiceGroupResource.js';
-export { makeBuyerDeliveryInputRequirementResource } from '../models/BuyerDeliveryInputRequirementResource.js';
-export { makeBuyerDeliveryOptionResource } from '../models/BuyerDeliveryOptionResource.js';
-export { makeCheckoutGiftCardChallenge } from '../models/CheckoutGiftCardChallenge.js';
-export { makeCheckoutLegalConfig } from '../models/CheckoutLegalConfig.js';
-export { makeLegalSettings } from '../models/LegalSettings.js';
-export { makeCheckoutMerchantSupport } from '../models/CheckoutMerchantSupport.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';
-export { makePaymentCollection } from '../models/PaymentCollection.js';
-export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
-export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
-export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
-export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
-export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
-export { makeCheckoutPaymentMethodSave } from '../models/CheckoutPaymentMethodSave.js';
-export { makeCheckoutPaymentConfig } from '../models/CheckoutPaymentConfig.js';
-export { makeCheckoutProblemResource } from '../models/CheckoutProblemResource.js';
+export { makeBuyerReturnReplacementLineItemRequest } from '../models/BuyerReturnReplacementLineItemRequest.js';
+export { makeCancelReturnRequest } from '../models/CancelReturnRequest.js';
+export { makeCancelSubscriptionRequest } from '../models/CancelSubscriptionRequest.js';
+export { makeChangeMeSubscriptionBillingIntervalRequest } from '../models/ChangeMeSubscriptionBillingIntervalRequest.js';
+export { makeChangeMeSubscriptionDeliveryRequest } from '../models/ChangeMeSubscriptionDeliveryRequest.js';
+export { makeChangeMeSubscriptionQuantityRequest } from '../models/ChangeMeSubscriptionQuantityRequest.js';
+export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
+export { makeCheckoutBuyerFields } from '../models/CheckoutBuyerFields.js';
 export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
-export { makeCheckoutRedirectsConfig } from '../models/CheckoutRedirectsConfig.js';
-export { makeCheckoutSubscriptionTerms } from '../models/CheckoutSubscriptionTerms.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeCheckoutSubscriptionRecurringShipping } from '../models/CheckoutSubscriptionRecurringShipping.js';
-export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
-export { makeCheckoutSavedPaymentDetailsSettings } from '../models/CheckoutSavedPaymentDetailsSettings.js';
-export { makeThemeConfig } from '../models/ThemeConfig.js';
+export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
 export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
-export { makeInvoicePaymentAttempt } from '../models/InvoicePaymentAttempt.js';
-export { makeCreateReturnPreviewData } from '../models/CreateReturnPreviewData.js';
-export { makeReturnEligibilityCheck } from '../models/ReturnEligibilityCheck.js';
-export { makeReturnEligibilityCheckLineItem } from '../models/ReturnEligibilityCheckLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeReturnLineItemEligibility } from '../models/ReturnLineItemEligibility.js';
-export { makeReturnLineItemDecisionProposal } from '../models/ReturnLineItemDecisionProposal.js';
-export { makeReturnPolicyAdjustmentProposal } from '../models/ReturnPolicyAdjustmentProposal.js';
-export { makeImage } from '../models/Image.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeReturnReasonSummary } from '../models/ReturnReasonSummary.js';
-export { makeReturnPolicyEvaluation } from '../models/ReturnPolicyEvaluation.js';
-export { makeReturnPolicyEvaluationLineItem } from '../models/ReturnPolicyEvaluationLineItem.js';
-export { makeReturnEligibilitySelection } from '../models/ReturnEligibilitySelection.js';
-export { makeReturnLineItemRequest } from '../models/ReturnLineItemRequest.js';
-export { makeReturnResolutionPreview } from '../models/ReturnResolutionPreview.js';
-export { makeReturnResolutionAdjustment } from '../models/ReturnResolutionAdjustment.js';
-export { makeReturnActor } from '../models/ReturnActor.js';
-export { makeReturnResolutionLineItem } from '../models/ReturnResolutionLineItem.js';
-export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineItem.js';
-export { makeReturnResolutionWarning } from '../models/ReturnResolutionWarning.js';
-export { makeCheckoutSessionLaunchResponse } from '../models/CheckoutSessionLaunchResponse.js';
-export { makeResolvePaymentLinkResponse } from '../models/ResolvePaymentLinkResponse.js';
-export { makeCheckoutSessionLaunchResult } from '../models/CheckoutSessionLaunchResult.js';
-export { makeBuyerSubscriptionPaymentRetry } from '../models/BuyerSubscriptionPaymentRetry.js';
-export { makeSubscriptionPaymentRetryFailure } from '../models/SubscriptionPaymentRetryFailure.js';
-export { makeSubscriptionAddressVerification } from '../models/SubscriptionAddressVerification.js';
-export { makeSubscriptionDeliveryOption } from '../models/SubscriptionDeliveryOption.js';
-export { makeSubscriptionPreviewError } from '../models/SubscriptionPreviewError.js';
-export { makeErrorDetail } from '../models/ErrorDetail.js';
-export { makeErrorResourceReference } from '../models/ErrorResourceReference.js';
-export { makeFulfillmentHold } from '../models/FulfillmentHold.js';
-export { makeFulfillmentChargeLink } from '../models/FulfillmentChargeLink.js';
-export { makeDigitalFulfillmentDetails } from '../models/DigitalFulfillmentDetails.js';
-export { makeFulfillmentLineItem } from '../models/FulfillmentLineItem.js';
-export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDetails.js';
-export { makeFulfillmentOutcome } from '../models/FulfillmentOutcome.js';
-export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
-export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
-export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
-export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
-export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
-export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
-export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
-export { makeShippingDimensions } from '../models/ShippingDimensions.js';
-export { makeShippingWeight } from '../models/ShippingWeight.js';
-export { makeQuotaDetails } from '../models/QuotaDetails.js';
-export { makeSubscriptionCounts } from '../models/SubscriptionCounts.js';
-export { makeActionResult } from '../models/ActionResult.js';
-export { makeCustomer } from '../models/Customer.js';
-export { makeCardDetails } from '../models/CardDetails.js';
-export { makeCustomerReceivables } from '../models/CustomerReceivables.js';
-export { makeCustomerReceivableBalance } from '../models/CustomerReceivableBalance.js';
+export { makeConfigurationVersionRequest } from '../models/ConfigurationVersionRequest.js';
+export { makeConfirmEmailChangeRequest } from '../models/ConfirmEmailChangeRequest.js';
+export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
+export { makeCreateCustomerAddressRequest } from '../models/CreateCustomerAddressRequest.js';
+export { makeCreateEmailChangeRequest } from '../models/CreateEmailChangeRequest.js';
+export { makeCreateMeSubscriptionPreviewRequest } from '../models/CreateMeSubscriptionPreviewRequest.js';
+export { makeCreateReturnEligibilityPreviewRequest } from '../models/CreateReturnEligibilityPreviewRequest.js';
+export { makeCreditNoteCorrectionRequest } from '../models/CreditNoteCorrectionRequest.js';
+export { makeCreditNoteCorrectionRequestAmount } from '../models/CreditNoteCorrectionRequestAmount.js';
+export { makeCreditNoteCorrectionRequestQuantity } from '../models/CreditNoteCorrectionRequestQuantity.js';
+export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
+export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
+export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
+export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
+export { makeDimensions } from '../models/Dimensions.js';
 export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
-export { makeCustomerEmailPreferences } from '../models/CustomerEmailPreferences.js';
-export { makeCreditNoteLine } from '../models/CreditNoteLine.js';
-export { makeBuyerAction } from '../models/BuyerAction.js';
-export { makeBuyerInvoiceLateFee } from '../models/BuyerInvoiceLateFee.js';
+export { makeGetOrCreateReturnResolutionCheckoutSessionRequest } from '../models/GetOrCreateReturnResolutionCheckoutSessionRequest.js';
+export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
+export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
+export { makeImageRequest } from '../models/ImageRequest.js';
+export { makeInvoiceCheckoutSessionRequest } from '../models/InvoiceCheckoutSessionRequest.js';
 export { makeInvoiceLateFeePolicy } from '../models/InvoiceLateFeePolicy.js';
-export { makeInvoicePaymentTermsSnapshot } from '../models/InvoicePaymentTermsSnapshot.js';
+export { makeInvoiceLateFeePolicyFixed } from '../models/InvoiceLateFeePolicyFixed.js';
+export { makeInvoiceLateFeePolicyPercentage } from '../models/InvoiceLateFeePolicyPercentage.js';
 export { makeInvoicePaymentTermCalculation } from '../models/InvoicePaymentTermCalculation.js';
-export { makeInvoiceScheduleEntry } from '../models/InvoiceScheduleEntry.js';
+export { makeInvoicePaymentTermCalculationDayOfMonth } from '../models/InvoicePaymentTermCalculationDayOfMonth.js';
+export { makeInvoicePaymentTermCalculationDayOfNextMonth } from '../models/InvoicePaymentTermCalculationDayOfNextMonth.js';
+export { makeInvoicePaymentTermCalculationDaysAfterMonthEnd } from '../models/InvoicePaymentTermCalculationDaysAfterMonthEnd.js';
+export { makeInvoicePaymentTermCalculationNetDays } from '../models/InvoicePaymentTermCalculationNetDays.js';
+export { makeInvoicePaymentTermCalculationOnReceipt } from '../models/InvoicePaymentTermCalculationOnReceipt.js';
 export { makeInvoiceScheduleAmountSpecification } from '../models/InvoiceScheduleAmountSpecification.js';
-export { makeInvoiceScheduleDue } from '../models/InvoiceScheduleDue.js';
-export { makeInvoiceSnapshot } from '../models/InvoiceSnapshot.js';
-export { makeOrderCharge } from '../models/OrderCharge.js';
+export { makeInvoiceScheduleAmountSpecificationFixed } from '../models/InvoiceScheduleAmountSpecificationFixed.js';
+export { makeInvoiceScheduleAmountSpecificationPercentage } from '../models/InvoiceScheduleAmountSpecificationPercentage.js';
+export { makeInvoiceScheduleAmountSpecificationRemainingBalance } from '../models/InvoiceScheduleAmountSpecificationRemainingBalance.js';
+export { makeMerchantAccountSessionCreateRequest } from '../models/MerchantAccountSessionCreateRequest.js';
+export { makeMerchantAccountSessionRefreshRequest } from '../models/MerchantAccountSessionRefreshRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
+export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
+export { makeOrderDeliveryDestinationAddressRequest } from '../models/OrderDeliveryDestinationAddressRequest.js';
+export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
+export { makePauseSubscriptionRequest } from '../models/PauseSubscriptionRequest.js';
+export { makePostalAddress } from '../models/PostalAddress.js';
+export { makePromotionRecurrence } from '../models/PromotionRecurrence.js';
+export { makePromotionRecurrenceForever } from '../models/PromotionRecurrenceForever.js';
+export { makePromotionRecurrenceOnce } from '../models/PromotionRecurrenceOnce.js';
+export { makePromotionRecurrenceRepeating } from '../models/PromotionRecurrenceRepeating.js';
+export { makeRenewSubscriptionRequest } from '../models/RenewSubscriptionRequest.js';
+export { makeResourceVersionRequest } from '../models/ResourceVersionRequest.js';
+export { makeReturnEligibilityLineItemRequest } from '../models/ReturnEligibilityLineItemRequest.js';
+export { makeReturnEligibilitySelection } from '../models/ReturnEligibilitySelection.js';
+export { makeReturnEligibilitySelectionAllRemainingFulfilled } from '../models/ReturnEligibilitySelectionAllRemainingFulfilled.js';
+export { makeReturnEligibilitySelectionLineItems } from '../models/ReturnEligibilitySelectionLineItems.js';
+export { makeReturnLineItemRequest } from '../models/ReturnLineItemRequest.js';
+export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
+export { makeSaveMeGiftCardRequest } from '../models/SaveMeGiftCardRequest.js';
+export { makeSaveMeGiftCardRequestCode } from '../models/SaveMeGiftCardRequestCode.js';
+export { makeSaveMeGiftCardRequestRecipientAccess } from '../models/SaveMeGiftCardRequestRecipientAccess.js';
+export { makeSaveMePaymentMethodRequest } from '../models/SaveMePaymentMethodRequest.js';
+export { makeSetDefaultCustomerAddressRequest } from '../models/SetDefaultCustomerAddressRequest.js';
+export { makeSkipMeSubscriptionCycleRequest } from '../models/SkipMeSubscriptionCycleRequest.js';
+export { makeSubscriptionDeliveryDestinationInputAddress } from '../models/SubscriptionDeliveryDestinationInputAddress.js';
+export { makeSubscriptionDeliveryDestinationInputCustomerAddress } from '../models/SubscriptionDeliveryDestinationInputCustomerAddress.js';
+export { makeSubscriptionDeliveryDestinationRequest } from '../models/SubscriptionDeliveryDestinationRequest.js';
+export { makeSubscriptionDeliveryRequest } from '../models/SubscriptionDeliveryRequest.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
 export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
 export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
 export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
-export { makeInvoiceDiscount } from '../models/InvoiceDiscount.js';
-export { makeInvoiceLineItem } from '../models/InvoiceLineItem.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeInvoiceTip } from '../models/InvoiceTip.js';
-export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
-export { makeOrderAuthorizationAmounts } from '../models/OrderAuthorizationAmounts.js';
-export { makeOrderDeliveryDestination } from '../models/OrderDeliveryDestination.js';
-export { makeOrderDeliveryDestinationAddress } from '../models/OrderDeliveryDestinationAddress.js';
-export { makeOrderDeliveryDestinationRecipient } from '../models/OrderDeliveryDestinationRecipient.js';
-export { makeOrderGiftCardEstimate } from '../models/OrderGiftCardEstimate.js';
-export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
-export { makeOrderGiftCardSettlement } from '../models/OrderGiftCardSettlement.js';
-export { makeOrderGiftCardSelection } from '../models/OrderGiftCardSelection.js';
-export { makeInventoryRoutingSource } from '../models/InventoryRoutingSource.js';
-export { makeOrderLineItem } from '../models/OrderLineItem.js';
-export { makeGiftCardPurchaseSnapshot } from '../models/GiftCardPurchaseSnapshot.js';
-export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
-export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
-export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
-export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
-export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
-export { makeSubscribedLine } from '../models/SubscribedLine.js';
-export { makeOrderLineSubscriptionOfferSummary } from '../models/OrderLineSubscriptionOfferSummary.js';
-export { makeOrderLineSubscriptionOfferDiscount } from '../models/OrderLineSubscriptionOfferDiscount.js';
-export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
-export { makePurchasedEvent } from '../models/PurchasedEvent.js';
-export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
-export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
-export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
-export { makeOrderTax } from '../models/OrderTax.js';
-export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
-export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
-export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
-export { makeTip } from '../models/Tip.js';
-export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAllocation.js';
-export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
-export { makePaymentAddOnFee } from '../models/PaymentAddOnFee.js';
-export { makePaymentFulfillmentHold } from '../models/PaymentFulfillmentHold.js';
-export { makeRefundLineItemAllocation } from '../models/RefundLineItemAllocation.js';
-export { makeRefundLineItemAdjustmentRefund } from '../models/RefundLineItemAdjustmentRefund.js';
-export { makeRefundLineItemAdjustment } from '../models/RefundLineItemAdjustment.js';
-export { makeRefundAdjustmentReason } from '../models/RefundAdjustmentReason.js';
-export { makeRefundLineItemAutomaticRefund } from '../models/RefundLineItemAutomaticRefund.js';
-export { makeRefundLineItemModifierAllocation } from '../models/RefundLineItemModifierAllocation.js';
-export { makeRefundTaxBreakdownRefund } from '../models/RefundTaxBreakdownRefund.js';
-export { makePaymentRefund } from '../models/PaymentRefund.js';
-export { makeRefundTenderAllocation } from '../models/RefundTenderAllocation.js';
-export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestination.js';
-export { makeReturnCompletionBlocker } from '../models/ReturnCompletionBlocker.js';
-export { makeReturnFinancialSummary } from '../models/ReturnFinancialSummary.js';
-export { makeReturnHandoffRequirement } from '../models/ReturnHandoffRequirement.js';
-export { makeReturnHandoffDestination } from '../models/ReturnHandoffDestination.js';
-export { makeReturnLineItem } from '../models/ReturnLineItem.js';
-export { makeReturnLineItemValue } from '../models/ReturnLineItemValue.js';
-export { makeSubscriptionCancellationDetails } from '../models/SubscriptionCancellationDetails.js';
-export { makeSubscriptionDelivery } from '../models/SubscriptionDelivery.js';
-export { makeSubscriptionDeliveryMethodSummary } from '../models/SubscriptionDeliveryMethodSummary.js';
-export { makeSubscriptionDeliveryDestination } from '../models/SubscriptionDeliveryDestination.js';
-export { makeDeliveryRecipientResource } from '../models/DeliveryRecipientResource.js';
-export { makeSubscriptionDeliveryHold } from '../models/SubscriptionDeliveryHold.js';
-export { makeSubscriptionInventoryWait } from '../models/SubscriptionInventoryWait.js';
-export { makeSubscriptionLineItem } from '../models/SubscriptionLineItem.js';
-export { makeSubscriptionServiceLocation } from '../models/SubscriptionServiceLocation.js';
-export { makeSubscriptionUpcomingDeliveryHold } from '../models/SubscriptionUpcomingDeliveryHold.js';
-export { makeSavePaymentMethodResult } from '../models/SavePaymentMethodResult.js';
-export { makeStripeClientSetup } from '../models/StripeClientSetup.js';
-export { makeStripeClientSetupStripe } from '../models/StripeClientSetupStripe.js';
-export { makeStripeClientAuthority } from '../models/StripeClientAuthority.js';
-export { makeBanner } from '../models/Banner.js';
-export { makeOnboardingRequirements } from '../models/OnboardingRequirements.js';
-export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
-export { makeOrderDeliveryDestinationAddressRequest } from '../models/OrderDeliveryDestinationAddressRequest.js';
-export { makeChangeMeSubscriptionQuantityRequest } from '../models/ChangeMeSubscriptionQuantityRequest.js';
-export { makeConfirmEmailChangeRequest } from '../models/ConfirmEmailChangeRequest.js';
-export { makePauseSubscriptionRequest } from '../models/PauseSubscriptionRequest.js';
-export { makeInventoryCountTransitionRequest } from '../models/InventoryCountTransitionRequest.js';
-export { makeUpdateMeRequest } from '../models/UpdateMeRequest.js';
+export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeUpdateCustomerAddressRequest } from '../models/UpdateCustomerAddressRequest.js';
 export { makeUpdateCustomerEmailPreferencesRequest } from '../models/UpdateCustomerEmailPreferencesRequest.js';
+export { makeUpdateMerchantRequest } from '../models/UpdateMerchantRequest.js';
+export { makeUpdateMeRequest } from '../models/UpdateMeRequest.js';
 export { makeUpdateMeSubscriptionLineItemRequest } from '../models/UpdateMeSubscriptionLineItemRequest.js';
+export { makeUpdateMeSubscriptionRequest } from '../models/UpdateMeSubscriptionRequest.js';
+export { makeWeight } from '../models/Weight.js';

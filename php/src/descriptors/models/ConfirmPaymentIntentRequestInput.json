@@ -1,1 +1,1 @@
-{"shared":"ConfirmPaymentIntentRequest","dependencies":["ConfirmPaymentIntentRequest"]}
+{"shared":"ConfirmPaymentIntentRequest","dependencies":["ConfirmPaymentIntentRequest","SharedCodec49","SharedCodec50","SharedCodec51"]}

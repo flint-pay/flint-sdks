@@ -1,134 +1,239 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CreateModifierRequestInput } from '../declarations/CreateModifierRequestInput.js';
-import type { ModifierGroup } from '../declarations/ModifierGroup.js';
-import type { ModifierGroupListResponse } from '../declarations/ModifierGroupListResponse.js';
-import type { ModifierGroupResponse } from '../declarations/ModifierGroupResponse.js';
-import type { ModifierGroupsCreateInput } from '../declarations/ModifierGroupsCreateInput.js';
-import type { ModifierGroupsCreateResponse } from '../declarations/ModifierGroupsCreateResponse.js';
-import type { ModifierGroupsGetInput } from '../declarations/ModifierGroupsGetInput.js';
-import type { ModifierGroupsGetResponse } from '../declarations/ModifierGroupsGetResponse.js';
-import type { ModifierGroupsListInput } from '../declarations/ModifierGroupsListInput.js';
-import type { ModifierGroupsListResponse } from '../declarations/ModifierGroupsListResponse.js';
-import type { ModifierGroupsRemoveInput } from '../declarations/ModifierGroupsRemoveInput.js';
-import type { ModifierGroupsRemoveResponse } from '../declarations/ModifierGroupsRemoveResponse.js';
-import type { ModifierGroupsUpdateInput } from '../declarations/ModifierGroupsUpdateInput.js';
-import type { ModifierGroupsUpdateResponse } from '../declarations/ModifierGroupsUpdateResponse.js';
-import type { ModifierRequestInput } from '../declarations/ModifierRequestInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { TextModifierConfigRequestInput } from '../declarations/TextModifierConfigRequestInput.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateModifierGroupRequestInput } from '../declarations/types-7.js';
+import type {
+    ModifierGroup,
+    ModifierGroupListResponse,
+    ModifierGroupResponse,
+    ModifierGroupsCreateInput,
+    ModifierGroupsGetInput,
+    ModifierGroupsListInput,
+    ModifierGroupsRemoveInput,
+    ModifierGroupsUpdateInput
+} from '../declarations/types-31.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdateModifierGroupRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateModifierGroupRequestInput, CreateModifierRequestInput } from '../declarations/types-7.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    ModifierGroup,
+    ModifierGroupResponse,
+    ModifierGroupListResponse,
+    ModifierGroupsCreateInput,
+    ModifierGroupsRemoveInput,
+    ModifierGroupsGetInput,
+    ModifierGroupsListInput,
+    ModifierGroupsUpdateInput,
+    MoneyValueInput,
+    Modifier,
+    MoneyValue,
+    NextAction,
+    NextActionMerchantAccountSession,
+    ModifierRequestInput
+} from '../declarations/types-31.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { UpdateModifierGroupRequestInput } from '../declarations/types-48.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type {
+    TextModifierConfigRequestInput,
+    TextModifierConfig,
+    TextModifierConfigPatchRequestInput,
+    TextModifierConfigRequest,
+    TextModifierConfigPatchRequest
+} from '../declarations/types-47.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-6.js';
+export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-63.js';
+export { makeModifierRequest, makeMoneyValue } from '../declarations/types-68.js';
+export { makeTextModifierConfigPatchRequest, makeTextModifierConfigRequest } from '../declarations/types-71.js';
+export { makeUpdateModifierGroupRequest } from '../declarations/types-72.js';
 export interface ModifierGroupsResource {
     /**
  * Create modifier group.
+ * @see reference/modifierGroups.md#modifiergroupscreate
  * POST /v1/modifier-groups
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.modifierGroups.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "allow_quantities"?: boolean; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string>; "min_quantity"?: string; "min_selected"?: number; "modifier_group_type"?: "list" | "text"; "modifiers"?: Array<CreateModifierRequestInput>; "name": string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "allow_quantities"?: boolean; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string>; "min_quantity"?: string; "min_selected"?: number; "modifier_group_type"?: "list" | "text"; "modifiers"?: Array<CreateModifierRequestInput>; "name": string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsCreateResponse>>;
+    create(params: (InputValue<CreateModifierGroupRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ModifierGroup>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/modifierGroups.md#modifiergroupscreate
+     */
+    createWithResponse(params: (InputValue<CreateModifierGroupRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupResponse>>;
     /**
- * Retire modifier group.
+ * Retire modifier group. Returns the archived resource exactly as GET returns it. Repeating DELETE
+ * returns 200 without changing version or updated_at, sending a webhook, or checking references.
+ * When expected_version is present, it is compared before the archived replay; a stale version
+ * returns 409 VERSION_CONFLICT with current_version.
+ * @see reference/modifierGroups.md#modifiergroupsremove
  * DELETE /v1/modifier-groups/{modifier_group_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.modifierGroups.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(modifier_group_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(modifier_group_id: InputValue<string>, params?: { "expected_version"?: InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsRemoveResponse>>;
+    remove(modifier_group_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ModifierGroup>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/modifierGroups.md#modifiergroupsremove
+     */
+    removeWithResponse(modifier_group_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupResponse>>;
     /**
  * Get modifier group.
+ * @see reference/modifierGroups.md#modifiergroupsget
  * GET /v1/modifier-groups/{modifier_group_id}
  * @example
  * client.modifierGroups.get("example")
  */
-    get(modifier_group_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(modifier_group_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierGroupsGetResponse>>;
+    get(modifier_group_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ModifierGroup>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/modifierGroups.md#modifiergroupsget
+     */
+    getWithResponse(modifier_group_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierGroupResponse>>;
     /**
  * List modifier groups.
+ * @see reference/modifierGroups.md#modifiergroupslist
  * GET /v1/modifier-groups
  * @example
  * client.modifierGroups.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ModifierGroupListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierGroupsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierGroupListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ModifierGroupsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "inactive" | "archived">; "modifier_group_type"?: InputValue<"list" | "text">; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierGroup>;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "modifier_group_type"?: InputValue<Array<"list" | "text">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ModifierGroupListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/modifierGroups.md#modifiergroupslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "modifier_group_type"?: InputValue<Array<"list" | "text">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierGroupListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/modifierGroups.md#modifiergroupslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "modifier_group_type"?: InputValue<Array<"list" | "text">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierGroupListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/modifierGroups.md#modifiergroupslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "modifier_group_type"?: InputValue<Array<"list" | "text">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ModifierGroupListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/modifierGroups.md#modifiergroupslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+        "modifier_group_type"?: InputValue<Array<"list" | "text">>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierGroup>;
     /**
- * Update modifier group.
+ * Update modifier group. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
+ * and current_status archived. The error identifies the archived resource; a create under an
+ * archived parent identifies that parent.
+ * @see reference/modifierGroups.md#modifiergroupsupdate
  * PATCH /v1/modifier-groups/{modifier_group_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.modifierGroups.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(modifier_group_id: InputValue<string>, params: (InputValue<({ "allow_quantities"?: boolean; "expected_version"?: string; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string | null> | null; "min_quantity"?: string; "min_selected"?: number; "modifiers"?: Array<ModifierRequestInput>; "name"?: string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }) & ((({ "modifiers"?: never })) | ({ "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ModifierGroupResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(modifier_group_id: InputValue<string>, params: (InputValue<({ "allow_quantities"?: boolean; "expected_version"?: string; "external_reference_id"?: string; "max_quantity"?: string; "max_selected"?: number; "max_total_quantity"?: string; "metadata"?: Record<string, string | null> | null; "min_quantity"?: string; "min_selected"?: number; "modifiers"?: Array<ModifierRequestInput>; "name"?: string; "show_on_fulfillment"?: boolean; "show_on_receipt"?: boolean; "status"?: "active" | "inactive"; "text"?: TextModifierConfigRequestInput; }) & ((({ "modifiers"?: never })) | ({ "expected_version": unknown; }))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupsUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly modifierGroups: ModifierGroupsResource;
+    update(modifier_group_id: InputValue<string>, params: (InputValue<UpdateModifierGroupRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ModifierGroup>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/modifierGroups.md#modifiergroupsupdate
+     */
+    updateWithResponse(modifier_group_id: InputValue<string>, params: (InputValue<UpdateModifierGroupRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierGroupResponse>>;
 }
-export type { CreateModifierRequestInput } from '../declarations/CreateModifierRequestInput.js';
-export type { TextModifierConfigRequestInput } from '../declarations/TextModifierConfigRequestInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { ModifierGroupResponse } from '../declarations/ModifierGroupResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { ModifierGroupsCreateResponse } from '../declarations/ModifierGroupsCreateResponse.js';
-export type { ModifierGroupsRemoveResponse } from '../declarations/ModifierGroupsRemoveResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { ModifierGroupsGetResponse } from '../declarations/ModifierGroupsGetResponse.js';
-export type { ModifierGroupListResponse } from '../declarations/ModifierGroupListResponse.js';
-export type { ModifierGroupsListResponse } from '../declarations/ModifierGroupsListResponse.js';
-export type { ModifierGroup } from '../declarations/ModifierGroup.js';
-export type { ModifierRequestInput } from '../declarations/ModifierRequestInput.js';
-export type { ModifierGroupsUpdateResponse } from '../declarations/ModifierGroupsUpdateResponse.js';
-export type { ModifierGroupsCreateInput } from '../declarations/ModifierGroupsCreateInput.js';
-export type { ModifierGroupsRemoveInput } from '../declarations/ModifierGroupsRemoveInput.js';
-export type { ModifierGroupsGetInput } from '../declarations/ModifierGroupsGetInput.js';
-export type { ModifierGroupsListInput } from '../declarations/ModifierGroupsListInput.js';
-export type { ModifierGroupsUpdateInput } from '../declarations/ModifierGroupsUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { Modifier } from '../declarations/Modifier.js';
-export type { TextModifierConfig } from '../declarations/TextModifierConfig.js';
-export type { AvailableTextModifierConfig } from '../declarations/AvailableTextModifierConfig.js';
-export type { CreateModifierGroupRequestInput } from '../declarations/CreateModifierGroupRequestInput.js';
-export type { UpdateModifierGroupRequestInput } from '../declarations/UpdateModifierGroupRequestInput.js';
-export type { PublicResolvedTextModifier } from '../declarations/PublicResolvedTextModifier.js';
-export { makeModifierGroupResponse } from '../declarations/makeModifierGroupResponse.js';
-export { makeModifierGroupListResponse } from '../declarations/makeModifierGroupListResponse.js';
-export { makeModifierGroup } from '../declarations/makeModifierGroup.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeModifier } from '../declarations/makeModifier.js';
-export { makeTextModifierConfig } from '../declarations/makeTextModifierConfig.js';
-export { makeAvailableTextModifierConfig } from '../declarations/makeAvailableTextModifierConfig.js';
-export { makePublicResolvedTextModifier } from '../declarations/makePublicResolvedTextModifier.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly modifierGroups: ModifierGroupsResource;
+}

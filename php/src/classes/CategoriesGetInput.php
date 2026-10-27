@@ -7,7 +7,8 @@ namespace Flint;
 final class CategoriesGetInput extends Model {
     /** @param array{'category_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CategoriesGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When category_id is omitted; use hasCategoryId() or valueOrDefault().
      */
     public function getCategoryId(): string { return $this->get('category_id'); }

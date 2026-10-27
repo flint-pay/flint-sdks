@@ -10,19 +10,21 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 npm install @flintpay/node
 ```
 
-Requires Node.js 22+, or Node.js 22.12+ to `require()` from CommonJS. TypeScript projects need TypeScript 5.9+ with NodeNext module resolution and `npm install --save-dev @types/node@22` (22.16.0+).
+Requires Node.js 22.3+, or Node.js 22.12+ to `require()` from CommonJS. TypeScript projects need TypeScript 5.9+ with NodeNext module resolution and `npm install --save-dev @types/node@22` (22.16.0+).
 
 ## Quickstart
 
-Set `API_KEY` ([authentication](RUNTIME.md#authentication)), then replace the sample values with your own. Set `API_BASE_URL` to use another environment.
+Set `API_BASE_URL` and `API_KEY` ([authentication](RUNTIME.md#authentication)), then replace the sample values with your own. Choose your sandbox or local mock URL explicitly; the API declares https://api.withflintpay.com as its default server.
 
 ```typescript
 import { Client, SdkError } from "@flintpay/node";
-const baseUrl = process.env.API_BASE_URL ?? "https://api.withflintpay.com";
+const baseUrl = process.env.API_BASE_URL;
+if (!baseUrl) throw new Error("Set API_BASE_URL to your sandbox or local mock URL");
 const apiKey = process.env.API_KEY;
 if (!apiKey) throw new Error("Set API_KEY: this call requires a credential");
 const client = new Client({
   baseUrl,
+  allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
   apiKey,
 });
 
@@ -60,21 +62,20 @@ Methods return the decoded body, except result-mode operations, which return `re
 
 ### paymentIntents.get
 
-Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. If buyer authentication is required but Flint cannot produce its client action, returns PAYMENT_CLIENT_ACTION_UNAVAILABLE.
+Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm with an empty body to retrieve current_payment_action.
 
 ```typescript
 const paymentIntentsGetResult = await client.paymentIntents.get(
   "example"
 );
-console.log(paymentIntentsGetResult.payment_intent_id);
-console.log(paymentIntentsGetResult.status);
+console.log(paymentIntentsGetResult);
 ```
 
 [Run the standalone example](examples/paymentIntents-get.mjs)
 
 ### refunds.create
 
-Creates a refund for an order or payment intent. When amount_money and tender_allocations are omitted, the refund amount is the sum of the named line items (including their resolved tax), charges, and top-level tax_breakdown_refunds. Unnamed tips and flat taxes are excluded. With no targets, amount_money, or tender_allocations, refunds the full remaining refundable amount. Explicit tender_allocations set the refund total through their amounts. This is a financial operation.
+Creates a refund for an order, a payment intent, a captured gift card redemption, or a gift card load. Set refund_type to full for the full remaining refundable amount, amount for an explicit amount_money, or targets for named line items, charges, and taxes. To refund a gift card redemption made outside a Flint order, set refund_type to amount and send one tender_allocations entry per redemption, with no order_id. A created refund returns 201 even when processing fails; inspect status and failure_reason. A same-key replay returns the original refund without another money attempt. This is a financial operation.
 
 ```typescript
 // Persist this key with the action before sending; reuse it for every resubmission.
@@ -82,6 +83,7 @@ const refundsCreateIdempotencyKey = crypto.randomUUID();
 
 const refundsCreateResult = await client.refunds.create(
   {
+    refund_type: "full",
     order_id: "example",
   },
   { idempotencyKey: refundsCreateIdempotencyKey },
@@ -94,7 +96,7 @@ console.log(refundsCreateResult.status);
 
 ## Errors and retries
 
-Failed calls throw `SdkError` with `message`, `kind`, `status`, `code` and the request ID in `meta`. An `outcome` of `unknown` means the request may have succeeded, so check the current state before resubmitting. Operations with a declared retry policy follow it, as listed in the [API reference](REFERENCE.md); otherwise GET, HEAD and OPTIONS calls make up to three attempts and other methods send once. See [errors](RUNTIME.md#responses-and-errors) and [retries](RUNTIME.md#retries-and-idempotency).
+Failed calls throw `SdkError` with `message`, `kind`, `status`, `code` and the request ID in `meta`. An `outcome` of `unknown` means the request may have succeeded, so check the current state before resubmitting. Each operation retries according to its declared policy; the [API reference](REFERENCE.md) lists its attempt limit. See [errors](RUNTIME.md#responses-and-errors) and [retries](RUNTIME.md#retries-and-idempotency).
 
 Check an error's class to handle a specific failure; every class extends `SdkError`:
 
@@ -120,10 +122,15 @@ Verify each delivery with `client.verifyWebhook(rawBody, headers, secrets)` on t
 
 ## Documentation
 
-- [API reference](REFERENCE.md): every operation, with examples
-- [Models](MODELS.md): fields and descriptions
+Set API_BASE_URL to your sandbox or local mock URL and supply the credential environment variables shown in the quickstart. Example IDs are placeholders: replace them with IDs from that environment.
+
+Selected methods use positional path arguments; check their signatures. Request options are the last argument.
+
+- [API reference](REFERENCE.md): resource index linking to operation files under reference/
+- [Models](MODELS.md): model index, fields and descriptions
 - [Runtime guide](RUNTIME.md): request options, errors, retries, pagination and webhooks
 - [pagination-and-retries](guides/pagination-and-retries.md)
-- `examples/`: a runnable script per operation. Run `node examples/RESOURCE-METHOD.mjs`; TypeScript versions are alongside.
+- [Agent index](llms.txt): a small documentation entry point
+- `examples/`: a runnable script per operation. Run `node examples/RESOURCE-METHOD.mjs`; examples are checked with TypeScript checkJs.
 
 Package 4.0.0, generated for API 2026-09-07.
