@@ -7,6 +7,7 @@
   },
   "scripts": {
     "setup": "node scripts/sdk.mjs setup",
+    "profiles": "node scripts/profiles.mjs",
     "diagnose": "node scripts/sdk.mjs diagnose",
     "preview": "node scripts/sdk.mjs preview",
     "generate": "node scripts/sdk.mjs generate",

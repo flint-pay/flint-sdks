@@ -37,7 +37,7 @@ test("publication verifies version, source state and archive hashes before invok
   try {
     for (const path of ["scripts", "spec/profiles", "release", "bin"])
       mkdirSync(join(dir, path), { recursive: true });
-    for (const file of ["sdk.mjs", "packages.mjs"])
+    for (const file of ["sdk.mjs", "packages.mjs", "profiles.mjs"])
       cpSync(join(root, "scripts", file), join(dir, "scripts", file));
     writeFileSync(join(dir, "sdk.lock.json"), "{}");
     writeFileSync(

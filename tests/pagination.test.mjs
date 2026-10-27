@@ -7,7 +7,7 @@ import { Client, SdkError } from "../node/index.js";
 
 const exec = promisify(execFile);
 
-test("pagination follows cursors and bounds requests; reads and keyed writes stay single-attempt in Node and PHP", async (t) => {
+test("pagination follows cursors and bounds requests; reads and keyed writes retry envelope-less 503s with the same key in Node and PHP", async (t) => {
   const requests = [];
   const server = createServer((req, res) => {
     const url = new URL(req.url, "http://localhost");
@@ -186,8 +186,13 @@ $client->close();
       ],
     );
     assert.ok(pages.every((r) => r.path === "/v1/customers"));
+    assert.equal(
+      requests.filter((r) => r.mode === language + "-limit").length,
+      1,
+    );
+    // The synthetic 503 has no remediation signal, so the contract's envelope-less
+    // statuses apply: three attempts for reads and for keyed writes.
     for (const mode of [
-      "limit",
       "fail-read",
       "fail-write",
       "fail-update",
@@ -195,12 +200,15 @@ $client->close();
     ])
       assert.equal(
         requests.filter((r) => r.mode === language + "-" + mode).length,
-        1,
+        3,
+        language + "-" + mode,
       );
     for (const mode of ["fail-write", "fail-update", "fail-inventory"])
-      assert.equal(
-        requests.find((r) => r.mode === language + "-" + mode).key,
-        "persisted-action-key",
+      assert.deepEqual(
+        requests
+          .filter((r) => r.mode === language + "-" + mode)
+          .map((r) => r.key),
+        Array(3).fill("persisted-action-key"),
       );
     assert.equal(
       requests.filter((r) => r.mode === language + "-no-dispatch").length,

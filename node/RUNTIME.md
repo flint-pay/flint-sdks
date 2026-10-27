@@ -190,11 +190,14 @@ Without a declared policy, GET/HEAD/OPTIONS allow three total attempts for trans
 
 Backoff waits uniformly between half and all of baseDelayMs * 2^(attempt - 1), capped by maxDelayMs when declared. Retry-After is a minimum wait. Nonnegative decimal seconds or canonical GMT HTTP dates are accepted; malformed values are ignored. If the next wait exceeds the deadline, the last error is returned unchanged.
 
+The response field `error.remediation.retry` controls body-driven retries for declared retry values: "same_request". A string signal overrides status and code rules; otherwise statuses apply.
+
 ### Idempotency
 
 | Policy | Header | Retention | Scope |
 | --- | --- | --- | --- |
-| 1 | `Idempotency-Key` | At least 24 hours for ordinary replay records; durable command identities follow their documented resource lifetime. Never reuse for a new business intent. | Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters. |
+| 1 | `Idempotency-Key` | As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent. | Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters. |
+| 2 | `Idempotency-Key` | At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request. | Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters. |
 
 Only operations declaring idempotency accept idempotencyKey. Persist a key with the original input before the first attempt and reuse it for the same action. When automatic keys are enabled, the SDK creates one per call and reuses it across attempts; automatic keys do not span separate calls. Resolved keys are exposed on errors and response metadata, including not_sent failures after key resolution.
 

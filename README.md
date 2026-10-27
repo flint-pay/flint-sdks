@@ -117,6 +117,7 @@ Generated operation coverage does not establish live backend acceptance. Shared 
 
 ```sh
 npm run setup       # Build the exact generator revision in sdk.lock.json
+npm run profiles    # Derive retry and idempotency settings from spec/openapi.json
 npm run diagnose    # Check the pinned contract and profiles
 npm run generate    # Regenerate node/, php/, and root composer.json
 npm run check       # Fail if committed packages differ from generation
@@ -126,7 +127,7 @@ npm test            # Install and test the npm and root Composer archives
 
 Generation requires Node.js 22.14+, npm, Git, PHP 8.2+, Composer 2, and ZIP support. Full generation uses an 8-GiB Node heap; allow at least 10 GiB of process memory. Consumer SDKs do not need this generator heap setting.
 
-Edit `sdk.json` and `spec/profiles/` for SDK configuration. `spec/openapi.json` is an unmodified, checksummed upstream export. `sdk.lock.json` pins its upstream revision and the generator revision. Do not hand-edit generated files; `sdk-files.json` records their hashes. The root npm package is private; only `node/` is published to npm.
+Edit `sdk.json` and `spec/profiles/` for SDK configuration, except the retry and idempotency settings in `spec/profiles/full-common-sdk.json`: `npm run profiles` derives those from each operation's idempotency class in the export, and the other commands fail while they are stale. `spec/openapi.json` is an unmodified, checksummed upstream export. `sdk.lock.json` pins its upstream revision and the generator revision. Do not hand-edit generated files; `sdk-files.json` records their hashes. The root npm package is private; only `node/` is published to npm.
 
 The root `composer.json` is generated from `php/composer.json` with relocated autoload paths and no hardcoded version. Packagist reads versions from this repository's `v*` tags. No PHP distribution mirror is needed.
 

@@ -15,6 +15,7 @@ import {
   publishedFiles,
   npmPackResult,
 } from "./packages.mjs";
+import { PROFILE_PATH, deriveProfile } from "./profiles.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(root);
@@ -44,6 +45,13 @@ function verifyInputs() {
     );
   if (profile.apiVersion.value !== lock.api.version)
     throw new Error("Flint-Version must match the pinned API version.");
+  if (
+    formatted(deriveProfile(json("spec/openapi.json"), profile)) !==
+    readFileSync(PROFILE_PATH, "utf8")
+  )
+    throw new Error(
+      `Retry and idempotency settings in ${PROFILE_PATH} differ from the pinned OpenAPI. Run npm run profiles and commit.`,
+    );
   if (!existsSync(join(generator, "dist/cli.js")))
     throw new Error("Run npm run setup first.");
   if (

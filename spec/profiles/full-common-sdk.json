@@ -186,7 +186,13 @@
     "codePath": "error.code",
     "messagePath": "error.message",
     "detailsPath": "error",
-    "requestIdHeader": "X-Request-Id"
+    "requestIdHeader": "X-Request-Id",
+    "retry": {
+      "path": "error.remediation.retry",
+      "retryValues": [
+        "same_request"
+      ]
+    }
   },
   "webhook": {
     "algorithm": "hmac-sha256",
@@ -205,7 +211,11 @@
   },
   "documentation": {
     "overview": "Use the Flint Pay SDK to integrate with the Flint API from your server. See the [Flint Pay SDK documentation](https://developers.withflintpay.com/docs/guides/sdks) for setup and integration guides. The default base URL is production (`https://api.withflintpay.com`). For sandbox testing, pass `baseUrl` as `https://api.staging.withflintpay.com`, or set `API_BASE_URL` to that URL when running example scripts. See the [SDK ↔ API version mapping](https://github.com/flint-pay/flint-sdks#sdk--api-versions) for version history.\n\nGenerated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generator). Submit fixes and pull requests to the generator; this distribution repository does not accept pull requests.",
-    "examples": ["createPaymentIntent", "getPaymentIntent", "createRefund"],
+    "examples": [
+      "createPaymentIntent",
+      "getPaymentIntent",
+      "createRefund"
+    ],
     "guides": {
       "pagination-and-retries": "# Pagination and retries\n\nCursor helpers follow `page_token` and `next_page_token` lazily and retain your filters. `listItems` yields resources; `listPages` yields page bodies with `data` and `next_page_token`. Use `WithResponse` companions for HTTP metadata. Pagination stops after 1,000 pages by default; set `maxPages` or `maxItems` explicitly for larger traversals. `deadlineMs` bounds each page request. Cancellation bounds the whole iteration.\n\nAll operations make one attempt by default. This release preserves caller-supplied idempotency keys and does not generate keys automatically. Persist a key for each business action and reuse it only when retrying that action. Operations with a required key reject calls without one before dispatch. See [runtime options](../RUNTIME.md) for request options and the API reference for each operation's declared idempotency contract.\n\n`packages.listItems()` iterates packages; `packages.listPackageItems()` lists contents of a package. `riskLists.listItems()` iterates lists; `riskLists.listRiskListItems()` lists entries inside one risk list.\n",
       "default-credentials": "# Default credentials\n\nThe client discovers merchant credentials when no explicit credential is supplied. Set `FLINT_API_KEY` or `FLINT_ACCESS_TOKEN`, or use workload identity. Setting both credential variables fails with `ambiguous_credentials`. Explicit credentials take precedence. Anonymous and buyer-scoped calls retain their existing authentication rules.\n\n## GitHub Actions\n\nConfigure a Flint workload identity that trusts the repository and job subject, and grant the job `permissions: id-token: write`. Set the non-secret `FLINT_WORKLOAD_IDENTITY_ID`. The SDK requests a GitHub subject token and exchanges it with Flint automatically. Set `FLINT_OIDC_AUDIENCE` when your trusted audience differs from the API origin, and `FLINT_OIDC_SCOPE` to narrow permissions.\n\nNode:\n\n```js\nimport { Client } from '@flintpay/node';\nconst client = new Client({ baseUrl: 'https://api.staging.withflintpay.com' });\nconst context = await client.developer.getAuthContext();\n```\n\nPHP:\n\n```php\n$client = new \\Flint\\Client(new \\Flint\\ClientOptions(\n    baseUrl: 'https://api.staging.withflintpay.com',\n));\n$context = $client->developer->getAuthContext();\n```\n\nThe default API URL is production. Choose staging explicitly when testing.\n\n## Other token sources\n\n`FLINT_OIDC_SOURCE` accepts `auto`, `none`, `token`, `token_file` and `github_actions`. Auto discovery checks `FLINT_OIDC_TOKEN`, then `FLINT_OIDC_TOKEN_FILE`, then the GitHub Actions endpoint when `GITHUB_ACTIONS=true`. For GitLab, map an `id_tokens` JWT with the API origin as its audience to `FLINT_OIDC_TOKEN`. For Kubernetes, set `FLINT_OIDC_TOKEN_FILE` to a projected token whose audience matches the API origin. Files are reread on exchange. Cloud metadata and CLI login sessions are not read automatically in this release.\n\nThe SDK validates the subject token audience and expiry before exchange. Access tokens are cached by origin, workload identity, audience, scope and source, refreshed before expiry, and invalidated for one retry after a 401. No refresh token is stored.\n\n## Explicit providers and tenant isolation\n\nNode exports `defaultCredentials()` and `workloadIdentityCredentials({ workloadIdentityId, source, audience, scope })`. PHP exposes the same functions in the `Flint` namespace and accepts an options array for `workloadIdentityCredentials`. Pass a provider through `apiKey` or a named bearer credential.\n\nFor an app that serves multiple merchants, set `ambientCredentials: false` and pass each merchant's credentials explicitly. This prevents missing tenant credentials from using the app's own environment. The option disables automatic discovery; an explicitly supplied provider still runs."
@@ -215,47 +225,81 @@
     "authorizeCLIDevice": {
       "hidden": true,
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "exchangeOAuthToken": {
       "hidden": true,
       "idempotency": false,
       "pagination": false,
       "resource": "oauth",
-      "method": "exchangePartnerInstallToken"
+      "method": "exchangePartnerInstallToken",
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "listCLIContexts": {
       "hidden": true,
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "reauthorizeCLIDevice": {
       "hidden": true,
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "revokeOAuthToken": {
       "hidden": true,
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "getAnalyticsOverview": {
       "resource": "analytics",
       "method": "getOverview",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPaymentVolumeTimeseries": {
       "resource": "analytics",
       "method": "getPaymentVolumeTimeseries",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getSubscriptionAnalytics": {
       "resource": "analytics",
       "method": "getSubscription",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listAPIKeys": {
       "resource": "apiKeys",
@@ -263,28 +307,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createAPIKey": {
       "resource": "apiKeys",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getAPIKey": {
       "resource": "apiKeys",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateAPIKey": {
       "resource": "apiKeys",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "revokeAPIKey": {
       "resource": "apiKeys",
       "method": "revoke",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listBalanceTransactions": {
       "resource": "balanceTransactions",
@@ -292,13 +363,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getBalanceTransaction": {
       "resource": "balanceTransactions",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listBalances": {
       "resource": "balances",
@@ -307,7 +384,10 @@
         "payloadPath": null
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listBundles": {
       "resource": "bundles",
@@ -315,7 +395,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createBundle": {
       "resource": "bundles",
@@ -329,23 +412,47 @@
             "currency": "USD"
           }
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "deleteBundle": {
       "resource": "bundles",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getBundle": {
       "resource": "bundles",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateBundle": {
       "resource": "bundles",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listBundleComponents": {
       "resource": "bundles",
@@ -353,7 +460,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listCategories": {
       "resource": "categories",
@@ -361,28 +471,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCategory": {
       "resource": "categories",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteCategory": {
       "resource": "categories",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCategory": {
       "resource": "categories",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateCategory": {
       "resource": "categories",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listCheckoutSessions": {
       "resource": "checkoutSessions",
@@ -390,28 +527,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCheckoutSession": {
       "resource": "checkoutSessions",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCheckoutSession": {
       "resource": "checkoutSessions",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateCheckoutSession": {
       "resource": "checkoutSessions",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "closeCheckoutSession": {
       "resource": "checkoutSessions",
       "method": "closeSession",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCheckoutSessionCustomerVerification": {
       "resource": "checkoutSessions",
@@ -419,6 +583,13 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "confirmCheckoutSessionCustomerVerification": {
@@ -431,40 +602,77 @@
           "code": "123456"
         }
       },
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCheckoutSessionDeliveryQuote": {
       "resource": "checkoutSessions",
       "method": "createDeliveryQuote",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCheckoutSessionDeliveryQuote": {
       "resource": "checkoutSessions",
       "method": "getDeliveryQuote",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCheckoutSessionDeliverySelection": {
       "resource": "checkoutSessions",
       "method": "createDeliverySelection",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteCheckoutSessionCurrentDeliverySelection": {
       "resource": "checkoutSessions",
       "method": "deleteCurrentDeliverySelection",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCheckoutSessionCurrentDeliverySelection": {
       "resource": "checkoutSessions",
       "method": "getCurrentDeliverySelection",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCheckoutSessionDeliverySelectionHistory": {
       "resource": "checkoutSessions",
       "method": "getDeliverySelectionHistory",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listCreditNotes": {
       "resource": "creditNotes",
@@ -472,23 +680,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCreditNote": {
       "resource": "creditNotes",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCreditNote": {
       "resource": "creditNotes",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateCreditNote": {
       "resource": "creditNotes",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listCreditNoteAllocations": {
       "resource": "creditNotes",
@@ -496,7 +724,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCreditNoteAllocation": {
       "resource": "creditNotes",
@@ -510,23 +741,47 @@
             "currency": "USD"
           }
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getCreditNoteAllocation": {
       "resource": "creditNotes",
       "method": "getAllocation",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "reverseCreditNoteAllocation": {
       "resource": "creditNotes",
       "method": "reverseAllocation",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "issueCreditNote": {
       "resource": "creditNotes",
       "method": "issue",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCreditNotePDF": {
       "resource": "creditNotes",
@@ -535,7 +790,10 @@
         "return": "result"
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listCreditNoteRefunds": {
       "resource": "creditNotes",
@@ -543,17 +801,34 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCreditNoteRefund": {
       "resource": "creditNotes",
       "method": "createRefund",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "voidCreditNote": {
       "resource": "creditNotes",
       "method": "voidResource",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listCustomDomains": {
       "resource": "customDomains",
@@ -561,28 +836,55 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createCustomDomain": {
       "resource": "customDomains",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteCustomDomain": {
       "resource": "customDomains",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCustomDomain": {
       "resource": "customDomains",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "validateCustomDomain": {
       "resource": "settings",
       "method": "validateCustomDomain",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listCustomerDeletionRequests": {
       "resource": "customerDeletionRequests",
@@ -590,43 +892,91 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCustomerDeletionRequest": {
       "resource": "customers",
       "method": "createDeletionRequest",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCustomerDeletionRequest": {
       "resource": "customers",
       "method": "getDeletionRequest",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "resolveCustomerDeletionRequest": {
       "resource": "customerDeletionRequests",
       "method": "resolve",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCustomerSession": {
       "resource": "customerSessions",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "refreshCustomerSession": {
       "resource": "customerSessions",
       "method": "refresh",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "revokeCustomerSession": {
       "resource": "customerSessions",
       "method": "revoke",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCustomerVerification": {
       "resource": "customerVerifications",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "confirmCustomerVerification": {
       "resource": "customerVerifications",
@@ -637,6 +987,13 @@
         "body": {
           "code": "123456"
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listCustomers": {
@@ -645,28 +1002,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCustomer": {
       "resource": "customers",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCustomer": {
       "resource": "customers",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateCustomer": {
       "resource": "customers",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCustomerAccessLink": {
       "resource": "customers",
       "method": "createAccessLink",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listCustomerAddresses": {
       "resource": "customers",
@@ -674,43 +1058,91 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createCustomerAddress": {
       "resource": "customers",
       "method": "createAddress",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteCustomerAddress": {
       "resource": "customers",
       "method": "deleteAddress",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getCustomerAddress": {
       "resource": "customers",
       "method": "getAddress",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateCustomerAddress": {
       "resource": "customers",
       "method": "updateAddress",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "setDefaultCustomerAddress": {
       "resource": "customers",
       "method": "setDefaultAddress",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "linkCustomerGuestPurchases": {
       "resource": "customers",
       "method": "linkGuestPurchases",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "revokeCustomerSessions": {
       "resource": "customers",
       "method": "revokeSessions",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeliveryLocationSets": {
       "resource": "deliveryLocationSets",
@@ -718,28 +1150,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDeliveryLocationSet": {
       "resource": "deliveryLocationSets",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteDeliveryLocationSet": {
       "resource": "deliveryLocationSets",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeliveryLocationSet": {
       "resource": "deliveryLocationSets",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateDeliveryLocationSet": {
       "resource": "deliveryLocationSets",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeliveryMethods": {
       "resource": "deliveryMethods",
@@ -747,7 +1206,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDeliveryMethod": {
       "resource": "deliveryMethods",
@@ -769,18 +1231,35 @@
           "type": "shipment",
           "name": "Standard shipping"
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "deleteDeliveryMethod": {
       "resource": "deliveryMethods",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeliveryMethod": {
       "resource": "deliveryMethods",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateDeliveryMethod": {
       "resource": "deliveryMethods",
@@ -791,6 +1270,13 @@
         "body": {
           "status": "active"
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createDeliveryPreview": {
@@ -800,6 +1286,11 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
       }
     },
     "listDeliveryProfiles": {
@@ -808,33 +1299,67 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDeliveryProfile": {
       "resource": "deliveryProfiles",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteDeliveryProfile": {
       "resource": "deliveryProfiles",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeliveryProfile": {
       "resource": "deliveryProfiles",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateDeliveryProfile": {
       "resource": "deliveryProfiles",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "assignToUnconfiguredDeliveryProfile": {
       "resource": "deliveryProfiles",
       "method": "assignToUnconfigured",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeliveryQuotes": {
       "resource": "deliveryQuotes",
@@ -842,13 +1367,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeliveryQuote": {
       "resource": "deliveryQuotes",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeliveryRateCallbacks": {
       "resource": "deliveryRateCallbacks",
@@ -856,54 +1387,112 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDeliveryRateCallback": {
       "resource": "deliveryRateCallbacks",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteDeliveryRateCallback": {
       "resource": "deliveryRateCallbacks",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeliveryRateCallback": {
       "resource": "deliveryRateCallbacks",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateDeliveryRateCallback": {
       "resource": "deliveryRateCallbacks",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "checkDeliveryRateCallbackConnection": {
       "resource": "deliveryRateCallbacks",
       "method": "checkConnection",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "rotateDeliveryRateCallbackSigningKey": {
       "resource": "deliveryRateCallbacks",
       "method": "rotateSigningKey",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDeliveryRateCallbackTestDelivery": {
       "resource": "deliveryRateCallbacks",
       "method": "createTestDelivery",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "revokeDeliveryDependency": {
       "resource": "deliveryRevocations",
       "method": "revokeDeliveryDependency",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeliveryRevocation": {
       "resource": "deliveryRevocations",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeliveryZones": {
       "resource": "deliveryZones",
@@ -911,7 +1500,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDeliveryZone": {
       "resource": "deliveryZones",
@@ -921,44 +1513,87 @@
         "body": {
           "configuration": {
             "country": {
-              "values": ["example"]
+              "values": [
+                "example"
+              ]
             }
           },
           "name": "Standard delivery"
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "deleteDeliveryZone": {
       "resource": "deliveryZones",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeliveryZone": {
       "resource": "deliveryZones",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateDeliveryZone": {
       "resource": "deliveryZones",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDemoSession": {
       "resource": "demoSessions",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "resetDemoSession": {
       "resource": "demoSessions",
       "method": "reset",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeveloperAuthContext": {
       "resource": "developer",
       "method": "getAuthContext",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeveloperPartnerApps": {
       "resource": "developer",
@@ -966,28 +1601,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDeveloperPartnerApp": {
       "resource": "developer",
       "method": "createPartnerApp",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteDeveloperPartnerApp": {
       "resource": "developer",
       "method": "deletePartnerApp",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeveloperPartnerApp": {
       "resource": "developer",
       "method": "getPartnerApp",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateDeveloperPartnerApp": {
       "resource": "developer",
       "method": "updatePartnerApp",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeveloperPartnerAppInstalls": {
       "resource": "developer",
@@ -995,28 +1657,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeveloperPartnerAppInstall": {
       "resource": "developer",
       "method": "getPartnerAppInstall",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "revokeDeveloperPartnerEnvironmentGrant": {
       "resource": "developer",
       "method": "revokePartnerEnvironmentGrant",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "revokeDeveloperPartnerAppInstall": {
       "resource": "developer",
       "method": "revokePartnerAppInstall",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "rotateDeveloperPartnerAppSecret": {
       "resource": "developer",
       "method": "rotatePartnerAppSecret",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeveloperPartnerInstalls": {
       "resource": "developer",
@@ -1024,6 +1713,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listAPIRequestLogs": {
@@ -1032,19 +1724,28 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getAPIRequestLog": {
       "resource": "developer",
       "method": "getCurrentAPIKeyRequestLog",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getResourceTimeline": {
       "resource": "developer",
       "method": "getResourceTimeline",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDeveloperSandboxes": {
       "resource": "developer",
@@ -1052,28 +1753,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDeveloperSandbox": {
       "resource": "developer",
       "method": "createSandbox",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteDeveloperSandbox": {
       "resource": "developer",
       "method": "deleteSandbox",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDeveloperSandbox": {
       "resource": "developer",
       "method": "getSandbox",
       "pagination": false,
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "resetDeveloperSandbox": {
       "resource": "developer",
       "method": "resetSandbox",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listDevices": {
       "resource": "devices",
@@ -1081,34 +1809,66 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDevice": {
       "resource": "devices",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteDevice": {
       "resource": "devices",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDevice": {
       "resource": "devices",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateDevice": {
       "resource": "devices",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDiscountPreview": {
       "resource": "discountPreviews",
       "method": "create",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "listDisputes": {
       "resource": "disputes",
@@ -1116,29 +1876,54 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getDispute": {
       "resource": "disputes",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createDisputeResponseSession": {
       "resource": "disputes",
       "method": "createResponseSession",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "lookupEmailPreferenceLink": {
       "resource": "emailPreferenceLinks",
       "method": "lookup",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "unsubscribeEmailPreferenceLink": {
       "resource": "emailPreferenceLinks",
       "method": "unsubscribe",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listFeedbackReports": {
       "resource": "feedbackReports",
@@ -1146,34 +1931,64 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createFeedbackReport": {
       "resource": "feedbackReports",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getFeedbackReport": {
       "resource": "feedbackReports",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createFile": {
       "resource": "files",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getFile": {
       "resource": "files",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "completeFile": {
       "resource": "files",
       "method": "complete",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listFraudWarnings": {
       "resource": "fraudWarnings",
@@ -1181,13 +1996,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getFraudWarning": {
       "resource": "fraudWarnings",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listFulfillmentEvents": {
       "resource": "fulfillmentEvents",
@@ -1195,13 +2016,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getFulfillmentEvent": {
       "resource": "fulfillmentEvents",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listFulfillmentNotifications": {
       "resource": "fulfillmentNotifications",
@@ -1209,13 +2036,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getFulfillmentNotification": {
       "resource": "fulfillmentNotifications",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listFulfillments": {
       "resource": "fulfillments",
@@ -1223,28 +2056,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getFulfillment": {
       "resource": "fulfillments",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateFulfillment": {
       "resource": "fulfillments",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createFulfillmentEvent": {
       "resource": "fulfillments",
       "method": "createEvent",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createShipment": {
       "resource": "fulfillments",
       "method": "createShipment",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "transitionFulfillment": {
       "resource": "fulfillments",
@@ -1252,6 +2112,13 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listGiftCardFundingDispositions": {
@@ -1260,6 +2127,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createGiftCardFundingDisposition": {
@@ -1271,13 +2141,23 @@
           "dispute_id": "du_00000000000000000000000000",
           "reason_message": "example"
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getGiftCardFundingDisposition": {
       "resource": "giftCardFundingDispositions",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listGiftCardLoads": {
       "resource": "giftCardLoads",
@@ -1285,13 +2165,19 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getGiftCardLoad": {
       "resource": "giftCardLoads",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listGiftCardNotifications": {
       "resource": "giftCardNotifications",
@@ -1299,23 +2185,43 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createGiftCardNotification": {
       "resource": "giftCardNotifications",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getGiftCardNotification": {
       "resource": "giftCardNotifications",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelGiftCardNotification": {
       "resource": "giftCardNotifications",
       "method": "cancel",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listGiftCardRedemptions": {
       "resource": "giftCardRedemptions",
@@ -1323,6 +2229,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createGiftCardRedemption": {
@@ -1339,23 +2248,47 @@
           "gift_card_id": "example",
           "sale_reference": "example"
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getGiftCardRedemption": {
       "resource": "giftCardRedemptions",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelGiftCardRedemption": {
       "resource": "giftCardRedemptions",
       "method": "cancel",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "captureGiftCardRedemption": {
       "resource": "giftCardRedemptions",
       "method": "capture",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listGiftCardTransactions": {
       "resource": "giftCardTransactions",
@@ -1363,6 +2296,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listGiftCards": {
@@ -1371,29 +2307,54 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createGiftCard": {
       "resource": "giftCards",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "lookupGiftCard": {
       "resource": "giftCards",
       "method": "lookup",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "getGiftCard": {
       "resource": "giftCards",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateGiftCard": {
       "resource": "giftCards",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "adjustGiftCardBalance": {
       "resource": "giftCardAdjustments",
@@ -1408,6 +2369,13 @@
           },
           "reason": "complimentary"
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "cashOutGiftCard": {
@@ -1423,6 +2391,13 @@
           },
           "cash_out_reference": "example"
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createGiftCardLoad": {
@@ -1446,17 +2421,38 @@
             "currency": "USD"
           }
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "rotateGiftCardCode": {
       "resource": "giftCards",
       "method": "rotateCode",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "transitionGiftCard": {
       "resource": "giftCards",
       "method": "transition",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInventoryAdjustments": {
       "resource": "inventoryAdjustments",
@@ -1464,7 +2460,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInventoryAdjustment": {
       "resource": "inventoryAdjustments",
@@ -1472,13 +2471,23 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getInventoryAdjustment": {
       "resource": "inventoryAdjustments",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInventoryAllocationPolicies": {
       "resource": "inventoryAllocationPolicies",
@@ -1486,28 +2495,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInventoryAllocationPolicy": {
       "resource": "inventoryAllocationPolicies",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteInventoryAllocationPolicy": {
       "resource": "inventoryAllocationPolicies",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInventoryAllocationPolicy": {
       "resource": "inventoryAllocationPolicies",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateInventoryAllocationPolicy": {
       "resource": "inventoryAllocationPolicies",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInventoryAllocationPolicyRevisions": {
       "resource": "inventoryAllocationPolicies",
@@ -1515,13 +2551,19 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getInventoryAllocationPolicyRevision": {
       "resource": "inventoryAllocationPolicies",
       "method": "getRevision",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInventoryCounts": {
       "resource": "inventoryCounts",
@@ -1529,18 +2571,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInventoryCount": {
       "resource": "inventoryCounts",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInventoryCount": {
       "resource": "inventoryCounts",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateInventoryCount": {
       "resource": "inventoryCounts",
@@ -1565,6 +2620,13 @@
         },
         "Idempotency-Key": "example",
         "inventory_count_id": "example"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "transitionInventoryCount": {
@@ -1573,6 +2635,13 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listInventoryItems": {
@@ -1581,28 +2650,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInventoryItem": {
       "resource": "inventoryItems",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteInventoryItem": {
       "resource": "inventoryItems",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInventoryItem": {
       "resource": "inventoryItems",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateInventoryItem": {
       "resource": "inventoryItems",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInventoryLevels": {
       "resource": "inventoryLevels",
@@ -1610,18 +2706,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInventoryLevel": {
       "resource": "inventoryLevels",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateInventoryLevel": {
       "resource": "inventoryLevels",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInventoryMovements": {
       "resource": "inventoryMovements",
@@ -1629,13 +2738,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInventoryMovement": {
       "resource": "inventoryMovements",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInventoryReceipts": {
       "resource": "inventoryReceipts",
@@ -1643,18 +2758,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInventoryReceipt": {
       "resource": "inventoryReceipts",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInventoryReceipt": {
       "resource": "inventoryReceipts",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInventoryReservations": {
       "resource": "inventoryReservations",
@@ -1662,23 +2790,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInventoryReservation": {
       "resource": "inventoryReservations",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInventoryReservation": {
       "resource": "inventoryReservations",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateInventoryReservation": {
       "resource": "inventoryReservations",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "transitionInventoryReservation": {
       "resource": "inventoryReservations",
@@ -1686,6 +2834,13 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listInventoryTransfers": {
@@ -1694,23 +2849,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInventoryTransfer": {
       "resource": "inventoryTransfers",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInventoryTransfer": {
       "resource": "inventoryTransfers",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateInventoryTransfer": {
       "resource": "inventoryTransfers",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "transitionInventoryTransfer": {
       "resource": "inventoryTransfers",
@@ -1718,6 +2893,13 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listInvoicePaymentTerms": {
@@ -1726,28 +2908,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInvoicePaymentTerm": {
       "resource": "invoicePaymentTerms",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteInvoicePaymentTerm": {
       "resource": "invoicePaymentTerms",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInvoicePaymentTerm": {
       "resource": "invoicePaymentTerms",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateInvoicePaymentTerm": {
       "resource": "invoicePaymentTerms",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInvoices": {
       "resource": "invoices",
@@ -1755,23 +2964,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInvoice": {
       "resource": "invoices",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInvoice": {
       "resource": "invoices",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateInvoice": {
       "resource": "invoices",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInvoiceActivities": {
       "resource": "invoices",
@@ -1779,17 +3008,34 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getOrCreateInvoiceCheckoutSession": {
       "resource": "invoices",
       "method": "getOrCreateCheckoutSession",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "collectInvoice": {
       "resource": "invoices",
       "method": "collect",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInvoiceDeliveryAttempts": {
       "resource": "invoices",
@@ -1797,22 +3043,46 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "issueInvoice": {
       "resource": "invoices",
       "method": "issue",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createInvoiceLateFee": {
       "resource": "invoices",
       "method": "assessLateFee",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "waiveInvoiceLateFee": {
       "resource": "invoices",
       "method": "waiveLateFee",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInvoiceManualPayments": {
       "resource": "invoices",
@@ -1820,6 +3090,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createInvoiceManualPayment": {
@@ -1834,23 +3107,47 @@
             "currency": "USD"
           }
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getInvoiceManualPayment": {
       "resource": "invoices",
       "method": "getManualPayment",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "reverseInvoiceManualPayment": {
       "resource": "invoices",
       "method": "reverseManualPayment",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "markInvoiceUncollectible": {
       "resource": "invoices",
       "method": "markUncollectible",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listInvoicePaymentAttempts": {
       "resource": "invoices",
@@ -1858,18 +3155,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInvoicePaymentAttempt": {
       "resource": "invoices",
       "method": "getPaymentAttempt",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelInvoicePaymentAttempt": {
       "resource": "invoices",
       "method": "cancelPaymentAttempt",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getInvoicePDF": {
       "resource": "invoices",
@@ -1878,22 +3188,46 @@
         "return": "result"
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "regenerateInvoicePublicLink": {
       "resource": "invoices",
       "method": "regeneratePublicLink",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "sendInvoiceReminder": {
       "resource": "invoices",
       "method": "sendReminder",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "voidInvoice": {
       "resource": "invoices",
       "method": "voidResource",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listLocations": {
       "resource": "locations",
@@ -1901,40 +3235,80 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createLocation": {
       "resource": "locations",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteLocation": {
       "resource": "locations",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getLocation": {
       "resource": "locations",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateLocation": {
       "resource": "locations",
       "method": "update",
       "pagination": false,
-      "aliases": ["publishGeography", "updateInventory"]
+      "aliases": [
+        "publishGeography",
+        "updateInventory"
+      ],
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMe": {
       "resource": "me",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateMe": {
       "resource": "me",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeAddresses": {
       "resource": "me",
@@ -1942,33 +3316,67 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeAddress": {
       "resource": "me",
       "method": "createAddress",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteMeAddress": {
       "resource": "me",
       "method": "deleteAddress",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeAddress": {
       "resource": "me",
       "method": "getAddress",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateMeAddress": {
       "resource": "me",
       "method": "updateAddress",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "setDefaultMeAddress": {
       "resource": "me",
       "method": "setDefaultAddress",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeDeletionRequests": {
       "resource": "me",
@@ -1976,23 +3384,43 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createMeDeletionRequest": {
       "resource": "me",
       "method": "createDeletionRequest",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeDeletionRequest": {
       "resource": "me",
       "method": "getDeletionRequest",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeEmailChangeRequest": {
       "resource": "me",
       "method": "createEmailChangeRequest",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "confirmMeEmailChangeRequest": {
       "resource": "me",
@@ -2003,18 +3431,35 @@
         "body": {
           "new_email_code": "123456"
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getMeEmailPreferences": {
       "resource": "me",
       "method": "getEmailPreferences",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateMeEmailPreferences": {
       "resource": "me",
       "method": "updateEmailPreferences",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeFlintWalletPaymentMethods": {
       "resource": "me",
@@ -2023,12 +3468,22 @@
       "response": {
         "payloadPath": null
       },
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeFlintWalletStoreSetup": {
       "resource": "me",
       "method": "createFlintWalletStoreSetup",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeFulfillmentEvents": {
       "resource": "me",
@@ -2036,6 +3491,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listMeFulfillments": {
@@ -2044,13 +3502,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeFulfillment": {
       "resource": "me",
       "method": "getFulfillment",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeGiftCards": {
       "resource": "me",
@@ -2058,23 +3522,43 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "saveMeGiftCard": {
       "resource": "me",
       "method": "saveGiftCard",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "removeMeGiftCard": {
       "resource": "me",
       "method": "removeGiftCard",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeGiftCard": {
       "resource": "me",
       "method": "getGiftCard",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeGiftCardTransactions": {
       "resource": "me",
@@ -2082,6 +3566,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listMeInvoices": {
@@ -2090,18 +3577,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeInvoice": {
       "resource": "me",
       "method": "getInvoice",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeInvoiceCheckoutSession": {
       "resource": "me",
       "method": "createInvoiceCheckoutSession",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeCreditNotes": {
       "resource": "me",
@@ -2109,13 +3609,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeCreditNote": {
       "resource": "me",
       "method": "getCreditNote",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeCreditNotePDF": {
       "resource": "me",
@@ -2124,7 +3630,10 @@
         "return": "result"
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeInvoicePDF": {
       "resource": "me",
@@ -2133,7 +3642,10 @@
         "return": "result"
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeOrders": {
       "resource": "me",
@@ -2141,13 +3653,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeOrder": {
       "resource": "me",
       "method": "getOrder",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeOrderActivities": {
       "resource": "me",
@@ -2155,12 +3673,22 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "sendMeOrderReceipt": {
       "resource": "me",
       "method": "sendOrderReceipt",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMePackages": {
       "resource": "me",
@@ -2168,13 +3696,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMePackage": {
       "resource": "me",
       "method": "getPackage",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMePaymentMethods": {
       "resource": "me",
@@ -2182,23 +3716,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMePaymentMethod": {
       "resource": "me",
       "method": "savePaymentMethod",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteMePaymentMethod": {
       "resource": "me",
       "method": "removePaymentMethod",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMePaymentMethod": {
       "resource": "me",
       "method": "getPaymentMethod",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMePayments": {
       "resource": "me",
@@ -2206,13 +3760,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMePayment": {
       "resource": "me",
       "method": "getPayment",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeRefunds": {
       "resource": "me",
@@ -2220,30 +3780,51 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeRefund": {
       "resource": "me",
       "method": "getRefund",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeReturnPreview": {
       "resource": "me",
       "method": "createReturnPreview",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "getMeReturnResolution": {
       "resource": "me",
       "method": "getReturnResolution",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeReturnResolutionCheckoutSession": {
       "resource": "me",
       "method": "createReturnResolutionCheckoutSession",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeReturns": {
       "resource": "me",
@@ -2251,28 +3832,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeReturn": {
       "resource": "me",
       "method": "createReturn",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeReturn": {
       "resource": "me",
       "method": "getReturn",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelMeReturn": {
       "resource": "me",
       "method": "cancelReturn",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "revokeMeSession": {
       "resource": "me",
       "method": "revokeSession",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeShipments": {
       "resource": "me",
@@ -2280,13 +3888,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeShipment": {
       "resource": "me",
       "method": "getShipment",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeSubscriptionPreview": {
       "resource": "me",
@@ -2301,6 +3915,11 @@
       },
       "request": {
         "style": "object"
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
       }
     },
     "listMeSubscriptions": {
@@ -2309,28 +3928,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeSubscription": {
       "resource": "me",
       "method": "getSubscription",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateMeSubscription": {
       "resource": "me",
       "method": "updateSubscription",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "changeMeSubscriptionBillingInterval": {
       "resource": "me",
       "method": "changeSubscriptionBillingInterval",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelMeSubscription": {
       "resource": "me",
       "method": "cancelSubscription",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "changeMeSubscriptionDelivery": {
       "resource": "me",
@@ -2348,6 +3994,13 @@
             "type": "shipment"
           }
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "updateMeSubscriptionLineItem": {
@@ -2360,74 +4013,164 @@
         "body": {
           "variant_id": "var_00000000000000000000000000"
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "pauseMeSubscription": {
       "resource": "me",
       "method": "pauseSubscription",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "changeMeSubscriptionPaymentMethod": {
       "resource": "me",
       "method": "changeSubscriptionPaymentMethod",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMeSubscriptionPaymentRetry": {
       "resource": "me",
       "method": "createSubscriptionPaymentRetry",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMeSubscriptionPaymentRetry": {
       "resource": "me",
       "method": "getSubscriptionPaymentRetry",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "changeMeSubscriptionQuantity": {
       "resource": "me",
       "method": "changeSubscriptionQuantity",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "reactivateMeSubscription": {
       "resource": "me",
       "method": "reactivateSubscription",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "renewMeSubscription": {
       "resource": "me",
       "method": "renewSubscription",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "resumeMeSubscription": {
       "resource": "me",
       "method": "resumeSubscription",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "skipMeSubscriptionCycle": {
       "resource": "me",
       "method": "skipSubscriptionCycle",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMerchant": {
       "resource": "merchants",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateMerchant": {
       "resource": "merchants",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createMerchantAccountSession": {
       "resource": "merchantAccountSessions",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "refreshMerchantAccountSession": {
       "resource": "merchantAccountSessions",
       "method": "refresh",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMerchantBillingBalances": {
       "resource": "merchantBillingBalances",
@@ -2436,13 +4179,19 @@
         "payloadPath": null
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getMerchantBillingBalance": {
       "resource": "merchantBillingBalances",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMerchantBillingEntries": {
       "resource": "merchantBillingEntries",
@@ -2450,6 +4199,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listMerchantBillingInvoices": {
@@ -2458,13 +4210,19 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getMerchantBillingInvoice": {
       "resource": "merchantSubscriptionInvoices",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listModifierGroups": {
       "resource": "modifierGroups",
@@ -2472,28 +4230,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createModifierGroup": {
       "resource": "modifierGroups",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteModifierGroup": {
       "resource": "modifierGroups",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getModifierGroup": {
       "resource": "modifierGroups",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateModifierGroup": {
       "resource": "modifierGroups",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listModifierSets": {
       "resource": "modifierSets",
@@ -2501,28 +4286,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createModifierSet": {
       "resource": "modifierSets",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteModifierSet": {
       "resource": "modifierSets",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getModifierSet": {
       "resource": "modifierSets",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateModifierSet": {
       "resource": "modifierSets",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "authorizePartnerInstall": {
       "resource": "oauth",
@@ -2531,39 +4343,76 @@
         "return": "result"
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "previewPartnerInstallAuthorization": {
       "resource": "oauth",
       "method": "previewPartnerInstallAuthorization",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "advanceOnboarding": {
       "resource": "onboarding",
       "method": "advance",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createOnboardingAPIKey": {
       "resource": "onboarding",
       "method": "createAPIKey",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "startOnboarding": {
       "resource": "onboarding",
       "method": "startFlow",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getOnboardingState": {
       "resource": "onboarding",
       "method": "getState",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "verifyOnboardingEmail": {
       "resource": "onboarding",
       "method": "verifyEmailCode",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getOpenAPISpec": {
       "resource": "specification",
@@ -2572,7 +4421,10 @@
         "return": "result"
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listOrders": {
       "resource": "orders",
@@ -2580,28 +4432,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createOrder": {
       "resource": "orders",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getOrder": {
       "resource": "orders",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateOrder": {
       "resource": "orders",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createOrderAccessLink": {
       "resource": "orders",
       "method": "createAccessLink",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listOrderActivities": {
       "resource": "orders",
@@ -2609,7 +4488,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createOrderCharge": {
       "resource": "orders",
@@ -2627,78 +4509,179 @@
             }
           }
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "deleteOrderCharge": {
       "resource": "orders",
       "method": "deleteCharge",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateOrderCharge": {
       "resource": "orders",
       "method": "updateCharge",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "closeOrder": {
       "resource": "orders",
       "method": "closeSession",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getOrderCurrentDeliverySelection": {
       "resource": "orders",
       "method": "getCurrentDeliverySelection",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "applyOrderDiscount": {
       "resource": "orders",
       "method": "applyDiscount",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "removeOrderDiscounts": {
       "resource": "orders",
       "method": "removeDiscounts",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "repriceOrderDiscounts": {
       "resource": "orders",
       "method": "repriceDiscounts",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createFulfillment": {
       "resource": "orders",
       "method": "createFulfillment",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "applyOrderGiftCard": {
       "resource": "orders",
       "method": "applyGiftCard",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "removeOrderGiftCard": {
       "resource": "orders",
       "method": "removeGiftCard",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "resolveOrderInventoryException": {
       "resource": "orders",
       "method": "resolveInventoryException",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createOrderLineItems": {
       "resource": "orders",
       "method": "addLineItems",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteOrderLineItem": {
       "resource": "orders",
       "method": "deleteLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateOrderLineItem": {
       "resource": "orders",
       "method": "updateLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "payOrder": {
       "resource": "orders",
@@ -2706,6 +4689,13 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listOrderPaymentAttempts": {
@@ -2714,28 +4704,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getOrderPaymentAttempt": {
       "resource": "orders",
       "method": "getPaymentAttempt",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelOrderPaymentAttempt": {
       "resource": "orders",
       "method": "cancelPaymentAttempt",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createOrderPaymentIntent": {
       "resource": "orders",
       "method": "createPaymentIntent",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "sendOrderReceipt": {
       "resource": "orders",
       "method": "sendReceipt",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listOrganizations": {
       "resource": "organizations",
@@ -2743,28 +4760,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createOrganization": {
       "resource": "organizations",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteOrganization": {
       "resource": "organizations",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getOrganization": {
       "resource": "organizations",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateOrganization": {
       "resource": "organizations",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listOrganizationMemberships": {
       "resource": "organizations",
@@ -2772,17 +4816,34 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "grantOrganizationMembership": {
       "resource": "organizations",
       "method": "grantMembership",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "removeOrganizationMembership": {
       "resource": "organizations",
       "method": "revokeMembership",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPackages": {
       "resource": "packages",
@@ -2790,18 +4851,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPackage": {
       "resource": "packages",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePackage": {
       "resource": "packages",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPackageItems": {
       "resource": "packages",
@@ -2809,28 +4883,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPackageItem": {
       "resource": "packages",
       "method": "createItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deletePackageItem": {
       "resource": "packages",
       "method": "deleteItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPackageItem": {
       "resource": "packages",
       "method": "getItem",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePackageItem": {
       "resource": "packages",
       "method": "updateItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "transitionPackage": {
       "resource": "packages",
@@ -2838,12 +4939,26 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "voidPackage": {
       "resource": "packages",
       "method": "voidResource",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMerchantPartnerAppInstalls": {
       "resource": "partnerAppInstalls",
@@ -2851,12 +4966,22 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "revokeMerchantPartnerAppInstall": {
       "resource": "partnerAppInstalls",
       "method": "revoke",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPaymentIntents": {
       "resource": "paymentIntents",
@@ -2864,7 +4989,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPaymentIntent": {
       "resource": "paymentIntents",
@@ -2875,22 +5003,41 @@
             "amount": "5000",
             "currency": "USD"
           },
-          "payment_options": ["card"]
+          "payment_options": [
+            "card"
+          ]
         },
         "Idempotency-Key": "00000000-0000-4000-8000-000000000001"
       },
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPaymentIntent": {
       "resource": "paymentIntents",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePaymentIntent": {
       "resource": "paymentIntents",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPaymentIntentActivities": {
       "resource": "paymentIntents",
@@ -2898,17 +5045,34 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "cancelPaymentIntent": {
       "resource": "paymentIntents",
       "method": "cancel",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "capturePaymentIntent": {
       "resource": "paymentIntents",
       "method": "capture",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "confirmPaymentIntent": {
       "resource": "paymentIntents",
@@ -2916,12 +5080,26 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "sendPaymentIntentReceipt": {
       "resource": "paymentIntents",
       "method": "sendReceipt",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPaymentLinks": {
       "resource": "paymentLinks",
@@ -2929,34 +5107,64 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPaymentLink": {
       "resource": "paymentLinks",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPaymentLink": {
       "resource": "paymentLinks",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePaymentLink": {
       "resource": "paymentLinks",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPaymentLinkPublic": {
       "resource": "paymentLinks",
       "method": "getPublic",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "resolvePaymentLink": {
       "resource": "paymentLinks",
       "method": "resolve",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPaymentMethodDomains": {
       "resource": "paymentMethodDomains",
@@ -2964,7 +5172,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPaymentMethodDomain": {
       "resource": "paymentMethodDomains",
@@ -2974,18 +5185,35 @@
         "body": {
           "domain_name": "payments.example.invalid"
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getPaymentMethodDomain": {
       "resource": "paymentMethodDomains",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePaymentMethodDomain": {
       "resource": "paymentMethodDomains",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPaymentMethods": {
       "resource": "paymentMethods",
@@ -2993,23 +5221,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPaymentMethod": {
       "resource": "paymentMethods",
       "method": "save",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deletePaymentMethod": {
       "resource": "paymentMethods",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPaymentMethod": {
       "resource": "paymentMethods",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPaymentReviews": {
       "resource": "reviews",
@@ -3017,34 +5265,64 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getPaymentReview": {
       "resource": "reviews",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "approvePaymentReview": {
       "resource": "reviews",
       "method": "approve",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "declinePaymentReview": {
       "resource": "reviews",
       "method": "decline",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPayoutSettings": {
       "resource": "payoutSettings",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePayoutSettings": {
       "resource": "payoutSettings",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPayoutDestinations": {
       "resource": "payoutSettings",
@@ -3052,23 +5330,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deletePayoutDestination": {
       "resource": "payoutSettings",
       "method": "deletePayoutDestination",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPayoutDestination": {
       "resource": "payoutSettings",
       "method": "getPayoutDestination",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePayoutDestination": {
       "resource": "payoutSettings",
       "method": "updatePayoutDestination",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPayouts": {
       "resource": "payouts",
@@ -3076,7 +5374,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPayout": {
       "resource": "payouts",
@@ -3089,18 +5390,35 @@
             "currency": "USD"
           }
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getPayout": {
       "resource": "payouts",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelPayout": {
       "resource": "payouts",
       "method": "cancel",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listProducts": {
       "resource": "products",
@@ -3108,7 +5426,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createProduct": {
       "resource": "products",
@@ -3125,23 +5446,47 @@
             }
           }
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "deleteProduct": {
       "resource": "products",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getProduct": {
       "resource": "products",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateProduct": {
       "resource": "products",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listProductOptions": {
       "resource": "products",
@@ -3149,13 +5494,19 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getProductOption": {
       "resource": "products",
       "method": "getOption",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listProductVariants": {
       "resource": "products",
@@ -3163,7 +5514,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createProductVariant": {
       "resource": "products",
@@ -3177,23 +5531,47 @@
             "currency": "USD"
           }
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "deleteProductVariant": {
       "resource": "products",
       "method": "deleteVariant",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getProductVariant": {
       "resource": "products",
       "method": "getVariant",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateProductVariant": {
       "resource": "products",
       "method": "updateVariant",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPromotionCodes": {
       "resource": "promotions",
@@ -3201,7 +5579,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listPromotions": {
       "resource": "promotions",
@@ -3209,49 +5590,100 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPromotion": {
       "resource": "promotions",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deletePromotion": {
       "resource": "promotions",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPromotion": {
       "resource": "promotions",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePromotion": {
       "resource": "promotions",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPromotionCode": {
       "resource": "promotions",
       "method": "createCode",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deletePromotionCode": {
       "resource": "promotions",
       "method": "deleteCode",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getPromotionCode": {
       "resource": "promotions",
       "method": "getCode",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updatePromotionCode": {
       "resource": "promotions",
       "method": "updateCode",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listRefunds": {
       "resource": "refunds",
@@ -3259,23 +5691,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createRefund": {
       "resource": "refunds",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getRefund": {
       "resource": "refunds",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateRefund": {
       "resource": "refunds",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReportDownload": {
       "resource": "reportDownloads",
@@ -3284,7 +5736,10 @@
         "return": "result"
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReports": {
       "resource": "reports",
@@ -3292,7 +5747,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReport": {
       "resource": "reports",
@@ -3306,19 +5764,33 @@
         },
         "Idempotency-Key": "00000000-0000-4000-8000-000000000002"
       },
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReport": {
       "resource": "reports",
       "method": "get",
       "polling": {
         "state": "data.status",
-        "success": ["succeeded"],
-        "failure": ["failed"],
+        "success": [
+          "succeeded"
+        ],
+        "failure": [
+          "failed"
+        ],
         "intervalMs": 1000
       },
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturnDispositions": {
       "resource": "returnDispositions",
@@ -3326,23 +5798,43 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturnDisposition": {
       "resource": "returnDispositions",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelReturnDisposition": {
       "resource": "returnDispositions",
       "method": "cancel",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "retryReturnDisposition": {
       "resource": "returnDispositions",
       "method": "retry",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturnInspections": {
       "resource": "returnInspections",
@@ -3350,18 +5842,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturnInspection": {
       "resource": "returnInspections",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "decideReturnInspectionLineItem": {
       "resource": "returnInspections",
       "method": "decideLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturnPolicies": {
       "resource": "returnPolicies",
@@ -3369,28 +5874,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnPolicy": {
       "resource": "returnPolicies",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteReturnPolicy": {
       "resource": "returnPolicies",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturnPolicy": {
       "resource": "returnPolicies",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateReturnPolicy": {
       "resource": "returnPolicies",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturnPolicyRevisions": {
       "resource": "returnPolicies",
@@ -3398,24 +5930,42 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnPolicyRevision": {
       "resource": "returnPolicies",
       "method": "publishRevision",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturnPolicyRevision": {
       "resource": "returnPolicies",
       "method": "getRevision",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnPreview": {
       "resource": "returnPreviews",
       "method": "create",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      }
     },
     "listReturnReasons": {
       "resource": "returnReasons",
@@ -3423,28 +5973,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnReason": {
       "resource": "returnReasons",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteReturnReason": {
       "resource": "returnReasons",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturnReason": {
       "resource": "returnReasons",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateReturnReason": {
       "resource": "returnReasons",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturnReceipts": {
       "resource": "returnReceipts",
@@ -3452,18 +6029,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturnReceipt": {
       "resource": "returnReceipts",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "verifyReturnReceiptLineItem": {
       "resource": "returnReceipts",
       "method": "verifyLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturnResolutions": {
       "resource": "returnResolutions",
@@ -3471,43 +6061,91 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturnResolution": {
       "resource": "returnResolutions",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateReturnResolution": {
       "resource": "returnResolutions",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelReturnResolution": {
       "resource": "returnResolutions",
       "method": "cancel",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getOrCreateReturnResolutionCheckoutSession": {
       "resource": "returnResolutions",
       "method": "getOrCreateCheckoutSession",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "confirmReturnResolution": {
       "resource": "returnResolutions",
       "method": "confirm",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "releaseReturnResolution": {
       "resource": "returnResolutions",
       "method": "release",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "retryReturnResolution": {
       "resource": "returnResolutions",
       "method": "retry",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturns": {
       "resource": "returns",
@@ -3515,28 +6153,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturn": {
       "resource": "returns",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturn": {
       "resource": "returns",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateReturn": {
       "resource": "returns",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnAccessLink": {
       "resource": "returns",
       "method": "createAccessLink",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturnActivities": {
       "resource": "returns",
@@ -3544,17 +6209,34 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "cancelReturn": {
       "resource": "returns",
       "method": "cancel",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "completeReturn": {
       "resource": "returns",
       "method": "complete",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "decideReturn": {
       "resource": "returns",
@@ -3571,17 +6253,38 @@
             }
           ]
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createReturnDisposition": {
       "resource": "returns",
       "method": "createDisposition",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnInspection": {
       "resource": "returns",
       "method": "createInspection",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listReturnLineItems": {
       "resource": "returns",
@@ -3589,53 +6292,115 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnLineItem": {
       "resource": "returns",
       "method": "addLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteReturnLineItem": {
       "resource": "returns",
       "method": "deleteLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getReturnLineItem": {
       "resource": "returns",
       "method": "getLineItem",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateReturnLineItem": {
       "resource": "returns",
       "method": "updateLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "cancelReturnLineItem": {
       "resource": "returns",
       "method": "cancelLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "waiveReturnLineItemInspection": {
       "resource": "returns",
       "method": "waiveLineInspection",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "processReturn": {
       "resource": "returns",
       "method": "processExisting",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnReceipt": {
       "resource": "returns",
       "method": "createReceipt",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "reopenReturn": {
       "resource": "returns",
       "method": "reopen",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createReturnResolution": {
       "resource": "returns",
@@ -3652,6 +6417,13 @@
             }
           ]
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listRiskLists": {
@@ -3660,28 +6432,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createRiskList": {
       "resource": "riskLists",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteRiskList": {
       "resource": "riskLists",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getRiskList": {
       "resource": "riskLists",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateRiskList": {
       "resource": "riskLists",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listRiskListItems": {
       "resource": "riskLists",
@@ -3689,7 +6488,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createRiskListItems": {
       "resource": "riskLists",
@@ -3698,20 +6500,39 @@
       "example": {
         "risk_list_id": "example",
         "body": {
-          "values": ["sdk-example"]
+          "values": [
+            "sdk-example"
+          ]
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "deleteRiskListItem": {
       "resource": "riskLists",
       "method": "deleteItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getRiskListItem": {
       "resource": "riskLists",
       "method": "getItem",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createRiskPreview": {
       "resource": "riskPreviews",
@@ -3722,6 +6543,11 @@
         "body": {
           "risk_rule_id": "rr_example"
         }
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
       }
     },
     "listRiskRules": {
@@ -3730,7 +6556,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createRiskRule": {
       "resource": "riskRules",
@@ -3746,46 +6575,86 @@
             "value": "card"
           }
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getRiskRuleAttributes": {
       "resource": "riskRules",
       "method": "getAttributeRegistry",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteRiskRule": {
       "resource": "riskRules",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getRiskRule": {
       "resource": "riskRules",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateRiskRule": {
       "resource": "riskRules",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getSettings": {
       "resource": "settings",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateSettings": {
       "resource": "settings",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getEffectiveSettings": {
       "resource": "settings",
       "method": "getEffective",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listShipments": {
       "resource": "shipments",
@@ -3793,28 +6662,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getShipment": {
       "resource": "shipments",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateShipment": {
       "resource": "shipments",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createPackage": {
       "resource": "shipments",
       "method": "createPackage",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "voidShipment": {
       "resource": "shipments",
       "method": "voidResource",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listSubscriptionDeliveryMigrations": {
       "resource": "subscriptionDeliveryMigrations",
@@ -3822,18 +6718,31 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createSubscriptionDeliveryMigration": {
       "resource": "subscriptionDeliveryMigrations",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getSubscriptionDeliveryMigration": {
       "resource": "subscriptionDeliveryMigrations",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listSubscriptionDeliveryMigrationFailures": {
       "resource": "subscriptionDeliveryMigrations",
@@ -3841,6 +6750,9 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "listSubscriptionOffers": {
@@ -3849,28 +6761,55 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createSubscriptionOffer": {
       "resource": "subscriptionOffers",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteSubscriptionOffer": {
       "resource": "subscriptionOffers",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getSubscriptionOffer": {
       "resource": "subscriptionOffers",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateSubscriptionOffer": {
       "resource": "subscriptionOffers",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listSubscriptionPlans": {
       "resource": "subscriptionPlans",
@@ -3878,28 +6817,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createSubscriptionPlan": {
       "resource": "subscriptionPlans",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteSubscriptionPlan": {
       "resource": "subscriptionPlans",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getSubscriptionPlan": {
       "resource": "subscriptionPlans",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateSubscriptionPlan": {
       "resource": "subscriptionPlans",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createSubscriptionPreview": {
       "resource": "subscriptionPreviews",
@@ -3914,6 +6880,11 @@
       },
       "request": {
         "style": "object"
+      },
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
       }
     },
     "listSubscriptions": {
@@ -3922,28 +6893,55 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createSubscription": {
       "resource": "subscriptions",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getSubscription": {
       "resource": "subscriptions",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateSubscription": {
       "resource": "subscriptions",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createSubscriptionAccessLink": {
       "resource": "subscriptions",
       "method": "createAccessLink",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateSubscriptionBillingSchedule": {
       "resource": "subscriptions",
@@ -3951,12 +6949,26 @@
       "pagination": false,
       "request": {
         "style": "object"
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "cancelSubscription": {
       "resource": "subscriptions",
       "method": "cancel",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "changeSubscriptionPlan": {
       "resource": "subscriptions",
@@ -3968,6 +6980,13 @@
           "billing_starts": "now",
           "subscription_plan_id": "plan_00000000000000000000000000"
         }
+      },
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createSubscriptionLineItem": {
@@ -3981,27 +7000,62 @@
           "quantity": 1,
           "variant_id": "var_00000000000000000000000000"
         }
+      },
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "deleteSubscriptionLineItem": {
       "resource": "subscriptions",
       "method": "deleteLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateSubscriptionLineItem": {
       "resource": "subscriptions",
       "method": "updateLineItem",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "pauseSubscription": {
       "resource": "subscriptions",
       "method": "pause",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "changeSubscriptionPaymentMethod": {
       "resource": "subscriptions",
       "method": "changePaymentMethod",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listSubscriptionPaymentRetries": {
       "resource": "subscriptions",
@@ -4009,38 +7063,79 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createSubscriptionPaymentRetry": {
       "resource": "subscriptions",
       "method": "createPaymentRetry",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getSubscriptionPaymentRetry": {
       "resource": "subscriptions",
       "method": "getPaymentRetry",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "reactivateSubscription": {
       "resource": "subscriptions",
       "method": "reactivate",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "renewSubscription": {
       "resource": "subscriptions",
       "method": "renew",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": false,
+        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "resumeSubscription": {
       "resource": "subscriptions",
       "method": "resume",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "skipSubscriptionCycle": {
       "resource": "subscriptions",
       "method": "skipCycle",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listWebhookDeliveries": {
       "resource": "webhookEvents",
@@ -4048,18 +7143,31 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createWebhookDelivery": {
       "resource": "webhookDeliveries",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getWebhookDelivery": {
       "resource": "webhookDeliveries",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listWebhookDeliveryAttempts": {
       "resource": "webhookDeliveries",
@@ -4067,12 +7175,22 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "resendWebhookDelivery": {
       "resource": "webhookDeliveries",
       "method": "resend",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listWebhookEndpoints": {
       "resource": "webhookEndpoints",
@@ -4080,38 +7198,79 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createWebhookEndpoint": {
       "resource": "webhookEndpoints",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteWebhookEndpoint": {
       "resource": "webhookEndpoints",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getWebhookEndpoint": {
       "resource": "webhookEndpoints",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateWebhookEndpoint": {
       "resource": "webhookEndpoints",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "rotateWebhookEndpointSecret": {
       "resource": "webhookEndpoints",
       "method": "rotateWebhookSecret",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createWebhookTestEvent": {
       "resource": "webhookEndpoints",
       "method": "createWebhookTestEvent",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listWebhookEventTypes": {
       "resource": "webhookEventTypes",
@@ -4119,7 +7278,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listWebhookEvents": {
       "resource": "webhookEvents",
@@ -4127,7 +7289,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "streamWebhookEvents": {
       "resource": "webhookEvents",
@@ -4145,13 +7310,19 @@
           "webhook.event": "#/components/schemas/WebhookEvent",
           "withheld": "#/components/schemas/WebhookStreamWithheld"
         }
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "getWebhookEvent": {
       "resource": "webhookEvents",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listWorkloadIdentities": {
       "resource": "workloadIdentities",
@@ -4159,33 +7330,67 @@
       "idempotency": false,
       "response": {
         "payloadPath": null
+      },
+      "retry": {
+        "maxAttempts": 3
       }
     },
     "createWorkloadIdentity": {
       "resource": "workloadIdentities",
       "method": "create",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "deleteWorkloadIdentity": {
       "resource": "workloadIdentities",
       "method": "remove",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "getWorkloadIdentity": {
       "resource": "workloadIdentities",
       "method": "get",
       "idempotency": false,
-      "pagination": false
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "updateWorkloadIdentity": {
       "resource": "workloadIdentities",
       "method": "update",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "createSandboxAPIKey": {
       "resource": "developer",
       "method": "createSandboxAPIKey",
-      "pagination": false
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
     },
     "listMeSubscriptionPaymentRetries": {
       "resource": "me",
@@ -4193,7 +7398,10 @@
       "response": {
         "payloadPath": null
       },
-      "idempotency": false
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     }
   },
   "requests": {
@@ -4203,22 +7411,31 @@
     "return": "payload",
     "payloadPath": "data"
   },
-  "targets": ["node", "php"],
+  "targets": [
+    "node",
+    "php"
+  ],
   "release": {
     "policy": "semver"
   },
   "defaults": {
     "idempotency": {
-      "auto": false,
       "header": "Idempotency-Key",
-      "retention": "At least 24 hours for ordinary replay records; durable command identities follow their documented resource lifetime. Never reuse for a new business intent.",
+      "retention": "At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request.",
       "scope": "Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters."
     },
     "retry": {
-      "baseDelayMs": 100,
-      "maxAttempts": 1,
-      "statuses": [],
-      "transport": false
+      "maxAttempts": 3,
+      "statuses": [
+        429,
+        500,
+        502,
+        503,
+        504
+      ],
+      "transport": true,
+      "baseDelayMs": 500,
+      "maxDelayMs": 5000
     },
     "pagination": {
       "items": "data",
