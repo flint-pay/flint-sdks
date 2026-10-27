@@ -1,6 +1,6 @@
 # Flint Public API runtime guide
 
-Package 4.0.0; API 2026-09-07.
+Package 5.0.0; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 

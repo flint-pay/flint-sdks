@@ -25,5 +25,5 @@
     "php": ">=8.2"
   },
   "type": "library",
-  "version": "4.0.0"
+  "version": "5.0.0"
 }

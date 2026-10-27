@@ -1,4 +1,4 @@
-<!-- Package 4.0.0; API 2026-09-07 -->
+<!-- Package 5.0.0; API 2026-09-07 -->
 
 # Pagination and retries
 

@@ -129,4 +129,4 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 
-Package 4.0.0, generated for API 2026-09-07.
+Package 5.0.0, generated for API 2026-09-07.
