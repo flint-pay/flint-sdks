@@ -86,10 +86,6 @@ this.inventoryCounts = Object.freeze({
 ], false, false, params), options),
       transition: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryCount", result, path))),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(_sdkResponse),
-      apply: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryCount", result, path))),
-      applyWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(_sdkResponse),
-      cancel: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryCount", result, path))),
-      cancelWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(_sdkResponse),
       update: async (inventory_count_id, params, options) => this.#runtime.request("updateInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [

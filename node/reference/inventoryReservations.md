@@ -310,8 +310,6 @@ Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
 
-Deprecated aliases: commit, consume, release.
-
 #### Example
 
 ```typescript

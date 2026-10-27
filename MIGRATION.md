@@ -42,17 +42,19 @@ Most methods retain positional path IDs and flat params. These methods now take 
 - `checkoutSessions.createCustomerVerification`, `deliveryPreviews.create`, `fulfillments.transition`, `inventoryAdjustments.create`, `inventoryCounts.transition`, `inventoryReservations.transition`, `inventoryTransfers.transition`.
 - `me.createSubscriptionPreview`, `orders.pay`, `packages.transition`, `paymentIntents.confirm`, `subscriptionPreviews.create`, `subscriptions.updateBillingSchedule`.
 
-The generated references are authoritative for the exact names. Inventory `apply`/`cancel` and `commit`/`consume`/`release` spellings remain as deprecated aliases of their respective transition operation. They use that operation's full input schema: the caller must explicitly send `action`; the method name does not insert or constrain it. Use `transition` for new code. Location `publishGeography` and `updateInventory` remain deprecated aliases of `locations.update` with its unified sparse-update schema.
+The generated references are authoritative for the exact names. The five action-dependent inventory names are removed: `inventoryCounts.apply`, `inventoryCounts.cancel`, `inventoryReservations.commit`, `inventoryReservations.consume` and `inventoryReservations.release`. Call the canonical transition methods instead. Their union request bodies use object-style inputs, so path IDs and `body` belong in the same input object/array. The action values below select the intended operation.
 
-```js
-await client.inventoryCounts.apply(
-  {
-    inventory_count_id: countId,
-    body: { action: "apply", expected_version: "2" },
-  },
-  { idempotencyKey },
-);
-```
+| Removed 3.0.0 method                | Node replacement                                                                                                      | PHP replacement                                                                                                                         |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `inventoryCounts.apply(id)`         | `await client.inventoryCounts.transition({ inventory_count_id: id, body: { action: "apply" } })`                      | `$client->inventoryCounts->transition(['inventory_count_id' => $id, 'body' => ['action' => 'apply']])`                                  |
+| `inventoryCounts.cancel(id)`        | `await client.inventoryCounts.transition({ inventory_count_id: id, body: { action: "cancel" } })`                     | `$client->inventoryCounts->transition(['inventory_count_id' => $id, 'body' => ['action' => 'cancel']])`                                 |
+| `inventoryReservations.commit(id)`  | `await client.inventoryReservations.transition({ inventory_reservation_id: id, body: { action: "commit", lines } })`  | `$client->inventoryReservations->transition(['inventory_reservation_id' => $id, 'body' => ['action' => 'commit', 'lines' => $lines]])`  |
+| `inventoryReservations.consume(id)` | `await client.inventoryReservations.transition({ inventory_reservation_id: id, body: { action: "consume", lines } })` | `$client->inventoryReservations->transition(['inventory_reservation_id' => $id, 'body' => ['action' => 'consume', 'lines' => $lines]])` |
+| `inventoryReservations.release(id)` | `await client.inventoryReservations.transition({ inventory_reservation_id: id, body: { action: "release", lines } })` | `$client->inventoryReservations->transition(['inventory_reservation_id' => $id, 'body' => ['action' => 'release', 'lines' => $lines]])` |
+
+Reservation `lines` carry `inventory_reservation_line_id` and cumulative target quantities as exact integer strings. Use `target_committed_quantity` for commit, `target_consumed_quantity` for consume, and `target_released_from_held_quantity` or `target_released_from_committed_quantity` for release, according to the bucket being released. Count transitions also accept an optional `expected_version`. Persist and reuse an idempotency key when resubmitting the same action.
+
+Location `publishGeography` and `updateInventory` remain deprecated aliases of `locations.update` with its unified sparse-update schema. The eight moved cross-resource methods below remain primary bindings under their 3.0.0 names; no new `paymentReviews`, `giftCards.adjustBalance`/`cashOut`, or `merchantBillingInvoices` names are added. `invoices.reverseManualPayment` is already canonical. The generator cannot emit cross-resource deprecated aliases.
 
 `merchantBillingBalances.list` now returns the complete unpaginated body. Its `listItems`, `listPages` and `listPagesWithResponse` helpers are removed with the API pagination parameters; iterate the returned `data` array.
 
@@ -62,26 +64,26 @@ All requests keep a single attempt by default, with caller-supplied idempotency 
 
 ## Moved operations
 
-The SDK preserves these published names while calling the production routes. Parameters, result types and validation follow the new contract; a preserved method name is not a promise of the old request shape.
+Except for the five removed inventory names mapped above, the SDK preserves these published names while calling the production routes. Parameters, result types and validation follow the new contract; a preserved method name is not a promise of the old request shape.
 
-| Published SDK method                | Production operation and consumer change                                                                                                |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `inventoryCounts.apply`             | `transitionInventoryCount`; send `body.action: "apply"`.                                                                                |
-| `inventoryCounts.cancel`            | `transitionInventoryCount`; send `body.action: "cancel"`.                                                                               |
-| `inventoryReservations.commit`      | `transitionInventoryReservation`; send `body.action: "commit"` and cumulative line targets.                                             |
-| `inventoryReservations.consume`     | `transitionInventoryReservation`; send `body.action: "consume"` and cumulative line targets.                                            |
-| `inventoryReservations.release`     | `transitionInventoryReservation`; send `body.action: "release"` and the target bucket quantities.                                       |
-| `reviews.approve`                   | `approvePaymentReview` on `/v1/payment-reviews/{payment_review_id}/approve`; approval does not capture payment.                         |
-| `reviews.decline`                   | `declinePaymentReview`; use `payment_review_id`; a 202 means resolution is still processing.                                            |
-| `reviews.get`                       | `getPaymentReview`; use `payment_review_id`; read the current payment-review schema.                                                    |
-| `reviews.list`                      | `listPaymentReviews`; use `opened_after`/`opened_before` filters and current expansion options.                                         |
-| `giftCardAdjustments.create`        | `adjustGiftCardBalance` at `/adjust-balance`; returns the current gift-card result.                                                     |
-| `giftCardCashOuts.create`           | `cashOutGiftCard` at `/cash-out`; send required `cash_out_reference` instead of the old external/payout reference.                      |
-| `merchantSubscriptionInvoices.get`  | `getMerchantBillingInvoice`; pass `merchant_billing_invoice_id`; fields use billing vocabulary.                                         |
-| `merchantSubscriptionInvoices.list` | `listMerchantBillingInvoices`; fields and status filters use billing vocabulary.                                                        |
-| `invoices.reverseManualPayment`     | `reverseInvoiceManualPayment`; pass both invoice and manual-payment IDs; reversal is for the named payment in full.                     |
-| `locations.publishGeography`        | Alias of `updateLocation`; send the unified geography fields. Address requires coordinate, and non-null coordinate requires its source. |
-| `locations.updateInventory`         | Alias of `updateLocation`; send `inventory_allocation_enabled` as a flat boolean; Location write and inventory authority apply.         |
+| Published SDK method                | Production operation and consumer change                                                                                                                                |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `inventoryCounts.apply`             | Legacy name removed; use `inventoryCounts.transition` with `body.action: "apply"`.                                                                                      |
+| `inventoryCounts.cancel`            | Legacy name removed; use `inventoryCounts.transition` with `body.action: "cancel"`.                                                                                     |
+| `inventoryReservations.commit`      | Legacy name removed; use `inventoryReservations.transition` with `body.action: "commit"`; retain the required cumulative line targets.                                  |
+| `inventoryReservations.consume`     | Legacy name removed; use `inventoryReservations.transition` with `body.action: "consume"`; retain the required cumulative line targets.                                 |
+| `inventoryReservations.release`     | Legacy name removed; use `inventoryReservations.transition` with `body.action: "release"`; retain the required cumulative line targets.                                 |
+| `reviews.approve`                   | `approvePaymentReview` on `/v1/payment-reviews/{payment_review_id}/approve`; approval does not capture payment.                                                         |
+| `reviews.decline`                   | `declinePaymentReview`; use `payment_review_id`; a 202 means resolution is still processing.                                                                            |
+| `reviews.get`                       | `getPaymentReview`; use `payment_review_id`; read the current payment-review schema.                                                                                    |
+| `reviews.list`                      | `listPaymentReviews`; use `opened_after`/`opened_before` filters and current expansion options.                                                                         |
+| `giftCardAdjustments.create`        | `adjustGiftCardBalance` at `/adjust-balance`; returns the current gift-card result.                                                                                     |
+| `giftCardCashOuts.create`           | `cashOutGiftCard` at `/cash-out`; send required `cash_out_reference` instead of the old external/payout reference.                                                      |
+| `merchantSubscriptionInvoices.get`  | `getMerchantBillingInvoice`; pass `merchant_billing_invoice_id`; fields use billing vocabulary.                                                                         |
+| `merchantSubscriptionInvoices.list` | `listMerchantBillingInvoices`; fields and status filters use billing vocabulary.                                                                                        |
+| `invoices.reverseManualPayment`     | `reverseInvoiceManualPayment`; pass both invoice and manual-payment IDs; reversal is for the named payment in full.                                                     |
+| `locations.publishGeography`        | Deprecated alias of `locations.update` (`updateLocation`); send the unified geography fields. Address requires coordinate, and non-null coordinate requires its source. |
+| `locations.updateInventory`         | Deprecated alias of `locations.update` (`updateLocation`); send `inventory_allocation_enabled` as a flat boolean; Location write and inventory authority apply.         |
 
 ## Operations removed from the API
 

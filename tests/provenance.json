@@ -67,20 +67,21 @@
       "authentication": "Exact complete security alternatives for six modes; checkoutToken uses CheckoutSessionBearer. Preserve the production apiKey shortcut as merchant/BearerAuth.",
       "requestStyle": "Preserve positional IDs and flat params except 13 operations with non-object union bodies, which require object-style {path IDs, body} inputs. The exact overrides are recorded in the common profile.",
       "releasePolicy": "semver, version 4.0.0; single-attempt requests and caller-supplied idempotency keys. Shared capability defaults do not enable automatic retries or keys.",
-      "methodCompatibility": "Keep all previous same-ID and same-route-rename public resource/method bindings. Moved actions use the mappings below. Consolidated aliases use the real new request schema and do not inject an action.",
+      "methodCompatibility": "Keep previous same-ID and same-route-rename public resource/method bindings. Eight cross-resource moved methods remain primary bindings under their published 3.0.0 names; no paymentReviews, giftCards.adjustBalance/cashOut, or merchantBillingInvoices replacements are added. invoices.reverseManualPayment is already canonical. Only Location publishGeography/updateInventory are deprecated aliases of locations.update. Action-dependent inventory names are removed; expose only inventoryCounts.transition and inventoryReservations.transition.",
       "paymentIntents": "Create/get payloads expose payment fields directly; current source nullability applies without overrides.",
       "webhooks": "Resources use data.object and exact int64 strings, including amounts beyond the safe native integer range.",
       "risk": "Plural values is required; obsolete singular-value and nullability overrides are absent.",
       "models": "Port the current fixture model-name collision resolutions without source constraint overrides.",
       "examples": "Port current synthetic fixture request examples and strict shared HTTP/model cases; test provider errors through real clients.",
-      "httpFixtures": "Current generator fixtures, with explicit synthetic keys for required-key operations because production keeps automatic keys disabled."
+      "httpFixtures": "Current generator fixtures, with explicit synthetic keys for required-key operations because production keeps automatic keys disabled.",
+      "generatorAliasLimitation": "Generator 314de2ee supports deprecated method aliases only within one resource, and cannot bind or constrain fixed request-body values. Cross-resource deprecated aliases are unsupported; production primary bindings preserve the eight existing names instead. The five action-dependent inventory aliases are intentionally omitted."
     },
     "operationMigrations": [
       {
         "previousOperationId": "applyInventoryCount",
         "previousMethod": "inventoryCounts.apply",
         "previousRoute": "POST /v1/inventory-counts/{inventory_count_id}/apply",
-        "classification": "moved",
+        "classification": "moved; legacy name dropped (action-dependent)",
         "evidence": {
           "repository": "flint-pay/flint",
           "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
@@ -88,9 +89,10 @@
         },
         "operationId": "transitionInventoryCount",
         "route": "POST /v1/inventory-counts/{inventory_count_id}/transitions",
-        "method": "inventoryCounts.apply",
-        "binding": "alias",
-        "requiredAction": "apply"
+        "method": "inventoryCounts.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "apply",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
       },
       {
         "previousOperationId": "approveReview",
@@ -105,13 +107,13 @@
         "operationId": "approvePaymentReview",
         "route": "POST /v1/payment-reviews/{payment_review_id}/approve",
         "method": "reviews.approve",
-        "binding": "primary"
+        "binding": "primary preserving 3.0.0 name"
       },
       {
         "previousOperationId": "cancelInventoryCount",
         "previousMethod": "inventoryCounts.cancel",
         "previousRoute": "POST /v1/inventory-counts/{inventory_count_id}/cancel",
-        "classification": "moved",
+        "classification": "moved; legacy name dropped (action-dependent)",
         "evidence": {
           "repository": "flint-pay/flint",
           "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
@@ -119,15 +121,16 @@
         },
         "operationId": "transitionInventoryCount",
         "route": "POST /v1/inventory-counts/{inventory_count_id}/transitions",
-        "method": "inventoryCounts.cancel",
-        "binding": "alias",
-        "requiredAction": "cancel"
+        "method": "inventoryCounts.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "cancel",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
       },
       {
         "previousOperationId": "commitInventoryReservation",
         "previousMethod": "inventoryReservations.commit",
         "previousRoute": "POST /v1/inventory-reservations/{inventory_reservation_id}/commit",
-        "classification": "moved",
+        "classification": "moved; legacy name dropped (action-dependent)",
         "evidence": {
           "repository": "flint-pay/flint",
           "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
@@ -135,15 +138,16 @@
         },
         "operationId": "transitionInventoryReservation",
         "route": "POST /v1/inventory-reservations/{inventory_reservation_id}/transitions",
-        "method": "inventoryReservations.commit",
-        "binding": "alias",
-        "requiredAction": "commit"
+        "method": "inventoryReservations.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "commit",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
       },
       {
         "previousOperationId": "consumeInventoryReservation",
         "previousMethod": "inventoryReservations.consume",
         "previousRoute": "POST /v1/inventory-reservations/{inventory_reservation_id}/consume",
-        "classification": "moved",
+        "classification": "moved; legacy name dropped (action-dependent)",
         "evidence": {
           "repository": "flint-pay/flint",
           "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
@@ -151,9 +155,10 @@
         },
         "operationId": "transitionInventoryReservation",
         "route": "POST /v1/inventory-reservations/{inventory_reservation_id}/transitions",
-        "method": "inventoryReservations.consume",
-        "binding": "alias",
-        "requiredAction": "consume"
+        "method": "inventoryReservations.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "consume",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
       },
       {
         "previousOperationId": "createGiftCardAdjustment",
@@ -168,7 +173,7 @@
         "operationId": "adjustGiftCardBalance",
         "route": "POST /v1/gift-cards/{gift_card_id}/adjust-balance",
         "method": "giftCardAdjustments.create",
-        "binding": "primary"
+        "binding": "primary preserving 3.0.0 name"
       },
       {
         "previousOperationId": "createGiftCardCashOut",
@@ -183,7 +188,7 @@
         "operationId": "cashOutGiftCard",
         "route": "POST /v1/gift-cards/{gift_card_id}/cash-out",
         "method": "giftCardCashOuts.create",
-        "binding": "primary"
+        "binding": "primary preserving 3.0.0 name"
       },
       {
         "previousOperationId": "declineReview",
@@ -198,7 +203,7 @@
         "operationId": "declinePaymentReview",
         "route": "POST /v1/payment-reviews/{payment_review_id}/decline",
         "method": "reviews.decline",
-        "binding": "primary"
+        "binding": "primary preserving 3.0.0 name"
       },
       {
         "previousOperationId": "getMerchantSubscriptionInvoice",
@@ -213,7 +218,7 @@
         "operationId": "getMerchantBillingInvoice",
         "route": "GET /v1/merchant-billing-invoices/{merchant_billing_invoice_id}",
         "method": "merchantSubscriptionInvoices.get",
-        "binding": "primary"
+        "binding": "primary preserving 3.0.0 name"
       },
       {
         "previousOperationId": "getReview",
@@ -228,7 +233,7 @@
         "operationId": "getPaymentReview",
         "route": "GET /v1/payment-reviews/{payment_review_id}",
         "method": "reviews.get",
-        "binding": "primary"
+        "binding": "primary preserving 3.0.0 name"
       },
       {
         "previousOperationId": "listCapabilities",
@@ -255,7 +260,7 @@
         "operationId": "listMerchantBillingInvoices",
         "route": "GET /v1/merchant-billing-invoices",
         "method": "merchantSubscriptionInvoices.list",
-        "binding": "primary"
+        "binding": "primary preserving 3.0.0 name"
       },
       {
         "previousOperationId": "listPayoutEntries",
@@ -282,7 +287,7 @@
         "operationId": "listPaymentReviews",
         "route": "GET /v1/payment-reviews",
         "method": "reviews.list",
-        "binding": "primary"
+        "binding": "primary preserving 3.0.0 name"
       },
       {
         "previousOperationId": "publishLocationGeography",
@@ -297,14 +302,14 @@
         "operationId": "updateLocation",
         "route": "PATCH /v1/locations/{location_id}",
         "method": "locations.publishGeography",
-        "binding": "alias",
+        "binding": "deprecated alias",
         "migration": "Use the unified sparse Location update fields; geography values are atomic, and address requires coordinate."
       },
       {
         "previousOperationId": "releaseInventoryReservation",
         "previousMethod": "inventoryReservations.release",
         "previousRoute": "POST /v1/inventory-reservations/{inventory_reservation_id}/release",
-        "classification": "moved",
+        "classification": "moved; legacy name dropped (action-dependent)",
         "evidence": {
           "repository": "flint-pay/flint",
           "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
@@ -312,9 +317,10 @@
         },
         "operationId": "transitionInventoryReservation",
         "route": "POST /v1/inventory-reservations/{inventory_reservation_id}/transitions",
-        "method": "inventoryReservations.release",
-        "binding": "alias",
-        "requiredAction": "release"
+        "method": "inventoryReservations.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "release",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
       },
       {
         "previousOperationId": "reverseManualInvoicePayment",
@@ -329,7 +335,7 @@
         "operationId": "reverseInvoiceManualPayment",
         "route": "POST /v1/invoices/{invoice_id}/manual-payments/{invoice_manual_payment_id}/reverse",
         "method": "invoices.reverseManualPayment",
-        "binding": "primary"
+        "binding": "canonical primary; unchanged 3.0.0 name"
       },
       {
         "previousOperationId": "setDefaultMePaymentMethod",
@@ -380,7 +386,7 @@
         "operationId": "updateLocation",
         "route": "PATCH /v1/locations/{location_id}",
         "method": "locations.updateInventory",
-        "binding": "alias",
+        "binding": "deprecated alias",
         "migration": "Send the flat inventory_allocation_enabled boolean; the route also requires Location write authority."
       },
       {

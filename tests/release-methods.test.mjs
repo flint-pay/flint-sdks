@@ -2,13 +2,14 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import { readFile } from "node:fs/promises";
 import { Client } from "../node/index.js";
 
 const exec = promisify(execFile);
 const cases = [
   [
     "inventoryCounts",
-    "apply",
+    "transition",
     [{ inventory_count_id: "ic_test", body: { action: "apply" } }],
     "POST",
     "/v1/inventory-counts/ic_test/transitions",
@@ -16,7 +17,7 @@ const cases = [
   ],
   [
     "inventoryCounts",
-    "cancel",
+    "transition",
     [{ inventory_count_id: "ic_test", body: { action: "cancel" } }],
     "POST",
     "/v1/inventory-counts/ic_test/transitions",
@@ -35,7 +36,7 @@ const cases = [
     };
     return [
       "inventoryReservations",
-      action,
+      "transition",
       [
         {
           inventory_reservation_id: "invr_test",
@@ -196,6 +197,11 @@ const errorBody = JSON.stringify({
   },
 });
 const removed = [
+  ["inventoryCounts", "apply"],
+  ["inventoryCounts", "cancel"],
+  ["inventoryReservations", "commit"],
+  ["inventoryReservations", "consume"],
+  ["inventoryReservations", "release"],
   ["organizations", "transferOwnership"],
   ["me", "setDefaultPaymentMethod"],
   ["paymentMethods", "setDefault"],
@@ -254,6 +260,24 @@ test("Node preserves moved method names, routes and typed provider error metadat
   assert.equal(requests.length, cases.length);
   for (const [resource, method] of removed)
     assert.equal(client[resource]?.[method], undefined);
+  assert.equal(client.paymentReviews, undefined);
+  assert.equal(client.merchantBillingInvoices, undefined);
+  assert.equal(client.giftCards.adjustBalance, undefined);
+  assert.equal(client.giftCards.cashOut, undefined);
+  const locations = await readFile(
+    new URL("../node/resources/locations.d.ts", import.meta.url),
+    "utf8",
+  );
+  for (const method of ["publishGeography", "updateInventory"]) {
+    assert.match(
+      locations,
+      new RegExp(
+        "@deprecated Use locations\\.update; HTTP behavior is unchanged\\.[\\s\\S]*?\\*/\\s+" +
+          method +
+          "\\(",
+      ),
+    );
+  }
 });
 
 test("PHP preserves moved methods and typed provider error metadata", async () => {
@@ -284,6 +308,14 @@ try {
         if (isset($case[5]) && json_decode($actual['body'], true, 512, JSON_THROW_ON_ERROR) !== $case[5]) throw new \RuntimeException('Wrong body for ' . $resource . '.' . $method);
     }
     if (count($requests) !== count($cases)) throw new \RuntimeException('Unexpected attempt count');
+    foreach (['inventoryCounts' => ['apply', 'cancel'], 'inventoryReservations' => ['commit', 'consume', 'release']] as $resource => $methods) {
+        foreach ($methods as $method) if (method_exists($client->$resource, $method)) throw new \RuntimeException('Removed action alias still exists: ' . $resource . '.' . $method);
+    }
+    foreach (['publishGeography', 'updateInventory'] as $method) {
+        $reflection = new \ReflectionMethod($client->locations, $method);
+        if (!str_contains($reflection->getDocComment(), '@deprecated Use update.')) throw new \RuntimeException('Location alias lost its canonical deprecation target');
+    }
+    if (isset($client->paymentReviews) || isset($client->merchantBillingInvoices) || method_exists($client->giftCards, 'adjustBalance') || method_exists($client->giftCards, 'cashOut')) throw new \RuntimeException('Unexpected replacement for a retained primary binding');
 } finally { $client->close(); }
 `;
   await exec("php", ["-r", script, JSON.stringify(cases), errorBody], {

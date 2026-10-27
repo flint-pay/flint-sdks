@@ -108,14 +108,14 @@ test("pagination follows cursors and bounds requests; reads and keyed writes sta
   );
   const command = { inventory_count_id: "ic_test", body: { action: "cancel" } };
   await assert.rejects(
-    client.inventoryCounts.cancel(command, {
+    client.inventoryCounts.transition(command, {
       ...options("node-fail-inventory"),
       idempotencyKey: "persisted-action-key",
     }),
     SdkError,
   );
   await assert.rejects(
-    client.inventoryCounts.cancel(
+    client.inventoryCounts.transition(
       { ...command, body: { action: "invalid" } },
       options("node-no-dispatch"),
     ),
@@ -158,11 +158,11 @@ try {
 } catch (\Flint\SdkError $e) {}
 $command = ['inventory_count_id' => 'ic_test', 'body' => ['action' => 'cancel']];
 try {
-  $client->inventoryCounts->cancel($command, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-fail-inventory'], idempotencyKey: 'persisted-action-key'));
+  $client->inventoryCounts->transition($command, new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-fail-inventory'], idempotencyKey: 'persisted-action-key'));
   throw new \RuntimeException('Expected inventory failure');
 } catch (\Flint\SdkError $e) {}
 try {
-  $client->inventoryCounts->cancel(['inventory_count_id' => 'ic_test', 'body' => ['action' => 'invalid']], new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch']));
+  $client->inventoryCounts->transition(['inventory_count_id' => 'ic_test', 'body' => ['action' => 'invalid']], new \Flint\RequestOptions(headers: ['x-sdk-test' => 'php-no-dispatch']));
   throw new \RuntimeException('Expected action validation');
 } catch (\Flint\SdkError $e) {}
 try {

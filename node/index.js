@@ -3711,10 +3711,6 @@ export class Client {
 ], false, false, params), options),
       transition: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryCount", result, path))),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(_sdkResponse),
-      apply: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryCount", result, path))),
-      applyWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(_sdkResponse),
-      cancel: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryCount", result, path))),
-      cancelWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(_sdkResponse),
       update: async (inventory_count_id, params, options) => this.#runtime.request("updateInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
@@ -4240,12 +4236,6 @@ export class Client {
 ], false, false, params), options),
       transition: (input = {}, options) => this.#runtime.request("transitionInventoryReservation", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryReservation", result, path))),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryReservation", input, options).then(_sdkResponse),
-      commit: (input = {}, options) => this.#runtime.request("transitionInventoryReservation", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryReservation", result, path))),
-      commitWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryReservation", input, options).then(_sdkResponse),
-      consume: (input = {}, options) => this.#runtime.request("transitionInventoryReservation", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryReservation", result, path))),
-      consumeWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryReservation", input, options).then(_sdkResponse),
-      release: (input = {}, options) => this.#runtime.request("transitionInventoryReservation", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryReservation", result, path))),
-      releaseWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryReservation", input, options).then(_sdkResponse),
       update: async (inventory_reservation_id, params, options) => this.#runtime.request("updateInventoryReservation", _sdkRequestInput([
   "inventory_reservation_id"
 ], [inventory_reservation_id], [

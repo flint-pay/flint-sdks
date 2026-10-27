@@ -1575,7 +1575,6 @@
       "resource": "inventoryCounts",
       "method": "transition",
       "pagination": false,
-      "aliases": ["apply", "cancel"],
       "request": {
         "style": "object"
       }
@@ -1689,7 +1688,6 @@
       "resource": "inventoryReservations",
       "method": "transition",
       "pagination": false,
-      "aliases": ["commit", "consume", "release"],
       "request": {
         "style": "object"
       }

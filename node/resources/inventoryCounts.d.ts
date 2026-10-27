@@ -211,58 +211,6 @@ export interface InventoryCountsResource {
      */
     transitionWithResponse(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountResultResponse>>;
     /**
- * Set action to apply or cancel an open physical count. The apply action sets inventory levels to
- * the counted quantities and needs an observation on every line. The cancel action closes the
- * count without changing stock. VERSION_CONFLICT on apply also covers a stale saved physical
- * observation with no corresponding field in this request; these details omit param. Recount
- * affected items and save the complete observations before applying again. Physical changes after
- * observation require recounts, including at a trading location; holds and commitments alone do
- * not invalidate observations. Stock-moving transitions return a result with inventory_count as
- * its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the
- * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, read the relevant resource
- * or inventory movement list.
- * @see reference/inventoryCounts.md#inventorycountstransition
- * POST /v1/inventory-counts/{inventory_count_id}/transitions
- * @deprecated Use inventoryCounts.transition; HTTP behavior is unchanged.
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.inventoryCounts.apply({inventory_count_id: "example", body: {action: "apply"}}, {
- * idempotencyKey: idempotencyKey })
- */
-    apply(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryCountResult>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/inventoryCounts.md#inventorycountstransition
-     */
-    applyWithResponse(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountResultResponse>>;
-    /**
- * Set action to apply or cancel an open physical count. The apply action sets inventory levels to
- * the counted quantities and needs an observation on every line. The cancel action closes the
- * count without changing stock. VERSION_CONFLICT on apply also covers a stale saved physical
- * observation with no corresponding field in this request; these details omit param. Recount
- * affected items and save the complete observations before applying again. Physical changes after
- * observation require recounts, including at a trading location; holds and commitments alone do
- * not invalidate observations. Stock-moving transitions return a result with inventory_count as
- * its primary resource and inventory_levels for the levels changed. Idempotency is scoped to the
- * authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical
- * request body. To recover the command's effects after a lost response, read the relevant resource
- * or inventory movement list.
- * @see reference/inventoryCounts.md#inventorycountstransition
- * POST /v1/inventory-counts/{inventory_count_id}/transitions
- * @deprecated Use inventoryCounts.transition; HTTP behavior is unchanged.
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.inventoryCounts.cancel({inventory_count_id: "example", body: {action: "apply"}}, {
- * idempotencyKey: idempotencyKey })
- */
-    cancel(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryCountResult>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/inventoryCounts.md#inventorycountstransition
-     */
-    cancelWithResponse(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountResultResponse>>;
-    /**
  * Replace a count's complete observation set atomically. expected_version is required when
  * replacing observations. Send every item exactly once with the count's current expected_version
  * and each observation's required expected_physical_version. Read the level before physically
