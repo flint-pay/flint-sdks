@@ -55,7 +55,7 @@ git tag -a v0.2.0-beta.1 origin/main -m 'Flint SDKs 0.2.0-beta.1'
 git push origin v0.2.0-beta.1
 ```
 
-The `Publish SDKs` workflow checks that the tag matches the configured version and belongs to `main`, regenerates and validates, installs both public archives in clean consumers, uploads release artifacts, and publishes the exact checksummed npm tarball. Packagist independently indexes the same tag through its GitHub integration. Tag only reviewed, tested commits: Packagist can observe a tag before npm publication finishes.
+The `Publish SDKs` workflow checks that the tag matches the configured version and belongs to `main`, regenerates and validates, installs both public archives in clean consumers, scans all release files and nested archives for credentials and private runtime artifacts, uploads release artifacts, and publishes the exact checksummed npm tarball. Review customer data and fixtures before tagging as well. Packagist independently indexes the same tag through its GitHub integration. Tag only reviewed, tested commits: Packagist can observe a tag before npm publication finishes.
 
 Users install the beta with:
 
