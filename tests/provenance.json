@@ -52,11 +52,11 @@
   "apiVersion": "2026-09-07",
   "fullSpec": {
     "repository": "flint-pay/flint",
-    "revision": "366e50d4088674e7ac978355724cd8b753695cf3",
+    "revision": "2d3123e047db0aba5dc4e3d9393c954ef3745fa0",
     "source": "web/apps/developers/src/generated/openapi.json",
-    "sourceSha256": "71ba4e19c479fc38834228b423d47b769bfd8455f9bcb6e2ec16f15a75013947",
+    "sourceSha256": "fb22668725233fa5f54a03ef96294e18f4e35f88b93a80d47228e4b95a04fdca",
     "apiVersion": "2026-09-07",
-    "basis": "Unmodified public versioned export matching the running production backend-prod:64 image; ECS running-task digest matched the ECR commit tag 366e50d40.",
+    "basis": "Unmodified public versioned export (-version 2026-09-07) from a clean worktree at Flint main 2d3123e0, byte-identical to the committed developers export. 34 commits after the production-deployed 366e50d4 that 4.0.0 was first prepared from.",
     "generatorFixtureSource": {
       "repository": "flint-pay/sdk-generator",
       "revision": "314de2ee5975e3a5cc7cf385babd23b84eb489fa",
@@ -64,7 +64,7 @@
       "apiRevision": "dcd2401490dadf0be5733b2322e37056013dcb11"
     },
     "profileCorrections": {
-      "authentication": "Exact complete security alternatives for six modes; checkoutToken uses CheckoutSessionBearer. Preserve the production apiKey shortcut as merchant/BearerAuth.",
+      "authentication": "Exact complete security alternatives for five modes; checkoutToken uses CheckoutSessionBearer. The apiKey shortcut sends merchant/BearerAuth. The merchantKey mode is removed because the export no longer declares ApiKeyHeader (X-API-Key).",
       "requestStyle": "Preserve positional IDs and flat params except 13 operations with non-object union bodies, which require object-style {path IDs, body} inputs. The exact overrides are recorded in the common profile.",
       "releasePolicy": "semver, version 4.0.0; single-attempt requests and caller-supplied idempotency keys. Shared capability defaults do not enable automatic retries or keys.",
       "methodCompatibility": "Keep previous same-ID and same-route-rename public resource/method bindings. Eight cross-resource moved methods remain primary bindings under their published 3.0.0 names; no paymentReviews, giftCards.adjustBalance/cashOut, or merchantBillingInvoices replacements are added. invoices.reverseManualPayment is already canonical. Only Location publishGeography/updateInventory are deprecated aliases of locations.update. Action-dependent inventory names are removed; expose only inventoryCounts.transition and inventoryReservations.transition.",
@@ -492,6 +492,23 @@
     "removalReview": {
       "escalations": [],
       "basis": "The five genuinely removed operations are explicitly removed by their source commits and developer changelogs. Their old public routes and registered handlers are absent at the production revision. Historical changelog references describe earlier versions, not current availability."
+    },
+    "mainChanges": {
+      "basis": "Contract differences between the production pin 366e50d4 and main 2d3123e0 that change SDK bindings.",
+      "removedOperations": {
+        "cancelOrderPayment": "orders.cancelPayment removed; use paymentIntents.cancel.",
+        "captureOrderPayment": "orders.capturePayment removed; use paymentIntents.capture.",
+        "issueDeveloperSandboxTestKey": "developer.issueSandboxTestKey removed; POST /v1/developer/sandboxes/{sandbox_id}/api-keys is developer.createSandboxAPIKey."
+      },
+      "addedOperations": {
+        "createSandboxAPIKey": "developer.createSandboxAPIKey (onboarding and merchant modes).",
+        "listMeSubscriptionPaymentRetries": "me.listSubscriptionPaymentRetries (customer mode), returning the page body like subscriptions.listPaymentRetries."
+      },
+      "movedRoutes": [
+        "listPayoutDestinations, getPayoutDestination, updatePayoutDestination and deletePayoutDestination move to /v1/payout-destinations; methods unchanged.",
+        "refreshMerchantAccountSession moves to POST /v1/merchant-account-session-refreshes; method unchanged."
+      ],
+      "removedSecurityScheme": "ApiKeyHeader"
     }
   }
 }

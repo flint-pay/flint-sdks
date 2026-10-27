@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# InventoryOriginPolicyInput – InvoicePaymentTermCalculationDayOfMonthInput
+# InventoryMovementInput – InvoicePaymentPolicyInput
 
+- [InventoryMovementInput](InventoryMovementInput.md)
+- [InventoryMovementListResponseInput](InventoryMovementListResponseInput.md)
+- [InventoryMovementResponseInput](InventoryMovementResponseInput.md)
 - [InventoryOriginPolicyInput](InventoryOriginPolicyInput.md)
 - [InventoryProvenanceRequestInput](InventoryProvenanceRequestInput.md)
 - [InventoryReceiptInput](InventoryReceiptInput.md)
@@ -99,7 +102,4 @@
 - [InvoicePaymentOptionCostComparisonInput](InvoicePaymentOptionCostComparisonInput.md)
 - [InvoicePaymentOptionLimitInput](InvoicePaymentOptionLimitInput.md)
 - [InvoicePaymentPolicyInput](InvoicePaymentPolicyInput.md)
-- [InvoicePaymentTermInput](InvoicePaymentTermInput.md)
-- [InvoicePaymentTermCalculationInput](InvoicePaymentTermCalculationInput.md)
-- [InvoicePaymentTermCalculationDayOfMonthInput](InvoicePaymentTermCalculationDayOfMonthInput.md)
 

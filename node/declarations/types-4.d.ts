@@ -1,3 +1,6 @@
+import type { ResourceReference, ResponseMeta } from './types-40.js';
+import type { DeliveryInputRequirement, DeliveryMerchantDiagnostic } from './types-12.js';
+import type { DeliveryQuoteChoiceGroupResource } from './types-14.js';
 import type { Address, AddressRequest, AddressRequestInput, AuthMode } from './types-0.js';
 import type {
     ErrorRemediation,
@@ -9,20 +12,13 @@ import type {
 } from './types-16.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type { OrderLineItemTax, OrderLineItemTaxInput, OrderPaymentAttempt } from './types-32.js';
-import type {
-    CheckoutBuyerContact,
-    CheckoutBuyerFields,
-    CheckoutCustomTextConfig,
-    CheckoutCustomerPrefill,
-    CheckoutDeliveryPinnedDependency,
-    CheckoutDerivedDeliveryResource
-} from './types-3.js';
+import type { CheckoutBuyerContact, CheckoutBuyerFields, CheckoutCustomTextConfig, CheckoutCustomerPrefill } from './types-3.js';
 import type { Image } from './types-19.js';
 import type { LegalSettings } from './types-28.js';
 import type { PaymentCollection } from './types-35.js';
-import type { ResponseMeta } from './types-40.js';
 import type { InputValue, ClientOptions as RuntimeClientOptions, CredentialProvider } from '../runtime.js';
 import type {
+    ConfirmCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutDeliveryQuoteRequestInput,
     CreateCheckoutSessionRequestInput
@@ -31,7 +27,80 @@ import type { CreateDeliverySelectionRequestInput } from './types-6.js';
 import type { UpdateCheckoutSessionRequestInput } from './types-47.js';
 import type { SubscriptionIntervalOption } from './types-45.js';
 import type { Credentials } from './types-9.js';
-import type { Invoice, InvoicePaymentAttempt } from './types-26.js';
+import type { Invoice } from './types-26.js';
+import type { InvoicePaymentAttempt } from './types-27.js';
+/**
+ * Shape $ (Value): {@link CheckoutDeliveryPinnedDependency}. A delivery dependency pinned to a
+ * checkout, such as the assigned method, eligibility, or pricing callback, with the revision it
+ * was pinned at.
+ */
+export type CheckoutDeliveryPinnedDependency = {
+    /**
+     * Shape $ (Value): string. Value enum: "assigned_method", "eligibility", "method_origin",
+     * "pickup_collection", "pricing_callback", "origin".
+     */
+    "delivery_dependency_role": "assigned_method"
+        | "eligibility"
+        | "method_origin"
+        | "pickup_collection"
+        | "pricing_callback"
+        | "origin"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link ResourceReference} or null. Shape $.anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * Shape $.anyOf[2] (Value): null.
+     */
+    "dependency": ((ResourceReference) | (null));
+    /**
+     * Shape $ (Value): integer string. Version of the Location geography used by this assignment
+     * or dependency. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "location_geography_version"?: `${bigint}`;
+    /** Shape $ (Value): string. */
+    "revision_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link CheckoutDerivedDeliveryResource}. The delivery options Flint derived for
+ * a checkout as a buyer sees them: choice groups, input requirements, and evaluation status.
+ */
+export type CheckoutDerivedDeliveryResource = {
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    "buyer_reasons": Array<string>;
+    /**
+     * Shape $ (Value): Array of {@link DeliveryQuoteChoiceGroupResource}. Shape $[] (Value):
+     * {@link DeliveryQuoteChoiceGroupResource}. One group of order items in a delivery quote, with
+     * the delivery options the buyer can choose, its availability status, and any input still
+     * needed.
+     */
+    "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
+    /** Shape $ (Value): string. */
+    "delivery_quote_id"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "complete", "incomplete", "degraded",
+     * "requires_explicit_quote".
+     */
+    "evaluation_status": "complete" | "incomplete" | "degraded" | "requires_explicit_quote" | (string & {});
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "expires_at"?: string;
+    /**
+     * Shape $ (Value): Array of {@link DeliveryInputRequirement}. Inputs the checkout's delivery
+     * methods need. Once the checkout has a delivery quote, these are the quote's
+     * input_requirements. Before that, they come from the methods alone and name no choice group:
+     * the fields in each method's quote_input_fields, and each recipient field a method requires.
+     * Shape $[] (Value): {@link DeliveryInputRequirement}. An input a delivery method needs, such
+     * as an address field or time window, with its `field_path`, purpose, and constraint.
+     */
+    "input_requirements": Array<DeliveryInputRequirement>;
+    /**
+     * Shape $ (Value): Array of {@link DeliveryMerchantDiagnostic}. Always present with an API key
+     * or dashboard credential. Shape $[] (Value): {@link DeliveryMerchantDiagnostic}. A
+     * merchant-only diagnostic explaining why a delivery method produced no option, with its
+     * outcome, recommended action, and eligibility mismatches.
+     */
+    "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
+};
 /**
  * Shape $ (Value): {@link CheckoutGiftCardChallenge}. A URL to load in an iframe when applying a
  * gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`.
@@ -781,6 +850,12 @@ export type CheckoutSession = {
      * sessions.
      */
     "url"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link CheckoutSessionCustomerVerification}. A request for a checkout
@@ -1506,6 +1581,13 @@ export type ClientOptions = Omit<RuntimeClientOptions, 'baseUrl' | 'token' | 'au
  */
 export type CloseCheckoutSessionRequest = {
     /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
      * Shape $ (Value): string. Your note explaining why you are closing the checkout session. It
      * is not shown to the buyer. minLength: 1.
      */
@@ -1515,7 +1597,20 @@ export type CloseCheckoutSessionRequest = {
  * Shape $ (Value): {@link CloseCheckoutSessionRequestInput}. The request body for: Close checkout
  * session.
  */
-export type CloseCheckoutSessionRequestInput = CloseCheckoutSessionRequest;
+export type CloseCheckoutSessionRequestInput = {
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. Your note explaining why you are closing the checkout session. It
+     * is not shown to the buyer. minLength: 1.
+     */
+    "reason_message"?: string;
+};
 /** Shape $ (Value): {@link CloseOrderRequest}. The request body for: Close order. */
 export type CloseOrderRequest = {
     /**
@@ -1625,26 +1720,4 @@ export type CompleteReturnRequestInput = {
     "reason"?: "manual_completion" | "exception_waived" | "other";
     /** Shape $ (Value): string. minLength: 1. */
     "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link ConfigurationVersionRequestInput}. The request body for: Revoke an API
- * key.
- */
-export type ConfigurationVersionRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-};
-/**
- * Shape $ (Value): {@link ConfirmCheckoutSessionCustomerVerificationRequestInput}. The code the
- * buyer typed.
- */
-export type ConfirmCheckoutSessionCustomerVerificationRequestInput = {
-    /**
-     * Shape $ (Value): string. The six-digit code from the email or the text. minLength: 6.
-     * maxLength: 6. pattern: ^[0-9]{6}$.
-     */
-    "code": string;
 };

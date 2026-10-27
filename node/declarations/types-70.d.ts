@@ -1,13 +1,42 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    PaymentLinkPaymentPatchRequestInput,
+    PaymentLinkRedirectsPatchRequestInput,
+    PaymentLinkThemeConfigInput,
+    PaymentLinkThemePatchRequestInput,
+    PaymentSourceCredentialInput
+} from './types-36.js';
+import type {
+    PostalAddressInput,
+    ProcessExistingReturnLineItemRequestInput,
+    ProcessExistingReturnRequestInput,
+    ProductVariantRequestInput,
+    ProductVariantSelectedOptionRequestInput,
+    PromotionAmountOffMethodRequestInput,
+    PromotionApplicationMethodPatchInput,
+    PromotionApplicationMethodRequestInput
+} from './types-37.js';
+import type {
+    PromotionBuyXGetYMethodRequestInput,
+    PromotionCombinesWithPatchInput,
+    PromotionCombinesWithRequestInput,
+    PromotionExclusivityPatchInput,
+    PromotionExclusivityRequestInput,
+    PromotionPercentOffMethodRequestInput,
+    PromotionRecurrenceInput,
+    PromotionRecurrenceForeverInput,
+    PromotionRecurrenceOnceInput,
+    PromotionRecurrenceRepeatingInput,
+    PromotionRefRequestInput,
+    PromotionRuleGroupRequestInput,
     PromotionRuleRequestInput,
     PromotionRuleValueRequestInput,
     PromotionScheduleInput,
     PromotionSchedulePatchInput,
-    PromotionSettingsInput,
-    PublishReturnPolicyRevisionRequestInput
+    PromotionSettingsInput
 } from './types-38.js';
 import type {
+    PublishReturnPolicyRevisionRequestInput,
     ReceiptSettingsRequestInput,
     RefreshCustomerSessionRequestInput,
     RefundAdjustmentAuditInput,
@@ -42,37 +71,36 @@ import type {
     ReturnEligibilityLineItemRequestInput,
     ReturnEligibilitySelectionInput,
     ReturnEligibilitySelectionAllRemainingFulfilledInput,
-    ReturnEligibilitySelectionLineItemsInput,
-    ReturnInspectionLineItemRequestInput
+    ReturnEligibilitySelectionLineItemsInput
 } from './types-40.js';
-import type {
-    ReturnLineDecisionInput,
-    ReturnLineItemRequestInput,
-    ReturnPolicyRevisionInputIneligibleInput,
-    ReturnPolicyRevisionInputReturnableInput,
-    ReturnPolicyRevisionRequestInput,
-    ReturnPolicyScopeInput,
-    ReturnProcessDecisionInput,
-    ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput,
-    ReturnProcessReceiptRequestInput,
-    ReturnProcessResolutionRequestInput,
-    ReturnReceiptLineItemRequestInput,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionAdjustmentRequestInput
-} from './types-41.js';
-import type {
-    ReturnResolutionLineItemRequestInput,
-    ReturnRestockingFeePolicyInput,
-    ReturnShipmentLineItemAllocationInput,
-    ReturnShippingPolicyInput,
-    ReturnSourceSystemInput,
-    ReturnUnverifiedItemInput,
-    ReturnWindowInput,
-    ReverseInvoiceManualPaymentRequestInput,
-    RevokeDeliveryDependencyRequestInput,
-    RevokeDeliveryDependencyTargetInput
-} from './types-42.js';
+export declare function makePaymentLinkPaymentPatchRequest(value: InputValue<PaymentLinkPaymentPatchRequestInput>): Model<PaymentLinkPaymentPatchRequestInput>;
+export declare function makePaymentLinkRedirectsPatchRequest(value: InputValue<PaymentLinkRedirectsPatchRequestInput>): Model<PaymentLinkRedirectsPatchRequestInput>;
+export declare function makePaymentLinkThemeConfig(value: InputValue<PaymentLinkThemeConfigInput>): Model<PaymentLinkThemeConfigInput>;
+export declare function makePaymentLinkThemePatchRequest(value: InputValue<PaymentLinkThemePatchRequestInput>): Model<PaymentLinkThemePatchRequestInput>;
+export declare function makePaymentSourceCredential(value: InputValue<Exclude<PaymentSourceCredentialInput & object, readonly unknown[]>>): Model<Exclude<PaymentSourceCredentialInput & object, readonly unknown[]>>;
+export declare function makePaymentSourceCredential(value: InputValue<PaymentSourceCredentialInput>): Model<PaymentSourceCredentialInput>;
+export declare function makePostalAddress(value: InputValue<PostalAddressInput>): Model<PostalAddressInput>;
+export declare function makeProcessExistingReturnLineItemRequest(value: InputValue<ProcessExistingReturnLineItemRequestInput>): Model<ProcessExistingReturnLineItemRequestInput>;
+export declare function makeProcessExistingReturnRequest(value: InputValue<ProcessExistingReturnRequestInput>): Model<ProcessExistingReturnRequestInput>;
+export declare function makeProductVariantRequest(value: InputValue<ProductVariantRequestInput>): Model<ProductVariantRequestInput>;
+export declare function makeProductVariantSelectedOptionRequest(value: InputValue<ProductVariantSelectedOptionRequestInput>): Model<ProductVariantSelectedOptionRequestInput>;
+export declare function makePromotionAmountOffMethodRequest(value: InputValue<PromotionAmountOffMethodRequestInput>): Model<PromotionAmountOffMethodRequestInput>;
+export declare function makePromotionApplicationMethodPatch(value: InputValue<PromotionApplicationMethodPatchInput>): Model<PromotionApplicationMethodPatchInput>;
+export declare function makePromotionApplicationMethodRequest(value: InputValue<Exclude<PromotionApplicationMethodRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionApplicationMethodRequestInput & object, readonly unknown[]>>;
+export declare function makePromotionApplicationMethodRequest(value: InputValue<PromotionApplicationMethodRequestInput>): Model<PromotionApplicationMethodRequestInput>;
+export declare function makePromotionBuyXGetYMethodRequest(value: InputValue<PromotionBuyXGetYMethodRequestInput>): Model<PromotionBuyXGetYMethodRequestInput>;
+export declare function makePromotionCombinesWithPatch(value: InputValue<PromotionCombinesWithPatchInput>): Model<PromotionCombinesWithPatchInput>;
+export declare function makePromotionCombinesWithRequest(value: InputValue<PromotionCombinesWithRequestInput>): Model<PromotionCombinesWithRequestInput>;
+export declare function makePromotionExclusivityPatch(value: InputValue<PromotionExclusivityPatchInput>): Model<PromotionExclusivityPatchInput>;
+export declare function makePromotionExclusivityRequest(value: InputValue<PromotionExclusivityRequestInput>): Model<PromotionExclusivityRequestInput>;
+export declare function makePromotionPercentOffMethodRequest(value: InputValue<PromotionPercentOffMethodRequestInput>): Model<PromotionPercentOffMethodRequestInput>;
+export declare function makePromotionRecurrence(value: InputValue<PromotionRecurrenceInput>): Model<PromotionRecurrenceInput>;
+export declare function makePromotionRecurrenceForever(value: InputValue<PromotionRecurrenceForeverInput>): Model<PromotionRecurrenceForeverInput>;
+export declare function makePromotionRecurrenceOnce(value: InputValue<PromotionRecurrenceOnceInput>): Model<PromotionRecurrenceOnceInput>;
+export declare function makePromotionRecurrenceRepeating(value: InputValue<PromotionRecurrenceRepeatingInput>): Model<PromotionRecurrenceRepeatingInput>;
+export declare function makePromotionRefRequest(value: InputValue<PromotionRefRequestInput>): Model<PromotionRefRequestInput>;
+export declare function makePromotionRuleGroupRequest(value: InputValue<Exclude<PromotionRuleGroupRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionRuleGroupRequestInput & object, readonly unknown[]>>;
+export declare function makePromotionRuleGroupRequest(value: InputValue<PromotionRuleGroupRequestInput>): Model<PromotionRuleGroupRequestInput>;
 export declare function makePromotionRuleRequest(value: InputValue<PromotionRuleRequestInput>): Model<PromotionRuleRequestInput>;
 export declare function makePromotionRuleValueRequest(value: InputValue<Exclude<PromotionRuleValueRequestInput & object, readonly unknown[]>>): Model<Exclude<PromotionRuleValueRequestInput & object, readonly unknown[]>>;
 export declare function makePromotionRuleValueRequest(value: InputValue<PromotionRuleValueRequestInput>): Model<PromotionRuleValueRequestInput>;
@@ -113,28 +141,3 @@ export declare function makeReturnEligibilityLineItemRequest(value: InputValue<R
 export declare function makeReturnEligibilitySelection(value: InputValue<ReturnEligibilitySelectionInput>): Model<ReturnEligibilitySelectionInput>;
 export declare function makeReturnEligibilitySelectionAllRemainingFulfilled(value: InputValue<ReturnEligibilitySelectionAllRemainingFulfilledInput>): Model<ReturnEligibilitySelectionAllRemainingFulfilledInput>;
 export declare function makeReturnEligibilitySelectionLineItems(value: InputValue<ReturnEligibilitySelectionLineItemsInput>): Model<ReturnEligibilitySelectionLineItemsInput>;
-export declare function makeReturnInspectionLineItemRequest(value: InputValue<ReturnInspectionLineItemRequestInput>): Model<ReturnInspectionLineItemRequestInput>;
-export declare function makeReturnLineDecision(value: InputValue<ReturnLineDecisionInput>): Model<ReturnLineDecisionInput>;
-export declare function makeReturnLineItemRequest(value: InputValue<ReturnLineItemRequestInput>): Model<ReturnLineItemRequestInput>;
-export declare function makeReturnPolicyRevisionInputIneligible(value: InputValue<ReturnPolicyRevisionInputIneligibleInput>): Model<ReturnPolicyRevisionInputIneligibleInput>;
-export declare function makeReturnPolicyRevisionInputReturnable(value: InputValue<ReturnPolicyRevisionInputReturnableInput>): Model<ReturnPolicyRevisionInputReturnableInput>;
-export declare function makeReturnPolicyRevisionRequest(value: InputValue<ReturnPolicyRevisionRequestInput>): Model<ReturnPolicyRevisionRequestInput>;
-export declare function makeReturnPolicyScope(value: InputValue<ReturnPolicyScopeInput>): Model<ReturnPolicyScopeInput>;
-export declare function makeReturnProcessDecision(value: InputValue<ReturnProcessDecisionInput>): Model<ReturnProcessDecisionInput>;
-export declare function makeReturnProcessDispositionRequest(value: InputValue<ReturnProcessDispositionRequestInput>): Model<ReturnProcessDispositionRequestInput>;
-export declare function makeReturnProcessInspectionRequest(value: InputValue<ReturnProcessInspectionRequestInput>): Model<ReturnProcessInspectionRequestInput>;
-export declare function makeReturnProcessReceiptRequest(value: InputValue<ReturnProcessReceiptRequestInput>): Model<ReturnProcessReceiptRequestInput>;
-export declare function makeReturnProcessResolutionRequest(value: InputValue<ReturnProcessResolutionRequestInput>): Model<ReturnProcessResolutionRequestInput>;
-export declare function makeReturnReceiptLineItemRequest(value: InputValue<ReturnReceiptLineItemRequestInput>): Model<ReturnReceiptLineItemRequestInput>;
-export declare function makeReturnReplacementLineItemRequest(value: InputValue<ReturnReplacementLineItemRequestInput>): Model<ReturnReplacementLineItemRequestInput>;
-export declare function makeReturnResolutionAdjustmentRequest(value: InputValue<ReturnResolutionAdjustmentRequestInput>): Model<ReturnResolutionAdjustmentRequestInput>;
-export declare function makeReturnResolutionLineItemRequest(value: InputValue<ReturnResolutionLineItemRequestInput>): Model<ReturnResolutionLineItemRequestInput>;
-export declare function makeReturnRestockingFeePolicy(value: InputValue<ReturnRestockingFeePolicyInput>): Model<ReturnRestockingFeePolicyInput>;
-export declare function makeReturnShipmentLineItemAllocation(value: InputValue<ReturnShipmentLineItemAllocationInput>): Model<ReturnShipmentLineItemAllocationInput>;
-export declare function makeReturnShippingPolicy(value: InputValue<ReturnShippingPolicyInput>): Model<ReturnShippingPolicyInput>;
-export declare function makeReturnSourceSystem(value: InputValue<ReturnSourceSystemInput>): Model<ReturnSourceSystemInput>;
-export declare function makeReturnUnverifiedItem(value: InputValue<ReturnUnverifiedItemInput>): Model<ReturnUnverifiedItemInput>;
-export declare function makeReturnWindow(value: InputValue<ReturnWindowInput>): Model<ReturnWindowInput>;
-export declare function makeReverseInvoiceManualPaymentRequest(value: InputValue<ReverseInvoiceManualPaymentRequestInput>): Model<ReverseInvoiceManualPaymentRequestInput>;
-export declare function makeRevokeDeliveryDependencyRequest(value: InputValue<RevokeDeliveryDependencyRequestInput>): Model<RevokeDeliveryDependencyRequestInput>;
-export declare function makeRevokeDeliveryDependencyTarget(value: InputValue<RevokeDeliveryDependencyTargetInput>): Model<RevokeDeliveryDependencyTargetInput>;

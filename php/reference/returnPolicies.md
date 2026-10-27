@@ -53,7 +53,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -68,7 +68,9 @@ $result = $client->returnPolicies->create([
     'eligibility_result' => 'ineligible',
     'is_merchandise_return_required' => true,
     'priority' => 1,
-    'scope' => (object) [],
+    'scope' => (object) [
+      'match_type' => 'all',
+    ],
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -115,7 +117,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -176,7 +178,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getRevisionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -230,7 +232,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -283,7 +285,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listRevisionsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listRevisionsItems`, `listRevisionsPages`, `listRevisionsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -347,7 +349,7 @@ Complete body and metadata: `publishRevisionWithResponse`. See [response modes](
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -362,7 +364,9 @@ $result = $client->returnPolicies->publishRevision('example', [
     'eligibility_result' => 'ineligible',
     'is_merchandise_return_required' => true,
     'priority' => 1,
-    'scope' => (object) [],
+    'scope' => (object) [
+      'match_type' => 'all',
+    ],
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
@@ -413,7 +417,7 @@ Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -478,7 +482,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

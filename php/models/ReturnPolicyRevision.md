@@ -39,7 +39,7 @@ Field definitions: [shared fields](ReturnPolicyScopeInput.md#returnpolicyscopein
 
 ### ReturnPolicyRevision.scope variant 1: `match_type` = `"all"`
 
-oneOf variant 1.
+oneOf variant 1: The `all` variant of `ReturnPolicyScope`..
 
 - Optional: `category_handles`, `channel_types`, `location_ids`, `product_ids`, `variant_ids`.
 - Constraints for `category_handles`: maxItems: `0`.
@@ -51,7 +51,7 @@ oneOf variant 1.
 
 ### ReturnPolicyRevision.scope variant 2: `match_type` = `"include"`
 
-oneOf variant 2; anyOf variant 1.
+oneOf variant 2: The `include` variant of `ReturnPolicyScope`.; anyOf variant 1.
 
 - Required: `product_ids`.
 - Optional: `category_handles`, `channel_types`, `location_ids`, `variant_ids`.
@@ -60,7 +60,7 @@ oneOf variant 2; anyOf variant 1.
 
 ### ReturnPolicyRevision.scope variant 3: `match_type` = `"include"`
 
-oneOf variant 2; anyOf variant 2.
+oneOf variant 2: The `include` variant of `ReturnPolicyScope`.; anyOf variant 2.
 
 - Required: `variant_ids`.
 - Optional: `category_handles`, `channel_types`, `location_ids`, `product_ids`.
@@ -69,7 +69,7 @@ oneOf variant 2; anyOf variant 2.
 
 ### ReturnPolicyRevision.scope variant 4: `match_type` = `"include"`
 
-oneOf variant 2; anyOf variant 3.
+oneOf variant 2: The `include` variant of `ReturnPolicyScope`.; anyOf variant 3.
 
 - Required: `category_handles`.
 - Optional: `channel_types`, `location_ids`, `product_ids`, `variant_ids`.
@@ -78,7 +78,7 @@ oneOf variant 2; anyOf variant 3.
 
 ### ReturnPolicyRevision.scope variant 5: `match_type` = `"include"`
 
-oneOf variant 2; anyOf variant 4.
+oneOf variant 2: The `include` variant of `ReturnPolicyScope`.; anyOf variant 4.
 
 - Required: `location_ids`.
 - Optional: `category_handles`, `channel_types`, `product_ids`, `variant_ids`.
@@ -87,7 +87,7 @@ oneOf variant 2; anyOf variant 4.
 
 ### ReturnPolicyRevision.scope variant 6: `match_type` = `"include"`
 
-oneOf variant 2; anyOf variant 5.
+oneOf variant 2: The `include` variant of `ReturnPolicyScope`.; anyOf variant 5.
 
 - Required: `channel_types`.
 - Optional: `category_handles`, `location_ids`, `product_ids`, `variant_ids`.

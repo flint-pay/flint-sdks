@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import r0 from '../descriptors/resources/orders.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import settings from '../descriptors/settings.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPayment"]:r0,["cancelOrderPaymentAttempt"]:r0,["captureOrderPayment"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderLineItems"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderLineItems"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderPaymentAttempt"]:r0,["listOrderActivities"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -34,18 +34,6 @@ this.orders = Object.freeze({
   "Flint-Gift-Card-Challenge",
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      cancelPayment: async (order_id, payment_intent_id, params, options) => this.#runtime.request("cancelOrderPayment", _sdkRequestInput([
-  "order_id",
-  "payment_intent_id"
-], [order_id, payment_intent_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelOrderPayment", result, path))),
-      cancelPaymentWithResponse: async (order_id, payment_intent_id, params, options) => this.#runtime.request("cancelOrderPayment", _sdkRequestInput([
-  "order_id",
-  "payment_intent_id"
-], [order_id, payment_intent_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(_sdkResponse),
       cancelPaymentAttempt: async (order_id, order_payment_attempt_id, params, options) => this.#runtime.request("cancelOrderPaymentAttempt", _sdkRequestInput([
   "order_id",
   "order_payment_attempt_id"
@@ -56,18 +44,6 @@ this.orders = Object.freeze({
   "order_id",
   "order_payment_attempt_id"
 ], [order_id, order_payment_attempt_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(_sdkResponse),
-      capturePayment: async (order_id, payment_intent_id, params, options) => this.#runtime.request("captureOrderPayment", _sdkRequestInput([
-  "order_id",
-  "payment_intent_id"
-], [order_id, payment_intent_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("captureOrderPayment", result, path))),
-      capturePaymentWithResponse: async (order_id, payment_intent_id, params, options) => this.#runtime.request("captureOrderPayment", _sdkRequestInput([
-  "order_id",
-  "payment_intent_id"
-], [order_id, payment_intent_id], [
   "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       closeSession: async (order_id, params, options) => this.#runtime.request("closeOrder", _sdkRequestInput([
@@ -231,30 +207,35 @@ this.orders = Object.freeze({
       listPaymentAttempts: async (order_id, params, options) => this.#runtime.request("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
+  "idempotency_key",
   "page_size",
   "page_token"
 ], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listOrderPaymentAttempts", result, path))),
       listPaymentAttemptsWithResponse: async (order_id, params, options) => this.#runtime.request("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
+  "idempotency_key",
   "page_size",
   "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPaymentAttemptsPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
+  "idempotency_key",
   "page_size",
   "page_token"
 ], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listOrderPaymentAttempts", result, path)),
       listPaymentAttemptsPagesWithResponse: (order_id, params, options) => _sdkResponsePages(this.#runtime.pages("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
+  "idempotency_key",
   "page_size",
   "page_token"
 ], false, false, params), options)),
       listPaymentAttemptsItems: (order_id, params, options) => this.#runtime.items("listOrderPaymentAttempts", _sdkRequestInput([
   "order_id"
 ], [order_id], [
+  "idempotency_key",
   "page_size",
   "page_token"
 ], false, false, params), options),
@@ -519,8 +500,6 @@ export { makeAddressRequest } from '../models/AddressRequest.js';
 export { makeApplyDiscountRequest } from '../models/ApplyDiscountRequest.js';
 export { makeApplyOrderGiftCardRequest } from '../models/ApplyOrderGiftCardRequest.js';
 export { makeCancelOrderPaymentAttemptRequest } from '../models/CancelOrderPaymentAttemptRequest.js';
-export { makeCancelOrderPaymentRequest } from '../models/CancelOrderPaymentRequest.js';
-export { makeCaptureOrderPaymentRequest } from '../models/CaptureOrderPaymentRequest.js';
 export { makeCheckoutBuyerContactRequest } from '../models/CheckoutBuyerContactRequest.js';
 export { makeCloseOrderRequest } from '../models/CloseOrderRequest.js';
 export { makeCreateDeliveryFulfillmentDetails } from '../models/CreateDeliveryFulfillmentDetails.js';

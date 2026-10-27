@@ -22,6 +22,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->subscriptions->createLineItem('example', [
   'quantity' => 1,
+  'type' => 'variant',
   'variant_id' => 'var_00000000000000000000000000',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;

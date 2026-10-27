@@ -12,9 +12,9 @@ import type {
     ModifierSetsUpdateInput
 } from '../declarations/types-31.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateModifierSetRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -60,8 +60,8 @@ export type {
     ModifierSetGroupInputExistingInput,
     ModifierSetGroupInputInlineInput
 } from '../declarations/types-31.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateModifierSetRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-6.js';
@@ -69,8 +69,9 @@ export type { TextModifierConfigRequestInput, TextModifierConfig, TextModifierCo
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { InlineModifierGroupRequestInput } from '../declarations/types-23.js';
-export { makeCreateInlineModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-63.js';
 export {
+    makeCreateInlineModifierGroupRequest,
+    makeCreateModifierRequest,
     makeCreateModifierSetGroupInputExisting,
     makeCreateModifierSetGroupInputInline,
     makeCreateModifierSetGroupRequest,
@@ -85,8 +86,8 @@ export {
     makeModifierSetGroupRequest,
     makeMoneyValue
 } from '../declarations/types-68.js';
-export { makeTextModifierConfigRequest } from '../declarations/types-71.js';
-export { makeUpdateModifierSetRequest } from '../declarations/types-72.js';
+export { makeTextModifierConfigRequest } from '../declarations/types-72.js';
+export { makeUpdateModifierSetRequest } from '../declarations/types-73.js';
 export interface ModifierSetsResource {
     /**
  * Create modifier set.
@@ -100,14 +101,14 @@ export interface ModifierSetsResource {
     create(params: (InputValue<CreateModifierSetRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ModifierSet>;
+    }, options?: RequestOptions<"merchant">): Promise<ModifierSet>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/modifierSets.md#modifiersetscreate
      */
     createWithResponse(params: (InputValue<CreateModifierSetRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierSetResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ModifierSetResponse>>;
     /**
  * Retire modifier set. Returns the archived resource exactly as GET returns it. Repeating DELETE
  * returns 200 without changing version or updated_at, sending a webhook, or checking references.
@@ -123,14 +124,14 @@ export interface ModifierSetsResource {
     remove(modifier_set_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ModifierSet>;
+    }, options?: RequestOptions<"merchant">): Promise<ModifierSet>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/modifierSets.md#modifiersetsremove
      */
     removeWithResponse(modifier_set_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierSetResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ModifierSetResponse>>;
     /**
  * Get modifier set.
  * @see reference/modifierSets.md#modifiersetsget
@@ -138,11 +139,11 @@ export interface ModifierSetsResource {
  * @example
  * client.modifierSets.get("example")
  */
-    get(modifier_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ModifierSet>;
+    get(modifier_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ModifierSet>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/modifierSets.md#modifiersetsget
      */
-    getWithResponse(modifier_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierSetResponse>>;
+    getWithResponse(modifier_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ModifierSetResponse>>;
     /**
  * List modifier sets.
  * @see reference/modifierSets.md#modifiersetslist
@@ -162,7 +163,7 @@ export interface ModifierSetsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ModifierSetListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ModifierSetListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/modifierSets.md#modifiersetslist
      */
@@ -178,7 +179,7 @@ export interface ModifierSetsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ModifierSetListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ModifierSetListResponse>>;
     /** Iterate pages lazily.
      * @see reference/modifierSets.md#modifiersetslist
      */
@@ -194,7 +195,7 @@ export interface ModifierSetsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierSetListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ModifierSetListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/modifierSets.md#modifiersetslist
      */
@@ -210,7 +211,7 @@ export interface ModifierSetsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ModifierSetListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ModifierSetListResponse>>;
     /** Iterate items lazily.
      * @see reference/modifierSets.md#modifiersetslist
      */
@@ -226,7 +227,7 @@ export interface ModifierSetsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ModifierSet>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ModifierSet>;
     /**
  * Update modifier set. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
  * and current_status archived. The error identifies the archived resource; a create under an
@@ -241,14 +242,14 @@ export interface ModifierSetsResource {
     update(modifier_set_id: InputValue<string>, params: (InputValue<UpdateModifierSetRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ModifierSet>;
+    }, options?: RequestOptions<"merchant">): Promise<ModifierSet>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/modifierSets.md#modifiersetsupdate
      */
     updateWithResponse(modifier_set_id: InputValue<string>, params: (InputValue<UpdateModifierSetRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ModifierSetResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ModifierSetResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

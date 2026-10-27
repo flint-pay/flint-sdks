@@ -6,18 +6,21 @@ import type {
     DeliveryProfile,
     DeliveryProfileAssignment,
     DeliveryProfileAssignmentResponse,
-    DeliveryProfileListResponse,
+    DeliveryProfileListResponse
+} from '../declarations/types-13.js';
+import type {
     DeliveryProfileResponse,
     DeliveryProfilesAssignToUnconfiguredInput,
     DeliveryProfilesCreateInput,
     DeliveryProfilesGetInput,
-    DeliveryProfilesListInput
-} from '../declarations/types-13.js';
-import type { DeliveryProfilesRemoveInput, DeliveryProfilesUpdateInput } from '../declarations/types-14.js';
+    DeliveryProfilesListInput,
+    DeliveryProfilesRemoveInput,
+    DeliveryProfilesUpdateInput
+} from '../declarations/types-14.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { UpdateDeliveryProfileRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { UpdateDeliveryProfileRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,14 +39,8 @@ export type {
     DeliveryProfileAssignment,
     DeliveryProfileAssignmentResponse,
     DeliveryProfile,
-    DeliveryProfileResponse,
     DeliveryProfileListResponse,
-    DeliveryProfilesAssignToUnconfiguredInput,
-    DeliveryProfilesCreateInput,
-    DeliveryProfilesGetInput,
-    DeliveryProfilesListInput,
     DeliveryProfileConfigurationRequestInput,
-    DeliveryProfileOriginPolicyRequestInput,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
     DeliveryProfileOriginPolicyInputInventoryRoutingInput,
     DeliveryProfileOriginPolicyInputMethodOriginInput,
@@ -51,18 +48,27 @@ export type {
     DeliveryProfileOriginPolicy,
     DeliveryProfileDiagnostics
 } from '../declarations/types-13.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { CreateDeliveryProfileRequestInput } from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-47.js';
-export type { DeliveryProfilesRemoveInput, DeliveryProfilesUpdateInput } from '../declarations/types-14.js';
+export type {
+    DeliveryProfileResponse,
+    DeliveryProfilesAssignToUnconfiguredInput,
+    DeliveryProfilesCreateInput,
+    DeliveryProfilesRemoveInput,
+    DeliveryProfilesGetInput,
+    DeliveryProfilesListInput,
+    DeliveryProfilesUpdateInput,
+    DeliveryProfileOriginPolicyRequestInput
+} from '../declarations/types-14.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { UpdateDeliveryProfileRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-61.js';
+export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../declarations/types-62.js';
 export { makeCreateDeliveryProfileRequest } from '../declarations/types-63.js';
-export { makeDeliveryProfileConfigurationRequest } from '../declarations/types-65.js';
 export {
+    makeDeliveryProfileConfigurationRequest,
     makeDeliveryProfileOriginPolicyInputFixedLocation,
     makeDeliveryProfileOriginPolicyInputInventoryRouting,
     makeDeliveryProfileOriginPolicyInputMethodOrigin,
@@ -84,14 +90,14 @@ export interface DeliveryProfilesResource {
     assignToUnconfigured(delivery_profile_id: InputValue<string>, params: (InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryProfileAssignment>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryProfileAssignment>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryProfiles.md#deliveryprofilesassigntounconfigured
      */
     assignToUnconfiguredWithResponse(delivery_profile_id: InputValue<string>, params: (InputValue<AssignToUnconfiguredDeliveryProfileRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfileAssignmentResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryProfileAssignmentResponse>>;
     /**
  * Delivery profiles define reusable delivery rules assigned to catalog obligations. Creation
  * publishes immutable revision 1. It starts active.
@@ -106,14 +112,14 @@ export interface DeliveryProfilesResource {
     create(params: (InputValue<CreateDeliveryProfileRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryProfile>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryProfile>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryProfiles.md#deliveryprofilescreate
      */
     createWithResponse(params: (InputValue<CreateDeliveryProfileRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfileResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryProfileResponse>>;
     /**
  * Retires the delivery profile after checking current dependencies. The retired resource remains
  * available by ID for historical records. Deleting an already archived resource returns it without
@@ -128,14 +134,14 @@ export interface DeliveryProfilesResource {
     remove(delivery_profile_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryProfile>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryProfile>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryProfiles.md#deliveryprofilesremove
      */
     removeWithResponse(delivery_profile_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfileResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryProfileResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery profile.
  * @see reference/deliveryProfiles.md#deliveryprofilesget
@@ -145,13 +151,13 @@ export interface DeliveryProfilesResource {
  */
     get(delivery_profile_id: InputValue<string>, params?: {
         "include_diagnostics"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryProfile>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryProfile>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryProfiles.md#deliveryprofilesget
      */
     getWithResponse(delivery_profile_id: InputValue<string>, params?: {
         "include_diagnostics"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryProfileResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryProfileResponse>>;
     /**
  * Returns delivery profiles in a stable, cursor-paginated order. Archived resources are excluded
  * by default.
@@ -169,7 +175,7 @@ export interface DeliveryProfilesResource {
         "is_default"?: InputValue<boolean>;
         "resolution_mode"?: InputValue<Array<"quote" | "manual">>;
         "include_diagnostics"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryProfileListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryProfileListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryProfiles.md#deliveryprofileslist
      */
@@ -182,7 +188,7 @@ export interface DeliveryProfilesResource {
         "is_default"?: InputValue<boolean>;
         "resolution_mode"?: InputValue<Array<"quote" | "manual">>;
         "include_diagnostics"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryProfileListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryProfileListResponse>>;
     /** Iterate pages lazily.
      * @see reference/deliveryProfiles.md#deliveryprofileslist
      */
@@ -195,7 +201,7 @@ export interface DeliveryProfilesResource {
         "is_default"?: InputValue<boolean>;
         "resolution_mode"?: InputValue<Array<"quote" | "manual">>;
         "include_diagnostics"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryProfileListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryProfileListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/deliveryProfiles.md#deliveryprofileslist
      */
@@ -208,7 +214,7 @@ export interface DeliveryProfilesResource {
         "is_default"?: InputValue<boolean>;
         "resolution_mode"?: InputValue<Array<"quote" | "manual">>;
         "include_diagnostics"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryProfileListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliveryProfileListResponse>>;
     /** Iterate items lazily.
      * @see reference/deliveryProfiles.md#deliveryprofileslist
      */
@@ -221,7 +227,7 @@ export interface DeliveryProfilesResource {
         "is_default"?: InputValue<boolean>;
         "resolution_mode"?: InputValue<Array<"quote" | "manual">>;
         "include_diagnostics"?: InputValue<boolean>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryProfile>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryProfile>;
     /**
  * Sparsely updates mutable fields. Send is_default true to make this active profile the physical
  * catalog default, together with any other mutable fields in one atomic update. Sending only
@@ -238,14 +244,14 @@ export interface DeliveryProfilesResource {
     update(delivery_profile_id: InputValue<string>, params: (InputValue<UpdateDeliveryProfileRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryProfile>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryProfile>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryProfiles.md#deliveryprofilesupdate
      */
     updateWithResponse(delivery_profile_id: InputValue<string>, params: (InputValue<UpdateDeliveryProfileRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryProfileResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryProfileResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

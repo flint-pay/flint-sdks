@@ -1,1 +1,1 @@
-{"shared":"RiskAttributeRegistryResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","RiskAttribute","RiskAttributeRegistry","RiskAttributeRegistryResponse","SharedCodec0","SharedCodec1","SharedCodec963"]}
+{"shared":"RiskAttributeRegistryResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","RiskAttribute","RiskAttributeRegistry","RiskAttributeRegistryResponse","SharedCodec0","SharedCodec1","SharedCodec968"]}

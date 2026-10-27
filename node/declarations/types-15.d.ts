@@ -1,28 +1,368 @@
 import type {
-    DeliverySelectionRecipientRequest,
-    DeliverySelection,
-    DeliveryRadiusCondition,
-    DeliveryRadiusConditionInput
-} from './types-14.js';
-import type { ResponseMeta, ResetDemoSessionRequestInput } from './types-40.js';
-import type { CheckoutSession } from './types-4.js';
+    DeliveryAvailabilityInput,
+    DeliveryAddressRequest,
+    DeliveryBuyerLocationRequest,
+    DeliveryBusinessDayRange,
+    DeliveryBusinessDayRangeInput,
+    DeliveryCountryConditionInput
+} from './types-11.js';
 import type {
+    DeliveryInputRequirement,
+    DeliveryPickupDetails,
+    DeliveryPlan,
     DeliveryInventoryReservationSummary,
     DeliveryPostalCodeCondition,
     DeliveryPostalCodeConditionInput,
     DeliveryLocationSetsListInput
 } from './types-12.js';
+import type { DeliveryRecipientResource, DeliveryRadiusCondition, DeliveryRadiusConditionInput } from './types-14.js';
+import type { MoneyValue, MoneyValueInput } from './types-31.js';
+import type { ResponseMeta, ResetDemoSessionRequestInput } from './types-40.js';
+import type { CheckoutSession } from './types-4.js';
 import type { Order } from './types-32.js';
 import type { DeliveryPricingTierBand, DeliveryPricingTierBandRequestInput } from './types-13.js';
-import type { DeliveryBusinessDayRange, DeliveryBusinessDayRangeInput, DeliveryCountryConditionInput } from './types-11.js';
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryZoneRequestInput, CreateDemoSessionRequestInput } from './types-6.js';
-import type { UpdateDeliveryZoneRequestInput } from './types-47.js';
+import type { UpdateDeliveryZoneRequestInput } from './types-48.js';
 import type { CreatePartnerAppRequestInput } from './types-7.js';
-import type { CreateSandboxRequestInput } from './types-9.js';
 import type { IssueSandboxAPIKeyRequestInput } from './types-28.js';
-import type { RotatePartnerAppSecretRequestInput } from './types-43.js';
+import type { CreateSandboxRequestInput } from './types-9.js';
+/**
+ * Shape $ (Value): {@link DeliveryScheduleWindowRuleRequestInput}. Scheduled-window estimate rule
+ * you supply for a delivery method, defined by its `availability` schedule.
+ */
+export type DeliveryScheduleWindowRuleRequestInput = {
+    /**
+     * Shape $ (Value): {@link DeliveryAvailabilityInput}. When a delivery method can be scheduled:
+     * weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book.
+     */
+    "availability": DeliveryAvailabilityInput;
+};
+/**
+ * Shape $ (Value): {@link DeliverySelection}. The delivery choice selected for a checkout or
+ * order.
+ */
+export type DeliverySelection = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Delivery charge committed by this selection. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link DeliveryBuyerLocationRequest}. Buyer location snapshot used to
+     * evaluate pickup proximity. Returned with an API key or dashboard credential. The normalized
+     * buyer address or coordinate used for this quote.
+     */
+    "buyer_location"?: DeliveryBuyerLocationRequest;
+    /**
+     * Shape $ (Value): string. Deadline after which calculated pricing evidence is no longer
+     * valid. Always present with an API key or dashboard credential. Format: date-time.
+     */
+    "calculation_expires_at"?: string;
+    /**
+     * Shape $ (Value): string. Checkout session that owns the selection. Always present with an
+     * API key or dashboard credential.
+     */
+    "checkout_session_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link DeliverySelectionChoiceResource}. One chosen option for
+     * each required choice group. Shape $[] (Value): {@link DeliverySelectionChoiceResource}. A
+     * delivery option chosen for one choice group in a delivery selection, with its method,
+     * amounts, type-specific details, timezone, and any chosen delivery window.
+     */
+    "choices": Array<DeliverySelectionChoiceResource>;
+    /**
+     * Shape $ (Value): string. Time the selection was created. Always present with an API key or
+     * dashboard credential. Format: date-time.
+     */
+    "created_at"?: string;
+    /** Shape $ (Value): string. Quote from which this selection was made. */
+    "delivery_quote_id": string;
+    /**
+     * Shape $ (Value): integer string. Quote version from which this selection was created. Always
+     * present with an API key or dashboard credential. Use an integer string (decimal digits), not
+     * a floating-point number. Format: uint64. minimum: 0.
+     */
+    "delivery_quote_version"?: `${bigint}`;
+    /** Shape $ (Value): string. Stable delivery selection ID. */
+    "delivery_selection_id": string;
+    /**
+     * Shape $ (Value): {@link DeliveryAddressRequest}. Destination address snapshot used for
+     * delivery evaluation. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified. An address as returned on delivery quotes, selections,
+     * previews, and pickup locations.
+     */
+    "destination_address"?: DeliveryAddressRequest;
+    /**
+     * Shape $ (Value): integer string. Checkout eligibility context version evaluated by this
+     * selection. Always present with an API key or dashboard credential. Use an integer string
+     * (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+     */
+    "eligibility_context_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): string. Deadline after which this provisional selection can no longer be
+     * committed. Format: date-time.
+     */
+    "expires_at": string;
+    /**
+     * Shape $ (Value): Array of {@link DeliveryInputRequirement}. Inputs this selection still
+     * needs before payment: each recipient field a chosen option requires that the selection does
+     * not include. Each entry repeats the quote's requirement for that option, with the same
+     * delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason
+     * configuration_required, and the delivery_selection reference until a new delivery selection
+     * includes them. Empty when nothing is missing, and always empty unless status is selected.
+     * Shape $[] (Value): {@link DeliveryInputRequirement}. An input a delivery method needs, such
+     * as an address field or time window, with its `field_path`, purpose, and constraint.
+     */
+    "input_requirements": Array<DeliveryInputRequirement>;
+    /**
+     * Shape $ (Value): string. Buyer-provided delivery instructions. Returned with an API key or
+     * dashboard credential.
+     */
+    "instructions"?: string;
+    /**
+     * Shape $ (Value): Array of {@link DeliverySelectionLifecycleEventResource}. Ordered lifecycle
+     * events recorded for this selection. Shape $[] (Value): {@link
+     * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history,
+     * with the new `status`, the `reason`, and when it happened.
+     */
+    "lifecycle_events"?: Array<DeliverySelectionLifecycleEventResource>;
+    /**
+     * Shape $ (Value): string. Time the selection lifecycle last changed. Always present with an
+     * API key or dashboard credential. Format: date-time.
+     */
+    "lifecycle_updated_at"?: string;
+    /**
+     * Shape $ (Value): string. Constraint that determined the selection expiry. Always present
+     * with an API key or dashboard credential. Value enum: "selection_guarantee_expiry",
+     * "calculation_expiry", "selection_maximum_lifetime", "inventory_reservation_expiry",
+     * "tax_validity_expiry", "checkout_session_expiry".
+     */
+    "limiting_deadline_reason"?: "selection_guarantee_expiry"
+        | "calculation_expiry"
+        | "selection_maximum_lifetime"
+        | "inventory_reservation_expiry"
+        | "tax_validity_expiry"
+        | "checkout_session_expiry"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Order affected by the selection. Always present with an API key or
+     * dashboard credential.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Availability state of merchant-private selection evidence. Value
+     * enum: "available", "redacted".
+     */
+    "private_data_status"?: "available" | "redacted" | (string & {});
+    /**
+     * Shape $ (Value): {@link DeliveryRecipientResource}. Recipient details captured with the
+     * selection. Omitted for a checkout session credential that doesn't act for the customer the
+     * buyer verified. The person receiving a delivery selection, with optional `name`, `email`,
+     * and `phone`.
+     */
+    "recipient"?: DeliveryRecipientResource;
+    /**
+     * Shape $ (Value): string. Time merchant-private selection evidence was redacted. Format:
+     * date-time.
+     */
+    "redacted_at"?: string;
+    /**
+     * Shape $ (Value): string. Current selection lifecycle status. Value enum: "selected",
+     * "locked_for_payment", "committed", "superseded", "expired", "released".
+     */
+    "status": "selected"
+        | "locked_for_payment"
+        | "committed"
+        | "superseded"
+        | "expired"
+        | "released"
+        | (string & {});
+};
+/**
+ * Shape $ (Value): {@link DeliverySelectionChoiceResource}. A delivery option chosen for one
+ * choice group in a delivery selection, with its method, amounts, type-specific details, timezone,
+ * and any chosen delivery window.
+ */
+export type DeliverySelectionChoiceResource = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "delivery_choice_group_id": string;
+    /** Shape $ (Value): string. */
+    "delivery_method_id": string;
+    /** Shape $ (Value): string. */
+    "delivery_option_id": string;
+    /**
+     * Shape $ (Value): {@link DeliveryPlan}. Whether a delivery option is fulfilled in one
+     * delivery or several, with the first arrival time, completion time, and delivery count.
+     */
+    "delivery_plan": DeliveryPlan;
+    /** Shape $ (Value): string. */
+    "delivery_window_id"?: string;
+    /** Shape $ (Value): string. */
+    "description"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Always present with an API key or dashboard credential.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "discount_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): {@link DeliverySelectionInstructionsRequest}. Buyer input for a selected
+     * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
+     * `instructions`.
+     */
+    "input"?: DeliverySelectionInstructionsRequest;
+    /**
+     * Shape $ (Value): {@link DeliveryShipmentDetails}. Details of a local delivery option:
+     * instructions and service level.
+     */
+    "local_delivery"?: DeliveryShipmentDetails;
+    /** Shape $ (Value): string. */
+    "merchant_reference"?: string;
+    /** Shape $ (Value): string. */
+    "name": string;
+    /**
+     * Shape $ (Value): string or null. Always present with an API key or dashboard credential.
+     * Null when the choice has no order charge.
+     */
+    "order_charge_id"?: string | null;
+    /**
+     * Shape $ (Value): {@link DeliveryPickupDetails}. Pickup details of a delivery option: the
+     * pickup mode and the pickup location.
+     */
+    "pickup"?: DeliveryPickupDetails;
+    /**
+     * Shape $ (Value): {@link DeliveryShipmentDetails}. Shipment-specific details of a delivery
+     * option or choice: the `service_level` and buyer `instructions`.
+     */
+    "shipment"?: DeliveryShipmentDetails;
+    /** Shape $ (Value): string. */
+    "stable_key": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Always present with an API key or dashboard credential.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): string. IANA timezone for displaying window_start_at and window_end_at.
+     * Example: "America/New_York".
+     */
+    "timezone"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /** Shape $ (Value): string.  Value enum: "shipment", "pickup", "local_delivery". */
+    "type": "shipment" | "pickup" | "local_delivery" | (string & {});
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "window_end_at"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "window_start_at"?: string;
+};
+/**
+ * Shape $ (Value): {@link DeliverySelectionInstructionsRequest}. Buyer input for a selected
+ * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
+ * `instructions`.
+ */
+export type DeliverySelectionInstructionsRequest = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "delivery_window_id"?: string;
+    /**
+     * Shape $ (Value): string. Buyer instructions for the selected option, without leading or
+     * trailing whitespace. Send this field only when buyer_instructions.enabled is true. Omitted
+     * for a checkout session credential that doesn't act for the customer the buyer verified.
+     * minLength: 1. maxLength: 2000.
+     */
+    "instructions"?: string;
+};
+/**
+ * Shape $ (Value): {@link DeliverySelectionInstructionsRequestInput}. Buyer input for a selected
+ * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
+ * `instructions`.
+ */
+export type DeliverySelectionInstructionsRequestInput = DeliverySelectionInstructionsRequest;
+/**
+ * Shape $ (Value): {@link DeliverySelectionLifecycleEventResource}. A status change in a delivery
+ * selection's history, with the new `status`, the `reason`, and when it happened.
+ */
+export type DeliverySelectionLifecycleEventResource = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /** Shape $ (Value): string. */
+    "delivery_selection_id": string;
+    /** Shape $ (Value): string. */
+    "delivery_selection_lifecycle_event_id": string;
+    /**
+     * Shape $ (Value): string. Value enum: "replacement_selected", "buyer_selected",
+     * "payment_started", "payment_failed_selection_restored", "payment_settled",
+     * "payment_failed_selection_expired", "calculation_expired", "selection_expired",
+     * "selection_not_current", "dependency_revoked", "buyer_cleared",
+     * "eligibility_context_refreshed", "checkout_replaced", "checkout_terminal", "order_mutated",
+     * "quote_basis_changed", "calculation_changed".
+     */
+    "reason": "replacement_selected"
+        | "buyer_selected"
+        | "payment_started"
+        | "payment_failed_selection_restored"
+        | "payment_settled"
+        | "payment_failed_selection_expired"
+        | "calculation_expired"
+        | "selection_expired"
+        | "selection_not_current"
+        | "dependency_revoked"
+        | "buyer_cleared"
+        | "eligibility_context_refreshed"
+        | "checkout_replaced"
+        | "checkout_terminal"
+        | "order_mutated"
+        | "quote_basis_changed"
+        | "calculation_changed"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "selected", "locked_for_payment", "committed",
+     * "superseded", "expired", "released".
+     */
+    "status": "selected"
+        | "locked_for_payment"
+        | "committed"
+        | "superseded"
+        | "expired"
+        | "released"
+        | (string & {});
+};
+/**
+ * Shape $ (Value): {@link DeliverySelectionRecipientRequest}. Recipient details you supply with a
+ * delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
+ */
+export type DeliverySelectionRecipientRequest = {
+    /**
+     * Shape $ (Value): string or null. Recipient email address. Limited to 254 characters (Unicode
+     * code points), counted before surrounding whitespace is trimmed. When the selected delivery
+     * option requires it, payment needs it: send it with this selection or a later one. Send null
+     * to clear it. Format: email. minLength: 1. maxLength: 254.
+     */
+    "email"?: string | null;
+    /**
+     * Shape $ (Value): string or null. Recipient name. Limited to 200 characters (Unicode code
+     * points), counted before surrounding whitespace is trimmed. When the selected delivery option
+     * requires it, payment needs it: send it with this selection or a later one. Send null to
+     * clear it. minLength: 1. maxLength: 200.
+     */
+    "name"?: string | null;
+    /**
+     * Shape $ (Value): string or null. Recipient phone number. After surrounding whitespace is
+     * trimmed, use + followed by 7 through 15 ASCII digits, with a nonzero first digit. Limited to
+     * 16 characters (Unicode code points), counted before trimming. When the selected delivery
+     * option requires it, payment needs it: send it with this selection or a later one. Send null
+     * to clear it. minLength: 1. maxLength: 16.
+     */
+    "phone"?: string | null;
+};
 /**
  * Shape $ (Value): {@link DeliverySelectionRecipientRequestInput}. Recipient details you supply
  * with a delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
@@ -1103,7 +1443,7 @@ export type DemoSessionResponse = {
 };
 export type DemoSessionsCreateInput = {
     /** Shape $ (Value): string. */
-    "X-Turnstile-Token"?: InputValue<string>;
+    "Flint-Challenge-Token": InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
     /**
@@ -1114,7 +1454,7 @@ export type DemoSessionsCreateInput = {
 };
 export type DemoSessionsResetInput = {
     /** Shape $ (Value): string. */
-    "X-Turnstile-Token"?: InputValue<string>;
+    "Flint-Challenge-Token": InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
     /**
@@ -1185,6 +1525,17 @@ export type DeveloperCreatePartnerAppInput = {
      * app.
      */
     "body": InputValue<CreatePartnerAppRequestInput>;
+};
+export type DeveloperCreateSandboxAPIKeyInput = {
+    /** Shape $ (Value): string. */
+    "sandbox_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link IssueSandboxAPIKeyRequestInput}. The request body for: Issue sandbox
+     * test key.
+     */
+    "body": InputValue<IssueSandboxAPIKeyRequestInput>;
 };
 export type DeveloperCreateSandboxInput = {
     /** Shape $ (Value): string. maxLength: 255. */
@@ -1314,8 +1665,6 @@ export type DeveloperGetSandboxInput = {
 export type DeveloperInitialAPIKeyRequest = {
     /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
     "name": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sandbox_id"?: string;
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
     "scopes"?: Array<string>;
 };
@@ -1324,17 +1673,6 @@ export type DeveloperInitialAPIKeyRequest = {
  * onboarding API key.
  */
 export type DeveloperInitialAPIKeyRequestInput = DeveloperInitialAPIKeyRequest;
-export type DeveloperIssueSandboxTestKeyInput = {
-    /** Shape $ (Value): string. */
-    "sandbox_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link IssueSandboxAPIKeyRequestInput}. The request body for: Issue sandbox
-     * test key.
-     */
-    "body": InputValue<IssueSandboxAPIKeyRequestInput>;
-};
 export type DeveloperListCurrentAPIKeyRequestLogsInput = {
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
@@ -1375,40 +1713,41 @@ export type DeveloperListCurrentAPIKeyRequestLogsInput = {
      * "balance", "balance_transaction", "bundle", "bundle_component", "category",
      * "checkout_session", "checkout_session_customer_verification", "credit_note",
      * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "user", "webhook_delivery", "webhook_endpoint",
-     * "webhook_event", "workload_identity". Shape $[] (Value): string. Value enum: "api_key",
-     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
-     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
-     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_session", "customer_verification",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_install",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
+     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
+     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
+     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity". Shape $[]
+     * (Value): string. Value enum: "api_key", "api_request_log", "balance", "balance_transaction",
+     * "bundle", "bundle_component", "category", "checkout_session",
+     * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
+     * "custom_domain", "customer", "customer_address", "customer_deletion_request",
+     * "customer_email_preferences", "customer_session", "customer_verification",
      * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
      * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
      * "delivery_zone", "device", "discount", "dispute", "email_change_request",
@@ -1454,6 +1793,7 @@ export type DeveloperListCurrentAPIKeyRequestLogsInput = {
         | "customer"
         | "customer_address"
         | "customer_deletion_request"
+        | "customer_email_preferences"
         | "customer_session"
         | "customer_verification"
         | "delivery_location_set"
@@ -1600,59 +1940,4 @@ export type DeveloperListPartnerAppInstallsInput = {
      * "revoked". Shape $[] (Value): string. Value enum: "pending_exchange", "active", "revoked".
      */
     "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-};
-export type DeveloperListPartnerAppsInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "archived". Shape $[]
-     * (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<Array<"active" | "archived">>;
-};
-export type DeveloperListPartnerInstallsInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "partner_app_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "pending_exchange", "active",
-     * "revoked". Shape $[] (Value): string. Value enum: "pending_exchange", "active", "revoked".
-     */
-    "status"?: InputValue<Array<"pending_exchange" | "active" | "revoked">>;
-};
-export type DeveloperListSandboxesInput = DeveloperListPartnerAppsInput;
-export type DeveloperResetSandboxInput = DeveloperDeleteSandboxInput;
-export type DeveloperRevokePartnerAppInstallInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "partner_app_install_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeveloperRevokePartnerEnvironmentGrantInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "partner_app_install_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "environment_grant_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type DeveloperRotatePartnerAppSecretInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link RotatePartnerAppSecretRequestInput}. The request body for: Rotate
-     * partner app secret.
-     */
-    "body"?: InputValue<RotatePartnerAppSecretRequestInput>;
 };

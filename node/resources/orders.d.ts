@@ -7,16 +7,11 @@ import type {
     ApplyDiscountRequestInput,
     ApplyOrderGiftCardRequestInput
 } from '../declarations/types-0.js';
-import type {
-    CancelOrderPaymentAttemptRequestInput,
-    CancelOrderPaymentRequestInput,
-    CaptureOrderPaymentRequestInput
-} from '../declarations/types-3.js';
+import type { CancelOrderPaymentAttemptRequestInput } from '../declarations/types-3.js';
 import type { ClientOptions, CloseOrderRequestInput } from '../declarations/types-4.js';
 import type { CreateFulfillmentRequestInput } from '../declarations/types-6.js';
 import type { CreateOrderPaymentIntentRequestInput, CreateOrderRequestInput } from '../declarations/types-7.js';
-import type { DeliverySelection } from '../declarations/types-14.js';
-import type { DeliverySelectionResponse } from '../declarations/types-15.js';
+import type { DeliverySelection, DeliverySelectionResponse } from '../declarations/types-15.js';
 import type { Fulfillment, FulfillmentResponse } from '../declarations/types-17.js';
 import type {
     Order,
@@ -25,9 +20,7 @@ import type {
     OrderListResponse,
     OrderPaymentAttempt,
     OrderPaymentAttemptListResponse,
-    OrderPaymentAttemptResponse,
-    OrderPaymentLifecycleResponse,
-    OrderPaymentLifecycleResult
+    OrderPaymentAttemptResponse
 } from '../declarations/types-32.js';
 import type {
     OrderResponse,
@@ -36,8 +29,6 @@ import type {
     OrdersApplyDiscountInput,
     OrdersApplyGiftCardInput,
     OrdersCancelPaymentAttemptInput,
-    OrdersCancelPaymentInput,
-    OrdersCapturePaymentInput,
     OrdersCloseSessionInput,
     OrdersCreateAccessLinkInput,
     OrdersCreateFulfillmentInput,
@@ -57,17 +48,15 @@ import type {
     OrdersRemoveGiftCardInput,
     OrdersRepriceDiscountsInput,
     OrdersResolveInventoryExceptionInput,
-    OrdersSendReceiptInput,
-    OrdersUpdateChargeInput
+    OrdersSendReceiptInput
 } from '../declarations/types-33.js';
-import type { OrdersUpdateInput, OrdersUpdateLineItemInput } from '../declarations/types-34.js';
+import type { OrdersUpdateChargeInput, OrdersUpdateInput, OrdersUpdateLineItemInput } from '../declarations/types-34.js';
 import type { PayOrderResponse, PayOrderResult, PaymentIntentWithCollection } from '../declarations/types-35.js';
 import type { RemoveDiscountsRequestInput } from '../declarations/types-39.js';
 import type { RepriceDiscountsRequestInput, RequestOptions, ResolveOrderInventoryExceptionRequestInput } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { SendOrderReceiptRequestInput } from '../declarations/types-44.js';
+import type { SdkResponse, SendOrderReceiptRequestInput } from '../declarations/types-44.js';
 import type { UpdateLineItemRequestInput, UpdateOrderChargeRequestInput, UpdateOrderRequestInput } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -103,8 +92,6 @@ export type {
 } from '../declarations/types-40.js';
 export type {
     Order,
-    OrderPaymentLifecycleResult,
-    OrderPaymentLifecycleResponse,
     OrderPaymentAttempt,
     OrderPaymentAttemptResponse,
     OrderActivityListResponse,
@@ -146,24 +133,36 @@ export type {
     OrderCalculatedChargeTaxInput,
     OrderPaymentAttemptPaymentMethodSave,
     OrderGiftCardAllocationAcceptanceInput,
-    OrderPaymentIntentSelectionInput,
     OrderChargeTaxAssignmentInput,
     OrderLineItemTaxAssignmentInput,
     OrderCalculatedLineItemTaxInput,
     OrderDeliveryDestinationAddressRequest,
-    OrderDeliveryDestinationRecipientRequest,
-    OrderPaymentSourceCardSelection
+    OrderDeliveryDestinationRecipientRequest
 } from '../declarations/types-32.js';
-export type { SdkResponse, SelectedProductOption, SelectableOrderPaymentIntent, SendOrderReceiptRequest } from '../declarations/types-43.js';
+export type {
+    SdkResponse,
+    SendOrderReceiptRequestInput,
+    SelectedProductOption,
+    SubscribedLine,
+    SelectableOrderPaymentIntent,
+    SettlementAmounts,
+    SinglePackageCreateRequestInput,
+    SinglePackageCreateInputCreatedInput,
+    SinglePackageCreateInputShippedInput,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails,
+    SubscribedLineRequestInput,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    SendOrderReceiptRequest
+} from '../declarations/types-44.js';
 export type {
     OrderResponse,
     OrdersCreatePaymentIntentResponse,
     OrdersPayInput,
     OrdersApplyDiscountInput,
     OrdersApplyGiftCardInput,
-    OrdersCancelPaymentInput,
     OrdersCancelPaymentAttemptInput,
-    OrdersCapturePaymentInput,
     OrdersCloseSessionInput,
     OrdersCreateFulfillmentInput,
     OrdersCreateInput,
@@ -184,7 +183,6 @@ export type {
     OrdersRepriceDiscountsInput,
     OrdersResolveInventoryExceptionInput,
     OrdersSendReceiptInput,
-    OrdersUpdateChargeInput,
     OrderReturnCreditSettlement,
     OrderTax,
     OrderTaxExemption,
@@ -204,12 +202,12 @@ export type {
     OrderTaxLocationInputInferredFullAddressInput,
     OrderPaymentSourceSelectionInput,
     OrderPaymentSourceCardSelectionInput,
-    OrderTaxUpdateRequestInput
+    OrderPaymentIntentSelectionInput,
+    OrderTaxUpdateRequestInput,
+    OrderPaymentSourceCardSelection
 } from '../declarations/types-33.js';
 export type {
-    CancelOrderPaymentRequestInput,
     CancelOrderPaymentAttemptRequestInput,
-    CaptureOrderPaymentRequestInput,
     CheckoutBuyerContact,
     CategoryReference,
     CheckoutBuyerContactRequestInput,
@@ -250,6 +248,8 @@ export type {
 export type {
     Fulfillment,
     FulfillmentResponse,
+    ExpandedSubscriptionSummary,
+    ExpandedSubscriptionPlanSummary,
     FulfillmentLineItemRequestInput,
     FulfillmentRecipientRequestInput,
     FulfillmentPackagingRequestInput,
@@ -257,7 +257,8 @@ export type {
     FulfillmentChargeLink,
     FulfillmentLineItem,
     FulfillmentOutcome,
-    FulfillmentRecipient
+    FulfillmentRecipient,
+    ExpandedShipmentSummary
 } from '../declarations/types-17.js';
 export type {
     CreateOrderRequestInput,
@@ -266,31 +267,19 @@ export type {
     CreateOrderLineItemRequestInput,
     CreateOrderTipInput
 } from '../declarations/types-7.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight, WeightInput } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type {
     DeliverySelection,
+    DeliverySelectionResponse,
     DeliverySelectionChoiceResource,
     DeliverySelectionInstructionsRequest,
-    DeliverySelectionLifecycleEventResource,
-    DeliveryRecipientResource
-} from '../declarations/types-14.js';
-export type { DeliverySelectionResponse, DeliveryShipmentDetails, DeliveryWindowRequest } from '../declarations/types-15.js';
+    DeliveryShipmentDetails,
+    DeliveryWindowRequest,
+    DeliverySelectionLifecycleEventResource
+} from '../declarations/types-15.js';
 export type { RemoveDiscountsRequestInput, PurchasedGiftCard } from '../declarations/types-39.js';
-export type {
-    SendOrderReceiptRequestInput,
-    SubscribedLine,
-    SettlementAmounts,
-    SinglePackageCreateRequestInput,
-    SinglePackageCreateInputCreatedInput,
-    SinglePackageCreateInputShippedInput,
-    ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails,
-    SubscribedLineRequestInput,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction
-} from '../declarations/types-44.js';
 export type { UpdateOrderRequestInput, UpdateOrderChargeRequestInput, UpdateLineItemRequestInput } from '../declarations/types-48.js';
-export type { OrdersUpdateInput, OrdersUpdateLineItemInput } from '../declarations/types-34.js';
+export type { OrdersUpdateInput, OrdersUpdateChargeInput, OrdersUpdateLineItemInput } from '../declarations/types-34.js';
 export type { ManualDiscountRequestInput, LocationCoordinate, MeGetOrderInput } from '../declarations/types-29.js';
 export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { PromotionRefRequestInput } from '../declarations/types-38.js';
@@ -307,14 +296,11 @@ export type {
     Dimensions,
     ErrorRemediation,
     ExpandedPaymentIntentSummary,
-    ExpandedSubscriptionSummary,
-    ExpandedSubscriptionPlanSummary,
-    ExpandedInvoiceSummary,
-    ExpandedOrderSummary,
     DimensionsInput,
     DigitalFulfillmentDetails,
+    ExpandedOrderSummary,
     ExpandedPackageSummary,
-    ExpandedShipmentSummary
+    ExpandedInvoiceSummary
 } from '../declarations/types-16.js';
 export type { InventoryRoutingSource } from '../declarations/types-25.js';
 export type {
@@ -324,9 +310,7 @@ export type {
     Image,
     GiftCardPurchaseDetailsRequestInput,
     GiftCardPurchaseRecipientRequestInput,
-    ImageReferenceRequestInput,
-    GiftCardPurchaseRecipientPatchRequestInput,
-    ImageReferenceRequest
+    GiftCardPurchaseRecipientPatchRequestInput
 } from '../declarations/types-19.js';
 export type { GiftCardCustomAmountBounds } from '../declarations/types-18.js';
 export type {
@@ -337,24 +321,23 @@ export type {
 } from '../declarations/types-28.js';
 export type {
     TextModifierRequest,
-    TicketedEvent,
-    Tip,
-    TipPaymentIntentAllocation,
-    TipValueSettlementAllocation,
-    TextModifierRequestInput
-} from '../declarations/types-47.js';
-export type { SubscriptionIntervalOption, SubscriptionPlanLineItem, SubscriptionPlanSwapVariant } from '../declarations/types-45.js';
-export type {
     TaxCalculationRequest,
     TaxComponentRequest,
     TaxJurisdiction,
     TaxBreakdown,
     TaxBreakdownPercentage,
     TaxBreakdownFlatAmount,
+    TicketedEvent,
+    Tip,
+    TipPaymentIntentAllocation,
+    TipValueSettlementAllocation,
+    TextModifierRequestInput,
     TaxCalculationRequestInput,
     TaxComponentRequestInput,
     TaxJurisdictionInput
-} from '../declarations/types-46.js';
+} from '../declarations/types-47.js';
+export type { SubscriptionIntervalOption } from '../declarations/types-45.js';
+export type { Weight, WeightInput } from '../declarations/types-61.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
@@ -370,39 +353,38 @@ export type {
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject
 } from '../declarations/types-37.js';
+export type { SubscriptionPlanLineItem, SubscriptionPlanSwapVariant } from '../declarations/types-46.js';
 export type { CreateDeliveryFulfillmentDetailsInput } from '../declarations/types-5.js';
 export type { CreatePickupFulfillmentDetailsInput } from '../declarations/types-8.js';
 export type {
     DeliveryFulfillmentDetails,
+    DeliveryPlan,
+    DeliveryPickupDetails,
+    DeliveryLocationSummaryResource,
+    DeliveryInputRequirement,
+    DeliveryInputConstraint
+} from '../declarations/types-12.js';
+export type { ImageReferenceRequestInput, ImageReferenceRequest } from '../declarations/types-20.js';
+export type {
     DeliveryBuyerLocationRequest,
     DeliveryAddressRequest,
     DeliveryBuyerLocationInputAddress,
     DeliveryBuyerLocationInputCoordinate
 } from '../declarations/types-11.js';
-export type {
-    DeliveryPlan,
-    DeliveryPickupDetails,
-    DeliveryLocationSummaryResource,
-    DeliveryInputRequirement,
-    DeliveryInputConstraint,
-    DeliveryPreviewRoutingSourceInput
-} from '../declarations/types-12.js';
+export type { DeliveryRecipientResource } from '../declarations/types-14.js';
 export type { MeListOrderActivitiesInput } from '../declarations/types-30.js';
+export type { DeliveryPreviewRoutingSourceInput } from '../declarations/types-13.js';
 export {
     makeAddLineItemsRequest,
     makeAddOrderChargeRequest,
     makeAddressRequest,
     makeApplyDiscountRequest,
-    makeApplyOrderGiftCardRequest
-} from '../declarations/types-61.js';
-export {
+    makeApplyOrderGiftCardRequest,
     makeCancelOrderPaymentAttemptRequest,
-    makeCancelOrderPaymentRequest,
-    makeCaptureOrderPaymentRequest,
-    makeCheckoutBuyerContactRequest,
-    makeCloseOrderRequest
+    makeCheckoutBuyerContactRequest
 } from '../declarations/types-62.js';
 export {
+    makeCloseOrderRequest,
     makeCreateDeliveryFulfillmentDetails,
     makeCreateDigitalFulfillmentDetails,
     makeCreateFulfillmentRequest,
@@ -418,28 +400,28 @@ export {
     makeCreateOrderPaymentIntentRequest,
     makeCreateOrderRequest,
     makeCreateOrderTip,
-    makeCreatePickupFulfillmentDetails,
-    makeCreateServiceFulfillmentDetails
+    makeCreatePickupFulfillmentDetails
 } from '../declarations/types-64.js';
 export {
+    makeCreateServiceFulfillmentDetails,
     makeDeliveryAddressRequest,
     makeDeliveryBuyerLocationInputAddress,
     makeDeliveryBuyerLocationInputCoordinate,
-    makeDeliveryBuyerLocationRequest,
-    makeDeliveryPreviewRoutingSource
+    makeDeliveryBuyerLocationRequest
 } from '../declarations/types-65.js';
 export {
+    makeDeliveryPreviewRoutingSource,
     makeDeliverySelectionInstructionsRequest,
     makeDeliveryWindowRequest,
     makeDimensions,
     makeFulfillmentLineItemRequest,
     makeFulfillmentPackagingRequest,
-    makeFulfillmentRecipientRequest,
-    makeGiftCardCustomAmountBounds,
-    makeGiftCardProductConfiguration,
-    makeGiftCardPurchaseDetailsRequest
+    makeFulfillmentRecipientRequest
 } from '../declarations/types-66.js';
 export {
+    makeGiftCardCustomAmountBounds,
+    makeGiftCardProductConfiguration,
+    makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientPatchRequest,
     makeGiftCardPurchaseRecipientRequest,
     makeImageReferenceRequest
@@ -450,7 +432,9 @@ export {
     makeLocationCoordinate,
     makeManualDiscountRequest,
     makeMoneyValue,
-    makeOrderCalculatedChargeTax,
+    makeOrderCalculatedChargeTax
+} from '../declarations/types-68.js';
+export {
     makeOrderCalculatedLineItemTax,
     makeOrderChargeRequest,
     makeOrderChargeTaxAssignment,
@@ -475,9 +459,7 @@ export {
     makeOrderTaxCalculationRequest,
     makeOrderTaxComponentRequest,
     makeOrderTaxJurisdictionRequest,
-    makeOrderTaxLocationFullAddressRequest
-} from '../declarations/types-68.js';
-export {
+    makeOrderTaxLocationFullAddressRequest,
     makeOrderTaxLocationInputFullAddress,
     makeOrderTaxLocationInputInferredFullAddress,
     makeOrderTaxLocationInputInferredPostalCode,
@@ -486,15 +468,15 @@ export {
     makeOrderTaxLocationRequest,
     makeOrderTaxRequest,
     makeOrderTaxUpdateRequest,
-    makePaymentSourceCredential,
     makePayOrderRequest,
     makePayOrderRequestConfirmPaymentIntents,
     makePayOrderRequestPay,
     makePayOrderRequestResume,
-    makePayOrderRequestSetup,
-    makePromotionRefRequest
+    makePayOrderRequestSetup
 } from '../declarations/types-69.js';
 export {
+    makePaymentSourceCredential,
+    makePromotionRefRequest,
     makeRemoveDiscountsRequest,
     makeRepriceDiscountsRequest,
     makeResolveOrderInventoryExceptionRequest
@@ -504,15 +486,17 @@ export {
     makeSinglePackageCreateInputCreated,
     makeSinglePackageCreateInputShipped,
     makeSinglePackageCreateRequest,
-    makeSubscribedLineRequest,
+    makeSubscribedLineRequest
+} from '../declarations/types-71.js';
+export {
     makeSubscriptionIntervalOption,
     makeTaxCalculationRequest,
     makeTaxComponentRequest,
     makeTaxJurisdiction,
-    makeTextModifierRequest
-} from '../declarations/types-71.js';
-export { makeUpdateLineItemRequest, makeUpdateOrderChargeRequest, makeUpdateOrderRequest } from '../declarations/types-72.js';
-export { makeWeight } from '../declarations/types-73.js';
+    makeTextModifierRequest,
+    makeUpdateLineItemRequest
+} from '../declarations/types-72.js';
+export { makeUpdateOrderChargeRequest, makeUpdateOrderRequest, makeWeight } from '../declarations/types-73.js';
 export interface OrdersResource {
     /**
  * Applies a promotion-backed or manual discount to an order. Checkout-authenticated buyers must
@@ -527,13 +511,13 @@ export interface OrdersResource {
  */
     applyDiscount(order_id: InputValue<string>, params: (InputValue<ApplyDiscountRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersapplydiscount
      */
     applyDiscountWithResponse(order_id: InputValue<string>, params: (InputValue<ApplyDiscountRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Selects a gift card by its current code and returns masked selections and an unreserved
  * estimate. No value is held or debited. Optional expected_version must match the order version
@@ -551,7 +535,7 @@ export interface OrdersResource {
         & {
         "Flint-Gift-Card-Challenge"?: InputValue<string>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersapplygiftcard
      */
@@ -559,38 +543,7 @@ export interface OrdersResource {
         & {
         "Flint-Gift-Card-Challenge"?: InputValue<string>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
-    /**
- * Cancels an unsettled order-owned payment leg. A leg in an active payment attempt requires the
- * matching order_payment_attempt_id. Canceling an authorization releases the payment lock and
- * attempt-owned holds; a staged or declined leg with no active attempt can be canceled without an
- * attempt ID.
- * @see reference/orders.md#orderscancelpayment
- * POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/cancel
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.orders.cancelPayment("example", "example", undefined, { idempotencyKey: idempotencyKey })
- */
-    cancelPayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<CancelOrderPaymentRequestInput>
-        | {
-        "cancellation_reason"?: never;
-        "order_payment_attempt_id"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<OrderPaymentLifecycleResult>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/orders.md#orderscancelpayment
-     */
-    cancelPaymentWithResponse(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<CancelOrderPaymentRequestInput>
-        | {
-        "cancellation_reason"?: never;
-        "order_payment_attempt_id"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderPaymentLifecycleResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Cancels an active order payment attempt, its unsettled payment legs, and its attempt-owned holds.
  * @see reference/orders.md#orderscancelpaymentattempt
@@ -606,7 +559,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<PayOrderResult>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<PayOrderResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderscancelpaymentattempt
      */
@@ -615,35 +568,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<PayOrderResponse>>;
-    /**
- * Captures an active payment authorization for an order and updates the order payment lifecycle.
- * @see reference/orders.md#orderscapturepayment
- * POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/capture
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.orders.capturePayment("example", "example", undefined, { idempotencyKey: idempotencyKey })
- */
-    capturePayment(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<CaptureOrderPaymentRequestInput>
-        | {
-        "amount_money"?: never;
-        "order_payment_attempt_id"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<OrderPaymentLifecycleResult>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/orders.md#orderscapturepayment
-     */
-    capturePaymentWithResponse(order_id: InputValue<string>, payment_intent_id: InputValue<string>, params?: (InputValue<CaptureOrderPaymentRequestInput>
-        | {
-        "amount_money"?: never;
-        "order_payment_attempt_id"?: never;
-    })
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderPaymentLifecycleResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<PayOrderResponse>>;
     /**
  * Closes an open order and stops further payment. Cancels pending discounts, releases their
  * reservations, and recalculates totals; canceled discounts remain visible with status: "canceled"
@@ -669,7 +594,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersclosesession
      */
@@ -681,7 +606,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Creates a fulfillment for the specified quantities on a paid order. Use this when you manage
  * fulfillment outside checkout; checkout creates fulfillments for the buyer's delivery selections.
@@ -698,14 +623,14 @@ export interface OrdersResource {
     createFulfillment(order_id: InputValue<string>, params: (InputValue<CreateFulfillmentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Fulfillment>;
+    }, options?: RequestOptions<"merchant">): Promise<Fulfillment>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderscreatefulfillment
      */
     createFulfillmentWithResponse(order_id: InputValue<string>, params: (InputValue<CreateFulfillmentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<FulfillmentResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<FulfillmentResponse>>;
     /**
  * Creates an order for the authenticated merchant. For USD orders, an effective requested tip may
  * be up to the larger of $1,000 or 100% of the post-discount merchandise subtotal.
@@ -718,13 +643,13 @@ export interface OrdersResource {
  */
     create(params: (InputValue<CreateOrderRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderscreate
      */
     createWithResponse(params: (InputValue<CreateOrderRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Creates the link Flint's receipt email carries, to put in buyer email or messages you send
  * yourself. It opens the order in your Flint-hosted customer account without a sign-in, and lets
@@ -748,13 +673,13 @@ export interface OrdersResource {
  */
     createAccessLink(order_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<AccessLink>;
+    }, options?: RequestOptions<"merchant">): Promise<AccessLink>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderscreateaccesslink
      */
     createAccessLinkWithResponse(order_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<AccessLinkResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<AccessLinkResponse>>;
     /**
  * Adds a service charge, fee, or surcharge to an order.
  * @see reference/orders.md#ordersaddcharge
@@ -767,13 +692,13 @@ export interface OrdersResource {
  */
     addCharge(order_id: InputValue<string>, params: (InputValue<AddOrderChargeRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersaddcharge
      */
     addChargeWithResponse(order_id: InputValue<string>, params: (InputValue<AddOrderChargeRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Adds one or more line items to an order.
  * @see reference/orders.md#ordersaddlineitems
@@ -786,13 +711,13 @@ export interface OrdersResource {
  */
     addLineItems(order_id: InputValue<string>, params: (InputValue<AddLineItemsRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersaddlineitems
      */
     addLineItemsWithResponse(order_id: InputValue<string>, params: (InputValue<AddLineItemsRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Creates a payment intent owned by the order. Collect a payment source using payment_collection,
  * then submit that source through payOrder. This route requires commerce.orders.write; standalone
@@ -807,7 +732,7 @@ export interface OrdersResource {
     createPaymentIntent(order_id: InputValue<string>, params: (InputValue<CreateOrderPaymentIntentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<({
+    }, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<({
         "payment_collection": unknown;
     })
         & (Exclude<PaymentIntentWithCollection & object, readonly unknown[]>)>;
@@ -817,7 +742,7 @@ export interface OrdersResource {
     createPaymentIntentWithResponse(order_id: InputValue<string>, params: (InputValue<CreateOrderPaymentIntentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<OrdersCreatePaymentIntentResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<SdkResponse<OrdersCreatePaymentIntentResponse>>;
     /**
  * Removes a single service charge, fee, or surcharge from an order.
  * @see reference/orders.md#ordersdeletecharge
@@ -830,14 +755,14 @@ export interface OrdersResource {
     deleteCharge(order_id: InputValue<string>, order_charge_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersdeletecharge
      */
     deleteChargeWithResponse(order_id: InputValue<string>, order_charge_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Removes a single line item from an order.
  * @see reference/orders.md#ordersdeletelineitem
@@ -850,14 +775,14 @@ export interface OrdersResource {
     deleteLineItem(order_id: InputValue<string>, order_line_item_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersdeletelineitem
      */
     deleteLineItemWithResponse(order_id: InputValue<string>, order_line_item_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Returns a single order by ID.
  * @see reference/orders.md#ordersget
@@ -872,7 +797,7 @@ export interface OrdersResource {
             | "payment_intents"
             | "subscription"
             | "subscription_plan">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<Order>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersget
      */
@@ -883,7 +808,7 @@ export interface OrdersResource {
             | "payment_intents"
             | "subscription"
             | "subscription_plan">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<OrderResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<SdkResponse<OrderResponse>>;
     /**
  * Returns the delivery selection committed to an order.
  * @see reference/orders.md#ordersgetcurrentdeliveryselection
@@ -891,11 +816,11 @@ export interface OrdersResource {
  * @example
  * client.orders.getCurrentDeliverySelection("example")
  */
-    getCurrentDeliverySelection(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliverySelection>;
+    getCurrentDeliverySelection(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliverySelection>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersgetcurrentdeliveryselection
      */
-    getCurrentDeliverySelectionWithResponse(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliverySelectionResponse>>;
+    getCurrentDeliverySelectionWithResponse(order_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliverySelectionResponse>>;
     /**
  * Returns one durable payment attempt for the order. Checkout-session callers can read only
  * attempts created by their own session.
@@ -904,11 +829,11 @@ export interface OrdersResource {
  * @example
  * client.orders.getPaymentAttempt("example", "example")
  */
-    getPaymentAttempt(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<OrderPaymentAttempt>;
+    getPaymentAttempt(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<OrderPaymentAttempt>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersgetpaymentattempt
      */
-    getPaymentAttemptWithResponse(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<OrderPaymentAttemptResponse>>;
+    getPaymentAttemptWithResponse(order_id: InputValue<string>, order_payment_attempt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<SdkResponse<OrderPaymentAttemptResponse>>;
     /**
  * Returns a read-only, human-readable history log for an order. Use it to render timelines and
  * debug what happened, not as a source of truth, ledger, or webhook replacement. Read the owning
@@ -955,7 +880,7 @@ export interface OrdersResource {
             | "fulfillment_created"
             | "fulfillment_updated"
             | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrderActivityListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<OrderActivityListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderslistactivities
      */
@@ -990,7 +915,7 @@ export interface OrdersResource {
             | "fulfillment_created"
             | "fulfillment_updated"
             | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrderActivityListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<OrderActivityListResponse>>;
     /** Iterate pages lazily.
      * @see reference/orders.md#orderslistactivities
      */
@@ -1025,7 +950,7 @@ export interface OrdersResource {
             | "fulfillment_created"
             | "fulfillment_updated"
             | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrderActivityListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<OrderActivityListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/orders.md#orderslistactivities
      */
@@ -1060,7 +985,7 @@ export interface OrdersResource {
             | "fulfillment_created"
             | "fulfillment_updated"
             | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrderActivityListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<OrderActivityListResponse>>;
     /** Iterate items lazily.
      * @see reference/orders.md#orderslistactivities
      */
@@ -1095,47 +1020,53 @@ export interface OrdersResource {
             | "fulfillment_created"
             | "fulfillment_updated"
             | "fulfillment_state_changed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrderActivity>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<OrderActivity>;
     /**
  * Returns payment attempts for the order, newest first. Checkout-session callers see only attempts
- * created by their own session.
+ * created by their own session. A list filtered by idempotency_key omits pending_actions; read the
+ * attempt by ID to get them.
  * @see reference/orders.md#orderslistpaymentattempts
  * GET /v1/orders/{order_id}/payment-attempts
  * @example
  * client.orders.listPaymentAttempts("example")
  */
     listPaymentAttempts(order_id: InputValue<string>, params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<OrderPaymentAttemptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<OrderPaymentAttemptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderslistpaymentattempts
      */
     listPaymentAttemptsWithResponse(order_id: InputValue<string>, params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<OrderPaymentAttemptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<SdkResponse<OrderPaymentAttemptListResponse>>;
     /** Iterate pages lazily.
      * @see reference/orders.md#orderslistpaymentattempts
      */
     listPaymentAttemptsPages(order_id: InputValue<string>, params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<OrderPaymentAttemptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): AsyncGenerator<OrderPaymentAttemptListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/orders.md#orderslistpaymentattempts
      */
     listPaymentAttemptsPagesWithResponse(order_id: InputValue<string>, params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrderPaymentAttemptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): AsyncGenerator<SdkResponse<OrderPaymentAttemptListResponse>>;
     /** Iterate items lazily.
      * @see reference/orders.md#orderslistpaymentattempts
      */
     listPaymentAttemptsItems(order_id: InputValue<string>, params?: {
+        "idempotency_key"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<OrderPaymentAttempt>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>): AsyncGenerator<OrderPaymentAttempt>;
     /**
  * Returns a paginated list of orders for the authenticated merchant.
  * @see reference/orders.md#orderslist
@@ -1180,7 +1111,7 @@ export interface OrdersResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "subscription" | "subscription_plan">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrderListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<OrderListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderslist
      */
@@ -1221,7 +1152,7 @@ export interface OrdersResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "subscription" | "subscription_plan">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrderListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<OrderListResponse>>;
     /** Iterate pages lazily.
      * @see reference/orders.md#orderslist
      */
@@ -1262,7 +1193,7 @@ export interface OrdersResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "subscription" | "subscription_plan">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrderListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<OrderListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/orders.md#orderslist
      */
@@ -1303,7 +1234,7 @@ export interface OrdersResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "subscription" | "subscription_plan">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrderListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<OrderListResponse>>;
     /** Iterate items lazily.
      * @see reference/orders.md#orderslist
      */
@@ -1344,7 +1275,7 @@ export interface OrdersResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"customer" | "subscription" | "subscription_plan">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Order>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Order>;
     /**
  * Starts or resumes a payment attempt on the order. Set action to pay to charge the full
  * outstanding balance, confirm_payment_intents to confirm order-owned payment intents, setup to
@@ -1369,11 +1300,11 @@ export interface OrdersResource {
  * client.orders.pay({order_id: "example", body: {action: "pay"}}, { idempotencyKey: idempotencyKey
  * })
  */
-    pay(input: OrdersPayInput, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<PayOrderResult>;
+    pay(input: OrdersPayInput, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<PayOrderResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderspay
      */
-    payWithResponse(input: OrdersPayInput, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<PayOrderResponse>>;
+    payWithResponse(input: OrdersPayInput, options: _SdkRequiredIdempotency<RequestOptions<"checkout" | "merchant">>): Promise<SdkResponse<PayOrderResponse>>;
     /**
  * Removes one or more pending applied discounts from an order. Redeemed or canceled discounts are
  * settlement history and cannot be removed.
@@ -1387,13 +1318,13 @@ export interface OrdersResource {
  */
     removeDiscounts(order_id: InputValue<string>, params: (InputValue<RemoveDiscountsRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersremovediscounts
      */
     removeDiscountsWithResponse(order_id: InputValue<string>, params: (InputValue<RemoveDiscountsRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Removes a selected gift card without moving value. The expected_version must still match the
  * order version. Selections cannot change during an active payment attempt. Retry a lost response
@@ -1409,14 +1340,14 @@ export interface OrdersResource {
     removeGiftCard(order_id: InputValue<string>, gift_card_id: InputValue<string>, params: {
         "expected_version": InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersremovegiftcard
      */
     removeGiftCardWithResponse(order_id: InputValue<string>, gift_card_id: InputValue<string>, params: {
         "expected_version": InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Recalculates pending discounts and automatic promotions for a mutable order. The request body is
  * optional. Send expected_version to reject a mutation based on an outdated order read.
@@ -1432,7 +1363,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersrepricediscounts
      */
@@ -1441,7 +1372,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Marks a paid inventory failure as resolved after an operator has completed manual inventory
  * remediation.
@@ -1457,7 +1388,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersresolveinventoryexception
      */
@@ -1466,7 +1397,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Queues a receipt for a paid order, including gift card payments and settled payments, and
  * returns the order unchanged. Send email to choose a recipient, or omit it to use the order's
@@ -1488,7 +1419,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#orderssendreceipt
      */
@@ -1497,7 +1428,7 @@ export interface OrdersResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Applies a sparse update to mutable order fields such as customer_id, notes, metadata, tax, the
  * delivery destination, and the requested tip. A request containing only metadata, internal_note,
@@ -1524,13 +1455,13 @@ export interface OrdersResource {
  */
     update(order_id: InputValue<string>, params: (InputValue<UpdateOrderRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersupdate
      */
     updateWithResponse(order_id: InputValue<string>, params: (InputValue<UpdateOrderRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Updates a single service charge, fee, or surcharge on an order.
  * @see reference/orders.md#ordersupdatecharge
@@ -1543,14 +1474,14 @@ export interface OrdersResource {
     updateCharge(order_id: InputValue<string>, order_charge_id: InputValue<string>, params: (InputValue<UpdateOrderChargeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersupdatecharge
      */
     updateChargeWithResponse(order_id: InputValue<string>, order_charge_id: InputValue<string>, params: (InputValue<UpdateOrderChargeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrderResponse>>;
     /**
  * Updates a single line item on an order. expected_version is the order version returned in
  * data.version. Send gift_card_recipient and expected_version to replace or clear recipient
@@ -1566,13 +1497,13 @@ export interface OrdersResource {
  */
     updateLineItem(order_id: InputValue<string>, order_line_item_id: InputValue<string>, params: (InputValue<UpdateLineItemRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<Order>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<Order>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/orders.md#ordersupdatelineitem
      */
     updateLineItemWithResponse(order_id: InputValue<string>, order_line_item_id: InputValue<string>, params: (InputValue<UpdateLineItemRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"checkout" | "merchant" | "merchantKey">): Promise<SdkResponse<OrderResponse>>;
+    }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<OrderResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

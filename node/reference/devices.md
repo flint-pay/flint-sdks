@@ -8,14 +8,7 @@ Creates a device. If an active device already has the hardware_fingerprint, retu
 
 `POST /v1/devices`
 
-Signature:
-
-```typescript
-create(params: (InputValue<CreateDeviceRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "merchantKey">)
-```
+Signature: `create(params: (InputValue<CreateDeviceRequestInput>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
@@ -60,7 +53,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -79,7 +72,7 @@ Returns a single device by ID.
 
 `GET /v1/devices/{device_id}`
 
-Signature: `get(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -112,7 +105,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -140,7 +133,7 @@ list(params?: {
   "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
   "sort_direction"?: InputValue<"asc" | "desc">
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -179,7 +172,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -205,7 +198,7 @@ remove(device_id: InputValue<string>,
   "expected_version"?: InputValue<`${bigint}` | bigint>;
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -244,7 +237,7 @@ Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -270,7 +263,7 @@ update(device_id: InputValue<string>,
  params: (InputValue<UpdateDeviceRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -317,7 +310,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

@@ -15,7 +15,7 @@ cancel(return_resolution_id: InputValue<string>,
  params: (InputValue<CancelReturnResolutionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -62,7 +62,7 @@ Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -88,7 +88,7 @@ confirm(return_resolution_id: InputValue<string>,
  params: (InputValue<ConfirmReturnResolutionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -137,7 +137,7 @@ Complete body and metadata: `confirmWithResponse`. See [response modes](../RUNTI
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -163,7 +163,7 @@ get(return_resolution_id: InputValue<string>,
  params?: {
   "expand"?: InputValue<Array<"payment_intents" | "refunds" | "replacement_order">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -198,7 +198,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -228,7 +228,7 @@ getOrCreateCheckoutSession(return_resolution_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -266,7 +266,7 @@ Complete body and metadata: `getOrCreateCheckoutSessionWithResponse`. See [respo
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -316,7 +316,7 @@ list(params?: {
   "updated_before"?: InputValue<string | globalThis.Date>;
   "expand"?: InputValue<Array<"replacement_order">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -365,7 +365,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -390,7 +390,7 @@ release(return_resolution_id: InputValue<string>,
  params: (InputValue<ReleaseReturnResolutionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -437,7 +437,7 @@ Complete body and metadata: `releaseWithResponse`. See [response modes](../RUNTI
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -463,7 +463,7 @@ retry(return_resolution_id: InputValue<string>,
  params: (InputValue<RetryReturnResolutionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -510,7 +510,7 @@ Complete body and metadata: `retryWithResponse`. See [response modes](../RUNTIME
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -536,7 +536,7 @@ update(return_resolution_id: InputValue<string>,
  params: (InputValue<UpdateReturnResolutionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -592,7 +592,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

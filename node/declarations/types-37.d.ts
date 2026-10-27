@@ -1,12 +1,13 @@
+import type { Payout } from './types-36.js';
+import type { ResponseMeta } from './types-40.js';
 import type { MoneyMovementBlockedReason, MoneyValue, NextAction, ModifierSet, MoneyValueInput } from './types-31.js';
 import type { InputValue } from '../runtime.js';
-import type { ResponseMeta } from './types-40.js';
 import type {
     UpdatePayoutSettingsRequestInput,
     UpdatePayoutDestinationRequestInput,
     UpdateProductRequestInput,
     UpdateProductVariantRequestInput
-} from './types-48.js';
+} from './types-49.js';
 import type { CancelPayoutRequestInput, CategoryReference } from './types-3.js';
 import type { CreatePayoutRequestInput, CreateProductRequestInput } from './types-8.js';
 import type { PaymentClientAction } from './types-35.js';
@@ -24,16 +25,11 @@ import type {
     ReturnProcessReceiptRequestInput,
     ReturnProcessResult
 } from './types-41.js';
-import type {
-    ImageAttachment,
-    GiftCardProductConfiguration,
-    ImageRequest,
-    GiftCardProductConfigurationInput,
-    ImageRequestInput
-} from './types-19.js';
+import type { ImageAttachment, GiftCardProductConfiguration, GiftCardProductConfigurationInput } from './types-19.js';
 import type { Dimensions, DimensionsInput } from './types-16.js';
-import type { SelectedProductOption } from './types-43.js';
+import type { SelectedProductOption } from './types-44.js';
 import type { Weight, WeightInput } from './types-61.js';
+import type { ImageRequest, ImageRequestInput } from './types-20.js';
 import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-24.js';
 import type {
     PromotionCode,
@@ -47,16 +43,35 @@ import type {
     PromotionRecurrenceInput,
     PromotionRuleGroupRequestInput,
     PromotionPercentOffMethod,
+    PromotionBuyXGetYMethodRequest,
     PromotionPercentOffMethodRequest,
     PromotionBuyXGetYMethodRequestInput,
     PromotionPercentOffMethodRequestInput
 } from './types-38.js';
+/** Shape $ (Value): {@link PayoutResponse}. A response containing `Payout` data. */
+export type PayoutResponse = {
+    /**
+     * Shape $ (Value): {@link Payout}. Funds sent from a merchant balance to a payout destination.
+     */
+    "data": Payout;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
 /** Shape $ (Value): {@link PayoutSettings}. The merchant's payout schedule and preferences. */
 export type PayoutSettings = {
     /**
-     * Shape $ (Value): Array of {@link MoneyMovementBlockedReason}. Shape $[] (Value): {@link
-     * MoneyMovementBlockedReason}. Why a money movement action is blocked, with an error code, a
-     * message, next steps, and who can resolve it.
+     * Shape $ (Value): Array of {@link MoneyMovementBlockedReason}. Why payouts can't run. Empty
+     * when nothing blocks them. Shape $[] (Value): {@link MoneyMovementBlockedReason}. Why a money
+     * movement action is blocked, with an error code, a message, next steps, and who can resolve
+     * it.
      */
     "blocked_reasons": Array<MoneyMovementBlockedReason>;
     /**
@@ -65,37 +80,60 @@ export type PayoutSettings = {
      * date-time.
      */
     "created_at": string | null;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
+    /**
+     * Shape $ (Value): Map of string. Default payout destination for each currency, as a map from
+     * currency code to payout_destination_id. Read-only: change defaults in the payouts embedded
+     * component. Shape $.* (Value): string.
+     */
     "default_payout_destinations"?: Record<string, string>;
-    /** Shape $ (Value): integer. Format: int32. */
+    /**
+     * Shape $ (Value): integer. Days a payment stays pending before its funds become available to
+     * pay out. Format: int32.
+     */
     "delay_days": number;
-    /** Shape $ (Value): integer. Format: int32. */
+    /**
+     * Shape $ (Value): integer. Delay in days you set in place of the account's default, 0 through
+     * 31. Absent when none is set. Format: int32.
+     */
     "delay_days_override"?: number;
     /**
      * Shape $ (Value): string. Payout schedule interval. Unmapped intervals are returned as other.
      * Value enum: "manual", "daily", "weekly", "monthly", "other".
      */
     "interval": "manual" | "daily" | "weekly" | "monthly" | "other" | (string & {});
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Merchant these settings belong to. */
     "merchant_id": string;
     /**
-     * Shape $ (Value): Map of {@link MoneyValue}. Shape $.* (Value): {@link MoneyValue}. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): Map of {@link MoneyValue}. Amount kept in your balance instead of paid out,
+     * keyed by currency code. Absent when no minimum is set. Shape $.* (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
      */
     "minimum_balance_by_currency"?: Record<string, MoneyValue>;
-    /** Shape $ (Value): Array of integer. Shape $[] (Value): integer. Format: int32. */
+    /**
+     * Shape $ (Value): Array of integer. Days of the month, 1 through 31, on which monthly payouts
+     * are sent. Shape $[] (Value): integer. Format: int32.
+     */
     "monthly_payout_days": Array<number>;
     /**
-     * Shape $ (Value): Array of {@link NextAction}. Shape $[] (Value): {@link NextAction}. A
-     * suggested next step for resolving an error, warning, or blocked state, such as the API
-     * operation to call or the scope it needs.
+     * Shape $ (Value): Array of {@link NextAction}. Steps that would let payouts run, when Flint
+     * has one to suggest. Empty otherwise. Shape $[] (Value): {@link NextAction}. A suggested next
+     * step for resolving an error, warning, or blocked state, such as the API operation to call or
+     * the scope it needs.
      */
     "next_actions": Array<NextAction>;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Stable identifier of your payout settings. */
     "payout_settings_id": string;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. Text shown on your bank statement for payouts. Absent when none is
+     * set.
+     */
     "statement_descriptor"?: string;
-    /** Shape $ (Value): string.  Value enum: "enabled", "disabled", "blocked", "pending". */
+    /**
+     * Shape $ (Value): string. Whether payouts can run: enabled, disabled, blocked, or pending.
+     * When it isn't enabled, blocked_reasons says why and next_actions lists any steps Flint can
+     * suggest. Value enum: "enabled", "disabled", "blocked", "pending".
+     */
     "status": "enabled" | "disabled" | "blocked" | "pending" | (string & {});
     /**
      * Shape $ (Value): string or null. When the stored payout settings record was last updated, as
@@ -104,17 +142,28 @@ export type PayoutSettings = {
      */
     "updated_at": string | null;
     /**
-     * Shape $ (Value): Array of string. Days of the week on which weekly payouts are sent. Allowed
-     * values are monday, tuesday, wednesday, thursday, friday, saturday, and sunday. [] enum:
-     * "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday". Shape $[]
-     * (Value): string. Value enum: "monday", "tuesday", "wednesday", "thursday", "friday",
-     * "saturday", "sunday".
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
+    /**
+     * Shape $ (Value): Array of string. Days of the week weekly payouts are sent. Accounts set up
+     * outside Flint can report saturday or sunday; when you change the schedule, Flint accepts
+     * monday through friday. [] enum: "monday", "tuesday", "wednesday", "thursday", "friday",
+     * "saturday", "sunday". Shape $[] (Value): string. Value enum: "monday", "tuesday",
+     * "wednesday", "thursday", "friday", "saturday", "sunday".
      */
     "weekly_payout_days": Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday" | (string & {})>;
 };
 export type PayoutSettingsDeletePayoutDestinationInput = {
     /** Shape $ (Value): string. */
     "payout_destination_id": InputValue<string>;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: InputValue<`${bigint}` | bigint>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
 };
@@ -144,7 +193,7 @@ export type PayoutSettingsListPayoutDestinationsInput = {
      * Shape $ (Value): Array of string. minItems: 1. [] enum: "standard". Shape $[] (Value):
      * string. Value enum: "standard".
      */
-    "available_payout_method"?: InputValue<Array<"standard">>;
+    "available_payout_methods"?: InputValue<Array<"standard">>;
     /** Shape $ (Value): boolean. */
     "default_for_currency"?: InputValue<boolean>;
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
@@ -197,7 +246,7 @@ export type PayoutTraceID = {
      * returned as unsupported. Value enum: "pending", "available", "unsupported".
      */
     "status": "pending" | "available" | "unsupported" | (string & {});
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. The bank's trace number for the deposit, when Flint has it. */
     "value"?: string;
 };
 export type PayoutsCancelInput = {
@@ -225,6 +274,8 @@ export type PayoutsGetInput = {
     "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
 };
 export type PayoutsListInput = {
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /**
      * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
      * ^[A-Z]{3}$. Example: "USD".
@@ -237,10 +288,10 @@ export type PayoutsListInput = {
      */
     "expand"?: InputValue<Array<"original_payout" | "payout_destination" | "reversed_by_payout">>;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "standard". Shape $[] (Value):
-     * string. Value enum: "standard".
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "standard", "instant", "other".
+     * Shape $[] (Value): string. Value enum: "standard", "instant", "other".
      */
-    "method"?: InputValue<Array<"standard">>;
+    "method"?: InputValue<Array<"standard" | "instant" | "other">>;
     /**
      * Shape $ (Value): Array of string. minItems: 1. [] enum: "card", "bank_account". Shape $[]
      * (Value): string. Value enum: "card", "bank_account".
@@ -2377,101 +2428,6 @@ export type PromotionBuyXGetYMethod = {
      * in the same all group, including its nested groups.
      */
     "qualifying_item_rules": PromotionRuleGroup;
-    /**
-     * Shape $ (Value): {@link PromotionRecurrence}. Optional recurrence for subscription payments:
-     * once applies to the first charged payment, repeating applies for period_count charged
-     * payments, and forever applies to every payment. One-time orders apply the promotion once.
-     * How often a promotion's discount repeats on a subscription: once, for a number of charged
-     * payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Shape $ (Value): string. Which matching reward items receive the discount: the cheapest, the
-     * highest priced, or those added first to the order. Defaults to cheapest. Default:
-     * "cheapest". Value enum: "cheapest", "highest_price", "first_added".
-     */
-    "reward_selection"?: "cheapest" | "highest_price" | "first_added" | (string & {});
-    /**
-     * Shape $ (Value): string. Selects the buy_x_get_y discount effect and its allowed fields.
-     * Value enum: "buy_x_get_y".
-     */
-    "type": "buy_x_get_y" | (string & {});
-};
-/**
- * Shape $ (Value): {@link PromotionBuyXGetYMethodRequest}. The `buy_x_get_y` variant of
- * `PromotionApplicationMethodInput`.
- */
-export type PromotionBuyXGetYMethodRequest = {
-    /**
-     * Shape $ (Value): string. How the effect is applied across the matched items or charges. each
-     * applies the effect to every matched item independently: a fixed amount_off is charged per
-     * item (10 USD off 3 items discounts 30 USD, each capped at the item price), and a percent_off
-     * is taken from each item. across applies the effect once to the matched set as a whole: a
-     * fixed amount_off is the whole amount one time (10 USD off the group total, not prorated per
-     * item), and a percent_off is taken from the combined subtotal. For percent_off the two
-     * produce the same total and differ only in how the discount is attributed to individual line
-     * items; for amount_off they differ by the number of matched items, so set it deliberately.
-     * Defaults to each for line_item and service_charge promotions and across for order
-     * promotions. max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * Shape $ (Value): integer. Number of qualifying units needed for one application of a
-     * buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32. minimum: 1.
-     */
-    "buy_min_quantity": number;
-    /**
-     * Shape $ (Value): string. Basis for merchandise promotion calculations. Omit for
-     * service_charge promotions because service-charge discounts are calculated from the targeted
-     * charges. Value enum: "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Shape $ (Value): {@link PromotionRuleGroupRequest}. Which line items receive the discount.
-     * Required for service_charge promotions, and for line_item promotions whose eligibility_rules
-     * include any non-line-item condition (for example order.subtotal or a customer condition). It
-     * is optional only when eligibility_rules consist entirely of line_item.* conditions (plus
-     * matched_items.subtotal), in which case the matched items are used as the target. Omitting it
-     * otherwise returns DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one
-     * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a
-     * rules key are invalid. Omit the field for no rules, or send null where the field is
-     * clearable. Responses list rules before nested groups. Under any, a nested group containing
-     * only one rule reads back as that rule. Under all, nested groups keep their boundaries to
-     * preserve matched_items.subtotal scope. These deterministic normalizations stabilize after
-     * one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-     * in the same all group, including its nested groups.
-     */
-    "discounted_item_rules": PromotionRuleGroupRequest;
-    /**
-     * Shape $ (Value): number. Percentage to discount from reward items, from 1 to 100. Use 100 to
-     * make the reward items free. minimum: 1. maximum: 100. multipleOf: 0.0001.
-     */
-    "get_percent_off": number;
-    /**
-     * Shape $ (Value): integer. Maximum number of reward units discounted per application of a
-     * buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32. minimum: 1.
-     */
-    "get_quantity": number;
-    /**
-     * Shape $ (Value): integer. Maximum number of times the buy_x_get_y promotion can apply to one
-     * order. Omit for no limit beyond the qualifying and reward quantities. Format: int32.
-     * minimum: 1.
-     */
-    "max_applications_per_order"?: number;
-    /**
-     * Shape $ (Value): {@link PromotionRuleGroupRequest}. Rules that identify the items counted
-     * toward buy_min_quantity for a buy_x_get_y promotion. A rule group is an object with exactly
-     * one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups,
-     * and a rules key are invalid. Omit the field for no rules, or send null where the field is
-     * clearable. Responses list rules before nested groups. Under any, a nested group containing
-     * only one rule reads back as that rule. Under all, nested groups keep their boundaries to
-     * preserve matched_items.subtotal scope. These deterministic normalizations stabilize after
-     * one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-     * in the same all group, including its nested groups.
-     */
-    "qualifying_item_rules": PromotionRuleGroupRequest;
     /**
      * Shape $ (Value): {@link PromotionRecurrence}. Optional recurrence for subscription payments:
      * once applies to the first charged payment, repeating applies for period_count charged

@@ -8,8 +8,8 @@ import type {
     DeliveryQuotesListInput
 } from '../declarations/types-14.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -22,7 +22,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     DeliveryQuote,
@@ -36,7 +36,7 @@ export type {
     DeliveryQuoteLineItemResource,
     DeliveryQuoteMethodResource
 } from '../declarations/types-14.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -52,8 +52,7 @@ export type {
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext
 } from '../declarations/types-11.js';
 export type { LocationCoordinate } from '../declarations/types-29.js';
 export type {
@@ -64,12 +63,13 @@ export type {
     DeliveryPickupDetails,
     DeliveryLocationSummaryResource,
     DeliveryMerchantDiagnostic,
+    DeliveryEligibilityMismatch,
     DeliveryPendingCallerRateRequest
 } from '../declarations/types-12.js';
 export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-15.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { BuyerInstructionsConfig } from '../declarations/types-1.js';
-export { makeBuyerInstructionsConfig } from '../declarations/types-61.js';
+export { makeBuyerInstructionsConfig } from '../declarations/types-62.js';
 export {
     makeDeliveryAddressRequest,
     makeDeliveryBuyerLocationInputAddress,
@@ -87,11 +87,11 @@ export interface DeliveryQuotesResource {
  * @example
  * client.deliveryQuotes.get("example")
  */
-    get(delivery_quote_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryQuote>;
+    get(delivery_quote_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryQuote>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryQuotes.md#deliveryquotesget
      */
-    getWithResponse(delivery_quote_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryQuoteResponse>>;
+    getWithResponse(delivery_quote_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryQuoteResponse>>;
     /**
  * Returns persisted delivery quote diagnostics in stable creation order.
  * @see reference/deliveryQuotes.md#deliveryquoteslist
@@ -108,7 +108,7 @@ export interface DeliveryQuotesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryQuoteListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryQuoteListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryQuotes.md#deliveryquoteslist
      */
@@ -121,7 +121,7 @@ export interface DeliveryQuotesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryQuoteListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryQuoteListResponse>>;
     /** Iterate pages lazily.
      * @see reference/deliveryQuotes.md#deliveryquoteslist
      */
@@ -134,7 +134,7 @@ export interface DeliveryQuotesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuoteListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryQuoteListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/deliveryQuotes.md#deliveryquoteslist
      */
@@ -147,7 +147,7 @@ export interface DeliveryQuotesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryQuoteListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliveryQuoteListResponse>>;
     /** Iterate items lazily.
      * @see reference/deliveryQuotes.md#deliveryquoteslist
      */
@@ -160,7 +160,7 @@ export interface DeliveryQuotesResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryQuote>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryQuote>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

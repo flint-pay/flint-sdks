@@ -30,7 +30,7 @@ final class ReturnPolicyScopeInput extends Model {
      */
     public function getLocationIds(): array { return $this->get('location_ids'); }
     public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** Shape $ (Value): string.  Value enum: "all", "include".
+    /** Shape $ (Value): string. all covers every item and requires every selector to be empty. include covers only what the selectors name and requires at least one nonempty selector. Value enum: "all", "include".
      * @return string
      * @throws SdkError When match_type is omitted; use hasMatchType() or valueOrDefault().
      */

@@ -3,12 +3,13 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read PostalAddressInput|array<array-key, mixed>|\stdClass $address
+ * @property-read string $expected_version
  * @property-read string|null $label
  * @property-read string|null $phone
  * @property-read string $recipient_name
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateCustomerAddressRequestInput extends Model {
-    /** @param array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'label'?: string|null, 'phone'?: string|null, 'recipient_name'?: string, ...}|object $values */
+    /** @param array{'address'?: PostalAddressInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'label'?: string|null, 'phone'?: string|null, 'recipient_name'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateCustomerAddressRequestInput')); }
     /** Shape $ (Value): {@see PostalAddressInput}. Replaces the whole postal address. Send every field you want to keep; omitted optional fields such as line2 are removed. A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country.
      * @return PostalAddressInput|array<array-key, mixed>|\stdClass
@@ -16,6 +17,12 @@ final class UpdateCustomerAddressRequestInput extends Model {
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     */
+    public function getExpectedVersion(): string { return $this->get('expected_version'); }
+    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
     /** Shape $ (Value): string or null. Limited to 100 characters (Unicode code points), counted before surrounding whitespace is trimmed. Send null to clear it. minLength: 1. maxLength: 100.
      * @return string|null
      * @throws SdkError When label is omitted; use hasLabel() or valueOrDefault().

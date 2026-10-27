@@ -1074,11 +1074,6 @@
       "method": "resetSandbox",
       "pagination": false
     },
-    "issueDeveloperSandboxTestKey": {
-      "resource": "developer",
-      "method": "issueSandboxTestKey",
-      "pagination": false
-    },
     "listDevices": {
       "resource": "devices",
       "method": "list",
@@ -2736,16 +2731,6 @@
       "method": "createPaymentIntent",
       "pagination": false
     },
-    "cancelOrderPayment": {
-      "resource": "orders",
-      "method": "cancelPayment",
-      "pagination": false
-    },
-    "captureOrderPayment": {
-      "resource": "orders",
-      "method": "capturePayment",
-      "pagination": false
-    },
     "sendOrderReceipt": {
       "resource": "orders",
       "method": "sendReceipt",
@@ -3991,6 +3976,7 @@
       "example": {
         "subscription_id": "example",
         "body": {
+          "type": "variant",
           "quantity": 1,
           "variant_id": "var_00000000000000000000000000"
         }
@@ -4194,6 +4180,19 @@
       "resource": "workloadIdentities",
       "method": "update",
       "pagination": false
+    },
+    "createSandboxAPIKey": {
+      "resource": "developer",
+      "method": "createSandboxAPIKey",
+      "pagination": false
+    },
+    "listMeSubscriptionPaymentRetries": {
+      "resource": "me",
+      "method": "listSubscriptionPaymentRetries",
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false
     }
   },
   "requests": {

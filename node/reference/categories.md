@@ -8,14 +8,7 @@ Creates a reusable category. If handle is omitted, Flint derives it from the nam
 
 `POST /v1/categories`
 
-Signature:
-
-```typescript
-create(params: (InputValue<CreateCategoryRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "merchantKey">)
-```
+Signature: `create(params: (InputValue<CreateCategoryRequestInput>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
@@ -60,7 +53,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -79,7 +72,7 @@ Get category.
 
 `GET /v1/categories/{category_id}`
 
-Signature: `get(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -112,7 +105,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -144,7 +137,7 @@ list(params?: {
   "updated_after"?: InputValue<string | globalThis.Date>;
   "updated_before"?: InputValue<string | globalThis.Date>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -187,7 +180,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -213,7 +206,7 @@ remove(category_id: InputValue<string>,
   "expected_version"?: InputValue<`${bigint}` | bigint>;
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -252,7 +245,7 @@ Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -278,7 +271,7 @@ update(category_id: InputValue<string>,
  params: (InputValue<UpdateCategoryRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -325,7 +318,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

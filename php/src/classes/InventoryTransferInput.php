@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransferInput extends Model {
-    /** @param array{'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string|null, 'created_at': string|\DateTimeInterface, 'departed_at'?: string|\DateTimeInterface, 'destination_location_id': string, 'external_reference_id'?: string, 'idempotency_key': string, 'inventory_transfer_id': string, 'lines': list<InventoryTransferLineInput|array<array-key, mixed>|\stdClass>, 'note'?: string, 'origin_location_id': string, 'received_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string|null, 'created_at': string|\DateTimeInterface, 'departed_at'?: string|\DateTimeInterface, 'destination_location_id': string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'inventory_transfer_id': string, 'lines': list<InventoryTransferLineInput|array<array-key, mixed>|\stdClass>, 'note'?: string, 'origin_location_id': string, 'received_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransferInput')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
@@ -58,7 +58,7 @@ final class InventoryTransferInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

@@ -22,9 +22,7 @@ Body model: [CloseCheckoutSessionRequestInput](../models/CloseCheckoutSessionReq
 
 #### checkoutSessions.closeSession body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `reason_message` | Optional | string | Your note explaining why you are closing the checkout session. It is not shown to the buyer. minLength: `1`. |
+Field definitions: [shared fields](../models/CloseCheckoutSessionRequestInput.md#closecheckoutsessionrequestinput).
 
 #### Response
 
@@ -57,7 +55,7 @@ Complete body and metadata: `closeSessionWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -327,7 +325,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -505,7 +503,7 @@ Complete body and metadata: `createDeliveryQuoteWithResponse`. See [response mod
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -573,7 +571,7 @@ Complete body and metadata: `createDeliverySelectionWithResponse`. See [response
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -634,7 +632,7 @@ Complete body and metadata: `deleteCurrentDeliverySelectionWithResponse`. See [r
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -690,7 +688,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -740,7 +738,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getCurrentDeliverySelectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -802,7 +800,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getDeliveryQuoteWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -864,7 +862,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getDeliverySelectionHistoryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -932,7 +930,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -998,7 +996,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

@@ -1,39 +1,237 @@
 import type {
-    SubscriptionBillingStartInputImmediateInput,
-    SubscriptionBillingStartInputImportedInput,
-    SubscriptionBillingStartInputScheduledInput,
+    SubscriptionBillingScheduleInputExternal,
     SubscriptionAddressVerification,
+    SelectedProductOption,
     Subscription
 } from './types-44.js';
-import type { DeliveryRecipientResource, DeliverySelectionRecipientRequest } from './types-14.js';
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
+import type { DeliveryRecipientResource } from './types-14.js';
+import type { MoneyValue } from './types-31.js';
 import type { Address, BundleComponent } from './types-0.js';
 import type {
     OrderDeliveryDestinationAddressRequest,
     OrderDeliveryDestinationAddressRequestInput,
-    OrderLineItemModifier,
-    Order,
-    OrderPaymentAttempt,
-    OrderLineItemTax,
-    OrderLineItemModifierRequest,
-    OrderLineItemModifierRequestInput,
-    OrderLineItemTaxInput
+    OrderLineItemModifier
 } from './types-32.js';
 import type { ResponseMeta } from './types-40.js';
 import type { InputValue } from '../runtime.js';
-import type {
-    CreateSubscriptionDeliveryMigrationRequestInput,
-    CreateSubscriptionOfferRequestInput,
-    CreateSubscriptionPlanRequestInput
-} from './types-9.js';
-import type { DeliverySelectionRecipientRequestInput } from './types-15.js';
+import type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionOfferRequestInput } from './types-9.js';
+import type { DeliverySelectionRecipientRequest, DeliverySelectionRecipientRequestInput } from './types-15.js';
 import type { CategoryReference } from './types-3.js';
-import type { Image, ImageAttachment } from './types-19.js';
-import type { SelectedProductOption } from './types-43.js';
+import type { Image } from './types-19.js';
 import type { UpdateSubscriptionOfferRequestInput } from './types-49.js';
 import type { PaymentErrorSummary } from './types-35.js';
-import type { InventoryRoutingSource } from './types-25.js';
-import type { SubscriptionRenewalEstimate } from './types-46.js';
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleInputExternalInput}. The `external` variant
+ * of `SubscriptionBillingScheduleInput`.
+ */
+export type SubscriptionBillingScheduleInputExternalInput = {
+    /** Shape $ (Value): string.  Value enum: "external". */
+    "owner": "external";
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleInputFlint}. The `flint` variant of
+ * `SubscriptionBillingScheduleInput`.
+ */
+export type SubscriptionBillingScheduleInputFlint = {
+    /** Shape $ (Value): string.  Value enum: "flint". */
+    "owner": "flint" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleInputFlintInput}. The `flint` variant of
+ * `SubscriptionBillingScheduleInput`.
+ */
+export type SubscriptionBillingScheduleInputFlintInput = {
+    /** Shape $ (Value): string.  Value enum: "flint". */
+    "owner": "flint";
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleRequest}. Who owns the billing schedule when
+ * creating a subscription: Flint or an external system.
+ */
+export type SubscriptionBillingScheduleRequest = ({
+    /** Shape $ (Value): string.  Value enum: "flint", "external". */
+    "owner": "flint" | "external" | (string & {});
+})
+    & ((Exclude<SubscriptionBillingScheduleInputFlint & object, readonly unknown[]>)
+    | (Exclude<SubscriptionBillingScheduleInputExternal & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleRequestInput}. Who owns the billing schedule
+ * when creating a subscription: Flint or an external system.
+ */
+export type SubscriptionBillingScheduleRequestInput = ({
+    /** Shape $ (Value): string.  Value enum: "flint", "external". */
+    "owner": "flint" | "external";
+})
+    & ((Exclude<SubscriptionBillingScheduleInputFlintInput & object, readonly unknown[]>)
+    | (Exclude<SubscriptionBillingScheduleInputExternalInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputExternal}. The `external` variant
+ * of `SubscriptionBillingScheduleUpdateInput`.
+ */
+export type SubscriptionBillingScheduleUpdateInputExternal = {
+    /**
+     * Shape $ (Value): string or null. Future date at which Flint attempts the next charge. Omit
+     * to preserve the date or send null to clear it. Format: date-time. minLength: 1.
+     */
+    "next_billing_at"?: string | null;
+    /** Shape $ (Value): string.  Value enum: "external". */
+    "owner": "external" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputExternalInput}. The `external`
+ * variant of `SubscriptionBillingScheduleUpdateInput`.
+ */
+export type SubscriptionBillingScheduleUpdateInputExternalInput = {
+    /**
+     * Shape $ (Value): string or null. Future date at which Flint attempts the next charge. Omit
+     * to preserve the date or send null to clear it. Format: date-time. minLength: 1.
+     */
+    "next_billing_at"?: string | globalThis.Date | null;
+    /** Shape $ (Value): string.  Value enum: "external". */
+    "owner": "external";
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputFlint}. The `flint` variant of
+ * `SubscriptionBillingScheduleUpdateInput`.
+ */
+export type SubscriptionBillingScheduleUpdateInputFlint = {
+    /**
+     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing.
+     * Overrides the day inferred from a moved next_billing_at. Format: int32. minimum: 1. maximum:
+     * 31.
+     */
+    "billing_anchor_day"?: number;
+    /**
+     * Shape $ (Value): string. Future date at which Flint attempts the next charge. Format:
+     * date-time. minLength: 1.
+     */
+    "next_billing_at": string;
+    /** Shape $ (Value): string.  Value enum: "flint". */
+    "owner": "flint" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateInputFlintInput}. The `flint` variant
+ * of `SubscriptionBillingScheduleUpdateInput`.
+ */
+export type SubscriptionBillingScheduleUpdateInputFlintInput = {
+    /**
+     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing.
+     * Overrides the day inferred from a moved next_billing_at. Format: int32. minimum: 1. maximum:
+     * 31.
+     */
+    "billing_anchor_day"?: number;
+    /**
+     * Shape $ (Value): string. Future date at which Flint attempts the next charge. Format:
+     * date-time. minLength: 1.
+     */
+    "next_billing_at": string | globalThis.Date;
+    /** Shape $ (Value): string.  Value enum: "flint". */
+    "owner": "flint";
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateRequest}. A closed owner-specific
+ * billing schedule update.
+ */
+export type SubscriptionBillingScheduleUpdateRequest = ((SubscriptionBillingScheduleUpdateInputFlint)
+    | (SubscriptionBillingScheduleUpdateInputExternal)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link SubscriptionBillingScheduleUpdateRequestInput}. A closed owner-specific
+ * billing schedule update.
+ */
+export type SubscriptionBillingScheduleUpdateRequestInput = ((SubscriptionBillingScheduleUpdateInputFlintInput)
+    | (SubscriptionBillingScheduleUpdateInputExternalInput));
+/**
+ * Shape $ (Value): {@link SubscriptionBillingStartInputImmediate}. The `immediate` variant of
+ * `SubscriptionBillingStartInput`.
+ */
+export type SubscriptionBillingStartInputImmediate = {
+    /** Shape $ (Value): string.  Value enum: "immediate". */
+    "type": "immediate" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingStartInputImmediateInput}. The `immediate` variant of
+ * `SubscriptionBillingStartInput`.
+ */
+export type SubscriptionBillingStartInputImmediateInput = {
+    /** Shape $ (Value): string.  Value enum: "immediate". */
+    "type": "immediate";
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingStartInputImported}. The `imported` variant of
+ * `SubscriptionBillingStartInput`.
+ */
+export type SubscriptionBillingStartInputImported = {
+    /**
+     * Shape $ (Value): integer. Number of billing cycles already charged on the previous billing
+     * system, including the current imported period. The subscription's completed_cycles starts
+     * here, and the next renewal's subscription_cycle is this number plus one. minimum: 0.
+     * Default: 0.
+     */
+    "completed_cycles"?: number;
+    /**
+     * Shape $ (Value): string. Start of the already-running billing period being imported. Format:
+     * date-time. minLength: 1.
+     */
+    "period_started_at": string;
+    /** Shape $ (Value): string.  Value enum: "imported". */
+    "type": "imported" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingStartInputImportedInput}. The `imported` variant of
+ * `SubscriptionBillingStartInput`.
+ */
+export type SubscriptionBillingStartInputImportedInput = {
+    /**
+     * Shape $ (Value): integer. Number of billing cycles already charged on the previous billing
+     * system, including the current imported period. The subscription's completed_cycles starts
+     * here, and the next renewal's subscription_cycle is this number plus one. minimum: 0.
+     * Default: 0.
+     */
+    "completed_cycles"?: number;
+    /**
+     * Shape $ (Value): string. Start of the already-running billing period being imported. Format:
+     * date-time. minLength: 1.
+     */
+    "period_started_at": string | globalThis.Date;
+    /** Shape $ (Value): string.  Value enum: "imported". */
+    "type": "imported";
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingStartInputScheduled}. The `scheduled` variant of
+ * `SubscriptionBillingStartInput`.
+ */
+export type SubscriptionBillingStartInputScheduled = {
+    /**
+     * Shape $ (Value): string. Future instant when the first billing period starts. Format:
+     * date-time. minLength: 1.
+     */
+    "starts_at": string;
+    /** Shape $ (Value): string.  Value enum: "scheduled". */
+    "type": "scheduled" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingStartInputScheduledInput}. The `scheduled` variant of
+ * `SubscriptionBillingStartInput`.
+ */
+export type SubscriptionBillingStartInputScheduledInput = {
+    /**
+     * Shape $ (Value): string. Future instant when the first billing period starts. Format:
+     * date-time. minLength: 1.
+     */
+    "starts_at": string | globalThis.Date;
+    /** Shape $ (Value): string.  Value enum: "scheduled". */
+    "type": "scheduled";
+};
+/**
+ * Shape $ (Value): {@link SubscriptionBillingStartRequest}. How billing begins. Send exactly one
+ * closed tagged-union branch.
+ */
+export type SubscriptionBillingStartRequest = ((SubscriptionBillingStartInputImmediate)
+    | (SubscriptionBillingStartInputScheduled)
+    | (SubscriptionBillingStartInputImported)
+    | (Record<string, unknown>));
 /**
  * Shape $ (Value): {@link SubscriptionBillingStartRequestInput}. How billing begins. Send exactly
  * one closed tagged-union branch.
@@ -993,668 +1191,4 @@ export type SubscriptionPaymentRetry = {
     "subscription_payment_retry_id": string;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "updated_at": string;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPaymentRetryListResponse}. A page of
- * `SubscriptionPaymentRetry` objects.
- */
-export type SubscriptionPaymentRetryListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPaymentRetry}. Shape $[] (Value): {@link
-     * SubscriptionPaymentRetry}. An attempt to collect a subscription's overdue payment.
-     */
-    "data": Array<SubscriptionPaymentRetry>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPaymentRetryResponse}. A response containing
- * `SubscriptionPaymentRetry` data.
- */
-export type SubscriptionPaymentRetryResponse = {
-    /**
-     * Shape $ (Value): {@link SubscriptionPaymentRetry}. An attempt to collect a subscription's
-     * overdue payment.
-     */
-    "data": SubscriptionPaymentRetry;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPlan}. The recurring price and billing terms offered to
- * customers.
- */
-export type SubscriptionPlan = {
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. */
-    "billing_interval_count": number;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. maxItems: 12. uniqueItems:
-     * true. Shape $[] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as
-     * every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options": Array<SubscriptionIntervalOption>;
-    /**
-     * Shape $ (Value): integer. A commitment period you agree with the buyer, 1 to 120 months.
-     * Flint shows it at checkout and records it on each new subscription (contract_start_at,
-     * contract_end_at). Flint does not stop the buyer from canceling earlier. Format: int32.
-     * minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionDeliveryMethodCounts}. Shape $[] (Value):
-     * {@link SubscriptionDeliveryMethodCounts}. Subscription counts by status for one delivery
-     * method.
-     */
-    "delivery_method_subscription_counts": Array<SubscriptionDeliveryMethodCounts>;
-    /** Shape $ (Value): boolean. */
-    "delivery_required": boolean;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. A fee you agree the buyer owes for canceling before the
-     * contract term ends. Flint shows it at checkout and records it on each new subscription, but
-     * never charges it. To collect it, charge the buyer yourself, for example with an order on
-     * their saved payment method. Requires contract_term_months. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ImageAttachment}. Shape $[] (Value): {@link
-     * ImageAttachment}. An image attached to a resource, with its display properties and
-     * attachment metadata.
-     */
-    "images": Array<ImageAttachment>;
-    /**
-     * Shape $ (Value): {@link InventoryRoutingSource}. Where tracked demand from this plan is
-     * routed. New subscriptions and payment links for the plan copy it. Absent when the plan has
-     * no source. Where an order, payment link, or reservation routes inventory from: a fixed
-     * Location, an inventory allocation policy, or one policy revision.
-     */
-    "inventory_routing_source"?: InventoryRoutingSource;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPlanLineItem}. Shape $[] (Value): {@link
-     * SubscriptionPlanLineItem}. A line item on a subscription plan, from a variant or bundle,
-     * with its quantity, price, and variants a subscriber can swap to.
-     */
-    "line_items"?: Array<SubscriptionPlanLineItem>;
-    /** Shape $ (Value): string. */
-    "merchant_id"?: string;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of integer. maxItems: 10. uniqueItems: true. Shape $[] (Value):
-     * integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options": Array<number>;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "setup_fee_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups
-     * with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are
-     * read-only and their status is set only by DELETE
-     * /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "subscription_delivery_method_ids": Array<string>;
-    /** Shape $ (Value): string. */
-    "subscription_plan_id": string;
-    /** Shape $ (Value): integer. Format: int32. */
-    "trial_period_days"?: number;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 0.
-     */
-    "version": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPlanChangePreview}. Estimated pricing for a subscription
- * plan change, including the recurring item subtotal and renewal amounts.
- */
-export type SubscriptionPlanChangePreview = {
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. */
-    "billing_interval_count": number;
-    /** Shape $ (Value): string.  Value enum: "now", "next_renewal". */
-    "billing_starts": "now" | "next_renewal" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue} or null. Unused paid item time credited when
-     * billing_starts is now; null for next_renewal. Shape $.anyOf[1] (Value): {@link MoneyValue}.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "credit_money": ((MoneyValue) | (null));
-    /** Shape $ (Value): string.  Value enum: "plan_change". */
-    "mode": "plan_change" | (string & {});
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "recurring_subtotal_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link SubscriptionRenewalEstimate}. Estimated pricing and billing time for
-     * a subscription's next renewal, including items, discounts, shipping, and tax.
-     */
-    "renewal": SubscriptionRenewalEstimate;
-    /** Shape $ (Value): string. */
-    "subscription_id": string;
-    /** Shape $ (Value): string. */
-    "subscription_plan_id": string;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPlanChangeResult}. The result of changing a subscription
- * plan, including the subscription and any order and payment attempt created for immediate
- * billing.
- */
-export type SubscriptionPlanChangeResult = {
-    /**
-     * Shape $ (Value): {@link Order} or null. The new period's order when billing_starts is now,
-     * including a canceled order when payment fails. Null for next_renewal. Shape $.anyOf[1]
-     * (Value): {@link Order}. A customer's purchase and its payment and fulfillment progress.
-     * Shape $.anyOf[2] (Value): null.
-     */
-    "order": ((Order) | (null));
-    /**
-     * Shape $ (Value): {@link OrderPaymentAttempt} or null. The recorded payment attempt when
-     * billing_starts is now, including declines. Null for next_renewal. Shape $.anyOf[1] (Value):
-     * {@link OrderPaymentAttempt}. An attempt to pay an order. Shape $.anyOf[2] (Value): null.
-     */
-    "order_payment_attempt": ((OrderPaymentAttempt) | (null));
-    /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
-    "subscription": Subscription;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPlanChangeResultResponse}. A response containing
- * `SubscriptionPlanChangeResult` data.
- */
-export type SubscriptionPlanChangeResultResponse = {
-    /**
-     * Shape $ (Value): {@link SubscriptionPlanChangeResult}. The result of changing a subscription
-     * plan, including the subscription and any order and payment attempt created for immediate
-     * billing.
-     */
-    "data": SubscriptionPlanChangeResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPlanLineItem}. A line item on a subscription plan, from a
- * variant or bundle, with its quantity, price, and variants a subscriber can swap to.
- */
-export type SubscriptionPlanLineItem = ({
-    /**
-     * Shape $ (Value): Array of {@link BundleComponent}. Shape $[] (Value): {@link
-     * BundleComponent}. An item included in a bundle.
-     */
-    "bundle_components"?: Array<BundleComponent>;
-    /** Shape $ (Value): string. */
-    "bundle_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CategoryReference}. Shape $[] (Value): {@link
-     * CategoryReference}. A reference to a product category by ID, handle, and name.
-     */
-    "categories"?: Array<CategoryReference>;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link Image}. An image with its `url`, `width`, and `height`, and optional
-     * `alt` text.
-     */
-    "image"?: Image;
-    /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifier}. Shape $[] (Value): {@link
-     * OrderLineItemModifier}. A modifier selected on an order line item, with its quantity, price
-     * change, total, and display flags.
-     */
-    "modifiers"?: Array<OrderLineItemModifier>;
-    /** Shape $ (Value): string. */
-    "name"?: string;
-    /** Shape $ (Value): string. */
-    "product_id"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): Array of {@link SelectedProductOption}. Shape $[] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    /** Shape $ (Value): string. */
-    "sku"?: string;
-    /** Shape $ (Value): string. */
-    "subscription_plan_line_item_id": string;
-    /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "swap_variant_ids": Array<string>;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPlanSwapVariant}. Current sellable alternatives
-     * in swap_variant_ids order, excluding the line's own variant and variants priced in a
-     * different currency. Present on variant lines, including an empty array. maxItems: 25. Shape
-     * $[] (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber can swap to on a
-     * plan line, with its name, options, and price.
-     */
-    "swap_variants"?: Array<SubscriptionPlanSwapVariant>;
-    /**
-     * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is
-     * taxable.
-     */
-    "tax"?: OrderLineItemTax;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. */
-    "variant_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string. */
-    "variant_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. */
-    "bundle_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-}))
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link SubscriptionPlanLineItemRequest}. A line item to put on a new
- * subscription plan, from a variant, a bundle, or a custom name and price.
- */
-export type SubscriptionPlanLineItemRequest = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequest}. Shape $[] (Value): {@link
-     * OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a catalog
-     * modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional): Map of
-     * string. Shape $[].metadata.* (Value): string. minLength: 1. Shape $[].modifier_id
-     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
-     * accepted spellings follow resource ID validation. minLength: 1. Shape
-     * $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
-     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
-     * group on an order line item. Shape $[].oneOf[1] (Value): any. Shape $[].oneOf[2] (Value):
-     * any.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is
-     * taxable.
-     */
-    "tax"?: OrderLineItemTax;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-}))
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link SubscriptionPlanLineItemRequestInput}. A line item to put on a new
- * subscription plan, from a variant, a bundle, or a custom name and price.
- */
-export type SubscriptionPlanLineItemRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequestInput}. Shape $[] (Value):
-     * {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a
-     * catalog modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional):
-     * Map of string. Shape $[].metadata.* (Value): string. minLength: 1. Shape $[].modifier_id
-     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
-     * accepted spellings follow resource ID validation. minLength: 1. Shape
-     * $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
-     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
-     * modifier group on an order line item. Shape $[].oneOf[1] (Value): any. Shape $[].oneOf[2]
-     * (Value): any.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link OrderLineItemTaxInput}. A line item's tax category and whether it is
-     * taxable.
-     */
-    "tax"?: OrderLineItemTaxInput;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValueInput;
-})
-    & (({
-    "variant_id"?: never;
-}) & ({
-    "bundle_id"?: never;
-}))));
-/** Shape $ (Value): {@link SubscriptionPlanListResponse}. A page of `SubscriptionPlan` objects. */
-export type SubscriptionPlanListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPlan}. Shape $[] (Value): {@link
-     * SubscriptionPlan}. The recurring price and billing terms offered to customers.
-     */
-    "data": Array<SubscriptionPlan>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPlanResponse}. A response containing `SubscriptionPlan`
- * data.
- */
-export type SubscriptionPlanResponse = {
-    /**
-     * Shape $ (Value): {@link SubscriptionPlan}. The recurring price and billing terms offered to
-     * customers.
-     */
-    "data": SubscriptionPlan;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber can swap to on a
- * plan line, with its name, options, and price.
- */
-export type SubscriptionPlanSwapVariant = {
-    /**
-     * Shape $ (Value): {@link Image}. An image with its `url`, `width`, and `height`, and optional
-     * `alt` text.
-     */
-    "image"?: Image;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of {@link SelectedProductOption}. Shape $[] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
-     */
-    "selected_options": Array<SelectedProductOption>;
-    /** Shape $ (Value): string. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue} or null. Shape $.anyOf[1] (Value): {@link MoneyValue}.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "unit_price_money": ((MoneyValue) | (null));
-    /** Shape $ (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id": string;
-};
-/**
- * Shape $ (Value): {@link SubscriptionPlanTermsRequest}. The `subscription_plan` variant of
- * `SubscriptionTermsInput`.
- */
-export type SubscriptionPlanTermsRequest = ({
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32. minimum: 1. maximum: 100. Default: 1.
-     */
-    "quantity"?: number;
-    /** Shape $ (Value): string. minLength: 1. */
-    "subscription_plan_id": string;
-    /** Shape $ (Value): string.  Value enum: "subscription_plan". */
-    "type": "subscription_plan" | (string & {});
-});
-/**
- * Shape $ (Value): {@link SubscriptionPlanTermsRequestInput}. The `subscription_plan` variant of
- * `SubscriptionTermsInput`.
- */
-export type SubscriptionPlanTermsRequestInput = ({
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32. minimum: 1. maximum: 100. Default: 1.
-     */
-    "quantity"?: number;
-    /** Shape $ (Value): string. minLength: 1. */
-    "subscription_plan_id": string;
-    /** Shape $ (Value): string.  Value enum: "subscription_plan". */
-    "type": "subscription_plan";
-});
-export type SubscriptionPlansCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateSubscriptionPlanRequestInput}. The request body for: Create
-     * subscription plan.
-     */
-    "body": InputValue<CreateSubscriptionPlanRequestInput>;
-};
-export type SubscriptionPlansGetInput = {
-    /** Shape $ (Value): string. */
-    "subscription_plan_id": InputValue<string>;
-};
-export type SubscriptionPlansListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived".
-     * Shape $[] (Value): string. Value enum: "active", "inactive", "archived".
-     */
-    "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
-    /**
-     * Shape $ (Value): string. Default: "created_at". Value enum: "name", "created_at",
-     * "updated_at".
-     */
-    "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-};
-export type SubscriptionPlansRemoveInput = {
-    /** Shape $ (Value): string. */
-    "subscription_plan_id": InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
 };

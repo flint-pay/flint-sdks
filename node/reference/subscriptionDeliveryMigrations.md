@@ -14,7 +14,7 @@ Signature:
 create(params: (InputValue<CreateSubscriptionDeliveryMigrationRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -60,7 +60,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -79,14 +79,7 @@ Each subscription is previewed before its delivery method changes. Progress and 
 
 `GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}`
 
-Signature:
-
-```typescript
-get(subscription_delivery_migration_id: InputValue<string>,
- params?: {
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
-```
+Signature: `get(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -119,7 +112,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -144,7 +137,7 @@ list(params?: {
   "from_delivery_method_id"?: InputValue<string>;
   "status"?: InputValue<Array<"pending" | "running" | "completed">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -181,7 +174,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -213,7 +206,7 @@ listFailures(subscription_delivery_migration_id: InputValue<string>,
     "no_longer_applicable" |
     "not_movable">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -250,7 +243,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listFailuresWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listFailuresItems`, `listFailuresPages`, `listFailuresPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 

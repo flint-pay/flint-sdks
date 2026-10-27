@@ -9,7 +9,7 @@ namespace Flint;
 final class AdjustGiftCardBalanceRequestInput extends Model {
     /** @param array{'amount_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'reason': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AdjustGiftCardBalanceRequestInput')); }
-    /** Shape $ (Value): {@see SignedMoneyInput}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see SignedMoneyInput}. Nonzero USD amount to change the card's value by: positive adds value and negative removes it. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class AdjustGiftCardBalanceRequestInput extends Model {
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Shape $ (Value): string.  Value enum: "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity", "balance_accidentally_increased".
+    /** Shape $ (Value): string. Why you're adjusting the value. A negative amount_money takes suspicious_activity, balance_accidentally_increased, or support_issue; a positive one takes complimentary, balance_accidentally_decreased, or support_issue. Value enum: "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity", "balance_accidentally_increased".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */

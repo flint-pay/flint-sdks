@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read ?string $applied_at
  * @property-read string $created_at
- * @property-read string $idempotency_key
+ * @property-read ?string $idempotency_key
  * @property-read string $inventory_count_id
  * @property-read list<InventoryCountLine> $lines
  * @property-read string $location_id
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryCount extends Model {
-    /** @param array{'applied_at'?: string, 'created_at': string, 'idempotency_key': string, 'inventory_count_id': string, 'lines': list<mixed>, 'location_id': string, 'observation_provenance'?: mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'applied_at'?: string, 'created_at': string, 'idempotency_key'?: string, 'inventory_count_id': string, 'lines': list<mixed>, 'location_id': string, 'observation_provenance'?: mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCount')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -27,10 +27,10 @@ final class InventoryCount extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string.
-     * @return string
+    /** Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
+     * @return ?string
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): string.
      * @return string

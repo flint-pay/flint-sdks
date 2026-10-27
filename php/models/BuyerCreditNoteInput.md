@@ -12,7 +12,7 @@ Request input.
 | `credit_note_id` | Required | string | Unique identifier of the credit note. |
 | `credit_note_number` | Required | string | Assigned at issue and stable from then on. Absent while the credit note is a draft. |
 | `invoice_id` | Required | string | The invoice this credit note corrects. |
-| `issued_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `issued_at` | Required | string | When the credit note was issued. Format: `date-time`. |
 | `latest_refund_status` | Optional | string | Status of the most recent refund linked to this credit note. Absent when no refund has been requested. Values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. |
 | `line_items` | Required | Array of [CreditNoteLineItemInput](../models/CreditNoteLineItemInput.md#creditnotelineiteminput) | Itemized corrections against frozen invoice lines. Amount and quantity corrections share each source line's remaining value, discount, and tax across issued, non-void credit notes. Drafts reserve no credit. |
 | `memo` | Required | string or null | Free text shown on the credit note. Null when none was set. |
@@ -22,5 +22,5 @@ Request input.
 | `seller_tax_identity` | Required | [TaxIdentityInput](../models/TaxIdentityInput.md#taxidentityinput) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. |
 | `status` | Required | string | draft while the credit note is editable, issued once it is numbered and frozen, void once retired. Values: `"issued"`, `"void"`. |
 | `total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | The face value of the credit note, the sum of its lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `voided_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `voided_at` | Optional | string | When the credit note was voided. Absent unless it is void. Format: `date-time`. |
 

@@ -9,9 +9,8 @@ import type {
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { PaymentVolumeTimeseries, PaymentVolumeTimeseriesResponse } from '../declarations/types-36.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse, SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -24,7 +23,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     AnalyticsOverview,
@@ -34,9 +33,8 @@ export type {
     AnalyticsGetSubscriptionInput,
     AuthMode
 } from '../declarations/types-0.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse, SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-44.js';
 export type { PaymentVolumeTimeseries, PaymentVolumeTimeseriesResponse, PaymentVolumeBucket } from '../declarations/types-36.js';
-export type { SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
@@ -54,7 +52,7 @@ export interface AnalyticsResource {
         "period_start_at": InputValue<string | globalThis.Date>;
         "period_end_at"?: InputValue<string | globalThis.Date>;
         "currency"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<AnalyticsOverview>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<AnalyticsOverview>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/analytics.md#analyticsgetoverview
      */
@@ -62,7 +60,7 @@ export interface AnalyticsResource {
         "period_start_at": InputValue<string | globalThis.Date>;
         "period_end_at"?: InputValue<string | globalThis.Date>;
         "currency"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsOverviewResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<AnalyticsOverviewResponse>>;
     /**
  * Returns merchant payment volume buckets for the requested half-open period.
  * @see reference/analytics.md#analyticsgetpaymentvolumetimeseries
@@ -76,7 +74,7 @@ export interface AnalyticsResource {
         "currency"?: InputValue<string>;
         "granularity"?: InputValue<"hour" | "day" | "week" | "month">;
         "timezone"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentVolumeTimeseries>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PaymentVolumeTimeseries>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/analytics.md#analyticsgetpaymentvolumetimeseries
      */
@@ -86,7 +84,7 @@ export interface AnalyticsResource {
         "currency"?: InputValue<string>;
         "granularity"?: InputValue<"hour" | "day" | "week" | "month">;
         "timezone"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentVolumeTimeseriesResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PaymentVolumeTimeseriesResponse>>;
     /**
  * Returns windowed subscription metrics plus current subscription snapshot metrics.
  * @see reference/analytics.md#analyticsgetsubscription
@@ -98,7 +96,7 @@ export interface AnalyticsResource {
         "period_start_at": InputValue<string | globalThis.Date>;
         "period_end_at"?: InputValue<string | globalThis.Date>;
         "currency"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionAnalytics>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionAnalytics>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/analytics.md#analyticsgetsubscription
      */
@@ -106,7 +104,7 @@ export interface AnalyticsResource {
         "period_start_at": InputValue<string | globalThis.Date>;
         "period_end_at"?: InputValue<string | globalThis.Date>;
         "currency"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionAnalyticsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionAnalyticsResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

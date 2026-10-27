@@ -22,5 +22,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->merchants->update([], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->merchant_id . PHP_EOL;
-echo $result->readiness->payments->status . PHP_EOL;
+echo $result->organization_id . PHP_EOL;
 $client->close();

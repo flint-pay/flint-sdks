@@ -15,7 +15,7 @@ addItems(risk_list_id: InputValue<string>,
  params: (InputValue<AddRiskListItemsRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -62,7 +62,7 @@ Complete body and metadata: `addItemsWithResponse`. See [response modes](../RUNT
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -81,14 +81,7 @@ Creates an empty list. Rules refer to it by alias, which can't be changed or reu
 
 `POST /v1/risk-lists`
 
-Signature:
-
-```typescript
-create(params: (InputValue<CreateRiskListRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "merchantKey">)
-```
+Signature: `create(params: (InputValue<CreateRiskListRequestInput>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
@@ -133,7 +126,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -160,7 +153,7 @@ deleteItem(risk_list_id: InputValue<string>,
  params?: {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -199,7 +192,7 @@ Complete body and metadata: `deleteItemWithResponse`. See [response modes](../RU
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -218,7 +211,7 @@ Retrieves a risk list. item_count is its current number of values.
 
 `GET /v1/risk-lists/{risk_list_id}`
 
-Signature: `get(risk_list_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(risk_list_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -251,7 +244,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -274,7 +267,7 @@ getItem(risk_list_id: InputValue<string>,
  risk_list_item_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -309,7 +302,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -334,7 +327,7 @@ list(params?: {
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -371,7 +364,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -398,7 +391,7 @@ listRiskListItems(risk_list_id: InputValue<string>,
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -435,7 +428,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listRiskListItemsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listRiskListItemsItems`, `listRiskListItemsPages`, `listRiskListItemsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -461,7 +454,7 @@ remove(risk_list_id: InputValue<string>,
   "expected_version"?: InputValue<`${bigint}` | bigint>;
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -500,7 +493,7 @@ Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -526,7 +519,7 @@ update(risk_list_id: InputValue<string>,
  params: (InputValue<UpdateRiskListRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -573,7 +566,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

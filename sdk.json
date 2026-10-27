@@ -2,7 +2,6 @@
   "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/314de2ee5975e3a5cc7cf385babd23b84eb489fa/sdk-config.schema.json",
   "profiles": [
     "spec/profiles/full-merchant-sdk.json",
-    "spec/profiles/full-merchantKey-sdk.json",
     "spec/profiles/full-customer-sdk.json",
     "spec/profiles/full-onboarding-sdk.json",
     "spec/profiles/full-checkout-sdk.json",

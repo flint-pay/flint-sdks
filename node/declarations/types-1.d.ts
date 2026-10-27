@@ -1,5 +1,5 @@
 import type { InputValue } from '../runtime.js';
-import type { UpdateBundleRequestInput, TicketedEvent, TextModifierRequest } from './types-47.js';
+import type { UpdateBundleRequestInput, TaxIdentity, TicketedEvent, TextModifierRequest, TaxBreakdown } from './types-47.js';
 import type {
     BuyerRetentionOffer,
     BuyerSkipCapability,
@@ -9,7 +9,6 @@ import type {
     BuyerReturnReplacementLineItemRequest,
     BuyerReturnReplacementLineItemRequestInput,
     BuyerSubscriptionPlanLineItem,
-    BuyerTip,
     BuyerPaymentAttemptPaymentIntent,
     BuyerPaymentErrorSummary
 } from './types-2.js';
@@ -18,10 +17,11 @@ import type {
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutCustomerPrefill,
-    CheckoutDerivedDeliveryResource,
+    BuyerTip,
     CategoryReference
 } from './types-3.js';
 import type {
+    CheckoutDerivedDeliveryResource,
     CheckoutGiftCardChallenge,
     CheckoutMerchantSupport,
     CheckoutPaymentConfig,
@@ -35,28 +35,27 @@ import type {
     CheckoutTipConfig
 } from './types-4.js';
 import type { Image, GiftCardPurchaseSnapshot } from './types-19.js';
-import type { LegalSettings, InvoiceSnapshot, LineItemInventorySnapshot } from './types-28.js';
+import type { LegalSettings, InvoiceScheduleEntry, InvoiceSnapshot, LineItemInventorySnapshot } from './types-28.js';
 import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-8.js';
-import type { ReturnLineItemRequest, ReturnLineItemRequestInput, ReturnResolutionLineItemRequest } from './types-41.js';
-import type { ReturnResolutionLineItemRequestInput } from './types-42.js';
-import type { CreditNoteLineItem } from './types-9.js';
+import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-41.js';
+import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-42.js';
+import type { CreditNoteLineItem } from './types-10.js';
 import type { MoneyValue } from './types-31.js';
-import type { TaxIdentity, TaxBreakdown } from './types-46.js';
 import type { ResponseMeta } from './types-40.js';
 import type { Address, BundleComponent } from './types-0.js';
 import type { PricingAmounts, PickupFulfillmentDetails, PendingPaymentAction } from './types-37.js';
-import type { SettlementAmounts, ServiceFulfillmentDetails, ShipmentFulfillmentDetails, SubscribedLine } from './types-44.js';
-import type { SubscriptionIntervalOption } from './types-45.js';
 import type {
-    DigitalFulfillmentDetails,
-    ExpandedPackageSummary,
-    ExpandedShipmentSummary,
-    ExpandedCustomerSummary,
-    Dimensions
-} from './types-16.js';
-import type { FulfillmentChargeLink, FulfillmentRecipient } from './types-17.js';
-import type { InvoiceDocumentRow, InvoicePaymentAttempt, InvoiceLateFeePolicy } from './types-26.js';
-import type { InvoicePaymentOptionCostComparison, InvoicePaymentTermsSnapshot, InvoiceScheduleEntry } from './types-27.js';
+    SettlementAmounts,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails,
+    SelectedProductOption,
+    SubscribedLine
+} from './types-44.js';
+import type { SubscriptionIntervalOption } from './types-45.js';
+import type { DigitalFulfillmentDetails, ExpandedPackageSummary, ExpandedCustomerSummary, Dimensions } from './types-16.js';
+import type { ExpandedShipmentSummary, FulfillmentChargeLink, FulfillmentRecipient } from './types-17.js';
+import type { InvoiceDocumentRow, InvoiceLateFeePolicy } from './types-26.js';
+import type { InvoicePaymentAttempt, InvoicePaymentOptionCostComparison, InvoicePaymentTermsSnapshot } from './types-27.js';
 import type {
     OrderAuthorizationAmounts,
     OrderDeliveryDestination,
@@ -73,7 +72,6 @@ import type {
 } from './types-32.js';
 import type { OrderReturnCreditSettlement, OrderTaxExemption } from './types-33.js';
 import type { PurchasedGiftCard } from './types-39.js';
-import type { SelectedProductOption } from './types-43.js';
 import type { Weight } from './types-61.js';
 import type { PaymentAttemptGiftCardRedemption } from './types-35.js';
 export type BundlesGetInput = {
@@ -783,6 +781,12 @@ export type BuyerCheckoutSession = {
      * sessions.
      */
     "url"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link BuyerCheckoutSessionWithSecret}. The checkout session with its checkout
@@ -982,7 +986,7 @@ export type BuyerCreditNote = {
     "credit_note_number": string;
     /** Shape $ (Value): string. The invoice this credit note corrects. */
     "invoice_id": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the credit note was issued. Format: date-time. */
     "issued_at": string;
     /**
      * Shape $ (Value): string. Status of the most recent refund linked to this credit note. Absent
@@ -1041,7 +1045,10 @@ export type BuyerCreditNote = {
      * lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "total_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. When the credit note was voided. Absent unless it is void. Format:
+     * date-time.
+     */
     "voided_at"?: string;
 };
 /** Shape $ (Value): {@link BuyerCreditNoteListResponse}. A page of `BuyerCreditNote` objects. */
@@ -2033,7 +2040,9 @@ export type BuyerInvoice = {
      * Shape $ (Value): {@link MoneyValue}. The part of the balance due now. Without
      * schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding
      * amount of the first entry, in schedule order, whose due time has arrived and that still has
-     * a balance, or 0 when there is none. Always 0 unless the invoice is open or partially_paid.
+     * a balance, or 0 when there is none. It is the amount the next collect call or checkout
+     * session charges. To total everything past due, add the outstanding_money of the entries
+     * whose status is due or overdue. Always 0 unless the invoice is open or partially_paid.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "currently_due_money": MoneyValue;
@@ -2057,7 +2066,7 @@ export type BuyerInvoice = {
     "due_at"?: string;
     /**
      * Shape $ (Value): string or null. Fine print at the bottom of the invoice and PDF. It cannot
-     * change after issue.
+     * change after issue. null when unset.
      */
     "footer": string | null;
     /** Shape $ (Value): string. Flint invoice ID. */
@@ -2102,8 +2111,8 @@ export type BuyerInvoice = {
      */
     "late_fees": Array<BuyerInvoiceLateFee>;
     /**
-     * Shape $ (Value): string or null. Message to the customer, shown on the invoice. It cannot
-     * change after issue.
+     * Shape $ (Value): string or null. Message to the customer, printed on the invoice and PDF. It
+     * cannot change after issue. null when unset.
      */
     "memo": string | null;
     /**
@@ -2186,16 +2195,20 @@ export type BuyerInvoice = {
      * date calculation, and late fee policy.
      */
     "payment_terms_snapshot"?: InvoicePaymentTermsSnapshot;
-    /** Shape $ (Value): string or null. The buyer's purchase order number. */
+    /**
+     * Shape $ (Value): string or null. The buyer's purchase order number, printed on the invoice
+     * and PDF. It cannot change after issue. null when unset.
+     */
     "po_number": string | null;
     /**
-     * Shape $ (Value): string or null. Where invoice email goes. Email delivery requires it at
-     * issue.
+     * Shape $ (Value): string or null. Where Flint emails the invoice and its reminders. Email
+     * delivery requires it at issue. null when unset.
      */
     "recipient_email": string | null;
     /**
-     * Shape $ (Value): string or null. Customer-facing reference shown on the invoice and PDF. It
-     * cannot change after issue.
+     * Shape $ (Value): string or null. Your reference for the invoice, printed on the invoice and
+     * PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. null
+     * when unset.
      */
     "reference": string | null;
     /**
@@ -2223,13 +2236,15 @@ export type BuyerInvoice = {
      */
     "schedule_entries": Array<InvoiceScheduleEntry>;
     /**
-     * Shape $ (Value): string or null. When Flint will issue and deliver this draft. Cleared when
-     * the draft is issued or voided, or when you send null. Format: date-time.
+     * Shape $ (Value): string or null. When Flint will issue and deliver this draft. null when no
+     * issue is scheduled. Cleared when the draft is issued or voided, or when you send null.
+     * Format: date-time.
      */
     "scheduled_issue_at": string | null;
     /**
-     * Shape $ (Value): string or null. The calendar service date shown on the invoice, in
-     * YYYY-MM-DD format. Format: date.
+     * Shape $ (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
+     * format. The invoice and PDF print it as written, without timezone conversion. null when
+     * unset. Format: date.
      */
     "service_date": string | null;
     /**
@@ -2256,8 +2271,8 @@ export type BuyerInvoice = {
      */
     "status": "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited" | (string & {});
     /**
-     * Shape $ (Value): string or null. Subscription of the backing order, copied when the draft is
-     * created. Null for orders without a subscription.
+     * Shape $ (Value): string or null. The subscription the backing order belongs to, copied when
+     * the draft is created and never changed. null when the order isn't part of a subscription.
      */
     "subscription_id": string | null;
     /**

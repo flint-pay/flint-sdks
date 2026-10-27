@@ -14,7 +14,7 @@ Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `X-Turnstile-Token` | Optional | string |  |
+| `Flint-Challenge-Token` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [CreateDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput) | The request body for: Create demo session. |
 
@@ -62,7 +62,9 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->demoSessions->create([], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->demoSessions->create([
+  'Flint-Challenge-Token' => 'example',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/demoSessions-create.php)
@@ -79,7 +81,7 @@ Signature: `reset(array|Model $params, ?RequestOptions $options = null)`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `X-Turnstile-Token` | Optional | string |  |
+| `Flint-Challenge-Token` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 | `body` | Required | [ResetDemoSessionRequestInput](../models/ResetDemoSessionRequestInput.md#resetdemosessionrequestinput) | The request body for: Reset demo session. |
 
@@ -127,6 +129,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->demoSessions->reset([
   'demo_session_id' => 'example',
+  'Flint-Challenge-Token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 

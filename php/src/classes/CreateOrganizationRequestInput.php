@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $parent_organization_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateOrganizationRequestInput extends Model {
-    /** @param array{'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'parent_organization_id'?: string, ...}|object $values */
+    /** @param array{'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'parent_organization_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateOrganizationRequestInput')); }
     /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
      * @return array<array-key, string>|\stdClass
@@ -21,7 +21,7 @@ final class CreateOrganizationRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** Shape $ (Value): string. The organization to create this one under. It must be an active organization you can manage. minLength: 1.
      * @return string
      * @throws SdkError When parent_organization_id is omitted; use hasParentOrganizationId() or valueOrDefault().
      */

@@ -1,34 +1,40 @@
 import type {
+    DeliveryScheduleWindowRule,
+    DeliveryRecipientRequirement,
+    DeliveryRecipientRequirementInput,
+    DeliveryRadiusCondition,
+    DeliveryRadiusConditionInput,
+    DeliveryQuoteExecutionLegResource,
+    DeliveryQuoteLineItemResource
+} from './types-14.js';
+import type {
+    DeliveryTransitTimeRule,
+    DeliveryScheduleWindowRuleRequestInput,
+    DeliveryTransitTimeRuleInput,
     DeliveryWindowRequest,
     DeliveryStateCondition,
-    DeliveryTransitTimeRule,
     DeliveryWindowTimeCondition,
     DeliveryZoneCondition,
     DeliveryStateConditionInput,
-    DeliveryTransitTimeRuleInput,
     DeliveryWindowTimeConditionInput,
     DeliveryZoneConditionInput,
     DeliveryShipmentDetails
 } from './types-15.js';
+import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type { ResponseMeta } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateDeliveryLocationSetRequestInput, CreateDeliveryMethodRequestInput } from './types-5.js';
 import type { UpdateDeliveryLocationSetRequestInput, UpdateDeliveryMethodRequestInput } from './types-47.js';
 import type {
     DeliveryAddressRequest,
-    DeliveryEligibilityMismatch,
     DeliveryEligibilityExpression,
-    DeliveryEstimateRule,
     DeliveryEligibilityExpressionInput,
-    DeliveryEstimateRuleRequestInput,
     DeliveryCustomerBooleanCondition,
     DeliveryCountryConditionInput,
     DeliveryCustomerBooleanConditionInput,
     DeliveryCustomerSegmentConditionInput,
     DeliveryArrivalEstimate,
-    DeliveryAddressAdvisoryResource,
-    DeliveryBuyerLocationRequest,
-    DeliveryCandidateOutcomeResource
+    DeliveryAddressAdvisoryResource
 } from './types-11.js';
 import type { SubscriptionCounts } from './types-45.js';
 import type { BuyerInstructionsConfig, BuyerInstructionsConfigInput } from './types-1.js';
@@ -37,22 +43,225 @@ import type {
     DeliveryPricingStrategyCreateRequest,
     DeliveryPricingStrategyCreateRequestInput,
     DeliveryPricingStrategyRequest,
-    DeliveryPricingStrategyRequestInput
+    DeliveryPricingStrategyRequestInput,
+    DeliveryPostalCodeValue,
+    DeliveryPostalCodeValueInput
 } from './types-13.js';
-import type {
-    DeliveryRecipientRequirement,
-    DeliveryRecipientRequirementInput,
-    DeliveryRadiusCondition,
-    DeliveryScheduleWindowRule,
-    DeliveryRadiusConditionInput,
-    DeliveryScheduleWindowRuleRequestInput,
-    DeliveryQuoteExecutionLegResource,
-    DeliveryQuoteLineItemResource
-} from './types-14.js';
 import type { AddRiskListItemsRequest } from './types-0.js';
-import type { MoneyValue } from './types-31.js';
-import type { CreateOrderLineItem } from './types-7.js';
-import type { CreateDeliveryPreviewRequestInput } from './types-6.js';
+/**
+ * Shape $ (Value): {@link DeliveryEligibilityMismatch}. An eligibility condition that rejected a
+ * delivery method, with its condition type, its path in the expression, and the field tested.
+ */
+export type DeliveryEligibilityMismatch = {
+    /**
+     * Shape $ (Value): string. The configured eligibility condition family that did not match.
+     * Value enum: "zone", "country", "state", "postal_code", "radius", "window_time",
+     * "subscription_purchase", "customer_segment", "customer_merchant_verified",
+     * "customer_has_email", "customer_has_phone".
+     */
+    "condition": "zone"
+        | "country"
+        | "state"
+        | "postal_code"
+        | "radius"
+        | "window_time"
+        | "subscription_purchase"
+        | "customer_segment"
+        | "customer_merchant_verified"
+        | "customer_has_email"
+        | "customer_has_phone"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. The condition's path in the configured eligibility expression,
+     * starting at $.
+     */
+    "expression_path": string;
+    /**
+     * Shape $ (Value): string. The eligibility fact evaluated by the condition. Buyer fact values
+     * are not included.
+     */
+    "field"?: string;
+    /**
+     * Shape $ (Value): boolean. Whether the condition matched inside a not expression and
+     * therefore rejected the method.
+     */
+    "negated"?: boolean;
+};
+/**
+ * Shape $ (Value): {@link DeliveryEstimateRule}. How a delivery method estimates timing, chosen by
+ * `type`: no estimate, a transit time, or a schedule window.
+ */
+export type DeliveryEstimateRule = {
+    /**
+     * Shape $ (Value): {@link DeliveryScheduleWindowRule}. Estimate rule for a scheduled-window
+     * delivery method, defined by its `availability` schedule.
+     */
+    "schedule_window"?: DeliveryScheduleWindowRule;
+    /**
+     * Shape $ (Value): {@link DeliveryTransitTimeRule}. Estimate rule giving a delivery method's
+     * handling time and transit time as ranges of business days.
+     */
+    "transit_time"?: DeliveryTransitTimeRule;
+    /** Shape $ (Value): string.  Value enum: "none", "transit_time", "schedule_window". */
+    "type": "none" | "transit_time" | "schedule_window" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link DeliveryEstimateRuleRequestInput}. The timing estimate rule you supply
+ * for a delivery method, chosen by `type`: none, a transit time, or a schedule window.
+ */
+export type DeliveryEstimateRuleRequestInput = {
+    /**
+     * Shape $ (Value): {@link DeliveryScheduleWindowRuleRequestInput}. Scheduled-window estimate
+     * rule you supply for a delivery method, defined by its `availability` schedule.
+     */
+    "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
+    /**
+     * Shape $ (Value): {@link DeliveryTransitTimeRuleInput}. Estimate rule giving a delivery
+     * method's handling time and transit time as ranges of business days.
+     */
+    "transit_time"?: DeliveryTransitTimeRuleInput;
+    /** Shape $ (Value): string.  Value enum: "none", "transit_time", "schedule_window". */
+    "type": "none" | "transit_time" | "schedule_window";
+};
+/**
+ * Shape $ (Value): {@link DeliveryExternalPricingStrategy}. Delivery pricing that comes from
+ * outside Flint, from a delivery rate callback or the caller, bounded by minimum and maximum fees
+ * by currency.
+ */
+export type DeliveryExternalPricingStrategy = {
+    /** Shape $ (Value): string. */
+    "delivery_rate_callback_id"?: string;
+    /** Shape $ (Value): string. */
+    "delivery_rate_callback_revision_id"?: string;
+    /**
+     * Shape $ (Value): Map of {@link MoneyValue}. Maximum delivery fee by ISO currency code. Each
+     * key must equal the Money object's currency. Shape $.* (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "maximum_fee_currency_options": Record<string, MoneyValue>;
+    /**
+     * Shape $ (Value): Map of {@link MoneyValue}. Minimum delivery fee by ISO currency code. Each
+     * key must equal the Money object's currency. Shape $.* (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "minimum_fee_currency_options": Record<string, MoneyValue>;
+    /** Shape $ (Value): boolean. */
+    "preview_enabled"?: boolean;
+};
+/** Shape $ (Value): {@link DeliveryFixedPricingStrategy}. A fixed delivery price, by currency. */
+export type DeliveryFixedPricingStrategy = {
+    /**
+     * Shape $ (Value): Map of {@link MoneyValue}. Shape $.* (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValue>;
+};
+/**
+ * Shape $ (Value): {@link DeliveryFixedPricingStrategyRequestInput}. A fixed delivery price by
+ * currency, supplied for a delivery method.
+ */
+export type DeliveryFixedPricingStrategyRequestInput = {
+    /**
+     * Shape $ (Value): Map of {@link MoneyValueInput}. Shape $.* (Value): {@link MoneyValueInput}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "currency_options": Record<string, MoneyValueInput>;
+};
+/**
+ * Shape $ (Value): {@link DeliveryFulfillmentDetails}. Details of a local delivery fulfillment:
+ * courier, timing window, instructions, and tracking. Some fields are omitted for credentials that
+ * don't act for the verified customer.
+ */
+export type DeliveryFulfillmentDetails = {
+    /** Shape $ (Value): string. Carrier responsible for the local delivery. */
+    "carrier"?: string;
+    /**
+     * Shape $ (Value): string. Time at which the courier collected the order. Format: date-time.
+     */
+    "courier_pickup_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Width of the promised courier pickup window, from 0 to
+     * 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 0. maximum: 86400.
+     */
+    "courier_pickup_window_duration_seconds"?: `${bigint}`;
+    /**
+     * Shape $ (Value): string. Delivery network or merchant fleet provider handling the job.
+     * maxLength: 255.
+     */
+    "courier_provider_name"?: string;
+    /**
+     * Shape $ (Value): string. Buyer-safe support number for the courier or merchant fleet.
+     * maxLength: 30.
+     */
+    "courier_support_phone"?: string;
+    /**
+     * Shape $ (Value): string. When the items were delivered, in RFC3339 format. Format:
+     * date-time.
+     */
+    "delivered_at"?: string;
+    /**
+     * Shape $ (Value): string. When the delivery was dispatched, in RFC3339 format. Format:
+     * date-time.
+     */
+    "dispatched_at"?: string;
+    /**
+     * Shape $ (Value): string. Driver-facing notes for the final handoff. Omitted for a checkout
+     * session credential that doesn't act for the customer the buyer verified. maxLength: 2048.
+     */
+    "dropoff_notes"?: string;
+    /**
+     * Shape $ (Value): string. Deadline after which an undelivered job should enter merchant
+     * review. Format: date-time.
+     */
+    "expires_at"?: string;
+    /**
+     * Shape $ (Value): string. Stable delivery job ID owned by the courier or merchant dispatch
+     * system. maxLength: 255.
+     */
+    "external_delivery_id"?: string;
+    /**
+     * Shape $ (Value): string. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified.
+     */
+    "instructions"?: string;
+    /**
+     * Shape $ (Value): boolean. Whether the buyer requested a no-contact handoff. Omitted for a
+     * checkout session credential that doesn't act for the customer the buyer verified.
+     */
+    "no_contact"?: boolean;
+    /**
+     * Shape $ (Value): integer string. Expected preparation time before courier pickup, from 0 to
+     * 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: `${bigint}`;
+    /**
+     * Shape $ (Value): string. Time at which the order became ready for courier pickup. Format:
+     * date-time.
+     */
+    "ready_at"?: string;
+    /** Shape $ (Value): string. Delivery service area assigned to this fulfillment. */
+    "service_area_id"?: string;
+    /** Shape $ (Value): string. Timezone used to display the local delivery window. */
+    "timezone"?: string;
+    /**
+     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
+     * rejected. Omitted for a checkout session credential that doesn't act for the customer the
+     * buyer verified.
+     */
+    "tracking_url"?: string;
+    /**
+     * Shape $ (Value): string. End of the promised delivery window, in RFC3339 format. Format:
+     * date-time.
+     */
+    "window_end_at"?: string;
+    /**
+     * Shape $ (Value): string. Start of the promised delivery window, in RFC3339 format. Format:
+     * date-time.
+     */
+    "window_start_at"?: string;
+};
 /**
  * Shape $ (Value): {@link DeliveryInputConstraint}. The rules for an input a delivery method
  * needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered
@@ -3018,199 +3227,4 @@ export type DeliveryPostalCodeConditionInput = {
      * postal code prefix with its country, used in a postal code condition.
      */
     "values": Array<DeliveryPostalCodeValueInput>;
-};
-/**
- * Shape $ (Value): {@link DeliveryPostalCodeValue}. A postal code or postal code prefix with its
- * country, used in a postal code condition.
- */
-export type DeliveryPostalCodeValue = {
-    /**
-     * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
-     * pattern: ^[A-Z]{2}$. Example: "US".
-     */
-    "country": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "prefix". */
-    "type"?: "exact" | "prefix" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "value": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryPostalCodeValueInput}. A postal code or postal code prefix with
- * its country, used in a postal code condition.
- */
-export type DeliveryPostalCodeValueInput = {
-    /**
-     * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
-     * pattern: ^[A-Z]{2}$. Example: "US".
-     */
-    "country": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "prefix". */
-    "type"?: "exact" | "prefix";
-    /** Shape $ (Value): string. minLength: 1. */
-    "value": string;
-};
-/**
- * Shape $ (Value): {@link DeliveryPreview}. The delivery options and prices Flint would offer for
- * the supplied items and buyer location, with input requirements and merchant diagnostics.
- */
-export type DeliveryPreview = {
-    /**
-     * Shape $ (Value): {@link DeliveryBuyerLocationRequest}. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified. The normalized buyer
-     * address or coordinate used for this quote.
-     */
-    "buyer_location"?: DeliveryBuyerLocationRequest;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryPreviewChoiceGroupResource}. Shape $[] (Value):
-     * {@link DeliveryPreviewChoiceGroupResource}. One group of order items in a delivery options
-     * preview, with the options a buyer could choose, its availability status, and any input still
-     * needed.
-     */
-    "choice_groups": Array<DeliveryPreviewChoiceGroupResource>;
-    /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "delivery_method_ids": Array<string>;
-    /**
-     * Shape $ (Value): {@link DeliveryAddressRequest}. Omitted for a checkout session credential
-     * that doesn't act for the customer the buyer verified. An address as returned on delivery
-     * quotes, selections, previews, and pickup locations.
-     */
-    "destination_address"?: DeliveryAddressRequest;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "evaluated_at": string;
-    /** Shape $ (Value): string.  Value enum: "complete", "incomplete", "degraded". */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "expires_at": string;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryInputRequirement}. Inputs the delivery methods
-     * need. A quote requirement, such as the destination address, is input a method needs before
-     * Flint can price it. A selection requirement is input a delivery selection needs before
-     * payment, such as a recipient field or delivery window an option requires. A method that
-     * waits on the buyer's address or store, or on an address the buyer must correct, already
-     * lists the recipient fields it requires. Those requirements name the method's choice group
-     * and have no delivery_option_ids. Shape $[] (Value): {@link DeliveryInputRequirement}. An
-     * input a delivery method needs, such as an address field or time window, with its
-     * `field_path`, purpose, and constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Shape $ (Value): Array of {@link CreateOrderLineItem}. Shape $[] (Value): {@link
-     * CreateOrderLineItem}. A line item in a delivery preview: a catalog variant, a bundle, or a
-     * custom item with a name and unit price.
-     */
-    "line_items": Array<CreateOrderLineItem>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryMerchantDiagnostic}. Present for merchant callers
-     * as an array, including when empty. Absent for buyer callers. Shape $[] (Value): {@link
-     * DeliveryMerchantDiagnostic}. A merchant-only diagnostic explaining why a delivery method
-     * produced no option, with its outcome, recommended action, and eligibility mismatches.
-     */
-    "merchant_diagnostics"?: Array<DeliveryMerchantDiagnostic>;
-    /**
-     * Shape $ (Value): string. The delivery question this preview answers. - `delivery_options`:
-     * Evaluates delivery methods and prices for the supplied items and buyer location. Value enum:
-     * "delivery_options".
-     */
-    "mode": "delivery_options" | (string & {});
-    /** Shape $ (Value): string. */
-    "pickup_location_id"?: string;
-};
-/**
- * Shape $ (Value): {@link DeliveryPreviewChoiceGroupResource}. One group of order items in a
- * delivery options preview, with the options a buyer could choose, its availability status, and
- * any input still needed.
- */
-export type DeliveryPreviewChoiceGroupResource = {
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "allowed_types"?: Array<string>;
-    /**
-     * Shape $ (Value): string. Value enum: "ready", "needs_input", "needs_checkout_context",
-     * "unavailable".
-     */
-    "availability_status": "ready" | "needs_input" | "needs_checkout_context" | "unavailable" | (string & {});
-    /**
-     * Shape $ (Value): Map of {@link DeliveryCandidateOutcomeResource}. Shape $.* (Value): {@link
-     * DeliveryCandidateOutcomeResource}. The result of evaluating one delivery method for a choice
-     * group, selected by `type`: available with an option, unavailable, input required, cannot
-     * calculate, or requires checkout context.
-     */
-    "candidate_outcomes": Record<string, DeliveryCandidateOutcomeResource>;
-    /** Shape $ (Value): string.  Value enum: "complete", "incomplete", "degraded". */
-    "evaluation_status": "complete" | "incomplete" | "degraded" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link DeliveryQuoteExecutionLegResource}. Where the group's items
-     * leave from, one leg per origin Location, when all of its methods leave from the same
-     * Locations. Omitted when the origin depends on the chosen method, such as shipping from a
-     * warehouse or picking up at a store. Each option then lists its own execution_legs. Shape $[]
-     * (Value): {@link DeliveryQuoteExecutionLegResource}. One leg of a delivery choice group,
-     * identifying the origin Location the group's items leave from.
-     */
-    "execution_legs"?: Array<DeliveryQuoteExecutionLegResource>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryInputRequirement}. Shape $[] (Value): {@link
-     * DeliveryInputRequirement}. An input a delivery method needs, such as an address field or
-     * time window, with its `field_path`, purpose, and constraint.
-     */
-    "input_requirements": Array<DeliveryInputRequirement>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryQuoteLineItemResource}. Shape $[] (Value): {@link
-     * DeliveryQuoteLineItemResource}. An order line item, or one bundle component of it, and the
-     * quantity covered by a delivery choice group.
-     */
-    "line_items": Array<DeliveryQuoteLineItemResource>;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryOptionProjection}. Shape $[] (Value): {@link
-     * DeliveryOptionProjection}. A delivery option in a quote or preview: its price, type, timing,
-     * delivery plan, execution legs, and shipment, pickup, or local delivery details.
-     */
-    "options": Array<DeliveryOptionProjection>;
-};
-/** Shape $ (Value): {@link DeliveryPreviewResponse}. The response for: Create delivery preview. */
-export type DeliveryPreviewResponse = {
-    /**
-     * Shape $ (Value): {@link DeliveryPreview} or {@link DeliveryPickupAvailability}. Shape
-     * $.oneOf[1] (Value): {@link DeliveryPreview}. The delivery options and prices Flint would
-     * offer for the supplied items and buyer location, with input requirements and merchant
-     * diagnostics. Shape $.oneOf[2] (Value): {@link DeliveryPickupAvailability}. The result of a
-     * pickup locations preview: each pickup location and whether it can supply the order, with
-     * input requirements and merchant diagnostics.
-     */
-    "data": ((DeliveryPreview) | (DeliveryPickupAvailability) | (Record<string, unknown>));
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link DeliveryPreviewRoutingSourceInput}. Chooses where a delivery options
- * preview routes inventory from: a fixed Location, an inventory allocation policy, or one policy
- * revision.
- */
-export type DeliveryPreviewRoutingSourceInput = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_allocation_policy_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_allocation_policy_revision_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "location_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "fixed_location", "policy", "policy_revision". */
-    "type": "fixed_location" | "policy" | "policy_revision";
-};
-export type DeliveryPreviewsCreateInput = {
-    /**
-     * Shape $ (Value): {@link CreateDeliveryPreviewRequestInput}. The request body for: Create
-     * delivery preview.
-     */
-    "body": InputValue<CreateDeliveryPreviewRequestInput>;
 };

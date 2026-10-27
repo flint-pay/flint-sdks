@@ -1,9 +1,7 @@
 [Model index](../MODELS.md)
 
-# RefundGiftCardDestinationInput – ReturnReplacementLineItemInput
+# RefundLineItemAdjustmentInput – ReturnReceiptLineItemInputMatchedInput
 
-- [RefundGiftCardDestinationInput](RefundGiftCardDestinationInput.md)
-- [RefundLineItemInput](RefundLineItemInput.md)
 - [RefundLineItemAdjustmentInput](RefundLineItemAdjustmentInput.md)
 - [RefundLineItemAdjustmentInInput](RefundLineItemAdjustmentInInput.md)
 - [RefundLineItemAdjustmentRefundInput](RefundLineItemAdjustmentRefundInput.md)
@@ -90,6 +88,8 @@
 - [ReturnPolicyRevisionInputReturnableInput](ReturnPolicyRevisionInputReturnableInput.md)
 - [ReturnPolicyRevisionRequestInput](ReturnPolicyRevisionRequestInput.md)
 - [ReturnPolicyScopeInput](ReturnPolicyScopeInput.md)
+- [ReturnPolicyScopeAllInput](ReturnPolicyScopeAllInput.md)
+- [ReturnPolicyScopeIncludeInput](ReturnPolicyScopeIncludeInput.md)
 - [ReturnProcessDecisionInput](ReturnProcessDecisionInput.md)
 - [ReturnProcessDispositionRequestInput](ReturnProcessDispositionRequestInput.md)
 - [ReturnProcessInspectionRequestInput](ReturnProcessInspectionRequestInput.md)
@@ -100,6 +100,6 @@
 - [ReturnReasonSummaryInput](ReturnReasonSummaryInput.md)
 - [ReturnReceiptInput](ReturnReceiptInput.md)
 - [ReturnReceiptLineItemInput](ReturnReceiptLineItemInput.md)
-- [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
-- [ReturnReplacementLineItemInput](ReturnReplacementLineItemInput.md)
+- [ReturnReceiptLineItemInputExcessInput](ReturnReceiptLineItemInputExcessInput.md)
+- [ReturnReceiptLineItemInputMatchedInput](ReturnReceiptLineItemInputMatchedInput.md)
 

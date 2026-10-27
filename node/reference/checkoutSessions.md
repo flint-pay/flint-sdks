@@ -14,11 +14,12 @@ Signature:
 closeSession(checkout_session_id: InputValue<string>,
  params?: (InputValue<CloseCheckoutSessionRequestInput> |
   {
+  "expected_version"?: never;
   "reason_message"?: never
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -27,15 +28,13 @@ closeSession(checkout_session_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `checkout_session_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [CloseCheckoutSessionRequestInput](../models/CloseCheckoutSessionRequestInput.md#closecheckoutsessionrequestinput) | The request body for: Close checkout session. |
+| `body` | Optional | [CloseCheckoutSessionRequestInput](../models/CloseCheckoutSessionRequest.md#closecheckoutsessionrequest) | The request body for: Close checkout session. |
 
-Body model: [CloseCheckoutSessionRequestInput](../models/CloseCheckoutSessionRequestInput.md#closecheckoutsessionrequestinput).
+Body model: [CloseCheckoutSessionRequestInput](../models/CloseCheckoutSessionRequest.md#closecheckoutsessionrequest).
 
 #### checkoutSessions.closeSession body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `reason_message` | Optional | string | Your note explaining why you are closing the checkout session. It is not shown to the buyer. minLength: `1`. |
+Field definitions: [shared fields](../models/CloseCheckoutSessionRequest.md#closecheckoutsessionrequest).
 
 #### Response
 
@@ -68,7 +67,7 @@ Complete body and metadata: `closeSessionWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -170,7 +169,7 @@ Signature:
 create(params: (InputValue<CreateCheckoutSessionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -342,7 +341,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -472,7 +471,7 @@ createDeliveryQuote(checkout_session_id: InputValue<string>,
  params: (InputValue<CreateCheckoutDeliveryQuoteRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)
+ options?: RequestOptions<"checkout" | "merchant">)
 ```
 
 #### Request fields
@@ -528,7 +527,7 @@ Complete body and metadata: `createDeliveryQuoteWithResponse`. See [response mod
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -554,7 +553,7 @@ createDeliverySelection(checkout_session_id: InputValue<string>,
  params: (InputValue<CreateDeliverySelectionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)
+ options?: RequestOptions<"checkout" | "merchant">)
 ```
 
 #### Request fields
@@ -610,7 +609,7 @@ Complete body and metadata: `createDeliverySelectionWithResponse`. See [response
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -637,7 +636,7 @@ deleteCurrentDeliverySelection(checkout_session_id: InputValue<string>,
   "expected_delivery_selection_id": InputValue<string>;
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)
+ options?: RequestOptions<"checkout" | "merchant">)
 ```
 
 #### Request fields
@@ -676,7 +675,7 @@ Complete body and metadata: `deleteCurrentDeliverySelectionWithResponse`. See [r
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -706,7 +705,7 @@ get(checkout_session_id: InputValue<string>,
     "payment_intents" |
     "payment_link">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
 ```
 
 #### Request fields
@@ -742,7 +741,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -764,7 +763,7 @@ Signature:
 getCurrentDeliverySelection(checkout_session_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
 ```
 
 #### Request fields
@@ -799,7 +798,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getCurrentDeliverySelectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -822,7 +821,7 @@ getDeliveryQuote(checkout_session_id: InputValue<string>,
  delivery_quote_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
 ```
 
 #### Request fields
@@ -858,7 +857,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getDeliveryQuoteWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -881,7 +880,7 @@ getDeliverySelectionHistory(checkout_session_id: InputValue<string>,
  delivery_selection_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -917,7 +916,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getDeliverySelectionHistoryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -968,7 +967,7 @@ list(params?: {
   "expires_before"?: InputValue<string | globalThis.Date>;
   "expand"?: InputValue<Array<"customer" | "invoice" | "order" | "payment_link">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -1021,7 +1020,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1046,7 +1045,7 @@ update(checkout_session_id: InputValue<string>,
  params: (InputValue<UpdateCheckoutSessionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)
+ options?: RequestOptions<"checkout" | "merchant">)
 ```
 
 #### Request fields
@@ -1064,6 +1063,7 @@ Body model: [UpdateCheckoutSessionRequestInput](../models/UpdateCheckoutSessionR
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `buyer_contact` | Optional | [CheckoutBuyerContactRequestInput](../models/CheckoutBuyerContactRequest.md#checkoutbuyercontactrequest) | Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact receives CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: `1`. |
+| `expected_version` | Optional | integer string | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Omit to leave unchanged; send null to clear. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
 | `subscription_terms` | Optional | [CheckoutSubscriptionTermsRequestInput](../models/CheckoutSubscriptionTermsRequest.md#checkoutsubscriptiontermsrequest) | Subscription plan sessions only. The billing interval and quantity the buyer chose from subscription_terms.billing_interval_options and quantity_options. Send billing_interval and billing_interval_count together. Accepted from your API key or the checkout credential. Subscription terms you set on a checkout session: billing interval, interval count, and quantity. |
@@ -1101,7 +1101,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

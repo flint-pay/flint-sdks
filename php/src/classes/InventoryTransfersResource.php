@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class InventoryTransfersResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Create a planned stock transfer between two Locations. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the relevant resource or inventory movement list.
+    /** Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so the Idempotency-Key is optional: each request without a key creates a separate draft. With a key, idempotency is scoped to the authenticated merchant, environment, and endpoint, and the fingerprint includes the canonical request body. To recover a keyed create after a lost response, list inventory transfers with idempotency_key.
      * @param array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return InventoryTransfer
      */

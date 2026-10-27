@@ -1,17 +1,17 @@
+import type { MoneyValue } from './types-31.js';
+import type { SubscriptionIntervalOption } from './types-45.js';
+import type { SubscriptionPlanLineItem } from './types-46.js';
+import type { ResponseMeta } from './types-40.js';
+import type { InputValue } from '../runtime.js';
+import type { CreateFeedbackReportRequestInput, CreateFileRequestInput } from './types-6.js';
 import type {
-    FeedbackReport,
     Dispute,
     ExpandedPaymentIntentSummary,
     DigitalFulfillmentDetails,
     ExpandedOrderSummary,
-    ExpandedPackageSummary,
-    ExpandedShipmentSummary
+    ExpandedPackageSummary
 } from './types-16.js';
-import type { ResponseMeta } from './types-40.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateFeedbackReportRequestInput, CreateFileRequestInput } from './types-6.js';
-import type { MoneyValue } from './types-31.js';
-import type { DeliveryFulfillmentDetails } from './types-11.js';
+import type { DeliveryFulfillmentDetails } from './types-12.js';
 import type { PickupFulfillmentDetails } from './types-37.js';
 import type {
     ServiceFulfillmentDetails,
@@ -22,17 +22,638 @@ import type {
 import type { OrderLineItemModifier } from './types-32.js';
 import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
 import type {
+    FulfillmentTransitionRequestMarkNoShow,
+    FulfillmentTransitionRequestMarkPicked,
+    FulfillmentTransitionRequestMarkPreparing,
     FulfillmentTransitionRequestMarkReady,
     FulfillmentTransitionRequestReleaseHold,
     FulfillmentTransitionRequestSchedule,
-    FulfillmentTransitionRequestStart,
-    FulfillmentTransitionRequestMarkPreparingInput,
-    FulfillmentTransitionRequestMarkReadyInput,
-    FulfillmentTransitionRequestReleaseHoldInput,
-    FulfillmentTransitionRequestScheduleInput,
-    FulfillmentTransitionRequestStartInput
+    FulfillmentTransitionRequestStart
 } from './types-18.js';
 import type { PackageTransitionRequestMarkPacked } from './types-34.js';
+/**
+ * Shape $ (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields, including
+ * direction, status, and package count, returned when the shipment is expanded.
+ */
+export type ExpandedShipmentSummary = {
+    /**
+     * Shape $ (Value): string. When the shipment was created, in RFC3339 format. Format:
+     * date-time.
+     */
+    "created_at"?: string;
+    /**
+     * Shape $ (Value): string. When the shipment was delivered, in RFC3339 format. Format:
+     * date-time.
+     */
+    "delivered_at"?: string;
+    /**
+     * Shape $ (Value): string. Whether the shipment sends items to the buyer or returns items to
+     * the merchant. Value enum: "outbound", "return".
+     */
+    "direction": "outbound" | "return" | (string & {});
+    /** Shape $ (Value): string. Fulfillment associated with this shipment. */
+    "fulfillment_id": string;
+    /**
+     * Shape $ (Value): string. When the carrier accepted the shipment, in RFC3339 format. Format:
+     * date-time.
+     */
+    "handed_off_at"?: string;
+    /**
+     * Shape $ (Value): integer. Total number of packages attached to the shipment, including
+     * voided packages. Format: int32. minimum: 0.
+     */
+    "package_count": number;
+    /**
+     * Shape $ (Value): string. ID of the Return this shipment sends back. Present only on return
+     * shipments.
+     */
+    "return_id"?: string;
+    /** Shape $ (Value): string. Stable identifier of the expanded shipment. */
+    "shipment_id": string;
+    /**
+     * Shape $ (Value): string. When the shipment was shipped, in RFC3339 format. Format:
+     * date-time.
+     */
+    "shipped_at"?: string;
+    /**
+     * Shape $ (Value): string. Read-only shipment state. - `created`: The shipment leg exists but
+     * has not been packed or handed off. - `packed`: The shipment leg is packed and awaiting
+     * carrier handoff. - `shipped`: The shipment leg was handed to the carrier. - `in_transit`:
+     * The carrier is moving the shipment through its network. - `out_for_delivery`: The shipment
+     * is on its final delivery route. - `delivered`: The carrier reported successful delivery. -
+     * `delivery_attempted`: The carrier attempted delivery but did not complete it. Follow the
+     * carrier instructions before retrying delivery. - `exception`: A carrier exception is
+     * blocking normal progress. Resolve the carrier-reported issue. - `returned`: The shipment was
+     * returned toward or to its origin. - `voided`: The shipment was voided and will not continue
+     * through delivery. Value enum: "created", "packed", "shipped", "in_transit",
+     * "out_for_delivery", "delivered", "delivery_attempted", "exception", "returned", "voided".
+     */
+    "status": "created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. When the shipment was last updated, in RFC3339 format. Format:
+     * date-time.
+     */
+    "updated_at"?: string;
+};
+/**
+ * Shape $ (Value): {@link ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields,
+ * including name, billing interval, currency, and status, returned when the plan is expanded.
+ */
+export type ExpandedSubscriptionPlanSummary = {
+    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
+    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /** Shape $ (Value): integer. Format: int32. */
+    "billing_interval_count": number;
+    /**
+     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. maxItems: 12. uniqueItems:
+     * true. Shape $[] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as
+     * every 2 months, offered by a subscription plan.
+     */
+    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /**
+     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /** Shape $ (Value): string. */
+    "description"?: string;
+    /**
+     * Shape $ (Value): Array of {@link SubscriptionPlanLineItem}. Shape $[] (Value): {@link
+     * SubscriptionPlanLineItem}. A line item on a subscription plan, from a variant or bundle,
+     * with its quantity, price, and variants a subscriber can swap to.
+     */
+    "line_items"?: Array<SubscriptionPlanLineItem>;
+    /** Shape $ (Value): string. */
+    "name": string;
+    /**
+     * Shape $ (Value): Array of integer. maxItems: 10. uniqueItems: true. Shape $[] (Value):
+     * integer. minimum: 1. maximum: 100.
+     */
+    "quantity_options"?: Array<number>;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "setup_fee_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups
+     * with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are
+     * read-only and their status is set only by DELETE
+     * /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /** Shape $ (Value): string. */
+    "subscription_plan_id": string;
+    /** Shape $ (Value): integer. Format: int32. */
+    "trial_period_days"?: number;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+};
+/**
+ * Shape $ (Value): {@link ExpandedSubscriptionSummary}. A subscription's summary fields, including
+ * status, billing period, and next billing time, returned when the subscription is expanded.
+ */
+export type ExpandedSubscriptionSummary = {
+    /** Shape $ (Value): integer. Format: int32. */
+    "billing_anchor_day": number;
+    /** Shape $ (Value): boolean. */
+    "cancel_at_period_end": boolean;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "current_period_end_at"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "current_period_start_at"?: string;
+    /** Shape $ (Value): string. */
+    "customer_id": string;
+    /**
+     * Shape $ (Value): string. When Flint next starts a scheduled renewal charge, as an RFC3339
+     * timestamp. Present only while a trialing or active subscription has a billing date and isn't
+     * set to cancel at the end of its period. Absent when no renewal is scheduled: a paused
+     * subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date
+     * in missed_billing_at and retries at next_retry_at, an incomplete one retries at
+     * next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at
+     * scheduled_cancel_at, and an external schedule awaiting a date reports
+     * awaiting_billing_schedule. Format: date-time.
+     */
+    "next_billing_at"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "trialing", "active", "paused", "past_due", "canceled",
+     * "incomplete", "scheduled".
+     */
+    "status": "trialing"
+        | "active"
+        | "paused"
+        | "past_due"
+        | "canceled"
+        | "incomplete"
+        | "scheduled"
+        | (string & {});
+    /** Shape $ (Value): string. */
+    "subscription_id": string;
+    /** Shape $ (Value): string. */
+    "subscription_plan_id": string;
+    /** Shape $ (Value): string.  Value enum: "subscription_plan", "subscription_offer". */
+    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+};
+/** Shape $ (Value): {@link FeedbackReport}. Feedback submitted about the developer experience. */
+export type FeedbackReport = ({
+    /**
+     * Shape $ (Value): string. Optional observed outcome. Limited to 4000 characters (Unicode code
+     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
+     * 4000.
+     */
+    "actual_behavior"?: string;
+    /**
+     * Shape $ (Value): string. Dotted or hyphenated canonical command name, such as
+     * payment-intents.create. Limited to 200 characters (Unicode code points), counted before
+     * whitespace and line-ending normalization. minLength: 1. maxLength: 200. pattern:
+     * ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
+     */
+    "canonical_command"?: string;
+    /**
+     * Shape $ (Value): string. Location in the reporting code associated with this feedback.
+     * Limited to 500 characters (Unicode code points), counted before whitespace and line-ending
+     * normalization. minLength: 1. maxLength: 500.
+     */
+    "code_location"?: string;
+    /**
+     * Shape $ (Value): string. Optional feature or subsystem within the product. Limited to 128
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 128.
+     */
+    "component"?: string;
+    /**
+     * Shape $ (Value): string. Server-assigned time when Flint stored the report. Format:
+     * date-time.
+     */
+    "created_at": string;
+    /**
+     * Shape $ (Value): string. Optional details about the feedback. Limited to 8000 characters
+     * (Unicode code points), counted before whitespace and line-ending normalization. minLength:
+     * 1. maxLength: 8000.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Optional desired outcome. Limited to 4000 characters (Unicode code
+     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
+     * 4000.
+     */
+    "expected_behavior"?: string;
+    /**
+     * Shape $ (Value): string. Server-assigned ID of the stored feedback report. pattern:
+     * ^fbr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "feedback_report_id": string;
+    /**
+     * Shape $ (Value): string. Classification of the feedback. Value enum: "papercut", "bug",
+     * "feature_request", "rating", "praise", "other".
+     */
+    "kind": "papercut" | "bug" | "feature_request" | "rating" | "praise" | "other" | (string & {});
+    /**
+     * Shape $ (Value): string. Flint request ID associated with this feedback. Limited to 255
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 255.
+     */
+    "related_request_id"?: string;
+    /**
+     * Shape $ (Value): Array of string. Existing public resources associated with this feedback,
+     * with at most 20 unique IDs. maxItems: 20. uniqueItems: true. Shape $[] (Value): string.
+     * minLength: 1.
+     */
+    "related_resource_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. Whether the reporter is a human or an AI. Value enum: "human",
+     * "ai_agent".
+     */
+    "reporter_kind"?: "human" | "ai_agent" | (string & {});
+    /**
+     * Shape $ (Value): {@link FeedbackReportingClient}. Tool submitting the feedback,
+     * independently of the product being discussed. Its name is required when present. The client
+     * that submits a feedback report, with its name, platform, version, and schema version.
+     */
+    "reporting_client"?: FeedbackReportingClient;
+    /**
+     * Shape $ (Value): Array of string. Unique steps in reproduction order, with at most 20
+     * entries. maxItems: 20. uniqueItems: true. Shape $[] (Value): string. Limited to 1000
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 1000.
+     */
+    "reproduction_steps"?: Array<string>;
+    /**
+     * Shape $ (Value): string. Positive, negative, or neutral assessment. Required for rating
+     * feedback; optional for narrative feedback. Value enum: "positive", "negative", "neutral".
+     */
+    "sentiment"?: "positive" | "negative" | "neutral" | (string & {});
+    /**
+     * Shape $ (Value): string. Brief account of the feedback. Required for every kind except
+     * rating; optional for a rating. Limited to 200 characters (Unicode code points), counted
+     * before whitespace and line-ending normalization. minLength: 1. maxLength: 200.
+     */
+    "summary"?: string;
+    /**
+     * Shape $ (Value): string. Product being discussed, independently of how the report is
+     * submitted. Value enum: "api", "cli", "mcp", "sdk", "docs", "dashboard", "checkout",
+     * "payment_links", "webhooks", "onboarding", "mobile", "other".
+     */
+    "surface": "api"
+        | "cli"
+        | "mcp"
+        | "sdk"
+        | "docs"
+        | "dashboard"
+        | "checkout"
+        | "payment_links"
+        | "webhooks"
+        | "onboarding"
+        | "mobile"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Relevant route in the product being discussed. Limited to 500
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 500.
+     */
+    "surface_route"?: string;
+})
+    & ((Exclude<FeedbackReportRating & object, readonly unknown[]>)
+    | (Exclude<FeedbackReportNarrative & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** Shape $ (Value): {@link FeedbackReportListResponse}. A page of `FeedbackReport` objects. */
+export type FeedbackReportListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link FeedbackReport}. Shape $[] (Value): {@link FeedbackReport}.
+     * Feedback submitted about the developer experience.
+     */
+    "data": Array<FeedbackReport>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link FeedbackReportNarrative}. Feedback submitted about the developer
+ * experience.
+ */
+export type FeedbackReportNarrative = ({
+    /**
+     * Shape $ (Value): string. Optional observed outcome. Limited to 4000 characters (Unicode code
+     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
+     * 4000.
+     */
+    "actual_behavior"?: string;
+    /**
+     * Shape $ (Value): string. Dotted or hyphenated canonical command name, such as
+     * payment-intents.create. Limited to 200 characters (Unicode code points), counted before
+     * whitespace and line-ending normalization. minLength: 1. maxLength: 200. pattern:
+     * ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
+     */
+    "canonical_command"?: string;
+    /**
+     * Shape $ (Value): string. Location in the reporting code associated with this feedback.
+     * Limited to 500 characters (Unicode code points), counted before whitespace and line-ending
+     * normalization. minLength: 1. maxLength: 500.
+     */
+    "code_location"?: string;
+    /**
+     * Shape $ (Value): string. Optional feature or subsystem within the product. Limited to 128
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 128.
+     */
+    "component"?: string;
+    /**
+     * Shape $ (Value): string. Server-assigned time when Flint stored the report. Format:
+     * date-time.
+     */
+    "created_at": string;
+    /**
+     * Shape $ (Value): string. Optional details about the feedback. Limited to 8000 characters
+     * (Unicode code points), counted before whitespace and line-ending normalization. minLength:
+     * 1. maxLength: 8000.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Optional desired outcome. Limited to 4000 characters (Unicode code
+     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
+     * 4000.
+     */
+    "expected_behavior"?: string;
+    /**
+     * Shape $ (Value): string. Server-assigned ID of the stored feedback report. pattern:
+     * ^fbr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "feedback_report_id": string;
+    /**
+     * Shape $ (Value): string. Classification of the feedback. Value enum: "papercut", "bug",
+     * "feature_request", "praise", "other".
+     */
+    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other" | (string & {});
+    /**
+     * Shape $ (Value): string. Flint request ID associated with this feedback. Limited to 255
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 255.
+     */
+    "related_request_id"?: string;
+    /**
+     * Shape $ (Value): Array of string. Existing public resources associated with this feedback,
+     * with at most 20 unique IDs. maxItems: 20. uniqueItems: true. Shape $[] (Value): string.
+     * minLength: 1.
+     */
+    "related_resource_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. Whether the reporter is a human or an AI. Value enum: "human",
+     * "ai_agent".
+     */
+    "reporter_kind"?: "human" | "ai_agent" | (string & {});
+    /**
+     * Shape $ (Value): {@link FeedbackReportingClient}. Tool submitting the feedback,
+     * independently of the product being discussed. Its name is required when present. The client
+     * that submits a feedback report, with its name, platform, version, and schema version.
+     */
+    "reporting_client"?: FeedbackReportingClient;
+    /**
+     * Shape $ (Value): Array of string. Unique steps in reproduction order, with at most 20
+     * entries. maxItems: 20. uniqueItems: true. Shape $[] (Value): string. Limited to 1000
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 1000.
+     */
+    "reproduction_steps"?: Array<string>;
+    /**
+     * Shape $ (Value): string. Positive, negative, or neutral assessment. Required for rating
+     * feedback; optional for narrative feedback. Value enum: "positive", "negative", "neutral".
+     */
+    "sentiment"?: "positive" | "negative" | "neutral" | (string & {});
+    /**
+     * Shape $ (Value): string. Brief account of the feedback. Required for every kind except
+     * rating; optional for a rating. Limited to 200 characters (Unicode code points), counted
+     * before whitespace and line-ending normalization. minLength: 1. maxLength: 200.
+     */
+    "summary": string;
+    /**
+     * Shape $ (Value): string. Product being discussed, independently of how the report is
+     * submitted. Value enum: "api", "cli", "mcp", "sdk", "docs", "dashboard", "checkout",
+     * "payment_links", "webhooks", "onboarding", "mobile", "other".
+     */
+    "surface": "api"
+        | "cli"
+        | "mcp"
+        | "sdk"
+        | "docs"
+        | "dashboard"
+        | "checkout"
+        | "payment_links"
+        | "webhooks"
+        | "onboarding"
+        | "mobile"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Relevant route in the product being discussed. Limited to 500
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 500.
+     */
+    "surface_route"?: string;
+})
+    & ({
+    /**
+     * Shape $ (Value): string. Value enum: "papercut", "bug", "feature_request", "praise",
+     * "other".
+     */
+    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other" | (string & {});
+    /**
+     * Shape $ (Value): string. Product being discussed, independently of how the report is
+     * submitted. Value enum: "api", "cli", "mcp", "sdk", "docs", "dashboard", "checkout",
+     * "payment_links", "webhooks", "onboarding", "mobile", "other".
+     */
+    "surface": "api"
+        | "cli"
+        | "mcp"
+        | "sdk"
+        | "docs"
+        | "dashboard"
+        | "checkout"
+        | "payment_links"
+        | "webhooks"
+        | "onboarding"
+        | "mobile"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Brief account of the feedback. Required for every kind except
+     * rating; optional for a rating. Limited to 200 characters (Unicode code points), counted
+     * before whitespace and line-ending normalization. minLength: 1. maxLength: 200.
+     */
+    "summary": string;
+});
+/**
+ * Shape $ (Value): {@link FeedbackReportRating}. Feedback submitted about the developer
+ * experience.
+ */
+export type FeedbackReportRating = ({
+    /**
+     * Shape $ (Value): string. Optional observed outcome. Limited to 4000 characters (Unicode code
+     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
+     * 4000.
+     */
+    "actual_behavior"?: string;
+    /**
+     * Shape $ (Value): string. Dotted or hyphenated canonical command name, such as
+     * payment-intents.create. Limited to 200 characters (Unicode code points), counted before
+     * whitespace and line-ending normalization. minLength: 1. maxLength: 200. pattern:
+     * ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
+     */
+    "canonical_command"?: string;
+    /**
+     * Shape $ (Value): string. Location in the reporting code associated with this feedback.
+     * Limited to 500 characters (Unicode code points), counted before whitespace and line-ending
+     * normalization. minLength: 1. maxLength: 500.
+     */
+    "code_location"?: string;
+    /**
+     * Shape $ (Value): string. Optional feature or subsystem within the product. Limited to 128
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 128.
+     */
+    "component"?: string;
+    /**
+     * Shape $ (Value): string. Server-assigned time when Flint stored the report. Format:
+     * date-time.
+     */
+    "created_at": string;
+    /**
+     * Shape $ (Value): string. Optional details about the feedback. Limited to 8000 characters
+     * (Unicode code points), counted before whitespace and line-ending normalization. minLength:
+     * 1. maxLength: 8000.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Optional desired outcome. Limited to 4000 characters (Unicode code
+     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
+     * 4000.
+     */
+    "expected_behavior"?: string;
+    /**
+     * Shape $ (Value): string. Server-assigned ID of the stored feedback report. pattern:
+     * ^fbr_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "feedback_report_id": string;
+    /** Shape $ (Value): string. Classification of the feedback. Value enum: "rating". */
+    "kind": "rating" | (string & {});
+    /**
+     * Shape $ (Value): string. Flint request ID associated with this feedback. Limited to 255
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 255.
+     */
+    "related_request_id"?: string;
+    /**
+     * Shape $ (Value): Array of string. Existing public resources associated with this feedback,
+     * with at most 20 unique IDs. maxItems: 20. uniqueItems: true. Shape $[] (Value): string.
+     * minLength: 1.
+     */
+    "related_resource_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. Whether the reporter is a human or an AI. Value enum: "human",
+     * "ai_agent".
+     */
+    "reporter_kind"?: "human" | "ai_agent" | (string & {});
+    /**
+     * Shape $ (Value): {@link FeedbackReportingClient}. Tool submitting the feedback,
+     * independently of the product being discussed. Its name is required when present. The client
+     * that submits a feedback report, with its name, platform, version, and schema version.
+     */
+    "reporting_client"?: FeedbackReportingClient;
+    /**
+     * Shape $ (Value): Array of string. Unique steps in reproduction order, with at most 20
+     * entries. maxItems: 20. uniqueItems: true. Shape $[] (Value): string. Limited to 1000
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 1000.
+     */
+    "reproduction_steps"?: Array<string>;
+    /**
+     * Shape $ (Value): string. Positive, negative, or neutral assessment. Required for rating
+     * feedback; optional for narrative feedback. Value enum: "positive", "negative", "neutral".
+     */
+    "sentiment": "positive" | "negative" | "neutral" | (string & {});
+    /**
+     * Shape $ (Value): string. Brief account of the feedback. Required for every kind except
+     * rating; optional for a rating. Limited to 200 characters (Unicode code points), counted
+     * before whitespace and line-ending normalization. minLength: 1. maxLength: 200.
+     */
+    "summary"?: string;
+    /**
+     * Shape $ (Value): string. Product being discussed, independently of how the report is
+     * submitted. Value enum: "api", "cli", "mcp", "sdk", "docs", "dashboard", "checkout",
+     * "payment_links", "webhooks", "onboarding", "mobile", "other".
+     */
+    "surface": "api"
+        | "cli"
+        | "mcp"
+        | "sdk"
+        | "docs"
+        | "dashboard"
+        | "checkout"
+        | "payment_links"
+        | "webhooks"
+        | "onboarding"
+        | "mobile"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Relevant route in the product being discussed. Limited to 500
+     * characters (Unicode code points), counted before whitespace and line-ending normalization.
+     * minLength: 1. maxLength: 500.
+     */
+    "surface_route"?: string;
+})
+    & ({
+    /** Shape $ (Value): string.  Value enum: "rating". */
+    "kind": "rating" | (string & {});
+    /**
+     * Shape $ (Value): string. Product being discussed, independently of how the report is
+     * submitted. Value enum: "api", "cli", "mcp", "sdk", "docs", "dashboard", "checkout",
+     * "payment_links", "webhooks", "onboarding", "mobile", "other".
+     */
+    "surface": "api"
+        | "cli"
+        | "mcp"
+        | "sdk"
+        | "docs"
+        | "dashboard"
+        | "checkout"
+        | "payment_links"
+        | "webhooks"
+        | "onboarding"
+        | "mobile"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Positive, negative, or neutral assessment. Required for rating
+     * feedback; optional for narrative feedback. Value enum: "positive", "negative", "neutral".
+     */
+    "sentiment": "positive" | "negative" | "neutral" | (string & {});
+});
 /** Shape $ (Value): {@link FeedbackReportResponse}. A response containing `FeedbackReport` data. */
 export type FeedbackReportResponse = {
     /**
@@ -1665,165 +2286,6 @@ export type FulfillmentTransitionRequestHoldInput = {
         | "scheduling_issue"
         | "fraud_review"
         | "other";
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestInput}. The request body for: Transition
- * fulfillment.
- */
-export type FulfillmentTransitionRequestInput = ((FulfillmentTransitionRequestReleaseHoldInput)
-    | (FulfillmentTransitionRequestCompleteInput)
-    | (FulfillmentTransitionRequestCancelInput)
-    | (FulfillmentTransitionRequestHoldInput)
-    | (FulfillmentTransitionRequestStartInput)
-    | (FulfillmentTransitionRequestMarkReadyInput)
-    | (FulfillmentTransitionRequestFailInput)
-    | (FulfillmentTransitionRequestScheduleInput)
-    | (FulfillmentTransitionRequestAcceptInput)
-    | (FulfillmentTransitionRequestMarkPreparingInput)
-    | (FulfillmentTransitionRequestMarkPickedInput)
-    | (FulfillmentTransitionRequestMarkPackedInput)
-    | (FulfillmentTransitionRequestDispatchInput)
-    | (FulfillmentTransitionRequestMarkNoShowInput));
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkNoShow}. The `mark_no_show` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkNoShow = {
-    /** Shape $ (Value): string.  Value enum: "mark_no_show". */
-    "action": "mark_no_show" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "customer_no_show", "provider_no_show",
-     * "location_unavailable", "scheduling_error", "other".
-     */
-    "reason": "customer_no_show"
-        | "provider_no_show"
-        | "location_unavailable"
-        | "scheduling_error"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkNoShowInput}. The `mark_no_show` variant
- * of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkNoShowInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_no_show". */
-    "action": "mark_no_show";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Value enum: "customer_no_show", "provider_no_show",
-     * "location_unavailable", "scheduling_error", "other".
-     */
-    "reason": "customer_no_show" | "provider_no_show" | "location_unavailable" | "scheduling_error" | "other";
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPackedInput}. The `mark_packed` variant
- * of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPackedInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_packed". */
-    "action": "mark_packed";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPicked}. The `mark_picked` variant of
- * `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPicked = {
-    /** Shape $ (Value): string.  Value enum: "mark_picked". */
-    "action": "mark_picked" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPickedInput}. The `mark_picked` variant
- * of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPickedInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_picked". */
-    "action": "mark_picked";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPreparing}. The `mark_preparing` variant
- * of `FulfillmentTransitionRequest`.
- */
-export type FulfillmentTransitionRequestMarkPreparing = {
-    /** Shape $ (Value): string.  Value enum: "mark_preparing". */
-    "action": "mark_preparing" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
     /**
      * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
      */

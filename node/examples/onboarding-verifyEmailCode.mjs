@@ -16,4 +16,4 @@ const result = await client.onboarding.verifyEmailCode(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.merchant.merchant_id);
-console.log(result.merchant.readiness.payments.status);
+console.log(result.merchant.organization_id);

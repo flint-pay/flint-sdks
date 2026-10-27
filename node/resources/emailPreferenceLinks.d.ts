@@ -8,8 +8,8 @@ import type {
     EmailPreferenceLinksUnsubscribeInput
 } from '../declarations/types-16.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,9 +30,9 @@ export type {
     EmailPreferenceLinksUnsubscribeInput,
     EmailPreferenceLinkRequest
 } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -49,11 +49,11 @@ export interface EmailPreferenceLinksResource {
  * @example
  * client.emailPreferenceLinks.lookup({token: "example"})
  */
-    lookup(params: (InputValue<EmailPreferenceLinkRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<EmailPreferenceLink>;
+    lookup(params: (InputValue<EmailPreferenceLinkRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<EmailPreferenceLink>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/emailPreferenceLinks.md#emailpreferencelinkslookup
      */
-    lookupWithResponse(params: (InputValue<EmailPreferenceLinkRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<EmailPreferenceLinkResponse>>;
+    lookupWithResponse(params: (InputValue<EmailPreferenceLinkRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<EmailPreferenceLinkResponse>>;
     /**
  * Disables the email preference represented by an emailed token without signing the buyer in.
  * Repeating the request keeps it disabled. The merchant key must match the token's merchant and
@@ -68,14 +68,14 @@ export interface EmailPreferenceLinksResource {
     unsubscribe(params: (InputValue<EmailPreferenceLinkRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<EmailPreferenceLink>;
+    }, options?: RequestOptions<"merchant">): Promise<EmailPreferenceLink>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/emailPreferenceLinks.md#emailpreferencelinksunsubscribe
      */
     unsubscribeWithResponse(params: (InputValue<EmailPreferenceLinkRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<EmailPreferenceLinkResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<EmailPreferenceLinkResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

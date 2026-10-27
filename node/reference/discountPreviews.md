@@ -8,14 +8,7 @@ Evaluates promotion outcomes for an order without changing it. Returns the compl
 
 `POST /v1/discount-previews`
 
-Signature:
-
-```typescript
-create(params: (InputValue<DiscountPreviewRequestInput>),
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" |
-  "merchant" |
-  "merchantKey">>)
-```
+Signature: `create(params: (InputValue<DiscountPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)`
 
 #### Request fields
 
@@ -60,7 +53,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

@@ -51,6 +51,7 @@ Request input.
 | `tip_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. |
 | `transaction_purpose` | Optional | string | Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once the payment intent exists. Values: `"goods"`, `"services"`, `"other"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `payment_collection` | Optional | [PaymentCollectionInput](../models/PaymentCollectionInput.md#paymentcollectioninput) | Setup details your client uses to collect the buyer's payment details. Required on both standalone and order-owned creates. On GET, returned only for a standalone intent in requires_payment_method or requires_confirmation, and omitted for an intent owned by a checkout session when read with merchant credentials. Order-owned intents never include it on GET; use Order.payment_collection, whose selectable_payment_intents lists the staged payments. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 
 #### PaymentIntentWithCollectionInput cancellation_reason values

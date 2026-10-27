@@ -13,7 +13,7 @@ final class PayoutTraceID extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. The bank's trace number for the deposit, when Flint has it.
      * @return ?string
      */
     public function getValue(): ?string { return $this->get('value'); }

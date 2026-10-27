@@ -14,7 +14,7 @@ Request input.
 | `departed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `destination_location_id` | Required | string |  |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `idempotency_key` | Required | string |  |
+| `idempotency_key` | Optional | string | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. |
 | `inventory_transfer_id` | Required | string |  |
 | `lines` | Required | Array of [InventoryTransferLineInput](../models/InventoryTransferLineInput.md#inventorytransferlineinput) | Owned collection of transfer lines. Lines have no lifecycle outside this transfer; PATCH replaces the full collection. |
 | `note` | Optional | string |  |

@@ -5,13 +5,13 @@ namespace Flint;
  * @property-read string $currency
  * @property-read list<string> $type
  * @property-read list<string> $status
- * @property-read list<string> $available_payout_method
+ * @property-read list<string> $available_payout_methods
  * @property-read bool $default_for_currency
  * @property-read int $page_size
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutSettingsListPayoutDestinationsInput extends Model {
-    /** @param array{'currency'?: string, 'type'?: list<string>, 'status'?: list<string>, 'available_payout_method'?: list<string>, 'default_for_currency'?: bool, 'page_size'?: int, 'page_token'?: string}|object $values */
+    /** @param array{'currency'?: string, 'type'?: list<string>, 'status'?: list<string>, 'available_payout_methods'?: list<string>, 'default_for_currency'?: bool, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutSettingsListPayoutDestinationsInput')); }
     /** Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return string
@@ -33,10 +33,10 @@ final class PayoutSettingsListPayoutDestinationsInput extends Model {
     public function hasStatus(): bool { return $this->has('status'); }
     /** Shape $ (Value): Array of string. minItems: 1. [] enum: "standard". Shape $[] (Value): string.  Value enum: "standard".
      * @return list<string>
-     * @throws SdkError When available_payout_method is omitted; use hasAvailablePayoutMethod() or valueOrDefault().
+     * @throws SdkError When available_payout_methods is omitted; use hasAvailablePayoutMethods() or valueOrDefault().
      */
-    public function getAvailablePayoutMethod(): array { return $this->get('available_payout_method'); }
-    public function hasAvailablePayoutMethod(): bool { return $this->has('available_payout_method'); }
+    public function getAvailablePayoutMethods(): array { return $this->get('available_payout_methods'); }
+    public function hasAvailablePayoutMethods(): bool { return $this->has('available_payout_methods'); }
     /** Shape $ (Value): boolean.
      * @return bool
      * @throws SdkError When default_for_currency is omitted; use hasDefaultForCurrency() or valueOrDefault().

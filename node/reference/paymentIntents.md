@@ -14,11 +14,12 @@ Signature:
 cancel(payment_intent_id: InputValue<string>,
  params?: (InputValue<CancelPaymentIntentRequestInput> |
   {
-  "cancellation_reason"?: never
+  "cancellation_reason"?: never;
+  "expected_version"?: never
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"checkout" | "merchant" | "merchantKey">)
+ options?: RequestOptions<"checkout" | "merchant">)
 ```
 
 #### Request fields
@@ -33,9 +34,7 @@ Body model: [CancelPaymentIntentRequestInput](../models/CancelPaymentIntentReque
 
 #### paymentIntents.cancel body fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `cancellation_reason` | Optional | string | Optional merchant-supplied cancellation reason. Values: `"requested_by_customer"`, `"duplicate"`, `"fraudulent"`, `"abandoned"`. |
+Field definitions: [shared fields](../models/CancelPaymentIntentRequest.md#cancelpaymentintentrequest).
 
 #### Response
 
@@ -69,7 +68,7 @@ Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -94,11 +93,12 @@ Signature:
 capture(payment_intent_id: InputValue<string>,
  params?: (InputValue<CapturePaymentIntentRequestInput> |
   {
-  "amount_money"?: never
+  "amount_money"?: never;
+  "expected_version"?: never
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -107,13 +107,16 @@ capture(payment_intent_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `payment_intent_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [CapturePaymentIntentRequestInput](../models/CapturePaymentIntentRequestInput.md#capturepaymentintentrequestinput) | The request body for: Capture payment intent. |
+| `body` | Optional | [CapturePaymentIntentRequestInput](../models/CapturePaymentIntentRequest.md#capturepaymentintentrequest) | The request body for: Capture payment intent. |
 
-Body model: [CapturePaymentIntentRequestInput](../models/CapturePaymentIntentRequestInput.md#capturepaymentintentrequestinput).
+Body model: [CapturePaymentIntentRequestInput](../models/CapturePaymentIntentRequest.md#capturepaymentintentrequest).
 
 #### paymentIntents.capture body fields
 
-Field definitions: [shared fields](../models/CapturePaymentIntentRequestInput.md#capturepaymentintentrequestinput). Models: [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amount to capture, in the authorization's currency. Omit it to capture all of capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same request, and the payment intent can't be captured again. Must be greater than zero and at most capturable_money. Affirm payments can only be captured in full. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `expected_version` | Optional | integer string | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 
 #### Response
 
@@ -147,7 +150,7 @@ Complete body and metadata: `captureWithResponse`. See [response modes](../RUNTI
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -187,6 +190,7 @@ Body model: [ConfirmPaymentIntentRequestInput](../models/ConfirmPaymentIntentReq
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `expected_version` | Optional | integer string | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `payment_source_token` | Required | string | Opaque processor or browser payment source token. minLength: `1`. |
 | `save_payment_method` | Optional | boolean | On /confirm, saves cards only for standalone payment intents. Saves the card this confirmation collects for the payment intent's customer, with usage off_session, so you can charge it later without the buyer: subscriptions, automatic invoices, or the customer's default. Send true only when the buyer agreed to that on your page. Requires customer_id on the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token (created with setup_future_usage off_session) or payment_source_token, and payments.payment_methods.write. Flint saves the card once the payment is approved, sends payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks the buyer to authenticate, current_payment_action carries it; that one authentication also covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves only on_session cards using the checkout session's own credential. Default: `false`. |
 
@@ -198,6 +202,7 @@ Body model: [ConfirmPaymentIntentRequestInput](../models/ConfirmPaymentIntentReq
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `expected_version` | Optional | integer string | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `payment_method_id` | Required | string | Saved Flint payment method ID belonging to the customer making this payment. minLength: `1`. |
 | `save_payment_method` | Optional | boolean | On /confirm, saves cards only for standalone payment intents. Saves the card this confirmation collects for the payment intent's customer, with usage off_session, so you can charge it later without the buyer: subscriptions, automatic invoices, or the customer's default. Send true only when the buyer agreed to that on your page. Requires customer_id on the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token (created with setup_future_usage off_session) or payment_source_token, and payments.payment_methods.write. Flint saves the card once the payment is approved, sends payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks the buyer to authenticate, current_payment_action carries it; that one authentication also covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves only on_session cards using the checkout session's own credential. Default: `false`. Values: `false`. |
 
@@ -209,6 +214,7 @@ Body model: [ConfirmPaymentIntentRequestInput](../models/ConfirmPaymentIntentReq
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `expected_version` | Optional | integer string | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `save_payment_method` | Optional | boolean | On /confirm, saves cards only for standalone payment intents. Saves the card this confirmation collects for the payment intent's customer, with usage off_session, so you can charge it later without the buyer: subscriptions, automatic invoices, or the customer's default. Send true only when the buyer agreed to that on your page. Requires customer_id on the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token (created with setup_future_usage off_session) or payment_source_token, and payments.payment_methods.write. Flint saves the card once the payment is approved, sends payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks the buyer to authenticate, current_payment_action carries it; that one authentication also covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves only on_session cards using the checkout session's own credential. Default: `false`. |
 | `stripe` | Required | object | Stripe credential collected for this payment. |
 
@@ -220,6 +226,7 @@ Confirm using the payment source already attached.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `expected_version` | Optional | integer string | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `save_payment_method` | Optional | boolean | On /confirm, saves cards only for standalone payment intents. Saves the card this confirmation collects for the payment intent's customer, with usage off_session, so you can charge it later without the buyer: subscriptions, automatic invoices, or the customer's default. Send true only when the buyer agreed to that on your page. Requires customer_id on the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token (created with setup_future_usage off_session) or payment_source_token, and payments.payment_methods.write. Flint saves the card once the payment is approved, sends payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks the buyer to authenticate, current_payment_action carries it; that one authentication also covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves only on_session cards using the checkout session's own credential. Default: `false`. Values: `false`. |
 
 #### Response
@@ -254,7 +261,7 @@ Complete body and metadata: `confirmWithResponse`. See [response modes](../RUNTI
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -279,7 +286,7 @@ Signature:
 create(params: (InputValue<CreatePaymentIntentRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -355,6 +362,7 @@ Returned payload: ({ "payment_collection": unknown; }) & (Exclude&lt;[PaymentInt
 | `tip_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. |
 | `transaction_purpose` | Optional | string | Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once the payment intent exists. Values: `"goods"`, `"services"`, `"other"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `payment_collection` | Required | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Setup details your client uses to collect the buyer's payment details. Required on both standalone and order-owned creates. On GET, returned only for a standalone intent in requires_payment_method or requires_confirmation, and omitted for an intent owned by a checkout session when read with merchant credentials. Order-owned intents never include it on GET; use Order.payment_collection, whose selectable_payment_intents lists the staged payments. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 
 #### paymentIntents.create response cancellation_reason values
@@ -408,7 +416,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -434,7 +442,7 @@ get(payment_intent_id: InputValue<string>,
  params?: {
   "expand"?: InputValue<Array<"customer" | "invoice" | "order">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
 ```
 
 #### Request fields
@@ -470,7 +478,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -490,6 +498,7 @@ Signature:
 
 ```typescript
 list(params?: {
+  "idempotency_key"?: InputValue<string>;
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>;
   "order_id"?: InputValue<string>;
@@ -538,13 +547,14 @@ list(params?: {
   "updated_before"?: InputValue<string | globalThis.Date>;
   "expand"?: InputValue<Array<"customer" | "invoice" | "order">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
 | `order_id` | Optional | string |  |
@@ -608,7 +618,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -645,7 +655,7 @@ listActivities(payment_intent_id: InputValue<string>,
     "dispute_status_changed" |
     "receipt_sent">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -696,7 +706,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listActivitiesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listActivitiesItems`, `listActivitiesPages`, `listActivitiesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -724,7 +734,7 @@ sendReceipt(payment_intent_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -772,7 +782,7 @@ Complete body and metadata: `sendReceiptWithResponse`. See [response modes](../R
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -798,7 +808,7 @@ update(payment_intent_id: InputValue<string>,
  params: (InputValue<UpdatePaymentIntentRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -817,6 +827,7 @@ Body model: [UpdatePaymentIntentRequestInput](../models/UpdatePaymentIntentReque
 | --- | --- | --- | --- |
 | `amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Payment amount. Can change only while status is requires_payment_method and before the first confirmation attempt. Cannot be cleared. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `customer_id` | Optional | string | Customer linked to this payment intent. Can change only while status is requires_payment_method. Cannot be cleared. minLength: `1`. |
+| `expected_version` | Optional | integer string | Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. Omit it to keep the current value. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
 | `receipt_email` | Optional | string or null | Send null to clear it. Omit it to keep the current value. Format: `email`. minLength: `1`. maxLength: `255`. |
@@ -854,7 +865,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

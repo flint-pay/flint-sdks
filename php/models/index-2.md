@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# BuyerPaymentCollectionStripeElementsInput – CheckoutDerivedDeliveryResourceInput
+# BuyerPaymentCollectionStripeElementsInput – CheckoutDeliveryPinnedDependencyInput
 
 - [BuyerPaymentCollectionStripeElementsInput](BuyerPaymentCollectionStripeElementsInput.md)
 - [BuyerPaymentErrorSummaryInput](BuyerPaymentErrorSummaryInput.md)
@@ -29,6 +29,8 @@
 - [BuyerReturnPolicyEvaluationLineItemInput](BuyerReturnPolicyEvaluationLineItemInput.md)
 - [BuyerReturnPreviewInput](BuyerReturnPreviewInput.md)
 - [BuyerReturnPreviewResponseInput](BuyerReturnPreviewResponseInput.md)
+- [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
+- [BuyerReturnReplacementLineItemInputVariantInput](BuyerReturnReplacementLineItemInputVariantInput.md)
 - [BuyerReturnReplacementLineItemRequestInput](BuyerReturnReplacementLineItemRequestInput.md)
 - [BuyerReturnResolutionInput](BuyerReturnResolutionInput.md)
 - [BuyerReturnResolutionAdjustmentInput](BuyerReturnResolutionAdjustmentInput.md)
@@ -48,6 +50,7 @@
 - [BuyerSubscriptionLineItemInput](BuyerSubscriptionLineItemInput.md)
 - [BuyerSubscriptionListResponseInput](BuyerSubscriptionListResponseInput.md)
 - [BuyerSubscriptionPaymentRetryInput](BuyerSubscriptionPaymentRetryInput.md)
+- [BuyerSubscriptionPaymentRetryListResponseInput](BuyerSubscriptionPaymentRetryListResponseInput.md)
 - [BuyerSubscriptionPaymentRetryResponseInput](BuyerSubscriptionPaymentRetryResponseInput.md)
 - [BuyerSubscriptionPlanLineItemInput](BuyerSubscriptionPlanLineItemInput.md)
 - [BuyerSubscriptionPreviewInput](BuyerSubscriptionPreviewInput.md)
@@ -66,7 +69,6 @@
 - [CancelOrderPaymentAttemptRequestInput](CancelOrderPaymentAttemptRequestInput.md)
 - [CancelOrderPaymentAttemptResponseInput](CancelOrderPaymentAttemptResponseInput.md)
 - [CancelOrderPaymentAttemptResultInput](CancelOrderPaymentAttemptResultInput.md)
-- [CancelOrderPaymentRequestInput](CancelOrderPaymentRequestInput.md)
 - [CancelPaymentIntentRequestInput](CancelPaymentIntentRequestInput.md)
 - [CancelPayoutRequestInput](CancelPayoutRequestInput.md)
 - [CancelReturnDispositionRequestInput](CancelReturnDispositionRequestInput.md)
@@ -79,7 +81,6 @@
 - [CancelReturnResponseInput](CancelReturnResponseInput.md)
 - [CancelSubscriptionRequestInput](CancelSubscriptionRequestInput.md)
 - [CapabilityReadinessInput](CapabilityReadinessInput.md)
-- [CaptureOrderPaymentRequestInput](CaptureOrderPaymentRequestInput.md)
 - [CapturePaymentIntentRequestInput](CapturePaymentIntentRequestInput.md)
 - [CardDetailsInput](CardDetailsInput.md)
 - [CashOutGiftCardRequestInput](CashOutGiftCardRequestInput.md)
@@ -101,5 +102,4 @@
 - [CheckoutCustomTextConfigInput](CheckoutCustomTextConfigInput.md)
 - [CheckoutCustomTextWriteConfigInput](CheckoutCustomTextWriteConfigInput.md)
 - [CheckoutDeliveryPinnedDependencyInput](CheckoutDeliveryPinnedDependencyInput.md)
-- [CheckoutDerivedDeliveryResourceInput](CheckoutDerivedDeliveryResourceInput.md)
 

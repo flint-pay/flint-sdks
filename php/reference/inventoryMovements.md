@@ -42,7 +42,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -70,7 +70,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `location_id` | Optional | string |  |
 | `type` | Optional | Array of string | minItems: `1`. Items values: [16 declared values](../models/InventoryMovementInput.md#inventorymovementinput-type-values). |
 | `reason` | Optional | Array of string | minItems: `1`. Items values: `"received"`, `"returned"`, `"sold"`, `"theft"`, `"loss"`, `"condition_changed"`, `"counted"`, `"correction"`. |
-| `idempotency_key` | Optional | string |  |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `return_id` | Optional | string |  |
 | `return_disposition_id` | Optional | string |  |
 | `sort_direction` | Optional | string | Default: `"asc"`. Values: `"asc"`, `"desc"`. |
@@ -120,7 +120,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 

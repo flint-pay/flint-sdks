@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read array{'external_source_id'?: string, 'type': string, ...}|object|null $source_system
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAdjustmentInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'idempotency_key': string, 'inventory_adjustment_id': string, 'lines': list<InventoryAdjustmentLineInput|array<array-key, mixed>|\stdClass>, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'reason': string, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'external_actor_id'?: string, 'idempotency_key'?: string, 'inventory_adjustment_id': string, 'lines': list<InventoryAdjustmentLineInput|array<array-key, mixed>|\stdClass>, 'note'?: string, 'occurred_at': string|\DateTimeInterface, 'reason': string, 'source_system': array{'external_source_id'?: string, 'type': string, ...}|object|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentInput')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
@@ -27,7 +27,7 @@ final class InventoryAdjustmentInput extends Model {
      */
     public function getExternalActorId(): string { return $this->get('external_actor_id'); }
     public function hasExternalActorId(): bool { return $this->has('external_actor_id'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

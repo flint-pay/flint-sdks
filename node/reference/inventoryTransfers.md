@@ -4,7 +4,7 @@
 
 ### inventoryTransfers.create
 
-Create a planned stock transfer between two Locations. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body. To recover the command's effects after a lost response, read the relevant resource or inventory movement list.
+Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so the Idempotency-Key is optional: each request without a key creates a separate draft. With a key, idempotency is scoped to the authenticated merchant, environment, and endpoint, and the fingerprint includes the canonical request body. To recover a keyed create after a lost response, list inventory transfers with idempotency_key.
 
 `POST /v1/inventory-transfers`
 
@@ -14,7 +14,7 @@ Signature:
 create(params: (InputValue<CreateInventoryTransferRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -64,9 +64,9 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -85,7 +85,7 @@ Retrieve an inventory transfer, its lines, and supported_actions by ID.
 
 `GET /v1/inventory-transfers/{inventory_transfer_id}`
 
-Signature: `get(inventory_transfer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(inventory_transfer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -118,7 +118,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -160,7 +160,7 @@ list(params?: {
   "received_after"?: InputValue<string | globalThis.Date>;
   "received_before"?: InputValue<string | globalThis.Date>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -173,7 +173,7 @@ list(params?: {
 | `origin_location_id` | Optional | string |  |
 | `destination_location_id` | Optional | string |  |
 | `status` | Optional | Array of string | minItems: `1`. Items values: `"draft"`, `"in_transit"`, `"partially_resolved"`, `"closed"`. |
-| `idempotency_key` | Optional | string |  |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | maxLength: `255`. |
 | `closed_reason` | Optional | Array of string | minItems: `1`. Items values: `"received"`, `"canceled"`, `"received_with_cancellation"`, `"returned"`, `"lost"`, `"mixed"`. |
@@ -209,7 +209,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -344,7 +344,7 @@ Complete body and metadata: `transitionWithResponse`. See [response modes](../RU
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -370,7 +370,7 @@ update(inventory_transfer_id: InputValue<string>,
  params: (InputValue<UpdateInventoryTransferRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -422,7 +422,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

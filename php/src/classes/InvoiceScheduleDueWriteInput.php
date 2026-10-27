@@ -14,7 +14,7 @@ final class InvoiceScheduleDueWriteInput extends Model {
      */
     public function getDueAt(): string|\DateTimeInterface { return $this->get('due_at'); }
     public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** Shape $ (Value): string.  Value enum: "at_issue", "date", "invoice_due_date".
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date", "invoice_due_date".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

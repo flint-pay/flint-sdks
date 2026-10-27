@@ -6,9 +6,9 @@ import type {
     CustomerVerificationResponse,
     CustomerVerificationsConfirmInput,
     CustomerVerificationsCreateInput
-} from '../declarations/types-10.js';
+} from '../declarations/types-11.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,14 +28,13 @@ export type {
     CustomerVerificationResponse,
     CustomerVerificationsConfirmInput,
     CustomerVerificationsCreateInput
-} from '../declarations/types-10.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+} from '../declarations/types-11.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeConfirmCustomerVerificationRequest } from '../declarations/types-62.js';
-export { makeCreateCustomerVerificationRequest } from '../declarations/types-63.js';
+export { makeConfirmCustomerVerificationRequest, makeCreateCustomerVerificationRequest } from '../declarations/types-63.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface CustomerVerificationsResource {
     /**
@@ -52,14 +51,14 @@ export interface CustomerVerificationsResource {
     confirm(customer_verification_id: InputValue<string>, params: (InputValue<ConfirmCustomerVerificationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerVerification>;
+    }, options?: RequestOptions<"merchant">): Promise<CustomerVerification>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customerVerifications.md#customerverificationsconfirm
      */
     confirmWithResponse(customer_verification_id: InputValue<string>, params: (InputValue<ConfirmCustomerVerificationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerVerificationResponse>>;
     /**
  * Sends a Flint verification code to the customer's current email for linking guest purchases. A
  * customer without an email returns 409 ACTION_NOT_ALLOWED. Set purpose to link_guest_purchases;
@@ -77,14 +76,14 @@ export interface CustomerVerificationsResource {
     create(params: (InputValue<CreateCustomerVerificationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerVerification>;
+    }, options?: RequestOptions<"merchant">): Promise<CustomerVerification>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customerVerifications.md#customerverificationscreate
      */
     createWithResponse(params: (InputValue<CreateCustomerVerificationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerVerificationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerVerificationResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -6,12 +6,13 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_before
  * @property-read string $customer_id
  * @property-read string $external_reference_id
+ * @property-read string $idempotency_key
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read list<string> $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardsListInput extends Model {
-    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'customer_id'?: string, 'external_reference_id'?: string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>}|object $values */
+    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'customer_id'?: string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardsListInput')); }
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
@@ -37,6 +38,12 @@ final class GiftCardsListInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
      * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().

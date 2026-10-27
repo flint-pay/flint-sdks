@@ -16,7 +16,7 @@ decideLineItem(return_inspection_id: InputValue<string>,
  params: (InputValue<DecideReturnInspectionLineItemRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -64,7 +64,7 @@ Complete body and metadata: `decideLineItemWithResponse`. See [response modes](.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -83,7 +83,7 @@ Retrieve one inspection with its line items, findings, and current or superseded
 
 `GET /v1/return-inspections/{return_inspection_id}`
 
-Signature: `get(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -116,7 +116,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -140,6 +140,7 @@ list(params?: {
   "created_after"?: InputValue<string | globalThis.Date>;
   "created_before"?: InputValue<string | globalThis.Date>;
   "external_reference_id"?: InputValue<string>;
+  "idempotency_key"?: InputValue<string>;
   "inspected_after"?: InputValue<string | globalThis.Date>;
   "inspected_before"?: InputValue<string | globalThis.Date>;
   "inspection_location_id"?: InputValue<string>;
@@ -154,7 +155,7 @@ list(params?: {
   "updated_after"?: InputValue<string | globalThis.Date>;
   "updated_before"?: InputValue<string | globalThis.Date>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -165,6 +166,7 @@ list(params?: {
 | `created_after` | Optional | string | Format: `date-time`. |
 | `created_before` | Optional | string | Format: `date-time`. |
 | `external_reference_id` | Optional | string | minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `inspected_after` | Optional | string | Format: `date-time`. |
 | `inspected_before` | Optional | string | Format: `date-time`. |
 | `inspection_location_id` | Optional | string |  |
@@ -204,7 +206,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 

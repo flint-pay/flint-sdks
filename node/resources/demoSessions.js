@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/demoSessions.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import r0 from '../descriptors/resources/demoSessions.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import settings from '../descriptors/settings.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDemoSession"]:r0,["resetDemoSession"]:r0});
 export class Client {
@@ -13,19 +13,19 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.demoSessions = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDemoSession", _sdkRequestInput([], [], [
-  "X-Turnstile-Token",
+  "Flint-Challenge-Token",
   "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDemoSession", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createDemoSession", _sdkRequestInput([], [], [
-  "X-Turnstile-Token",
+  "Flint-Challenge-Token",
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       reset: async (params, options) => this.#runtime.request("resetDemoSession", _sdkRequestInput([], [], [
-  "X-Turnstile-Token",
+  "Flint-Challenge-Token",
   "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resetDemoSession", result, path))),
       resetWithResponse: async (params, options) => this.#runtime.request("resetDemoSession", _sdkRequestInput([], [], [
-  "X-Turnstile-Token",
+  "Flint-Challenge-Token",
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });

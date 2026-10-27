@@ -12,8 +12,8 @@ import type {
     InventoryReceiptsListInput
 } from '../declarations/types-25.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,7 +27,7 @@ export type {
     SdkErrorDetails
 } from '../runtime.js';
 export type { CreateInventoryReceiptRequestInput } from '../declarations/types-7.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     InventoryReceiptResult,
@@ -43,13 +43,13 @@ export type {
     InventoryReceiptLine,
     InventorySourceSystem
 } from '../declarations/types-25.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { InventoryLevel, InventoryItem } from '../declarations/types-24.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateInventoryReceiptRequest } from '../declarations/types-63.js';
+export { makeCreateInventoryReceiptRequest } from '../declarations/types-64.js';
 export { makeInventoryReceiptLineRequest, makeInventorySourceSystemRequest } from '../declarations/types-67.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface InventoryReceiptsResource {
@@ -68,14 +68,14 @@ export interface InventoryReceiptsResource {
     create(params: (InputValue<CreateInventoryReceiptRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryReceiptResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<InventoryReceiptResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryReceipts.md#inventoryreceiptscreate
      */
     createWithResponse(params: (InputValue<CreateInventoryReceiptRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryReceiptResultResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryReceiptResultResponse>>;
     /**
  * Retrieve a completed inventory receipt and its disposition lines by ID.
  * @see reference/inventoryReceipts.md#inventoryreceiptsget
@@ -83,11 +83,11 @@ export interface InventoryReceiptsResource {
  * @example
  * client.inventoryReceipts.get("example")
  */
-    get(inventory_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryReceipt>;
+    get(inventory_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryReceipt>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryReceipts.md#inventoryreceiptsget
      */
-    getWithResponse(inventory_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryReceiptResponse>>;
+    getWithResponse(inventory_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryReceiptResponse>>;
     /**
  * List completed inventory receipt effects. Use typed Return filters for reconciliation when the
  * receipt was created by Returns.
@@ -112,7 +112,7 @@ export interface InventoryReceiptsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryReceiptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryReceiptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryReceipts.md#inventoryreceiptslist
      */
@@ -132,7 +132,7 @@ export interface InventoryReceiptsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryReceiptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryReceiptListResponse>>;
     /** Iterate pages lazily.
      * @see reference/inventoryReceipts.md#inventoryreceiptslist
      */
@@ -152,7 +152,7 @@ export interface InventoryReceiptsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryReceiptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryReceiptListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/inventoryReceipts.md#inventoryreceiptslist
      */
@@ -172,7 +172,7 @@ export interface InventoryReceiptsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryReceiptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InventoryReceiptListResponse>>;
     /** Iterate items lazily.
      * @see reference/inventoryReceipts.md#inventoryreceiptslist
      */
@@ -192,7 +192,7 @@ export interface InventoryReceiptsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryReceipt>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryReceipt>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

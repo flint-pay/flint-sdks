@@ -15,4 +15,5 @@ Request input.
 | `status` | Required | string | Values: `"active"`, `"inactive"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `validation_status` | Required | string | Values: `"active"`, `"action_required"`, `"unavailable"`. |
+| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 

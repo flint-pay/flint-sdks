@@ -19,7 +19,9 @@ const result = await client.returnPolicies.create(
       eligibility_result: "ineligible",
       is_merchandise_return_required: true,
       priority: 1,
-      scope: {},
+      scope: {
+        match_type: "all",
+      },
     },
   },
   { idempotencyKey: idempotencyKey },

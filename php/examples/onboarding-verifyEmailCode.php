@@ -22,5 +22,5 @@ $result = $client->onboarding->verifyEmailCode([
   'verification_token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->merchant->merchant_id . PHP_EOL;
-echo $result->merchant->readiness->payments->status . PHP_EOL;
+echo $result->merchant->organization_id . PHP_EOL;
 $client->close();

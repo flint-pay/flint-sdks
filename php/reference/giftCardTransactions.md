@@ -16,7 +16,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | --- | --- | --- | --- |
 | `cash_out_reference` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `gift_card_id` | Optional | string | maxLength: `255`. |
-| `idempotency_key` | Optional | string | maxLength: `255`. |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `order_id` | Optional | string | maxLength: `255`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
@@ -65,7 +65,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 

@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# CategoriesUpdateResponse200 – WebhookEventPayoutSettingsUpdated
+# GiftCardsTransitionResponse200 – WebhookEventPartnerAppInstallCreated
 
+- [GiftCardsTransitionResponse200](GiftCardsTransitionResponse200.md)
+- [InventoryCountsTransitionResponse200](InventoryCountsTransitionResponse200.md)
+- [InventoryReservationsTransitionResponse200](InventoryReservationsTransitionResponse200.md)
+- [InventoryTransfersTransitionResponse200](InventoryTransfersTransitionResponse200.md)
+- [PackagesTransitionResponse200](PackagesTransitionResponse200.md)
+- [EmailPreferenceLinksUnsubscribeResponse200](EmailPreferenceLinksUnsubscribeResponse200.md)
+- [ApiKeysUpdateResponse200](ApiKeysUpdateResponse200.md)
+- [BundlesUpdateResponse200](BundlesUpdateResponse200.md)
 - [CategoriesUpdateResponse200](CategoriesUpdateResponse200.md)
 - [CheckoutSessionsUpdateResponse200](CheckoutSessionsUpdateResponse200.md)
 - [CreditNotesUpdateResponse200](CreditNotesUpdateResponse200.md)
@@ -94,12 +102,4 @@
 - [WebhookEventMerchantReadinessUpdated](WebhookEventMerchantReadinessUpdated.md)
 - [WebhookEventMerchantUpdated](WebhookEventMerchantUpdated.md)
 - [WebhookEventPartnerAppInstallCreated](WebhookEventPartnerAppInstallCreated.md)
-- [WebhookEventPartnerAppInstallPermissionsUpdated](WebhookEventPartnerAppInstallPermissionsUpdated.md)
-- [WebhookEventPartnerAppInstallRevoked](WebhookEventPartnerAppInstallRevoked.md)
-- [WebhookEventPartnerAppInstallUpdated](WebhookEventPartnerAppInstallUpdated.md)
-- [WebhookEventPayoutDestinationArchived](WebhookEventPayoutDestinationArchived.md)
-- [WebhookEventPayoutDestinationCreated](WebhookEventPayoutDestinationCreated.md)
-- [WebhookEventPayoutDestinationDisabled](WebhookEventPayoutDestinationDisabled.md)
-- [WebhookEventPayoutDestinationUpdated](WebhookEventPayoutDestinationUpdated.md)
-- [WebhookEventPayoutSettingsUpdated](WebhookEventPayoutSettingsUpdated.md)
 

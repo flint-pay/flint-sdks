@@ -27,7 +27,9 @@ $result = $client->returnPolicies->create([
     'eligibility_result' => 'ineligible',
     'is_merchandise_return_required' => true,
     'priority' => 1,
-    'scope' => (object) [],
+    'scope' => (object) [
+      'match_type' => 'all',
+    ],
   ],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->current_return_policy_revision_id . PHP_EOL;

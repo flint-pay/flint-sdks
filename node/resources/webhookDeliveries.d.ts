@@ -2,9 +2,11 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateWebhookDeliveryRequestInput } from '../declarations/types-9.js';
 import type { RequestOptions, ResendWebhookDeliveryRequestInput } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { WebhookDeliveriesCreateInput, WebhookDeliveriesGetInput, WebhookDeliveriesListAttemptsInput } from '../declarations/types-49.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type {
+    WebhookDeliveriesCreateInput,
+    WebhookDeliveriesGetInput,
+    WebhookDeliveriesListAttemptsInput,
     WebhookDeliveriesResendInput,
     WebhookDelivery,
     WebhookDeliveryAction,
@@ -13,7 +15,7 @@ import type {
     WebhookDeliveryAttemptListResponse,
     WebhookDeliveryResponse
 } from '../declarations/types-50.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,7 +29,13 @@ export type {
     SdkErrorDetails
 } from '../runtime.js';
 export type { CreateWebhookDeliveryRequestInput, Credentials, CreateWebhookDeliveryRequest } from '../declarations/types-9.js';
-export type { RequestOptions, ResendWebhookDeliveryRequestInput, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    RequestOptions,
+    ResendWebhookDeliveryRequestInput,
+    ResponseMeta,
+    ResponseWarning,
+    ResendWebhookDeliveryRequest
+} from '../declarations/types-40.js';
 export type {
     WebhookDelivery,
     WebhookDeliveryResponse,
@@ -35,15 +43,17 @@ export type {
     WebhookDeliveryAttempt,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
+    WebhookDeliveriesCreateInput,
+    WebhookDeliveriesGetInput,
+    WebhookDeliveriesListAttemptsInput,
     WebhookDeliveriesResendInput
 } from '../declarations/types-50.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { WebhookDeliveriesCreateInput, WebhookDeliveriesGetInput, WebhookDeliveriesListAttemptsInput } from '../declarations/types-49.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateWebhookDeliveryRequest } from '../declarations/types-64.js';
+export { makeCreateWebhookDeliveryRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeResendWebhookDeliveryRequest } from '../declarations/types-70.js';
 export interface WebhookDeliveriesResource {
@@ -62,14 +72,14 @@ export interface WebhookDeliveriesResource {
     create(params: (InputValue<CreateWebhookDeliveryRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<WebhookDelivery>;
+    }, options?: RequestOptions<"merchant">): Promise<WebhookDelivery>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookDeliveries.md#webhookdeliveriescreate
      */
     createWithResponse(params: (InputValue<CreateWebhookDeliveryRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookDeliveryResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookDeliveryResponse>>;
     /**
  * Returns one endpoint delivery and its current retry state.
  * @see reference/webhookDeliveries.md#webhookdeliveriesget
@@ -77,11 +87,11 @@ export interface WebhookDeliveriesResource {
  * @example
  * client.webhookDeliveries.get("example")
  */
-    get(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookDelivery>;
+    get(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookDelivery>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookDeliveries.md#webhookdeliveriesget
      */
-    getWithResponse(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookDeliveryResponse>>;
+    getWithResponse(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookDeliveryResponse>>;
     /**
  * Returns the attempts recorded for a specific webhook delivery.
  * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
@@ -92,35 +102,35 @@ export interface WebhookDeliveriesResource {
     listAttempts(webhook_delivery_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookDeliveryAttemptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookDeliveryAttemptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
      */
     listAttemptsWithResponse(webhook_delivery_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookDeliveryAttemptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookDeliveryAttemptListResponse>>;
     /** Iterate pages lazily.
      * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
      */
     listAttemptsPages(webhook_delivery_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookDeliveryAttemptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDeliveryAttemptListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
      */
     listAttemptsPagesWithResponse(webhook_delivery_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<WebhookDeliveryAttemptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<WebhookDeliveryAttemptListResponse>>;
     /** Iterate items lazily.
      * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
      */
     listAttemptsItems(webhook_delivery_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookDeliveryAttempt>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDeliveryAttempt>;
     /**
  * Sends the event to the delivery's endpoint now, including while automatic retries are pending. A
  * failed resend doesn't change the automatic schedule.
@@ -136,7 +146,7 @@ export interface WebhookDeliveriesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<WebhookDeliveryAction>;
+    }, options?: RequestOptions<"merchant">): Promise<WebhookDeliveryAction>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookDeliveries.md#webhookdeliveriesresend
      */
@@ -145,7 +155,7 @@ export interface WebhookDeliveriesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookDeliveryActionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookDeliveryActionResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

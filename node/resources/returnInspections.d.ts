@@ -2,16 +2,16 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { DecideReturnInspectionLineItemRequestInput } from '../declarations/types-11.js';
 import type { GetReturnInspectionResponse } from '../declarations/types-18.js';
-import type { ListReturnInspectionsResponse } from '../declarations/types-28.js';
+import type { ListReturnInspectionsResponse } from '../declarations/types-29.js';
 import type {
     RequestOptions,
     ReturnInspection,
     ReturnInspectionsDecideLineItemInput,
-    ReturnInspectionsGetInput,
-    ReturnInspectionsListInput
+    ReturnInspectionsGetInput
 } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { ReturnInspectionsListInput } from '../declarations/types-41.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,17 +30,17 @@ export type {
     ReturnInspection,
     ReturnInspectionsDecideLineItemInput,
     ReturnInspectionsGetInput,
-    ReturnInspectionsListInput,
     ReturnDisposition,
     ReturnActor,
     ReturnInspectionLineItem,
     ResponseMeta,
     ResponseWarning
 } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { GetReturnInspectionResponse } from '../declarations/types-18.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { ListReturnInspectionsResponse } from '../declarations/types-28.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { ListReturnInspectionsResponse } from '../declarations/types-29.js';
+export type { ReturnInspectionsListInput } from '../declarations/types-41.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -48,7 +48,7 @@ export type { ReturnSourceSystem } from '../declarations/types-42.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
 export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeReturnSourceSystem } from '../declarations/types-70.js';
+export { makeReturnSourceSystem } from '../declarations/types-71.js';
 export interface ReturnInspectionsResource {
     /**
  * Record the accept or reject outcome for inspected quantity. expected_version compares against
@@ -66,14 +66,14 @@ export interface ReturnInspectionsResource {
     decideLineItem(return_inspection_id: InputValue<string>, return_inspection_line_item_id: InputValue<string>, params: (InputValue<DecideReturnInspectionLineItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ReturnInspection>;
+    }, options?: RequestOptions<"merchant">): Promise<ReturnInspection>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnInspections.md#returninspectionsdecidelineitem
      */
     decideLineItemWithResponse(return_inspection_id: InputValue<string>, return_inspection_line_item_id: InputValue<string>, params: (InputValue<DecideReturnInspectionLineItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GetReturnInspectionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GetReturnInspectionResponse>>;
     /**
  * Retrieve one inspection with its line items, findings, and current or superseded observation
  * status.
@@ -82,11 +82,11 @@ export interface ReturnInspectionsResource {
  * @example
  * client.returnInspections.get("example")
  */
-    get(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReturnInspection>;
+    get(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReturnInspection>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnInspections.md#returninspectionsget
      */
-    getWithResponse(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GetReturnInspectionResponse>>;
+    getWithResponse(return_inspection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GetReturnInspectionResponse>>;
     /**
  * List inspection observations. Omitting return_id lists inspections across every Return for the
  * merchant. Newest first: created_at descending, with return_inspection_id descending as the
@@ -101,6 +101,7 @@ export interface ReturnInspectionsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "inspected_after"?: InputValue<string | globalThis.Date>;
         "inspected_before"?: InputValue<string | globalThis.Date>;
         "inspection_location_id"?: InputValue<string>;
@@ -114,7 +115,7 @@ export interface ReturnInspectionsResource {
         "status"?: InputValue<Array<"current" | "superseded">>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ListReturnInspectionsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ListReturnInspectionsResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/returnInspections.md#returninspectionslist
      */
@@ -123,6 +124,7 @@ export interface ReturnInspectionsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "inspected_after"?: InputValue<string | globalThis.Date>;
         "inspected_before"?: InputValue<string | globalThis.Date>;
         "inspection_location_id"?: InputValue<string>;
@@ -136,7 +138,7 @@ export interface ReturnInspectionsResource {
         "status"?: InputValue<Array<"current" | "superseded">>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ListReturnInspectionsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ListReturnInspectionsResponse>>;
     /** Iterate pages lazily.
      * @see reference/returnInspections.md#returninspectionslist
      */
@@ -145,6 +147,7 @@ export interface ReturnInspectionsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "inspected_after"?: InputValue<string | globalThis.Date>;
         "inspected_before"?: InputValue<string | globalThis.Date>;
         "inspection_location_id"?: InputValue<string>;
@@ -158,7 +161,7 @@ export interface ReturnInspectionsResource {
         "status"?: InputValue<Array<"current" | "superseded">>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ListReturnInspectionsResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ListReturnInspectionsResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/returnInspections.md#returninspectionslist
      */
@@ -167,6 +170,7 @@ export interface ReturnInspectionsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "inspected_after"?: InputValue<string | globalThis.Date>;
         "inspected_before"?: InputValue<string | globalThis.Date>;
         "inspection_location_id"?: InputValue<string>;
@@ -180,7 +184,7 @@ export interface ReturnInspectionsResource {
         "status"?: InputValue<Array<"current" | "superseded">>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ListReturnInspectionsResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ListReturnInspectionsResponse>>;
     /** Iterate items lazily.
      * @see reference/returnInspections.md#returninspectionslist
      */
@@ -189,6 +193,7 @@ export interface ReturnInspectionsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "external_reference_id"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
         "inspected_after"?: InputValue<string | globalThis.Date>;
         "inspected_before"?: InputValue<string | globalThis.Date>;
         "inspection_location_id"?: InputValue<string>;
@@ -202,7 +207,7 @@ export interface ReturnInspectionsResource {
         "status"?: InputValue<Array<"current" | "superseded">>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReturnInspection>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReturnInspection>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

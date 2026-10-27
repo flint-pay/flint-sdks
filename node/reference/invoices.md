@@ -15,7 +15,7 @@ assessLateFee(invoice_id: InputValue<string>,
  params: (InputValue<AssessInvoiceLateFeeRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -64,7 +64,7 @@ Complete body and metadata: `assessLateFeeWithResponse`. See [response modes](..
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -91,7 +91,7 @@ cancelPaymentAttempt(invoice_id: InputValue<string>,
  params?: {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -132,7 +132,7 @@ Complete body and metadata: `cancelPaymentAttemptWithResponse`. See [response mo
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -158,7 +158,7 @@ collect(invoice_id: InputValue<string>,
  params: (InputValue<CollectInvoiceRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -210,7 +210,7 @@ Complete body and metadata: `collectWithResponse`. See [response modes](../RUNTI
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -239,7 +239,7 @@ create(params: (InputValue<(Exclude<CreateInvoiceRequestInput & object, readonly
 }))>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -253,23 +253,23 @@ create(params: (InputValue<(Exclude<CreateInvoiceRequestInput & object, readonly
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `cc_emails` | Optional | Array of string | Items: minLength: `1`. |
-| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `footer` | Optional | string | minLength: `1`. |
+| `cc_emails` | Optional | Array of string | Additional addresses copied on the invoice email and every reminder. Items: minLength: `1`. |
+| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How the invoice is collected. Omit it to use merchant_default. The invoice's collection object returns the resolved mode, and you can send it back unchanged on update. How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength: `1`. maxLength: `255`. |
+| `footer` | Optional | string | Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings default_footer. minLength: `1`. |
 | `issue` | Optional | [CreateInvoiceIssueRequestInput](../models/CreateInvoiceIssueRequest.md#createinvoiceissuerequest) | Issue the invoice immediately after creating it. An empty object uses merchant_default delivery. Cannot be combined with a scheduled_issue_at timestamp. Options for issuing an invoice as you create it. `delivery_mode` chooses how the invoice reaches its recipient. |
-| `memo` | Optional | string | minLength: `1`. |
+| `memo` | Optional | string | Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings default_memo. minLength: `1`. |
 | `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
-| `order_id` | Optional | string | minLength: `1`. |
-| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequest.md#invoicepaymentduerequest) | When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. Default: `{"type":"merchant_default"}`. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
-| `po_number` | Optional | string | minLength: `1`. |
-| `quick_pay` | Optional | [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequest.md#createinvoicequickpayrequest) | Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing. |
-| `recipient_email` | Optional | string | minLength: `1`. |
-| `reference` | Optional | string | minLength: `1`. |
-| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
+| `order_id` | Optional | string | The open order to bill. It must have no payments, refunds, or other active invoice. Send exactly one of order_id or quick_pay. minLength: `1`. |
+| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequest.md#invoicepaymentduerequest) | When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object returns the resolved type, and you can send it back unchanged on update. Default: `{"type":"merchant_default"}`. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
+| `po_number` | Optional | string | The buyer's purchase order number, printed on the invoice and PDF. minLength: `1`. |
+| `quick_pay` | Optional | [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequest.md#createinvoicequickpayrequest) | Order details for an invoice with no existing order. Flint creates the backing order from them. Send exactly one of order_id or quick_pay. Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing. |
+| `recipient_email` | Optional | string | Where Flint emails the invoice and its reminders. Required at issue when delivery resolves to email, and when you schedule the issue. minLength: `1`. |
+| `reference` | Optional | string | Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. minLength: `1`. |
+| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice settings remit-to address. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWrite.md#invoicescheduleentrywrite) | Complete draft payment schedule with at most 14 entries. Validation errors identify the entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must not contain surrounding whitespace. Omission preserves the current or default schedule; [] clears the authored schedule. Null is not accepted. On PATCH, include invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent edits. maxItems: `14`. |
-| `scheduled_issue_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. |
-| `service_date` | Optional | string | Calendar date in YYYY-MM-DD format. Format: `date`. minLength: `1`. |
+| `scheduled_issue_at` | Optional | string or null | When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined with issue. null is the same as omitting it. Format: `date-time`. minLength: `1`. |
+| `service_date` | Optional | string | The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Format: `date`. minLength: `1`. |
 
 #### invoices.create body oneOf variant 1
 
@@ -279,23 +279,23 @@ create(params: (InputValue<(Exclude<CreateInvoiceRequestInput & object, readonly
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `cc_emails` | Optional | Array of string | Items: minLength: `1`. |
-| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `footer` | Optional | string | minLength: `1`. |
+| `cc_emails` | Optional | Array of string | Additional addresses copied on the invoice email and every reminder. Items: minLength: `1`. |
+| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How the invoice is collected. Omit it to use merchant_default. The invoice's collection object returns the resolved mode, and you can send it back unchanged on update. How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength: `1`. maxLength: `255`. |
+| `footer` | Optional | string | Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings default_footer. minLength: `1`. |
 | `issue` | Optional | [CreateInvoiceIssueRequestInput](../models/CreateInvoiceIssueRequest.md#createinvoiceissuerequest) | Issue the invoice immediately after creating it. An empty object uses merchant_default delivery. Cannot be combined with a scheduled_issue_at timestamp. Options for issuing an invoice as you create it. `delivery_mode` chooses how the invoice reaches its recipient. |
-| `memo` | Optional | string | minLength: `1`. |
+| `memo` | Optional | string | Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings default_memo. minLength: `1`. |
 | `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
-| `order_id` | Required | string | minLength: `1`. |
-| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequest.md#invoicepaymentduerequest) | When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. Default: `{"type":"merchant_default"}`. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
-| `po_number` | Optional | string | minLength: `1`. |
-| `quick_pay` | Optional | [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequest.md#createinvoicequickpayrequest) | Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing. |
-| `recipient_email` | Optional | string | minLength: `1`. |
-| `reference` | Optional | string | minLength: `1`. |
-| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
+| `order_id` | Required | string | The open order to bill. It must have no payments, refunds, or other active invoice. Send exactly one of order_id or quick_pay. minLength: `1`. |
+| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequest.md#invoicepaymentduerequest) | When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object returns the resolved type, and you can send it back unchanged on update. Default: `{"type":"merchant_default"}`. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
+| `po_number` | Optional | string | The buyer's purchase order number, printed on the invoice and PDF. minLength: `1`. |
+| `quick_pay` | Optional | [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequest.md#createinvoicequickpayrequest) | Order details for an invoice with no existing order. Flint creates the backing order from them. Send exactly one of order_id or quick_pay. Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing. |
+| `recipient_email` | Optional | string | Where Flint emails the invoice and its reminders. Required at issue when delivery resolves to email, and when you schedule the issue. minLength: `1`. |
+| `reference` | Optional | string | Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. minLength: `1`. |
+| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice settings remit-to address. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWrite.md#invoicescheduleentrywrite) | Complete draft payment schedule with at most 14 entries. Validation errors identify the entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must not contain surrounding whitespace. Omission preserves the current or default schedule; [] clears the authored schedule. Null is not accepted. On PATCH, include invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent edits. maxItems: `14`. |
-| `scheduled_issue_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. |
-| `service_date` | Optional | string | Calendar date in YYYY-MM-DD format. Format: `date`. minLength: `1`. |
+| `scheduled_issue_at` | Optional | string or null | When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined with issue. null is the same as omitting it. Format: `date-time`. minLength: `1`. |
+| `service_date` | Optional | string | The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Format: `date`. minLength: `1`. |
 
 #### invoices.create body oneOf variant 2
 
@@ -305,23 +305,23 @@ create(params: (InputValue<(Exclude<CreateInvoiceRequestInput & object, readonly
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `cc_emails` | Optional | Array of string | Items: minLength: `1`. |
-| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `footer` | Optional | string | minLength: `1`. |
+| `cc_emails` | Optional | Array of string | Additional addresses copied on the invoice email and every reminder. Items: minLength: `1`. |
+| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How the invoice is collected. Omit it to use merchant_default. The invoice's collection object returns the resolved mode, and you can send it back unchanged on update. How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. minLength: `1`. maxLength: `255`. |
+| `footer` | Optional | string | Fine print at the bottom of the invoice and PDF. Omit it to use the invoice settings default_footer. minLength: `1`. |
 | `issue` | Optional | [CreateInvoiceIssueRequestInput](../models/CreateInvoiceIssueRequest.md#createinvoiceissuerequest) | Issue the invoice immediately after creating it. An empty object uses merchant_default delivery. Cannot be combined with a scheduled_issue_at timestamp. Options for issuing an invoice as you create it. `delivery_mode` chooses how the invoice reaches its recipient. |
-| `memo` | Optional | string | minLength: `1`. |
+| `memo` | Optional | string | Message to the customer, printed on the invoice and PDF. Omit it to use the invoice settings default_memo. minLength: `1`. |
 | `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
-| `order_id` | Optional | string | minLength: `1`. |
-| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequest.md#invoicepaymentduerequest) | When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. Default: `{"type":"merchant_default"}`. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
-| `po_number` | Optional | string | minLength: `1`. |
-| `quick_pay` | Required | [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequest.md#createinvoicequickpayrequest) | Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing. |
-| `recipient_email` | Optional | string | minLength: `1`. |
-| `reference` | Optional | string | minLength: `1`. |
-| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
+| `order_id` | Optional | string | The open order to bill. It must have no payments, refunds, or other active invoice. Send exactly one of order_id or quick_pay. minLength: `1`. |
+| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequest.md#invoicepaymentduerequest) | When the invoice is due. Omit it to use merchant_default. The invoice's payment_due object returns the resolved type, and you can send it back unchanged on update. Default: `{"type":"merchant_default"}`. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
+| `po_number` | Optional | string | The buyer's purchase order number, printed on the invoice and PDF. minLength: `1`. |
+| `quick_pay` | Required | [CreateInvoiceQuickPayRequestInput](../models/CreateInvoiceQuickPayRequest.md#createinvoicequickpayrequest) | Order details for an invoice with no existing order. Flint creates the backing order from them. Send exactly one of order_id or quick_pay. Inline order details for creating an invoice as `quick_pay`: line items, discounts, notes, customer, tip, and inventory routing. |
+| `recipient_email` | Optional | string | Where Flint emails the invoice and its reminders. Required at issue when delivery resolves to email, and when you schedule the issue. minLength: `1`. |
+| `reference` | Optional | string | Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. minLength: `1`. |
+| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice settings remit-to address. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWrite.md#invoicescheduleentrywrite) | Complete draft payment schedule with at most 14 entries. Validation errors identify the entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must not contain surrounding whitespace. Omission preserves the current or default schedule; [] clears the authored schedule. Null is not accepted. On PATCH, include invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent edits. maxItems: `14`. |
-| `scheduled_issue_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. |
-| `service_date` | Optional | string | Calendar date in YYYY-MM-DD format. Format: `date`. minLength: `1`. |
+| `scheduled_issue_at` | Optional | string or null | When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Cannot be combined with issue. null is the same as omitting it. Format: `date-time`. minLength: `1`. |
+| `service_date` | Optional | string | The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Format: `date`. minLength: `1`. |
 
 Body model: [CreateInvoiceRequestInput](../models/CreateInvoiceRequest.md#createinvoicerequest).
 
@@ -371,7 +371,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -397,7 +397,7 @@ get(invoice_id: InputValue<string>,
  params?: {
   "expand"?: InputValue<Array<"customer" | "order">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -432,7 +432,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -455,7 +455,7 @@ getManualPayment(invoice_id: InputValue<string>,
  invoice_manual_payment_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -490,7 +490,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getManualPaymentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -521,7 +521,7 @@ getOrCreateCheckoutSession(invoice_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -563,7 +563,7 @@ Complete body and metadata: `getOrCreateCheckoutSessionWithResponse`. See [respo
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -589,7 +589,7 @@ getPaymentAttempt(invoice_id: InputValue<string>,
  invoice_payment_attempt_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -624,7 +624,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getPaymentAttemptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -640,7 +640,7 @@ Downloads the merchant-authenticated PDF artifact generated from the invoice sna
 
 `GET /v1/invoices/{invoice_id}/pdf`
 
-Signature: `getPDF(invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `getPDF(invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -671,7 +671,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -694,7 +694,7 @@ issue(invoice_id: InputValue<string>,
  params: (InputValue<IssueInvoiceRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -743,7 +743,7 @@ Complete body and metadata: `issueWithResponse`. See [response modes](../RUNTIME
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -775,6 +775,7 @@ list(params?: {
     "void" |
     "uncollectible" |
     "credited">>;
+  "idempotency_key"?: InputValue<string>;
   "customer_id"?: InputValue<string>;
   "order_id"?: InputValue<string>;
   "subscription_id"?: InputValue<string>;
@@ -800,7 +801,7 @@ list(params?: {
   "query"?: InputValue<string>;
   "expand"?: InputValue<Array<"customer" | "order">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -810,6 +811,7 @@ list(params?: {
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
 | `status` | Optional | Array of string | minItems: `1`. Items values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `customer_id` | Optional | string |  |
 | `order_id` | Optional | string |  |
 | `subscription_id` | Optional | string |  |
@@ -855,7 +857,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -907,7 +909,7 @@ listActivities(invoice_id: InputValue<string>,
     "late_fee_waived" |
     "credited">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -973,7 +975,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listActivitiesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listActivitiesItems`, `listActivitiesPages`, `listActivitiesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -999,7 +1001,7 @@ listDeliveryAttempts(invoice_id: InputValue<string>,
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -1035,7 +1037,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listDeliveryAttemptsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listDeliveryAttemptsItems`, `listDeliveryAttemptsPages`, `listDeliveryAttemptsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1059,9 +1061,10 @@ Signature:
 listManualPayments(invoice_id: InputValue<string>,
  params?: {
   "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>
+  "page_token"?: InputValue<string>;
+  "idempotency_key"?: InputValue<string>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -1071,6 +1074,7 @@ listManualPayments(invoice_id: InputValue<string>,
 | `invoice_id` | Required | string |  |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 
 #### Response
 
@@ -1097,7 +1101,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listManualPaymentsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listManualPaymentsItems`, `listManualPaymentsPages`, `listManualPaymentsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1124,17 +1128,12 @@ listPaymentAttempts(invoice_id: InputValue<string>,
   "page_token"?: InputValue<string>;
   "idempotency_key"?: InputValue<string>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `idempotency_key` | Optional | string |  |
+Field definitions: [shared fields](#request-fields-13).
 
 #### Response
 
@@ -1161,7 +1160,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listPaymentAttemptsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listPaymentAttemptsItems`, `listPaymentAttemptsPages`, `listPaymentAttemptsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1189,7 +1188,7 @@ markUncollectible(invoice_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1230,7 +1229,7 @@ Complete body and metadata: `markUncollectibleWithResponse`. See [response modes
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1256,7 +1255,7 @@ recordManualPayment(invoice_id: InputValue<string>,
  params: (InputValue<CreateInvoiceManualPaymentRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -1309,7 +1308,7 @@ Complete body and metadata: `recordManualPaymentWithResponse`. See [response mod
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1338,7 +1337,7 @@ regeneratePublicLink(invoice_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1375,7 +1374,7 @@ Complete body and metadata: `regeneratePublicLinkWithResponse`. See [response mo
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1402,7 +1401,7 @@ reverseManualPayment(invoice_id: InputValue<string>,
  params: (InputValue<ReverseInvoiceManualPaymentRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1450,7 +1449,7 @@ Complete body and metadata: `reverseManualPaymentWithResponse`. See [response mo
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1469,15 +1468,7 @@ Attempts a reminder email for an already issued collectible invoice. Safe to ret
 
 `POST /v1/invoices/{invoice_id}/send-reminder`
 
-Signature:
-
-```typescript
-sendReminder(invoice_id: InputValue<string>,
- params?: {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant" | "merchantKey">)
-```
+Signature: `sendReminder(invoice_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
 
 #### Request fields
 
@@ -1515,7 +1506,7 @@ Complete body and metadata: `sendReminderWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1541,7 +1532,7 @@ update(invoice_id: InputValue<string>,
  params: (InputValue<UpdateInvoiceRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1558,22 +1549,22 @@ Body model: [UpdateInvoiceRequestInput](../models/UpdateInvoiceRequest.md#update
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `cc_emails` | Optional | Array of string | Items: minLength: `1`. |
-| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
+| `cc_emails` | Optional | Array of string | Additional addresses copied on the invoice email and every reminder. Send the complete list; [] removes every address. Items: minLength: `1`. |
+| `collection` | Optional | [InvoiceCollectionRequestInput](../models/InvoiceCollectionRequest.md#invoicecollectionrequest) | How the invoice is collected. Send the invoice's collection object back unchanged, or a new one. merchant_default resolves again from invoice settings when the draft is written. How an invoice is collected, used when creating or updating an invoice: a `mode`, an optional saved payment method, and a payment policy. |
 | `expected_version` | Optional | integer string | Invoice version last read. Required when schedule_entries is present. Required when any of these fields is present: schedule_entries. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `footer` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `memo` | Optional | string or null | Send null to clear it. minLength: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice, and GET /v1/invoices filters on it by exact match. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `footer` | Optional | string or null | Fine print at the bottom of the invoice and PDF. Send null to clear it. minLength: `1`. |
+| `memo` | Optional | string or null | Message to the customer, printed on the invoice and PDF. Send null to clear it. minLength: `1`. |
 | `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
-| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequest.md#invoicepaymentduerequest) | When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
-| `po_number` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `recipient_email` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `reference` | Optional | string or null | Send null to clear it. minLength: `1`. |
+| `payment_due` | Optional | [InvoicePaymentDueRequestInput](../models/InvoicePaymentDueRequest.md#invoicepaymentduerequest) | When the invoice is due. Send the invoice's payment_due object back unchanged, or a new one. Sending payment_terms captures the term's current revision again. When an invoice is due, used when creating or updating an invoice: no due date, a fixed time, payment terms, or a default. |
+| `po_number` | Optional | string or null | The buyer's purchase order number, printed on the invoice and PDF. Send null to clear it. minLength: `1`. |
+| `recipient_email` | Optional | string or null | Where Flint emails the invoice and its reminders. Required at issue when delivery resolves to email, and when you schedule the issue. Send null to clear it. minLength: `1`. |
+| `reference` | Optional | string or null | Your reference for the invoice, printed on the invoice and PDF. Put the buyer's purchase order number in po_number instead. Send null to clear it. minLength: `1`. |
 | `reminders_paused` | Optional | boolean | Pauses (true) or resumes (false) the automatic reminder cadence. Accepted only on an open or partially paid invoice with a balance remaining, and only alone or with expected_version: every other field is draft-only. While paused, manual send-reminder calls still work, and invoice.overdue and invoice.late_fee_due still fire. On resume, reminder times that passed while paused do not fire. Sending the current value succeeds without changing the invoice. |
-| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
+| `remit_to_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice settings remit-to address. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
 | `schedule_entries` | Optional | Array of [InvoiceScheduleEntryWriteInput](../models/InvoiceScheduleEntryWrite.md#invoicescheduleentrywrite) | Complete draft payment schedule with at most 14 entries. Validation errors identify the entry by index, such as schedule_entries[3].kind. Enum values are case-sensitive and must not contain surrounding whitespace. Omission preserves the current or default schedule; [] clears the authored schedule. Null is not accepted. On PATCH, include invoice_schedule_entry_id to retain an entry and expected_version to detect concurrent edits. maxItems: `14`. |
-| `scheduled_issue_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. |
-| `service_date` | Optional | string or null | Calendar date in YYYY-MM-DD format. Send null to clear it. Format: `date`. minLength: `1`. |
+| `scheduled_issue_at` | Optional | string or null | When Flint issues and delivers this draft, as an RFC 3339 timestamp in the future. A scheduled issue delivers by email, so the draft needs recipient_email. Clearing it cancels the scheduled issue. Send null to clear it. Format: `date-time`. minLength: `1`. |
+| `service_date` | Optional | string or null | The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. Send null to clear it. Format: `date`. minLength: `1`. |
 
 #### Response
 
@@ -1605,7 +1596,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1633,7 +1624,7 @@ voidResource(invoice_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1670,7 +1661,7 @@ Complete body and metadata: `voidResourceWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1697,7 +1688,7 @@ waiveLateFee(invoice_id: InputValue<string>,
  params: (InputValue<WaiveInvoiceLateFeeRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1747,7 +1738,7 @@ Complete body and metadata: `waiveLateFeeWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

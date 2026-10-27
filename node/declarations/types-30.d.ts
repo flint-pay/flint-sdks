@@ -3,17 +3,50 @@ import type { FeedbackReportsListInput } from './types-17.js';
 import type { InvoicesListDeliveryAttemptsInput } from './types-28.js';
 import type { PauseSubscriptionRequestInput } from './types-35.js';
 import type { ResourceVersionRequestInput, ResponseMeta } from './types-40.js';
-import type { RenewSubscriptionRequestInput, ReadinessAxis, ReadinessRequirements } from './types-39.js';
+import type { RenewSubscriptionRequestInput } from './types-39.js';
 import type { MeCreateDeletionRequestInput } from './types-29.js';
-import type { SaveMeGiftCardRequestInput, SaveMePaymentMethodRequestInput } from './types-43.js';
-import type { SetDefaultCustomerAddressRequestInput, SkipMeSubscriptionCycleRequestInput } from './types-44.js';
+import type {
+    SaveMeGiftCardRequestInput,
+    SaveMePaymentMethodRequestInput,
+    SetDefaultCustomerAddressRequestInput,
+    SkipMeSubscriptionCycleRequestInput
+} from './types-44.js';
 import type { UpdateCustomerAddressRequestInput, UpdateCustomerEmailPreferencesRequestInput } from './types-47.js';
 import type { UpdateMeRequestInput, UpdateMeSubscriptionRequestInput, UpdateMeSubscriptionLineItemRequestInput } from './types-48.js';
 import type { Address } from './types-0.js';
 import type { ExpandedOrganizationSummary, DisputeResponseSessionStripeAccountSession } from './types-16.js';
 import type { ImageAttachment } from './types-19.js';
-import type { MoneyValue } from './types-31.js';
-import type { CapabilityReadiness } from './types-3.js';
+import type { MerchantReadiness, MoneyValue } from './types-31.js';
+export type MeGetPaymentMethodInput = {
+    /** Shape $ (Value): string. */
+    "payment_method_id": InputValue<string>;
+};
+export type MeGetRefundInput = {
+    /** Shape $ (Value): string. */
+    "refund_id": InputValue<string>;
+};
+export type MeGetReturnInput = {
+    /** Shape $ (Value): string. */
+    "return_id": InputValue<string>;
+};
+export type MeGetReturnResolutionInput = {
+    /** Shape $ (Value): string. */
+    "return_resolution_id": InputValue<string>;
+};
+export type MeGetShipmentInput = {
+    /** Shape $ (Value): string. */
+    "shipment_id": InputValue<string>;
+};
+export type MeGetSubscriptionInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+};
+export type MeGetSubscriptionPaymentRetryInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. */
+    "subscription_payment_retry_id": InputValue<string>;
+};
 export type MeListAddressesInput = FeedbackReportsListInput;
 export type MeListCreditNotesInput = InvoicesListDeliveryAttemptsInput;
 export type MeListDeletionRequestsInput = {
@@ -440,6 +473,8 @@ export type MeListReturnsInput = {
      * "approved", "partially_approved", "declined".
      */
     "decision_status"?: InputValue<Array<"pending" | "approved" | "partially_approved" | "declined">>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /**
      * Shape $ (Value): Array of string. minItems: 1. [] enum: "not_required", "awaiting_handoff",
      * "in_transit", "partially_received", "inspection_required", "partially_inspected",
@@ -505,6 +540,16 @@ export type MeListShipmentsInput = {
     "created_after"?: InputValue<string | globalThis.Date>;
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_before"?: InputValue<string | globalThis.Date>;
+};
+export type MeListSubscriptionPaymentRetriesInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
 };
 export type MeListSubscriptionsInput = {
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
@@ -774,8 +819,11 @@ export type Merchant = {
      * null.
      */
     "organization"?: ((ExpandedOrganizationSummary) | (null));
-    /** Shape $ (Value): string. */
-    "organization_id"?: string;
+    /**
+     * Shape $ (Value): string. The organization this merchant belongs to. Flint creates it with
+     * the merchant, and it can't be changed through the API.
+     */
+    "organization_id": string;
     /** Shape $ (Value): string. */
     "phone"?: string;
     /**
@@ -839,8 +887,9 @@ export type MerchantAccountSession = {
     "effective_policy": MerchantAccountSessionEffectivePolicy;
     /**
      * Shape $ (Value): string. Signed Flint token to exchange at POST
-     * /v1/merchant-account-sessions/refresh. Each successful refresh rotates this token. The
-     * caller must still authenticate and authorize the human using the session.
+     * /v1/merchant-account-session-refreshes. Each new refresh operation rotates this token; a
+     * same-key retry replays the original token. The caller must still authenticate and authorize
+     * the human using the session.
      */
     "launch_token": string;
     /**
@@ -891,8 +940,6 @@ export type MerchantAccountSessionCreateRequest = {
         | (string & {})>;
     /** Shape $ (Value): string.  Value enum: "omit", "include". */
     "future_requirements"?: "omit" | "include" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "sandbox_id"?: string;
     /**
      * Shape $ (Value): Array of string. Flint requirement codes. New codes can appear; treat an
      * unknown code as additional_account_information. [] enum: "additional_account_information",
@@ -975,8 +1022,6 @@ export type MerchantAccountSessionCreateRequestInput = {
         | "notification_banner">;
     /** Shape $ (Value): string.  Value enum: "omit", "include". */
     "future_requirements"?: "omit" | "include";
-    /** Shape $ (Value): string. minLength: 1. */
-    "sandbox_id"?: string;
     /**
      * Shape $ (Value): Array of string. Flint requirement codes. New codes can appear; treat an
      * unknown code as additional_account_information. [] enum: "additional_account_information",
@@ -1313,299 +1358,4 @@ export type MerchantBillingEntriesListInput = {
     "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
     "page_token"?: InputValue<string>;
-};
-/**
- * Shape $ (Value): {@link MerchantBillingEntry}. An immutable merchant billing charge, credit,
- * collection, correction, or write-off.
- */
-export type MerchantBillingEntry = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Signed change in available billing credit.
-     * credit_issued increases it; credit_applied and credit_refunded decrease it. Other entry
-     * types do not change it. Signed monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "available_credit_effect_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Balance transaction for this collection or collection reversal,
-     * when present.
-     */
-    "balance_transaction_id"?: string;
-    /**
-     * Shape $ (Value): string. When Flint recorded the entry. Use created_after to pick up new
-     * entries, including late arrivals. Format: date-time.
-     */
-    "created_at": string;
-    /** Shape $ (Value): string. Human-readable description of the billing event. */
-    "description": string;
-    /** Shape $ (Value): string. Related dispute, when the entry is associated with a dispute. */
-    "dispute_id"?: string;
-    /**
-     * Shape $ (Value): string. Event fee category. Present only for event_fee entries. Value enum:
-     * "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute".
-     */
-    "event_fee_type"?: "bank_verification" | "failed_ach_payment" | "ach_dispute" | "card_dispute" | (string & {});
-    /** Shape $ (Value): string. Stable entry ID. Re-reading an entry returns the same values. */
-    "merchant_billing_entry_id": string;
-    /** Shape $ (Value): string. Related invoice issued by Flint, when applicable. */
-    "merchant_billing_invoice_id"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Signed outstanding effect minus the available credit
-     * effect. Charges and collection_reversal are positive; credit_issued, collection,
-     * custom_domain_collection, and write_off are negative; credit_refunded is positive;
-     * credit_applied is zero; correction may be positive or negative. Signed monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "net_billing_effect_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. When the billing event happened. An entry can be recorded after
-     * entries that occurred later. Format: date-time.
-     */
-    "occurred_at": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Signed change in the amount owed Flint. Charges
-     * (event_fee, invoice, custom_domain) and collection_reversal increase it; credit_applied,
-     * collection, custom_domain_collection, and write_off decrease it; correction may increase or
-     * decrease it. Credit issuance and refund do not change it. Signed monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code.
-     */
-    "outstanding_effect_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Related payment intent, when the entry is associated with a
-     * payment.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Entry corrected, credited, collected, reversed, or written off by
-     * this entry, when applicable.
-     */
-    "related_merchant_billing_entry_id"?: string;
-    /**
-     * Shape $ (Value): string. The billing event represented by this entry. Value enum:
-     * "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction",
-     * "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal",
-     * "write_off".
-     */
-    "type": "event_fee"
-        | "invoice"
-        | "custom_domain"
-        | "custom_domain_collection"
-        | "correction"
-        | "credit_issued"
-        | "credit_applied"
-        | "credit_refunded"
-        | "collection"
-        | "collection_reversal"
-        | "write_off"
-        | (string & {});
-};
-/**
- * Shape $ (Value): {@link MerchantBillingEntryListResponse}. A page of `MerchantBillingEntry`
- * objects.
- */
-export type MerchantBillingEntryListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link MerchantBillingEntry}. Shape $[] (Value): {@link
-     * MerchantBillingEntry}. An immutable merchant billing charge, credit, collection, correction,
-     * or write-off.
-     */
-    "data": Array<MerchantBillingEntry>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link MerchantBillingInvoice}. A Flint invoice for the merchant's Flint
- * subscription.
- */
-export type MerchantBillingInvoice = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "credit_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "due_at": string;
-    /** Shape $ (Value): string. */
-    "invoice_number": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "issued_at"?: string;
-    /**
-     * Shape $ (Value): Array of {@link MerchantBillingInvoiceLineItem}. Invoice-owned line items.
-     * Subscription totals sum to subtotal_money; credit totals sum to credit_money. Shape $[]
-     * (Value): {@link MerchantBillingInvoiceLineItem}. One line on a merchant billing invoice,
-     * either a subscription charge or a credit, with quantity, unit price, and total.
-     */
-    "line_items": Array<MerchantBillingInvoiceLineItem>;
-    /** Shape $ (Value): string. */
-    "merchant_billing_invoice_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "paid_at"?: string;
-    /**
-     * Shape $ (Value): string. Exclusive invoice billing period end as an RFC 3339 UTC instant.
-     * Format: date-time.
-     */
-    "period_end_at": string;
-    /**
-     * Shape $ (Value): string. Inclusive invoice billing period start as an RFC 3339 UTC instant.
-     * Format: date-time.
-     */
-    "period_start_at": string;
-    /**
-     * Shape $ (Value): string. Value enum: "draft", "open", "collecting", "paid", "delinquent",
-     * "void", "written_off".
-     */
-    "status": "draft" | "open" | "collecting" | "paid" | "delinquent" | "void" | "written_off" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "voided_at"?: string;
-};
-/**
- * Shape $ (Value): {@link MerchantBillingInvoiceLineItem}. One line on a merchant billing invoice,
- * either a subscription charge or a credit, with quantity, unit price, and total.
- */
-export type MerchantBillingInvoiceLineItem = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /** Shape $ (Value): string. */
-    "merchant_billing_invoice_line_item_id": string;
-    /** Shape $ (Value): string. Name of the subscription charge or credit. */
-    "name": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Unsigned line total, calculated as quantity multiplied
-     * by unit_price_money. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Whether the line adds a subscription charge or applies credit.
-     * Value enum: "subscription", "credit".
-     */
-    "type": "subscription" | "credit" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-};
-/**
- * Shape $ (Value): {@link MerchantBillingInvoiceListResponse}. A page of `MerchantBillingInvoice`
- * objects.
- */
-export type MerchantBillingInvoiceListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link MerchantBillingInvoice}. Shape $[] (Value): {@link
-     * MerchantBillingInvoice}. A Flint invoice for the merchant's Flint subscription.
-     */
-    "data": Array<MerchantBillingInvoice>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link MerchantBillingInvoiceResponse}. A response containing
- * `MerchantBillingInvoice` data.
- */
-export type MerchantBillingInvoiceResponse = {
-    /**
-     * Shape $ (Value): {@link MerchantBillingInvoice}. A Flint invoice for the merchant's Flint
-     * subscription.
-     */
-    "data": MerchantBillingInvoice;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link MerchantReadiness}. A merchant's readiness to accept payments and
- * receive payouts, with per-capability status and outstanding requirements.
- */
-export type MerchantReadiness = {
-    /**
-     * Shape $ (Value): Array of {@link CapabilityReadiness}. Shape $[] (Value): {@link
-     * CapabilityReadiness}. Merchant capability readiness for a payment or money movement
-     * capability.
-     */
-    "capabilities": Array<CapabilityReadiness>;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "observed_at": string;
-    /**
-     * Shape $ (Value): {@link ReadinessAxis}. Readiness for one area of a merchant account, with
-     * its `status`, the reason for it, and the actions that would advance it.
-     */
-    "payments": ReadinessAxis;
-    /**
-     * Shape $ (Value): {@link ReadinessAxis}. Readiness for one area of a merchant account, with
-     * its `status`, the reason for it, and the actions that would advance it.
-     */
-    "payouts": ReadinessAxis;
-    /**
-     * Shape $ (Value): {@link ReadinessRequirements}. Account information requirements for a
-     * merchant, grouped as currently due, eventually due, past due, and pending verification.
-     */
-    "requirements": ReadinessRequirements;
-};
-/** Shape $ (Value): {@link MerchantResponse}. A response containing `Merchant` data. */
-export type MerchantResponse = {
-    /** Shape $ (Value): {@link Merchant}. The business accepting payments. */
-    "data": Merchant;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
 };

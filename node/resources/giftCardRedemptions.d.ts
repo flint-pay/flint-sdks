@@ -15,8 +15,8 @@ import type {
     GiftCardVersionRequestInput
 } from '../declarations/types-19.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -45,23 +45,20 @@ export type {
     GiftCardTransaction
 } from '../declarations/types-19.js';
 export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type {
     CreateGiftCardRedemptionRequestInput,
     CreateGiftCardRedemptionRequestAutomaticInput,
     CreateGiftCardRedemptionRequestManualInput
 } from '../declarations/types-6.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { GiftCard } from '../declarations/types-18.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-31.js';
-export {
-    makeCreateGiftCardRedemptionRequest,
-    makeCreateGiftCardRedemptionRequestAutomatic,
-    makeCreateGiftCardRedemptionRequestManual
-} from '../declarations/types-63.js';
+export { makeCreateGiftCardRedemptionRequest, makeCreateGiftCardRedemptionRequestAutomatic } from '../declarations/types-63.js';
+export { makeCreateGiftCardRedemptionRequestManual } from '../declarations/types-64.js';
 export { makeGiftCardVersionRequest } from '../declarations/types-67.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface GiftCardRedemptionsResource {
@@ -81,7 +78,7 @@ export interface GiftCardRedemptionsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<GiftCardRedemptionResult>;
+    }, options?: RequestOptions<"merchant">): Promise<GiftCardRedemptionResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardRedemptions.md#giftcardredemptionscancel
      */
@@ -90,7 +87,7 @@ export interface GiftCardRedemptionsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardRedemptionResultResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GiftCardRedemptionResultResponse>>;
     /**
  * Posts the full reserved amount before the manual reservation expires. Capturing and expiry use
  * the same concurrency fence. Flint order reservations are resolved by their payment attempt and
@@ -108,7 +105,7 @@ export interface GiftCardRedemptionsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<GiftCardRedemptionResult>;
+    }, options?: RequestOptions<"merchant">): Promise<GiftCardRedemptionResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardRedemptions.md#giftcardredemptionscapture
      */
@@ -117,7 +114,7 @@ export interface GiftCardRedemptionsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardRedemptionResultResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GiftCardRedemptionResultResponse>>;
     /**
  * Posts an exact amount automatically or reserves it for one full manual capture. Insufficient
  * funds are rejected without a partial debit. Manual reservations default to 15 minutes and may be
@@ -135,14 +132,14 @@ export interface GiftCardRedemptionsResource {
     create(params: (InputValue<CreateGiftCardRedemptionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardRedemptionResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<GiftCardRedemptionResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardRedemptions.md#giftcardredemptionscreate
      */
     createWithResponse(params: (InputValue<CreateGiftCardRedemptionRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardRedemptionResultResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardRedemptionResultResponse>>;
     /**
  * Retrieves requested, reserved, captured, refunded and remaining refundable value with the
  * current reservation status.
@@ -151,11 +148,11 @@ export interface GiftCardRedemptionsResource {
  * @example
  * client.giftCardRedemptions.get("example")
  */
-    get(gift_card_redemption_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardRedemption>;
+    get(gift_card_redemption_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardRedemption>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardRedemptions.md#giftcardredemptionsget
      */
-    getWithResponse(gift_card_redemption_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardRedemptionResponse>>;
+    getWithResponse(gift_card_redemption_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardRedemptionResponse>>;
     /**
  * Lists reservations and captured redemptions in descending ID order. Retrieve by idempotency_key
  * to recover an operation after a lost response.
@@ -175,7 +172,7 @@ export interface GiftCardRedemptionsResource {
         "sale_reference"?: InputValue<string>;
         "source_type"?: InputValue<Array<"external" | "flint_order">>;
         "status"?: InputValue<Array<"canceled" | "captured" | "expired" | "reserved">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardRedemptionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardRedemptionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardRedemptions.md#giftcardredemptionslist
      */
@@ -190,7 +187,7 @@ export interface GiftCardRedemptionsResource {
         "sale_reference"?: InputValue<string>;
         "source_type"?: InputValue<Array<"external" | "flint_order">>;
         "status"?: InputValue<Array<"canceled" | "captured" | "expired" | "reserved">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardRedemptionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardRedemptionListResponse>>;
     /** Iterate pages lazily.
      * @see reference/giftCardRedemptions.md#giftcardredemptionslist
      */
@@ -205,7 +202,7 @@ export interface GiftCardRedemptionsResource {
         "sale_reference"?: InputValue<string>;
         "source_type"?: InputValue<Array<"external" | "flint_order">>;
         "status"?: InputValue<Array<"canceled" | "captured" | "expired" | "reserved">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardRedemptionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardRedemptionListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/giftCardRedemptions.md#giftcardredemptionslist
      */
@@ -220,7 +217,7 @@ export interface GiftCardRedemptionsResource {
         "sale_reference"?: InputValue<string>;
         "source_type"?: InputValue<Array<"external" | "flint_order">>;
         "status"?: InputValue<Array<"canceled" | "captured" | "expired" | "reserved">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<GiftCardRedemptionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<GiftCardRedemptionListResponse>>;
     /** Iterate items lazily.
      * @see reference/giftCardRedemptions.md#giftcardredemptionslist
      */
@@ -235,7 +232,7 @@ export interface GiftCardRedemptionsResource {
         "sale_reference"?: InputValue<string>;
         "source_type"?: InputValue<Array<"external" | "flint_order">>;
         "status"?: InputValue<Array<"canceled" | "captured" | "expired" | "reserved">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardRedemption>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardRedemption>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -37,7 +37,7 @@ final class ExpandedOrganizationSummaryInput extends Model {
      */
     public function getParentOrganizationId(): string { return $this->get('parent_organization_id'); }
     public function hasParentOrganizationId(): bool { return $this->has('parent_organization_id'); }
-    /** Shape $ (Value): string. Current status. Archived: deleted, and still readable by ID. Value enum: "active", "archived".
+    /** Shape $ (Value): string. Current status. Archived: deleted. API keys can no longer read or list the organization. Value enum: "active", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

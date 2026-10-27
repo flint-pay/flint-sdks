@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# PayoutSettingsListPayoutDestinationsResponse200 – BundlesUpdateResponse200
+# PackagesListPackageItemsResponse200 – FulfillmentsTransitionResponse200
 
+- [PackagesListPackageItemsResponse200](PackagesListPackageItemsResponse200.md)
+- [PackagesListResponse200](PackagesListResponse200.md)
+- [PaymentIntentsListActivitiesResponse200](PaymentIntentsListActivitiesResponse200.md)
+- [PaymentIntentsListResponse200](PaymentIntentsListResponse200.md)
+- [PaymentLinksListResponse200](PaymentLinksListResponse200.md)
+- [PaymentMethodDomainsListResponse200](PaymentMethodDomainsListResponse200.md)
+- [PaymentMethodsListResponse200](PaymentMethodsListResponse200.md)
+- [ReviewsListResponse200](ReviewsListResponse200.md)
 - [PayoutSettingsListPayoutDestinationsResponse200](PayoutSettingsListPayoutDestinationsResponse200.md)
 - [PayoutsListResponse200](PayoutsListResponse200.md)
 - [ProductsListOptionsResponse200](ProductsListOptionsResponse200.md)
@@ -48,7 +56,7 @@
 - [MeReactivateSubscriptionResponse200](MeReactivateSubscriptionResponse200.md)
 - [SubscriptionsReactivateResponse200](SubscriptionsReactivateResponse200.md)
 - [CustomerSessionsRefreshResponse200](CustomerSessionsRefreshResponse200.md)
-- [MerchantAccountSessionsRefreshResponse201](MerchantAccountSessionsRefreshResponse201.md)
+- [MerchantAccountSessionsRefreshResponse200](MerchantAccountSessionsRefreshResponse200.md)
 - [InvoicesRegeneratePublicLinkResponse200](InvoicesRegeneratePublicLinkResponse200.md)
 - [ReturnResolutionsReleaseResponse200](ReturnResolutionsReleaseResponse200.md)
 - [MeRemoveGiftCardResponse200](MeRemoveGiftCardResponse200.md)
@@ -94,12 +102,4 @@
 - [SubscriptionsSkipCycleResponse200](SubscriptionsSkipCycleResponse200.md)
 - [OnboardingStartFlowResponse200](OnboardingStartFlowResponse200.md)
 - [FulfillmentsTransitionResponse200](FulfillmentsTransitionResponse200.md)
-- [GiftCardsTransitionResponse200](GiftCardsTransitionResponse200.md)
-- [InventoryCountsTransitionResponse200](InventoryCountsTransitionResponse200.md)
-- [InventoryReservationsTransitionResponse200](InventoryReservationsTransitionResponse200.md)
-- [InventoryTransfersTransitionResponse200](InventoryTransfersTransitionResponse200.md)
-- [PackagesTransitionResponse200](PackagesTransitionResponse200.md)
-- [EmailPreferenceLinksUnsubscribeResponse200](EmailPreferenceLinksUnsubscribeResponse200.md)
-- [ApiKeysUpdateResponse200](ApiKeysUpdateResponse200.md)
-- [BundlesUpdateResponse200](BundlesUpdateResponse200.md)
 

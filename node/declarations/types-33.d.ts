@@ -1,5 +1,4 @@
 import type {
-    OrderPaymentSourceCardSelection,
     Order,
     OrderChargeTaxAssignment,
     OrderLineItemTaxAssignment,
@@ -8,7 +7,7 @@ import type {
 } from './types-32.js';
 import type { ResponseMeta, RepriceDiscountsRequestInput, ResolveOrderInventoryExceptionRequestInput } from './types-40.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { TaxBreakdown } from './types-46.js';
+import type { TaxBreakdown } from './types-47.js';
 import type {
     Address,
     AddOrderChargeRequestInput,
@@ -17,11 +16,7 @@ import type {
     ApplyOrderGiftCardRequestInput
 } from './types-0.js';
 import type { InputValue } from '../runtime.js';
-import type {
-    CancelOrderPaymentAttemptRequestInput,
-    CancelOrderPaymentRequestInput,
-    CaptureOrderPaymentRequestInput
-} from './types-3.js';
+import type { CancelOrderPaymentAttemptRequestInput } from './types-3.js';
 import type { CloseOrderRequestInput } from './types-4.js';
 import type { CreateFulfillmentRequestInput } from './types-6.js';
 import type { CreateOrderRequestInput, CreateOrderPaymentIntentRequestInput } from './types-7.js';
@@ -30,7 +25,95 @@ import type { MeGetOrderInput } from './types-29.js';
 import type { MeListOrderActivitiesInput } from './types-30.js';
 import type { RemoveDiscountsRequestInput } from './types-39.js';
 import type { SendOrderReceiptRequestInput } from './types-44.js';
-import type { UpdateOrderChargeRequestInput } from './types-48.js';
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelection}. Identifies a payment intent to confirm for
+ * an order and the credential to use: a token, a saved payment method, a Stripe confirmation
+ * token, or the attached source.
+ */
+export type OrderPaymentIntentSelection = (({
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1. */
+    "token": string;
+})
+    | ({
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): string. Saved Flint payment method ID belonging to the customer making this
+     * payment. minLength: 1.
+     */
+    "payment_method_id": string;
+})
+    | ({
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): object. Stripe credential collected for this payment. Shape
+     * $.confirmation_token (Required): string. Stripe confirmation token you created with
+     * Stripe.js from `payment_collection.stripe`. minLength: 1.
+     */
+    "stripe": {
+        /**
+         * Shape $ (Value): string. Stripe confirmation token you created with Stripe.js from
+         * `payment_collection.stripe`. minLength: 1.
+         */
+        "confirmation_token": string;
+    };
+})
+    | ({
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+})
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionInput}. Identifies a payment intent to
+ * confirm for an order and the credential to use: a token, a saved payment method, a Stripe
+ * confirmation token, or the attached source.
+ */
+export type OrderPaymentIntentSelectionInput = (({
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1. */
+    "token": string;
+})
+    | ({
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): string. Saved Flint payment method ID belonging to the customer making this
+     * payment. minLength: 1.
+     */
+    "payment_method_id": string;
+})
+    | ({
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): object. Stripe credential collected for this payment. Shape
+     * $.confirmation_token (Required): string. Stripe confirmation token you created with
+     * Stripe.js from `payment_collection.stripe`. minLength: 1.
+     */
+    "stripe": {
+        /**
+         * Shape $ (Value): string. Stripe confirmation token you created with Stripe.js from
+         * `payment_collection.stripe`. minLength: 1.
+         */
+        "confirmation_token": string;
+    };
+})
+    | ({
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+}));
+/**
+ * Shape $ (Value): {@link OrderPaymentSourceCardSelection}. Card options for the payment source
+ * selected on an order payment intent, including which digital wallets to offer.
+ */
+export type OrderPaymentSourceCardSelection = {
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "digital_wallets"?: Array<string>;
+};
 /**
  * Shape $ (Value): {@link OrderPaymentSourceCardSelectionInput}. Card options for the payment
  * source selected on an order payment intent, including which digital wallets to offer.
@@ -839,32 +922,6 @@ export type OrdersCancelPaymentAttemptInput = {
      */
     "body"?: InputValue<CancelOrderPaymentAttemptRequestInput>;
 };
-export type OrdersCancelPaymentInput = {
-    /** Shape $ (Value): string. */
-    "order_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "payment_intent_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CancelOrderPaymentRequestInput}. The request body for: Cancel order
-     * payment leg.
-     */
-    "body"?: InputValue<CancelOrderPaymentRequestInput>;
-};
-export type OrdersCapturePaymentInput = {
-    /** Shape $ (Value): string. */
-    "order_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "payment_intent_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CaptureOrderPaymentRequestInput}. The request body for: Capture
-     * order payment.
-     */
-    "body"?: InputValue<CaptureOrderPaymentRequestInput>;
-};
 export type OrdersCloseSessionInput = {
     /** Shape $ (Value): string. */
     "order_id": InputValue<string>;
@@ -1078,6 +1135,8 @@ export type OrdersListInput = {
 export type OrdersListPaymentAttemptsInput = {
     /** Shape $ (Value): string. */
     "order_id": InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
@@ -1149,17 +1208,4 @@ export type OrdersSendReceiptInput = {
      * receipt.
      */
     "body"?: InputValue<SendOrderReceiptRequestInput>;
-};
-export type OrdersUpdateChargeInput = {
-    /** Shape $ (Value): string. */
-    "order_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "order_charge_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateOrderChargeRequestInput}. The request body for: Update order
-     * charge.
-     */
-    "body": InputValue<UpdateOrderChargeRequestInput>;
 };

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read ?string $departed_at
  * @property-read string $destination_location_id
  * @property-read ?string $external_reference_id
- * @property-read string $idempotency_key
+ * @property-read ?string $idempotency_key
  * @property-read string $inventory_transfer_id
  * @property-read list<InventoryTransferLine> $lines
  * @property-read ?string $note
@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryTransfer extends Model {
-    /** @param array{'closed_at'?: string, 'closed_reason'?: string|null, 'created_at': string, 'departed_at'?: string, 'destination_location_id': string, 'external_reference_id'?: string, 'idempotency_key': string, 'inventory_transfer_id': string, 'lines': list<mixed>, 'note'?: string, 'origin_location_id': string, 'received_at'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'closed_at'?: string, 'closed_reason'?: string|null, 'created_at': string, 'departed_at'?: string, 'destination_location_id': string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'inventory_transfer_id': string, 'lines': list<mixed>, 'note'?: string, 'origin_location_id': string, 'received_at'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransfer')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -52,10 +52,10 @@ final class InventoryTransfer extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): string.
-     * @return string
+    /** Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
+     * @return ?string
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): string.
      * @return string

@@ -1,22 +1,49 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    DeliveryMethodOriginSelectorInputFixedLocationInput,
+    DeliveryMethodOriginSelectorInputPickupLocationCollectionInput,
+    DeliveryMethodOriginSelectorRequestInput,
+    DeliveryPickupAvailabilityMaximumDistanceRequestInput,
+    DeliveryPostalCodeConditionInput
+} from './types-12.js';
+import type {
+    DeliveryPostalCodeValueInput,
+    DeliveryPreviewRoutingSourceInput,
+    DeliveryPricingRateCreateRequestInput,
+    DeliveryPricingRateRequestInput,
+    DeliveryPricingStrategyCreateInputCalculatedInput,
+    DeliveryPricingStrategyCreateInputCallbackInput,
+    DeliveryPricingStrategyCreateInputCallerSuppliedInput,
+    DeliveryPricingStrategyCreateInputFixedInput,
+    DeliveryPricingStrategyCreateInputRateTableInput,
+    DeliveryPricingStrategyCreateInputTieredInput,
+    DeliveryPricingStrategyCreateRequestInput,
+    DeliveryPricingStrategyInputCalculatedInput,
+    DeliveryPricingStrategyInputCallbackInput,
+    DeliveryPricingStrategyInputCallerSuppliedInput,
+    DeliveryPricingStrategyInputFixedInput,
+    DeliveryPricingStrategyInputRateTableInput,
+    DeliveryPricingStrategyInputTieredInput,
+    DeliveryPricingStrategyRequestInput,
+    DeliveryPricingTierBandRequestInput,
+    DeliveryProfileConfigurationRequestInput,
     DeliveryProfileOriginPolicyInputFixedLocationInput,
     DeliveryProfileOriginPolicyInputInventoryRoutingInput,
-    DeliveryProfileOriginPolicyInputMethodOriginInput,
-    DeliveryProfileOriginPolicyRequestInput
+    DeliveryProfileOriginPolicyInputMethodOriginInput
 } from './types-13.js';
 import type {
+    DeliveryProfileOriginPolicyRequestInput,
     DeliveryRadiusConditionInput,
     DeliveryRadiusOriginInput,
     DeliveryRateCallbackConfigurationInput,
     DeliveryRateCallbackConfigurationPatchRequestInput,
     DeliveryRateTablePricingStrategyCreateRequestInput,
     DeliveryRateTablePricingStrategyRequestInput,
-    DeliveryRecipientRequirementInput,
-    DeliveryScheduleWindowRuleRequestInput,
-    DeliverySelectionInstructionsRequestInput
+    DeliveryRecipientRequirementInput
 } from './types-14.js';
 import type {
+    DeliveryScheduleWindowRuleRequestInput,
+    DeliverySelectionInstructionsRequestInput,
     DeliverySelectionRecipientRequestInput,
     DeliveryStateConditionInput,
     DeliveryTieredPricingStrategyInputQuantityOrMoneyInput,
@@ -43,40 +70,36 @@ import type {
     FulfillmentPackagingRequestInput,
     FulfillmentRecipientRequestInput,
     FulfillmentSettingsInput,
-    FulfillmentTransitionRequestInput,
     FulfillmentTransitionRequestAcceptInput,
     FulfillmentTransitionRequestCancelInput,
-    FulfillmentTransitionRequestCompleteInput,
-    FulfillmentTransitionRequestDispatchInput,
-    FulfillmentTransitionRequestFailInput,
-    FulfillmentTransitionRequestHoldInput,
-    FulfillmentTransitionRequestMarkNoShowInput,
-    FulfillmentTransitionRequestMarkPackedInput,
-    FulfillmentTransitionRequestMarkPickedInput
+    FulfillmentTransitionRequestCompleteInput
 } from './types-17.js';
-import type {
-    FulfillmentTransitionRequestMarkPreparingInput,
-    FulfillmentTransitionRequestMarkReadyInput,
-    FulfillmentTransitionRequestReleaseHoldInput,
-    FulfillmentTransitionRequestScheduleInput,
-    FulfillmentTransitionRequestStartInput,
-    GetOrCreateReturnResolutionCheckoutSessionRequestInput,
-    GiftCardCustomAmountBoundsInput,
-    GiftCardFundingSourceInput,
-    GiftCardFundingSourceAdjustmentInput,
-    GiftCardFundingSourceExternalPaymentInput,
-    GiftCardFundingSourceFlintManualPaymentInput,
-    GiftCardFundingSourceFlintPaymentInput,
-    GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput,
-    GiftCardFundingSourceGiftCardRefundInput,
-    GiftCardFundingSourceImportInput,
-    GiftCardFundingSourceStoreCreditInput
-} from './types-18.js';
-import type {
-    GiftCardNotificationRecipientInput,
-    GiftCardProductConfigurationInput,
-    GiftCardPurchaseDetailsRequestInput
-} from './types-19.js';
+import type { FulfillmentTransitionRequestInput } from './types-18.js';
+export declare function makeDeliveryMethodOriginSelectorInputFixedLocation(value: InputValue<DeliveryMethodOriginSelectorInputFixedLocationInput>): Model<DeliveryMethodOriginSelectorInputFixedLocationInput>;
+export declare function makeDeliveryMethodOriginSelectorInputPickupLocationCollection(value: InputValue<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput>): Model<DeliveryMethodOriginSelectorInputPickupLocationCollectionInput>;
+export declare function makeDeliveryMethodOriginSelectorRequest(value: InputValue<DeliveryMethodOriginSelectorRequestInput>): Model<DeliveryMethodOriginSelectorRequestInput>;
+export declare function makeDeliveryPickupAvailabilityMaximumDistanceRequest(value: InputValue<DeliveryPickupAvailabilityMaximumDistanceRequestInput>): Model<DeliveryPickupAvailabilityMaximumDistanceRequestInput>;
+export declare function makeDeliveryPostalCodeCondition(value: InputValue<DeliveryPostalCodeConditionInput>): Model<DeliveryPostalCodeConditionInput>;
+export declare function makeDeliveryPostalCodeValue(value: InputValue<DeliveryPostalCodeValueInput>): Model<DeliveryPostalCodeValueInput>;
+export declare function makeDeliveryPreviewRoutingSource(value: InputValue<DeliveryPreviewRoutingSourceInput>): Model<DeliveryPreviewRoutingSourceInput>;
+export declare function makeDeliveryPricingRateCreateRequest(value: InputValue<DeliveryPricingRateCreateRequestInput>): Model<DeliveryPricingRateCreateRequestInput>;
+export declare function makeDeliveryPricingRateRequest(value: InputValue<DeliveryPricingRateRequestInput>): Model<DeliveryPricingRateRequestInput>;
+export declare function makeDeliveryPricingStrategyCreateInputCalculated(value: InputValue<DeliveryPricingStrategyCreateInputCalculatedInput>): Model<DeliveryPricingStrategyCreateInputCalculatedInput>;
+export declare function makeDeliveryPricingStrategyCreateInputCallback(value: InputValue<DeliveryPricingStrategyCreateInputCallbackInput>): Model<DeliveryPricingStrategyCreateInputCallbackInput>;
+export declare function makeDeliveryPricingStrategyCreateInputCallerSupplied(value: InputValue<DeliveryPricingStrategyCreateInputCallerSuppliedInput>): Model<DeliveryPricingStrategyCreateInputCallerSuppliedInput>;
+export declare function makeDeliveryPricingStrategyCreateInputFixed(value: InputValue<DeliveryPricingStrategyCreateInputFixedInput>): Model<DeliveryPricingStrategyCreateInputFixedInput>;
+export declare function makeDeliveryPricingStrategyCreateInputRateTable(value: InputValue<DeliveryPricingStrategyCreateInputRateTableInput>): Model<DeliveryPricingStrategyCreateInputRateTableInput>;
+export declare function makeDeliveryPricingStrategyCreateInputTiered(value: InputValue<DeliveryPricingStrategyCreateInputTieredInput>): Model<DeliveryPricingStrategyCreateInputTieredInput>;
+export declare function makeDeliveryPricingStrategyCreateRequest(value: InputValue<DeliveryPricingStrategyCreateRequestInput>): Model<DeliveryPricingStrategyCreateRequestInput>;
+export declare function makeDeliveryPricingStrategyInputCalculated(value: InputValue<DeliveryPricingStrategyInputCalculatedInput>): Model<DeliveryPricingStrategyInputCalculatedInput>;
+export declare function makeDeliveryPricingStrategyInputCallback(value: InputValue<DeliveryPricingStrategyInputCallbackInput>): Model<DeliveryPricingStrategyInputCallbackInput>;
+export declare function makeDeliveryPricingStrategyInputCallerSupplied(value: InputValue<DeliveryPricingStrategyInputCallerSuppliedInput>): Model<DeliveryPricingStrategyInputCallerSuppliedInput>;
+export declare function makeDeliveryPricingStrategyInputFixed(value: InputValue<DeliveryPricingStrategyInputFixedInput>): Model<DeliveryPricingStrategyInputFixedInput>;
+export declare function makeDeliveryPricingStrategyInputRateTable(value: InputValue<DeliveryPricingStrategyInputRateTableInput>): Model<DeliveryPricingStrategyInputRateTableInput>;
+export declare function makeDeliveryPricingStrategyInputTiered(value: InputValue<DeliveryPricingStrategyInputTieredInput>): Model<DeliveryPricingStrategyInputTieredInput>;
+export declare function makeDeliveryPricingStrategyRequest(value: InputValue<DeliveryPricingStrategyRequestInput>): Model<DeliveryPricingStrategyRequestInput>;
+export declare function makeDeliveryPricingTierBandRequest(value: InputValue<DeliveryPricingTierBandRequestInput>): Model<DeliveryPricingTierBandRequestInput>;
+export declare function makeDeliveryProfileConfigurationRequest(value: InputValue<DeliveryProfileConfigurationRequestInput>): Model<DeliveryProfileConfigurationRequestInput>;
 export declare function makeDeliveryProfileOriginPolicyInputFixedLocation(value: InputValue<DeliveryProfileOriginPolicyInputFixedLocationInput>): Model<DeliveryProfileOriginPolicyInputFixedLocationInput>;
 export declare function makeDeliveryProfileOriginPolicyInputInventoryRouting(value: InputValue<DeliveryProfileOriginPolicyInputInventoryRoutingInput>): Model<DeliveryProfileOriginPolicyInputInventoryRoutingInput>;
 export declare function makeDeliveryProfileOriginPolicyInputMethodOrigin(value: InputValue<DeliveryProfileOriginPolicyInputMethodOriginInput>): Model<DeliveryProfileOriginPolicyInputMethodOriginInput>;
@@ -117,28 +140,3 @@ export declare function makeFulfillmentTransitionRequest(value: InputValue<Fulfi
 export declare function makeFulfillmentTransitionRequestAccept(value: InputValue<FulfillmentTransitionRequestAcceptInput>): Model<FulfillmentTransitionRequestAcceptInput>;
 export declare function makeFulfillmentTransitionRequestCancel(value: InputValue<FulfillmentTransitionRequestCancelInput>): Model<FulfillmentTransitionRequestCancelInput>;
 export declare function makeFulfillmentTransitionRequestComplete(value: InputValue<FulfillmentTransitionRequestCompleteInput>): Model<FulfillmentTransitionRequestCompleteInput>;
-export declare function makeFulfillmentTransitionRequestDispatch(value: InputValue<FulfillmentTransitionRequestDispatchInput>): Model<FulfillmentTransitionRequestDispatchInput>;
-export declare function makeFulfillmentTransitionRequestFail(value: InputValue<FulfillmentTransitionRequestFailInput>): Model<FulfillmentTransitionRequestFailInput>;
-export declare function makeFulfillmentTransitionRequestHold(value: InputValue<FulfillmentTransitionRequestHoldInput>): Model<FulfillmentTransitionRequestHoldInput>;
-export declare function makeFulfillmentTransitionRequestMarkNoShow(value: InputValue<FulfillmentTransitionRequestMarkNoShowInput>): Model<FulfillmentTransitionRequestMarkNoShowInput>;
-export declare function makeFulfillmentTransitionRequestMarkPacked(value: InputValue<FulfillmentTransitionRequestMarkPackedInput>): Model<FulfillmentTransitionRequestMarkPackedInput>;
-export declare function makeFulfillmentTransitionRequestMarkPicked(value: InputValue<FulfillmentTransitionRequestMarkPickedInput>): Model<FulfillmentTransitionRequestMarkPickedInput>;
-export declare function makeFulfillmentTransitionRequestMarkPreparing(value: InputValue<FulfillmentTransitionRequestMarkPreparingInput>): Model<FulfillmentTransitionRequestMarkPreparingInput>;
-export declare function makeFulfillmentTransitionRequestMarkReady(value: InputValue<FulfillmentTransitionRequestMarkReadyInput>): Model<FulfillmentTransitionRequestMarkReadyInput>;
-export declare function makeFulfillmentTransitionRequestReleaseHold(value: InputValue<FulfillmentTransitionRequestReleaseHoldInput>): Model<FulfillmentTransitionRequestReleaseHoldInput>;
-export declare function makeFulfillmentTransitionRequestSchedule(value: InputValue<FulfillmentTransitionRequestScheduleInput>): Model<FulfillmentTransitionRequestScheduleInput>;
-export declare function makeFulfillmentTransitionRequestStart(value: InputValue<FulfillmentTransitionRequestStartInput>): Model<FulfillmentTransitionRequestStartInput>;
-export declare function makeGetOrCreateReturnResolutionCheckoutSessionRequest(value: InputValue<GetOrCreateReturnResolutionCheckoutSessionRequestInput>): Model<GetOrCreateReturnResolutionCheckoutSessionRequestInput>;
-export declare function makeGiftCardCustomAmountBounds(value: InputValue<GiftCardCustomAmountBoundsInput>): Model<GiftCardCustomAmountBoundsInput>;
-export declare function makeGiftCardFundingSource(value: InputValue<GiftCardFundingSourceInput>): Model<GiftCardFundingSourceInput>;
-export declare function makeGiftCardFundingSourceAdjustment(value: InputValue<GiftCardFundingSourceAdjustmentInput>): Model<GiftCardFundingSourceAdjustmentInput>;
-export declare function makeGiftCardFundingSourceExternalPayment(value: InputValue<GiftCardFundingSourceExternalPaymentInput>): Model<GiftCardFundingSourceExternalPaymentInput>;
-export declare function makeGiftCardFundingSourceFlintManualPayment(value: InputValue<GiftCardFundingSourceFlintManualPaymentInput>): Model<GiftCardFundingSourceFlintManualPaymentInput>;
-export declare function makeGiftCardFundingSourceFlintPayment(value: InputValue<GiftCardFundingSourceFlintPaymentInput>): Model<GiftCardFundingSourceFlintPaymentInput>;
-export declare function makeGiftCardFundingSourceGiftCardPurchaseRefundRecovery(value: InputValue<GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput>): Model<GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput>;
-export declare function makeGiftCardFundingSourceGiftCardRefund(value: InputValue<GiftCardFundingSourceGiftCardRefundInput>): Model<GiftCardFundingSourceGiftCardRefundInput>;
-export declare function makeGiftCardFundingSourceImport(value: InputValue<GiftCardFundingSourceImportInput>): Model<GiftCardFundingSourceImportInput>;
-export declare function makeGiftCardFundingSourceStoreCredit(value: InputValue<GiftCardFundingSourceStoreCreditInput>): Model<GiftCardFundingSourceStoreCreditInput>;
-export declare function makeGiftCardNotificationRecipient(value: InputValue<GiftCardNotificationRecipientInput>): Model<GiftCardNotificationRecipientInput>;
-export declare function makeGiftCardProductConfiguration(value: InputValue<GiftCardProductConfigurationInput>): Model<GiftCardProductConfigurationInput>;
-export declare function makeGiftCardPurchaseDetailsRequest(value: InputValue<GiftCardPurchaseDetailsRequestInput>): Model<GiftCardPurchaseDetailsRequestInput>;

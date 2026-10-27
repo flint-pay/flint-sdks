@@ -14,9 +14,9 @@ import type {
     InventoryCountsUpdateInput
 } from '../declarations/types-24.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { UpdateInventoryCountRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { UpdateInventoryCountRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -51,15 +51,15 @@ export type {
     InventoryItem,
     InventoryCountObservationRequestInput
 } from '../declarations/types-24.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { UpdateInventoryCountRequestInput } from '../declarations/types-47.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { UpdateInventoryCountRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { InventorySourceSystem, InventorySourceSystemRequestInput } from '../declarations/types-25.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateInventoryCountRequest } from '../declarations/types-63.js';
+export { makeCreateInventoryCountRequest } from '../declarations/types-64.js';
 export {
     makeInventoryCountObservationRequest,
     makeInventoryCountTransitionRequest,
@@ -86,14 +86,14 @@ export interface InventoryCountsResource {
     create(params: (InputValue<CreateInventoryCountRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryCount>;
+    }, options?: RequestOptions<"merchant">): Promise<InventoryCount>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryCounts.md#inventorycountscreate
      */
     createWithResponse(params: (InputValue<CreateInventoryCountRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryCountResponse>>;
     /**
  * Retrieve an inventory count and its saved observations by ID.
  * @see reference/inventoryCounts.md#inventorycountsget
@@ -101,11 +101,11 @@ export interface InventoryCountsResource {
  * @example
  * client.inventoryCounts.get("example")
  */
-    get(inventory_count_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryCount>;
+    get(inventory_count_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryCount>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryCounts.md#inventorycountsget
      */
-    getWithResponse(inventory_count_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryCountResponse>>;
+    getWithResponse(inventory_count_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryCountResponse>>;
     /**
  * List inventory counts.
  * @see reference/inventoryCounts.md#inventorycountslist
@@ -124,7 +124,7 @@ export interface InventoryCountsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "applied_after"?: InputValue<string | globalThis.Date>;
         "applied_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryCountListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryCountListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryCounts.md#inventorycountslist
      */
@@ -139,7 +139,7 @@ export interface InventoryCountsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "applied_after"?: InputValue<string | globalThis.Date>;
         "applied_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryCountListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryCountListResponse>>;
     /** Iterate pages lazily.
      * @see reference/inventoryCounts.md#inventorycountslist
      */
@@ -154,7 +154,7 @@ export interface InventoryCountsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "applied_after"?: InputValue<string | globalThis.Date>;
         "applied_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryCountListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryCountListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/inventoryCounts.md#inventorycountslist
      */
@@ -169,7 +169,7 @@ export interface InventoryCountsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "applied_after"?: InputValue<string | globalThis.Date>;
         "applied_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryCountListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InventoryCountListResponse>>;
     /** Iterate items lazily.
      * @see reference/inventoryCounts.md#inventorycountslist
      */
@@ -184,7 +184,7 @@ export interface InventoryCountsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "applied_after"?: InputValue<string | globalThis.Date>;
         "applied_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryCount>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryCount>;
     /**
  * Set action to apply or cancel an open physical count. The apply action sets inventory levels to
  * the counted quantities and needs an observation on every line. The cancel action closes the
@@ -205,11 +205,11 @@ export interface InventoryCountsResource {
  * client.inventoryCounts.transition({inventory_count_id: "example", body: {action: "apply"}}, {
  * idempotencyKey: idempotencyKey })
  */
-    transition(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryCountResult>;
+    transition(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant">): Promise<InventoryCountResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryCounts.md#inventorycountstransition
      */
-    transitionWithResponse(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountResultResponse>>;
+    transitionWithResponse(input: InventoryCountsTransitionInput, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryCountResultResponse>>;
     /**
  * Replace a count's complete observation set atomically. expected_version is required when
  * replacing observations. Send every item exactly once with the count's current expected_version
@@ -235,14 +235,14 @@ export interface InventoryCountsResource {
     update(inventory_count_id: InputValue<string>, params: (InputValue<UpdateInventoryCountRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InventoryCount>;
+    }, options?: RequestOptions<"merchant">): Promise<InventoryCount>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryCounts.md#inventorycountsupdate
      */
     updateWithResponse(inventory_count_id: InputValue<string>, params: (InputValue<UpdateInventoryCountRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InventoryCountResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryCountResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

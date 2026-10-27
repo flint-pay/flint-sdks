@@ -34,7 +34,7 @@ namespace Flint;
 final class WebhookEventPayoutReversedDataObject extends Model {
     /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': mixed, 'initiated_by': string, 'merchant_id': string, 'metadata'?: \stdClass, 'method': string, 'net_money': mixed, 'original_payout'?: mixed, 'original_payout_id'?: string, 'payout_destination'?: mixed, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: mixed, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventPayoutReversedDataObject')); }
-    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see MoneyValue}. Amount sent to your bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
@@ -49,7 +49,7 @@ final class WebhookEventPayoutReversedDataObject extends Model {
      */
     public function getBalanceSourceType(): string { return $this->get('balance_source_type'); }
     public function hasBalanceSourceType(): bool { return $this->has('balance_source_type'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the payout was created. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
@@ -59,7 +59,7 @@ final class WebhookEventPayoutReversedDataObject extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Description sent when the payout was created. Absent when there is none.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
@@ -84,22 +84,22 @@ final class WebhookEventPayoutReversedDataObject extends Model {
      */
     public function getFeeAmountStatus(): string { return $this->get('fee_amount_status'); }
     public function hasFeeAmountStatus(): bool { return $this->has('fee_amount_status'); }
-    /** Shape $ (Value): {@see MoneyValue} or null. Shape $.anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.anyOf[2] (Value): null.
+    /** Shape $ (Value): {@see MoneyValue} or null. Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout, and null until then. Shape $.anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getFeeMoney(): MoneyValue|null { return $this->get('fee_money'); }
     public function hasFeeMoney(): bool { return $this->has('fee_money'); }
-    /** Shape $ (Value): string. What started the payout. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other".
+    /** Shape $ (Value): string. What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other".
      * @return string
      */
     public function getInitiatedBy(): string { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Merchant receiving the payout.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -109,67 +109,67 @@ final class WebhookEventPayoutReversedDataObject extends Model {
      */
     public function getMethod(): string { return $this->get('method'); }
     public function hasMethod(): bool { return $this->has('method'); }
-    /** Shape $ (Value): {@see SignedMoney} or null. Shape $.anyOf[1] (Value): {@see SignedMoney}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.anyOf[2] (Value): null.
+    /** Shape $ (Value): {@see SignedMoney} or null. Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. Null until your processor records the payout. Shape $.anyOf[1] (Value): {@see SignedMoney}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.anyOf[2] (Value): null.
      * @return SignedMoney|null
      */
     public function getNetMoney(): SignedMoney|null { return $this->get('net_money'); }
     public function hasNetMoney(): bool { return $this->has('net_money'); }
-    /** Shape $ (Value): {@see ExpandedPayoutSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
+    /** Shape $ (Value): {@see ExpandedPayoutSummary} or null. The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. Shape $.anyOf[1] (Value): {@see ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
      * @return ExpandedPayoutSummary|null
      */
     public function getOriginalPayout(): ExpandedPayoutSummary|null { return $this->get('original_payout'); }
     public function hasOriginalPayout(): bool { return $this->has('original_payout'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. On a payout that reverses another payout, the payout it reverses. A payout has at most one of original_payout_id and reversed_by_payout_id.
      * @return ?string
      */
     public function getOriginalPayoutId(): ?string { return $this->get('original_payout_id'); }
     public function hasOriginalPayoutId(): bool { return $this->has('original_payout_id'); }
-    /** Shape $ (Value): {@see ExpandedPayoutDestinationSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type, bank name, last four digits, and status, returned when the destination is expanded. Shape $.anyOf[2] (Value): null.
+    /** Shape $ (Value): {@see ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you request expand=payout_destination. null when expanded and payout_destination_id is absent. Shape $.anyOf[1] (Value): {@see ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type, bank name, last four digits, and status, returned when the destination is expanded. Shape $.anyOf[2] (Value): null.
      * @return ExpandedPayoutDestinationSummary|null
      */
     public function getPayoutDestination(): ExpandedPayoutDestinationSummary|null { return $this->get('payout_destination'); }
     public function hasPayoutDestination(): bool { return $this->has('payout_destination'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination.
      * @return ?string
      */
     public function getPayoutDestinationId(): ?string { return $this->get('payout_destination_id'); }
     public function hasPayoutDestinationId(): bool { return $this->has('payout_destination_id'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Stable identifier of the payout.
      * @return string
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Shape $ (Value): string.  Value enum: "none", "reversing", "reversed".
+    /** Shape $ (Value): string. Whether Flint has pulled a paid payout back from your bank: none, reversing while a reversal is in progress, or reversed once it completes and a payout_reversal balance transaction returns the money. status stays paid throughout. Value enum: "none", "reversing", "reversed".
      * @return string
      */
     public function getReversalStatus(): string { return $this->get('reversal_status'); }
     public function hasReversalStatus(): bool { return $this->has('reversal_status'); }
-    /** Shape $ (Value): {@see ExpandedPayoutSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
+    /** Shape $ (Value): {@see ExpandedPayoutSummary} or null. The payout that reversed this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Shape $.anyOf[1] (Value): {@see ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
      * @return ExpandedPayoutSummary|null
      */
     public function getReversedByPayout(): ExpandedPayoutSummary|null { return $this->get('reversed_by_payout'); }
     public function hasReversedByPayout(): bool { return $this->has('reversed_by_payout'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. On a reversed payout, the separate payout that reversed it, when there is one. A payout has at most one of original_payout_id and reversed_by_payout_id.
      * @return ?string
      */
     public function getReversedByPayoutId(): ?string { return $this->get('reversed_by_payout_id'); }
     public function hasReversedByPayoutId(): bool { return $this->has('reversed_by_payout_id'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Text shown on your bank statement for the deposit, when one was set.
      * @return ?string
      */
     public function getStatementDescriptor(): ?string { return $this->get('statement_descriptor'); }
     public function hasStatementDescriptor(): bool { return $this->has('statement_descriptor'); }
-    /** Shape $ (Value): string.  Value enum: "pending", "in_transit", "paid", "failed", "canceled".
+    /** Shape $ (Value): string. Where the payout is: pending until it is sent, in_transit on its way to your bank, then paid or failed. A paid payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Value enum: "pending", "in_transit", "paid", "failed", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): {@see PayoutTraceID}. A payout's bank trace ID, with whether it is pending, available, or unsupported.
+    /** Shape $ (Value): {@see PayoutTraceID}. The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with whether it is pending, available, or unsupported.
      * @return ?PayoutTraceID
      */
     public function getTraceId(): ?PayoutTraceID { return $this->get('trace_id'); }
     public function hasTraceId(): bool { return $this->has('trace_id'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the payout last changed. Format: date-time.
      * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }

@@ -2,8 +2,8 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { Package, PackageCreateRequestInput, PackageResponse } from '../declarations/types-34.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
 import type {
+    SdkResponse,
     Shipment,
     ShipmentListResponse,
     ShipmentResponse,
@@ -13,8 +13,9 @@ import type {
     ShipmentsUpdateInput,
     ShipmentsVoidResourceInput
 } from '../declarations/types-44.js';
-import type { UpdateShipmentRequestInput, VoidShipmentRequestInput, VoidShipmentResponse, VoidShipmentResult } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { UpdateShipmentRequestInput } from '../declarations/types-49.js';
+import type { VoidShipmentRequestInput, VoidShipmentResponse, VoidShipmentResult } from '../declarations/types-50.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,9 +36,8 @@ export type {
     PackageCreateInputShippedInput
 } from '../declarations/types-34.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-61.js';
 export type {
+    SdkResponse,
     Shipment,
     ShipmentResponse,
     ShipmentListResponse,
@@ -48,28 +48,24 @@ export type {
     ShipmentsVoidResourceInput,
     SettlementAmounts
 } from '../declarations/types-44.js';
-export type {
-    UpdateShipmentRequestInput,
-    VoidShipmentRequestInput,
-    VoidShipmentResult,
-    VoidShipmentResponse,
-    VoidPackageRequestInput
-} from '../declarations/types-49.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { UpdateShipmentRequestInput } from '../declarations/types-49.js';
+export type { VoidShipmentRequestInput, VoidShipmentResult, VoidShipmentResponse, VoidPackageRequestInput } from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { DimensionsInput, Dimensions, ExpandedOrderSummary } from '../declarations/types-16.js';
 export type { CreatePackageItemRequestInput } from '../declarations/types-7.js';
-export type { ReturnShipmentLineItemAllocationInput } from '../declarations/types-42.js';
+export type { ReturnShipmentLineItemAllocationInput, ReturnResolutionLineItemRequest } from '../declarations/types-42.js';
+export type { WeightInput, Weight } from '../declarations/types-61.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { CheckoutBuyerContact } from '../declarations/types-3.js';
 export type { PricingAmounts } from '../declarations/types-37.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export type { ReturnResolutionLineItemRequest } from '../declarations/types-41.js';
 export { makeCreatePackageItemRequest } from '../declarations/types-64.js';
 export { makeDimensions } from '../declarations/types-66.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-69.js';
-export { makeReturnResolutionLineItemRequest, makeReturnShipmentLineItemAllocation } from '../declarations/types-70.js';
+export { makeReturnResolutionLineItemRequest, makeReturnShipmentLineItemAllocation } from '../declarations/types-71.js';
 export { makeUpdateShipmentRequest, makeVoidPackageRequest, makeVoidShipmentRequest, makeWeight } from '../declarations/types-73.js';
 export interface ShipmentsResource {
     /**
@@ -88,13 +84,13 @@ export interface ShipmentsResource {
  */
     createPackage(shipment_id: InputValue<string>, params: (InputValue<PackageCreateRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Package>;
+    }, options?: RequestOptions<"merchant">): Promise<Package>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/shipments.md#shipmentscreatepackage
      */
     createPackageWithResponse(shipment_id: InputValue<string>, params: (InputValue<PackageCreateRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackageResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PackageResponse>>;
     /**
  * Retrieves one shipment execution record by ID.
  * @see reference/shipments.md#shipmentsget
@@ -104,13 +100,13 @@ export interface ShipmentsResource {
  */
     get(shipment_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Shipment>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Shipment>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/shipments.md#shipmentsget
      */
     getWithResponse(shipment_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ShipmentResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ShipmentResponse>>;
     /**
  * Lists shipment execution records, newest created first.
  * @see reference/shipments.md#shipmentslist
@@ -145,7 +141,7 @@ export interface ShipmentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ShipmentListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ShipmentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/shipments.md#shipmentslist
      */
@@ -176,7 +172,7 @@ export interface ShipmentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ShipmentListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ShipmentListResponse>>;
     /** Iterate pages lazily.
      * @see reference/shipments.md#shipmentslist
      */
@@ -207,7 +203,7 @@ export interface ShipmentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ShipmentListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ShipmentListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/shipments.md#shipmentslist
      */
@@ -238,7 +234,7 @@ export interface ShipmentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ShipmentListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ShipmentListResponse>>;
     /** Iterate items lazily.
      * @see reference/shipments.md#shipmentslist
      */
@@ -269,7 +265,7 @@ export interface ShipmentsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Shipment>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Shipment>;
     /**
  * Updates shipment metadata and caller-owned external references. Shipment status is derived from
  * package statuses and cannot be patched directly. expected_version is optional and rejects a
@@ -283,13 +279,13 @@ export interface ShipmentsResource {
  */
     update(shipment_id: InputValue<string>, params: (InputValue<UpdateShipmentRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Shipment>;
+    }, options?: RequestOptions<"merchant">): Promise<Shipment>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/shipments.md#shipmentsupdate
      */
     updateWithResponse(shipment_id: InputValue<string>, params: (InputValue<UpdateShipmentRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ShipmentResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ShipmentResponse>>;
     /**
  * Voids a shipment before carrier handoff and voids all child packages that have not shipped. The
  * action appends timeline events for the shipment and affected packages. expected_version is
@@ -312,7 +308,7 @@ export interface ShipmentsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<VoidShipmentResult>;
+    }, options?: RequestOptions<"merchant">): Promise<VoidShipmentResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/shipments.md#shipmentsvoidresource
      */
@@ -325,7 +321,7 @@ export interface ShipmentsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<VoidShipmentResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<VoidShipmentResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -1,7 +1,7 @@
-import { d2432 as c0 } from '../descriptors/data/96.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
-import { d2432 as d2432 } from '../descriptors/data/96.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d2442 as c0 } from '../descriptors/data/97.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
+import { d2442 as d2442 } from '../descriptors/data/97.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2432;
+const read = d2442;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["UpdateDeviceRequest"]:c0()}); }
 export { codec as _validate };

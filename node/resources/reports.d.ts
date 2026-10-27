@@ -3,8 +3,8 @@ import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateReportRequestInput } from '../declarations/types-8.js';
 import type { Report, ReportListResponse, ReportResponse } from '../declarations/types-39.js';
 import type { ReportsCreateInput, ReportsGetInput, ReportsListInput, RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -23,12 +23,13 @@ export type {
     ReportsCreateInput,
     ReportsGetInput,
     ReportsListInput,
+    ReportSucceeded,
     ResponseMeta,
     ResponseWarning
 } from '../declarations/types-40.js';
-export type { Report, ReportResponse, ReportListResponse, ReportPending, ReportSucceeded, ReportFailed } from '../declarations/types-39.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { Report, ReportResponse, ReportListResponse, ReportPending, ReportFailed } from '../declarations/types-39.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -52,13 +53,13 @@ export interface ReportsResource {
  */
     create(params: (InputValue<CreateReportRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Report>;
+    }, options?: RequestOptions<"merchant">): Promise<Report>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/reports.md#reportscreate
      */
     createWithResponse(params: (InputValue<CreateReportRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReportResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ReportResponse>>;
     /**
  * Returns one report and its terminal download or failure details when available.
  * @see reference/reports.md#reportsget
@@ -66,19 +67,19 @@ export interface ReportsResource {
  * @example
  * client.reports.get("example")
  */
-    get(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Report>;
+    get(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Report>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/reports.md#reportsget
      */
-    getWithResponse(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportResponse>>;
+    getWithResponse(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ReportResponse>>;
     /** Poll until a declared terminal state or deadline.
      * @see reference/reports.md#reportsget
      */
-    getWait(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Report>;
+    getWait(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Report>;
     /** Poll for completion and return the full body with HTTP metadata.
      * @see reference/reports.md#reportsget
      */
-    getWaitWithResponse(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportResponse>>;
+    getWaitWithResponse(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ReportResponse>>;
     /**
  * Lists reports newest first by created_at, with report_id descending as the tiebreak, using
  * opaque pagination.
@@ -101,7 +102,7 @@ export interface ReportsResource {
             | "merchant_billing_itemized_v1"
             | "tax_transactions_itemized_v1">>;
         "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReportListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ReportListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/reports.md#reportslist
      */
@@ -119,7 +120,7 @@ export interface ReportsResource {
             | "merchant_billing_itemized_v1"
             | "tax_transactions_itemized_v1">>;
         "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ReportListResponse>>;
     /** Iterate pages lazily.
      * @see reference/reports.md#reportslist
      */
@@ -137,7 +138,7 @@ export interface ReportsResource {
             | "merchant_billing_itemized_v1"
             | "tax_transactions_itemized_v1">>;
         "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReportListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ReportListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/reports.md#reportslist
      */
@@ -155,7 +156,7 @@ export interface ReportsResource {
             | "merchant_billing_itemized_v1"
             | "tax_transactions_itemized_v1">>;
         "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReportListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ReportListResponse>>;
     /** Iterate items lazily.
      * @see reference/reports.md#reportslist
      */
@@ -173,7 +174,7 @@ export interface ReportsResource {
             | "merchant_billing_itemized_v1"
             | "tax_transactions_itemized_v1">>;
         "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Report>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Report>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

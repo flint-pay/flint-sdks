@@ -9,19 +9,19 @@ namespace Flint;
 final class InvoicePaymentDuePaymentTermsInput extends Model {
     /** @param array{'due_at'?: string|\DateTimeInterface, 'invoice_payment_term_id': string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentDuePaymentTermsInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. The due date set with type date. Present only with date. The top-level due_at is the effective due date for every type. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When due_at is omitted; use hasDueAt() or valueOrDefault().
      */
     public function getDueAt(): string|\DateTimeInterface { return $this->get('due_at'); }
     public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot. Present only with payment_terms.
      * @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoicePaymentTermId() or valueOrDefault().
      */
     public function getInvoicePaymentTermId(): string { return $this->get('invoice_payment_term_id'); }
     public function hasInvoicePaymentTermId(): bool { return $this->has('invoice_payment_term_id'); }
-    /** Shape $ (Value): string.  Value enum: "payment_terms".
+    /** Shape $ (Value): string. How the due date was set. Value enum: "payment_terms".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

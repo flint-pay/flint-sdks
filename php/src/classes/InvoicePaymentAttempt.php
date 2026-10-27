@@ -6,7 +6,6 @@ namespace Flint;
  * @property-read ?string $cancellation_requested_at
  * @property-read ?string $checkout_session_id
  * @property-read MoneyValue $expected_amount_money
- * @property-read ?string $expected_settlement_at
  * @property-read ?string $expires_at
  * @property-read string $invoice_id
  * @property-read string $invoice_payment_attempt_id
@@ -20,7 +19,7 @@ namespace Flint;
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoicePaymentAttempt extends Model {
-    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expected_settlement_at'?: string, 'expires_at'?: string, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expires_at'?: string, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentAttempt')); }
     /** Shape $ (Value): string. When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: date-time.
      * @return ?string
@@ -42,11 +41,6 @@ final class InvoicePaymentAttempt extends Model {
      */
     public function getExpectedAmountMoney(): MoneyValue { return $this->get('expected_amount_money'); }
     public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
-    /** Shape $ (Value): string. When an ACH debit is expected to settle, when Flint has an estimate. Format: date-time.
-     * @return ?string
-     */
-    public function getExpectedSettlementAt(): ?string { return $this->get('expected_settlement_at'); }
-    public function hasExpectedSettlementAt(): bool { return $this->has('expected_settlement_at'); }
     /** Shape $ (Value): string. When a checkout attempt expires, matching its checkout session. Absent for automatic charges. Format: date-time.
      * @return ?string
      */

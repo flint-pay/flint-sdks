@@ -1,1 +1,1 @@
-{"shared":"Webhook_delivery_location_set_activated_merchant","dependencies":["DeliveryLocationSet","DeliveryLocationSetConfiguration","MerchantWebhookEnvelope","SharedCodec368","SharedCodec369","SharedCodec819","Webhook_delivery_location_set_activated_merchant"]}
+{"shared":"Webhook_delivery_location_set_activated_merchant","dependencies":["DeliveryLocationSet","DeliveryLocationSetConfiguration","MerchantWebhookEnvelope","SharedCodec373","SharedCodec374","SharedCodec824","Webhook_delivery_location_set_activated_merchant"]}

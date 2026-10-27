@@ -3,13 +3,14 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read CheckoutBuyerContactRequestInput|array<array-key, mixed>|\stdClass $buyer_contact
+ * @property-read string $expected_version
  * @property-read string|null $external_reference_id
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass $subscription_terms
  * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateCheckoutSessionRequestInput extends Model {
-    /** @param array{'buyer_contact'?: CheckoutBuyerContactRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'timezone'?: string, ...}|object $values */
+    /** @param array{'buyer_contact'?: CheckoutBuyerContactRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'timezone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateCheckoutSessionRequestInput')); }
     /** Shape $ (Value): {@see CheckoutBuyerContactRequestInput}. Checkout session credentials only. Saves the contact the buyer entered while the session is open. A patch object: omitted fields are unchanged, and null clears a field. A merchant credential that sends buyer_contact receives CHECKOUT_SESSION_UPDATE_FIELD_NOT_ALLOWED. Buyer contact to supply with payment or save during checkout. Send at least one field. Values are stored exactly as sent, so an email with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept null to clear a field. Payment requests do not accept null. minProperties: 1.
      * @return CheckoutBuyerContactRequestInput|array<array-key, mixed>|\stdClass
@@ -17,6 +18,12 @@ final class UpdateCheckoutSessionRequestInput extends Model {
      */
     public function getBuyerContact(): mixed { return $this->get('buyer_contact'); }
     public function hasBuyerContact(): bool { return $this->has('buyer_contact'); }
+    /** Shape $ (Value): integer string. Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     */
+    public function getExpectedVersion(): string { return $this->get('expected_version'); }
+    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
     /** Shape $ (Value): string or null. Caller-owned identifier for this resource in an external system. Omit to leave unchanged; send null to clear. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().

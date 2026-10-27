@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# GiftCardCustomAmountBoundsMaximumMoney – PaymentFulfillmentHold
+# BundleComponentVariantSummary – SubscriptionPromotionRecurrenceForever
 
+- [BundleComponentVariantSummary](BundleComponentVariantSummary.md)
+- [BundleComponent](BundleComponent.md)
+- [CategoryReference](CategoryReference.md)
+- [OrderLineItemFulfillmentQuantities](OrderLineItemFulfillmentQuantities.md)
+- [OrderLineItemFulfillmentProfile](OrderLineItemFulfillmentProfile.md)
+- [OrderLineItemFulfillmentComponent](OrderLineItemFulfillmentComponent.md)
+- [OrderLineItemFulfillmentRequirements](OrderLineItemFulfillmentRequirements.md)
 - [GiftCardCustomAmountBoundsMaximumMoney](GiftCardCustomAmountBoundsMaximumMoney.md)
 - [GiftCardCustomAmountBoundsMinimumMoney](GiftCardCustomAmountBoundsMinimumMoney.md)
 - [GiftCardCustomAmountBounds](GiftCardCustomAmountBounds.md)
@@ -95,11 +102,4 @@
 - [SubscriptionPromotionRecurrenceOnce](SubscriptionPromotionRecurrenceOnce.md)
 - [SubscriptionPromotionRecurrenceRepeating](SubscriptionPromotionRecurrenceRepeating.md)
 - [SubscriptionPromotionRecurrenceForever](SubscriptionPromotionRecurrenceForever.md)
-- [SubscriptionPromotion](SubscriptionPromotion.md)
-- [BuyerSubscriptionServiceLocation](BuyerSubscriptionServiceLocation.md)
-- [BuyerExpandedSubscriptionPlanSummary](BuyerExpandedSubscriptionPlanSummary.md)
-- [SubscriptionUpcomingDeliveryHold](SubscriptionUpcomingDeliveryHold.md)
-- [BuyerSubscription](BuyerSubscription.md)
-- [PaymentAddOnFee](PaymentAddOnFee.md)
-- [PaymentFulfillmentHold](PaymentFulfillmentHold.md)
 

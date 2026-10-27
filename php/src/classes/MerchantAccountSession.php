@@ -26,7 +26,7 @@ final class MerchantAccountSession extends Model {
      */
     public function getEffectivePolicy(): MerchantAccountSessionEffectivePolicy { return $this->get('effective_policy'); }
     public function hasEffectivePolicy(): bool { return $this->has('effective_policy'); }
-    /** Shape $ (Value): string. Signed Flint token to exchange at POST /v1/merchant-account-sessions/refresh. Each successful refresh rotates this token. The caller must still authenticate and authorize the human using the session.
+    /** Shape $ (Value): string. Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new refresh operation rotates this token; a same-key retry replays the original token. The caller must still authenticate and authorize the human using the session.
      * @return string
      */
     public function getLaunchToken(): string { return $this->get('launch_token'); }

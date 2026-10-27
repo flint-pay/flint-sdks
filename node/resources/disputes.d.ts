@@ -11,8 +11,8 @@ import type {
     DisputesListInput
 } from '../declarations/types-16.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,15 +43,14 @@ export type {
     ExpandedOrderSummary,
     ExpandedPaymentIntentSummary
 } from '../declarations/types-16.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse, SettlementAmounts } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
 export type { CheckoutBuyerContact } from '../declarations/types-3.js';
 export type { PricingAmounts } from '../declarations/types-37.js';
-export type { SettlementAmounts } from '../declarations/types-44.js';
 export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-36.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface DisputesResource {
@@ -69,13 +68,13 @@ export interface DisputesResource {
  */
     createResponseSession(dispute_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DisputeResponseSession>;
+    }, options?: RequestOptions<"merchant">): Promise<DisputeResponseSession>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/disputes.md#disputescreateresponsesession
      */
     createResponseSessionWithResponse(dispute_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DisputeResponseSessionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DisputeResponseSessionResponse>>;
     /**
  * Returns one dispute by ID, with optional customer, order, and payment intent expansions.
  * @see reference/disputes.md#disputesget
@@ -85,13 +84,13 @@ export interface DisputesResource {
  */
     get(dispute_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Dispute>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Dispute>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/disputes.md#disputesget
      */
     getWithResponse(dispute_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DisputeResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DisputeResponse>>;
     /**
  * Returns a paginated list of disputes for the authenticated merchant with optional payment,
  * customer, status, reason, case type, action required, and timing filters. Defaults to created_at
@@ -140,7 +139,7 @@ export interface DisputesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DisputeListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DisputeListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/disputes.md#disputeslist
      */
@@ -182,7 +181,7 @@ export interface DisputesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DisputeListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DisputeListResponse>>;
     /** Iterate pages lazily.
      * @see reference/disputes.md#disputeslist
      */
@@ -224,7 +223,7 @@ export interface DisputesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DisputeListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DisputeListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/disputes.md#disputeslist
      */
@@ -266,7 +265,7 @@ export interface DisputesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DisputeListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DisputeListResponse>>;
     /** Iterate items lazily.
      * @see reference/disputes.md#disputeslist
      */
@@ -308,7 +307,7 @@ export interface DisputesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order" | "payment_intent">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Dispute>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Dispute>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

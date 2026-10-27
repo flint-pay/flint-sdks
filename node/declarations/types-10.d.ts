@@ -1,5 +1,5 @@
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { CreditNote } from './types-9.js';
+import type { MoneyValueInput, MoneyValue } from './types-31.js';
+import type { CreditNoteCorrectionRequest, CreditNoteCorrectionRequestInput, CreditNote } from './types-9.js';
 import type { ResponseMeta, ResourceVersionRequestInput, ResolveCustomerDeletionRequestInput } from './types-40.js';
 import type { InputValue } from '../runtime.js';
 import type {
@@ -7,19 +7,196 @@ import type {
     CreateCreditNoteRequestInput,
     CreateCreditNoteRefundRequestInput,
     CreateCustomDomainRequestInput,
-    CreateCustomerSessionRequestInput,
-    ConfirmCustomerVerificationRequestInput,
-    CreateCustomerVerificationRequestInput,
-    CreateCustomerAddressRequestInput,
-    CreateCustomerDeletionRequestInput
+    CreateCustomerSessionRequestInput
 } from './types-5.js';
 import type { IssueCreditNoteRequestInput } from './types-28.js';
-import type { UpdateCreditNoteRequestInput } from './types-47.js';
+import type { UpdateCreditNoteRequestInput, TaxIdentity } from './types-47.js';
 import type { Address } from './types-0.js';
 import type { ExpandedPaymentMethodSummary } from './types-16.js';
-import type { TaxIdentity } from './types-46.js';
 import type { BuyerCapabilities, BuyerCapabilitiesInput } from './types-1.js';
 import type { RefreshCustomerSessionRequestInput } from './types-39.js';
+/**
+ * Shape $ (Value): {@link CreditNoteCorrectionRequestQuantityInput}. The `quantity` variant of
+ * `CreditNoteCorrectionRequest`.
+ */
+export type CreditNoteCorrectionRequestQuantityInput = ({
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Positive billed value to credit in the invoice
+     * currency, no more than the frozen source line's remaining value. Consumes proportional
+     * remaining tax and discount without consuming quantity; later quantity corrections use the
+     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
+     * supported. No more than the source line's remaining uncredited quantity. Credits that
+     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
+     * corrections reduce that remaining value without consuming quantity. A share that rounds to
+     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. quantity credits whole units and requires quantity. amount credits
+     * a named figure and requires amount_money. The two are mutually exclusive. Value enum:
+     * "quantity".
+     */
+    "type": "quantity";
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "quantity". */
+    "type": "quantity";
+    /**
+     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
+     * supported. No more than the source line's remaining uncredited quantity. Credits that
+     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
+     * corrections reduce that remaining value without consuming quantity. A share that rounds to
+     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64.
+     */
+    "quantity": `${bigint}` | bigint;
+})
+    & ({
+    "amount_money"?: never;
+}));
+/**
+ * Shape $ (Value): {@link CreditNoteIssueAllocationRequest}. Credit to apply to the invoice when
+ * issuing a credit note.
+ */
+export type CreditNoteIssueAllocationRequest = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Credit to apply. Omit to apply the smaller of the
+     * credit available after issue and the invoice's outstanding balance. An explicit amount must
+     * be positive, use the invoice's currency, and fit both balances. Either way, the allocation
+     * must leave the order's unpaid tip outstanding. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link CreditNoteIssueAllocationRequestInput}. Credit to apply to the invoice
+ * when issuing a credit note.
+ */
+export type CreditNoteIssueAllocationRequestInput = {
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Credit to apply. Omit to apply the smaller of the
+     * credit available after issue and the invoice's outstanding balance. An explicit amount must
+     * be positive, use the invoice's currency, and fit both balances. Either way, the allocation
+     * must leave the order's unpaid tip outstanding. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+};
+/**
+ * Shape $ (Value): {@link CreditNoteLineItem}. One correction calculated from the frozen invoice
+ * line's remaining billed value, discount, and tax. The source line's inclusive or additive tax
+ * mode is preserved. Current catalog prices and tax settings do not affect the correction. Stored
+ * issued values are never recalculated by a read.
+ */
+export type CreditNoteLineItem = {
+    /**
+     * Shape $ (Value): {@link CreditNoteCorrectionRequest}. The correction that produced this
+     * line, using the same shape accepted by draft writes. Amount corrections return the requested
+     * billed value in amount_money, equal to total_money. How much of an invoice line item a
+     * credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.
+     */
+    "correction": CreditNoteCorrectionRequest;
+    /** Shape $ (Value): string. Unique identifier of the credit note line item. */
+    "credit_note_line_item_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. The credited share of the frozen line's remaining
+     * allocated merchandise discount, rounded half up in currency minor units. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /** Shape $ (Value): string. The invoice snapshot line this corrects. */
+    "invoice_line_item_id": string;
+    /** Shape $ (Value): string. Label of the credited invoice line. */
+    "name": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Credited subtotal before the credited discount, in the
+     * source line's inclusive or additive price units. Balances the total after tax and discount
+     * are rounded from the remaining pool; it is not a rounded per-unit price. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. The credited share of the frozen line's remaining tax,
+     * rounded half up in currency minor units. Included tax is already part of total_money.
+     * Tax-exclusive consideration is total_money minus tax_money. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Billed value credited by this line. For inclusive tax,
+     * subtotal_money minus discount_money. For additive tax, subtotal_money minus discount_money
+     * plus tax_money. A full remaining-value correction consumes the exact remaining components.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link CreditNoteLineItemRequest}. A credit note line you supply when creating
+ * or updating a credit note: the invoice line item it credits and how much, or an existing line to
+ * keep.
+ */
+export type CreditNoteLineItemRequest = {
+    /**
+     * Shape $ (Value): {@link CreditNoteCorrectionRequest}. How much of the invoice line to
+     * credit, by quantity or by amount. How much of an invoice line item a credit note line
+     * credits, by whole `quantity` or by `amount`, chosen by `type`.
+     */
+    "correction": CreditNoteCorrectionRequest;
+    /**
+     * Shape $ (Value): string. Existing credit note line item to retain. Omit to create a new line
+     * item. minLength: 1.
+     */
+    "credit_note_line_item_id"?: string;
+    /** Shape $ (Value): string. The invoice snapshot line to credit. minLength: 1. */
+    "invoice_line_item_id": string;
+};
+/**
+ * Shape $ (Value): {@link CreditNoteLineItemRequestInput}. A credit note line you supply when
+ * creating or updating a credit note: the invoice line item it credits and how much, or an
+ * existing line to keep.
+ */
+export type CreditNoteLineItemRequestInput = {
+    /**
+     * Shape $ (Value): {@link CreditNoteCorrectionRequestInput}. How much of the invoice line to
+     * credit, by quantity or by amount. How much of an invoice line item a credit note line
+     * credits, by whole `quantity` or by `amount`, chosen by `type`.
+     */
+    "correction": CreditNoteCorrectionRequestInput;
+    /**
+     * Shape $ (Value): string. Existing credit note line item to retain. Omit to create a new line
+     * item. minLength: 1.
+     */
+    "credit_note_line_item_id"?: string;
+    /** Shape $ (Value): string. The invoice snapshot line to credit. minLength: 1. */
+    "invoice_line_item_id": string;
+};
+/** Shape $ (Value): {@link CreditNoteListResponse}. A page of `CreditNote` objects. */
+export type CreditNoteListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link CreditNote}. Shape $[] (Value): {@link CreditNote}. A
+     * correction against an issued invoice. Credit notes reduce what is owed; refunds return what
+     * was already collected.
+     */
+    "data": Array<CreditNote>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
 /**
  * Shape $ (Value): {@link CreditNoteRefundRequest}. Refund details you supply when issuing a
  * credit note: the reason, an optional message, and an optional amount.
@@ -172,7 +349,7 @@ export type CreditNotesListAllocationsInput = {
     "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
     "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
 };
 export type CreditNotesListInput = {
@@ -639,6 +816,11 @@ export type CustomerAddress = {
     "recipient_name": string;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "updated_at": string;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /** Shape $ (Value): {@link CustomerAddressListResponse}. A page of `CustomerAddress` objects. */
 export type CustomerAddressListResponse = {
@@ -825,6 +1007,11 @@ export type CustomerEmailPreferences = {
      * delivery, and delivered.
      */
     "shipping_updates": boolean;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link CustomerEmailPreferencesResponse}. A response containing
@@ -1063,99 +1250,4 @@ export type CustomerSessionsRevokeInput = {
     "customer_session_id": InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
-};
-/**
- * Shape $ (Value): {@link CustomerVerification}. An email verification requested for linking guest
- * purchases.
- */
-export type CustomerVerification = {
-    /** Shape $ (Value): string.  Value enum: "email". */
-    "channel": "email" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /** Shape $ (Value): string. */
-    "customer_id": string;
-    /** Shape $ (Value): string. */
-    "customer_verification_id": string;
-    /** Shape $ (Value): string. */
-    "email": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "expires_at": string;
-    /** Shape $ (Value): string.  Value enum: "link_guest_purchases". */
-    "purpose": "link_guest_purchases" | (string & {});
-    /**
-     * Shape $ (Value): string. pending while the code can be confirmed; confirmed while an unused
-     * proof can link purchases; used after linking; expired when the code or proof expires. Value
-     * enum: "pending", "confirmed", "used", "expired".
-     */
-    "status": "pending" | "confirmed" | "used" | "expired" | (string & {});
-};
-/**
- * Shape $ (Value): {@link CustomerVerificationResponse}. A response containing
- * `CustomerVerification` data.
- */
-export type CustomerVerificationResponse = {
-    /**
-     * Shape $ (Value): {@link CustomerVerification}. An email verification requested for linking
-     * guest purchases.
-     */
-    "data": CustomerVerification;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-export type CustomerVerificationsConfirmInput = {
-    /** Shape $ (Value): string. */
-    "customer_verification_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link ConfirmCustomerVerificationRequestInput}. The request body for:
-     * Confirm a customer email verification.
-     */
-    "body": InputValue<ConfirmCustomerVerificationRequestInput>;
-};
-export type CustomerVerificationsCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateCustomerVerificationRequestInput}. The request body for:
-     * Create a customer email verification.
-     */
-    "body": InputValue<CreateCustomerVerificationRequestInput>;
-};
-export type CustomersCreateAccessLinkInput = {
-    /** Shape $ (Value): string. */
-    "customer_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): object. maxProperties: 0. */
-    "body"?: InputValue<{}>;
-};
-export type CustomersCreateAddressInput = {
-    /** Shape $ (Value): string. */
-    "customer_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateCustomerAddressRequestInput}. The request body for: Create a
-     * customer address; Create an address for the current buyer.
-     */
-    "body": InputValue<CreateCustomerAddressRequestInput>;
-};
-export type CustomersCreateDeletionRequestInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateCustomerDeletionRequestInput}. The request body for: Request
-     * customer account deletion.
-     */
-    "body": InputValue<CreateCustomerDeletionRequestInput>;
 };

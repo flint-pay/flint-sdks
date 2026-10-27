@@ -1,33 +1,545 @@
+import type { InputValue } from '../runtime.js';
+import type { UpdateSubscriptionRequestInput } from './types-50.js';
+import type { UpdateSubscriptionLineItemRequestInput } from './types-49.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { ImageRequest, ImageRequestInput } from './types-19.js';
+import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
+import type { DocumentTaxID, DocumentTaxIDInput } from './types-16.js';
+import type { ImageRequest, ImageRequestInput } from './types-20.js';
 import type { CheckoutBuyerContactRequest, CheckoutBuyerContactRequestInput } from './types-3.js';
 import type { CheckoutSubscriptionTermsRequest, CheckoutSubscriptionTermsRequestInput } from './types-4.js';
-import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-9.js';
-import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
+import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-10.js';
 import type { PostalAddressInput } from './types-37.js';
-import type { TaxIdentityPatch, TaxIdentityPatchInput } from './types-46.js';
 import type {
     DeliveryLocationSetConfiguration,
     DeliveryLocationSetConfigurationInput,
     DeliveryMethodConfigurationPatchRequest,
     DeliveryMethodConfigurationPatchRequestInput
 } from './types-12.js';
-import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-13.js';
-import type {
-    DeliveryRateCallbackConfigurationPatchRequest,
-    DeliveryRateCallbackConfigurationPatchRequestInput
-} from './types-14.js';
-import type { DeliveryZoneConfiguration, DeliveryZoneConfigurationInput } from './types-15.js';
-import type { FulfillmentRecipientRequest, FulfillmentRecipientRequestInput } from './types-17.js';
-import type { UpdatePickupFulfillmentDetails, UpdatePickupFulfillmentDetailsInput } from './types-48.js';
-import type { UpdateServiceFulfillmentDetails, UpdateServiceFulfillmentDetailsInput } from './types-49.js';
-import type {
-    InventoryAllocationConfigurationValue,
-    InventoryAllocationConfigurationValueInput,
-    InventoryCountObservationRequest,
-    InventoryCountObservationRequestInput
-} from './types-24.js';
-import type { InventorySourceSystemRequest, InventorySourceSystemRequestInput } from './types-25.js';
+export type SubscriptionsUpdateInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link UpdateSubscriptionRequestInput}. The request body for: Update
+     * subscription.
+     */
+    "body": InputValue<UpdateSubscriptionRequestInput>;
+};
+export type SubscriptionsUpdateLineItemInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. */
+    "subscription_line_item_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link UpdateSubscriptionLineItemRequestInput}. The request body for:
+     * Update subscription line item.
+     */
+    "body": InputValue<UpdateSubscriptionLineItemRequestInput>;
+};
+/**
+ * Shape $ (Value): {@link TaxBreakdown}. The tax calculated for one jurisdiction on an order, line
+ * item, or charge, with the taxable amount, rate or flat amount, and tax.
+ */
+export type TaxBreakdown = ({
+    /** Shape $ (Value): string.  Value enum: "percentage", "flat_amount". */
+    "calculation_type": "percentage" | "flat_amount" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /** Shape $ (Value): string. */
+    "fulfillment_choice_group_id"?: string;
+    /**
+     * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /** Shape $ (Value): string. */
+    "location_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_charge_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_line_item_id"?: string;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent"?: number;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive" | (string & {});
+    /** Shape $ (Value): string. */
+    "tax_breakdown_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax", "retail_delivery_fee". */
+    "tax_type": "sales_tax" | "use_tax" | "retail_delivery_fee" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "standard_rated", "not_taxable", "customer_exempt",
+     * "tax_disabled", "location_required", "calculation_incomplete".
+     */
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
+})
+    & ((Exclude<TaxBreakdownPercentage & object, readonly unknown[]>)
+    | (Exclude<TaxBreakdownFlatAmount & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** Shape $ (Value): {@link TaxBreakdownFlatAmount}. The `flat_amount` variant of `TaxBreakdown`. */
+export type TaxBreakdownFlatAmount = ({
+    /** Shape $ (Value): string.  Value enum: "flat_amount". */
+    "calculation_type": "flat_amount" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "fulfillment_choice_group_id"?: string;
+    /**
+     * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /** Shape $ (Value): string. */
+    "location_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_charge_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_line_item_id"?: string;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent"?: number;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive" | (string & {});
+    /** Shape $ (Value): string. */
+    "tax_breakdown_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax", "retail_delivery_fee". */
+    "tax_type": "sales_tax" | "use_tax" | "retail_delivery_fee" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "standard_rated", "not_taxable", "customer_exempt",
+     * "tax_disabled", "location_required", "calculation_incomplete".
+     */
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "flat_amount". */
+    "calculation_type"?: "flat_amount" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money": MoneyValue;
+}));
+/** Shape $ (Value): {@link TaxBreakdownPercentage}. The `percentage` variant of `TaxBreakdown`. */
+export type TaxBreakdownPercentage = ({
+    /** Shape $ (Value): string.  Value enum: "percentage". */
+    "calculation_type": "percentage" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /** Shape $ (Value): string. */
+    "fulfillment_choice_group_id"?: string;
+    /**
+     * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /** Shape $ (Value): string. */
+    "location_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_charge_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_line_item_id"?: string;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive" | (string & {});
+    /** Shape $ (Value): string. */
+    "tax_breakdown_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax", "retail_delivery_fee". */
+    "tax_type": "sales_tax" | "use_tax" | "retail_delivery_fee" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "standard_rated", "not_taxable", "customer_exempt",
+     * "tax_disabled", "location_required", "calculation_incomplete".
+     */
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "percentage". */
+    "calculation_type"?: "percentage" | (string & {});
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+}));
+/**
+ * Shape $ (Value): {@link TaxCalculationRequest}. Tax you calculated yourself for a line or
+ * charge: whether prices include tax, and the tax components.
+ */
+export type TaxCalculationRequest = {
+    /**
+     * Shape $ (Value): Array of {@link TaxComponentRequest}. minItems: 1. Shape $[] (Value):
+     * {@link TaxComponentRequest}. One tax component in a `TaxCalculationInput`: a jurisdiction,
+     * tax type, and percent.
+     */
+    "components": Array<TaxComponentRequest>;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link TaxCalculationRequestInput}. Tax you calculated yourself for a line or
+ * charge: whether prices include tax, and the tax components.
+ */
+export type TaxCalculationRequestInput = {
+    /**
+     * Shape $ (Value): Array of {@link TaxComponentRequestInput}. minItems: 1. Shape $[] (Value):
+     * {@link TaxComponentRequestInput}. One tax component in a `TaxCalculationInput`: a
+     * jurisdiction, tax type, and percent.
+     */
+    "components": Array<TaxComponentRequestInput>;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive";
+};
+/**
+ * Shape $ (Value): {@link TaxComponentRequest}. One tax component in a `TaxCalculationInput`: a
+ * jurisdiction, tax type, and percent.
+ */
+export type TaxComponentRequest = ({
+    /** Shape $ (Value): string.  Value enum: "percentage". */
+    "calculation_type"?: "percentage" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax". */
+    "tax_type": "sales_tax" | "use_tax" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link TaxComponentRequestInput}. One tax component in a `TaxCalculationInput`:
+ * a jurisdiction, tax type, and percent.
+ */
+export type TaxComponentRequestInput = ({
+    /** Shape $ (Value): string.  Value enum: "percentage". */
+    "calculation_type"?: "percentage";
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * Shape $ (Value): {@link TaxJurisdictionInput}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdictionInput;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax". */
+    "tax_type": "sales_tax" | "use_tax";
+})
+    & ({
+    "flat_money"?: never;
+});
+/**
+ * Shape $ (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
+ * credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in
+ * display order; replacing the array requires the parent's expected_version. Existing entries
+ * retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
+ */
+export type TaxIdentity = {
+    /** Shape $ (Value): string or null. minLength: 1. maxLength: 255. */
+    "legal_name": string | null;
+    /**
+     * Shape $ (Value): {@link Address} or null. Replaced as a whole: send every field you want to
+     * keep. Shape $.anyOf[1] (Value): {@link Address}. A postal address, as returned on customers,
+     * invoices, tax locations, and fulfillment recipients. Shape $.anyOf[2] (Value): null.
+     */
+    "registered_address": ((Address) | (null));
+    /**
+     * Shape $ (Value): Array of {@link DocumentTaxID}. maxItems: 20. Shape $[] (Value): {@link
+     * DocumentTaxID}. A tax identifier printed on documents, with its country, optional region,
+     * identifier type, and value. Flint does not verify the value.
+     */
+    "tax_ids": Array<DocumentTaxID>;
+};
+/**
+ * Shape $ (Value): {@link TaxIdentityPatch}. Merchant-provided legal identity displayed on
+ * invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned
+ * collection in display order; replacing the array requires the parent's expected_version.
+ * Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
+ * one.
+ */
+export type TaxIdentityPatch = {
+    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 255. */
+    "legal_name"?: string | null;
+    /**
+     * Shape $ (Value): {@link AddressRequest} or null. Replaced as a whole: send every field you
+     * want to keep. Shape $.anyOf[1] (Value): {@link AddressRequest}. A postal address you supply
+     * when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null
+     * for `line2` to clear it. Shape $.anyOf[2] (Value): null.
+     */
+    "registered_address"?: ((AddressRequest) | (null));
+    /**
+     * Shape $ (Value): Array of {@link DocumentTaxID}. maxItems: 20. Shape $[] (Value): {@link
+     * DocumentTaxID}. A tax identifier printed on documents, with its country, optional region,
+     * identifier type, and value. Flint does not verify the value.
+     */
+    "tax_ids"?: Array<DocumentTaxID>;
+};
+/**
+ * Shape $ (Value): {@link TaxIdentityPatchInput}. Merchant-provided legal identity displayed on
+ * invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned
+ * collection in display order; replacing the array requires the parent's expected_version.
+ * Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
+ * one.
+ */
+export type TaxIdentityPatchInput = {
+    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 255. */
+    "legal_name"?: string | null;
+    /**
+     * Shape $ (Value): {@link AddressRequestInput} or null. Replaced as a whole: send every field
+     * you want to keep. Shape $.anyOf[1] (Value): {@link AddressRequestInput}. A postal address
+     * you supply when creating or updating a customer, invoice, fulfillment, or delivery
+     * selection. Send null for `line2` to clear it. Shape $.anyOf[2] (Value): null.
+     */
+    "registered_address"?: ((AddressRequestInput) | (null));
+    /**
+     * Shape $ (Value): Array of {@link DocumentTaxIDInput}. maxItems: 20. Shape $[] (Value):
+     * {@link DocumentTaxIDInput}. A tax identifier printed on documents, with its country,
+     * optional region, identifier type, and value. Flint does not verify the value.
+     */
+    "tax_ids"?: Array<DocumentTaxIDInput>;
+};
+/**
+ * Shape $ (Value): {@link TaxIdentityPatchInput}. Merchant-provided legal identity displayed on
+ * invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned
+ * collection in display order; replacing the array requires the parent's expected_version.
+ * Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add
+ * one.
+ */
+export type TaxIdentityRequestInput = TaxIdentityPatchInput;
+/**
+ * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as state or
+ * city, name, state, and country.
+ */
+export type TaxJurisdiction = {
+    /**
+     * Shape $ (Value): string. Stable opaque Flint jurisdiction key used for equality and report
+     * grouping. minLength: 1.
+     */
+    "code": string;
+    /**
+     * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
+     * pattern: ^[A-Z]{2}$.
+     */
+    "country": string;
+    /** Shape $ (Value): string.  Value enum: "state", "county", "city", "district". */
+    "level": "state" | "county" | "city" | "district" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "name": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "state": string;
+};
+/**
+ * Shape $ (Value): {@link TaxJurisdictionInput}. A taxing jurisdiction with its level, such as
+ * state or city, name, state, and country.
+ */
+export type TaxJurisdictionInput = {
+    /**
+     * Shape $ (Value): string. Stable opaque Flint jurisdiction key used for equality and report
+     * grouping. minLength: 1.
+     */
+    "code": string;
+    /**
+     * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
+     * pattern: ^[A-Z]{2}$.
+     */
+    "country": string;
+    /** Shape $ (Value): string.  Value enum: "state", "county", "city", "district". */
+    "level": "state" | "county" | "city" | "district";
+    /** Shape $ (Value): string. minLength: 1. */
+    "name": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "state": string;
+};
+/**
+ * Shape $ (Value): {@link TaxSettings}. Tax settings: whether tax is calculated by default and the
+ * default tax categories for line items and delivery charges.
+ */
+export type TaxSettings = {
+    /**
+     * Shape $ (Value): string or null. Charge category inherited by delivery methods that omit
+     * charge_tax_category. Null derives the category from the method type. Value enum:
+     * "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Shape $ (Value): boolean. Taxability inherited by delivery methods that omit taxable.
+     * Defaults to true because Flint cannot yet derive delivery-charge taxability from category
+     * and jurisdiction alone.
+     */
+    "default_delivery_taxable"?: boolean;
+    /**
+     * Shape $ (Value): boolean. Whether new checkouts and orders calculate tax by default. This
+     * does not decide whether an individual line item or delivery charge is taxable.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Shape $ (Value): string. Flint line-item tax category. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     */
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
+};
+/**
+ * Shape $ (Value): {@link TaxSettingsRequest}. Tax settings to change when updating settings. Send
+ * null for a category to clear it.
+ */
+export type TaxSettingsRequest = {
+    /**
+     * Shape $ (Value): string or null. Charge category inherited by delivery methods that omit
+     * charge_tax_category. Null derives the category from the method type. Send null to clear it.
+     * Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Shape $ (Value): boolean. Taxability inherited by delivery methods that omit taxable.
+     * Defaults to true because Flint cannot yet derive delivery-charge taxability from category
+     * and jurisdiction alone.
+     */
+    "default_delivery_taxable"?: boolean;
+    /**
+     * Shape $ (Value): boolean. Whether new checkouts and orders calculate tax by default. This
+     * does not decide whether an individual line item or delivery charge is taxable.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Shape $ (Value): string or null. Flint line-item tax category. Send null to clear it. Value
+     * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
+     * "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission",
+     * null.
+     */
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | null
+        | (string & {})
+        | null;
+};
+/**
+ * Shape $ (Value): {@link TaxSettingsRequestInput}. Tax settings to change when updating settings.
+ * Send null for a category to clear it.
+ */
+export type TaxSettingsRequestInput = {
+    /**
+     * Shape $ (Value): string or null. Charge category inherited by delivery methods that omit
+     * charge_tax_category. Null derives the category from the method type. Send null to clear it.
+     * Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+     */
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
+    /**
+     * Shape $ (Value): boolean. Taxability inherited by delivery methods that omit taxable.
+     * Defaults to true because Flint cannot yet derive delivery-charge taxability from category
+     * and jurisdiction alone.
+     */
+    "default_delivery_taxable"?: boolean;
+    /**
+     * Shape $ (Value): boolean. Whether new checkouts and orders calculate tax by default. This
+     * does not decide whether an individual line item or delivery charge is taxable.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Shape $ (Value): string or null. Flint line-item tax category. Send null to clear it. Value
+     * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
+     * "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission",
+     * null.
+     */
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | null;
+};
 /**
  * Shape $ (Value): {@link TextModifierConfig}. Settings for a text modifier group: whether input
  * is required or multiline, and its length limits.
@@ -1286,6 +1798,13 @@ export type UpdateCheckoutSessionRequest = {
      */
     "buyer_contact"?: CheckoutBuyerContactRequest;
     /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
      * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
      * system. Omit to leave unchanged; send null to clear. minLength: 1. maxLength: 255.
      */
@@ -1331,6 +1850,13 @@ export type UpdateCheckoutSessionRequestInput = {
      * 1.
      */
     "buyer_contact"?: CheckoutBuyerContactRequestInput;
+    /**
+     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
+     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
+     * request before retrying. Use an integer string (decimal digits), not a floating-point
+     * number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
     /**
      * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
      * system. Omit to leave unchanged; send null to clear. minLength: 1. maxLength: 255.
@@ -1443,6 +1969,11 @@ export type UpdateCustomerAddressRequest = {
      */
     "address"?: Address;
     /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
      * Shape $ (Value): string or null. Limited to 100 characters (Unicode code points), counted
      * before surrounding whitespace is trimmed. Send null to clear it. minLength: 1. maxLength:
      * 100.
@@ -1472,6 +2003,11 @@ export type UpdateCustomerAddressRequestInput = {
      */
     "address"?: PostalAddressInput;
     /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
      * Shape $ (Value): string or null. Limited to 100 characters (Unicode code points), counted
      * before surrounding whitespace is trimmed. Send null to clear it. minLength: 1. maxLength:
      * 100.
@@ -1497,6 +2033,11 @@ export type UpdateCustomerEmailPreferencesRequest = {
     /** Shape $ (Value): boolean. A reminder after leaving checkout without paying. */
     "checkout_reminders"?: boolean;
     /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
      * Shape $ (Value): boolean. Emails about shipments and deliveries, such as shipped, out for
      * delivery, and delivered.
      */
@@ -1506,7 +2047,20 @@ export type UpdateCustomerEmailPreferencesRequest = {
  * Shape $ (Value): {@link UpdateCustomerEmailPreferencesRequestInput}. The request body for:
  * Update the current buyer's email preferences. minProperties: 1.
  */
-export type UpdateCustomerEmailPreferencesRequestInput = UpdateCustomerEmailPreferencesRequest;
+export type UpdateCustomerEmailPreferencesRequestInput = {
+    /** Shape $ (Value): boolean. A reminder after leaving checkout without paying. */
+    "checkout_reminders"?: boolean;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): boolean. Emails about shipments and deliveries, such as shipped, out for
+     * delivery, and delivered.
+     */
+    "shipping_updates"?: boolean;
+};
 /** Shape $ (Value): {@link UpdateCustomerRequest}. The request body for: Update customer. */
 export type UpdateCustomerRequest = ({
     /**
@@ -2267,870 +2821,3 @@ export type UpdateDeliveryMethodRequestInput = ({
     /** Shape $ (Value): string.  Value enum: "inactive", "active". */
     "status": "inactive" | "active";
 }));
-/**
- * Shape $ (Value): {@link UpdateDeliveryProfileRequest}. The request body for: Update delivery
- * profile.
- */
-export type UpdateDeliveryProfileRequest = ({
-    /**
-     * Shape $ (Value): {@link DeliveryProfileConfigurationRequest}. Send the whole profile
-     * configuration. It replaces the current one; leave configuration out to keep it. requirement
-     * none allows no other keys, and quote profiles require origin_policy, combination_policy, and
-     * splitting_policy. Null and an empty object are invalid. Requires expected_version. Delivery
-     * planning settings you supply when creating or updating a delivery profile. Which fields are
-     * allowed depends on `requirement` and `resolution_mode`.
-     */
-    "configuration"?: DeliveryProfileConfigurationRequest;
-    /**
-     * Shape $ (Value): integer string. Current resource version. Required for configuration,
-     * owned-rate replacement, and quote-pinned method presentation; optional for other scalar and
-     * status updates. Required when any of these fields is present: configuration. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): boolean. Send true to make this active profile the physical catalog
-     * default. Can be combined with other mutable fields in one atomic update. Send
-     * expected_version to fence the update against this profile's current version. Sending only
-     * is_default true for the current default is a no-op: its version stays unchanged and no
-     * events are emitted. False is invalid; make another profile the default instead. Value enum:
-     * true.
-     */
-    "is_default"?: boolean;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-})
-    & (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Shape $ (Value): {@link DeliveryProfileConfigurationRequest}. Send the whole profile
-     * configuration. It replaces the current one; leave configuration out to keep it. requirement
-     * none allows no other keys, and quote profiles require origin_policy, combination_policy, and
-     * splitting_policy. Null and an empty object are invalid. Requires expected_version. Delivery
-     * planning settings you supply when creating or updating a delivery profile. Which fields are
-     * allowed depends on `requirement` and `resolution_mode`.
-     */
-    "configuration": DeliveryProfileConfigurationRequest;
-})
-    | ({
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata": Record<string, string | null> | null;
-})
-    | ({
-    /**
-     * Shape $ (Value): boolean. Send true to make this active profile the physical catalog
-     * default. Can be combined with other mutable fields in one atomic update. Send
-     * expected_version to fence the update against this profile's current version. Sending only
-     * is_default true for the current default is a no-op: its version stays unchanged and no
-     * events are emitted. False is invalid; make another profile the default instead. Value enum:
-     * true.
-     */
-    "is_default": boolean;
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link UpdateDeliveryProfileRequestInput}. The request body for: Update
- * delivery profile.
- */
-export type UpdateDeliveryProfileRequestInput = ({
-    /**
-     * Shape $ (Value): {@link DeliveryProfileConfigurationRequestInput}. Send the whole profile
-     * configuration. It replaces the current one; leave configuration out to keep it. requirement
-     * none allows no other keys, and quote profiles require origin_policy, combination_policy, and
-     * splitting_policy. Null and an empty object are invalid. Requires expected_version. Delivery
-     * planning settings you supply when creating or updating a delivery profile. Which fields are
-     * allowed depends on `requirement` and `resolution_mode`.
-     */
-    "configuration"?: DeliveryProfileConfigurationRequestInput;
-    /**
-     * Shape $ (Value): integer string. Current resource version. Required for configuration,
-     * owned-rate replacement, and quote-pinned method presentation; optional for other scalar and
-     * status updates. Required when any of these fields is present: configuration. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): boolean. Send true to make this active profile the physical catalog
-     * default. Can be combined with other mutable fields in one atomic update. Send
-     * expected_version to fence the update against this profile's current version. Sending only
-     * is_default true for the current default is a no-op: its version stays unchanged and no
-     * events are emitted. False is invalid; make another profile the default instead. Value enum:
-     * true.
-     */
-    "is_default"?: true;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-})
-    & (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Shape $ (Value): {@link DeliveryProfileConfigurationRequestInput}. Send the whole profile
-     * configuration. It replaces the current one; leave configuration out to keep it. requirement
-     * none allows no other keys, and quote profiles require origin_policy, combination_policy, and
-     * splitting_policy. Null and an empty object are invalid. Requires expected_version. Delivery
-     * planning settings you supply when creating or updating a delivery profile. Which fields are
-     * allowed depends on `requirement` and `resolution_mode`.
-     */
-    "configuration": DeliveryProfileConfigurationRequestInput;
-})
-    | ({
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata": Record<string, string | null> | null;
-})
-    | ({
-    /**
-     * Shape $ (Value): boolean. Send true to make this active profile the physical catalog
-     * default. Can be combined with other mutable fields in one atomic update. Send
-     * expected_version to fence the update against this profile's current version. Sending only
-     * is_default true for the current default is a no-op: its version stays unchanged and no
-     * events are emitted. False is invalid; make another profile the default instead. Value enum:
-     * true.
-     */
-    "is_default": true;
-}));
-/**
- * Shape $ (Value): {@link UpdateDeliveryRateCallbackRequest}. The request body for: Update
- * delivery rate callback.
- */
-export type UpdateDeliveryRateCallbackRequest = ({
-    /**
-     * Shape $ (Value): {@link DeliveryRateCallbackConfigurationPatchRequest}. Only the keys you
-     * send change; keys you leave out keep their current values. Null restores a key's default, as
-     * each field describes. The result must be a configuration you could create. Requires
-     * expected_version. An empty configuration is invalid. Only the keys you send change; keys you
-     * leave out keep their current values. Null restores a key's default, as each field describes.
-     * The result must be a configuration you could create. Requires expected_version. An empty
-     * configuration is invalid. minProperties: 1.
-     */
-    "configuration"?: DeliveryRateCallbackConfigurationPatchRequest;
-    /**
-     * Shape $ (Value): integer string. Current resource version. Required for configuration,
-     * owned-rate replacement, and quote-pinned method presentation; optional for other scalar and
-     * status updates. Required when any of these fields is present: configuration. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /** Shape $ (Value): string.  Value enum: "inactive", "active". */
-    "status"?: "inactive" | "active" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Shape $ (Value): {@link DeliveryRateCallbackConfigurationPatchRequest}. Only the keys you
-     * send change; keys you leave out keep their current values. Null restores a key's default, as
-     * each field describes. The result must be a configuration you could create. Requires
-     * expected_version. An empty configuration is invalid. Only the keys you send change; keys you
-     * leave out keep their current values. Null restores a key's default, as each field describes.
-     * The result must be a configuration you could create. Requires expected_version. An empty
-     * configuration is invalid. minProperties: 1.
-     */
-    "configuration": DeliveryRateCallbackConfigurationPatchRequest;
-})
-    | ({
-    /** Shape $ (Value): string.  Value enum: "inactive", "active". */
-    "status": "inactive" | "active" | (string & {});
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link UpdateDeliveryRateCallbackRequestInput}. The request body for: Update
- * delivery rate callback.
- */
-export type UpdateDeliveryRateCallbackRequestInput = ({
-    /**
-     * Shape $ (Value): {@link DeliveryRateCallbackConfigurationPatchRequestInput}. Only the keys
-     * you send change; keys you leave out keep their current values. Null restores a key's
-     * default, as each field describes. The result must be a configuration you could create.
-     * Requires expected_version. An empty configuration is invalid. Only the keys you send change;
-     * keys you leave out keep their current values. Null restores a key's default, as each field
-     * describes. The result must be a configuration you could create. Requires expected_version.
-     * An empty configuration is invalid. minProperties: 1.
-     */
-    "configuration"?: DeliveryRateCallbackConfigurationPatchRequestInput;
-    /**
-     * Shape $ (Value): integer string. Current resource version. Required for configuration,
-     * owned-rate replacement, and quote-pinned method presentation; optional for other scalar and
-     * status updates. Required when any of these fields is present: configuration. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /** Shape $ (Value): string.  Value enum: "inactive", "active". */
-    "status"?: "inactive" | "active";
-})
-    & (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Shape $ (Value): {@link DeliveryRateCallbackConfigurationPatchRequestInput}. Only the keys
-     * you send change; keys you leave out keep their current values. Null restores a key's
-     * default, as each field describes. The result must be a configuration you could create.
-     * Requires expected_version. An empty configuration is invalid. Only the keys you send change;
-     * keys you leave out keep their current values. Null restores a key's default, as each field
-     * describes. The result must be a configuration you could create. Requires expected_version.
-     * An empty configuration is invalid. minProperties: 1.
-     */
-    "configuration": DeliveryRateCallbackConfigurationPatchRequestInput;
-})
-    | ({
-    /** Shape $ (Value): string.  Value enum: "inactive", "active". */
-    "status": "inactive" | "active";
-}));
-/**
- * Shape $ (Value): {@link UpdateDeliveryZoneRequest}. The request body for: Update delivery zone.
- */
-export type UpdateDeliveryZoneRequest = ({
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfiguration}. Send the whole geography. It replaces
-     * the zone's current geography; leave configuration out to keep it. Null and an empty object
-     * are invalid. Requires expected_version. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "configuration"?: DeliveryZoneConfiguration;
-    /**
-     * Shape $ (Value): integer string. Current resource version. Required for configuration,
-     * owned-rate replacement, and quote-pinned method presentation; optional for other scalar and
-     * status updates. Required when any of these fields is present: configuration. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-})
-    & (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfiguration}. Send the whole geography. It replaces
-     * the zone's current geography; leave configuration out to keep it. Null and an empty object
-     * are invalid. Requires expected_version. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions.
-     */
-    "configuration": DeliveryZoneConfiguration;
-})
-    | ({
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata": Record<string, string | null> | null;
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link UpdateDeliveryZoneRequestInput}. The request body for: Update delivery
- * zone.
- */
-export type UpdateDeliveryZoneRequestInput = ({
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. Send the whole geography. It
-     * replaces the zone's current geography; leave configuration out to keep it. Null and an empty
-     * object are invalid. Requires expected_version. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "configuration"?: DeliveryZoneConfigurationInput;
-    /**
-     * Shape $ (Value): integer string. Current resource version. Required for configuration,
-     * owned-rate replacement, and quote-pinned method presentation; optional for other scalar and
-     * status updates. Required when any of these fields is present: configuration. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-})
-    & (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Shape $ (Value): {@link DeliveryZoneConfigurationInput}. Send the whole geography. It
-     * replaces the zone's current geography; leave configuration out to keep it. Null and an empty
-     * object are invalid. Requires expected_version. A reusable geographic predicate containing
-     * only country, state, postal_code, and radius conditions.
-     */
-    "configuration": DeliveryZoneConfigurationInput;
-})
-    | ({
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata": Record<string, string | null> | null;
-}));
-/** Shape $ (Value): {@link UpdateDeviceRequest}. The request body for: Update device. */
-export type UpdateDeviceRequest = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "location_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-};
-/** Shape $ (Value): {@link UpdateDeviceRequestInput}. The request body for: Update device. */
-export type UpdateDeviceRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "location_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateDigitalFulfillmentDetails}. Digital fulfillment fields to change
- * when updating a fulfillment: delivery time and URL. Send null to clear a field.
- */
-export type UpdateDigitalFulfillmentDetails = {
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "delivered_at"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "delivery_url"?: string | null;
-};
-/**
- * Shape $ (Value): {@link UpdateDigitalFulfillmentDetailsInput}. Digital fulfillment fields to
- * change when updating a fulfillment: delivery time and URL. Send null to clear a field.
- */
-export type UpdateDigitalFulfillmentDetailsInput = {
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "delivered_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "delivery_url"?: string | null;
-};
-/**
- * Shape $ (Value): {@link UpdateFulfillmentRequest}. Provide at most one fulfillment details
- * object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment
- * execution details belong to shipments and packages. A supplied detail field must match the
- * stored fulfillment type. Omit details for metadata-only updates. Even null detail fields count
- * toward exclusivity.
- */
-export type UpdateFulfillmentRequest = ({
-    /**
-     * Shape $ (Value): string or null. Completion evidence timestamp. Use only to correct
-     * completion evidence on an already completed fulfillment; complete pending fulfillments with
-     * POST /transitions. Send null to clear it. Format: date-time. minLength: 1.
-     */
-    "completed_at"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "customer_id"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "device_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link UpdateDigitalFulfillmentDetails} or null. Shape $.anyOf[1] (Value):
-     * {@link UpdateDigitalFulfillmentDetails}. Digital fulfillment fields to change when updating
-     * a fulfillment: delivery time and URL. Send null to clear a field. Shape $.anyOf[2] (Value):
-     * null.
-     */
-    "digital_details"?: ((UpdateDigitalFulfillmentDetails) | (null));
-    /**
-     * Shape $ (Value): integer string. Optional resource version last read by the caller. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link UpdateDeliveryFulfillmentDetails} or null. Shape $.anyOf[1] (Value):
-     * {@link UpdateDeliveryFulfillmentDetails}. Delivery fulfillment fields to change when
-     * updating a fulfillment, such as courier, tracking, and delivery times. Send null to clear a
-     * field. Shape $.anyOf[2] (Value): null.
-     */
-    "local_delivery_details"?: ((UpdateDeliveryFulfillmentDetails) | (null));
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "location_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): {@link UpdatePickupFulfillmentDetails} or null. Shape $.anyOf[1] (Value):
-     * {@link UpdatePickupFulfillmentDetails}. Pickup fulfillment fields to change when updating a
-     * fulfillment, such as location, pickup window, and curbside details. Send null to clear a
-     * field. Shape $.anyOf[2] (Value): null.
-     */
-    "pickup_details"?: ((UpdatePickupFulfillmentDetails) | (null));
-    /**
-     * Shape $ (Value): {@link FulfillmentRecipientRequest} or null. Shape $.anyOf[1] (Value):
-     * {@link FulfillmentRecipientRequest}. Recipient details you supply when creating or updating
-     * a fulfillment: name, email, phone, address, and handling instructions. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "recipient"?: ((FulfillmentRecipientRequest) | (null));
-    /**
-     * Shape $ (Value): {@link UpdateServiceFulfillmentDetails} or null. Shape $.anyOf[1] (Value):
-     * {@link UpdateServiceFulfillmentDetails}. Service fulfillment fields to change when updating
-     * a fulfillment: scheduled times, completion time, and notes. Send null to clear a field.
-     * Shape $.anyOf[2] (Value): null.
-     */
-    "service_details"?: ((UpdateServiceFulfillmentDetails) | (null));
-});
-/**
- * Shape $ (Value): {@link UpdateFulfillmentRequestInput}. Provide at most one fulfillment details
- * object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment
- * execution details belong to shipments and packages. A supplied detail field must match the
- * stored fulfillment type. Omit details for metadata-only updates. Even null detail fields count
- * toward exclusivity.
- */
-export type UpdateFulfillmentRequestInput = ({
-    /**
-     * Shape $ (Value): string or null. Completion evidence timestamp. Use only to correct
-     * completion evidence on an already completed fulfillment; complete pending fulfillments with
-     * POST /transitions. Send null to clear it. Format: date-time. minLength: 1.
-     */
-    "completed_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "customer_id"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "device_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link UpdateDigitalFulfillmentDetailsInput} or null. Shape $.anyOf[1]
-     * (Value): {@link UpdateDigitalFulfillmentDetailsInput}. Digital fulfillment fields to change
-     * when updating a fulfillment: delivery time and URL. Send null to clear a field. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "digital_details"?: ((UpdateDigitalFulfillmentDetailsInput) | (null));
-    /**
-     * Shape $ (Value): integer string. Optional resource version last read by the caller. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link UpdateDeliveryFulfillmentDetailsInput} or null. Shape $.anyOf[1]
-     * (Value): {@link UpdateDeliveryFulfillmentDetailsInput}. Delivery fulfillment fields to
-     * change when updating a fulfillment, such as courier, tracking, and delivery times. Send null
-     * to clear a field. Shape $.anyOf[2] (Value): null.
-     */
-    "local_delivery_details"?: ((UpdateDeliveryFulfillmentDetailsInput) | (null));
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "location_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): {@link UpdatePickupFulfillmentDetailsInput} or null. Shape $.anyOf[1]
-     * (Value): {@link UpdatePickupFulfillmentDetailsInput}. Pickup fulfillment fields to change
-     * when updating a fulfillment, such as location, pickup window, and curbside details. Send
-     * null to clear a field. Shape $.anyOf[2] (Value): null.
-     */
-    "pickup_details"?: ((UpdatePickupFulfillmentDetailsInput) | (null));
-    /**
-     * Shape $ (Value): {@link FulfillmentRecipientRequestInput} or null. Shape $.anyOf[1] (Value):
-     * {@link FulfillmentRecipientRequestInput}. Recipient details you supply when creating or
-     * updating a fulfillment: name, email, phone, address, and handling instructions. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "recipient"?: ((FulfillmentRecipientRequestInput) | (null));
-    /**
-     * Shape $ (Value): {@link UpdateServiceFulfillmentDetailsInput} or null. Shape $.anyOf[1]
-     * (Value): {@link UpdateServiceFulfillmentDetailsInput}. Service fulfillment fields to change
-     * when updating a fulfillment: scheduled times, completion time, and notes. Send null to clear
-     * a field. Shape $.anyOf[2] (Value): null.
-     */
-    "service_details"?: ((UpdateServiceFulfillmentDetailsInput) | (null));
-})
-    & (({
-    "pickup_details"?: never;
-} | {
-    "local_delivery_details"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-} | {
-    "digital_details"?: never;
-}))
-    & (({
-    "pickup_details"?: never;
-} | {
-    "service_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-} | {
-    "digital_details"?: never;
-}))
-    & (({
-    "local_delivery_details"?: never;
-} | {
-    "service_details"?: never;
-}))
-    & (({
-    "digital_details"?: never;
-} | {
-    "service_details"?: never;
-}));
-/** Shape $ (Value): {@link UpdateGiftCardRequest}. The request body for: Update a gift card. */
-export type UpdateGiftCardRequest = {
-    /**
-     * Shape $ (Value): string or null. Omission preserves the association; null clears it.
-     * minLength: 1.
-     */
-    "customer_id"?: string | null;
-    /**
-     * Shape $ (Value): integer string. The gift card version last read. The command changes this
-     * card only when its current version matches. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Omission preserves the association; null clears it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-};
-/**
- * Shape $ (Value): {@link UpdateGiftCardRequestInput}. The request body for: Update a gift card.
- */
-export type UpdateGiftCardRequestInput = {
-    /**
-     * Shape $ (Value): string or null. Omission preserves the association; null clears it.
-     * minLength: 1.
-     */
-    "customer_id"?: string | null;
-    /**
-     * Shape $ (Value): integer string. The gift card version last read. The command changes this
-     * card only when its current version matches. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Omission preserves the association; null clears it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-};
-/**
- * Shape $ (Value): {@link UpdateInventoryAllocationPolicyRequest}. The request body for: Update
- * inventory allocation policy.
- */
-export type UpdateInventoryAllocationPolicyRequest = ({
-    /**
-     * Shape $ (Value): {@link InventoryAllocationConfigurationValue}. Requires expected_version.
-     * Routing rules for an inventory allocation policy: ranked groups of Locations, whether demand
-     * can be split, and how many Locations one assignment may use.
-     */
-    "configuration"?: InventoryAllocationConfigurationValue;
-    /**
-     * Shape $ (Value): integer string. Required when any of these fields is present:
-     * configuration. Use an integer string (decimal digits), not a floating-point number. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-});
-/**
- * Shape $ (Value): {@link UpdateInventoryAllocationPolicyRequestInput}. The request body for:
- * Update inventory allocation policy.
- */
-export type UpdateInventoryAllocationPolicyRequestInput = ({
-    /**
-     * Shape $ (Value): {@link InventoryAllocationConfigurationValueInput}. Requires
-     * expected_version. Routing rules for an inventory allocation policy: ranked groups of
-     * Locations, whether demand can be split, and how many Locations one assignment may use.
-     */
-    "configuration"?: InventoryAllocationConfigurationValueInput;
-    /**
-     * Shape $ (Value): integer string. Required when any of these fields is present:
-     * configuration. Use an integer string (decimal digits), not a floating-point number. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-});
-/**
- * Shape $ (Value): {@link UpdateInventoryCountRequest}. The request body for: Update inventory
- * count.
- */
-export type UpdateInventoryCountRequest = ({
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version": `${bigint}`;
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link InventoryCountObservationRequest}. Complete replacement
-     * containing every count item exactly once. Every physical version must match current stock or
-     * the entire save is refused. Recount affected items before submitting fresh fences. minItems:
-     * 1. maxItems: 100. Shape $[] (Value): {@link InventoryCountObservationRequest}. A counted
-     * quantity for one item in an inventory count, with the physical version it was read at.
-     */
-    "observations": Array<InventoryCountObservationRequest>;
-    /**
-     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
-     * when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
-     */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): {@link InventorySourceSystemRequest}. The source system you report for an
-     * inventory event, such as manual, pos, wms, erp, or other, with your identifier when it
-     * applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-});
-/**
- * Shape $ (Value): {@link UpdateInventoryCountRequestInput}. The request body for: Update
- * inventory count.
- */
-export type UpdateInventoryCountRequestInput = ({
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version": `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
-     * secrets in this field. minLength: 1. maxLength: 255.
-     */
-    "external_actor_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link InventoryCountObservationRequestInput}. Complete
-     * replacement containing every count item exactly once. Every physical version must match
-     * current stock or the entire save is refused. Recount affected items before submitting fresh
-     * fences. minItems: 1. maxItems: 100. Shape $[] (Value): {@link
-     * InventoryCountObservationRequestInput}. A counted quantity for one item in an inventory
-     * count, with the physical version it was read at.
-     */
-    "observations": Array<InventoryCountObservationRequestInput>;
-    /**
-     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
-     * when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): {@link InventorySourceSystemRequestInput}. The source system you report for
-     * an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it
-     * applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-});

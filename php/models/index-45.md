@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# TippingSettingsSmartTipMoneyOptionsItem – APIRequestLog
+# InvoiceSettings – WebhookEventRequest
 
+- [InvoiceSettings](InvoiceSettings.md)
+- [LegalSettings](LegalSettings.md)
+- [PaymentLimitSettings](PaymentLimitSettings.md)
+- [PromotionSettings](PromotionSettings.md)
+- [ReceiptSettings](ReceiptSettings.md)
+- [SubscriptionSettings](SubscriptionSettings.md)
+- [TaxSettings](TaxSettings.md)
 - [TippingSettingsSmartTipMoneyOptionsItem](TippingSettingsSmartTipMoneyOptionsItem.md)
 - [TippingSettings](TippingSettings.md)
 - [Settings](Settings.md)
@@ -50,8 +57,6 @@
 - [BuyerOrder](BuyerOrder.md)
 - [BuyerPackage](BuyerPackage.md)
 - [BuyerPaymentIntent](BuyerPaymentIntent.md)
-- [ReadinessMerchantAccountSession](ReadinessMerchantAccountSession.md)
-- [ReadinessAction](ReadinessAction.md)
 - [ReadinessRequirements](ReadinessRequirements.md)
 - [CapabilityReadiness](CapabilityReadiness.md)
 - [ReadinessAxis](ReadinessAxis.md)
@@ -97,9 +102,4 @@
 - [SubscriptionWindowMetrics](SubscriptionWindowMetrics.md)
 - [SubscriptionAnalytics](SubscriptionAnalytics.md)
 - [WebhookEventRequest](WebhookEventRequest.md)
-- [WebhookEvent](WebhookEvent.md)
-- [OrganizationMembership](OrganizationMembership.md)
-- [IssueCreditNoteResult](IssueCreditNoteResult.md)
-- [GuestPurchaseLink](GuestPurchaseLink.md)
-- [APIRequestLog](APIRequestLog.md)
 

@@ -2,7 +2,7 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateSubscriptionDeliveryMigrationRequestInput } from '../declarations/types-9.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
@@ -14,7 +14,7 @@ import type {
     SubscriptionDeliveryMigrationsListFailuresInput,
     SubscriptionDeliveryMigrationsListInput
 } from '../declarations/types-45.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -45,12 +45,12 @@ export type {
     SubscriptionDeliveryMigrationsListInput,
     SubscriptionDeliveryMigrationFailureReasonCount
 } from '../declarations/types-45.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-64.js';
+export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface SubscriptionDeliveryMigrationsResource {
     /**
@@ -67,14 +67,14 @@ export interface SubscriptionDeliveryMigrationsResource {
     create(params: (InputValue<CreateSubscriptionDeliveryMigrationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SubscriptionDeliveryMigration>;
+    }, options?: RequestOptions<"merchant">): Promise<SubscriptionDeliveryMigration>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationscreate
      */
     createWithResponse(params: (InputValue<CreateSubscriptionDeliveryMigrationRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionDeliveryMigrationResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SubscriptionDeliveryMigrationResponse>>;
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
  * failures remain available after completion.
@@ -83,11 +83,11 @@ export interface SubscriptionDeliveryMigrationsResource {
  * @example
  * client.subscriptionDeliveryMigrations.get("example")
  */
-    get(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionDeliveryMigration>;
+    get(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionDeliveryMigration>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationsget
      */
-    getWithResponse(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionDeliveryMigrationResponse>>;
+    getWithResponse(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionDeliveryMigrationResponse>>;
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
  * failures remain available after completion.
@@ -105,7 +105,7 @@ export interface SubscriptionDeliveryMigrationsResource {
             | "method_unavailable"
             | "no_longer_applicable"
             | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionDeliveryMigrationFailureListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionDeliveryMigrationFailureListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
      */
@@ -118,7 +118,7 @@ export interface SubscriptionDeliveryMigrationsResource {
             | "method_unavailable"
             | "no_longer_applicable"
             | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionDeliveryMigrationFailureListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionDeliveryMigrationFailureListResponse>>;
     /** Iterate pages lazily.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
      */
@@ -131,7 +131,7 @@ export interface SubscriptionDeliveryMigrationsResource {
             | "method_unavailable"
             | "no_longer_applicable"
             | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionDeliveryMigrationFailureListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigrationFailureListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
      */
@@ -144,7 +144,7 @@ export interface SubscriptionDeliveryMigrationsResource {
             | "method_unavailable"
             | "no_longer_applicable"
             | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionDeliveryMigrationFailureListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<SubscriptionDeliveryMigrationFailureListResponse>>;
     /** Iterate items lazily.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
      */
@@ -157,7 +157,7 @@ export interface SubscriptionDeliveryMigrationsResource {
             | "method_unavailable"
             | "no_longer_applicable"
             | "not_movable">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionDeliveryMigrationFailure>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigrationFailure>;
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
  * failures remain available after completion.
@@ -171,7 +171,7 @@ export interface SubscriptionDeliveryMigrationsResource {
         "page_token"?: InputValue<string>;
         "from_delivery_method_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionDeliveryMigrationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SubscriptionDeliveryMigrationListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
      */
@@ -180,7 +180,7 @@ export interface SubscriptionDeliveryMigrationsResource {
         "page_token"?: InputValue<string>;
         "from_delivery_method_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionDeliveryMigrationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionDeliveryMigrationListResponse>>;
     /** Iterate pages lazily.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
      */
@@ -189,7 +189,7 @@ export interface SubscriptionDeliveryMigrationsResource {
         "page_token"?: InputValue<string>;
         "from_delivery_method_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionDeliveryMigrationListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigrationListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
      */
@@ -198,7 +198,7 @@ export interface SubscriptionDeliveryMigrationsResource {
         "page_token"?: InputValue<string>;
         "from_delivery_method_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionDeliveryMigrationListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<SubscriptionDeliveryMigrationListResponse>>;
     /** Iterate items lazily.
      * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
      */
@@ -207,7 +207,7 @@ export interface SubscriptionDeliveryMigrationsResource {
         "page_token"?: InputValue<string>;
         "from_delivery_method_id"?: InputValue<string>;
         "status"?: InputValue<Array<"pending" | "running" | "completed">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionDeliveryMigration>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigration>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

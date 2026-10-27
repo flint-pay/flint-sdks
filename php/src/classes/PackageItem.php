@@ -13,9 +13,10 @@ namespace Flint;
  * @property-read string $quantity
  * @property-read string $shipment_id
  * @property-read ?string $updated_at
+ * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class PackageItem extends Model {
-    /** @param array{'created_at'?: string, 'fulfillment_id': string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': string, 'shipment_id': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'created_at'?: string, 'fulfillment_id': string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': string, 'shipment_id': string, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageItem')); }
     /** Shape $ (Value): string. Creation timestamp. Format: date-time.
      * @return ?string
@@ -72,4 +73,9 @@ final class PackageItem extends Model {
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Shape $ (Value): integer string. Persisted item version, independent of package shipment and capacity guards. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

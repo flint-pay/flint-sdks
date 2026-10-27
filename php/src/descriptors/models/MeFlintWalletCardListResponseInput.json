@@ -1,1 +1,1 @@
-{"shared":"MeFlintWalletCardListResponse","dependencies":["MeFlintWalletCard","MeFlintWalletCardListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec963"]}
+{"shared":"MeFlintWalletCardListResponse","dependencies":["MeFlintWalletCard","MeFlintWalletCardListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}

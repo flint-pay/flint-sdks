@@ -65,6 +65,7 @@ A session in which a buyer completes an order's payment.
 | `type` | Required | string | Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `url` | Optional | string | Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay. Present only for hosted sessions read with a merchant credential that can manage checkout sessions. Launch results include it for hosted sessions: create, payment-link resolve, and invoice and return-resolution checkout. Omitted for embedded sessions. |
+| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `checkout_auth_token` | Optional | string | Checkout credential. Send it as Authorization: Bearer &lt;checkout_auth_token>. Present on checkout launch and customer binding confirmation; omitted when a saved-card confirmation keeps the current credential. |
 
 ### BuyerCheckoutSessionWithSecret.custom_text

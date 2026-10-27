@@ -8,12 +8,12 @@ namespace Flint;
 final class InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItem extends Model {
     /** @param array{'max_total_money': mixed, 'payment_option': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItem')); }
-    /** Shape $ (Value): {@see InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney}. The largest invoice total, in this currency, for which Flint offers the option. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney
      */
     public function getMaxTotalMoney(): InvoiceCollectionBuyerInitiatedPaymentPolicyPaymentOptionLimitsItemMaxTotalMoney { return $this->get('max_total_money'); }
     public function hasMaxTotalMoney(): bool { return $this->has('max_total_money'); }
-    /** Shape $ (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Shape $ (Value): string. The payment option this cap applies to. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return string
      */
     public function getPaymentOption(): string { return $this->get('payment_option'); }

@@ -16,7 +16,6 @@ namespace Flint;
  * @property-read ?string $due_at
  * @property-read ?string $error_code
  * @property-read ?MoneyValue $expected_amount_money
- * @property-read ?string $expected_settlement_at
  * @property-read string $invoice_activity_id
  * @property-read ?string $invoice_delivery_attempt_id
  * @property-read ?string $invoice_late_fee_id
@@ -30,7 +29,7 @@ namespace Flint;
  * @property-read ?MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceActivity extends Model {
-    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: mixed, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string, 'credit_money'?: mixed, 'credit_note_id'?: string, 'description': string, 'due_at'?: string, 'error_code'?: string, 'expected_amount_money'?: mixed, 'expected_settlement_at'?: string, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: mixed, ...}|object $values */
+    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: mixed, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string, 'credit_money'?: mixed, 'credit_note_id'?: string, 'description': string, 'due_at'?: string, 'error_code'?: string, 'expected_amount_money'?: mixed, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceActivity')); }
     /** Shape $ (Value): string. What happened. other means an activity this API version doesn't describe yet. New values may be added; treat an unrecognized value like `other`. Value enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "other".
      * @return string
@@ -102,11 +101,6 @@ final class InvoiceActivity extends Model {
      */
     public function getExpectedAmountMoney(): ?MoneyValue { return $this->get('expected_amount_money'); }
     public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
-    /** Shape $ (Value): string. When the processing payment is expected to settle. Present on payment_processing when known. Format: date-time.
-     * @return ?string
-     */
-    public function getExpectedSettlementAt(): ?string { return $this->get('expected_settlement_at'); }
-    public function hasExpectedSettlementAt(): bool { return $this->has('expected_settlement_at'); }
     /** Shape $ (Value): string. Flint invoice activity ID. IDs begin with inevt_.
      * @return string
      */

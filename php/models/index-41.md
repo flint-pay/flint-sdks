@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# DeveloperSandbox – BuyerReturnEligibilityPreviewSelectionAllRemainingFulfilledLineItemsItem
+# DeliveryZone – MerchantAccountSessionEffectivePolicy
 
+- [DeliveryZone](DeliveryZone.md)
+- [DemoSessionAPIKey](DemoSessionAPIKey.md)
+- [DemoSession](DemoSession.md)
+- [PartnerAppPermissionManifestEntry](PartnerAppPermissionManifestEntry.md)
+- [PartnerAppWithSecret](PartnerAppWithSecret.md)
+- [APIKey](APIKey.md)
 - [DeveloperSandbox](DeveloperSandbox.md)
 - [CreateDeveloperSandboxResult](CreateDeveloperSandboxResult.md)
 - [Device](Device.md)
@@ -96,10 +102,4 @@
 - [MerchantAccountSessionStripe](MerchantAccountSessionStripe.md)
 - [MerchantAccountSessionClientSession](MerchantAccountSessionClientSession.md)
 - [MerchantAccountSessionEffectivePolicy](MerchantAccountSessionEffectivePolicy.md)
-- [MerchantAccountSession](MerchantAccountSession.md)
-- [ReturnReasonSummary](ReturnReasonSummary.md)
-- [BuyerReturnEligibilityPreviewLineItem](BuyerReturnEligibilityPreviewLineItem.md)
-- [BuyerReturnPolicyEvaluationLineItem](BuyerReturnPolicyEvaluationLineItem.md)
-- [BuyerReturnPolicyEvaluation](BuyerReturnPolicyEvaluation.md)
-- [BuyerReturnEligibilityPreviewSelectionAllRemainingFulfilledLineItemsItem](BuyerReturnEligibilityPreviewSelectionAllRemainingFulfilledLineItemsItem.md)
 

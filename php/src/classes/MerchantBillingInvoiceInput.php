@@ -22,31 +22,31 @@ namespace Flint;
 final class MerchantBillingInvoiceInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due_at': string|\DateTimeInterface, 'invoice_number': string, 'issued_at'?: string|\DateTimeInterface, 'line_items': list<MerchantBillingInvoiceLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_billing_invoice_id': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_at'?: string|\DateTimeInterface, 'period_end_at': string|\DateTimeInterface, 'period_start_at': string|\DateTimeInterface, 'status': string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantBillingInvoiceInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When Flint created the invoice. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see MoneyValueInput}. Credit applied to the invoice: the sum of its credit line items. Never more than subtotal_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
      */
     public function getCreditMoney(): mixed { return $this->get('credit_money'); }
     public function hasCreditMoney(): bool { return $this->has('credit_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When payment of the invoice is due. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When due_at is omitted; use hasDueAt() or valueOrDefault().
      */
     public function getDueAt(): string|\DateTimeInterface { return $this->get('due_at'); }
     public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Human-readable invoice number.
      * @return string
      * @throws SdkError When invoice_number is omitted; use hasInvoiceNumber() or valueOrDefault().
      */
     public function getInvoiceNumber(): string { return $this->get('invoice_number'); }
     public function hasInvoiceNumber(): bool { return $this->has('invoice_number'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When Flint issued the invoice. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When issued_at is omitted; use hasIssuedAt() or valueOrDefault().
      */
@@ -58,19 +58,19 @@ final class MerchantBillingInvoiceInput extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Stable identifier of the invoice.
      * @return string
      * @throws SdkError When merchant_billing_invoice_id is omitted; use hasMerchantBillingInvoiceId() or valueOrDefault().
      */
     public function getMerchantBillingInvoiceId(): string { return $this->get('merchant_billing_invoice_id'); }
     public function hasMerchantBillingInvoiceId(): bool { return $this->has('merchant_billing_invoice_id'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see MoneyValueInput}. Part of total_money Flint still has to collect. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When outstanding_money is omitted; use hasOutstandingMoney() or valueOrDefault().
      */
     public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the invoice was paid. Removed if a reversed collection reopens it. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When paid_at is omitted; use hasPaidAt() or valueOrDefault().
      */
@@ -88,31 +88,31 @@ final class MerchantBillingInvoiceInput extends Model {
      */
     public function getPeriodStartAt(): string|\DateTimeInterface { return $this->get('period_start_at'); }
     public function hasPeriodStartAt(): bool { return $this->has('period_start_at'); }
-    /** Shape $ (Value): string.  Value enum: "draft", "open", "collecting", "paid", "delinquent", "void", "written_off".
+    /** Shape $ (Value): string. Collection state of the invoice. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. Value enum: "draft", "open", "collecting", "paid", "delinquent", "void", "written_off".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see MoneyValueInput}. Sum of the subscription line items, before credit. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subtotal_money is omitted; use hasSubtotalMoney() or valueOrDefault().
      */
     public function getSubtotalMoney(): mixed { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see MoneyValueInput}. What the invoice charges: subtotal_money minus credit_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */
     public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the invoice last changed. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the invoice was voided. Absent on invoices that weren't. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When voided_at is omitted; use hasVoidedAt() or valueOrDefault().
      */

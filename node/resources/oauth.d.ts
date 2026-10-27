@@ -7,8 +7,8 @@ import type {
 } from '../declarations/types-31.js';
 import type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-35.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -21,7 +21,7 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     OauthAuthorizePartnerInstallResponse,
@@ -31,12 +31,11 @@ export type {
     NextActionMerchantAccountSession,
     MoneyValue
 } from '../declarations/types-31.js';
-export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse } from '../declarations/types-35.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { PartnerAuthorizePreview, PartnerAuthorizePreviewResponse, PartnerAppPermissionManifestEntry } from '../declarations/types-35.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
-export type { PartnerAppPermissionManifestEntry } from '../declarations/types-34.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makePartnerAppPermissionManifestEntry } from '../declarations/types-69.js';
 export interface OauthResource {

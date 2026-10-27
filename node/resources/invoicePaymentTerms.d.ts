@@ -13,9 +13,9 @@ import type {
     InvoicePaymentTermsUpdateInput
 } from '../declarations/types-27.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -53,8 +53,8 @@ export type {
     InvoicePaymentTermCalculationDayOfMonth,
     InvoicePaymentTermCalculationDayOfNextMonth
 } from '../declarations/types-27.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateInvoicePaymentTermRequestInput } from '../declarations/types-48.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type {
@@ -68,7 +68,7 @@ export type {
 export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
-export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-63.js';
+export { makeCreateInvoicePaymentTermRequest } from '../declarations/types-64.js';
 export {
     makeInvoiceLateFeePolicy,
     makeInvoiceLateFeePolicyFixed,
@@ -78,9 +78,9 @@ export {
     makeInvoicePaymentTermCalculationDayOfNextMonth,
     makeInvoicePaymentTermCalculationDaysAfterMonthEnd,
     makeInvoicePaymentTermCalculationNetDays,
-    makeInvoicePaymentTermCalculationOnReceipt
-} from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+    makeInvoicePaymentTermCalculationOnReceipt,
+    makeMoneyValue
+} from '../declarations/types-68.js';
 export { makeUpdateInvoicePaymentTermRequest } from '../declarations/types-72.js';
 export interface InvoicePaymentTermsResource {
     /**
@@ -96,14 +96,14 @@ export interface InvoicePaymentTermsResource {
     create(params: (InputValue<CreateInvoicePaymentTermRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InvoicePaymentTerm>;
+    }, options?: RequestOptions<"merchant">): Promise<InvoicePaymentTerm>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoicePaymentTerms.md#invoicepaymenttermscreate
      */
     createWithResponse(params: (InputValue<CreateInvoicePaymentTermRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoicePaymentTermResponse>>;
     /**
  * Retires an invoice payment term by setting its status to archived. A default payment term cannot
  * be retired.
@@ -117,14 +117,14 @@ export interface InvoicePaymentTermsResource {
     remove(invoice_payment_term_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<number>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InvoicePaymentTerm>;
+    }, options?: RequestOptions<"merchant">): Promise<InvoicePaymentTerm>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoicePaymentTerms.md#invoicepaymenttermsremove
      */
     removeWithResponse(invoice_payment_term_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<number>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoicePaymentTermResponse>>;
     /**
  * Returns one invoice payment term for the authenticated merchant.
  * @see reference/invoicePaymentTerms.md#invoicepaymenttermsget
@@ -132,11 +132,11 @@ export interface InvoicePaymentTermsResource {
  * @example
  * client.invoicePaymentTerms.get("example")
  */
-    get(invoice_payment_term_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoicePaymentTerm>;
+    get(invoice_payment_term_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoicePaymentTerm>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoicePaymentTerms.md#invoicepaymenttermsget
      */
-    getWithResponse(invoice_payment_term_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicePaymentTermResponse>>;
+    getWithResponse(invoice_payment_term_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoicePaymentTermResponse>>;
     /**
  * Returns a paginated list of invoice payment terms for the authenticated merchant.
  * @see reference/invoicePaymentTerms.md#invoicepaymenttermslist
@@ -150,7 +150,7 @@ export interface InvoicePaymentTermsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoicePaymentTermListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoicePaymentTermListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoicePaymentTerms.md#invoicepaymenttermslist
      */
@@ -160,7 +160,7 @@ export interface InvoicePaymentTermsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicePaymentTermListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoicePaymentTermListResponse>>;
     /** Iterate pages lazily.
      * @see reference/invoicePaymentTerms.md#invoicepaymenttermslist
      */
@@ -170,7 +170,7 @@ export interface InvoicePaymentTermsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoicePaymentTermListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoicePaymentTermListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/invoicePaymentTerms.md#invoicepaymenttermslist
      */
@@ -180,7 +180,7 @@ export interface InvoicePaymentTermsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoicePaymentTermListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InvoicePaymentTermListResponse>>;
     /** Iterate items lazily.
      * @see reference/invoicePaymentTerms.md#invoicepaymenttermslist
      */
@@ -190,7 +190,7 @@ export interface InvoicePaymentTermsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "external_reference_id"?: InputValue<string>;
         "query"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoicePaymentTerm>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoicePaymentTerm>;
     /**
  * Update invoice payment term for the authenticated merchant. Null is rejected for name,
  * calculation, and expected_version; omit them to leave them unchanged. Null clears
@@ -206,14 +206,14 @@ export interface InvoicePaymentTermsResource {
     update(invoice_payment_term_id: InputValue<string>, params: (InputValue<UpdateInvoicePaymentTermRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InvoicePaymentTerm>;
+    }, options?: RequestOptions<"merchant">): Promise<InvoicePaymentTerm>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoicePaymentTerms.md#invoicepaymenttermsupdate
      */
     updateWithResponse(invoice_payment_term_id: InputValue<string>, params: (InputValue<UpdateInvoicePaymentTermRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentTermResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoicePaymentTermResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

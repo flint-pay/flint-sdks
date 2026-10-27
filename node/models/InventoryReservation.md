@@ -13,7 +13,7 @@ A claim on stock. Quantity moves from held to committed to consumed, and can be 
 | `closed_reason` | Optional | string or null | How the reservation ended. mixed when more than one terminal outcome applied. Values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"mixed"`, `null`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `expires_at` | Required | string or null | When held quantity is released if it isn't committed first. null once no line holds quantity. Committed and consumed quantity never expire. Format: `date-time`. |
-| `idempotency_key` | Required | string | The Idempotency-Key of the command that created this reservation. |
+| `idempotency_key` | Optional | string | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. |
 | `inventory_action_required` | Optional | [InventoryActionRequired](../models/InventoryActionRequired.md#inventoryactionrequired) | Present when the claim needs a merchant action before commerce can continue. Says that an inventory reservation needs action, with the `reason` and the reservation lines affected. |
 | `inventory_reservation_id` | Required | string |  |
 | `inventory_routing_source` | Required | [InventoryRoutingSource](../models/InventoryRoutingSource.md#inventoryroutingsource) | Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. `inventory_routing_source`: [field definitions](../models/IncomingWebhook0452cf0e91f7Payload.md#incomingwebhook0452cf0e91f7payloaddataobjectinventory_routing_source). |

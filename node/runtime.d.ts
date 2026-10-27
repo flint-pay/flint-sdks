@@ -432,7 +432,6 @@ export type SdkErrorCode = ("ACCESS_LINK_CUSTOMER_REQUIRED"
     | "CUSTOM_DOMAIN_UNAVAILABLE"
     | "DEFAULT_ENVIRONMENT_REQUIRED"
     | "DEFAULT_PAYMENT_METHOD_CONFLICT"
-    | "DEFAULT_PAYOUT_DESTINATIONS_MANAGED_EXTERNALLY"
     | "DEFAULT_PAYOUT_DESTINATION_INVALID"
     | "DEFAULT_PAYOUT_DESTINATION_REPLACEMENT_REQUIRED"
     | "DEFAULT_PAYOUT_DESTINATION_REQUIRED"
@@ -824,7 +823,7 @@ export type SdkErrorCode = ("ACCESS_LINK_CUSTOMER_REQUIRED"
     | (string & {}))
     & string;
 export type SdkErrorDetails = import("./declarations/types-16.js").ErrorObject
-    | import("./declarations/types-25.js").InventoryTransferActionConflictErrorObject
+    | import("./declarations/types-26.js").InventoryTransferActionConflictErrorObject
     | {
     "code"?: (string);
 }

@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# CreditNoteLineItemRequestInput – DeliveryLocationSetResponse
+# CreditNoteCorrectionRequestAmountInput – DeliveryInventoryAssignmentRequest
 
+- [CreditNoteCorrectionRequestAmountInput](CreditNoteCorrectionRequestAmountInput.md)
+- [CreditNoteCorrectionRequestQuantity](CreditNoteCorrectionRequestQuantity.md)
+- [CreditNoteCorrectionRequestQuantityInput](CreditNoteCorrectionRequestQuantityInput.md)
+- [CreditNoteIssueAllocationRequest](CreditNoteIssueAllocationRequest.md)
+- [CreditNoteIssueAllocationRequestInput](CreditNoteIssueAllocationRequestInput.md)
+- [CreditNoteLineItem](CreditNoteLineItem.md)
+- [CreditNoteLineItemRequest](CreditNoteLineItemRequest.md)
 - [CreditNoteLineItemRequestInput](CreditNoteLineItemRequestInput.md)
 - [CreditNoteListResponse](CreditNoteListResponse.md)
 - [CreditNoteRefundRequest](CreditNoteRefundRequest.md)
@@ -95,11 +102,4 @@
 - [DeliveryInputConstraint](DeliveryInputConstraint.md)
 - [DeliveryInputRequirement](DeliveryInputRequirement.md)
 - [DeliveryInventoryAssignmentRequest](DeliveryInventoryAssignmentRequest.md)
-- [DeliveryInventoryAssignmentRequestInput](DeliveryInventoryAssignmentRequestInput.md)
-- [DeliveryInventoryReservationSummary](DeliveryInventoryReservationSummary.md)
-- [DeliveryLocationSet](DeliveryLocationSet.md)
-- [DeliveryLocationSetConfiguration](DeliveryLocationSetConfiguration.md)
-- [DeliveryLocationSetConfigurationInput](DeliveryLocationSetConfigurationInput.md)
-- [DeliveryLocationSetListResponse](DeliveryLocationSetListResponse.md)
-- [DeliveryLocationSetResponse](DeliveryLocationSetResponse.md)
 

@@ -16,16 +16,18 @@ import type {
     InvoiceDeliveryAttempt,
     InvoiceDeliveryAttemptListResponse,
     InvoiceListResponse,
-    InvoiceManualPayment,
+    InvoiceManualPayment
+} from '../declarations/types-26.js';
+import type {
     InvoiceManualPaymentListResponse,
     InvoiceManualPaymentResponse,
     InvoiceManualPaymentResult,
     InvoiceManualPaymentResultResponse,
     InvoicePaymentAttempt,
     InvoicePaymentAttemptListResponse,
-    InvoicePaymentAttemptResponse
-} from '../declarations/types-26.js';
-import type { InvoiceResponse } from '../declarations/types-27.js';
+    InvoicePaymentAttemptResponse,
+    InvoiceResponse
+} from '../declarations/types-27.js';
 import type {
     InvoicesAssessLateFeeInput,
     InvoicesCancelPaymentAttemptInput,
@@ -55,10 +57,10 @@ import type {
 } from '../declarations/types-28.js';
 import type { RequestOptions, ResourceVersionRequestInput } from '../declarations/types-40.js';
 import type { ReverseInvoiceManualPaymentRequestInput } from '../declarations/types-42.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateInvoiceRequestInput } from '../declarations/types-48.js';
-import type { WaiveInvoiceLateFeeRequestInput } from '../declarations/types-49.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { WaiveInvoiceLateFeeRequestInput } from '../declarations/types-50.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -82,11 +84,93 @@ export type {
 export type {
     InvoicePaymentAttempt,
     InvoicePaymentAttemptResponse,
-    Invoice,
+    InvoiceResponse,
     InvoiceManualPaymentResult,
     InvoiceManualPaymentResultResponse,
-    InvoiceManualPayment,
     InvoiceManualPaymentResponse,
+    InvoiceManualPaymentListResponse,
+    InvoicePaymentAttemptListResponse,
+    InvoicePaymentPolicyInput,
+    InvoicePaymentOptionLimitInput,
+    InvoicePaymentDueRequestInput,
+    InvoicePaymentDueInputNoneInput,
+    InvoicePaymentDueInputDateInput,
+    InvoicePaymentDueInputPaymentTermsInput,
+    InvoicePaymentDueInputCustomerDefaultInput,
+    InvoicePaymentDueInputMerchantDefaultInput,
+    InvoiceScheduleAmountSpecificationInput,
+    InvoiceScheduleAmountSpecificationFixedInput,
+    InvoiceScheduleAmountSpecificationPercentageInput,
+    InvoiceScheduleAmountSpecificationRemainingBalanceInput,
+    InvoicePaymentPolicy,
+    InvoicePaymentOptionLimit,
+    InvoicePaymentDue,
+    InvoicePaymentDueNone,
+    InvoicePaymentDueDate,
+    InvoicePaymentDuePaymentTerms,
+    InvoicePaymentTermsSnapshot,
+    InvoicePaymentTermCalculation,
+    InvoicePaymentTermCalculationOnReceipt,
+    InvoicePaymentTermCalculationNetDays,
+    InvoicePaymentTermCalculationDaysAfterMonthEnd,
+    InvoicePaymentTermCalculationDayOfMonth,
+    InvoicePaymentTermCalculationDayOfNextMonth,
+    InvoiceScheduleAmountSpecification,
+    InvoiceScheduleAmountSpecificationFixed,
+    InvoiceScheduleAmountSpecificationPercentage,
+    InvoiceScheduleAmountSpecificationRemainingBalance,
+    InvoiceScheduleDue,
+    InvoiceScheduleDueAtIssue,
+    InvoiceScheduleDueDate,
+    InvoiceScheduleDueInvoiceDueDate
+} from '../declarations/types-27.js';
+export type {
+    SdkResponse,
+    SubscribedLineRequestInput,
+    SettlementAmounts,
+    SelectedProductOption,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    SelectableOrderPaymentIntent
+} from '../declarations/types-44.js';
+export type {
+    CollectInvoiceRequestInput,
+    CollectInvoiceResult,
+    CollectInvoiceResponse,
+    ClientOptions,
+    CheckoutRedirectsRequestInput,
+    CheckoutSession,
+    CheckoutDeliveryPinnedDependency,
+    CheckoutDerivedDeliveryResource,
+    CheckoutGiftCardChallenge,
+    CheckoutMerchantSupport,
+    CheckoutPaymentMethodSave,
+    CheckoutPaymentConfig,
+    CheckoutPrefill,
+    CheckoutProblemResource,
+    CheckoutPromotionConfig,
+    CheckoutRedirects,
+    CheckoutSubscriptionTerms,
+    CheckoutSubscriptionRecurringShipping,
+    CheckoutSessionTax,
+    CheckoutTaxLocation,
+    CheckoutTheme,
+    CheckoutTipConfig,
+    CollectInvoiceRequest
+} from '../declarations/types-4.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type {
+    CreateInvoiceRequestInput,
+    CreateInvoiceQuickPayRequestInput,
+    CreateInvoiceManualPaymentRequestInput,
+    CreateInvoiceIssueRequestInput,
+    CreateOrderDiscountInput,
+    CreateOrderLineItemRequestInput,
+    CreateOrderTipInput
+} from '../declarations/types-7.js';
+export type {
+    Invoice,
+    InvoiceManualPayment,
     InvoiceCheckoutSessionRequestInput,
     InvoiceCheckoutSessionResult,
     InvoiceCheckoutSessionResponse,
@@ -94,8 +178,6 @@ export type {
     InvoiceActivity,
     InvoiceDeliveryAttemptListResponse,
     InvoiceDeliveryAttempt,
-    InvoiceManualPaymentListResponse,
-    InvoicePaymentAttemptListResponse,
     InvoiceListResponse,
     InvoiceCollectionRequestInput,
     InvoiceCollectionInputMerchantDefaultInput,
@@ -113,81 +195,6 @@ export type {
     InvoiceDiscount,
     InvoiceLineItem
 } from '../declarations/types-26.js';
-export type { SdkResponse, SelectedProductOption, SelectableOrderPaymentIntent } from '../declarations/types-43.js';
-export type {
-    CollectInvoiceRequestInput,
-    CollectInvoiceResult,
-    CollectInvoiceResponse,
-    ClientOptions,
-    CheckoutRedirectsRequestInput,
-    CheckoutSession,
-    CheckoutGiftCardChallenge,
-    CheckoutMerchantSupport,
-    CheckoutPaymentMethodSave,
-    CheckoutPaymentConfig,
-    CheckoutPrefill,
-    CheckoutProblemResource,
-    CheckoutPromotionConfig,
-    CheckoutRedirects,
-    CheckoutSubscriptionTerms,
-    CheckoutSubscriptionRecurringShipping,
-    CheckoutSessionTax,
-    CheckoutTaxLocation,
-    CheckoutTheme,
-    CheckoutTipConfig,
-    CollectInvoiceRequest
-} from '../declarations/types-4.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, WeightInput } from '../declarations/types-61.js';
-export type {
-    CreateInvoiceRequestInput,
-    CreateInvoiceQuickPayRequestInput,
-    CreateInvoiceManualPaymentRequestInput,
-    CreateInvoiceIssueRequestInput,
-    CreateOrderDiscountInput,
-    CreateOrderLineItemRequestInput,
-    CreateOrderTipInput
-} from '../declarations/types-7.js';
-export type {
-    InvoiceResponse,
-    InvoicePaymentPolicyInput,
-    InvoicePaymentOptionLimitInput,
-    InvoicePaymentDueRequestInput,
-    InvoicePaymentDueInputNoneInput,
-    InvoicePaymentDueInputDateInput,
-    InvoicePaymentDueInputPaymentTermsInput,
-    InvoicePaymentDueInputCustomerDefaultInput,
-    InvoicePaymentDueInputMerchantDefaultInput,
-    InvoiceScheduleAmountSpecificationInput,
-    InvoiceScheduleAmountSpecificationFixedInput,
-    InvoiceScheduleAmountSpecificationPercentageInput,
-    InvoiceScheduleAmountSpecificationRemainingBalanceInput,
-    InvoiceScheduleDueWriteInput,
-    InvoiceScheduleDueWriteAtIssueInput,
-    InvoiceScheduleDueWriteDateInput,
-    InvoiceScheduleDueWriteInvoiceDueDateInput,
-    InvoicePaymentPolicy,
-    InvoicePaymentOptionLimit,
-    InvoicePaymentDue,
-    InvoicePaymentDueNone,
-    InvoicePaymentDueDate,
-    InvoicePaymentDuePaymentTerms,
-    InvoicePaymentTermsSnapshot,
-    InvoicePaymentTermCalculation,
-    InvoicePaymentTermCalculationOnReceipt,
-    InvoicePaymentTermCalculationNetDays,
-    InvoicePaymentTermCalculationDaysAfterMonthEnd,
-    InvoicePaymentTermCalculationDayOfMonth,
-    InvoicePaymentTermCalculationDayOfNextMonth,
-    InvoiceScheduleEntry,
-    InvoiceScheduleAmountSpecification,
-    InvoiceScheduleAmountSpecificationFixed,
-    InvoiceScheduleAmountSpecificationPercentage,
-    InvoiceScheduleAmountSpecificationRemainingBalance,
-    InvoiceScheduleDue,
-    InvoiceScheduleDueAtIssue,
-    InvoiceScheduleDueDate,
-    InvoiceScheduleDueInvoiceDueDate
-} from '../declarations/types-27.js';
 export type {
     AssessInvoiceLateFeeRequestInput,
     AuthMode,
@@ -225,18 +232,23 @@ export type {
     InvoicesVoidResourceInput,
     InvoicesWaiveLateFeeInput,
     InvoiceScheduleEntryWriteInput,
+    InvoiceScheduleDueWriteInput,
+    InvoiceScheduleDueWriteAtIssueInput,
+    InvoiceScheduleDueWriteDateInput,
+    InvoiceScheduleDueWriteInvoiceDueDateInput,
     InvoiceScheduleEntryWriteDepositInput,
     InvoiceScheduleEntryWriteInstallmentInput,
     InvoiceScheduleEntryWriteBalanceInput,
     LineItemFulfillmentRequestInput,
     LineItemFulfillmentOriginRequestInput,
+    InvoiceScheduleEntry,
     InvoiceSnapshot,
     InvoiceTip,
     LegalSettings
 } from '../declarations/types-28.js';
 export type { ReverseInvoiceManualPaymentRequestInput } from '../declarations/types-42.js';
 export type { UpdateInvoiceRequestInput } from '../declarations/types-48.js';
-export type { WaiveInvoiceLateFeeRequestInput, WaiveInvoiceLateFeeRequest } from '../declarations/types-49.js';
+export type { WaiveInvoiceLateFeeRequestInput, WaiveInvoiceLateFeeRequest } from '../declarations/types-50.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-31.js';
 export type {
@@ -279,20 +291,18 @@ export type {
 } from '../declarations/types-32.js';
 export type { ManualDiscountRequestInput, MeCreateInvoiceCheckoutSessionInput } from '../declarations/types-29.js';
 export type { PromotionRefRequestInput } from '../declarations/types-38.js';
+export type { GiftCardPurchaseDetailsRequestInput, GiftCardPurchaseRecipientRequestInput, Image } from '../declarations/types-19.js';
+export type { ImageReferenceRequestInput, ImageReferenceRequest } from '../declarations/types-20.js';
 export type {
-    GiftCardPurchaseDetailsRequestInput,
-    GiftCardPurchaseRecipientRequestInput,
-    ImageReferenceRequestInput,
-    Image,
-    ImageReferenceRequest
-} from '../declarations/types-19.js';
-export type { TextModifierRequestInput, TextModifierRequest } from '../declarations/types-47.js';
-export type {
-    SubscribedLineRequestInput,
-    SettlementAmounts,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction
-} from '../declarations/types-44.js';
+    TextModifierRequestInput,
+    TaxIdentity,
+    TextModifierRequest,
+    TaxBreakdown,
+    TaxJurisdiction,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount
+} from '../declarations/types-47.js';
+export type { WeightInput } from '../declarations/types-61.js';
 export type {
     OrderTaxRequestInput,
     OrderTaxCalculationRequestInput,
@@ -313,9 +323,7 @@ export type {
     CategoryReference,
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
-    CheckoutCustomerPrefill,
-    CheckoutDeliveryPinnedDependency,
-    CheckoutDerivedDeliveryResource
+    CheckoutCustomerPrefill
 } from '../declarations/types-3.js';
 export type {
     PricingAmounts,
@@ -324,7 +332,6 @@ export type {
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject
 } from '../declarations/types-37.js';
-export type { TaxIdentity, TaxBreakdown, TaxJurisdiction, TaxBreakdownPercentage, TaxBreakdownFlatAmount } from '../declarations/types-46.js';
 export type {
     DeliveryQuoteChoiceGroupResource,
     DeliveryQuoteExecutionLegResource,
@@ -340,8 +347,7 @@ export type {
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
-    DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch
+    DeliveryCandidateOutcomeResourceRequiresCheckoutContext
 } from '../declarations/types-11.js';
 export type {
     DeliveryInputRequirement,
@@ -351,40 +357,47 @@ export type {
     DeliveryPickupDetails,
     DeliveryLocationSummaryResource,
     DeliveryMerchantDiagnostic,
-    DeliveryPreviewRoutingSourceInput
+    DeliveryEligibilityMismatch
 } from '../declarations/types-12.js';
 export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-15.js';
 export type { BuyerInstructionsConfig } from '../declarations/types-1.js';
 export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-36.js';
 export type { SubscriptionIntervalOption } from '../declarations/types-45.js';
 export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-5.js';
-export { makeAddressRequest, makeAssessInvoiceLateFeeRequest, makeBuyerInstructionsConfig } from '../declarations/types-61.js';
+export type { DeliveryPreviewRoutingSourceInput } from '../declarations/types-13.js';
 export {
+    makeAddressRequest,
+    makeAssessInvoiceLateFeeRequest,
+    makeBuyerInstructionsConfig,
     makeCheckoutBuyerFields,
     makeCheckoutPromotionConfig,
     makeCheckoutRedirectsRequest,
-    makeCheckoutTipConfig,
-    makeCollectInvoiceRequest,
-    makeConfirmReturnResolutionRequest
+    makeCheckoutTipConfig
 } from '../declarations/types-62.js';
+export { makeCollectInvoiceRequest, makeConfirmReturnResolutionRequest } from '../declarations/types-63.js';
 export {
     makeCreateInvoiceIssueRequest,
     makeCreateInvoiceManualPaymentRequest,
     makeCreateInvoiceQuickPayRequest,
-    makeCreateInvoiceRequest
-} from '../declarations/types-63.js';
-export { makeCreateOrderDiscount, makeCreateOrderLineItemRequest, makeCreateOrderTip } from '../declarations/types-64.js';
-export { makeDeliveryAddressRequest, makeDeliveryPreviewRoutingSource } from '../declarations/types-65.js';
+    makeCreateInvoiceRequest,
+    makeCreateOrderDiscount,
+    makeCreateOrderLineItemRequest,
+    makeCreateOrderTip
+} from '../declarations/types-64.js';
+export { makeDeliveryAddressRequest } from '../declarations/types-65.js';
 export {
+    makeDeliveryPreviewRoutingSource,
     makeDeliveryRecipientRequirement,
     makeDeliveryWindowRequest,
     makeDimensions,
-    makeDocumentTaxID,
-    makeGiftCardPurchaseDetailsRequest
+    makeDocumentTaxID
 } from '../declarations/types-66.js';
 export {
+    makeGiftCardPurchaseDetailsRequest,
     makeGiftCardPurchaseRecipientRequest,
-    makeImageReferenceRequest,
+    makeImageReferenceRequest
+} from '../declarations/types-67.js';
+export {
     makeInvoiceCheckoutSessionRequest,
     makeInvoiceCollectionInputAutomatic,
     makeInvoiceCollectionInputBuyerInitiated,
@@ -407,9 +420,7 @@ export {
     makeInvoicePaymentTermCalculationDayOfNextMonth,
     makeInvoicePaymentTermCalculationDaysAfterMonthEnd,
     makeInvoicePaymentTermCalculationNetDays,
-    makeInvoicePaymentTermCalculationOnReceipt
-} from '../declarations/types-67.js';
-export {
+    makeInvoicePaymentTermCalculationOnReceipt,
     makeInvoiceScheduleAmountSpecification,
     makeInvoiceScheduleAmountSpecificationFixed,
     makeInvoiceScheduleAmountSpecificationPercentage,
@@ -427,7 +438,9 @@ export {
     makeLineItemFulfillmentRequest,
     makeManualDiscountRequest,
     makeMoneyValue,
-    makeOrderCalculatedChargeTax,
+    makeOrderCalculatedChargeTax
+} from '../declarations/types-68.js';
+export {
     makeOrderDeliveryDestinationAddressRequest,
     makeOrderDeliveryDestinationRecipientRequest,
     makeOrderDeliveryDestinationRequest,
@@ -443,26 +456,23 @@ export {
     makeOrderTaxCalculationRequest,
     makeOrderTaxComponentRequest,
     makeOrderTaxJurisdictionRequest,
-    makeOrderTaxLocationFullAddressRequest
-} from '../declarations/types-68.js';
-export {
+    makeOrderTaxLocationFullAddressRequest,
     makeOrderTaxLocationInputFullAddress,
     makeOrderTaxLocationInputInferredFullAddress,
     makeOrderTaxLocationInputInferredPostalCode,
     makeOrderTaxLocationInputPostalCode,
     makeOrderTaxLocationPostalAddressRequest,
     makeOrderTaxLocationRequest,
-    makeOrderTaxRequest,
-    makePromotionRefRequest
+    makeOrderTaxRequest
 } from '../declarations/types-69.js';
-export { makeResourceVersionRequest, makeReverseInvoiceManualPaymentRequest } from '../declarations/types-70.js';
+export { makePromotionRefRequest, makeResourceVersionRequest } from '../declarations/types-70.js';
+export { makeReverseInvoiceManualPaymentRequest, makeSubscribedLineRequest } from '../declarations/types-71.js';
 export {
-    makeSubscribedLineRequest,
     makeSubscriptionIntervalOption,
     makeTaxJurisdiction,
-    makeTextModifierRequest
-} from '../declarations/types-71.js';
-export { makeUpdateInvoiceRequest } from '../declarations/types-72.js';
+    makeTextModifierRequest,
+    makeUpdateInvoiceRequest
+} from '../declarations/types-72.js';
 export { makeWaiveInvoiceLateFeeRequest, makeWeight } from '../declarations/types-73.js';
 export interface InvoicesResource {
     /**
@@ -480,13 +490,13 @@ export interface InvoicesResource {
  */
     cancelPaymentAttempt(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InvoicePaymentAttempt>;
+    }, options?: RequestOptions<"merchant">): Promise<InvoicePaymentAttempt>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicescancelpaymentattempt
      */
     cancelPaymentAttemptWithResponse(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoicePaymentAttemptResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoicePaymentAttemptResponse>>;
     /**
  * Charges the invoice's saved payment method or the supplied saved payment method. This command
  * requires a caller-chosen Idempotency-Key that is reused for retries of the same collection
@@ -500,13 +510,13 @@ export interface InvoicesResource {
  */
     collect(invoice_id: InputValue<string>, params: (InputValue<CollectInvoiceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CollectInvoiceResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<CollectInvoiceResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicescollect
      */
     collectWithResponse(invoice_id: InputValue<string>, params: (InputValue<CollectInvoiceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CollectInvoiceResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CollectInvoiceResponse>>;
     /**
  * Creates an invoice draft from exactly one source: order_id for an order-backed invoice, or
  * quick_pay for an invoice with a new backing order. Include issue to issue it immediately, using
@@ -532,7 +542,7 @@ export interface InvoicesResource {
     }))>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Invoice>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicescreate
      */
@@ -545,7 +555,7 @@ export interface InvoicesResource {
     }))>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoiceResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Assesses the frozen late fee policy once per invoice or overdue schedule entry. The issued
  * document remains unchanged.
@@ -559,14 +569,14 @@ export interface InvoicesResource {
     assessLateFee(invoice_id: InputValue<string>, params: (InputValue<AssessInvoiceLateFeeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Invoice>;
+    }, options?: RequestOptions<"merchant">): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesassesslatefee
      */
     assessLateFeeWithResponse(invoice_id: InputValue<string>, params: (InputValue<AssessInvoiceLateFeeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Applies an offline/manual payment to an issued invoice. Recording is rejected with
  * INVOICE_PAYMENT_RESOLVING while an online payment is still resolving; an idle open checkout does
@@ -583,14 +593,14 @@ export interface InvoicesResource {
     recordManualPayment(invoice_id: InputValue<string>, params: (InputValue<CreateInvoiceManualPaymentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceManualPaymentResult>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<InvoiceManualPaymentResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesrecordmanualpayment
      */
     recordManualPaymentWithResponse(invoice_id: InputValue<string>, params: (InputValue<CreateInvoiceManualPaymentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoiceManualPaymentResultResponse>>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoiceManualPaymentResultResponse>>;
     /**
  * Returns a single invoice by ID.
  * @see reference/invoices.md#invoicesget
@@ -600,13 +610,13 @@ export interface InvoicesResource {
  */
     get(invoice_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Invoice>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesget
      */
     getWithResponse(invoice_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Returns one recorded or reversed manual payment for the invoice.
  * @see reference/invoices.md#invoicesgetmanualpayment
@@ -614,11 +624,11 @@ export interface InvoicesResource {
  * @example
  * client.invoices.getManualPayment("example", "example")
  */
-    getManualPayment(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceManualPayment>;
+    getManualPayment(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoiceManualPayment>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesgetmanualpayment
      */
-    getManualPaymentWithResponse(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoiceManualPaymentResponse>>;
+    getManualPaymentWithResponse(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoiceManualPaymentResponse>>;
     /**
  * Returns one card or ACH collection attempt for the invoice.
  * @see reference/invoices.md#invoicesgetpaymentattempt
@@ -626,11 +636,11 @@ export interface InvoicesResource {
  * @example
  * client.invoices.getPaymentAttempt("example", "example")
  */
-    getPaymentAttempt(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoicePaymentAttempt>;
+    getPaymentAttempt(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoicePaymentAttempt>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesgetpaymentattempt
      */
-    getPaymentAttemptWithResponse(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicePaymentAttemptResponse>>;
+    getPaymentAttemptWithResponse(invoice_id: InputValue<string>, invoice_payment_attempt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoicePaymentAttemptResponse>>;
     /**
  * Downloads the merchant-authenticated PDF artifact generated from the invoice snapshot.
  * @see reference/invoices.md#invoicesgetpdf
@@ -638,7 +648,7 @@ export interface InvoicesResource {
  * @example
  * client.invoices.getPDF("example")
  */
-    getPDF(invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<InvoicesGetPDFResponse>>;
+    getPDF(invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Result<InvoicesGetPDFResponse>>;
     /**
  * Returns the current open invoice checkout session and aligned card attempt when they still match
  * the invoice balance and collection run. A newly created session and attempt share the fixed
@@ -668,7 +678,7 @@ export interface InvoicesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InvoiceCheckoutSessionResult>;
+    }, options?: RequestOptions<"merchant">): Promise<InvoiceCheckoutSessionResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesgetorcreatecheckoutsession
      */
@@ -683,7 +693,7 @@ export interface InvoicesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceCheckoutSessionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceCheckoutSessionResponse>>;
     /**
  * Issues the invoice, creates the buyer-access link, and uses the selected delivery mode. Safe to
  * retry with the same Idempotency-Key.
@@ -696,13 +706,13 @@ export interface InvoicesResource {
  */
     issue(invoice_id: InputValue<string>, params: (InputValue<IssueInvoiceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Invoice>;
+    }, options?: RequestOptions<"merchant">): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesissue
      */
     issueWithResponse(invoice_id: InputValue<string>, params: (InputValue<IssueInvoiceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Returns a read-only history of an invoice for timelines and debugging, newest first. Use
  * sort_direction=asc for chronological order. Read the invoice and the resources each row
@@ -741,7 +751,7 @@ export interface InvoicesResource {
             | "late_fee_assessed"
             | "late_fee_waived"
             | "credited">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceActivityListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoiceActivityListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoiceslistactivities
      */
@@ -774,7 +784,7 @@ export interface InvoicesResource {
             | "late_fee_assessed"
             | "late_fee_waived"
             | "credited">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoiceActivityListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoiceActivityListResponse>>;
     /** Iterate pages lazily.
      * @see reference/invoices.md#invoiceslistactivities
      */
@@ -807,7 +817,7 @@ export interface InvoicesResource {
             | "late_fee_assessed"
             | "late_fee_waived"
             | "credited">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceActivityListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoiceActivityListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/invoices.md#invoiceslistactivities
      */
@@ -840,7 +850,7 @@ export interface InvoicesResource {
             | "late_fee_assessed"
             | "late_fee_waived"
             | "credited">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoiceActivityListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InvoiceActivityListResponse>>;
     /** Iterate items lazily.
      * @see reference/invoices.md#invoiceslistactivities
      */
@@ -873,7 +883,7 @@ export interface InvoicesResource {
             | "late_fee_assessed"
             | "late_fee_waived"
             | "credited">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceActivity>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoiceActivity>;
     /**
  * Returns email delivery attempts for send and reminder actions.
  * @see reference/invoices.md#invoiceslistdeliveryattempts
@@ -884,35 +894,35 @@ export interface InvoicesResource {
     listDeliveryAttempts(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceDeliveryAttemptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoiceDeliveryAttemptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoiceslistdeliveryattempts
      */
     listDeliveryAttemptsWithResponse(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoiceDeliveryAttemptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoiceDeliveryAttemptListResponse>>;
     /** Iterate pages lazily.
      * @see reference/invoices.md#invoiceslistdeliveryattempts
      */
     listDeliveryAttemptsPages(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceDeliveryAttemptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoiceDeliveryAttemptListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/invoices.md#invoiceslistdeliveryattempts
      */
     listDeliveryAttemptsPagesWithResponse(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoiceDeliveryAttemptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InvoiceDeliveryAttemptListResponse>>;
     /** Iterate items lazily.
      * @see reference/invoices.md#invoiceslistdeliveryattempts
      */
     listDeliveryAttemptsItems(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceDeliveryAttempt>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoiceDeliveryAttempt>;
     /**
  * Lists every manual payment, including reversed payments, ordered by received_at descending with
  * invoice_manual_payment_id descending as the tiebreaker.
@@ -924,35 +934,40 @@ export interface InvoicesResource {
     listManualPayments(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceManualPaymentListResponse>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoiceManualPaymentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoiceslistmanualpayments
      */
     listManualPaymentsWithResponse(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoiceManualPaymentListResponse>>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoiceManualPaymentListResponse>>;
     /** Iterate pages lazily.
      * @see reference/invoices.md#invoiceslistmanualpayments
      */
     listManualPaymentsPages(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceManualPaymentListResponse>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoiceManualPaymentListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/invoices.md#invoiceslistmanualpayments
      */
     listManualPaymentsPagesWithResponse(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoiceManualPaymentListResponse>>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InvoiceManualPaymentListResponse>>;
     /** Iterate items lazily.
      * @see reference/invoices.md#invoiceslistmanualpayments
      */
     listManualPaymentsItems(invoice_id: InputValue<string>, params?: {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceManualPayment>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoiceManualPayment>;
     /**
  * Lists card and ACH collection attempts for an invoice in reverse chronological order.
  * @see reference/invoices.md#invoiceslistpaymentattempts
@@ -964,7 +979,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoicePaymentAttemptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoicePaymentAttemptListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoiceslistpaymentattempts
      */
@@ -972,7 +987,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoicePaymentAttemptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoicePaymentAttemptListResponse>>;
     /** Iterate pages lazily.
      * @see reference/invoices.md#invoiceslistpaymentattempts
      */
@@ -980,7 +995,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoicePaymentAttemptListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoicePaymentAttemptListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/invoices.md#invoiceslistpaymentattempts
      */
@@ -988,7 +1003,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoicePaymentAttemptListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InvoicePaymentAttemptListResponse>>;
     /** Iterate items lazily.
      * @see reference/invoices.md#invoiceslistpaymentattempts
      */
@@ -996,7 +1011,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "idempotency_key"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoicePaymentAttempt>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoicePaymentAttempt>;
     /**
  * Returns a paginated list of invoices for the authenticated merchant.
  * @see reference/invoices.md#invoiceslist
@@ -1008,6 +1023,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
+        "idempotency_key"?: InputValue<string>;
         "customer_id"?: InputValue<string>;
         "order_id"?: InputValue<string>;
         "subscription_id"?: InputValue<string>;
@@ -1028,7 +1044,7 @@ export interface InvoicesResource {
         "sort_direction"?: InputValue<"asc" | "desc">;
         "query"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InvoiceListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InvoiceListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoiceslist
      */
@@ -1036,6 +1052,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
+        "idempotency_key"?: InputValue<string>;
         "customer_id"?: InputValue<string>;
         "order_id"?: InputValue<string>;
         "subscription_id"?: InputValue<string>;
@@ -1056,7 +1073,7 @@ export interface InvoicesResource {
         "sort_direction"?: InputValue<"asc" | "desc">;
         "query"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InvoiceListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InvoiceListResponse>>;
     /** Iterate pages lazily.
      * @see reference/invoices.md#invoiceslist
      */
@@ -1064,6 +1081,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
+        "idempotency_key"?: InputValue<string>;
         "customer_id"?: InputValue<string>;
         "order_id"?: InputValue<string>;
         "subscription_id"?: InputValue<string>;
@@ -1084,7 +1102,7 @@ export interface InvoicesResource {
         "sort_direction"?: InputValue<"asc" | "desc">;
         "query"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InvoiceListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InvoiceListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/invoices.md#invoiceslist
      */
@@ -1092,6 +1110,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
+        "idempotency_key"?: InputValue<string>;
         "customer_id"?: InputValue<string>;
         "order_id"?: InputValue<string>;
         "subscription_id"?: InputValue<string>;
@@ -1112,7 +1131,7 @@ export interface InvoicesResource {
         "sort_direction"?: InputValue<"asc" | "desc">;
         "query"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InvoiceListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InvoiceListResponse>>;
     /** Iterate items lazily.
      * @see reference/invoices.md#invoiceslist
      */
@@ -1120,6 +1139,7 @@ export interface InvoicesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited">>;
+        "idempotency_key"?: InputValue<string>;
         "customer_id"?: InputValue<string>;
         "order_id"?: InputValue<string>;
         "subscription_id"?: InputValue<string>;
@@ -1140,7 +1160,7 @@ export interface InvoicesResource {
         "sort_direction"?: InputValue<"asc" | "desc">;
         "query"?: InputValue<string>;
         "expand"?: InputValue<Array<"customer" | "order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Invoice>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Invoice>;
     /**
  * Closes the outstanding balance as a write-off and releases the order's invoice collection
  * authority. Safe to retry with the same Idempotency-Key.
@@ -1156,7 +1176,7 @@ export interface InvoicesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Invoice>;
+    }, options?: RequestOptions<"merchant">): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesmarkuncollectible
      */
@@ -1165,7 +1185,7 @@ export interface InvoicesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Revokes the current buyer-access link and all checkout credentials derived from it, then returns
  * a new public_url. The current checkout session and its payment lineage are preserved. Returns
@@ -1183,7 +1203,7 @@ export interface InvoicesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Invoice>;
+    }, options?: RequestOptions<"merchant">): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesregeneratepubliclink
      */
@@ -1192,7 +1212,7 @@ export interface InvoicesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Reverses the named manual payment in full and returns its amount to the invoice balance. To
  * correct an amount, reverse the payment and record the correct payment. Retries with the same
@@ -1209,14 +1229,14 @@ export interface InvoicesResource {
     reverseManualPayment(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params: (InputValue<ReverseInvoiceManualPaymentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<InvoiceManualPaymentResult>;
+    }, options?: RequestOptions<"merchant">): Promise<InvoiceManualPaymentResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesreversemanualpayment
      */
     reverseManualPaymentWithResponse(invoice_id: InputValue<string>, invoice_manual_payment_id: InputValue<string>, params: (InputValue<ReverseInvoiceManualPaymentRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceManualPaymentResultResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceManualPaymentResultResponse>>;
     /**
  * Attempts a reminder email for an already issued collectible invoice. Safe to retry with the same
  * Idempotency-Key. Accepts an empty body or {}.
@@ -1229,13 +1249,13 @@ export interface InvoicesResource {
  */
     sendReminder(invoice_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Invoice>;
+    }, options?: RequestOptions<"merchant">): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicessendreminder
      */
     sendReminderWithResponse(invoice_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Updates mutable fields on a draft invoice. Null is rejected for cc_emails, collection,
  * payment_due, schedule_entries, reminders_paused, and expected_version; omit them to leave them
@@ -1251,13 +1271,13 @@ export interface InvoicesResource {
  */
     update(invoice_id: InputValue<string>, params: (InputValue<UpdateInvoiceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Invoice>;
+    }, options?: RequestOptions<"merchant">): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesupdate
      */
     updateWithResponse(invoice_id: InputValue<string>, params: (InputValue<UpdateInvoiceRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Voids an unpaid invoice so the associated order can be edited or collected again. An invoice
  * with an issued credit note against it cannot be voided until that credit note is voided.
@@ -1273,7 +1293,7 @@ export interface InvoicesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Invoice>;
+    }, options?: RequestOptions<"merchant">): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoicesvoidresource
      */
@@ -1282,7 +1302,7 @@ export interface InvoicesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceResponse>>;
     /**
  * Waives the unpaid remainder of an assessed late fee. Collected money is not refunded. The reason
  * is visible only to the merchant.
@@ -1297,14 +1317,14 @@ export interface InvoicesResource {
     waiveLateFee(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<WaiveInvoiceLateFeeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Invoice>;
+    }, options?: RequestOptions<"merchant">): Promise<Invoice>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/invoices.md#invoiceswaivelatefee
      */
     waiveLateFeeWithResponse(invoice_id: InputValue<string>, invoice_late_fee_id: InputValue<string>, params: (InputValue<WaiveInvoiceLateFeeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<InvoiceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InvoiceResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

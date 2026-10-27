@@ -14,7 +14,7 @@ Signature:
 create(params: (InputValue<CreateInventoryReservationRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -65,7 +65,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -84,7 +84,7 @@ Retrieve an inventory reservation and its lines by ID, including merchant and or
 
 `GET /v1/inventory-reservations/{inventory_reservation_id}`
 
-Signature: `get(inventory_reservation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(inventory_reservation_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -117,7 +117,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -155,7 +155,7 @@ list(params?: {
   "updated_after"?: InputValue<string | globalThis.Date>;
   "updated_before"?: InputValue<string | globalThis.Date>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -170,7 +170,7 @@ list(params?: {
 | `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"closed"`. |
 | `owner_type` | Optional | Array of string | minItems: `1`. Items values: `"merchant"`, `"order"`. |
 | `owner_key` | Optional | string |  |
-| `idempotency_key` | Optional | string |  |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `has_at_risk_quantity` | Optional | boolean |  |
 | `closed_reason` | Optional | Array of string | minItems: `1`. Items values: `"consumed"`, `"released"`, `"expired"`, `"reallocated"`, `"mixed"`. |
 | `expires_after` | Optional | string | Format: `date-time`. |
@@ -205,7 +205,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -308,7 +308,7 @@ Complete body and metadata: `transitionWithResponse`. See [response modes](../RU
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -334,7 +334,7 @@ update(inventory_reservation_id: InputValue<string>,
  params: (InputValue<UpdateInventoryReservationRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -381,7 +381,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

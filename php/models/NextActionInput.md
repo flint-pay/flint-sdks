@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [26 declared values](#nextactioninput-action_type-values). |
+| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [24 declared values](#nextactioninput-action_type-values). |
 | `expires_at` | Optional | string | When this suggested action expires, in RFC3339 format. Format: `date-time`. |
 | `merchant_account_session` | Optional | [NextActionMerchantAccountSessionInput](../models/NextActionMerchantAccountSessionInput.md#nextactionmerchantaccountsessioninput) | Request body fields to send to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. Recommended request body fields for creating a merchant account session when a next action is `create_merchant_account_session`. |
 | `reason_code` | Optional | string | Machine-readable reason this action is suggested. |
@@ -28,8 +28,6 @@ Request input.
 - `"capture_payment_intent"`
 - `"cancel_payment_intent"`
 - `"get_order"`
-- `"capture_order_payment"`
-- `"cancel_order_payment"`
 - `"pay_order"`
 - `"close_order"`
 - `"add_line_items"`

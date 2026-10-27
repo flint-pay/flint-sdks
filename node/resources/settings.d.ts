@@ -2,8 +2,8 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CustomDomain, CustomDomainResponse } from '../declarations/types-10.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
 import type {
+    SdkResponse,
     Settings,
     SettingsGetEffectiveInput,
     SettingsGetInput,
@@ -12,7 +12,7 @@ import type {
     SettingsValidateCustomDomainInput
 } from '../declarations/types-44.js';
 import type { UpdateSettingsRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,17 +25,17 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     Settings,
+    SdkResponse,
     SettingsResponse,
     SettingsGetEffectiveInput,
     SettingsGetInput,
     SettingsUpdateInput,
     SettingsValidateCustomDomainInput
 } from '../declarations/types-44.js';
-export type { SdkResponse } from '../declarations/types-43.js';
 export type { UpdateSettingsRequestInput } from '../declarations/types-49.js';
 export type {
     CustomDomain,
@@ -95,18 +95,21 @@ export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyVal
 export type { PaymentLimitSettings, PaymentLimitSettingsPatchInput } from '../declarations/types-35.js';
 export type { PromotionSettings, PromotionSettingsInput } from '../declarations/types-38.js';
 export type { ReceiptSettings, ReceiptSettingsRequestInput, ReceiptSettingsRequest } from '../declarations/types-39.js';
+export type { SubscriptionSettings, SubscriptionSettingsInput } from '../declarations/types-46.js';
 export type {
-    SubscriptionSettings,
     TaxSettings,
     TaxIdentity,
-    SubscriptionSettingsInput,
+    TippingSettings,
     TaxSettingsRequestInput,
-    TaxIdentityPatchInput
-} from '../declarations/types-46.js';
+    TaxIdentityPatchInput,
+    TippingSettingsPatchInput
+} from '../declarations/types-47.js';
 export type { DocumentTaxID, DocumentTaxIDInput } from '../declarations/types-16.js';
-export type { TippingSettings, TippingSettingsPatchInput } from '../declarations/types-47.js';
-export { makeAddressRequest, makeBrandingSettingsRequest, makeBuyerCapabilities, makeBuyerPauseCapability } from '../declarations/types-61.js';
 export {
+    makeAddressRequest,
+    makeBrandingSettingsRequest,
+    makeBuyerCapabilities,
+    makeBuyerPauseCapability,
     makeBuyerRetentionOffer,
     makeBuyerSkipCapability,
     makeCheckoutRecoveryEmailSettings,
@@ -121,14 +124,11 @@ export {
     makeCustomerEmailDeliverySettings
 } from '../declarations/types-65.js';
 export { makeDocumentTaxID, makeFulfillmentSettings } from '../declarations/types-66.js';
+export { makeInventoryOriginPolicy, makeInventorySettings } from '../declarations/types-67.js';
 export {
-    makeInventoryOriginPolicy,
-    makeInventorySettings,
     makeInvoiceAutopayRetryPolicy,
     makeInvoicePaymentOptionLimit,
-    makeInvoicePaymentPolicy
-} from '../declarations/types-67.js';
-export {
+    makeInvoicePaymentPolicy,
     makeInvoiceReminderPolicy,
     makeInvoiceReminderRule,
     makeInvoiceSettingsPatch,
@@ -137,7 +137,7 @@ export {
 } from '../declarations/types-68.js';
 export { makePaymentLimitSettingsPatch } from '../declarations/types-69.js';
 export { makePromotionSettings, makeReceiptSettingsRequest } from '../declarations/types-70.js';
-export { makeSubscriptionSettings, makeTaxIdentityPatch, makeTaxSettingsRequest, makeTippingSettingsPatch } from '../declarations/types-71.js';
+export { makeSubscriptionSettings, makeTaxIdentityPatch, makeTaxSettingsRequest, makeTippingSettingsPatch } from '../declarations/types-72.js';
 export { makeUpdateSettingsRequest } from '../declarations/types-73.js';
 export interface SettingsResource {
     /**
@@ -148,11 +148,11 @@ export interface SettingsResource {
  * @example
  * client.settings.getEffective()
  */
-    getEffective(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Settings>;
+    getEffective(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Settings>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/settings.md#settingsgeteffective
      */
-    getEffectiveWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SettingsResponse>>;
+    getEffectiveWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SettingsResponse>>;
     /**
  * Returns the settings stored for the authenticated merchant in this environment.
  * @see reference/settings.md#settingsget
@@ -160,11 +160,11 @@ export interface SettingsResource {
  * @example
  * client.settings.get()
  */
-    get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Settings>;
+    get(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Settings>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/settings.md#settingsget
      */
-    getWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SettingsResponse>>;
+    getWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SettingsResponse>>;
     /**
  * Applies a sparse patch to merchant settings. See each field for how it is patched.
  * @see reference/settings.md#settingsupdate
@@ -176,13 +176,13 @@ export interface SettingsResource {
  */
     update(params: (InputValue<UpdateSettingsRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Settings>;
+    }, options?: RequestOptions<"merchant">): Promise<Settings>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/settings.md#settingsupdate
      */
     updateWithResponse(params: (InputValue<UpdateSettingsRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SettingsResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<SettingsResponse>>;
     /**
  * Starts provider and DNS checks for this domain. Send no body or an empty JSON object. Checks are
  * limited to once every 60 seconds per domain; rate limited responses include Retry-After.
@@ -195,13 +195,13 @@ export interface SettingsResource {
  */
     validateCustomDomain(custom_domain_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomDomain>;
+    }, options?: RequestOptions<"merchant">): Promise<CustomDomain>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/settings.md#settingsvalidatecustomdomain
      */
     validateCustomDomainWithResponse(custom_domain_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomDomainResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomDomainResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

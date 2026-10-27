@@ -16,25 +16,25 @@ namespace Flint;
 final class ReportSucceededInput extends Model {
     /** @param array{'created_at': string|\DateTimeInterface, 'currency': string, 'download': PublicDownloadInput|array<array-key, mixed>|\stdClass, 'failure_reason'?: string, 'interval_end_at': string|\DateTimeInterface, 'interval_start_at': string|\DateTimeInterface, 'report_id': string, 'report_type': string, 'status': string, 'timezone': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReportSucceededInput')); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the report was requested. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+    /** Shape $ (Value): string. Currency the report covers. A report never combines currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
      * @return string
      * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Shape $ (Value): {@see PublicDownloadInput}. A temporary link for downloading a generated report.
+    /** Shape $ (Value): {@see PublicDownloadInput}. Link to download the generated report. Present only when status is succeeded. A temporary link for downloading a generated report.
      * @return PublicDownloadInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When download is omitted; use hasDownload() or valueOrDefault().
      */
     public function getDownload(): mixed { return $this->get('download'); }
     public function hasDownload(): bool { return $this->has('download'); }
-    /** Shape $ (Value): string.  Value enum: "generation_failed", "data_unavailable", "limit_exceeded".
+    /** Shape $ (Value): string. Why the report failed. Present only when status is failed: limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs wasn't available yet, and generation_failed for other errors. Value enum: "generation_failed", "data_unavailable", "limit_exceeded".
      * @return string
      * @throws SdkError When failure_reason is omitted; use hasFailureReason() or valueOrDefault().
      */
@@ -52,7 +52,7 @@ final class ReportSucceededInput extends Model {
      */
     public function getIntervalStartAt(): string|\DateTimeInterface { return $this->get('interval_start_at'); }
     public function hasIntervalStartAt(): bool { return $this->has('interval_start_at'); }
-    /** Shape $ (Value): string. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** Shape $ (Value): string. Stable identifier of the report. pattern: ^rep_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      * @throws SdkError When report_id is omitted; use hasReportId() or valueOrDefault().
      */
@@ -64,7 +64,7 @@ final class ReportSucceededInput extends Model {
      */
     public function getReportType(): string { return $this->get('report_type'); }
     public function hasReportType(): bool { return $this->has('report_type'); }
-    /** Shape $ (Value): string.  Value enum: "succeeded".
+    /** Shape $ (Value): string. pending while Flint generates the report, then succeeded with a download or failed with a failure_reason. Flint sends report.succeeded or report.failed when it finishes. Value enum: "succeeded".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

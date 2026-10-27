@@ -1,1 +1,1 @@
-{"shared":"BuyerReturnReplacementLineItemRequest","dependencies":["BuyerReturnReplacementLineItemRequest"]}
+{"shared":"BuyerReturnReplacementLineItemRequest","dependencies":["BuyerReturnReplacementLineItemRequest","SharedCodec29","SharedCodec30","SharedCodec31","SharedCodec32"]}

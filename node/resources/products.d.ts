@@ -26,9 +26,9 @@ import type {
     ProductsUpdateVariantInput
 } from '../declarations/types-37.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from '../declarations/types-49.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -72,24 +72,20 @@ export type {
     ProductOptionValue,
     ProductVariantSelectedOptionRequest
 } from '../declarations/types-37.js';
-export type { SdkResponse, SelectedProductOption } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-61.js';
+export type { SdkResponse, SelectedProductOption } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type {
     UpdateProductRequestInput,
     UpdateProductVariantRequestInput,
     UpdateProductOptionRequestInput,
     UpdateProductOptionValueRequestInput
-} from '../declarations/types-48.js';
+} from '../declarations/types-49.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type {
-    ImageRequestInput,
-    ImageAttachment,
-    GiftCardProductConfigurationInput,
-    GiftCardProductConfiguration
-} from '../declarations/types-19.js';
+export type { ImageRequestInput } from '../declarations/types-20.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { CategoryReference } from '../declarations/types-3.js';
+export type { ImageAttachment, GiftCardProductConfigurationInput, GiftCardProductConfiguration } from '../declarations/types-19.js';
 export type {
     ModifierSet,
     ModifierSetGroup,
@@ -107,18 +103,24 @@ export type { TextModifierConfig } from '../declarations/types-47.js';
 export type { GiftCardCustomAmountBoundsInput, GiftCardCustomAmountBounds } from '../declarations/types-18.js';
 export type { InventoryItemCreateRequestInput, InventoryItemCreateRequest } from '../declarations/types-24.js';
 export type { DimensionsInput, Dimensions } from '../declarations/types-16.js';
+export type { WeightInput, Weight } from '../declarations/types-61.js';
 export { makeCreateProductOptionRequest, makeCreateProductOptionValueRequest, makeCreateProductRequest } from '../declarations/types-64.js';
-export { makeDimensions, makeGiftCardCustomAmountBounds, makeGiftCardProductConfiguration } from '../declarations/types-66.js';
-export { makeImageRequest, makeInventoryItemCreateRequest } from '../declarations/types-67.js';
+export { makeDimensions } from '../declarations/types-66.js';
+export {
+    makeGiftCardCustomAmountBounds,
+    makeGiftCardProductConfiguration,
+    makeImageRequest,
+    makeInventoryItemCreateRequest
+} from '../declarations/types-67.js';
 export { makeModifierOverride, makeMoneyValue } from '../declarations/types-68.js';
-export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-69.js';
+export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-70.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
-    makeUpdateProductVariantRequest
-} from '../declarations/types-72.js';
-export { makeWeight } from '../declarations/types-73.js';
+    makeUpdateProductVariantRequest,
+    makeWeight
+} from '../declarations/types-73.js';
 export interface ProductsResource {
     /**
  * Creates a product for the authenticated merchant.
@@ -132,13 +134,13 @@ export interface ProductsResource {
  */
     create(params: (InputValue<CreateProductRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Product>;
+    }, options?: RequestOptions<"merchant">): Promise<Product>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productscreate
      */
     createWithResponse(params: (InputValue<CreateProductRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductResponse>>;
     /**
  * Create product variant. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
  * and current_status archived. The error identifies the archived resource; a create under an
@@ -153,13 +155,13 @@ export interface ProductsResource {
  */
     createVariant(product_id: InputValue<string>, params: (InputValue<ProductVariantRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ProductVariant>;
+    }, options?: RequestOptions<"merchant">): Promise<ProductVariant>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productscreatevariant
      */
     createVariantWithResponse(product_id: InputValue<string>, params: (InputValue<ProductVariantRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductVariantResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductVariantResponse>>;
     /**
  * Archives a product and returns its final state. Returns the archived resource exactly as GET
  * returns it. Repeating DELETE returns 200 without changing version or updated_at, sending a
@@ -175,14 +177,14 @@ export interface ProductsResource {
     remove(product_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Product>;
+    }, options?: RequestOptions<"merchant">): Promise<Product>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productsremove
      */
     removeWithResponse(product_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductResponse>>;
     /**
  * Retire product variant. Returns the archived resource exactly as GET returns it. Repeating
  * DELETE returns 200 without changing version or updated_at, sending a webhook, or checking
@@ -198,14 +200,14 @@ export interface ProductsResource {
     deleteVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ProductVariant>;
+    }, options?: RequestOptions<"merchant">): Promise<ProductVariant>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productsdeletevariant
      */
     deleteVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductVariantResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductVariantResponse>>;
     /**
  * Returns a single product by ID.
  * @see reference/products.md#productsget
@@ -215,13 +217,13 @@ export interface ProductsResource {
  */
     get(product_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Product>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Product>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productsget
      */
     getWithResponse(product_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProductResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductResponse>>;
     /**
  * Get product option.
  * @see reference/products.md#productsgetoption
@@ -229,11 +231,11 @@ export interface ProductsResource {
  * @example
  * client.products.getOption("example", "example")
  */
-    getOption(product_id: InputValue<string>, option_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductOption>;
+    getOption(product_id: InputValue<string>, option_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductOption>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productsgetoption
      */
-    getOptionWithResponse(product_id: InputValue<string>, option_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProductOptionResponse>>;
+    getOptionWithResponse(product_id: InputValue<string>, option_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductOptionResponse>>;
     /**
  * Get product variant.
  * @see reference/products.md#productsgetvariant
@@ -243,13 +245,13 @@ export interface ProductsResource {
  */
     getVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductVariant>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductVariant>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productsgetvariant
      */
     getVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProductVariantResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductVariantResponse>>;
     /**
  * List product options.
  * @see reference/products.md#productslistoptions
@@ -261,7 +263,7 @@ export interface ProductsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductOptionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductOptionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productslistoptions
      */
@@ -269,7 +271,7 @@ export interface ProductsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProductOptionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductOptionListResponse>>;
     /** Iterate pages lazily.
      * @see reference/products.md#productslistoptions
      */
@@ -277,7 +279,7 @@ export interface ProductsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ProductOptionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductOptionListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/products.md#productslistoptions
      */
@@ -285,7 +287,7 @@ export interface ProductsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ProductOptionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ProductOptionListResponse>>;
     /** Iterate items lazily.
      * @see reference/products.md#productslistoptions
      */
@@ -293,7 +295,7 @@ export interface ProductsResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ProductOption>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductOption>;
     /**
  * Returns a paginated list of products for the authenticated merchant.
  * @see reference/products.md#productslist
@@ -321,7 +323,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productslist
      */
@@ -345,7 +347,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProductListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductListResponse>>;
     /** Iterate pages lazily.
      * @see reference/products.md#productslist
      */
@@ -369,7 +371,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ProductListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/products.md#productslist
      */
@@ -393,7 +395,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ProductListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ProductListResponse>>;
     /** Iterate items lazily.
      * @see reference/products.md#productslist
      */
@@ -417,7 +419,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Product>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Product>;
     /**
  * List product variants.
  * @see reference/products.md#productslistvariants
@@ -442,7 +444,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ProductVariantListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<ProductVariantListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productslistvariants
      */
@@ -463,7 +465,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ProductVariantListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductVariantListResponse>>;
     /** Iterate pages lazily.
      * @see reference/products.md#productslistvariants
      */
@@ -484,7 +486,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ProductVariantListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductVariantListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/products.md#productslistvariants
      */
@@ -505,7 +507,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ProductVariantListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<ProductVariantListResponse>>;
     /** Iterate items lazily.
      * @see reference/products.md#productslistvariants
      */
@@ -526,7 +528,7 @@ export interface ProductsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"modifier_set">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ProductVariant>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductVariant>;
     /**
  * Applies a sparse update to product-parent fields. When category_handles is present, it replaces
  * the full category list; send [] to clear it. Sellable price, SKU, and inventory live on
@@ -542,13 +544,13 @@ export interface ProductsResource {
  */
     update(product_id: InputValue<string>, params: (InputValue<UpdateProductRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Product>;
+    }, options?: RequestOptions<"merchant">): Promise<Product>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productsupdate
      */
     updateWithResponse(product_id: InputValue<string>, params: (InputValue<UpdateProductRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductResponse>>;
     /**
  * Update product variant. An archived resource returns 409 ACTION_NOT_ALLOWED with reason archived
  * and current_status archived. The error identifies the archived resource; a create under an
@@ -563,14 +565,14 @@ export interface ProductsResource {
     updateVariant(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<UpdateProductVariantRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<ProductVariant>;
+    }, options?: RequestOptions<"merchant">): Promise<ProductVariant>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/products.md#productsupdatevariant
      */
     updateVariantWithResponse(product_id: InputValue<string>, variant_id: InputValue<string>, params: (InputValue<UpdateProductVariantRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ProductVariantResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<ProductVariantResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

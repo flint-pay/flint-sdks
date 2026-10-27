@@ -2,9 +2,10 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-9.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { RotateWebhookSecretRequestInput, SdkResponse } from '../declarations/types-43.js';
-import type { UpdateWebhookEndpointRequestInput } from '../declarations/types-49.js';
+import type { RotateWebhookSecretRequestInput } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type {
+    UpdateWebhookEndpointRequestInput,
     WebhookDeliveryAction,
     WebhookDeliveryActionResponse,
     WebhookEndpoint,
@@ -20,7 +21,7 @@ import type {
     WebhookEndpointsRotateWebhookSecretInput,
     WebhookEndpointsUpdateInput
 } from '../declarations/types-50.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,6 +44,7 @@ export type {
     WebhookEndpoint,
     WebhookEndpointResponse,
     WebhookEndpointListResponse,
+    UpdateWebhookEndpointRequestInput,
     WebhookEndpointsCreateInput,
     WebhookEndpointsCreateWebhookTestEventInput,
     WebhookEndpointsRemoveInput,
@@ -51,13 +53,13 @@ export type {
     WebhookEndpointsRotateWebhookSecretInput,
     WebhookEndpointsUpdateInput
 } from '../declarations/types-50.js';
-export type { SdkResponse, RotateWebhookSecretRequestInput } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { UpdateWebhookEndpointRequestInput } from '../declarations/types-49.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RotateWebhookSecretRequestInput } from '../declarations/types-43.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-64.js';
+export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export { makeRotateWebhookSecretRequest } from '../declarations/types-71.js';
 export { makeUpdateWebhookEndpointRequest } from '../declarations/types-73.js';
@@ -75,14 +77,14 @@ export interface WebhookEndpointsResource {
     create(params: (InputValue<CreateWebhookEndpointRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<WebhookEndpointWithSecret>;
+    }, options?: RequestOptions<"merchant">): Promise<WebhookEndpointWithSecret>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEndpoints.md#webhookendpointscreate
      */
     createWithResponse(params: (InputValue<CreateWebhookEndpointRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookEndpointWithSecretResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookEndpointWithSecretResponse>>;
     /**
  * Creates and delivers a synthetic test webhook event to one active webhook endpoint. Safe to
  * retry with the same Idempotency-Key.
@@ -97,14 +99,14 @@ export interface WebhookEndpointsResource {
     createWebhookTestEvent(webhook_endpoint_id: InputValue<string>, params: (InputValue<CreateWebhookTestEventRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<WebhookDeliveryAction>;
+    }, options?: RequestOptions<"merchant">): Promise<WebhookDeliveryAction>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEndpoints.md#webhookendpointscreatewebhooktestevent
      */
     createWebhookTestEventWithResponse(webhook_endpoint_id: InputValue<string>, params: (InputValue<CreateWebhookTestEventRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookDeliveryActionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookDeliveryActionResponse>>;
     /**
  * Permanently deletes the webhook endpoint and returns it with status deleted. Its pending
  * deliveries are suppressed. The endpoint cannot be retrieved afterward, and its past deliveries
@@ -119,14 +121,14 @@ export interface WebhookEndpointsResource {
     remove(webhook_endpoint_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<WebhookEndpoint>;
+    }, options?: RequestOptions<"merchant">): Promise<WebhookEndpoint>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEndpoints.md#webhookendpointsremove
      */
     removeWithResponse(webhook_endpoint_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookEndpointResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookEndpointResponse>>;
     /**
  * Returns a single webhook endpoint by ID. The signing secret is omitted after creation.
  * @see reference/webhookEndpoints.md#webhookendpointsget
@@ -134,11 +136,11 @@ export interface WebhookEndpointsResource {
  * @example
  * client.webhookEndpoints.get("example")
  */
-    get(webhook_endpoint_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookEndpoint>;
+    get(webhook_endpoint_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookEndpoint>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEndpoints.md#webhookendpointsget
      */
-    getWithResponse(webhook_endpoint_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookEndpointResponse>>;
+    getWithResponse(webhook_endpoint_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookEndpointResponse>>;
     /**
  * Returns a page of webhook endpoints for the authenticated merchant.
  * @see reference/webhookEndpoints.md#webhookendpointslist
@@ -151,7 +153,7 @@ export interface WebhookEndpointsResource {
         "page_token"?: InputValue<string>;
         "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
         "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookEndpointListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookEndpointListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEndpoints.md#webhookendpointslist
      */
@@ -160,7 +162,7 @@ export interface WebhookEndpointsResource {
         "page_token"?: InputValue<string>;
         "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
         "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookEndpointListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookEndpointListResponse>>;
     /** Iterate pages lazily.
      * @see reference/webhookEndpoints.md#webhookendpointslist
      */
@@ -169,7 +171,7 @@ export interface WebhookEndpointsResource {
         "page_token"?: InputValue<string>;
         "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
         "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookEndpointListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookEndpointListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/webhookEndpoints.md#webhookendpointslist
      */
@@ -178,7 +180,7 @@ export interface WebhookEndpointsResource {
         "page_token"?: InputValue<string>;
         "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
         "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<WebhookEndpointListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<WebhookEndpointListResponse>>;
     /** Iterate items lazily.
      * @see reference/webhookEndpoints.md#webhookendpointslist
      */
@@ -187,7 +189,7 @@ export interface WebhookEndpointsResource {
         "page_token"?: InputValue<string>;
         "event_sources"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
         "partner_app_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookEndpoint>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookEndpoint>;
     /**
  * Issues a new signing secret, returned once. The replaced secret keeps signing deliveries until
  * previous_secret_expires_at: 24 hours by default, or expire_previous_secret_at, up to 7 days.
@@ -208,7 +210,7 @@ export interface WebhookEndpointsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<WebhookEndpointWithSecret>;
+    }, options?: RequestOptions<"merchant">): Promise<WebhookEndpointWithSecret>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEndpoints.md#webhookendpointsrotatewebhooksecret
      */
@@ -219,7 +221,7 @@ export interface WebhookEndpointsResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookEndpointWithSecretResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookEndpointWithSecretResponse>>;
     /**
  * Updates the mutable fields on a webhook endpoint.
  * @see reference/webhookEndpoints.md#webhookendpointsupdate
@@ -232,14 +234,14 @@ export interface WebhookEndpointsResource {
     update(webhook_endpoint_id: InputValue<string>, params: (InputValue<UpdateWebhookEndpointRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<WebhookEndpoint>;
+    }, options?: RequestOptions<"merchant">): Promise<WebhookEndpoint>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEndpoints.md#webhookendpointsupdate
      */
     updateWithResponse(webhook_endpoint_id: InputValue<string>, params: (InputValue<UpdateWebhookEndpointRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<WebhookEndpointResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<WebhookEndpointResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

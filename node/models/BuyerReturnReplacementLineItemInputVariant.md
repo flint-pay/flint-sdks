@@ -1,0 +1,17 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## BuyerReturnReplacementLineItemInputVariant
+
+The `variant` variant of `BuyerReturnReplacementLineItemInput`.
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `bundle_id` | Optional | string | minLength: `1`. |
+| `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `type` | Required | string | The catalog source of the replacement merchandise. Values: `"variant"`. |
+| `variant_id` | Required | string | minLength: `1`. |
+

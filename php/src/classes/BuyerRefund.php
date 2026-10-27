@@ -29,9 +29,10 @@ namespace Flint;
  * @property-read ?list<RefundTaxBreakdownRefund> $tax_breakdown_refunds
  * @property-read ?list<RefundTenderAllocation> $tender_allocations
  * @property-read ?string $updated_at
+ * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerRefund extends Model {
-    /** @param array{'amount_money': mixed, 'created_at'?: string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'reason': null, 'reason_message'?: string, 'refund_id': string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'created_at'?: string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'reason': null, 'reason_message'?: string, 'refund_id': string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerRefund')); }
     /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -168,4 +169,9 @@ final class BuyerRefund extends Model {
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

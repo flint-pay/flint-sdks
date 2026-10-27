@@ -1,7 +1,7 @@
 import type { Result, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { WebhookDelivery, WebhookDeliveryListResponse, WebhookEvent } from '../declarations/types-50.js';
 import type { WebhookEventListResponse } from '../declarations/types-52.js';
 import type { WebhookEventResponse } from '../declarations/types-53.js';
@@ -12,7 +12,7 @@ import type {
     WebhookEventsStreamInput,
     WebhookEventsStreamResponse
 } from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,10 +25,10 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type { WebhookEvent, WebhookDeliveryListResponse, WebhookDelivery } from '../declarations/types-50.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { WebhookEventResponse } from '../declarations/types-53.js';
 export type { WebhookEventListResponse } from '../declarations/types-52.js';
 export type {
@@ -51,11 +51,11 @@ export interface WebhookEventsResource {
  * @example
  * client.webhookEvents.get("example")
  */
-    get(webhook_event_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookEvent>;
+    get(webhook_event_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookEvent>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEvents.md#webhookeventsget
      */
-    getWithResponse(webhook_event_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookEventResponse>>;
+    getWithResponse(webhook_event_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookEventResponse>>;
     /**
  * Returns webhook deliveries, newest first (`created_at` descending, then `webhook_delivery_id`).
  * Includes deliveries of synthetic test events.
@@ -72,7 +72,7 @@ export interface WebhookEventsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookDeliveryListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookDeliveryListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEvents.md#webhookeventslistwebhookdeliveries
      */
@@ -84,7 +84,7 @@ export interface WebhookEventsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookDeliveryListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookDeliveryListResponse>>;
     /** Iterate pages lazily.
      * @see reference/webhookEvents.md#webhookeventslistwebhookdeliveries
      */
@@ -96,7 +96,7 @@ export interface WebhookEventsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookDeliveryListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDeliveryListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/webhookEvents.md#webhookeventslistwebhookdeliveries
      */
@@ -108,7 +108,7 @@ export interface WebhookEventsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<WebhookDeliveryListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<WebhookDeliveryListResponse>>;
     /** Iterate items lazily.
      * @see reference/webhookEvents.md#webhookeventslistwebhookdeliveries
      */
@@ -120,7 +120,7 @@ export interface WebhookEventsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookDelivery>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDelivery>;
     /**
  * Returns recent canonical webhook events for the authenticated merchant.
  * @see reference/webhookEvents.md#webhookeventslist
@@ -452,7 +452,7 @@ export interface WebhookEventsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "include"?: InputValue<Array<"test_events">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookEventListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WebhookEventListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/webhookEvents.md#webhookeventslist
      */
@@ -780,7 +780,7 @@ export interface WebhookEventsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "include"?: InputValue<Array<"test_events">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookEventListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookEventListResponse>>;
     /** Iterate pages lazily.
      * @see reference/webhookEvents.md#webhookeventslist
      */
@@ -1108,7 +1108,7 @@ export interface WebhookEventsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "include"?: InputValue<Array<"test_events">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookEventListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookEventListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/webhookEvents.md#webhookeventslist
      */
@@ -1436,7 +1436,7 @@ export interface WebhookEventsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "include"?: InputValue<Array<"test_events">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<WebhookEventListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<WebhookEventListResponse>>;
     /** Iterate items lazily.
      * @see reference/webhookEvents.md#webhookeventslist
      */
@@ -1764,7 +1764,7 @@ export interface WebhookEventsResource {
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
         "include"?: InputValue<Array<"test_events">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookEvent>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookEvent>;
     /**
  * Streams canonical merchant webhook events created after the connection opens or after the
  * supplied event ID. SSE event IDs are resumable webhook event IDs. Control records include ready,
@@ -2019,7 +2019,7 @@ export interface WebhookEventsResource {
             | "subscription_payment_retry.succeeded">>;
         "after_event_id"?: InputValue<string>;
         "Last-Event-ID"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Result<WebhookEventsStreamResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Result<WebhookEventsStreamResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

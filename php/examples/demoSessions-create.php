@@ -17,7 +17,9 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->demoSessions->create([], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->demoSessions->create([
+  'Flint-Challenge-Token' => 'example',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->demo_session_id . PHP_EOL;
 echo $result->sandbox_id . PHP_EOL;
 $client->close();

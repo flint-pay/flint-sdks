@@ -35,6 +35,7 @@ Request input.
 | `tax_breakdown_refunds` | Optional | Array of [RefundTaxBreakdownRefundInput](../models/RefundTaxBreakdownRefundInput.md#refundtaxbreakdownrefundinput) |  |
 | `tender_allocations` | Optional | Array of [RefundTenderAllocationInput](../models/RefundTenderAllocationInput.md#refundtenderallocationinput) |  |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 
 #### BuyerRefundInput failure_reason values
 

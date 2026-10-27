@@ -4,13 +4,14 @@ namespace Flint;
 /**
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string $customer_id
+ * @property-read string $expected_version
  * @property-read string|null $external_reference_id
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string|null $receipt_email
  * @property-read array{'amount': string, 'currency': string}|object|null $tip_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePaymentIntentRequestInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'receipt_email'?: string|null, 'tip_money'?: array{'amount': string, 'currency': string}|object|null, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'expected_version'?: string, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'receipt_email'?: string|null, 'tip_money'?: array{'amount': string, 'currency': string}|object|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePaymentIntentRequestInput')); }
     /** Shape $ (Value): {@see MoneyValueInput}. Payment amount. Can change only while status is requires_payment_method and before the first confirmation attempt. Cannot be cleared. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -24,6 +25,12 @@ final class UpdatePaymentIntentRequestInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Shape $ (Value): integer string. Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     */
+    public function getExpectedVersion(): string { return $this->get('expected_version'); }
+    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
     /** Shape $ (Value): string or null. Caller-owned identifier for this resource in an external system. Send null to clear it. Omit it to keep the current value. minLength: 1. maxLength: 255.
      * @return string|null
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().

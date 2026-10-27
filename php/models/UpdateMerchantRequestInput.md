@@ -16,7 +16,6 @@ Request input.
 | `icon` | Optional | [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) or null | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. |
 | `logo` | Optional | [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput) or null |  |
 | `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
-| `organization_id` | Optional | string | minLength: `1`. |
 | `phone` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `reporting_timezone` | Optional | string | minLength: `1`. |
 | `support_email` | Optional | string or null | Send null to clear it. minLength: `1`. |

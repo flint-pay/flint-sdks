@@ -1,1 +1,1 @@
-{"shared":"CancelPaymentIntentRequest","dependencies":["CancelPaymentIntentRequest"]}
+{"shared":"CancelOrderPaymentAttemptRequest","dependencies":["CancelOrderPaymentAttemptRequest"]}

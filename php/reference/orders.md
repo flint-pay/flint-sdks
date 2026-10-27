@@ -56,7 +56,7 @@ Complete body and metadata: `addChargeWithResponse`. See [response modes](../RUN
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -132,7 +132,7 @@ Complete body and metadata: `addLineItemsWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -233,7 +233,7 @@ Complete body and metadata: `applyDiscountWithResponse`. See [response modes](..
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -303,7 +303,7 @@ Complete body and metadata: `applyGiftCardWithResponse`. See [response modes](..
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -317,74 +317,6 @@ $result = $client->orders->applyGiftCard('example', [
 ```
 
 [Complete runnable example](../examples/orders-applyGiftCard.php)
-
-### orders.cancelPayment
-
-Cancels an unsettled order-owned payment leg. A leg in an active payment attempt requires the matching order_payment_attempt_id. Canceling an authorization releases the payment lock and attempt-owned holds; a staged or declined leg with no active attempt can be canceled without an attempt ID.
-
-`POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/cancel`
-
-Signature: `cancelPayment(string|Model $order_id, string|Model $payment_intent_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `payment_intent_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [CancelOrderPaymentRequestInput](../models/CancelOrderPaymentRequestInput.md#cancelorderpaymentrequestinput) | The request body for: Cancel order payment leg. |
-
-Body model: [CancelOrderPaymentRequestInput](../models/CancelOrderPaymentRequestInput.md#cancelorderpaymentrequestinput).
-
-#### orders.cancelPayment body fields
-
-Field definitions: [shared fields](../models/CancelOrderPaymentRequestInput.md#cancelorderpaymentrequestinput).
-
-#### Response
-
-Returned payload: [OrderPaymentLifecycleResult](../models/OrderPaymentLifecycleResult.md#orderpaymentlifecycleresult).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `cancelPaymentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->orders->cancelPayment('example', 'example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/orders-cancelPayment.php)
 
 ### orders.cancelPaymentAttempt
 
@@ -454,7 +386,7 @@ Complete body and metadata: `cancelPaymentAttemptWithResponse`. See [response mo
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -466,77 +398,6 @@ $result = $client->orders->cancelPaymentAttempt('example', 'example', null, new 
 ```
 
 [Complete runnable example](../examples/orders-cancelPaymentAttempt.php)
-
-### orders.capturePayment
-
-Captures an active payment authorization for an order and updates the order payment lifecycle.
-
-`POST /v1/orders/{order_id}/payment-intents/{payment_intent_id}/capture`
-
-Signature: `capturePayment(string|Model $order_id, string|Model $payment_intent_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `order_id` | Required | string |  |
-| `payment_intent_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [CaptureOrderPaymentRequestInput](../models/CaptureOrderPaymentRequestInput.md#captureorderpaymentrequestinput) | The request body for: Capture order payment. |
-
-Body model: [CaptureOrderPaymentRequestInput](../models/CaptureOrderPaymentRequestInput.md#captureorderpaymentrequestinput).
-
-#### orders.capturePayment body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValueInput](../models/CreditNoteLineItemCorrectionQuantityAmountMoney.md#creditnotelineitemcorrectionquantityamountmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `order_payment_attempt_id` | Optional | string | Owning Flint payment attempt ID. Required while the authorization belongs to an active attempt. minLength: `1`. |
-
-#### Response
-
-Returned payload: [OrderPaymentLifecycleResult](../models/OrderPaymentLifecycleResult.md#orderpaymentlifecycleresult).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 502 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `capturePaymentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->orders->capturePayment('example', 'example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/orders-capturePayment.php)
 
 ### orders.closeSession
 
@@ -592,7 +453,7 @@ Complete body and metadata: `closeSessionWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -670,7 +531,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -735,7 +596,7 @@ Complete body and metadata: `createAccessLinkWithResponse`. See [response modes]
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -850,7 +711,7 @@ Complete body and metadata: `createFulfillmentWithResponse`. See [response modes
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -950,6 +811,7 @@ Returned payload: [OrdersCreatePaymentIntentResponse201Data](../models/OrdersCre
 | `tip_money` | Optional | [MoneyValue](../models/CreditNoteLineItemCorrectionQuantityAmountMoney.md#creditnotelineitemcorrectionquantityamountmoney) or null | Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. |
 | `transaction_purpose` | Optional | string | Why a bank debit is taken. Set only when payment_options includes ach_debit, and fixed once the payment intent exists. Values: `"goods"`, `"services"`, `"other"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
+| `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `payment_collection` | Required | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Setup details your client uses to collect the buyer's payment details. Required on both standalone and order-owned creates. On GET, returned only for a standalone intent in requires_payment_method or requires_confirmation, and omitted for an intent owned by a checkout session when read with merchant credentials. Order-owned intents never include it on GET; use Order.payment_collection, whose selectable_payment_intents lists the staged payments. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 
 #### orders.createPaymentIntent response cancellation_reason values
@@ -1004,7 +866,7 @@ Complete body and metadata: `createPaymentIntentWithResponse`. See [response mod
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1064,7 +926,7 @@ Complete body and metadata: `deleteChargeWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1124,7 +986,7 @@ Complete body and metadata: `deleteLineItemWithResponse`. See [response modes](.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1178,7 +1040,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1228,7 +1090,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getCurrentDeliverySelectionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1290,7 +1152,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getPaymentAttemptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1368,7 +1230,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1417,7 +1279,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listActivitiesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listActivitiesItems`, `listActivitiesPages`, `listActivitiesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1431,7 +1293,7 @@ $result = $client->orders->listActivities('example', [], new RequestOptions());
 
 ### orders.listPaymentAttempts
 
-Returns payment attempts for the order, newest first. Checkout-session callers see only attempts created by their own session.
+Returns payment attempts for the order, newest first. Checkout-session callers see only attempts created by their own session. A list filtered by idempotency_key omits pending_actions; read the attempt by ID to get them.
 
 `GET /v1/orders/{order_id}/payment-attempts`
 
@@ -1442,6 +1304,7 @@ Signature: `listPaymentAttempts(string|Model $order_id, array|Model|null $params
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `order_id` | Required | string |  |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
 
@@ -1471,7 +1334,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listPaymentAttemptsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listPaymentAttemptsItems`, `listPaymentAttemptsPages`, `listPaymentAttemptsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -1604,7 +1467,7 @@ Complete body and metadata: `payWithResponse`. See [response modes](../RUNTIME.m
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1676,7 +1539,7 @@ Complete body and metadata: `removeDiscountsWithResponse`. See [response modes](
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1736,7 +1599,7 @@ Complete body and metadata: `removeGiftCardWithResponse`. See [response modes](.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1805,7 +1668,7 @@ Complete body and metadata: `repriceDiscountsWithResponse`. See [response modes]
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1872,7 +1735,7 @@ Complete body and metadata: `resolveInventoryExceptionWithResponse`. See [respon
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1940,7 +1803,7 @@ Complete body and metadata: `sendReceiptWithResponse`. See [response modes](../R
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -2018,7 +1881,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -2099,7 +1962,7 @@ Complete body and metadata: `updateChargeWithResponse`. See [response modes](../
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -2178,7 +2041,7 @@ Complete body and metadata: `updateLineItemWithResponse`. See [response modes](.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

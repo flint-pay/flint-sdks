@@ -23,6 +23,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->returns->createReceipt('example', [
   'line_items' => [
     (object) [
+      'type' => 'matched',
       'quantity' => '100',
       'return_line_item_id' => 'example',
     ],

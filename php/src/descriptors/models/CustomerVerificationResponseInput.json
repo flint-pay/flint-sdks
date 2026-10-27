@@ -1,1 +1,1 @@
-{"shared":"CustomerVerificationResponse","dependencies":["CustomerVerification","CustomerVerificationResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec963"]}
+{"shared":"CustomerVerificationResponse","dependencies":["CustomerVerification","CustomerVerificationResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}

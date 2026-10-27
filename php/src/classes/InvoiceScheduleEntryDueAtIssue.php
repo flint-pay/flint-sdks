@@ -13,7 +13,7 @@ final class InvoiceScheduleEntryDueAtIssue extends Model {
      */
     public function getDueAt(): ?string { return $this->get('due_at'); }
     public function hasDueAt(): bool { return $this->has('due_at'); }
-    /** Shape $ (Value): string.  Value enum: "at_issue".
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

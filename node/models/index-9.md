@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# DeliveryProfileOriginPolicyRequest – DiscountPreviewRequestInput
+# DeliveryProfileOriginPolicy – DeviceListResponse
 
+- [DeliveryProfileOriginPolicy](DeliveryProfileOriginPolicy.md)
+- [DeliveryProfileOriginPolicyInputFixedLocation](DeliveryProfileOriginPolicyInputFixedLocation.md)
+- [DeliveryProfileOriginPolicyInputFixedLocationInput](DeliveryProfileOriginPolicyInputFixedLocationInput.md)
+- [DeliveryProfileOriginPolicyInputInventoryRouting](DeliveryProfileOriginPolicyInputInventoryRouting.md)
+- [DeliveryProfileOriginPolicyInputInventoryRoutingInput](DeliveryProfileOriginPolicyInputInventoryRoutingInput.md)
+- [DeliveryProfileOriginPolicyInputMethodOrigin](DeliveryProfileOriginPolicyInputMethodOrigin.md)
+- [DeliveryProfileOriginPolicyInputMethodOriginInput](DeliveryProfileOriginPolicyInputMethodOriginInput.md)
 - [DeliveryProfileOriginPolicyRequest](DeliveryProfileOriginPolicyRequest.md)
 - [DeliveryProfileOriginPolicyRequestInput](DeliveryProfileOriginPolicyRequestInput.md)
 - [DeliveryProfileResponse](DeliveryProfileResponse.md)
@@ -95,11 +102,4 @@
 - [DeveloperSandbox](DeveloperSandbox.md)
 - [Device](Device.md)
 - [DeviceListResponse](DeviceListResponse.md)
-- [DeviceResponse](DeviceResponse.md)
-- [DigitalFulfillmentDetails](DigitalFulfillmentDetails.md)
-- [Dimensions](Dimensions.md)
-- [DimensionsInput](DimensionsInput.md)
-- [DiscountPreview](DiscountPreview.md)
-- [DiscountPreviewRequest](DiscountPreviewRequest.md)
-- [DiscountPreviewRequestInput](DiscountPreviewRequestInput.md)
 

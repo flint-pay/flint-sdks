@@ -3,8 +3,8 @@ import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateFileRequestInput } from '../declarations/types-6.js';
 import type { File, FileResponse, FilesCompleteInput, FilesCreateInput, FilesGetInput } from '../declarations/types-17.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -19,9 +19,9 @@ export type {
 } from '../runtime.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type { File, FileResponse, FilesCompleteInput, FilesCreateInput, FilesGetInput, FileUpload } from '../declarations/types-17.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { CreateFileRequestInput } from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -49,13 +49,13 @@ export interface FilesResource {
  */
     complete(file_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<File>;
+    }, options?: RequestOptions<"merchant">): Promise<File>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/files.md#filescomplete
      */
     completeWithResponse(file_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<FileResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<FileResponse>>;
     /**
  * Upload a local image to Flint. Create a file, PUT the bytes to upload.url with upload.method and
  * every upload.headers value, then POST /v1/files/{file_id}/complete. The URL works for 15
@@ -80,13 +80,13 @@ export interface FilesResource {
  */
     create(params: (InputValue<CreateFileRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<File>;
+    }, options?: RequestOptions<"merchant">): Promise<File>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/files.md#filescreate
      */
     createWithResponse(params: (InputValue<CreateFileRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<FileResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<FileResponse>>;
     /**
  * Returns a file's current status without upload credentials. Purpose requires its own read scope:
  * product and product_variant use commerce.products.read; bundle uses commerce.bundles.read;
@@ -102,11 +102,11 @@ export interface FilesResource {
  * @example
  * client.files.get("example")
  */
-    get(file_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<File>;
+    get(file_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<File>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/files.md#filesget
      */
-    getWithResponse(file_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<FileResponse>>;
+    getWithResponse(file_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<FileResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -27,6 +27,7 @@ const envelope = {
     payment_options: ["us_bank_account"],
     status: "requires_confirmation",
     support_reference: "synthetic",
+    version: 1,
     supported_actions: [],
     last_payment_error: null,
     payment_collection: {

@@ -20,10 +20,10 @@ import type {
     PackagesVoidResourceInput
 } from '../declarations/types-34.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdatePackageItemRequestInput, UpdatePackageRequestInput } from '../declarations/types-48.js';
-import type { VoidPackageRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { VoidPackageRequestInput } from '../declarations/types-50.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -65,10 +65,10 @@ export type {
     PackageTransitionRequestMarkReturnedInput,
     PackageTransitionRequestMarkShippedInput
 } from '../declarations/types-34.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency, Weight, WeightInput } from '../declarations/types-61.js';
+export type { SdkResponse, SettlementAmounts } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdatePackageRequestInput, UpdatePackageItemRequestInput } from '../declarations/types-48.js';
-export type { VoidPackageRequestInput } from '../declarations/types-49.js';
+export type { VoidPackageRequestInput } from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -76,11 +76,12 @@ export type { ExpandedOrderSummary, Dimensions, DimensionsInput } from '../decla
 export type { CheckoutBuyerContact } from '../declarations/types-3.js';
 export type { PricingAmounts } from '../declarations/types-37.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export type { SettlementAmounts } from '../declarations/types-44.js';
-export type { ReturnResolutionLineItemRequest } from '../declarations/types-41.js';
-export type { FulfillmentTransitionRequestMarkPackedInput } from '../declarations/types-17.js';
+export type { ReturnResolutionLineItemRequest } from '../declarations/types-42.js';
+export type { Weight, WeightInput } from '../declarations/types-61.js';
+export type { FulfillmentTransitionRequestMarkPackedInput } from '../declarations/types-18.js';
 export { makeCreatePackageItemRequest } from '../declarations/types-64.js';
-export { makeDimensions, makeFulfillmentTransitionRequestMarkPacked } from '../declarations/types-66.js';
+export { makeDimensions } from '../declarations/types-66.js';
+export { makeFulfillmentTransitionRequestMarkPacked } from '../declarations/types-67.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export {
     makePackageTransitionRequest,
@@ -93,9 +94,8 @@ export {
     makePackageTransitionRequestMarkReturned,
     makePackageTransitionRequestMarkShipped
 } from '../declarations/types-69.js';
-export { makeReturnResolutionLineItemRequest } from '../declarations/types-70.js';
-export { makeUpdatePackageItemRequest, makeUpdatePackageRequest } from '../declarations/types-72.js';
-export { makeVoidPackageRequest, makeWeight } from '../declarations/types-73.js';
+export { makeReturnResolutionLineItemRequest } from '../declarations/types-71.js';
+export { makeUpdatePackageItemRequest, makeUpdatePackageRequest, makeVoidPackageRequest, makeWeight } from '../declarations/types-73.js';
 export interface PackagesResource {
     /**
  * Adds an order line quantity to a package. Total active package item quantities cannot exceed the
@@ -111,14 +111,14 @@ export interface PackagesResource {
     createItem(package_id: InputValue<string>, params: (InputValue<CreatePackageItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PackageItem>;
+    }, options?: RequestOptions<"merchant">): Promise<PackageItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packagescreateitem
      */
     createItemWithResponse(package_id: InputValue<string>, params: (InputValue<CreatePackageItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackageItemResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PackageItemResponse>>;
     /**
  * Removes an order line quantity from a package while the package is still mutable.
  * @see reference/packages.md#packagesdeleteitem
@@ -129,14 +129,16 @@ export interface PackagesResource {
  * client.packages.deleteItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
     deleteItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PackageItem>;
+    }, options?: RequestOptions<"merchant">): Promise<PackageItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packagesdeleteitem
      */
     deleteItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackageItemResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PackageItemResponse>>;
     /**
  * Retrieves one package by ID.
  * @see reference/packages.md#packagesget
@@ -146,13 +148,13 @@ export interface PackagesResource {
  */
     get(package_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Package>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Package>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packagesget
      */
     getWithResponse(package_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackageResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PackageResponse>>;
     /**
  * Retrieves one package item by ID.
  * @see reference/packages.md#packagesgetitem
@@ -162,13 +164,13 @@ export interface PackagesResource {
  */
     getItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageItem>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PackageItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packagesgetitem
      */
     getItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params?: {
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackageItemResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PackageItemResponse>>;
     /**
  * Lists order line quantities contained in packages.
  * @see reference/packages.md#packageslistpackageitems
@@ -180,7 +182,7 @@ export interface PackagesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageItemListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PackageItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packageslistpackageitems
      */
@@ -188,7 +190,7 @@ export interface PackagesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackageItemListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PackageItemListResponse>>;
     /** Iterate pages lazily.
      * @see reference/packages.md#packageslistpackageitems
      */
@@ -196,7 +198,7 @@ export interface PackagesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageItemListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PackageItemListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/packages.md#packageslistpackageitems
      */
@@ -204,7 +206,7 @@ export interface PackagesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PackageItemListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PackageItemListResponse>>;
     /** Iterate items lazily.
      * @see reference/packages.md#packageslistpackageitems
      */
@@ -212,7 +214,7 @@ export interface PackagesResource {
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageItem>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PackageItem>;
     /**
  * Lists package records, newest created first.
  * @see reference/packages.md#packageslist
@@ -246,7 +248,7 @@ export interface PackagesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PackageListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PackageListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packageslist
      */
@@ -276,7 +278,7 @@ export interface PackagesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PackageListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PackageListResponse>>;
     /** Iterate pages lazily.
      * @see reference/packages.md#packageslist
      */
@@ -306,7 +308,7 @@ export interface PackagesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PackageListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PackageListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/packages.md#packageslist
      */
@@ -336,7 +338,7 @@ export interface PackagesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PackageListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PackageListResponse>>;
     /** Iterate items lazily.
      * @see reference/packages.md#packageslist
      */
@@ -366,7 +368,7 @@ export interface PackagesResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"order">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Package>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Package>;
     /**
  * Performs one action from the package's supported_actions. mark_shipped accepts carrier,
  * service_code, tracking_number, and tracking_url; present fields replace tracking before the
@@ -385,11 +387,11 @@ export interface PackagesResource {
  * client.packages.transition({package_id: "example", body: {action: "mark_delivered"}}, {
  * idempotencyKey: idempotencyKey })
  */
-    transition(input: PackagesTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Package>;
+    transition(input: PackagesTransitionInput, options?: RequestOptions<"merchant">): Promise<Package>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packagestransition
      */
-    transitionWithResponse(input: PackagesTransitionInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackageResponse>>;
+    transitionWithResponse(input: PackagesTransitionInput, options?: RequestOptions<"merchant">): Promise<SdkResponse<PackageResponse>>;
     /**
  * Updates non-lifecycle package fields such as carrier, tracking, expected_delivery_at, label
  * access, measurements, metadata, and caller-owned external references. Descriptive fields can be
@@ -407,13 +409,13 @@ export interface PackagesResource {
  */
     update(package_id: InputValue<string>, params: (InputValue<UpdatePackageRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Package>;
+    }, options?: RequestOptions<"merchant">): Promise<Package>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packagesupdate
      */
     updateWithResponse(package_id: InputValue<string>, params: (InputValue<UpdatePackageRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackageResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PackageResponse>>;
     /**
  * Updates a package item quantity or metadata while the package is still mutable.
  * @see reference/packages.md#packagesupdateitem
@@ -426,14 +428,14 @@ export interface PackagesResource {
     updateItem(package_id: InputValue<string>, package_item_id: InputValue<string>, params: (InputValue<UpdatePackageItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PackageItem>;
+    }, options?: RequestOptions<"merchant">): Promise<PackageItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packagesupdateitem
      */
     updateItemWithResponse(package_id: InputValue<string>, package_item_id: InputValue<string>, params: (InputValue<UpdatePackageItemRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackageItemResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PackageItemResponse>>;
     /**
  * Voids a package before carrier handoff and appends a package timeline event. Voided package
  * items no longer count against fulfillment package allocation capacity. expected_version is
@@ -456,7 +458,7 @@ export interface PackagesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Package>;
+    }, options?: RequestOptions<"merchant">): Promise<Package>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/packages.md#packagesvoidresource
      */
@@ -469,7 +471,7 @@ export interface PackagesResource {
     })
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PackageResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PackageResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

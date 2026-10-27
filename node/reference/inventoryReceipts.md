@@ -14,7 +14,7 @@ Signature:
 create(params: (InputValue<CreateInventoryReceiptRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -65,7 +65,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -84,7 +84,7 @@ Retrieve a completed inventory receipt and its disposition lines by ID.
 
 `GET /v1/inventory-receipts/{inventory_receipt_id}`
 
-Signature: `get(inventory_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `get(inventory_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -117,7 +117,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -153,7 +153,7 @@ list(params?: {
   "created_after"?: InputValue<string | globalThis.Date>;
   "created_before"?: InputValue<string | globalThis.Date>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -167,7 +167,7 @@ list(params?: {
 | `inventory_reservation_id` | Optional | string |  |
 | `return_id` | Optional | string |  |
 | `return_disposition_id` | Optional | string |  |
-| `idempotency_key` | Optional | string |  |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `source_system_type` | Optional | Array of string | minItems: `1`. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. |
 | `external_source_id` | Optional | string |  |
 | `external_actor_id` | Optional | string |  |
@@ -201,7 +201,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 

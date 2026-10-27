@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# ReturnReplacementLineItemRequestInput – SubscriptionCancellationDetailsInput
+# ReturnReceiptLineItemInputUnverifiedInput – SubscriptionBillingScheduleUpdateInputFlintInput
 
+- [ReturnReceiptLineItemInputUnverifiedInput](ReturnReceiptLineItemInputUnverifiedInput.md)
+- [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
+- [ReturnReplacementLineItemInput](ReturnReplacementLineItemInput.md)
+- [ReturnReplacementLineItemInputBundleInput](ReturnReplacementLineItemInputBundleInput.md)
+- [ReturnReplacementLineItemInputCustomInput](ReturnReplacementLineItemInputCustomInput.md)
+- [ReturnReplacementLineItemInputVariantInput](ReturnReplacementLineItemInputVariantInput.md)
 - [ReturnReplacementLineItemRequestInput](ReturnReplacementLineItemRequestInput.md)
 - [ReturnResolutionInput](ReturnResolutionInput.md)
 - [ReturnResolutionAdjustmentInput](ReturnResolutionAdjustmentInput.md)
@@ -96,10 +102,4 @@
 - [SubscriptionBillingScheduleRequestInput](SubscriptionBillingScheduleRequestInput.md)
 - [SubscriptionBillingScheduleUpdateInputExternalInput](SubscriptionBillingScheduleUpdateInputExternalInput.md)
 - [SubscriptionBillingScheduleUpdateInputFlintInput](SubscriptionBillingScheduleUpdateInputFlintInput.md)
-- [SubscriptionBillingScheduleUpdateRequestInput](SubscriptionBillingScheduleUpdateRequestInput.md)
-- [SubscriptionBillingStartInputImmediateInput](SubscriptionBillingStartInputImmediateInput.md)
-- [SubscriptionBillingStartInputImportedInput](SubscriptionBillingStartInputImportedInput.md)
-- [SubscriptionBillingStartInputScheduledInput](SubscriptionBillingStartInputScheduledInput.md)
-- [SubscriptionBillingStartRequestInput](SubscriptionBillingStartRequestInput.md)
-- [SubscriptionCancellationDetailsInput](SubscriptionCancellationDetailsInput.md)
 

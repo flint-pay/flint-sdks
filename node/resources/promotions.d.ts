@@ -20,9 +20,9 @@ import type {
     PromotionsUpdateInput
 } from '../declarations/types-38.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from '../declarations/types-49.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,7 +46,7 @@ export type {
     PromotionBuyXGetYMethod,
     PromotionApplicationMethodPatchInput
 } from '../declarations/types-37.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type {
     PromotionResponse,
     PromotionCode,
@@ -94,8 +94,8 @@ export type {
     PromotionExclusivityRequest,
     PromotionExclusivityPatch
 } from '../declarations/types-38.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { UpdatePromotionRequestInput, UpdatePromotionCodeRequestInput } from '../declarations/types-48.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { UpdatePromotionRequestInput, UpdatePromotionCodeRequestInput } from '../declarations/types-49.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { AuthMode } from '../declarations/types-0.js';
@@ -116,15 +116,13 @@ export {
     makePromotionRecurrenceForever,
     makePromotionRecurrenceOnce,
     makePromotionRecurrenceRepeating,
-    makePromotionRuleGroupRequest
-} from '../declarations/types-69.js';
-export {
+    makePromotionRuleGroupRequest,
     makePromotionRuleRequest,
     makePromotionRuleValueRequest,
     makePromotionSchedule,
     makePromotionSchedulePatch
 } from '../declarations/types-70.js';
-export { makeUpdatePromotionCodeRequest, makeUpdatePromotionRequest } from '../declarations/types-72.js';
+export { makeUpdatePromotionCodeRequest, makeUpdatePromotionRequest } from '../declarations/types-73.js';
 export interface PromotionsResource {
     /**
  * Creates a promotion for the authenticated merchant.
@@ -138,13 +136,13 @@ export interface PromotionsResource {
  */
     create(params: (InputValue<CreatePromotionRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Promotion>;
+    }, options?: RequestOptions<"merchant">): Promise<Promotion>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionscreate
      */
     createWithResponse(params: (InputValue<CreatePromotionRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PromotionResponse>>;
     /**
  * Creates a code for a code-gated promotion. An archived resource returns 409 ACTION_NOT_ALLOWED
  * with reason archived and current_status archived. The error identifies the archived resource; a
@@ -159,14 +157,14 @@ export interface PromotionsResource {
     createCode(promotion_id: InputValue<string>, params: (InputValue<CreatePromotionCodeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PromotionCode>;
+    }, options?: RequestOptions<"merchant">): Promise<PromotionCode>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionscreatecode
      */
     createCodeWithResponse(promotion_id: InputValue<string>, params: (InputValue<CreatePromotionCodeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionCodeResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PromotionCodeResponse>>;
     /**
  * Archives a promotion and returns the resource exactly as GET returns it. Repeating DELETE
  * returns 200 without changing version or updated_at, sending a webhook, or checking references.
@@ -180,14 +178,14 @@ export interface PromotionsResource {
     remove(promotion_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Promotion>;
+    }, options?: RequestOptions<"merchant">): Promise<Promotion>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionsremove
      */
     removeWithResponse(promotion_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PromotionResponse>>;
     /**
  * Archives a promotion code. The code remains readable with status archived. Returns the archived
  * resource exactly as GET returns it. Repeating DELETE returns 200 without changing version or
@@ -202,14 +200,14 @@ export interface PromotionsResource {
     deleteCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PromotionCode>;
+    }, options?: RequestOptions<"merchant">): Promise<PromotionCode>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionsdeletecode
      */
     deleteCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionCodeResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PromotionCodeResponse>>;
     /**
  * Returns a single promotion by ID.
  * @see reference/promotions.md#promotionsget
@@ -217,11 +215,11 @@ export interface PromotionsResource {
  * @example
  * client.promotions.get("example")
  */
-    get(promotion_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Promotion>;
+    get(promotion_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Promotion>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionsget
      */
-    getWithResponse(promotion_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionResponse>>;
+    getWithResponse(promotion_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PromotionResponse>>;
     /**
  * Returns a single promotion code by promotion ID and code ID. Archived codes remain readable,
  * including codes of an archived promotion. Returns 404 when the code does not exist or belongs to
@@ -231,11 +229,11 @@ export interface PromotionsResource {
  * @example
  * client.promotions.getCode("example", "example")
  */
-    getCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PromotionCode>;
+    getCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PromotionCode>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionsgetcode
      */
-    getCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionCodeResponse>>;
+    getCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PromotionCodeResponse>>;
     /**
  * Returns a paginated list of promotion codes in every status, ordered by created_at descending,
  * then promotion_code_id descending. Archived codes are excluded unless status=archived.
@@ -258,7 +256,7 @@ export interface PromotionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"promotion">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PromotionCodeListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PromotionCodeListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionslistcodes
      */
@@ -276,7 +274,7 @@ export interface PromotionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"promotion">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionCodeListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PromotionCodeListResponse>>;
     /** Iterate pages lazily.
      * @see reference/promotions.md#promotionslistcodes
      */
@@ -294,7 +292,7 @@ export interface PromotionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"promotion">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionCodeListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PromotionCodeListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/promotions.md#promotionslistcodes
      */
@@ -312,7 +310,7 @@ export interface PromotionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"promotion">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PromotionCodeListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PromotionCodeListResponse>>;
     /** Iterate items lazily.
      * @see reference/promotions.md#promotionslistcodes
      */
@@ -330,7 +328,7 @@ export interface PromotionsResource {
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
         "expand"?: InputValue<Array<"promotion">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionCode>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PromotionCode>;
     /**
  * Returns a paginated list of promotions for the authenticated merchant.
  * @see reference/promotions.md#promotionslist
@@ -363,7 +361,7 @@ export interface PromotionsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PromotionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<PromotionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionslist
      */
@@ -392,7 +390,7 @@ export interface PromotionsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PromotionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PromotionListResponse>>;
     /** Iterate pages lazily.
      * @see reference/promotions.md#promotionslist
      */
@@ -421,7 +419,7 @@ export interface PromotionsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<PromotionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PromotionListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/promotions.md#promotionslist
      */
@@ -450,7 +448,7 @@ export interface PromotionsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PromotionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<PromotionListResponse>>;
     /** Iterate items lazily.
      * @see reference/promotions.md#promotionslist
      */
@@ -479,7 +477,7 @@ export interface PromotionsResource {
         "created_before"?: InputValue<string | globalThis.Date>;
         "updated_after"?: InputValue<string | globalThis.Date>;
         "updated_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Promotion>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Promotion>;
     /**
  * Applies a sparse update to promotion fields. application_method, schedule, and exclusivity patch
  * by subfield presence. Omitted fields retain stored values; null clears only nullable fields.
@@ -497,13 +495,13 @@ export interface PromotionsResource {
  */
     update(promotion_id: InputValue<string>, params: (InputValue<UpdatePromotionRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Promotion>;
+    }, options?: RequestOptions<"merchant">): Promise<Promotion>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionsupdate
      */
     updateWithResponse(promotion_id: InputValue<string>, params: (InputValue<UpdatePromotionRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PromotionResponse>>;
     /**
  * Applies a sparse update to a promotion code. An archived resource returns 409 ACTION_NOT_ALLOWED
  * with reason archived and current_status archived. The error identifies the archived resource; a
@@ -518,14 +516,14 @@ export interface PromotionsResource {
     updateCode(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params: (InputValue<UpdatePromotionCodeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PromotionCode>;
+    }, options?: RequestOptions<"merchant">): Promise<PromotionCode>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/promotions.md#promotionsupdatecode
      */
     updateCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params: (InputValue<UpdatePromotionCodeRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PromotionCodeResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<PromotionCodeResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

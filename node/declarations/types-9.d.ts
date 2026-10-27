@@ -1,44 +1,187 @@
 import type {
+    ReturnReplacementLineItemRequestInput,
+    ReturnResolutionAdjustmentRequestInput,
+    ReturnResolutionLineItemRequestInput,
     ReturnReplacementLineItemRequest,
     ReturnResolutionAdjustmentRequest,
     ReturnResolutionLineItemRequest,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionAdjustmentRequestInput
-} from './types-41.js';
-import type { ReturnResolutionLineItemRequestInput, ReturnShipmentLineItemAllocationInput } from './types-42.js';
+    ReturnShipmentLineItemAllocationInput
+} from './types-42.js';
 import type { RiskPredicateNode, RiskPredicateNodeInput } from './types-43.js';
 import type {
     SubscriptionIntervalOption,
     SubscriptionIntervalOptionInput,
-    SubscriptionPlanLineItemRequest,
-    SubscriptionPlanLineItemRequestInput,
     SubscriptionDeliveryDestinationRequest,
     SubscriptionDeliveryDestinationRequestInput,
+    SubscriptionBillingScheduleRequest,
+    SubscriptionBillingStartRequest,
     SubscriptionDeliveryRequest,
+    SubscriptionBillingScheduleRequestInput,
     SubscriptionBillingStartRequestInput,
     SubscriptionDeliveryRequestInput
 } from './types-45.js';
-import type { ImageRequest, ImageRequestInput } from './types-19.js';
+import type { ImageRequest, ImageRequestInput } from './types-20.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-25.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput } from './types-47.js';
 import type {
-    SubscriptionBillingScheduleRequest,
-    SubscriptionBillingStartRequest,
-    SubscriptionBillingScheduleRequestInput
-} from './types-44.js';
-import type {
+    SubscriptionPlanLineItemRequest,
+    SubscriptionPlanLineItemRequestInput,
     SubscriptionServiceLocationRequest,
     SubscriptionTermsRequest,
     SubscriptionServiceLocationRequestInput,
-    SubscriptionTermsRequestInput,
-    TaxIdentity
+    SubscriptionTermsRequestInput
 } from './types-46.js';
-import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-61.js';
+import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput, TaxIdentity } from './types-47.js';
+import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-62.js';
 import type { CredentialProvider } from '../runtime.js';
+import type { CreditNoteLineItem, CreditNoteCorrectionRequestQuantityInput } from './types-10.js';
 import type { ExpandedInvoiceSummary } from './types-16.js';
 import type { ResponseMeta } from './types-40.js';
 import type { Invoice } from './types-26.js';
+/**
+ * Shape $ (Value): {@link CreateReturnResolutionRequestCorrectionInput}. The `correction` variant
+ * of `CreateReturnResolutionRequest`.
+ */
+export type CreateReturnResolutionRequestCorrectionInput = ({
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
+     * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
+     * resolution, with the assessed and applied amounts and whether it is applied or waived.
+     */
+    "adjustments": Array<ReturnResolutionAdjustmentRequestInput>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "corrects_return_resolution_id": string;
+    /**
+     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
+     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_return_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
+     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
+     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
+     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
+     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
+     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
+     * persists the chosen destination before starting the new attempt. Default: "original". Value
+     * enum: "original", "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card";
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
+     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
+     * return resolution.
+     */
+    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
+    /**
+     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
+     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
+     * the public API. Shape $.* (Value): string. minLength: 1.
+     */
+    "metadata"?: Record<string, string>;
+    /**
+     * Shape $ (Value): string. Value enum: "original_price", "current_price",
+     * "merchant_agreed_price".
+     */
+    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
+    /**
+     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequestInput}. Shape $[] (Value):
+     * {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a return
+     * resolution, from a variant, a bundle, or a custom name and price.
+     */
+    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
+    /** Shape $ (Value): string.  Value enum: "correction". */
+    "resolution_type": "correction";
+})
+    & (({
+    /** Shape $ (Value): any. minItems: 1. */
+    "adjustments": unknown;
+    /** Shape $ (Value): any.  Value enum: "correction". */
+    "resolution_type"?: "correction";
+    /** Shape $ (Value): string. minLength: 1. */
+    "corrects_return_resolution_id": string;
+})
+    & (({
+    "line_items"?: never;
+})
+    & ({
+    "replacement_line_items"?: never;
+})
+    & ({
+    "pricing_basis"?: never;
+})));
+/**
+ * Shape $ (Value): {@link CreateReturnResolutionRequestInput}. The request body for: Create return
+ * resolution.
+ */
+export type CreateReturnResolutionRequestInput = ({
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
+     * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
+     * resolution, with the assessed and applied amounts and whether it is applied or waived.
+     */
+    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "corrects_return_resolution_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
+     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_return_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
+     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
+     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
+     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
+     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
+     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
+     * persists the chosen destination before starting the new attempt. Default: "original". Value
+     * enum: "original", "new_gift_card".
+     */
+    "gift_card_refund_destination"?: "original" | "new_gift_card";
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
+     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
+     * return resolution.
+     */
+    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
+    /**
+     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
+     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
+     * the public API. Shape $.* (Value): string. minLength: 1.
+     */
+    "metadata"?: Record<string, string>;
+    /**
+     * Shape $ (Value): string. Value enum: "original_price", "current_price",
+     * "merchant_agreed_price".
+     */
+    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
+    /**
+     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequestInput}. Shape $[] (Value):
+     * {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a return
+     * resolution, from a variant, a bundle, or a custom name and price.
+     */
+    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
+    /**
+     * Shape $ (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction".
+     */
+    "resolution_type": "refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction";
+})
+    & ((Exclude<CreateReturnResolutionRequestStandardInput & object, readonly unknown[]>)
+    | (Exclude<CreateReturnResolutionRequestCorrectionInput & object, readonly unknown[]>));
 /**
  * Shape $ (Value): {@link CreateReturnResolutionRequestStandard}. The `exchange` variant of
  * `CreateReturnResolutionRequest`. The `no_monetary_action` variant of
@@ -1295,28 +1438,70 @@ export type CreateSubscriptionLineItemRequest = ({
      * minimum: 1. maximum: 9999.
      */
     "quantity": number;
+    /**
+     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
+     * "variant", "bundle".
+     */
+    "type": "variant" | "bundle" | (string & {});
     /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
     "variant_id"?: string;
 })
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id": string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-}))
-    | (({
+    & ((Exclude<CreateSubscriptionLineItemRequestVariant & object, readonly unknown[]>)
+    | (Exclude<CreateSubscriptionLineItemRequestBundle & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link CreateSubscriptionLineItemRequestBundle}. The `bundle` variant of
+ * `CreateSubscriptionLineItemRequest`.
+ */
+export type CreateSubscriptionLineItemRequestBundle = ({
     /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
     "bundle_id": string;
     /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
      * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
      * minimum: 1. maximum: 9999.
      */
     "quantity": number;
-}))
-    | (Record<string, unknown>));
+    /**
+     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
+     * "bundle".
+     */
+    "type": "bundle" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "variant_id"?: string;
+});
+/**
+ * Shape $ (Value): {@link CreateSubscriptionLineItemRequestBundleInput}. The `bundle` variant of
+ * `CreateSubscriptionLineItemRequest`.
+ */
+export type CreateSubscriptionLineItemRequestBundleInput = ({
+    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "bundle_id": string;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
+     * minimum: 1. maximum: 9999.
+     */
+    "quantity": number;
+    /**
+     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
+     * "bundle".
+     */
+    "type": "bundle";
+    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "variant_id"?: string;
+})
+    & (({
+    "variant_id"?: never;
+}));
 /**
  * Shape $ (Value): {@link CreateSubscriptionLineItemRequestInput}. The request body for: Add
  * subscription line item.
@@ -1334,33 +1519,69 @@ export type CreateSubscriptionLineItemRequestInput = ({
      * minimum: 1. maximum: 9999.
      */
     "quantity": number;
+    /**
+     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
+     * "variant", "bundle".
+     */
+    "type": "variant" | "bundle";
     /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
     "variant_id"?: string;
 })
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id": string;
+    & ((Exclude<CreateSubscriptionLineItemRequestVariantInput & object, readonly unknown[]>)
+    | (Exclude<CreateSubscriptionLineItemRequestBundleInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link CreateSubscriptionLineItemRequestVariant}. The `variant` variant of
+ * `CreateSubscriptionLineItemRequest`.
+ */
+export type CreateSubscriptionLineItemRequestVariant = ({
+    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "bundle_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
     /**
      * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
      * minimum: 1. maximum: 9999.
      */
     "quantity": number;
+    /**
+     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
+     * "variant".
+     */
+    "type": "variant" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "variant_id": string;
+});
+/**
+ * Shape $ (Value): {@link CreateSubscriptionLineItemRequestVariantInput}. The `variant` variant of
+ * `CreateSubscriptionLineItemRequest`.
+ */
+export type CreateSubscriptionLineItemRequestVariantInput = ({
+    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "bundle_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
+     * minimum: 1. maximum: 9999.
+     */
+    "quantity": number;
+    /**
+     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
+     * "variant".
+     */
+    "type": "variant";
+    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "variant_id": string;
 })
     & (({
     "bundle_id"?: never;
-})))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "bundle_id": string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-})
-    & (({
-    "variant_id"?: never;
-}))));
+}));
 /**
  * Shape $ (Value): {@link CreateSubscriptionOfferRequest}. The request body for: Create
  * subscription offer.
@@ -3172,9 +3393,6 @@ export interface Credentials {
     "merchant": {
         "BearerAuth": string | CredentialProvider;
     };
-    "merchantKey": {
-        "ApiKeyHeader": string | CredentialProvider;
-    };
     "onboarding": {
         "OnboardingSessionBearer": string | CredentialProvider;
     };
@@ -3207,7 +3425,7 @@ export type CreditNote = {
      * (Value): null.
      */
     "buyer_tax_identity": ((TaxIdentity) | (null));
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the credit note was created. Format: date-time. */
     "created_at": string;
     /** Shape $ (Value): string. Unique identifier of the credit note. */
     "credit_note_id": string;
@@ -3218,18 +3436,21 @@ export type CreditNote = {
     "credit_note_number"?: string;
     /**
      * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. minLength: 1. maxLength: 255.
+     * system. null when unset. minLength: 1. maxLength: 255.
      */
     "external_reference_id": string | null;
     /**
-     * Shape $ (Value): {@link ExpandedInvoiceSummary}. An invoice's summary fields, including
-     * status, due date, and paid, outstanding, and refunded amounts, returned when the invoice is
-     * expanded.
+     * Shape $ (Value): {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned
+     * only with expand=invoice. An invoice's summary fields, including status, due date, and paid,
+     * outstanding, and refunded amounts, returned when the invoice is expanded.
      */
     "invoice"?: ExpandedInvoiceSummary;
     /** Shape $ (Value): string. The invoice this credit note corrects. */
     "invoice_id": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. When the credit note was issued. Absent on a draft. Format:
+     * date-time.
+     */
     "issued_at"?: string;
     /**
      * Shape $ (Value): string. Status of the most recent refund linked to this credit note. Absent
@@ -3249,6 +3470,7 @@ export type CreditNote = {
     "line_items": Array<CreditNoteLineItem>;
     /**
      * Shape $ (Value): string or null. Free text shown on the credit note, up to 4096 characters.
+     * null when unset.
      */
     "memo": string | null;
     /** Shape $ (Value): string. The merchant that owns the credit note. */
@@ -3290,7 +3512,7 @@ export type CreditNote = {
      * lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "total_money": MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the credit note last changed. Format: date-time. */
     "updated_at": string;
     /**
      * Shape $ (Value): integer string. Current credit note version. Send this as expected_version
@@ -3298,7 +3520,10 @@ export type CreditNote = {
      * number. Format: int64. minimum: 1.
      */
     "version": `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. When the credit note was voided. Absent unless it is void. Format:
+     * date-time.
+     */
     "voided_at"?: string;
 };
 /**
@@ -3610,171 +3835,3 @@ export type CreditNoteCorrectionRequestQuantity = ({
      */
     "quantity": `${bigint}`;
 }));
-/**
- * Shape $ (Value): {@link CreditNoteCorrectionRequestQuantityInput}. The `quantity` variant of
- * `CreditNoteCorrectionRequest`.
- */
-export type CreditNoteCorrectionRequestQuantityInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Positive billed value to credit in the invoice
-     * currency, no more than the frozen source line's remaining value. Consumes proportional
-     * remaining tax and discount without consuming quantity; later quantity corrections use the
-     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
-     * supported. No more than the source line's remaining uncredited quantity. Credits that
-     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
-     * corrections reduce that remaining value without consuming quantity. A share that rounds to
-     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "quantity": `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. quantity credits whole units and requires quantity. amount credits
-     * a named figure and requires amount_money. The two are mutually exclusive. Value enum:
-     * "quantity".
-     */
-    "type": "quantity";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "quantity". */
-    "type": "quantity";
-    /**
-     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
-     * supported. No more than the source line's remaining uncredited quantity. Credits that
-     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
-     * corrections reduce that remaining value without consuming quantity. A share that rounds to
-     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "quantity": `${bigint}` | bigint;
-})
-    & ({
-    "amount_money"?: never;
-}));
-/**
- * Shape $ (Value): {@link CreditNoteIssueAllocationRequestInput}. Credit to apply to the invoice
- * when issuing a credit note.
- */
-export type CreditNoteIssueAllocationRequestInput = {
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Credit to apply. Omit to apply the smaller of the
-     * credit available after issue and the invoice's outstanding balance. An explicit amount must
-     * be positive, use the invoice's currency, and fit both balances. Either way, the allocation
-     * must leave the order's unpaid tip outstanding. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-};
-/**
- * Shape $ (Value): {@link CreditNoteLineItem}. One correction calculated from the frozen invoice
- * line's remaining billed value, discount, and tax. The source line's inclusive or additive tax
- * mode is preserved. Current catalog prices and tax settings do not affect the correction. Stored
- * issued values are never recalculated by a read.
- */
-export type CreditNoteLineItem = {
-    /**
-     * Shape $ (Value): {@link CreditNoteCorrectionRequest}. The correction that produced this
-     * line, using the same shape accepted by draft writes. Amount corrections return the requested
-     * billed value in amount_money, equal to total_money. How much of an invoice line item a
-     * credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.
-     */
-    "correction": CreditNoteCorrectionRequest;
-    /** Shape $ (Value): string. Unique identifier of the credit note line item. */
-    "credit_note_line_item_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The credited share of the frozen line's remaining
-     * allocated merchandise discount, rounded half up in currency minor units. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "discount_money": MoneyValue;
-    /** Shape $ (Value): string. The invoice snapshot line this corrects. */
-    "invoice_line_item_id": string;
-    /** Shape $ (Value): string. Label of the credited invoice line. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credited subtotal before the credited discount, in the
-     * source line's inclusive or additive price units. Balances the total after tax and discount
-     * are rounded from the remaining pool; it is not a rounded per-unit price. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The credited share of the frozen line's remaining tax,
-     * rounded half up in currency minor units. Included tax is already part of total_money.
-     * Tax-exclusive consideration is total_money minus tax_money. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Billed value credited by this line. For inclusive tax,
-     * subtotal_money minus discount_money. For additive tax, subtotal_money minus discount_money
-     * plus tax_money. A full remaining-value correction consumes the exact remaining components.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-};
-/**
- * Shape $ (Value): {@link CreditNoteLineItemRequest}. A credit note line you supply when creating
- * or updating a credit note: the invoice line item it credits and how much, or an existing line to
- * keep.
- */
-export type CreditNoteLineItemRequest = {
-    /**
-     * Shape $ (Value): {@link CreditNoteCorrectionRequest}. How much of the invoice line to
-     * credit, by quantity or by amount. How much of an invoice line item a credit note line
-     * credits, by whole `quantity` or by `amount`, chosen by `type`.
-     */
-    "correction": CreditNoteCorrectionRequest;
-    /**
-     * Shape $ (Value): string. Existing credit note line item to retain. Omit to create a new line
-     * item. minLength: 1.
-     */
-    "credit_note_line_item_id"?: string;
-    /** Shape $ (Value): string. The invoice snapshot line to credit. minLength: 1. */
-    "invoice_line_item_id": string;
-};
-/**
- * Shape $ (Value): {@link CreditNoteLineItemRequestInput}. A credit note line you supply when
- * creating or updating a credit note: the invoice line item it credits and how much, or an
- * existing line to keep.
- */
-export type CreditNoteLineItemRequestInput = {
-    /**
-     * Shape $ (Value): {@link CreditNoteCorrectionRequestInput}. How much of the invoice line to
-     * credit, by quantity or by amount. How much of an invoice line item a credit note line
-     * credits, by whole `quantity` or by `amount`, chosen by `type`.
-     */
-    "correction": CreditNoteCorrectionRequestInput;
-    /**
-     * Shape $ (Value): string. Existing credit note line item to retain. Omit to create a new line
-     * item. minLength: 1.
-     */
-    "credit_note_line_item_id"?: string;
-    /** Shape $ (Value): string. The invoice snapshot line to credit. minLength: 1. */
-    "invoice_line_item_id": string;
-};
-/** Shape $ (Value): {@link CreditNoteListResponse}. A page of `CreditNote` objects. */
-export type CreditNoteListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link CreditNote}. Shape $[] (Value): {@link CreditNote}. A
-     * correction against an issued invoice. Credit notes reduce what is owed; refunds return what
-     * was already collected.
-     */
-    "data": Array<CreditNote>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};

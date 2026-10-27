@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PackageListResponse – PaymentReviewPaymentSummary
+# PackageItemListResponse – PaymentReview
 
+- [PackageItemListResponse](PackageItemListResponse.md)
+- [PackageItemResponse](PackageItemResponse.md)
 - [PackageListResponse](PackageListResponse.md)
 - [PackageResponse](PackageResponse.md)
 - [PackageTransitionRequest](PackageTransitionRequest.md)
@@ -100,6 +102,4 @@
 - [PaymentMethodWithSetup](PaymentMethodWithSetup.md)
 - [PaymentRefund](PaymentRefund.md)
 - [PaymentReview](PaymentReview.md)
-- [PaymentReviewListResponse](PaymentReviewListResponse.md)
-- [PaymentReviewPaymentSummary](PaymentReviewPaymentSummary.md)
 

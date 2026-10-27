@@ -11,6 +11,7 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.demoSessions.reset(
   {
     demo_session_id: "example",
+    "Flint-Challenge-Token": "example",
   },
   { idempotencyKey: idempotencyKey },
 );

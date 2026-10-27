@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# BuyerOrderResponse – CapabilityReadiness
+# BuyerOrderResponse – CancelReturnRequestInput
 
 - [BuyerOrderResponse](BuyerOrderResponse.md)
 - [BuyerOrderTax](BuyerOrderTax.md)
@@ -43,6 +43,10 @@
 - [BuyerReturnPolicyEvaluationLineItem](BuyerReturnPolicyEvaluationLineItem.md)
 - [BuyerReturnPreview](BuyerReturnPreview.md)
 - [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
+- [BuyerReturnReplacementLineItemInputBundle](BuyerReturnReplacementLineItemInputBundle.md)
+- [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
+- [BuyerReturnReplacementLineItemInputVariant](BuyerReturnReplacementLineItemInputVariant.md)
+- [BuyerReturnReplacementLineItemInputVariantInput](BuyerReturnReplacementLineItemInputVariantInput.md)
 - [BuyerReturnReplacementLineItemRequest](BuyerReturnReplacementLineItemRequest.md)
 - [BuyerReturnReplacementLineItemRequestInput](BuyerReturnReplacementLineItemRequestInput.md)
 - [BuyerReturnResolution](BuyerReturnResolution.md)
@@ -64,6 +68,7 @@
 - [BuyerSubscriptionLineItem](BuyerSubscriptionLineItem.md)
 - [BuyerSubscriptionListResponse](BuyerSubscriptionListResponse.md)
 - [BuyerSubscriptionPaymentRetry](BuyerSubscriptionPaymentRetry.md)
+- [BuyerSubscriptionPaymentRetryListResponse](BuyerSubscriptionPaymentRetryListResponse.md)
 - [BuyerSubscriptionPaymentRetryResponse](BuyerSubscriptionPaymentRetryResponse.md)
 - [BuyerSubscriptionPlanLineItem](BuyerSubscriptionPlanLineItem.md)
 - [BuyerSubscriptionPreview](BuyerSubscriptionPreview.md)
@@ -85,9 +90,8 @@
 - [CallerSuppliedDeliveryOutcomeRequestUnavailableInput](CallerSuppliedDeliveryOutcomeRequestUnavailableInput.md)
 - [CancelGiftCardNotificationRequest](CancelGiftCardNotificationRequest.md)
 - [CancelGiftCardNotificationRequestInput](CancelGiftCardNotificationRequestInput.md)
+- [CancelOrderPaymentAttemptRequest](CancelOrderPaymentAttemptRequest.md)
 - [CancelOrderPaymentAttemptRequestInput](CancelOrderPaymentAttemptRequestInput.md)
-- [CancelOrderPaymentRequest](CancelOrderPaymentRequest.md)
-- [CancelOrderPaymentRequestInput](CancelOrderPaymentRequestInput.md)
 - [CancelPaymentIntentRequest](CancelPaymentIntentRequest.md)
 - [CancelPaymentIntentRequestInput](CancelPaymentIntentRequestInput.md)
 - [CancelPayoutRequest](CancelPayoutRequest.md)
@@ -98,8 +102,4 @@
 - [CancelReturnLineItemRequestInput](CancelReturnLineItemRequestInput.md)
 - [CancelReturnRequest](CancelReturnRequest.md)
 - [CancelReturnRequestInput](CancelReturnRequestInput.md)
-- [CancelReturnResolutionRequestInput](CancelReturnResolutionRequestInput.md)
-- [CancelSubscriptionRequest](CancelSubscriptionRequest.md)
-- [CancelSubscriptionRequestInput](CancelSubscriptionRequestInput.md)
-- [CapabilityReadiness](CapabilityReadiness.md)
 

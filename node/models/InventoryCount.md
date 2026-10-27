@@ -12,7 +12,7 @@ A physical count used to reconcile stock.
 | --- | --- | --- | --- |
 | `applied_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `idempotency_key` | Required | string |  |
+| `idempotency_key` | Optional | string | The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key. |
 | `inventory_count_id` | Required | string |  |
 | `lines` | Required | Array of [InventoryCountLine](../models/InventoryCountLine.md#inventorycountline) |  |
 | `location_id` | Required | string |  |

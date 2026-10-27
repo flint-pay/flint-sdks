@@ -9,9 +9,10 @@ namespace Flint;
  * @property-read string $status
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $validation_status
+ * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodDomainInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'domain_name': string, 'payment_method_domain_id': string, 'payment_option_statuses': list<PaymentMethodDomainPaymentOptionStatusInput|array<array-key, mixed>|\stdClass>, 'status': string, 'updated_at': string|\DateTimeInterface, 'validation_status': string, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'domain_name': string, 'payment_method_domain_id': string, 'payment_option_statuses': list<PaymentMethodDomainPaymentOptionStatusInput|array<array-key, mixed>|\stdClass>, 'status': string, 'updated_at': string|\DateTimeInterface, 'validation_status': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodDomainInput')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
@@ -55,4 +56,10 @@ final class PaymentMethodDomainInput extends Model {
      */
     public function getValidationStatus(): string { return $this->get('validation_status'); }
     public function hasValidationStatus(): bool { return $this->has('validation_status'); }
+    /** Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string $idempotency_key
  * @property-read list<string> $terms_type
  * @property-read int $page_size
  * @property-read string $page_token
@@ -28,8 +29,14 @@ namespace Flint;
  * @property-read list<string> $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsListInput extends Model {
-    /** @param array{'terms_type'?: list<string>, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: list<string>, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'customer_id'?: string, 'delivery_method_id'?: string, 'hold_reason'?: list<string>, 'subscription_offer_id'?: string, 'subscription_plan_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_after'?: string|\DateTimeInterface, 'next_billing_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'expand'?: list<string>}|object $values */
+    /** @param array{'idempotency_key'?: string, 'terms_type'?: list<string>, 'page_size'?: int, 'page_token'?: string, 'status'?: list<string>, 'billing_schedule_owner'?: list<string>, 'awaiting_billing_schedule'?: bool, 'cancel_at_period_end'?: bool, 'customer_id'?: string, 'delivery_method_id'?: string, 'hold_reason'?: list<string>, 'subscription_offer_id'?: string, 'subscription_plan_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'next_billing_after'?: string|\DateTimeInterface, 'next_billing_before'?: string|\DateTimeInterface, 'needs_attention'?: bool, 'expand'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsListInput')); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): Array of string. minItems: 1. [] enum: "subscription_plan", "subscription_offer". Shape $[] (Value): string.  Value enum: "subscription_plan", "subscription_offer".
      * @return list<string>
      * @throws SdkError When terms_type is omitted; use hasTermsType() or valueOrDefault().

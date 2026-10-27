@@ -1,38 +1,142 @@
 import type { ResponseMeta } from './types-40.js';
+import type { OnboardingProfile, MoneyValue, MoneyValueInput } from './types-31.js';
+import type { ReadinessAction, PurchasedGiftCard } from './types-39.js';
+import type { InputValue } from '../runtime.js';
 import type { Merchant } from './types-30.js';
-import type { OnboardingNextStep, MoneyValue, MoneyValueInput } from './types-31.js';
-import type { User } from './types-49.js';
+import type { User } from './types-50.js';
 import type { BuyerAction } from './types-1.js';
 import type { CheckoutBuyerContact, CategoryReference } from './types-3.js';
-import type {
-    ExpandedCustomerSummary,
-    ExpandedPaymentIntentSummary,
-    ExpandedSubscriptionPlanSummary,
-    ExpandedSubscriptionSummary,
-    Dimensions
-} from './types-16.js';
-import type { Fulfillment } from './types-17.js';
+import type { ExpandedCustomerSummary, ExpandedPaymentIntentSummary, Dimensions } from './types-16.js';
+import type { ExpandedSubscriptionPlanSummary, ExpandedSubscriptionSummary, Fulfillment } from './types-17.js';
 import type { InventoryRoutingSource } from './types-25.js';
 import type { OrderReturnCreditSettlement, OrderTax } from './types-33.js';
 import type {
     PaymentCollection,
     PaymentAttemptGiftCardRedemption,
     PaymentAttemptPaymentIntent,
-    PaymentErrorSummary,
-    PaymentIntent
+    PaymentErrorSummary
 } from './types-35.js';
 import type { PricingAmounts, PendingPaymentAction } from './types-37.js';
-import type { SettlementAmounts, SubscribedLine } from './types-44.js';
-import type { TicketedEvent, Tip, TextModifierRequest, TextModifierRequestInput } from './types-47.js';
-import type { TaxCalculationRequestInput, TaxCalculationRequest } from './types-46.js';
-import type { DeliveryPreviewRoutingSourceInput } from './types-12.js';
+import type { SettlementAmounts, SelectedProductOption, SubscribedLine } from './types-44.js';
+import type {
+    TicketedEvent,
+    Tip,
+    TaxCalculationRequestInput,
+    TaxCalculationRequest,
+    TextModifierRequest,
+    TextModifierRequestInput
+} from './types-47.js';
+import type { DeliveryPreviewRoutingSourceInput } from './types-13.js';
 import type { BundleComponent } from './types-0.js';
 import type { GiftCardPurchaseSnapshot, Image } from './types-19.js';
 import type { LineItemInventorySnapshot } from './types-28.js';
-import type { PurchasedGiftCard } from './types-39.js';
-import type { SelectedProductOption } from './types-43.js';
 import type { Weight } from './types-61.js';
 import type { SubscriptionIntervalOption } from './types-45.js';
+/**
+ * Shape $ (Value): {@link OnboardingStartResponse}. A response containing `OnboardingStartResult`
+ * data.
+ */
+export type OnboardingStartResponse = {
+    /**
+     * Shape $ (Value): {@link OnboardingStartResult}. The result of starting onboarding: whether
+     * email verification began, plus the verification token and its expiry.
+     */
+    "data": OnboardingStartResult;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link OnboardingStartResult}. The result of starting onboarding: whether email
+ * verification began, plus the verification token and its expiry.
+ */
+export type OnboardingStartResult = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "expires_at": string;
+    /** Shape $ (Value): boolean. */
+    "verification_started": boolean;
+    /** Shape $ (Value): string. */
+    "verification_token": string;
+};
+/**
+ * Shape $ (Value): {@link OnboardingState}. A merchant's onboarding status, profile, next step,
+ * requested capabilities, and whether an API key can be issued.
+ */
+export type OnboardingState = {
+    /** Shape $ (Value): boolean. */
+    "can_issue_api_key": boolean;
+    /**
+     * Shape $ (Value): string. Immutable business country for the selected stable provider-account
+     * target. Omitted until the target has selected an effective country. minLength: 2. maxLength:
+     * 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
+     */
+    "country"?: "US" | (string & {});
+    /** Shape $ (Value): string. */
+    "default_sandbox_id"?: string;
+    /** Shape $ (Value): string. */
+    "merchant_id": string;
+    /**
+     * Shape $ (Value): {@link ReadinessAction}. A step that moves a merchant capability or
+     * readiness axis forward, with the party that must do it (`owner`) and any required fields.
+     */
+    "next_step"?: ReadinessAction;
+    /**
+     * Shape $ (Value): {@link OnboardingProfile}. Contact and website details recorded for a
+     * merchant during onboarding.
+     */
+    "profile": OnboardingProfile;
+    /**
+     * Shape $ (Value): Array of string. Canonical Flint capability intent persisted on the
+     * selected stable provider-account target. The initial merchant-account configuration always
+     * includes accept_card_payments and receive_payouts and may also include
+     * accept_ach_debit_payments. minItems: 2. maxItems: 3. uniqueItems: true. [] enum:
+     * "accept_card_payments", "receive_payouts", "accept_ach_debit_payments". Shape $[] (Value):
+     * string. Value enum: "accept_card_payments", "receive_payouts", "accept_ach_debit_payments".
+     */
+    "requested_capabilities"?: (Array<"accept_card_payments" | "receive_payouts" | "accept_ach_debit_payments" | (string & {})>);
+    /**
+     * Shape $ (Value): string. Onboarding workflow status for activation and remediation, not a
+     * durable account-readiness boolean. Value enum: "complete", "waiting_for_review",
+     * "needs_external_action", "needs_input".
+     */
+    "status": "complete" | "waiting_for_review" | "needs_external_action" | "needs_input" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link OnboardingStateResponse}. A response containing `OnboardingState` data.
+ */
+export type OnboardingStateResponse = {
+    /**
+     * Shape $ (Value): {@link OnboardingState}. A merchant's onboarding status, profile, next
+     * step, requested capabilities, and whether an API key can be issued.
+     */
+    "data": OnboardingState;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+export type OnboardingVerifyEmailCodeInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link OnboardingVerifyEmailRequestInput}. The request body for: Verify
+     * onboarding email.
+     */
+    "body": InputValue<OnboardingVerifyEmailRequestInput>;
+};
 /**
  * Shape $ (Value): {@link OnboardingVerifyEmailRequest}. The request body for: Verify onboarding
  * email.
@@ -87,11 +191,6 @@ export type OnboardingVerifyEmailResult = {
     "merchant": Merchant;
     /** Shape $ (Value): boolean. */
     "merchant_created": boolean;
-    /**
-     * Shape $ (Value): {@link OnboardingNextStep}. The next step to move onboarding forward, with
-     * who owns it, whether a machine can complete it, and the endpoint to submit to.
-     */
-    "next_step"?: OnboardingNextStep;
     /**
      * Shape $ (Value): string. Expiry of onboarding_session_token. The token cannot be refreshed;
      * verify the email again to get a new one. Format: date-time.
@@ -2143,136 +2242,4 @@ export type OrderPaymentAttemptResponse = {
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
     "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link OrderPaymentIntentSelection}. Identifies a payment intent to confirm for
- * an order and the credential to use: a token, a saved payment method, a Stripe confirmation
- * token, or the attached source.
- */
-export type OrderPaymentIntentSelection = (({
-    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-    /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1. */
-    "token": string;
-})
-    | ({
-    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): string. Saved Flint payment method ID belonging to the customer making this
-     * payment. minLength: 1.
-     */
-    "payment_method_id": string;
-})
-    | ({
-    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): object. Stripe credential collected for this payment. Shape
-     * $.confirmation_token (Required): string. Stripe confirmation token you created with
-     * Stripe.js from `payment_collection.stripe`. minLength: 1.
-     */
-    "stripe": {
-        /**
-         * Shape $ (Value): string. Stripe confirmation token you created with Stripe.js from
-         * `payment_collection.stripe`. minLength: 1.
-         */
-        "confirmation_token": string;
-    };
-})
-    | ({
-    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link OrderPaymentIntentSelectionInput}. Identifies a payment intent to
- * confirm for an order and the credential to use: a token, a saved payment method, a Stripe
- * confirmation token, or the attached source.
- */
-export type OrderPaymentIntentSelectionInput = (({
-    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-    /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1. */
-    "token": string;
-})
-    | ({
-    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): string. Saved Flint payment method ID belonging to the customer making this
-     * payment. minLength: 1.
-     */
-    "payment_method_id": string;
-})
-    | ({
-    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-    /**
-     * Shape $ (Value): object. Stripe credential collected for this payment. Shape
-     * $.confirmation_token (Required): string. Stripe confirmation token you created with
-     * Stripe.js from `payment_collection.stripe`. minLength: 1.
-     */
-    "stripe": {
-        /**
-         * Shape $ (Value): string. Stripe confirmation token you created with Stripe.js from
-         * `payment_collection.stripe`. minLength: 1.
-         */
-        "confirmation_token": string;
-    };
-})
-    | ({
-    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
-    "payment_intent_id": string;
-}));
-/**
- * Shape $ (Value): {@link OrderPaymentLifecycleResponse}. A response containing
- * `OrderPaymentLifecycleResult` data.
- */
-export type OrderPaymentLifecycleResponse = {
-    /**
-     * Shape $ (Value): {@link OrderPaymentLifecycleResult}. The result of an order payment action:
-     * the updated order, the payment intent, and the payment attempt when one exists.
-     */
-    "data": OrderPaymentLifecycleResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link OrderPaymentLifecycleResult}. The result of an order payment action: the
- * updated order, the payment intent, and the payment attempt when one exists.
- */
-export type OrderPaymentLifecycleResult = {
-    /**
-     * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-     * progress.
-     */
-    "order": Order;
-    /** Shape $ (Value): {@link OrderPaymentAttempt}. An attempt to pay an order. */
-    "payment_attempt"?: OrderPaymentAttempt;
-    /**
-     * Shape $ (Value): {@link PaymentIntent}. One payment from a buyer, standalone or as a leg of
-     * an order. amount_money is the amount requested. Once the payment is authorized,
-     * authorized_money equals amount_money and splits into captured_money (collected),
-     * capturable_money (still on hold), and released_money (returned without being charged), so
-     * authorized_money always equals the sum of those three. Reconcile revenue from
-     * captured_money.
-     */
-    "payment_intent": PaymentIntent;
-};
-/**
- * Shape $ (Value): {@link OrderPaymentSourceCardSelection}. Card options for the payment source
- * selected on an order payment intent, including which digital wallets to offer.
- */
-export type OrderPaymentSourceCardSelection = {
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
-    "digital_wallets"?: Array<string>;
 };

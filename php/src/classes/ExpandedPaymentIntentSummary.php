@@ -12,9 +12,10 @@ namespace Flint;
  * @property-read ?string $refund_status
  * @property-read string $status
  * @property-read ?string $updated_at
+ * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedPaymentIntentSummary extends Model {
-    /** @param array{'amount_money': mixed, 'capture_method'?: string, 'created_at'?: string, 'customer_id'?: string, 'order_id'?: string, 'payment_intent_id': string, 'payment_source'?: mixed, 'refund_status'?: string, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'capture_method'?: string, 'created_at'?: string, 'customer_id'?: string, 'order_id'?: string, 'payment_intent_id': string, 'payment_source'?: mixed, 'refund_status'?: string, 'status': string, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentIntentSummary')); }
     /** Shape $ (Value): {@see MoneyValue}. The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -66,4 +67,9 @@ final class ExpandedPaymentIntentSummary extends Model {
      */
     public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

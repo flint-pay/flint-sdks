@@ -1,20 +1,18 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
+import type { InventoryAdjustment } from '../declarations/types-23.js';
 import type {
-    InventoryAdjustment,
     InventoryAdjustmentListResponse,
     InventoryAdjustmentResponse,
-    InventoryAdjustmentResult
-} from '../declarations/types-23.js';
-import type {
+    InventoryAdjustmentResult,
     InventoryAdjustmentResultResponse,
     InventoryAdjustmentsCreateInput,
     InventoryAdjustmentsGetInput,
     InventoryAdjustmentsListInput
 } from '../declarations/types-24.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,34 +27,32 @@ export type {
 } from '../runtime.js';
 export type {
     InventoryAdjustmentsCreateInput,
-    InventoryAdjustmentResultResponse,
-    InventoryAdjustmentsGetInput,
-    InventoryAdjustmentsListInput,
-    InventoryAdjustmentSetLineRequestInput,
-    InventoryLevel,
-    InventoryItem
-} from '../declarations/types-24.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type {
     InventoryAdjustmentResult,
-    InventoryAdjustment,
+    InventoryAdjustmentResultResponse,
     InventoryAdjustmentResponse,
     InventoryAdjustmentListResponse,
+    InventoryAdjustmentsGetInput,
+    InventoryAdjustmentsListInput,
     InventoryAdjustmentQuantityLineRequestInput,
     InventoryAdjustmentConditionChangeLineRequestInput,
+    InventoryAdjustmentSetLineRequestInput,
+    InventoryLevel,
+    InventoryItem,
     InventoryAdjustmentLine
-} from '../declarations/types-23.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+} from '../declarations/types-24.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { InventoryAdjustment } from '../declarations/types-23.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type {
     CreateInventoryAdjustmentRequestInput,
     CreateInventoryAdjustmentQuantityRequestInput,
+    CreateInventoryAdjustmentConditionChangeRequestInput,
     CreateInventoryAdjustmentCountedRequestInput,
     CreateInventoryAdjustmentCorrectionRequestInput
 } from '../declarations/types-7.js';
 export type { InventorySourceSystemRequestInput, InventorySourceSystem } from '../declarations/types-25.js';
-export type { CreateInventoryAdjustmentConditionChangeRequestInput } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
@@ -66,7 +62,7 @@ export {
     makeCreateInventoryAdjustmentCountedRequest,
     makeCreateInventoryAdjustmentQuantityRequest,
     makeCreateInventoryAdjustmentRequest
-} from '../declarations/types-63.js';
+} from '../declarations/types-64.js';
 export {
     makeInventoryAdjustmentConditionChangeLineRequest,
     makeInventoryAdjustmentQuantityLineRequest,
@@ -90,11 +86,11 @@ export interface InventoryAdjustmentsResource {
  * client.inventoryAdjustments.create({body: {reason: "received", lines: [{inventory_item_id:
  * "example", location_id: "example", quantity: "1"}]}}, { idempotencyKey: idempotencyKey })
  */
-    create(input: InventoryAdjustmentsCreateInput, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryAdjustmentResult>;
+    create(input: InventoryAdjustmentsCreateInput, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<InventoryAdjustmentResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryAdjustments.md#inventoryadjustmentscreate
      */
-    createWithResponse(input: InventoryAdjustmentsCreateInput, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryAdjustmentResultResponse>>;
+    createWithResponse(input: InventoryAdjustmentsCreateInput, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryAdjustmentResultResponse>>;
     /**
  * Retrieve an inventory adjustment and its lines by ID.
  * @see reference/inventoryAdjustments.md#inventoryadjustmentsget
@@ -102,11 +98,11 @@ export interface InventoryAdjustmentsResource {
  * @example
  * client.inventoryAdjustments.get("example")
  */
-    get(inventory_adjustment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryAdjustment>;
+    get(inventory_adjustment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryAdjustment>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryAdjustments.md#inventoryadjustmentsget
      */
-    getWithResponse(inventory_adjustment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryAdjustmentResponse>>;
+    getWithResponse(inventory_adjustment_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryAdjustmentResponse>>;
     /**
  * List inventory adjustments.
  * @see reference/inventoryAdjustments.md#inventoryadjustmentslist
@@ -128,7 +124,7 @@ export interface InventoryAdjustmentsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryAdjustmentListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<InventoryAdjustmentListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryAdjustments.md#inventoryadjustmentslist
      */
@@ -146,7 +142,7 @@ export interface InventoryAdjustmentsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryAdjustmentListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryAdjustmentListResponse>>;
     /** Iterate pages lazily.
      * @see reference/inventoryAdjustments.md#inventoryadjustmentslist
      */
@@ -164,7 +160,7 @@ export interface InventoryAdjustmentsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryAdjustmentListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryAdjustmentListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/inventoryAdjustments.md#inventoryadjustmentslist
      */
@@ -182,7 +178,7 @@ export interface InventoryAdjustmentsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryAdjustmentListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<InventoryAdjustmentListResponse>>;
     /** Iterate items lazily.
      * @see reference/inventoryAdjustments.md#inventoryadjustmentslist
      */
@@ -200,7 +196,7 @@ export interface InventoryAdjustmentsResource {
         "occurred_before"?: InputValue<string | globalThis.Date>;
         "created_after"?: InputValue<string | globalThis.Date>;
         "created_before"?: InputValue<string | globalThis.Date>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryAdjustment>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<InventoryAdjustment>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

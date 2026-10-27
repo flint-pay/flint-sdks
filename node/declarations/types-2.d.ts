@@ -12,40 +12,32 @@ import type {
 import type { PaymentErrorSummary, PaymentFulfillmentHold } from './types-35.js';
 import type { PaymentSourceSummary, PaymentRefund } from './types-36.js';
 import type { ResponseMeta, ReturnFinancialSummary, ReturnEligibilitySelection } from './types-40.js';
-import type {
-    CardDetails,
-    CategoryReference,
-    CallerSuppliedDeliveryOutcomeRequestInput,
-    CallerSuppliedDeliveryOutcomeRequestAvailable,
-    CallerSuppliedDeliveryOutcomeRequestCannotCalculate,
-    CallerSuppliedDeliveryOutcomeRequestUnavailable
-} from './types-3.js';
-import type { StripeClientSetup, SubscriptionAddressVerification } from './types-44.js';
+import type { CardDetails, BuyerSubscriptionServiceLocation, CategoryReference } from './types-3.js';
+import type { StripeClientSetup, SelectedProductOption, SubscriptionAddressVerification } from './types-44.js';
 import type { ExpandedCustomerSummary, ExpandedPaymentIntentSummary } from './types-16.js';
 import type { RefundLineItemAllocation, RefundTaxBreakdownRefund, RefundTenderAllocation } from './types-39.js';
 import type { BundleComponent, Address } from './types-0.js';
 import type { Image } from './types-19.js';
 import type {
     ReturnReasonSummary,
-    ReturnResolutionLineItemRequest,
     ReturnLineItemValue,
     ReturnLineItemDecisionProposal,
-    ReturnPolicyAdjustmentProposal,
-    ReturnReplacementLineItem,
-    ReturnResolutionLineItem
+    ReturnPolicyAdjustmentProposal
 } from './types-41.js';
-import type { SelectedProductOption } from './types-43.js';
+import type { ReturnResolutionLineItemRequest, ReturnReplacementLineItem, ReturnResolutionLineItem } from './types-42.js';
 import type {
     SubscriptionDelivery,
     SubscriptionDeliveryHold,
     SubscriptionIntervalOption,
-    SubscriptionPlanSwapVariant,
     SubscriptionDeliveryOption
 } from './types-45.js';
-import type { SubscriptionPromotion, SubscriptionUpcomingDeliveryHold, SubscriptionRenewalPreview } from './types-46.js';
+import type {
+    SubscriptionPromotion,
+    SubscriptionUpcomingDeliveryHold,
+    SubscriptionPlanSwapVariant,
+    SubscriptionRenewalPreview
+} from './types-46.js';
 import type { OrderLineItemTax } from './types-32.js';
-import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-47.js';
-import type { DeliveryWindowRequest } from './types-15.js';
 /**
  * Shape $ (Value): {@link BuyerPaymentAttemptPaymentIntent}. The payment intent behind an order
  * payment attempt, with its status, amounts, authorization expiry, and last payment error.
@@ -459,6 +451,12 @@ export type BuyerPaymentIntent = {
     "transaction_purpose"?: "goods" | "services" | "other" | (string & {});
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "updated_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
  * Shape $ (Value): {@link BuyerPaymentIntentListResponse}. A page of `BuyerPaymentIntent` objects.
@@ -724,6 +722,12 @@ export type BuyerRefund = {
     "tender_allocations"?: Array<RefundTenderAllocation>;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "updated_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /** Shape $ (Value): {@link BuyerRefundListResponse}. A page of `BuyerRefund` objects. */
 export type BuyerRefundListResponse = {
@@ -1686,6 +1690,120 @@ export type BuyerReturnPreviewResponse = {
     "request_id"?: string;
 };
 /**
+ * Shape $ (Value): {@link BuyerReturnReplacementLineItemInputBundle}. The `bundle` variant of
+ * `BuyerReturnReplacementLineItemInput`.
+ */
+export type BuyerReturnReplacementLineItemInputBundle = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "bundle_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. The catalog source of the replacement merchandise. Value enum:
+     * "bundle".
+     */
+    "type": "bundle" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "variant_id"?: string;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "bundle". */
+    "type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "bundle_id": string;
+}));
+/**
+ * Shape $ (Value): {@link BuyerReturnReplacementLineItemInputBundleInput}. The `bundle` variant of
+ * `BuyerReturnReplacementLineItemInput`.
+ */
+export type BuyerReturnReplacementLineItemInputBundleInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "bundle_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. The catalog source of the replacement merchandise. Value enum:
+     * "bundle".
+     */
+    "type": "bundle";
+    /** Shape $ (Value): string. minLength: 1. */
+    "variant_id"?: string;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "bundle". */
+    "type": "bundle";
+    /** Shape $ (Value): string. minLength: 1. */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})));
+/**
+ * Shape $ (Value): {@link BuyerReturnReplacementLineItemInputVariant}. The `variant` variant of
+ * `BuyerReturnReplacementLineItemInput`.
+ */
+export type BuyerReturnReplacementLineItemInputVariant = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "bundle_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. The catalog source of the replacement merchandise. Value enum:
+     * "variant".
+     */
+    "type": "variant" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "variant_id": string;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "variant". */
+    "type": unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "variant_id": string;
+}));
+/**
+ * Shape $ (Value): {@link BuyerReturnReplacementLineItemInputVariantInput}. The `variant` variant
+ * of `BuyerReturnReplacementLineItemInput`.
+ */
+export type BuyerReturnReplacementLineItemInputVariantInput = ({
+    /** Shape $ (Value): string. minLength: 1. */
+    "bundle_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. The catalog source of the replacement merchandise. Value enum:
+     * "variant".
+     */
+    "type": "variant";
+    /** Shape $ (Value): string. minLength: 1. */
+    "variant_id": string;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "variant". */
+    "type": "variant";
+    /** Shape $ (Value): string. minLength: 1. */
+    "variant_id": string;
+})
+    & (({
+    "bundle_id"?: never;
+})));
+/**
  * Shape $ (Value): {@link BuyerReturnReplacementLineItemRequest}. A catalog variant or bundle and
  * quantity the buyer requests as a replacement in a Return resolution preview.
  */
@@ -1698,46 +1816,40 @@ export type BuyerReturnReplacementLineItemRequest = ({
      * int64. minimum: 1.
      */
     "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. The catalog source of the replacement merchandise. Value enum:
+     * "variant", "bundle".
+     */
+    "type": "variant" | "bundle" | (string & {});
     /** Shape $ (Value): string. minLength: 1. */
     "variant_id"?: string;
 })
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-}))
+    & ((Exclude<BuyerReturnReplacementLineItemInputVariant & object, readonly unknown[]>)
+    | (Exclude<BuyerReturnReplacementLineItemInputBundle & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /**
  * Shape $ (Value): {@link BuyerReturnReplacementLineItemRequestInput}. A catalog variant or bundle
  * and quantity the buyer requests as a replacement in a Return resolution preview.
  */
-export type BuyerReturnReplacementLineItemRequestInput = {
+export type BuyerReturnReplacementLineItemRequestInput = ({
     /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: never;
+    "bundle_id"?: string;
     /**
      * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
      * supported. Use an integer string (decimal digits), not a floating-point number. Format:
      * int64. minimum: 1.
      */
     "quantity": `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-}
-    | {
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
     /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 1.
+     * Shape $ (Value): string. The catalog source of the replacement merchandise. Value enum:
+     * "variant", "bundle".
      */
-    "quantity": `${bigint}` | bigint;
+    "type": "variant" | "bundle";
     /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: never;
-};
+    "variant_id"?: string;
+})
+    & ((Exclude<BuyerReturnReplacementLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<BuyerReturnReplacementLineItemInputBundleInput & object, readonly unknown[]>));
 /**
  * Shape $ (Value): {@link BuyerReturnResolution}. The refund, exchange, or other outcome of a
  * return.
@@ -2811,6 +2923,31 @@ export type BuyerSubscriptionPaymentRetry = {
     "updated_at": string;
 };
 /**
+ * Shape $ (Value): {@link BuyerSubscriptionPaymentRetryListResponse}. A page of
+ * `BuyerSubscriptionPaymentRetry` objects.
+ */
+export type BuyerSubscriptionPaymentRetryListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link BuyerSubscriptionPaymentRetry}. Shape $[] (Value): {@link
+     * BuyerSubscriptionPaymentRetry}. A retry of a past-due payment on the buyer's subscription.
+     * Includes, when available, the buyer's order and a failure they can act on. Omits the store's
+     * idempotency keys and payment attempt IDs.
+     */
+    "data": Array<BuyerSubscriptionPaymentRetry>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
  * Shape $ (Value): {@link BuyerSubscriptionPaymentRetryResponse}. A response containing
  * `BuyerSubscriptionPaymentRetry` data.
  */
@@ -3032,183 +3169,3 @@ export type BuyerSubscriptionResponse = {
      */
     "request_id"?: string;
 };
-/**
- * Shape $ (Value): {@link BuyerSubscriptionServiceLocation}. The customer address reference or
- * address used as the buyer's subscription service location.
- */
-export type BuyerSubscriptionServiceLocation = {
-    /**
-     * Shape $ (Value): {@link Address}. A postal address, as returned on customers, invoices, tax
-     * locations, and fulfillment recipients.
-     */
-    "address"?: Address;
-};
-/**
- * Shape $ (Value): {@link BuyerTip}. A tip on a buyer's order, with its requested, effective,
- * settled, and refunded amounts and how it was allocated to payments.
- */
-export type BuyerTip = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "effective_amount_money": MoneyValue;
-    /** Shape $ (Value): string. */
-    "name"?: string;
-    /** Shape $ (Value): string. */
-    "order_tip_id": string;
-    /**
-     * Shape $ (Value): Array of {@link TipPaymentIntentAllocation}. Shape $[] (Value): {@link
-     * TipPaymentIntentAllocation}. The part of a tip paid through one payment intent.
-     */
-    "payment_intent_allocations": Array<TipPaymentIntentAllocation>;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
-    "percent"?: number;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "settled_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Value enum: "requested", "settled", "partially_refunded",
-     * "refunded", "canceled".
-     */
-    "status": "requested" | "settled" | "partially_refunded" | "refunded" | "canceled" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): Array of {@link TipValueSettlementAllocation}. Shape $[] (Value): {@link
-     * TipValueSettlementAllocation}. The part of a tip paid through one value settlement.
-     */
-    "value_settlement_allocations": Array<TipValueSettlementAllocation>;
-};
-/**
- * Shape $ (Value): {@link CallerSuppliedDeliveryMethodResultRequest}. The rate result you supply
- * for one delivery method and choice group when creating a delivery quote with caller-supplied
- * pricing.
- */
-export type CallerSuppliedDeliveryMethodResultRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "delivery_choice_group_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "delivery_method_revision_id": string;
-    /**
-     * Shape $ (Value): {@link CallerSuppliedDeliveryOutcomeRequest}. Your outcome for a
-     * caller-priced delivery method, selected by `type`: available with a price and windows,
-     * unavailable with a reason, or cannot calculate.
-     */
-    "outcome": CallerSuppliedDeliveryOutcomeRequest;
-};
-/**
- * Shape $ (Value): {@link CallerSuppliedDeliveryMethodResultRequestInput}. The rate result you
- * supply for one delivery method and choice group when creating a delivery quote with
- * caller-supplied pricing.
- */
-export type CallerSuppliedDeliveryMethodResultRequestInput = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "delivery_choice_group_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "delivery_method_revision_id": string;
-    /**
-     * Shape $ (Value): {@link CallerSuppliedDeliveryOutcomeRequestInput}. Your outcome for a
-     * caller-priced delivery method, selected by `type`: available with a price and windows,
-     * unavailable with a reason, or cannot calculate.
-     */
-    "outcome": CallerSuppliedDeliveryOutcomeRequestInput;
-};
-/**
- * Shape $ (Value): {@link CallerSuppliedDeliveryOutcomeRequest}. Your outcome for a caller-priced
- * delivery method, selected by `type`: available with a price and windows, unavailable with a
- * reason, or cannot calculate.
- */
-export type CallerSuppliedDeliveryOutcomeRequest = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "expires_at"?: string;
-    /**
-     * Shape $ (Value): string. Why Flint could not calculate the method and the action that can
-     * make calculation succeed. - `dependency_failure`: Retry after the dependent service
-     * recovers. - `timeout`: Retry after the timed-out dependency recovers. -
-     * `malformed_response`: Fix the callback response so it matches the documented response
-     * schema, then retry. - `pricing_failure`: Fix the method pricing configuration or matching
-     * rate, then retry. - `schedule_failure`: Fix the method schedule, timezone, or requested
-     * window, then retry. - `geography_failure`: Fix the destination, origin, or geographic
-     * configuration, then retry. - `routing_failure`: Fix inventory routing or origin assignment,
-     * then retry. - `address_verification_failed`: Correct the address fields rejected by
-     * verification, then retry. - `address_could_not_be_verified`: Confirm or correct the address,
-     * or retry when address verification is available. Value enum: "dependency_failure",
-     * "timeout", "malformed_response", "pricing_failure", "schedule_failure", "geography_failure",
-     * "routing_failure", "address_verification_failed", "address_could_not_be_verified".
-     */
-    "failure_category"?: "dependency_failure"
-        | "timeout"
-        | "malformed_response"
-        | "pricing_failure"
-        | "schedule_failure"
-        | "geography_failure"
-        | "routing_failure"
-        | "address_verification_failed"
-        | "address_could_not_be_verified"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 500. */
-    "merchant_reference"?: string;
-    /**
-     * Shape $ (Value): Array of {@link DeliveryWindowRequest}. Shape $[] (Value): {@link
-     * DeliveryWindowRequest}. A delivery window you supply in a caller-supplied delivery outcome,
-     * with its time range, price, and the last moment a buyer can choose it.
-     */
-    "offered_windows"?: Array<DeliveryWindowRequest>;
-    /** Shape $ (Value): boolean. */
-    "retryable"?: boolean;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "selection_guarantee_expires_at"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_level"?: string;
-    /** Shape $ (Value): string.  Value enum: "available", "unavailable", "cannot_calculate". */
-    "type": "available" | "unavailable" | "cannot_calculate" | (string & {});
-    /**
-     * Shape $ (Value): string. Why the method is unavailable and the action that can make it
-     * eligible. - `destination_not_served`: Use a destination covered by this method or choose
-     * another method. - `pickup_unavailable`: Choose an available pickup method or location. -
-     * `no_window_available`: Choose another offered window or a method with availability for the
-     * requested time. - `eligibility_no_match`: Inspect eligibility_mismatches, then change the
-     * relevant buyer facts or method eligibility rule. - `pricing_unavailable`: Add or activate a
-     * matching rate, or provide the required caller-supplied price. - `inventory_unavailable`:
-     * Choose an origin or method backed by available inventory. Value enum:
-     * "destination_not_served", "pickup_unavailable", "no_window_available",
-     * "eligibility_no_match", "pricing_unavailable", "inventory_unavailable".
-     */
-    "unavailable_reason"?: "destination_not_served"
-        | "pickup_unavailable"
-        | "no_window_available"
-        | "eligibility_no_match"
-        | "pricing_unavailable"
-        | "inventory_unavailable"
-        | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_end_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "window_start_at"?: string;
-})
-    & ((Exclude<CallerSuppliedDeliveryOutcomeRequestAvailable & object, readonly unknown[]>)
-    | (Exclude<CallerSuppliedDeliveryOutcomeRequestUnavailable & object, readonly unknown[]>)
-    | (Exclude<CallerSuppliedDeliveryOutcomeRequestCannotCalculate & object, readonly unknown[]>)
-    | (Record<string, unknown>));

@@ -8,14 +8,7 @@ Returns what the merchant currently owes Flint and owns as account credit in one
 
 `GET /v1/merchant-billing-balances/{merchant_billing_balance_id}`
 
-Signature:
-
-```typescript
-get(merchant_billing_balance_id: InputValue<string>,
- params?: {
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
-```
+Signature: `get(merchant_billing_balance_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -49,7 +42,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -65,7 +58,7 @@ Returns what the merchant currently owes Flint and owns as account credit by cur
 
 `GET /v1/merchant-billing-balances`
 
-Signature: `list(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+Signature: `list(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
 
 #### Request fields
 
@@ -96,7 +89,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

@@ -5,14 +5,14 @@ namespace Flint;
  * @property-read array{'demo_session_id': string, 'template'?: string, ...}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class DemoSessionsResetInput extends Model {
-    /** @param array{'X-Turnstile-Token'?: string, 'Idempotency-Key'?: string, 'body': array{'demo_session_id': string, 'template'?: string, ...}|object}|object $values */
+    /** @param array{'Flint-Challenge-Token': string, 'Idempotency-Key'?: string, 'body': array{'demo_session_id': string, 'template'?: string, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DemoSessionsResetInput')); }
     /** Shape $ (Value): string.
      * @return string
-     * @throws SdkError When X-Turnstile-Token is omitted; use hasXTurnstileToken() or valueOrDefault().
+     * @throws SdkError When Flint-Challenge-Token is omitted; use hasFlintChallengeToken() or valueOrDefault().
      */
-    public function getXTurnstileToken(): string { return $this->get('X-Turnstile-Token'); }
-    public function hasXTurnstileToken(): bool { return $this->has('X-Turnstile-Token'); }
+    public function getFlintChallengeToken(): string { return $this->get('Flint-Challenge-Token'); }
+    public function hasFlintChallengeToken(): bool { return $this->has('Flint-Challenge-Token'); }
     /** Shape $ (Value): string. maxLength: 255.
      * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().

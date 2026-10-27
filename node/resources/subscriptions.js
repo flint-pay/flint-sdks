@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptions.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import r0 from '../descriptors/resources/subscriptions.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import settings from '../descriptors/settings.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPaymentMethod"]:r0,["changeSubscriptionPlan"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionLineItem"]:r0,["createSubscriptionPaymentRetry"]:r0,["deleteSubscriptionLineItem"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["reactivateSubscription"]:r0,["renewSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionBillingSchedule"]:r0,["updateSubscriptionLineItem"]:r0});
 export class Client {
@@ -146,6 +146,7 @@ this.subscriptions = Object.freeze({
   "idempotency_key"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listSubscriptions", _sdkRequestInput([], [], [
+  "idempotency_key",
   "terms_type",
   "page_size",
   "page_token",
@@ -172,6 +173,7 @@ this.subscriptions = Object.freeze({
   "expand"
 ], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSubscriptions", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listSubscriptions", _sdkRequestInput([], [], [
+  "idempotency_key",
   "terms_type",
   "page_size",
   "page_token",
@@ -198,6 +200,7 @@ this.subscriptions = Object.freeze({
   "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptions", _sdkRequestInput([], [], [
+  "idempotency_key",
   "terms_type",
   "page_size",
   "page_token",
@@ -224,6 +227,7 @@ this.subscriptions = Object.freeze({
   "expand"
 ], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listSubscriptions", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptions", _sdkRequestInput([], [], [
+  "idempotency_key",
   "terms_type",
   "page_size",
   "page_token",
@@ -250,6 +254,7 @@ this.subscriptions = Object.freeze({
   "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listSubscriptions", _sdkRequestInput([], [], [
+  "idempotency_key",
   "terms_type",
   "page_size",
   "page_token",
@@ -362,6 +367,8 @@ export { makeConfigurationVersionRequest } from '../models/ConfigurationVersionR
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
 export { makeCreateSubscriptionAccessLinkRequest } from '../models/CreateSubscriptionAccessLinkRequest.js';
 export { makeCreateSubscriptionLineItemRequest } from '../models/CreateSubscriptionLineItemRequest.js';
+export { makeCreateSubscriptionLineItemRequestBundle } from '../models/CreateSubscriptionLineItemRequestBundle.js';
+export { makeCreateSubscriptionLineItemRequestVariant } from '../models/CreateSubscriptionLineItemRequestVariant.js';
 export { makeCreateSubscriptionRequest } from '../models/CreateSubscriptionRequest.js';
 export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
 export { makeDimensions } from '../models/Dimensions.js';

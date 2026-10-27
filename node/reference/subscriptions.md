@@ -15,7 +15,7 @@ cancel(subscription_id: InputValue<string>,
  params: (InputValue<CancelSubscriptionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -53,7 +53,7 @@ Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -79,7 +79,7 @@ changePaymentMethod(subscription_id: InputValue<string>,
  params: (InputValue<ChangeSubscriptionPaymentMethodRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -116,7 +116,7 @@ Complete body and metadata: `changePaymentMethodWithResponse`. See [response mod
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -142,7 +142,7 @@ changePlan(subscription_id: InputValue<string>,
  params: (InputValue<ChangeSubscriptionPlanRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -191,7 +191,7 @@ Complete body and metadata: `changePlanWithResponse`. See [response modes](../RU
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -216,7 +216,7 @@ Signature:
 create(params: (InputValue<CreateSubscriptionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -275,7 +275,7 @@ Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -304,7 +304,7 @@ createAccessLink(subscription_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -351,7 +351,7 @@ Complete body and metadata: `createAccessLinkWithResponse`. See [response modes]
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -377,7 +377,7 @@ createLineItem(subscription_id: InputValue<string>,
  params: (InputValue<CreateSubscriptionLineItemRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -397,33 +397,28 @@ Body model: [CreateSubscriptionLineItemRequestInput](../models/CreateSubscriptio
 | `bundle_id` | Optional | string | minLength: `1`. pattern: `^bun_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `9999`. |
+| `type` | Required | string | The catalog source of the new line: variant or bundle. Values: `"variant"`, `"bundle"`. |
 | `variant_id` | Optional | string | minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### subscriptions.createLineItem body oneOf variant 1
 
+The `variant` variant of `CreateSubscriptionLineItemRequest`.
 
+Body model: [CreateSubscriptionLineItemRequestVariantInput](../models/CreateSubscriptionLineItemRequestVariant.md#createsubscriptionlineitemrequestvariant).
 
 #### subscriptions.createLineItem body oneOf variant 1 fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `bundle_id` | Optional | string | minLength: `1`. pattern: `^bun_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `9999`. |
-| `variant_id` | Required | string | minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
+Field definitions: [shared fields](../models/CreateSubscriptionLineItemRequestVariant.md#createsubscriptionlineitemrequestvariant).
 
 #### subscriptions.createLineItem body oneOf variant 2
 
+The `bundle` variant of `CreateSubscriptionLineItemRequest`.
 
+Body model: [CreateSubscriptionLineItemRequestBundleInput](../models/CreateSubscriptionLineItemRequestBundle.md#createsubscriptionlineitemrequestbundle).
 
 #### subscriptions.createLineItem body oneOf variant 2 fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `bundle_id` | Required | string | minLength: `1`. pattern: `^bun_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `9999`. |
-| `variant_id` | Optional | string | minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
+Field definitions: [shared fields](../models/CreateSubscriptionLineItemRequestBundle.md#createsubscriptionlineitemrequestbundle).
 
 #### Response
 
@@ -455,7 +450,7 @@ Complete body and metadata: `createLineItemWithResponse`. See [response modes](.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -463,7 +458,7 @@ Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.m
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.subscriptions.createLineItem("example", {quantity: 1, variant_id: "var_00000000000000000000000000"}, { idempotencyKey: idempotencyKey });
+const result = await client.subscriptions.createLineItem("example", {quantity: 1, type: "variant", variant_id: "var_00000000000000000000000000"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/subscriptions-createLineItem.mjs)
@@ -483,7 +478,7 @@ createPaymentRetry(subscription_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 } | undefined,
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -525,7 +520,7 @@ Complete body and metadata: `createPaymentRetryWithResponse`. See [response mode
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -553,7 +548,7 @@ deleteLineItem(subscription_id: InputValue<string>,
   "expected_version"?: InputValue<`${bigint}` | bigint>;
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -593,7 +588,7 @@ Complete body and metadata: `deleteLineItemWithResponse`. See [response modes](.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -619,7 +614,7 @@ get(subscription_id: InputValue<string>,
  params?: {
   "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant">>)
 ```
 
 #### Request fields
@@ -655,7 +650,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `checkout`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -678,7 +673,7 @@ getPaymentRetry(subscription_id: InputValue<string>,
  subscription_payment_retry_id: InputValue<string>,
  params?: {
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
@@ -713,7 +708,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `getPaymentRetryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -733,6 +728,7 @@ Signature:
 
 ```typescript
 list(params?: {
+  "idempotency_key"?: InputValue<string>;
   "terms_type"?: InputValue<Array<"subscription_plan" | "subscription_offer">>;
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>;
@@ -766,13 +762,14 @@ list(params?: {
   "needs_attention"?: InputValue<boolean>;
   "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `idempotency_key` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `terms_type` | Optional | Array of string | minItems: `1`. Items values: `"subscription_plan"`, `"subscription_offer"`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
@@ -823,7 +820,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -850,17 +847,12 @@ listPaymentRetries(subscription_id: InputValue<string>,
   "page_token"?: InputValue<string>;
   "idempotency_key"?: InputValue<string>
 },
- options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `idempotency_key` | Optional | string |  |
+Field definitions: [shared fields](me.md#request-fields-55).
 
 #### Response
 
@@ -887,7 +879,7 @@ Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retrie
 
 Complete body and metadata: `listPaymentRetriesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 Pagination: `listPaymentRetriesItems`, `listPaymentRetriesPages`, `listPaymentRetriesPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
 
@@ -912,12 +904,12 @@ pause(subscription_id: InputValue<string>,
  params: (InputValue<PauseSubscriptionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-56). Models: [PauseSubscriptionRequestInput](../models/PauseSubscriptionRequest.md#pausesubscriptionrequest).
+Field definitions: [shared fields](me.md#request-fields-57). Models: [PauseSubscriptionRequestInput](../models/PauseSubscriptionRequest.md#pausesubscriptionrequest).
 
 #### Response
 
@@ -950,7 +942,7 @@ Complete body and metadata: `pauseWithResponse`. See [response modes](../RUNTIME
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -978,12 +970,12 @@ reactivate(subscription_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-57). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](me.md#request-fields-58). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 
@@ -1015,7 +1007,7 @@ Complete body and metadata: `reactivateWithResponse`. See [response modes](../RU
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1041,12 +1033,12 @@ renew(subscription_id: InputValue<string>,
  params: (InputValue<RenewSubscriptionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>)
+ options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)
 ```
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-60). Models: [RenewSubscriptionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
+Field definitions: [shared fields](me.md#request-fields-61). Models: [RenewSubscriptionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
 
 #### Response
 
@@ -1080,7 +1072,7 @@ Complete body and metadata: `renewWithResponse`. See [response modes](../RUNTIME
 
 Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1108,12 +1100,12 @@ resume(subscription_id: InputValue<string>,
 }) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-57). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](me.md#request-fields-58). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 
@@ -1146,7 +1138,7 @@ Complete body and metadata: `resumeWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1172,7 +1164,7 @@ skipCycle(subscription_id: InputValue<string>,
  params: (InputValue<SkipSubscriptionCycleRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1219,7 +1211,7 @@ Complete body and metadata: `skipCycleWithResponse`. See [response modes](../RUN
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1245,7 +1237,7 @@ update(subscription_id: InputValue<string>,
  params: (InputValue<UpdateSubscriptionRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1303,7 +1295,7 @@ Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIM
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1384,7 +1376,7 @@ Complete body and metadata: `updateBillingScheduleWithResponse`. See [response m
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 
@@ -1411,7 +1403,7 @@ updateLineItem(subscription_id: InputValue<string>,
  params: (InputValue<UpdateSubscriptionLineItemRequestInput>) & {
   "Idempotency-Key"?: InputValue<string>
 },
- options?: RequestOptions<"merchant" | "merchantKey">)
+ options?: RequestOptions<"merchant">)
 ```
 
 #### Request fields
@@ -1459,7 +1451,7 @@ Complete body and metadata: `updateLineItemWithResponse`. See [response modes](.
 
 Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
 
-Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# PromotionRefRequestInput – ResourceReference
+# PromotionRecurrenceRepeatingInput – ResolvePaymentLinkRequestInput
 
+- [PromotionRecurrenceRepeatingInput](PromotionRecurrenceRepeatingInput.md)
+- [PromotionRefRequest](PromotionRefRequest.md)
 - [PromotionRefRequestInput](PromotionRefRequestInput.md)
 - [PromotionResponse](PromotionResponse.md)
 - [PromotionRule](PromotionRule.md)
@@ -87,6 +89,7 @@
 - [ReportResponse](ReportResponse.md)
 - [ReportSucceeded](ReportSucceeded.md)
 - [RepriceDiscountsRequestInput](RepriceDiscountsRequestInput.md)
+- [ResendWebhookDeliveryRequest](ResendWebhookDeliveryRequest.md)
 - [ResendWebhookDeliveryRequestInput](ResendWebhookDeliveryRequestInput.md)
 - [ResetDemoSessionRequest](ResetDemoSessionRequest.md)
 - [ResetDemoSessionRequestInput](ResetDemoSessionRequestInput.md)
@@ -99,7 +102,4 @@
 - [ResolvePaymentLinkLineItemModifiersInput](ResolvePaymentLinkLineItemModifiersInput.md)
 - [ResolvePaymentLinkRequest](ResolvePaymentLinkRequest.md)
 - [ResolvePaymentLinkRequestInput](ResolvePaymentLinkRequestInput.md)
-- [ResolvePaymentLinkResponse](ResolvePaymentLinkResponse.md)
-- [ResolvePaymentLinkTextModifierRequestInput](ResolvePaymentLinkTextModifierRequestInput.md)
-- [ResourceReference](ResourceReference.md)
 

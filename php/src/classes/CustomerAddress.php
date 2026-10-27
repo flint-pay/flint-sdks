@@ -12,9 +12,10 @@ namespace Flint;
  * @property-read ?string $phone
  * @property-read string $recipient_name
  * @property-read string $updated_at
+ * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class CustomerAddress extends Model {
-    /** @param array{'address': mixed, 'created_at': string, 'customer_address_id': string, 'customer_id': string, 'is_default_billing': bool, 'is_default_shipping': bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'address': mixed, 'created_at': string, 'customer_address_id': string, 'customer_id': string, 'is_default_billing': bool, 'is_default_shipping': bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAddress')); }
     /** Shape $ (Value): {@see PostalAddress}. A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country.
      * @return PostalAddress
@@ -66,4 +67,9 @@ final class CustomerAddress extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
 }

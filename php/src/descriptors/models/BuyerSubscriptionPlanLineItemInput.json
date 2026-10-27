@@ -1,1 +1,1 @@
-{"shared":"BuyerSubscriptionPlanLineItem","dependencies":["BuyerSubscriptionPlanLineItem","CategoryReference","Image","MoneyValue","OrderLineItemTax","SelectedProductOption","SharedCodec27","SharedCodec31","SharedCodec32","SharedCodec33","SharedCodec34","SubscriptionPlanSwapVariant"]}
+{"shared":"BuyerSubscriptionPlanLineItem","dependencies":["BuyerSubscriptionPlanLineItem","CategoryReference","Image","MoneyValue","OrderLineItemTax","SelectedProductOption","SharedCodec27","SharedCodec35","SharedCodec36","SharedCodec37","SharedCodec38","SubscriptionPlanSwapVariant"]}

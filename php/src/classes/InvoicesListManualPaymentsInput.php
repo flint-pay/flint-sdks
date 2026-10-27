@@ -5,9 +5,10 @@ namespace Flint;
  * @property-read string $invoice_id
  * @property-read int $page_size
  * @property-read string $page_token
+ * @property-read string $idempotency_key
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesListManualPaymentsInput extends Model {
-    /** @param array{'invoice_id': string, 'page_size'?: int, 'page_token'?: string}|object $values */
+    /** @param array{'invoice_id': string, 'page_size'?: int, 'page_token'?: string, 'idempotency_key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesListManualPaymentsInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -27,4 +28,10 @@ final class InvoicesListManualPaymentsInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
 }

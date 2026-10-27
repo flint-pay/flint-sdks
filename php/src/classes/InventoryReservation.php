@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|null $closed_reason
  * @property-read string $created_at
  * @property-read string|null $expires_at
- * @property-read string $idempotency_key
+ * @property-read ?string $idempotency_key
  * @property-read ?InventoryActionRequired $inventory_action_required
  * @property-read string $inventory_reservation_id
  * @property-read InventoryRoutingSource $inventory_routing_source
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryReservation extends Model {
-    /** @param array{'closed_reason'?: string|null, 'created_at': string, 'expires_at': string|null, 'idempotency_key': string, 'inventory_action_required'?: mixed, 'inventory_reservation_id': string, 'inventory_routing_source': mixed, 'lines': list<mixed>, 'owner': mixed, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'closed_reason'?: string|null, 'created_at': string, 'expires_at': string|null, 'idempotency_key'?: string, 'inventory_action_required'?: mixed, 'inventory_reservation_id': string, 'inventory_routing_source': mixed, 'lines': list<mixed>, 'owner': mixed, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservation')); }
     /** Shape $ (Value): string or null. How the reservation ended. mixed when more than one terminal outcome applied. Value enum: "consumed", "released", "expired", "reallocated", "mixed", null.
      * @return string|null
@@ -36,10 +36,10 @@ final class InventoryReservation extends Model {
      */
     public function getExpiresAt(): string|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Shape $ (Value): string. The Idempotency-Key of the command that created this reservation.
-     * @return string
+    /** Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
+     * @return ?string
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): ?string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): {@see InventoryActionRequired}. Present when the claim needs a merchant action before commerce can continue. Says that an inventory reservation needs action, with the `reason` and the reservation lines affected.
      * @return ?InventoryActionRequired

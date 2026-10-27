@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# SubscriptionCountsInput – UpdateDeliveryProfileRequestInput
+# SubscriptionBillingScheduleUpdateRequestInput – UpdateCustomerAddressRequestInput
 
+- [SubscriptionBillingScheduleUpdateRequestInput](SubscriptionBillingScheduleUpdateRequestInput.md)
+- [SubscriptionBillingStartInputImmediateInput](SubscriptionBillingStartInputImmediateInput.md)
+- [SubscriptionBillingStartInputImportedInput](SubscriptionBillingStartInputImportedInput.md)
+- [SubscriptionBillingStartInputScheduledInput](SubscriptionBillingStartInputScheduledInput.md)
+- [SubscriptionBillingStartRequestInput](SubscriptionBillingStartRequestInput.md)
+- [SubscriptionCancellationDetailsInput](SubscriptionCancellationDetailsInput.md)
 - [SubscriptionCountsInput](SubscriptionCountsInput.md)
 - [SubscriptionDeliveryInput](SubscriptionDeliveryInput.md)
 - [SubscriptionDeliveryDestinationInput](SubscriptionDeliveryDestinationInput.md)
@@ -96,10 +102,4 @@
 - [UpdateCheckoutSessionRequestInput](UpdateCheckoutSessionRequestInput.md)
 - [UpdateCreditNoteRequestInput](UpdateCreditNoteRequestInput.md)
 - [UpdateCustomerAddressRequestInput](UpdateCustomerAddressRequestInput.md)
-- [UpdateCustomerEmailPreferencesRequestInput](UpdateCustomerEmailPreferencesRequestInput.md)
-- [UpdateCustomerRequestInput](UpdateCustomerRequestInput.md)
-- [UpdateDeliveryFulfillmentDetailsInput](UpdateDeliveryFulfillmentDetailsInput.md)
-- [UpdateDeliveryLocationSetRequestInput](UpdateDeliveryLocationSetRequestInput.md)
-- [UpdateDeliveryMethodRequestInput](UpdateDeliveryMethodRequestInput.md)
-- [UpdateDeliveryProfileRequestInput](UpdateDeliveryProfileRequestInput.md)
 

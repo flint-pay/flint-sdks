@@ -49,7 +49,7 @@ final class InventoryAdjustmentsListInput extends Model {
      */
     public function getReason(): array { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

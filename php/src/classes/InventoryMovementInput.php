@@ -72,7 +72,7 @@ final class InventoryMovementInput extends Model {
      */
     public function getHeldQuantityDelta(): string { return $this->get('held_quantity_delta'); }
     public function hasHeldQuantityDelta(): bool { return $this->has('held_quantity_delta'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a movement, of the command that wrote it. Omitted when that request had no key.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

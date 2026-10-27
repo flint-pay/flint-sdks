@@ -12,9 +12,9 @@ import type {
     DeliveryMethodsUpdateInput
 } from '../declarations/types-12.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateDeliveryMethodRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -45,23 +45,26 @@ export type {
     DeliveryMethodsUpdateInput,
     DeliveryMethodConfigurationCreateRequestInput,
     DeliveryPostalCodeConditionInput,
-    DeliveryPostalCodeValueInput,
+    DeliveryEstimateRuleRequestInput,
     DeliveryMethodOriginSelectorRequestInput,
     DeliveryMethodOriginSelectorInputFixedLocationInput,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
     DeliveryMethodOriginSelectorInputPickupLocationCollectionInput,
+    DeliveryFixedPricingStrategyRequestInput,
     DeliveryMethodConfigurationRequestInput,
     DeliveryMethodConfiguration,
     DeliveryPostalCodeCondition,
-    DeliveryPostalCodeValue,
+    DeliveryEstimateRule,
     DeliveryMethodOriginSelector,
     DeliveryMethodOriginSelectorFixedLocation,
     DeliveryMethodOriginSelectorAllocatedOriginGroup,
     DeliveryMethodOriginSelectorPickupLocationCollection,
+    DeliveryExternalPricingStrategy,
+    DeliveryFixedPricingStrategy,
     DeliveryMethodConfigurationPatchRequestInput
 } from '../declarations/types-12.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-47.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { BuyerInstructionsConfigInput, BuyerInstructionsConfig } from '../declarations/types-1.js';
@@ -71,7 +74,6 @@ export type {
     DeliveryCustomerBooleanConditionInput,
     DeliveryCustomerSegmentConditionInput,
     DeliveryDistanceInput,
-    DeliveryEstimateRuleRequestInput,
     DeliveryAvailabilityInput,
     DeliveryBlackoutIntervalInput,
     DeliveryBusinessDayRangeInput,
@@ -79,53 +81,17 @@ export type {
     DeliveryDistanceUnitPriceRequestInput,
     DeliveryCallbackPricingStrategyRequestInput,
     DeliveryCallerSuppliedPricingStrategyRequestInput,
-    DeliveryFixedPricingStrategyRequestInput,
     DeliveryEligibilityExpression,
     DeliveryCustomerBooleanCondition,
     DeliveryDistance,
-    DeliveryEstimateRule,
     DeliveryAvailability,
     DeliveryBlackoutInterval,
     DeliveryBusinessDayRange,
     DeliveryCalculatedPricingStrategy,
-    DeliveryDistanceUnitPrice,
-    DeliveryExternalPricingStrategy,
-    DeliveryFixedPricingStrategy
+    DeliveryDistanceUnitPrice
 } from '../declarations/types-11.js';
 export type {
-    DeliveryRadiusConditionInput,
-    DeliveryRadiusOriginInput,
-    DeliveryScheduleWindowRuleRequestInput,
-    DeliveryRateTablePricingStrategyCreateRequestInput,
-    DeliveryRecipientRequirementInput,
-    DeliveryRateTablePricingStrategyRequestInput,
-    DeliveryRadiusCondition,
-    DeliveryRadiusOrigin,
-    DeliveryScheduleWindowRule,
-    DeliveryRateTablePricingStrategy,
-    DeliveryRecipientRequirement
-} from '../declarations/types-14.js';
-export type {
-    DeliveryStateConditionInput,
-    DeliveryWindowTimeConditionInput,
-    DeliveryZoneConditionInput,
-    DeliveryWeeklyIntervalInput,
-    DeliveryTransitTimeRuleInput,
-    DeliveryWeightUnitPriceRequestInput,
-    DeliveryTieredPricingStrategyRequestInput,
-    DeliveryTieredPricingStrategyInputWeightInput,
-    DeliveryTieredPricingStrategyInputQuantityOrMoneyInput,
-    DeliveryStateCondition,
-    DeliveryWindowTimeCondition,
-    DeliveryZoneCondition,
-    DeliveryWeeklyInterval,
-    DeliveryTransitTimeRule,
-    DeliveryWeightUnitPrice,
-    DeliveryTieredPricingStrategy,
-    DeliveryTieredPricingStrategyWeight,
-    DeliveryTieredPricingStrategyQuantityOrMoney
-} from '../declarations/types-15.js';
-export type {
+    DeliveryPostalCodeValueInput,
     DeliveryPricingStrategyCreateRequestInput,
     DeliveryPricingRateCreateRequestInput,
     DeliveryPricingTierBandRequestInput,
@@ -143,6 +109,7 @@ export type {
     DeliveryPricingStrategyInputFixedInput,
     DeliveryPricingStrategyInputRateTableInput,
     DeliveryPricingStrategyInputTieredInput,
+    DeliveryPostalCodeValue,
     DeliveryPricingStrategy,
     DeliveryPricingRate,
     DeliveryPricingTierBand,
@@ -153,11 +120,44 @@ export type {
     DeliveryPricingStrategyRateTable,
     DeliveryPricingStrategyTiered
 } from '../declarations/types-13.js';
+export type {
+    DeliveryRadiusConditionInput,
+    DeliveryRadiusOriginInput,
+    DeliveryRateTablePricingStrategyCreateRequestInput,
+    DeliveryRecipientRequirementInput,
+    DeliveryRateTablePricingStrategyRequestInput,
+    DeliveryRadiusCondition,
+    DeliveryRadiusOrigin,
+    DeliveryScheduleWindowRule,
+    DeliveryRateTablePricingStrategy,
+    DeliveryRecipientRequirement
+} from '../declarations/types-14.js';
+export type {
+    DeliveryStateConditionInput,
+    DeliveryWindowTimeConditionInput,
+    DeliveryZoneConditionInput,
+    DeliveryScheduleWindowRuleRequestInput,
+    DeliveryWeeklyIntervalInput,
+    DeliveryTransitTimeRuleInput,
+    DeliveryWeightUnitPriceRequestInput,
+    DeliveryTieredPricingStrategyRequestInput,
+    DeliveryTieredPricingStrategyInputWeightInput,
+    DeliveryTieredPricingStrategyInputQuantityOrMoneyInput,
+    DeliveryStateCondition,
+    DeliveryWindowTimeCondition,
+    DeliveryZoneCondition,
+    DeliveryWeeklyInterval,
+    DeliveryTransitTimeRule,
+    DeliveryWeightUnitPrice,
+    DeliveryTieredPricingStrategy,
+    DeliveryTieredPricingStrategyWeight,
+    DeliveryTieredPricingStrategyQuantityOrMoney
+} from '../declarations/types-15.js';
 export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
 export type { AuthMode, AddRiskListItemsRequest } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { SubscriptionCounts } from '../declarations/types-45.js';
-export { makeAddRiskListItemsRequest, makeBuyerInstructionsConfig } from '../declarations/types-61.js';
+export { makeAddRiskListItemsRequest, makeBuyerInstructionsConfig } from '../declarations/types-62.js';
 export {
     makeCreateDeliveryMethodRequest,
     makeCreateDeliveryMethodRequestLocalDelivery,
@@ -182,7 +182,9 @@ export {
     makeDeliveryMethodConfigurationCreateRequest,
     makeDeliveryMethodConfigurationPatchRequest,
     makeDeliveryMethodConfigurationRequest,
-    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
+    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup
+} from '../declarations/types-65.js';
+export {
     makeDeliveryMethodOriginSelectorInputFixedLocation,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollection,
     makeDeliveryMethodOriginSelectorRequest,
@@ -204,9 +206,7 @@ export {
     makeDeliveryPricingStrategyInputRateTable,
     makeDeliveryPricingStrategyInputTiered,
     makeDeliveryPricingStrategyRequest,
-    makeDeliveryPricingTierBandRequest
-} from '../declarations/types-65.js';
-export {
+    makeDeliveryPricingTierBandRequest,
     makeDeliveryRadiusCondition,
     makeDeliveryRadiusOrigin,
     makeDeliveryRateTablePricingStrategyCreateRequest,
@@ -242,14 +242,14 @@ export interface DeliveryMethodsResource {
     create(params: (InputValue<CreateDeliveryMethodRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryMethod>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryMethod>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryMethods.md#deliverymethodscreate
      */
     createWithResponse(params: (InputValue<CreateDeliveryMethodRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryMethodResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryMethodResponse>>;
     /**
  * Retires the delivery method after checking current dependencies. The retired resource remains
  * available by ID for historical records. Deleting an already archived resource returns it without
@@ -270,14 +270,14 @@ export interface DeliveryMethodsResource {
     remove(delivery_method_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryMethod>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryMethod>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryMethods.md#deliverymethodsremove
      */
     removeWithResponse(delivery_method_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryMethodResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryMethodResponse>>;
     /**
  * Returns the current revision and lifecycle state for one delivery method.
  * @see reference/deliveryMethods.md#deliverymethodsget
@@ -285,11 +285,11 @@ export interface DeliveryMethodsResource {
  * @example
  * client.deliveryMethods.get("example")
  */
-    get(delivery_method_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryMethod>;
+    get(delivery_method_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryMethod>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryMethods.md#deliverymethodsget
      */
-    getWithResponse(delivery_method_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryMethodResponse>>;
+    getWithResponse(delivery_method_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryMethodResponse>>;
     /**
  * Returns delivery methods in a stable, cursor-paginated order. Archived resources are excluded by
  * default.
@@ -309,7 +309,7 @@ export interface DeliveryMethodsResource {
         "delivery_location_set_id"?: InputValue<string>;
         "delivery_rate_callback_id"?: InputValue<string>;
         "location_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeliveryMethodListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliveryMethodListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryMethods.md#deliverymethodslist
      */
@@ -324,7 +324,7 @@ export interface DeliveryMethodsResource {
         "delivery_location_set_id"?: InputValue<string>;
         "delivery_rate_callback_id"?: InputValue<string>;
         "location_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeliveryMethodListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryMethodListResponse>>;
     /** Iterate pages lazily.
      * @see reference/deliveryMethods.md#deliverymethodslist
      */
@@ -339,7 +339,7 @@ export interface DeliveryMethodsResource {
         "delivery_location_set_id"?: InputValue<string>;
         "delivery_rate_callback_id"?: InputValue<string>;
         "location_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryMethodListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryMethodListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/deliveryMethods.md#deliverymethodslist
      */
@@ -354,7 +354,7 @@ export interface DeliveryMethodsResource {
         "delivery_location_set_id"?: InputValue<string>;
         "delivery_rate_callback_id"?: InputValue<string>;
         "location_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeliveryMethodListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliveryMethodListResponse>>;
     /** Iterate items lazily.
      * @see reference/deliveryMethods.md#deliverymethodslist
      */
@@ -369,7 +369,7 @@ export interface DeliveryMethodsResource {
         "delivery_location_set_id"?: InputValue<string>;
         "delivery_rate_callback_id"?: InputValue<string>;
         "location_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeliveryMethod>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryMethod>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable
  * revision and requires expected_version. Archived resources can't be changed; create a new
@@ -388,14 +388,14 @@ export interface DeliveryMethodsResource {
     update(delivery_method_id: InputValue<string>, params: (InputValue<UpdateDeliveryMethodRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<DeliveryMethod>;
+    }, options?: RequestOptions<"merchant">): Promise<DeliveryMethod>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/deliveryMethods.md#deliverymethodsupdate
      */
     updateWithResponse(delivery_method_id: InputValue<string>, params: (InputValue<UpdateDeliveryMethodRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeliveryMethodResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryMethodResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

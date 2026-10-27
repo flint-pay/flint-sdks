@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_after
  * @property-read string|\DateTimeInterface $created_before
  * @property-read list<string> $decision_status
+ * @property-read string $idempotency_key
  * @property-read list<string> $merchandise_status
  * @property-read string $order_id
  * @property-read int $page_size
@@ -17,7 +18,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListReturnsInput extends Model {
-    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'decision_status'?: list<string>, 'merchandise_status'?: list<string>, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'resolution_status'?: list<string>, 'return_number'?: string, 'return_reason_id'?: string, 'status'?: list<string>, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'decision_status'?: list<string>, 'idempotency_key'?: string, 'merchandise_status'?: list<string>, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'resolution_status'?: list<string>, 'return_number'?: string, 'return_reason_id'?: string, 'status'?: list<string>, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListReturnsInput')); }
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z".
      * @return string|\DateTimeInterface
@@ -37,6 +38,12 @@ final class MeListReturnsInput extends Model {
      */
     public function getDecisionStatus(): array { return $this->get('decision_status'); }
     public function hasDecisionStatus(): bool { return $this->has('decision_status'); }
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Shape $ (Value): Array of string. minItems: 1. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception". Shape $[] (Value): string.  Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception".
      * @return list<string>
      * @throws SdkError When merchandise_status is omitted; use hasMerchandiseStatus() or valueOrDefault().

@@ -1,33 +1,182 @@
-import type { InputValue } from '../runtime.js';
 import type {
-    CreateFulfillmentEventRequestInput,
-    CreateGiftCardFundingDispositionRequestInput,
-    CreateGiftCardLoadRequestInput
-} from './types-6.js';
+    FulfillmentTransitionRequestAcceptInput,
+    FulfillmentTransitionRequestCancelInput,
+    FulfillmentTransitionRequestCompleteInput,
+    FulfillmentTransitionRequestDispatchInput,
+    FulfillmentTransitionRequestFailInput,
+    FulfillmentTransitionRequestHoldInput
+} from './types-17.js';
+import type { InputValue } from '../runtime.js';
+import type { CreateFulfillmentEventRequestInput, CreateGiftCardFundingDispositionRequestInput } from './types-6.js';
 import type { CreateShipmentRequestInput } from './types-9.js';
-import type { FulfillmentTransitionRequestInput } from './types-17.js';
-import type { UpdateFulfillmentRequestInput } from './types-47.js';
+import type { UpdateFulfillmentRequestInput } from './types-48.js';
 import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-4.js';
 import type { ResponseMeta, ReturnDisposition, ReturnInspection } from './types-40.js';
-import type {
-    ReturnLineItem,
-    ReturnPolicy,
-    ReturnPolicyRevision,
-    ReturnReason,
-    ReturnReceipt,
-    ReturnResolution
-} from './types-41.js';
-import type { ReturnResource } from './types-42.js';
-import type {
-    GiftCardRestriction,
-    GiftCardPurchaseRefundAllocation,
-    GiftCardPurchaseRefundValueHold,
-    GiftCardPurchaseRestoration,
-    GiftCardRefundProvenance
-} from './types-19.js';
+import type { ReturnLineItem, ReturnPolicy, ReturnPolicyRevision, ReturnReason, ReturnReceipt } from './types-41.js';
+import type { ReturnResolution, ReturnResource } from './types-42.js';
+import type { GiftCardRestriction } from './types-19.js';
 import type { MoneyValue } from './types-31.js';
 import type { AdjustGiftCardBalanceRequestInput } from './types-0.js';
 import type { CashOutGiftCardRequestInput } from './types-3.js';
+/**
+ * Shape $ (Value): {@link FulfillmentTransitionRequestInput}. The request body for: Transition
+ * fulfillment.
+ */
+export type FulfillmentTransitionRequestInput = ((FulfillmentTransitionRequestReleaseHoldInput)
+    | (FulfillmentTransitionRequestCompleteInput)
+    | (FulfillmentTransitionRequestCancelInput)
+    | (FulfillmentTransitionRequestHoldInput)
+    | (FulfillmentTransitionRequestStartInput)
+    | (FulfillmentTransitionRequestMarkReadyInput)
+    | (FulfillmentTransitionRequestFailInput)
+    | (FulfillmentTransitionRequestScheduleInput)
+    | (FulfillmentTransitionRequestAcceptInput)
+    | (FulfillmentTransitionRequestMarkPreparingInput)
+    | (FulfillmentTransitionRequestMarkPickedInput)
+    | (FulfillmentTransitionRequestMarkPackedInput)
+    | (FulfillmentTransitionRequestDispatchInput)
+    | (FulfillmentTransitionRequestMarkNoShowInput));
+/**
+ * Shape $ (Value): {@link FulfillmentTransitionRequestMarkNoShow}. The `mark_no_show` variant of
+ * `FulfillmentTransitionRequest`.
+ */
+export type FulfillmentTransitionRequestMarkNoShow = {
+    /** Shape $ (Value): string.  Value enum: "mark_no_show". */
+    "action": "mark_no_show" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "customer_no_show", "provider_no_show",
+     * "location_unavailable", "scheduling_error", "other".
+     */
+    "reason": "customer_no_show"
+        | "provider_no_show"
+        | "location_unavailable"
+        | "scheduling_error"
+        | "other"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
+     */
+    "reason_message"?: string;
+};
+/**
+ * Shape $ (Value): {@link FulfillmentTransitionRequestMarkNoShowInput}. The `mark_no_show` variant
+ * of `FulfillmentTransitionRequest`.
+ */
+export type FulfillmentTransitionRequestMarkNoShowInput = {
+    /** Shape $ (Value): string.  Value enum: "mark_no_show". */
+    "action": "mark_no_show";
+    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /**
+     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. Value enum: "customer_no_show", "provider_no_show",
+     * "location_unavailable", "scheduling_error", "other".
+     */
+    "reason": "customer_no_show" | "provider_no_show" | "location_unavailable" | "scheduling_error" | "other";
+    /**
+     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
+     */
+    "reason_message"?: string;
+};
+/**
+ * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPackedInput}. The `mark_packed` variant
+ * of `FulfillmentTransitionRequest`.
+ */
+export type FulfillmentTransitionRequestMarkPackedInput = {
+    /** Shape $ (Value): string.  Value enum: "mark_packed". */
+    "action": "mark_packed";
+    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /**
+     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
+     */
+    "reason_message"?: string;
+};
+/**
+ * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPicked}. The `mark_picked` variant of
+ * `FulfillmentTransitionRequest`.
+ */
+export type FulfillmentTransitionRequestMarkPicked = {
+    /** Shape $ (Value): string.  Value enum: "mark_picked". */
+    "action": "mark_picked" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at"?: string;
+    /**
+     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
+     */
+    "reason_message"?: string;
+};
+/**
+ * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPickedInput}. The `mark_picked` variant
+ * of `FulfillmentTransitionRequest`.
+ */
+export type FulfillmentTransitionRequestMarkPickedInput = {
+    /** Shape $ (Value): string.  Value enum: "mark_picked". */
+    "action": "mark_picked";
+    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
+    "buyer_notification_behavior"?: "send" | "suppress";
+    /**
+     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
+     */
+    "reason_message"?: string;
+};
+/**
+ * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPreparing}. The `mark_preparing` variant
+ * of `FulfillmentTransitionRequest`.
+ */
+export type FulfillmentTransitionRequestMarkPreparing = {
+    /** Shape $ (Value): string.  Value enum: "mark_preparing". */
+    "action": "mark_preparing" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
+    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at"?: string;
+    /**
+     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
+     */
+    "reason_message"?: string;
+};
 /**
  * Shape $ (Value): {@link FulfillmentTransitionRequestMarkPreparingInput}. The `mark_preparing`
  * variant of `FulfillmentTransitionRequest`.
@@ -788,9 +937,13 @@ export type GiftCardCustomAmountBoundsInput = {
  * value after its funding payment lost a dispute.
  */
 export type GiftCardFundingDisposition = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /** Shape $ (Value): string. When the disposition was created. Format: date-time. */
     "created_at": string;
-    /** Shape $ (Value): string.  Value enum: "honor_value". */
+    /**
+     * Shape $ (Value): string. How Flint handles the lost funding. honor_value keeps the affected
+     * cards' unspent value spendable and removes the freeze this dispute placed on them. Value
+     * enum: "honor_value".
+     */
     "disposition": "honor_value" | (string & {});
     /**
      * Shape $ (Value): {@link MoneyValue}. The whole disputed payment amount, which can include
@@ -799,32 +952,42 @@ export type GiftCardFundingDisposition = {
      * currency code.
      */
     "dispute_amount_money": MoneyValue;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. The lost dispute this disposition resolves. */
     "dispute_id": string;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Stable identifier of the disposition. */
     "gift_card_funding_disposition_id": string;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    /**
+     * Shape $ (Value): Array of string. Gift cards whose value this disposition honors, including
+     * replacement cards that received value from the disputed funding. Shape $[] (Value): string.
+     */
     "gift_card_ids": Array<string>;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. Unspent value that stays spendable under this
+     * disposition, summed across the affected cards, including replacement cards that received
+     * value from the disputed funding. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
     "honored_value_money": MoneyValue;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. The Idempotency-Key sent with the request that created this
+     * disposition.
+     */
     "idempotency_key": string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. What the buyer paid for the gift card value the
+     * disputed payment funded, summed across its funding loads. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "original_gift_card_consideration_money": MoneyValue;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. The disputed payment that funded the gift card value. */
     "payment_intent_id": string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. Part of honored_value_money that pending redemptions
+     * held when the disposition was created. It stays reserved for them. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
     "preserved_reserved_value_money": MoneyValue;
-    /** Shape $ (Value): string. */
+    /** Shape $ (Value): string. Your reason for honoring the value, from the create request. */
     "reason_message": string;
 };
 /**
@@ -892,7 +1055,7 @@ export type GiftCardFundingDispositionsListInput = {
     "created_before"?: InputValue<string | globalThis.Date>;
     /** Shape $ (Value): string. maxLength: 255. */
     "dispute_id"?: InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
@@ -1683,208 +1846,3 @@ export type GiftCardFundingSourceStoreCreditInput = ({
     & ({
     "order_manual_payment_id"?: never;
 }));
-/** Shape $ (Value): {@link GiftCardListResponse}. A page of `GiftCard` objects. */
-export type GiftCardListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link GiftCard}. Shape $[] (Value): {@link GiftCard}.
-     * Merchant-issued purchased gift card. Posted balance includes reserved value; available value
-     * is balance minus reservations. Frozen value remains part of outstanding liability. Gift
-     * cards are independent resources and cannot be transferred across merchants or currencies.
-     */
-    "data": Array<GiftCard>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link GiftCardLoad}. Independent funding resource. Value and consideration are
- * separate. External funding and import provenance are merchant-attested; no payment is collected
- * by recording them. Replacement refund lots retain original funding provenance and do not
- * represent new paid funding.
- */
-export type GiftCardLoad = {
-    /**
-     * Shape $ (Value): {@link MoneyValue} or null. Shape $.anyOf[1] (Value): {@link MoneyValue}.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "consideration_money": ((MoneyValue) | (null));
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): Array of {@link GiftCardFundingDispute}. Restrictions tied to original
-     * funding, including value restored to replacement cards. A win clears only its own
-     * restriction. A loss keeps spending restricted until you create a gift card funding
-     * disposition. Shape $[] (Value): {@link GiftCardFundingDispute}. A dispute on the payment
-     * that funded a gift card load, with its status and any loss resolution.
-     */
-    "funding_disputes": Array<GiftCardFundingDispute>;
-    /** Shape $ (Value): string. */
-    "gift_card_id": string;
-    /** Shape $ (Value): string. */
-    "gift_card_load_id": string;
-    /**
-     * Shape $ (Value): string or null. Your Idempotency-Key for the command that created this
-     * record. null when Flint created it or no key was sent.
-     */
-    "idempotency_key": string | null;
-    /**
-     * Shape $ (Value): Array of {@link GiftCardPurchaseRefundValueHold}. Pending original cash
-     * refunds holding unspent value on this descendant funding lot. Unknown provider outcomes
-     * retain these holds. Shape $[] (Value): {@link GiftCardPurchaseRefundValueHold}. Gift card
-     * value held back by a purchase refund, with the refund, the root gift card and load, and the
-     * amount held.
-     */
-    "purchase_refund_value_holds"?: Array<GiftCardPurchaseRefundValueHold>;
-    /**
-     * Shape $ (Value): Array of {@link GiftCardPurchaseRefundAllocation}. Cash refunds and manual
-     * payment reversals against this original funding load. Pending refunds reserve their value;
-     * confirmed success removes it, and confirmed failure releases the hold. Shape $[] (Value):
-     * {@link GiftCardPurchaseRefundAllocation}. An entry in a gift card load's purchase refunds.
-     */
-    "purchase_refunds": Array<GiftCardPurchaseRefundAllocation>;
-    /**
-     * Shape $ (Value): {@link GiftCardPurchaseRestoration}. Links a gift card load to the original
-     * card and load it restores value to after a purchase refund, for one unit of an order line
-     * item.
-     */
-    "purchase_restoration"?: GiftCardPurchaseRestoration;
-    /**
-     * Shape $ (Value): {@link GiftCardRefundProvenance}. Traces a gift card load made by a refund
-     * back to its original funding source, root gift card and load, and source refund.
-     */
-    "refund_provenance"?: GiftCardRefundProvenance;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "refund_transferred_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "remaining_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "reversed_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link GiftCardFundingSource}. Where the value of a gift card load came
-     * from, such as an external payment, a Flint payment, an import, or an adjustment, with your
-     * reference for it.
-     */
-    "source": GiftCardFundingSource;
-    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time. */
-    "source_created_at": string | null;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "value_money": MoneyValue;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "version": `${bigint}`;
-};
-/** Shape $ (Value): {@link GiftCardLoadListResponse}. A page of `GiftCardLoad` objects. */
-export type GiftCardLoadListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link GiftCardLoad}. Shape $[] (Value): {@link GiftCardLoad}.
-     * Independent funding resource. Value and consideration are separate. External funding and
-     * import provenance are merchant-attested; no payment is collected by recording them.
-     * Replacement refund lots retain original funding provenance and do not represent new paid
-     * funding.
-     */
-    "data": Array<GiftCardLoad>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link GiftCardLoadResponse}. A response containing `GiftCardLoad` data. */
-export type GiftCardLoadResponse = {
-    /**
-     * Shape $ (Value): {@link GiftCardLoad}. Independent funding resource. Value and consideration
-     * are separate. External funding and import provenance are merchant-attested; no payment is
-     * collected by recording them. Replacement refund lots retain original funding provenance and
-     * do not represent new paid funding.
-     */
-    "data": GiftCardLoad;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-export type GiftCardLoadsCreateInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateGiftCardLoadRequestInput}. The request body for: Load a gift
-     * card.
-     */
-    "body": InputValue<CreateGiftCardLoadRequestInput>;
-};
-export type GiftCardLoadsGetInput = {
-    /** Shape $ (Value): string. */
-    "gift_card_load_id": InputValue<string>;
-};
-export type GiftCardLoadsListInput = {
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "adjustment", "external_payment",
-     * "flint_manual_payment", "flint_payment", "gift_card_purchase_refund_recovery",
-     * "gift_card_refund", "import", "store_credit". Shape $[] (Value): string. maxLength: 255.
-     * Value enum: "adjustment", "external_payment", "flint_manual_payment", "flint_payment",
-     * "gift_card_purchase_refund_recovery", "gift_card_refund", "import", "store_credit".
-     */
-    "funding_source_type"?: InputValue<Array<"adjustment"
-        | "external_payment"
-        | "flint_manual_payment"
-        | "flint_payment"
-        | "gift_card_purchase_refund_recovery"
-        | "gift_card_refund"
-        | "import"
-        | "store_credit">>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "gift_card_id"?: InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "idempotency_key"?: InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "order_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "source_external_reference_id"?: InputValue<string>;
-};

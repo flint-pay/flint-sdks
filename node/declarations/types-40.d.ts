@@ -1,3 +1,4 @@
+import type { PublicDownload } from './types-38.js';
 import type { InputValue, RequestOptions as RuntimeRequestOptions, CredentialProvider } from '../runtime.js';
 import type { CreateReportRequestInput } from './types-8.js';
 import type { AuthMode, BundleComponent, Address } from './types-0.js';
@@ -7,17 +8,87 @@ import type { MoneyValue, MoneyValueInput, NextAction } from './types-31.js';
 import type { CheckoutSessionWithSecret } from './types-4.js';
 import type { ConfirmReturnResolutionRequestInput } from './types-5.js';
 import type { CancelReturnDispositionRequestInput } from './types-3.js';
-import type {
-    ReturnPolicyEvaluation,
-    ReturnLineItemEligibility,
-    ReturnReasonSummary,
-    ReturnResolutionLineItemRequest
-} from './types-41.js';
+import type { ReturnPolicyEvaluation, ReturnLineItemEligibility, ReturnReasonSummary } from './types-41.js';
 import type { Image } from './types-19.js';
 import type { OrderLineItemModifier } from './types-32.js';
-import type { SelectedProductOption } from './types-43.js';
-import type { ReturnSourceSystem } from './types-42.js';
+import type { SelectedProductOption } from './types-44.js';
+import type { ReturnResolutionLineItemRequest, ReturnSourceSystem } from './types-42.js';
 import type { DecideReturnInspectionLineItemRequestInput } from './types-11.js';
+/** Shape $ (Value): {@link ReportSucceeded}. A report generated from the merchant's activity. */
+export type ReportSucceeded = ({
+    /** Shape $ (Value): string. When the report was requested. Format: date-time. */
+    "created_at": string;
+    /**
+     * Shape $ (Value): string. Currency the report covers. A report never combines currencies.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Shape $ (Value): {@link PublicDownload}. Link to download the generated report. Present only
+     * when status is succeeded. A temporary link for downloading a generated report.
+     */
+    "download": PublicDownload;
+    /**
+     * Shape $ (Value): string. Why the report failed. Present only when status is failed:
+     * limit_exceeded when the report hit a size or time limit, data_unavailable when data it needs
+     * wasn't available yet, and generation_failed for other errors. Value enum:
+     * "generation_failed", "data_unavailable", "limit_exceeded".
+     */
+    "failure_reason"?: "generation_failed" | "data_unavailable" | "limit_exceeded" | (string & {});
+    /**
+     * Shape $ (Value): string. Exclusive interval end instant. Each report type matches its own
+     * occurrence time. Format: date-time.
+     */
+    "interval_end_at": string;
+    /**
+     * Shape $ (Value): string. Inclusive interval start instant. Each report type matches its own
+     * occurrence time. Format: date-time.
+     */
+    "interval_start_at": string;
+    /**
+     * Shape $ (Value): string. Stable identifier of the report. pattern:
+     * ^rep_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "report_id": string;
+    /**
+     * Shape $ (Value): string. The report's type and column version. See the Reports guide for its
+     * columns. Value enum: "gift_card_liability_v1", "orders_itemized_v1", "orders_itemized_v2",
+     * "payments_itemized_v1", "balance_transactions_itemized_v1", "payouts_itemized_v1",
+     * "tax_itemized_v1", "tax_summarized_v1", "merchant_billing_itemized_v1",
+     * "tax_transactions_itemized_v1".
+     */
+    "report_type": "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. pending while Flint generates the report, then succeeded with a
+     * download or failed with a failure_reason. Flint sends report.succeeded or report.failed when
+     * it finishes. Value enum: "succeeded".
+     */
+    "status": "succeeded" | (string & {});
+    /**
+     * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
+     * occurs at the start of its arrival_date in this timezone.
+     */
+    "timezone": string;
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "succeeded". */
+    "status"?: "succeeded" | (string & {});
+    /**
+     * Shape $ (Value): {@link PublicDownload}. Link to download the generated report. Present only
+     * when status is succeeded. A temporary link for downloading a generated report.
+     */
+    "download": PublicDownload;
+}));
 export type ReportsCreateInput = {
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
@@ -91,13 +162,18 @@ export type RequestOptions<M extends AuthMode = AuthMode> = Omit<RuntimeRequestO
     };
 }[M]);
 /**
- * Shape $ (Value): {@link ResendWebhookDeliveryRequestInput}. The request body for: Resend webhook
+ * Shape $ (Value): {@link ResendWebhookDeliveryRequest}. The request body for: Resend webhook
  * delivery.
  */
-export type ResendWebhookDeliveryRequestInput = {
+export type ResendWebhookDeliveryRequest = {
     /** Shape $ (Value): string. Your note explaining this action. minLength: 1. maxLength: 500. */
     "reason_message"?: string;
 };
+/**
+ * Shape $ (Value): {@link ResendWebhookDeliveryRequestInput}. The request body for: Resend webhook
+ * delivery.
+ */
+export type ResendWebhookDeliveryRequestInput = ResendWebhookDeliveryRequest;
 /** Shape $ (Value): {@link ResetDemoSessionRequest}. The request body for: Reset demo session. */
 export type ResetDemoSessionRequest = {
     /**
@@ -327,36 +403,36 @@ export type ResourceReference = {
      * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
      * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
      * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "user", "webhook_delivery", "webhook_endpoint",
-     * "webhook_event", "workload_identity".
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_install",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
+     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
+     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
+     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
      */
     "resource_type": ResourceType;
 };
@@ -379,36 +455,36 @@ export type ResourceTimeline = {
      * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
      * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
      * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "user", "webhook_delivery", "webhook_endpoint",
-     * "webhook_event", "workload_identity".
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_install",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
+     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
+     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
+     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
      */
     "resource_type": ResourceType;
     /** Shape $ (Value): boolean. */
@@ -1007,18 +1083,19 @@ export type ResourceTimelineWebhookEventEntry = {
  * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component", "category",
  * "checkout_session", "checkout_session_customer_verification", "credit_note",
  * "credit_note_allocation", "custom_domain", "customer", "customer_address",
- * "customer_deletion_request", "customer_session", "customer_verification",
- * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
- * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
- * "delivery_zone", "device", "discount", "dispute", "email_change_request", "environment_grant",
- * "feedback_report", "file", "flint_wallet", "flint_wallet_card", "fraud_warning", "fulfillment",
- * "fulfillment_event", "fulfillment_notification", "gift_card", "gift_card_funding_disposition",
- * "gift_card_load", "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
- * "inventory_adjustment", "inventory_allocation_policy", "inventory_allocation_policy_revision",
- * "inventory_count", "inventory_item", "inventory_level", "inventory_movement",
- * "inventory_receipt", "inventory_reservation", "inventory_reservation_line",
- * "inventory_transfer", "inventory_transfer_line", "invoice", "invoice_delivery_attempt",
- * "invoice_late_fee", "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+ * "customer_deletion_request", "customer_email_preferences", "customer_session",
+ * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+ * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+ * "delivery_selection", "delivery_zone", "device", "discount", "dispute", "email_change_request",
+ * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
+ * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification", "gift_card",
+ * "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+ * "gift_card_redemption", "gift_card_transaction", "inventory_adjustment",
+ * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+ * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+ * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+ * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+ * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
  * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
  * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
  * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
@@ -1051,6 +1128,7 @@ export type ResourceType = "api_key"
     | "customer"
     | "customer_address"
     | "customer_deletion_request"
+    | "customer_email_preferences"
     | "customer_session"
     | "customer_verification"
     | "delivery_location_set"
@@ -1488,35 +1566,36 @@ export type ResponseWarning = {
      * "bundle_component", "category", "checkout_session",
      * "checkout_session_customer_verification", "credit_note", "credit_note_allocation",
      * "custom_domain", "customer", "customer_address", "customer_deletion_request",
-     * "customer_session", "customer_verification", "delivery_location_set", "delivery_method",
-     * "delivery_profile", "delivery_quote", "delivery_rate", "delivery_rate_callback",
-     * "delivery_revocation", "delivery_selection", "delivery_zone", "device", "discount",
-     * "dispute", "email_change_request", "environment_grant", "feedback_report", "file",
-     * "flint_wallet", "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
-     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
-     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
-     * "inventory_adjustment", "inventory_allocation_policy",
-     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
-     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
-     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
-     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
-     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
-     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
-     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
-     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
-     * "organization", "package", "package_item", "partner_app", "partner_app_install",
-     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
-     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
-     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
-     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     * "customer_email_preferences", "customer_session", "customer_verification",
+     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
+     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
+     * "delivery_zone", "device", "discount", "dispute", "email_change_request",
+     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
+     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
+     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "inventory_adjustment",
+     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
+     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
+     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
+     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
+     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
+     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
+     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
+     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
+     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
+     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
+     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
+     * "payout", "payout_destination", "payout_settings", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
+     * "report", "report_download", "return", "return_activity", "return_disposition",
+     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
+     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
+     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "user", "webhook_delivery", "webhook_endpoint",
+     * "webhook_event", "workload_identity".
      */
     "resource_type"?: "api_key"
         | "api_request_log"
@@ -1533,6 +1612,7 @@ export type ResponseWarning = {
         | "customer"
         | "customer_address"
         | "customer_deletion_request"
+        | "customer_email_preferences"
         | "customer_session"
         | "customer_verification"
         | "delivery_location_set"
@@ -1922,36 +2002,36 @@ export type ReturnActivity = {
      * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
      * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
      * "credit_note_allocation", "custom_domain", "customer", "customer_address",
-     * "customer_deletion_request", "customer_session", "customer_verification",
-     * "delivery_location_set", "delivery_method", "delivery_profile", "delivery_quote",
-     * "delivery_rate", "delivery_rate_callback", "delivery_revocation", "delivery_selection",
-     * "delivery_zone", "device", "discount", "dispute", "email_change_request",
-     * "environment_grant", "feedback_report", "file", "flint_wallet", "flint_wallet_card",
-     * "fraud_warning", "fulfillment", "fulfillment_event", "fulfillment_notification",
-     * "gift_card", "gift_card_funding_disposition", "gift_card_load", "gift_card_notification",
-     * "gift_card_redemption", "gift_card_transaction", "inventory_adjustment",
-     * "inventory_allocation_policy", "inventory_allocation_policy_revision", "inventory_count",
-     * "inventory_item", "inventory_level", "inventory_movement", "inventory_receipt",
-     * "inventory_reservation", "inventory_reservation_line", "inventory_transfer",
-     * "inventory_transfer_line", "invoice", "invoice_delivery_attempt", "invoice_late_fee",
-     * "invoice_line_item", "invoice_manual_payment", "invoice_payment_attempt",
-     * "invoice_payment_term", "location", "merchant", "merchant_billing_balance",
-     * "merchant_billing_entry", "merchant_billing_invoice", "modifier", "modifier_group",
-     * "modifier_set", "order", "order_charge", "order_line_item", "order_line_item_modifier",
-     * "order_payment_attempt", "organization", "package", "package_item", "partner_app",
-     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
-     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
-     * "payout", "payout_destination", "payout_settings", "product", "product_option",
-     * "product_option_value", "product_variant", "promotion", "promotion_code",
-     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
-     * "report", "report_download", "return", "return_activity", "return_disposition",
-     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
-     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
-     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
-     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
-     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
-     * "subscription_plan_line_item", "user", "webhook_delivery", "webhook_endpoint",
-     * "webhook_event", "workload_identity".
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_install",
+     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
+     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
+     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
+     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
+     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
+     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
+     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
+     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
+     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
+     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
      */
     "resource_type": ResourceType;
     /** Shape $ (Value): string. */
@@ -2168,6 +2248,8 @@ export type ReturnDispositionsListInput = {
         | "lost">>;
     /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "external_reference_id"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /** Shape $ (Value): string. */
     "inventory_location_id"?: InputValue<string>;
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
@@ -2871,203 +2953,3 @@ export type ReturnInspectionsGetInput = {
     /** Shape $ (Value): string. */
     "return_inspection_id": InputValue<string>;
 };
-export type ReturnInspectionsListInput = {
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "accepted", "rejected",
-     * "review_required". Shape $[] (Value): string. Value enum: "accepted", "rejected",
-     * "review_required".
-     */
-    "acceptance_status"?: InputValue<Array<"accepted" | "rejected" | "review_required">>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "inspected_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "inspected_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. */
-    "inspection_location_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "return_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "return_line_item_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "return_receipt_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp",
-     * "other", "flint". Shape $[] (Value): string. Value enum: "manual", "pos", "wms", "erp",
-     * "other", "flint".
-     */
-    "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "other" | "flint">>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "current", "superseded". Shape $[]
-     * (Value): string. Value enum: "current", "superseded".
-     */
-    "status"?: InputValue<Array<"current" | "superseded">>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-};
-/**
- * Shape $ (Value): {@link ReturnLineDecision}. Start from the pinned policy proposal recomputed
- * for approved_quantity when the line has a policy evaluation and the proposal can be built.
- * Otherwise start with return_required_quantity equal to approved_quantity,
- * allowed_resolution_types containing refund, exchange, replacement, no_monetary_action, and
- * store_credit in that order regardless of whether the original payment is refundable, no
- * automatic_resolution_type, is_inspection_required false, and no receiving_location_id. Each
- * supplied field replaces its starting value; allowed_resolution_types replaces the whole list.
- * Omit automatic_resolution_type to keep its starting value, or send null to resolve manually.
- * Then fill an omitted release_timing with after_inspection when merchandise is required and
- * inspection is required, after_receipt when merchandise is required without inspection, or
- * after_approval when no merchandise is required. Validate the merged decision for quantity
- * bounds, allowed resolution types, and reachable timing and inspection requirements. A pinned
- * policy always requires override_reason when approved_quantity exceeds evaluated
- * eligible_quantity, even when no proposal can be built. With a pinned policy but no proposal,
- * other decision fields use these defaults and override_reason is otherwise optional. Example:
- * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ","return_line_item_id":"retli_01KEZF7C001NHF6JPD83VD0MRK"}.
- */
-export type ReturnLineDecision = ({
-    /**
-     * Shape $ (Value): Array of string. Optional replacement for the entire starting list.
-     * Defaults to the buildable pinned policy proposal; otherwise refund, exchange, replacement,
-     * no_monetary_action, and store_credit in that order, independent of the original payment's
-     * refundability. The resulting list must be valid and non-empty when approved_quantity is
-     * above zero. [] enum: "refund", "exchange", "replacement", "no_monetary_action",
-     * "store_credit". Shape $[] (Value): string. Value enum: "refund", "exchange", "replacement",
-     * "no_monetary_action", "store_credit".
-     */
-    "allowed_resolution_types"?: Array<"refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {})>;
-    /**
-     * Shape $ (Value): integer string. Required whole-number quantity from zero through the line's
-     * requested_quantity; fractional quantities are not supported. When approved_quantity is below
-     * requested_quantity, send decline_reason; decline_reason_message is optional. Both decline
-     * fields are forbidden when all requested quantity is approved. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0.
-     */
-    "approved_quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Optional refund, store_credit, or no_monetary_action that
-     * Flint creates and confirms automatically. Omit to keep the policy proposal's value, or the
-     * absent value from no-policy defaults. Send null to resolve the line manually; clearing a
-     * policy proposal's automatic value requires override_reason. Must be in the resulting
-     * allowed_resolution_types. Exchange and replacement cannot be automated. An unavailable
-     * automatic refund or store credit fails with 409 ACTION_NOT_ALLOWED and reason
-     * refund_unavailable or store_credit_unavailable. Value enum: "refund", "store_credit",
-     * "no_monetary_action", null.
-     */
-    "automatic_resolution_type"?: "refund" | "store_credit" | "no_monetary_action" | null | (string & {}) | null;
-    /**
-     * Shape $ (Value): string. Value enum: "not_eligible", "quantity_unavailable",
-     * "evidence_missing", "suspected_abuse", "merchant_discretion", "other".
-     */
-    "decline_reason"?: "not_eligible"
-        | "quantity_unavailable"
-        | "evidence_missing"
-        | "suspected_abuse"
-        | "merchant_discretion"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Optional explanation accompanying decline_reason, up to 2048
-     * characters (Unicode code points), counted before normalization. Requires decline_reason and
-     * is forbidden when all requested quantity is approved. minLength: 1. maxLength: 2048.
-     */
-    "decline_reason_message"?: string;
-    /**
-     * Shape $ (Value): boolean. Optional inspection requirement. Defaults to the buildable pinned
-     * policy proposal or false when no proposal can be built. The resulting requirement must be
-     * reachable with the merged merchandise quantity and release timing.
-     */
-    "is_inspection_required"?: boolean;
-    /**
-     * Shape $ (Value): string. Required when a decision differs from a buildable pinned policy
-     * proposal. With a pinned policy, also required whenever approved_quantity exceeds evaluated
-     * eligible_quantity, even when no proposal can be built. The release timing fill also applies
-     * to the proposal and does not count as a deviation. Otherwise optional when a pinned policy
-     * proposal cannot be built or no deviation exists. Forbidden without a pinned policy. Value
-     * enum: "customer_service_exception", "policy_correction", "risk_review",
-     * "merchant_discretion", "other".
-     */
-    "override_reason"?: "customer_service_exception"
-        | "policy_correction"
-        | "risk_review"
-        | "merchant_discretion"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Optional explanation accompanying override_reason. Requires
-     * override_reason and is forbidden without a pinned policy. minLength: 1.
-     */
-    "override_reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Optional receiving Location with a postal address. Defaults to the
-     * buildable pinned policy proposal or no location when no proposal can be built. Required when
-     * the resulting return_required_quantity is above zero and there is no starting location. A
-     * process receipt does not supply the decision's location. minLength: 1.
-     */
-    "receiving_location_id"?: string;
-    /**
-     * Shape $ (Value): string. Optional gate for every resolution type. Defaults to the policy
-     * proposal's timing when set. After merging supplied fields, an unset timing becomes
-     * after_inspection when return_required_quantity is above zero and inspection is required,
-     * after_receipt when return_required_quantity is above zero without inspection, or
-     * after_approval when return_required_quantity is zero. Applies to every resolution type,
-     * including exchanges and replacements. manual is held until a merchant calls POST
-     * /v1/return-resolutions/{id}/release. Value enum: "after_approval", "after_handoff",
-     * "after_receipt", "after_inspection", "manual".
-     */
-    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id": string;
-    /**
-     * Shape $ (Value): integer string. How much of the approved quantity the buyer must physically
-     * send back; fractional quantities are not supported. Set 0 for a returnless refund, where the
-     * buyer keeps the merchandise and the Return still settles the money. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-     */
-    "return_required_quantity"?: `${bigint}`;
-})
-    & (((unknown)
-    | ({
-    /**
-     * Shape $ (Value): string. Value enum: "not_eligible", "quantity_unavailable",
-     * "evidence_missing", "suspected_abuse", "merchant_discretion", "other".
-     */
-    "decline_reason": "not_eligible"
-        | "quantity_unavailable"
-        | "evidence_missing"
-        | "suspected_abuse"
-        | "merchant_discretion"
-        | "other"
-        | (string & {});
-})
-    | (Record<string, unknown>)))
-    & (((unknown)
-    | ({
-    /**
-     * Shape $ (Value): string. Required when a decision differs from a buildable pinned policy
-     * proposal. With a pinned policy, also required whenever approved_quantity exceeds evaluated
-     * eligible_quantity, even when no proposal can be built. The release timing fill also applies
-     * to the proposal and does not count as a deviation. Otherwise optional when a pinned policy
-     * proposal cannot be built or no deviation exists. Forbidden without a pinned policy. Value
-     * enum: "customer_service_exception", "policy_correction", "risk_review",
-     * "merchant_discretion", "other".
-     */
-    "override_reason": "customer_service_exception"
-        | "policy_correction"
-        | "risk_review"
-        | "merchant_discretion"
-        | "other"
-        | (string & {});
-})
-    | (Record<string, unknown>)));

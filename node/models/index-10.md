@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# DiscountPreviewResponse – FulfillmentTransitionRequestSchedule
+# DeviceResponse – FulfillmentTransitionRequestMarkPickedInput
 
+- [DeviceResponse](DeviceResponse.md)
+- [DigitalFulfillmentDetails](DigitalFulfillmentDetails.md)
+- [Dimensions](Dimensions.md)
+- [DimensionsInput](DimensionsInput.md)
+- [DiscountPreview](DiscountPreview.md)
+- [DiscountPreviewRequest](DiscountPreviewRequest.md)
+- [DiscountPreviewRequestInput](DiscountPreviewRequestInput.md)
 - [DiscountPreviewResponse](DiscountPreviewResponse.md)
 - [Dispute](Dispute.md)
 - [DisputeListResponse](DisputeListResponse.md)
@@ -95,11 +102,4 @@
 - [FulfillmentTransitionRequestMarkPackedInput](FulfillmentTransitionRequestMarkPackedInput.md)
 - [FulfillmentTransitionRequestMarkPicked](FulfillmentTransitionRequestMarkPicked.md)
 - [FulfillmentTransitionRequestMarkPickedInput](FulfillmentTransitionRequestMarkPickedInput.md)
-- [FulfillmentTransitionRequestMarkPreparing](FulfillmentTransitionRequestMarkPreparing.md)
-- [FulfillmentTransitionRequestMarkPreparingInput](FulfillmentTransitionRequestMarkPreparingInput.md)
-- [FulfillmentTransitionRequestMarkReady](FulfillmentTransitionRequestMarkReady.md)
-- [FulfillmentTransitionRequestMarkReadyInput](FulfillmentTransitionRequestMarkReadyInput.md)
-- [FulfillmentTransitionRequestReleaseHold](FulfillmentTransitionRequestReleaseHold.md)
-- [FulfillmentTransitionRequestReleaseHoldInput](FulfillmentTransitionRequestReleaseHoldInput.md)
-- [FulfillmentTransitionRequestSchedule](FulfillmentTransitionRequestSchedule.md)
 

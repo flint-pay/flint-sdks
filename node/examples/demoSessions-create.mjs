@@ -9,7 +9,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.demoSessions.create(
-  {},
+  {
+    "Flint-Challenge-Token": "example",
+  },
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.demo_session_id);

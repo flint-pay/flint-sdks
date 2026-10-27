@@ -1,1 +1,1 @@
-{"shared":"InventoryLevelResponse","dependencies":["InventoryItem","InventoryLevel","InventoryLevelResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec963"]}
+{"shared":"InventoryLevelResponse","dependencies":["InventoryItem","InventoryLevel","InventoryLevelResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}

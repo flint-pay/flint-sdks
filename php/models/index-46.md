@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# Balance – WebhookEventMerchantReadinessUpdatedDataObject
+# WebhookEvent – WebhookEventMerchantBillingInvoiceIssuedData
 
+- [WebhookEvent](WebhookEvent.md)
+- [OrganizationMembership](OrganizationMembership.md)
+- [IssueCreditNoteResult](IssueCreditNoteResult.md)
+- [GuestPurchaseLink](GuestPurchaseLink.md)
+- [APIRequestLog](APIRequestLog.md)
 - [Balance](Balance.md)
 - [MoneyMovementHistoryMeta](MoneyMovementHistoryMeta.md)
 - [MoneyMovementListMeta](MoneyMovementListMeta.md)
@@ -97,9 +102,4 @@
 - [WebhookEventMerchantBillingBalanceUpdatedRequest](WebhookEventMerchantBillingBalanceUpdatedRequest.md)
 - [WebhookEventMerchantBillingInvoiceIssuedDataObject](WebhookEventMerchantBillingInvoiceIssuedDataObject.md)
 - [WebhookEventMerchantBillingInvoiceIssuedData](WebhookEventMerchantBillingInvoiceIssuedData.md)
-- [WebhookEventMerchantBillingInvoiceIssuedRequest](WebhookEventMerchantBillingInvoiceIssuedRequest.md)
-- [WebhookEventMerchantBillingInvoiceUpdatedDataObject](WebhookEventMerchantBillingInvoiceUpdatedDataObject.md)
-- [WebhookEventMerchantBillingInvoiceUpdatedData](WebhookEventMerchantBillingInvoiceUpdatedData.md)
-- [WebhookEventMerchantBillingInvoiceUpdatedRequest](WebhookEventMerchantBillingInvoiceUpdatedRequest.md)
-- [WebhookEventMerchantReadinessUpdatedDataObject](WebhookEventMerchantReadinessUpdatedDataObject.md)
 

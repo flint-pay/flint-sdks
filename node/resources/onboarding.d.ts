@@ -9,30 +9,27 @@ import type {
     OnboardingAdvanceRequestInput,
     OnboardingCreateAPIKeyInput,
     OnboardingGetStateInput,
-    OnboardingLaunchRecommendedPolicy,
-    OnboardingLaunchReference,
-    OnboardingNextStep,
     OnboardingProfile,
     OnboardingProfileRequest,
     OnboardingProfileRequestInput,
     OnboardingStartFlowInput,
     OnboardingStartRequest,
-    OnboardingStartRequestInput,
+    OnboardingStartRequestInput
+} from '../declarations/types-31.js';
+import type {
     OnboardingStartResponse,
     OnboardingStartResult,
     OnboardingState,
     OnboardingStateResponse,
-    OnboardingVerifyEmailCodeInput
-} from '../declarations/types-31.js';
-import type {
+    OnboardingVerifyEmailCodeInput,
     OnboardingVerifyEmailRequest,
     OnboardingVerifyEmailRequestInput,
     OnboardingVerifyEmailResponse,
     OnboardingVerifyEmailResult
 } from '../declarations/types-32.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -47,15 +44,8 @@ export type {
 } from '../runtime.js';
 export type {
     OnboardingAdvanceRequestInput,
-    OnboardingState,
-    OnboardingStateResponse,
     OnboardingStartRequestInput,
-    OnboardingStartResult,
-    OnboardingStartResponse,
     OnboardingAdvanceRequest,
-    OnboardingLaunchRecommendedPolicy,
-    OnboardingLaunchReference,
-    OnboardingNextStep,
     OnboardingProfile,
     OnboardingProfileRequest,
     OnboardingProfileRequestInput,
@@ -64,31 +54,36 @@ export type {
     OnboardingCreateAPIKeyInput,
     OnboardingGetStateInput,
     OnboardingStartFlowInput,
-    OnboardingVerifyEmailCodeInput,
     NextAction,
     NextActionMerchantAccountSession,
-    MoneyValue
+    MoneyValue,
+    MerchantReadiness
 } from '../declarations/types-31.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceType } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { DeveloperInitialAPIKeyRequestInput, DeveloperInitialAPIKeyRequest } from '../declarations/types-15.js';
-export type { APIKeyWithSecret, AuthMode, APIKey, Address } from '../declarations/types-0.js';
-export type { CreateAPIKeyResponse } from '../declarations/types-5.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
 export type {
+    OnboardingState,
+    OnboardingStateResponse,
+    OnboardingStartResult,
+    OnboardingStartResponse,
     OnboardingVerifyEmailRequestInput,
     OnboardingVerifyEmailResult,
     OnboardingVerifyEmailResponse,
-    OnboardingVerifyEmailRequest
+    OnboardingVerifyEmailRequest,
+    OnboardingVerifyEmailCodeInput
 } from '../declarations/types-32.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { DeveloperInitialAPIKeyRequestInput, DeveloperInitialAPIKeyRequest } from '../declarations/types-15.js';
+export type { APIKeyWithSecret, AuthMode, APIKey, Address } from '../declarations/types-0.js';
+export type { CreateAPIKeyResponse } from '../declarations/types-5.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { Credentials } from '../declarations/types-9.js';
-export type { Merchant, MerchantReadiness } from '../declarations/types-30.js';
+export type { ReadinessAction, ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessAxis } from '../declarations/types-39.js';
+export type { Merchant } from '../declarations/types-30.js';
 export type { ImageAttachment } from '../declarations/types-19.js';
 export type { ExpandedOrganizationSummary } from '../declarations/types-16.js';
 export type { CapabilityReadiness } from '../declarations/types-3.js';
-export type { ReadinessAction, ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessAxis } from '../declarations/types-39.js';
-export type { User } from '../declarations/types-49.js';
+export type { User } from '../declarations/types-50.js';
 export { makeDeveloperInitialAPIKeyRequest } from '../declarations/types-66.js';
 export {
     makeMoneyValue,
@@ -101,9 +96,9 @@ export interface OnboardingResource {
     /**
  * Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding
  * requirements, and returns the next step in the consolidated onboarding state machine. Send an
- * empty JSON object when the current next_step only asks to refresh onboarding requirements. An
- * onboarding session is limited to the merchant's default sandbox unless sandbox_id in the JSON
- * body names another sandbox of the same merchant. Live onboarding requires a live API key.
+ * empty JSON object when the current next_step only asks to refresh onboarding requirements. The
+ * credential selects the environment; the onboarding session token acts in the merchant's default
+ * sandbox.
  * @see reference/onboarding.md#onboardingadvance
  * POST /v1/onboarding/advance
  * @example
@@ -114,18 +109,17 @@ export interface OnboardingResource {
     advance(params: (InputValue<OnboardingAdvanceRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<OnboardingState>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<OnboardingState>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/onboarding.md#onboardingadvance
      */
     advanceWithResponse(params: (InputValue<OnboardingAdvanceRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey" | "onboarding">): Promise<SdkResponse<OnboardingStateResponse>>;
+    }, options?: RequestOptions<"merchant" | "onboarding">): Promise<SdkResponse<OnboardingStateResponse>>;
     /**
- * Creates the first long-lived sandbox API key. An onboarding session is limited to the merchant's
- * default sandbox unless sandbox_id in the JSON body names another sandbox of the same merchant.
- * Live onboarding requires a live API key created in the dashboard.
+ * Creates the first long-lived sandbox API key. The credential selects the environment; the
+ * onboarding session token acts in the merchant's default sandbox.
  * @see reference/onboarding.md#onboardingcreateapikey
  * POST /v1/onboarding/api-key
  * @example
@@ -146,23 +140,18 @@ export interface OnboardingResource {
     }, options?: RequestOptions<"onboarding">): Promise<SdkResponse<CreateAPIKeyResponse>>;
     /**
  * Returns the consolidated onboarding state machine, including the primary next step for agents or
- * humans. This endpoint is read-only. An onboarding session is limited to the merchant's default
- * sandbox unless the sandbox_id query parameter names another sandbox of the same merchant. Live
- * onboarding requires a live API key.
+ * humans. This endpoint is read-only. The credential selects the environment; the onboarding
+ * session token acts in the merchant's default sandbox.
  * @see reference/onboarding.md#onboardinggetstate
  * GET /v1/onboarding/state
  * @example
  * client.onboarding.getState()
  */
-    getState(params?: {
-        "sandbox_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<OnboardingState>;
+    getState(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<OnboardingState>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/onboarding.md#onboardinggetstate
      */
-    getStateWithResponse(params?: {
-        "sandbox_id"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey" | "onboarding">>): Promise<SdkResponse<OnboardingStateResponse>>;
+    getStateWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>): Promise<SdkResponse<OnboardingStateResponse>>;
     /**
  * Starts the consolidated onboarding flow by emailing a short-lived verification code and
  * returning a temporary verification token.
@@ -186,7 +175,7 @@ export interface OnboardingResource {
     /**
  * Verifies the emailed code, provisions the Flint user and merchant if needed, and returns an
  * onboarding session token. The token expires at onboarding_session_expires_at and cannot be
- * refreshed. Verify the email again to get a new one.
+ * refreshed. Verify the email again to get a new one. Read GET /v1/onboarding/state next.
  * @see reference/onboarding.md#onboardingverifyemailcode
  * POST /v1/onboarding/verify-email
  * @example

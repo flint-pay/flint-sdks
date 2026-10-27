@@ -1,3 +1,4 @@
+import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type { CheckoutBuyerFields, CheckoutCustomTextConfig, CheckoutBuyerFieldsInput } from './types-3.js';
 import type {
     CheckoutPaymentConfig,
@@ -10,10 +11,9 @@ import type {
     CheckoutTaxConfigInput,
     CheckoutTipConfigInput
 } from './types-4.js';
-import type { ImageRequest, ImageRequestInput } from './types-19.js';
+import type { ImageRequest, ImageRequestInput } from './types-20.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-25.js';
 import type { LegalSettings } from './types-28.js';
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
 import type {
     PaymentLinkCustomFieldRequest,
     PaymentLinkEventConfig,
@@ -78,6 +78,11 @@ import type {
     ReturnSourceSystem,
     ReturnSourceSystemInput,
     ReturnResolutionPreview,
+    ReturnReplacementLineItemRequest,
+    ReturnResolutionAdjustmentRequest,
+    ReturnResolutionLineItemRequest,
+    ReturnReplacementLineItemRequestInput,
+    ReturnResolutionAdjustmentRequestInput,
     ReturnResolutionLineItemRequestInput
 } from './types-42.js';
 import type {
@@ -86,14 +91,131 @@ import type {
     ReturnReceiptLineItemRequest,
     ReturnReceiptLineItemRequestInput,
     ReturnLineItemRequest,
-    ReturnLineItemRequestInput,
-    ReturnReplacementLineItemRequest,
-    ReturnResolutionAdjustmentRequest,
-    ReturnResolutionLineItemRequest,
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionAdjustmentRequestInput
+    ReturnLineItemRequestInput
 } from './types-41.js';
-import type { CreateReturnResolutionRequestStandard, CreateReturnResolutionRequestStandardInput } from './types-9.js';
+import type { CreateReturnResolutionRequestStandard } from './types-9.js';
+/**
+ * Shape $ (Value): {@link CreatePaymentIntentRequest}. The request body for: Create standalone
+ * payment intent.
+ */
+export type CreatePaymentIntentRequest = ({
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Amount to request from the buyer, including any
+     * tip_money. With capture_method manual, this is the hold amount, and you can capture less of
+     * it later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. automatic collects the payment when it is confirmed. manual places
+     * a hold at confirmation that you capture or cancel later. Defaults to automatic. Default:
+     * "automatic". Value enum: "automatic", "manual".
+     */
+    "capture_method"?: "automatic" | "manual" | (string & {});
+    /** Shape $ (Value): string. Customer to link to this payment intent. minLength: 1. */
+    "customer_id"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
+     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
+     * the public API. Shape $.* (Value): string. minLength: 1.
+     */
+    "metadata"?: Record<string, string>;
+    /**
+     * Shape $ (Value): Array of string. Payment options the buyer can use. Name at least one.
+     * minItems: 1. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[]
+     * (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /**
+     * Shape $ (Value): string. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * redirect payment such as Affirm. Required when payment_options includes affirm. It can't
+     * contain credentials, a query string, or a fragment. Test mode also accepts http loopback
+     * URLs. minLength: 1. pattern: \S.
+     */
+    "payment_return_url"?: string;
+    /**
+     * Shape $ (Value): string. Email address for this payment's receipt. When omitted, Flint uses
+     * the customer's email. Format: email. minLength: 1. maxLength: 255.
+     */
+    "receipt_email"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Portion of amount_money that is a tip. Uses
+     * amount_money's currency and is at most amount_money. Not accepted on order-linked payment
+     * intents. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): string. Why the bank debit is taken. Required when payment_options includes
+     * ach_debit, and rejected with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose
+     * otherwise. Value enum: "goods", "services", "other".
+     */
+    "transaction_purpose"?: "goods" | "services" | "other" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link CreatePaymentIntentRequestInput}. The request body for: Create
+ * standalone payment intent.
+ */
+export type CreatePaymentIntentRequestInput = ({
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Amount to request from the buyer, including any
+     * tip_money. With capture_method manual, this is the hold amount, and you can capture less of
+     * it later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Shape $ (Value): string. automatic collects the payment when it is confirmed. manual places
+     * a hold at confirmation that you capture or cancel later. Defaults to automatic. Default:
+     * "automatic". Value enum: "automatic", "manual".
+     */
+    "capture_method"?: "automatic" | "manual";
+    /** Shape $ (Value): string. Customer to link to this payment intent. minLength: 1. */
+    "customer_id"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
+     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
+     * the public API. Shape $.* (Value): string. minLength: 1.
+     */
+    "metadata"?: Record<string, string>;
+    /**
+     * Shape $ (Value): Array of string. Payment options the buyer can use. Name at least one.
+     * minItems: 1. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[]
+     * (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
+    /**
+     * Shape $ (Value): string. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * redirect payment such as Affirm. Required when payment_options includes affirm. It can't
+     * contain credentials, a query string, or a fragment. Test mode also accepts http loopback
+     * URLs. minLength: 1. pattern: \S.
+     */
+    "payment_return_url"?: string;
+    /**
+     * Shape $ (Value): string. Email address for this payment's receipt. When omitted, Flint uses
+     * the customer's email. Format: email. minLength: 1. maxLength: 255.
+     */
+    "receipt_email"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Portion of amount_money that is a tip. Uses
+     * amount_money's currency and is at most amount_money. Not accepted on order-linked payment
+     * intents. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "tip_money"?: MoneyValueInput;
+    /**
+     * Shape $ (Value): string. Why the bank debit is taken. Required when payment_options includes
+     * ach_debit, and rejected with INVALID_REQUEST and NOT_ALLOWED on transaction_purpose
+     * otherwise. Value enum: "goods", "services", "other".
+     */
+    "transaction_purpose"?: "goods" | "services" | "other";
+});
 /** Shape $ (Value): {@link CreatePaymentLinkRequest}. The request body for: Create payment link. */
 export type CreatePaymentLinkRequest = {
     /**
@@ -419,8 +541,9 @@ export type CreatePaymentMethodDomainRequestInput = CreatePaymentMethodDomainReq
 /** Shape $ (Value): {@link CreatePayoutRequest}. The request body for: Create a payout. */
 export type CreatePayoutRequest = {
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. Amount to send, above zero. It can't exceed what one
+     * balance source has in available_by_source_type. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValue;
     /**
@@ -428,7 +551,10 @@ export type CreatePayoutRequest = {
      * when omitted. Value enum: "card", "bank_account".
      */
     "balance_source_type"?: "card" | "bank_account" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Your description of the payout, returned on the payout. minLength:
+     * 1.
+     */
     "description"?: string;
     /**
      * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
@@ -446,16 +572,23 @@ export type CreatePayoutRequest = {
      * standard. Value enum: "standard".
      */
     "method"?: "standard" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Destination to pay. It must be active and in the payout's currency.
+     * Omit it to pay the currency's default destination. minLength: 1.
+     */
     "payout_destination_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Text shown on your bank statement for this deposit, 22 characters
+     * or fewer. minLength: 1.
+     */
     "statement_descriptor"?: string;
 };
 /** Shape $ (Value): {@link CreatePayoutRequestInput}. The request body for: Create a payout. */
 export type CreatePayoutRequestInput = {
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValueInput}. Amount to send, above zero. It can't exceed what
+     * one balance source has in available_by_source_type. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValueInput;
     /**
@@ -463,7 +596,10 @@ export type CreatePayoutRequestInput = {
      * when omitted. Value enum: "card", "bank_account".
      */
     "balance_source_type"?: "card" | "bank_account";
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Your description of the payout, returned on the payout. minLength:
+     * 1.
+     */
     "description"?: string;
     /**
      * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
@@ -481,9 +617,15 @@ export type CreatePayoutRequestInput = {
      * standard. Value enum: "standard".
      */
     "method"?: "standard";
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Destination to pay. It must be active and in the payout's currency.
+     * Omit it to pay the currency's default destination. minLength: 1.
+     */
     "payout_destination_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Text shown on your bank statement for this deposit, 22 characters
+     * or fewer. minLength: 1.
+     */
     "statement_descriptor"?: string;
 };
 /**
@@ -2598,6 +2740,12 @@ export type CreateRefundResult = ({
     "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "updated_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 })
     & (Exclude<Refund & object, readonly unknown[]>)
     & ({
@@ -3960,147 +4108,3 @@ export type CreateReturnResolutionRequestCorrection = ({
     /** Shape $ (Value): string. minLength: 1. */
     "corrects_return_resolution_id": string;
 }));
-/**
- * Shape $ (Value): {@link CreateReturnResolutionRequestCorrectionInput}. The `correction` variant
- * of `CreateReturnResolutionRequest`.
- */
-export type CreateReturnResolutionRequestCorrectionInput = ({
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments": Array<ReturnResolutionAdjustmentRequestInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id": string;
-    /**
-     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
-     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
-     * return resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /** Shape $ (Value): string.  Value enum: "correction". */
-    "resolution_type": "correction";
-})
-    & (({
-    /** Shape $ (Value): any. minItems: 1. */
-    "adjustments": unknown;
-    /** Shape $ (Value): any.  Value enum: "correction". */
-    "resolution_type"?: "correction";
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id": string;
-})
-    & (({
-    "line_items"?: never;
-})
-    & ({
-    "replacement_line_items"?: never;
-})
-    & ({
-    "pricing_basis"?: never;
-})));
-/**
- * Shape $ (Value): {@link CreateReturnResolutionRequestInput}. The request body for: Create return
- * resolution.
- */
-export type CreateReturnResolutionRequestInput = ({
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
-     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
-     * return resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /**
-     * Shape $ (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
-     * "no_monetary_action", "correction".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction";
-})
-    & ((Exclude<CreateReturnResolutionRequestStandardInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnResolutionRequestCorrectionInput & object, readonly unknown[]>));

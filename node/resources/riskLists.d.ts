@@ -18,11 +18,11 @@ import type {
     RiskListsListInput,
     RiskListsListRiskListItemsInput,
     RiskListsRemoveInput,
-    RiskListsUpdateInput,
-    SdkResponse
+    RiskListsUpdateInput
 } from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-44.js';
 import type { UpdateRiskListRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -39,7 +39,6 @@ export type { CreateRiskListRequestInput, Credentials } from '../declarations/ty
 export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
 export type {
     RiskList,
-    SdkResponse,
     RiskListResourceResponse,
     RiskListItem,
     RiskListItemResponse,
@@ -56,6 +55,7 @@ export type {
     RiskListsUpdateInput,
     RiskListItemAddition
 } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type {
     AddRiskListItemsRequestInput,
     AddRiskListItemsResult,
@@ -63,14 +63,14 @@ export type {
     AuthMode,
     AddRiskListItemsRequest
 } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { UpdateRiskListRequestInput } from '../declarations/types-49.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeAddRiskListItemsRequest } from '../declarations/types-61.js';
-export { makeCreateRiskListRequest } from '../declarations/types-64.js';
+export { makeAddRiskListItemsRequest } from '../declarations/types-62.js';
+export { makeCreateRiskListRequest } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateRiskListRequest } from '../declarations/types-72.js';
+export { makeUpdateRiskListRequest } from '../declarations/types-73.js';
 export interface RiskListsResource {
     /**
  * Creates an empty list. Rules refer to it by alias, which can't be changed or reused, even after
@@ -85,13 +85,13 @@ export interface RiskListsResource {
  */
     create(params: (InputValue<CreateRiskListRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskList>;
+    }, options?: RequestOptions<"merchant">): Promise<RiskList>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistscreate
      */
     createWithResponse(params: (InputValue<CreateRiskListRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListResourceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RiskListResourceResponse>>;
     /**
  * Adds up to 500 values, each validated and normalized for the list's item_type. The additions
  * array reports each value's outcome: values already on the list come back as existing, so a batch
@@ -107,13 +107,13 @@ export interface RiskListsResource {
  */
     addItems(risk_list_id: InputValue<string>, params: (InputValue<AddRiskListItemsRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<AddRiskListItemsResult>;
+    }, options?: RequestOptions<"merchant">): Promise<AddRiskListItemsResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistsadditems
      */
     addItemsWithResponse(risk_list_id: InputValue<string>, params: (InputValue<AddRiskListItemsRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<AddRiskListItemsResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<AddRiskListItemsResponse>>;
     /**
  * Archives a list you created. Fails with 409 RESOURCE_IN_USE while an active rule names it.
  * Archived lists can't be used by rules or edited.
@@ -127,14 +127,14 @@ export interface RiskListsResource {
     remove(risk_list_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskList>;
+    }, options?: RequestOptions<"merchant">): Promise<RiskList>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistsremove
      */
     removeWithResponse(risk_list_id: InputValue<string>, params?: {
         "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListResourceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RiskListResourceResponse>>;
     /**
  * Removes a value from a list permanently. Payments see the change from the next attempt.
  * @see reference/riskLists.md#risklistsdeleteitem
@@ -146,13 +146,13 @@ export interface RiskListsResource {
  */
     deleteItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskListItem>;
+    }, options?: RequestOptions<"merchant">): Promise<RiskListItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistsdeleteitem
      */
     deleteItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListItemResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RiskListItemResponse>>;
     /**
  * Retrieves a risk list. item_count is its current number of values.
  * @see reference/riskLists.md#risklistsget
@@ -160,11 +160,11 @@ export interface RiskListsResource {
  * @example
  * client.riskLists.get("example")
  */
-    get(risk_list_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskList>;
+    get(risk_list_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskList>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistsget
      */
-    getWithResponse(risk_list_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListResourceResponse>>;
+    getWithResponse(risk_list_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskListResourceResponse>>;
     /**
  * Retrieves one value on a list.
  * @see reference/riskLists.md#risklistsgetitem
@@ -172,11 +172,11 @@ export interface RiskListsResource {
  * @example
  * client.riskLists.getItem("example", "example")
  */
-    getItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListItem>;
+    getItem(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskListItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistsgetitem
      */
-    getItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListItemResponse>>;
+    getItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskListItemResponse>>;
     /**
  * Lists a list's values, newest first.
  * @see reference/riskLists.md#risklistslistrisklistitems
@@ -188,7 +188,7 @@ export interface RiskListsResource {
         "value"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListItemListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskListItemListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistslistrisklistitems
      */
@@ -196,7 +196,7 @@ export interface RiskListsResource {
         "value"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListItemListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskListItemListResponse>>;
     /** Iterate pages lazily.
      * @see reference/riskLists.md#risklistslistrisklistitems
      */
@@ -204,7 +204,7 @@ export interface RiskListsResource {
         "value"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItemListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RiskListItemListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/riskLists.md#risklistslistrisklistitems
      */
@@ -212,7 +212,7 @@ export interface RiskListsResource {
         "value"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListItemListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<RiskListItemListResponse>>;
     /** Iterate items lazily.
      * @see reference/riskLists.md#risklistslistrisklistitems
      */
@@ -220,7 +220,7 @@ export interface RiskListsResource {
         "value"?: InputValue<string>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListItem>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RiskListItem>;
     /**
  * Lists risk lists, newest first, including Flint's default block lists. Archived lists appear
  * only when status includes archived.
@@ -234,7 +234,7 @@ export interface RiskListsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskListListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<RiskListListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistslist
      */
@@ -243,7 +243,7 @@ export interface RiskListsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskListListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskListListResponse>>;
     /** Iterate pages lazily.
      * @see reference/riskLists.md#risklistslist
      */
@@ -252,7 +252,7 @@ export interface RiskListsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskListListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RiskListListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/riskLists.md#risklistslist
      */
@@ -261,7 +261,7 @@ export interface RiskListsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<RiskListListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<RiskListListResponse>>;
     /** Iterate items lazily.
      * @see reference/riskLists.md#risklistslist
      */
@@ -270,7 +270,7 @@ export interface RiskListsResource {
         "status"?: InputValue<Array<"active" | "archived">>;
         "page_size"?: InputValue<number>;
         "page_token"?: InputValue<string>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<RiskList>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RiskList>;
     /**
  * Renames a list you created. Flint's default lists can't be renamed.
  * @see reference/riskLists.md#risklistsupdate
@@ -282,13 +282,13 @@ export interface RiskListsResource {
  */
     update(risk_list_id: InputValue<string>, params: (InputValue<UpdateRiskListRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RiskList>;
+    }, options?: RequestOptions<"merchant">): Promise<RiskList>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/riskLists.md#risklistsupdate
      */
     updateWithResponse(risk_list_id: InputValue<string>, params: (InputValue<UpdateRiskListRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RiskListResourceResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<RiskListResourceResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

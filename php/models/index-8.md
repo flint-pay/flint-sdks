@@ -1,7 +1,10 @@
 [Model index](../MODELS.md)
 
-# FeedbackReportingClientInput – GiftCardRedemptionResultInput
+# ExpandedSubscriptionPlanSummaryInput – GiftCardRedemptionInput
 
+- [ExpandedSubscriptionPlanSummaryInput](ExpandedSubscriptionPlanSummaryInput.md)
+- [ExpandedSubscriptionSummaryInput](ExpandedSubscriptionSummaryInput.md)
+- [FeedbackReportInput](FeedbackReportInput.md)
 - [FeedbackReportingClientInput](FeedbackReportingClientInput.md)
 - [FeedbackReportListResponseInput](FeedbackReportListResponseInput.md)
 - [FeedbackReportNarrativeInput](FeedbackReportNarrativeInput.md)
@@ -99,7 +102,4 @@
 - [GiftCardPurchaseRestorationInput](GiftCardPurchaseRestorationInput.md)
 - [GiftCardPurchaseSnapshotInput](GiftCardPurchaseSnapshotInput.md)
 - [GiftCardRedemptionInput](GiftCardRedemptionInput.md)
-- [GiftCardRedemptionListResponseInput](GiftCardRedemptionListResponseInput.md)
-- [GiftCardRedemptionResponseInput](GiftCardRedemptionResponseInput.md)
-- [GiftCardRedemptionResultInput](GiftCardRedemptionResultInput.md)
 

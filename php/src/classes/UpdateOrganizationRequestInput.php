@@ -5,10 +5,10 @@ namespace Flint;
  * @property-read string $expected_version
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $name
- * @property-read string|null $parent_organization_id
+ * @property-read string $parent_organization_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateOrganizationRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'parent_organization_id'?: string|null, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'parent_organization_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateOrganizationRequestInput')); }
     /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string
@@ -28,10 +28,10 @@ final class UpdateOrganizationRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
-     * @return string|null
+    /** Shape $ (Value): string. Moves the organization, and every organization below it, under another active organization you can manage. Can't be null. minLength: 1.
+     * @return string
      * @throws SdkError When parent_organization_id is omitted; use hasParentOrganizationId() or valueOrDefault().
      */
-    public function getParentOrganizationId(): string|null { return $this->get('parent_organization_id'); }
+    public function getParentOrganizationId(): string { return $this->get('parent_organization_id'); }
     public function hasParentOrganizationId(): bool { return $this->has('parent_organization_id'); }
 }

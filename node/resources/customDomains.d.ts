@@ -11,8 +11,8 @@ import type {
     CustomDomainsRemoveInput
 } from '../declarations/types-10.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,8 +37,8 @@ export type {
     CustomDomainsListInput,
     CustomDomainDNSRecord
 } from '../declarations/types-10.js';
-export type { SdkResponse } from '../declarations/types-43.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -67,14 +67,14 @@ export interface CustomDomainsResource {
     create(params: (InputValue<CreateCustomDomainRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomDomain>;
+    }, options?: RequestOptions<"merchant">): Promise<CustomDomain>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customDomains.md#customdomainscreate
      */
     createWithResponse(params: (InputValue<CreateCustomDomainRequestInput>)
         & {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomDomainResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomDomainResponse>>;
     /**
  * Archives the hostname and starts its redirect retention window. Repeating the request returns
  * the archived domain unchanged.
@@ -87,13 +87,13 @@ export interface CustomDomainsResource {
  */
     remove(custom_domain_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomDomain>;
+    }, options?: RequestOptions<"merchant">): Promise<CustomDomain>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customDomains.md#customdomainsremove
      */
     removeWithResponse(custom_domain_id: InputValue<string>, params?: {
         "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomDomainResponse>>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomDomainResponse>>;
     /**
  * Returns a custom domain, including archived domains.
  * @see reference/customDomains.md#customdomainsget
@@ -101,11 +101,11 @@ export interface CustomDomainsResource {
  * @example
  * client.customDomains.get("example")
  */
-    get(custom_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomDomain>;
+    get(custom_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CustomDomain>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customDomains.md#customdomainsget
      */
-    getWithResponse(custom_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomDomainResponse>>;
+    getWithResponse(custom_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CustomDomainResponse>>;
     /**
  * Returns domains ordered by created_at descending, then custom_domain_id descending.
  * @see reference/customDomains.md#customdomainslist
@@ -118,7 +118,7 @@ export interface CustomDomainsResource {
         "page_token"?: InputValue<string>;
         "type"?: InputValue<Array<"checkout" | "customer_account">>;
         "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomDomainListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<CustomDomainListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/customDomains.md#customdomainslist
      */
@@ -127,7 +127,7 @@ export interface CustomDomainsResource {
         "page_token"?: InputValue<string>;
         "type"?: InputValue<Array<"checkout" | "customer_account">>;
         "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomDomainListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CustomDomainListResponse>>;
     /** Iterate pages lazily.
      * @see reference/customDomains.md#customdomainslist
      */
@@ -136,7 +136,7 @@ export interface CustomDomainsResource {
         "page_token"?: InputValue<string>;
         "type"?: InputValue<Array<"checkout" | "customer_account">>;
         "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomDomainListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomDomainListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/customDomains.md#customdomainslist
      */
@@ -145,7 +145,7 @@ export interface CustomDomainsResource {
         "page_token"?: InputValue<string>;
         "type"?: InputValue<Array<"checkout" | "customer_account">>;
         "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomDomainListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<CustomDomainListResponse>>;
     /** Iterate items lazily.
      * @see reference/customDomains.md#customdomainslist
      */
@@ -154,7 +154,7 @@ export interface CustomDomainsResource {
         "page_token"?: InputValue<string>;
         "type"?: InputValue<Array<"checkout" | "customer_account">>;
         "status"?: InputValue<Array<"provisioning" | "active" | "attention_required" | "inactive" | "archived">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomDomain>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<CustomDomain>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

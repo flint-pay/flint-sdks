@@ -1,10 +1,16 @@
+import type { ResponseMeta } from './types-40.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateCustomerRequestInput } from './types-5.js';
+import type {
+    ConfirmCustomerVerificationRequestInput,
+    CreateCustomerVerificationRequestInput,
+    CreateCustomerAddressRequestInput,
+    CreateCustomerDeletionRequestInput,
+    CreateCustomerRequestInput
+} from './types-5.js';
 import type { LinkCustomerGuestPurchasesRequestInput } from './types-28.js';
 import type { SetDefaultCustomerAddressRequestInput } from './types-44.js';
 import type { UpdateCustomerAddressRequestInput, UpdateCustomerRequestInput } from './types-47.js';
-import type { ReturnLineDecision } from './types-40.js';
-import type { ReturnLineDecisionInput } from './types-41.js';
+import type { ReturnLineDecision, ReturnLineDecisionInput } from './types-41.js';
 import type {
     DeliveryWeeklyInterval,
     DeliveryWeeklyIntervalInput,
@@ -15,9 +21,7 @@ import type {
     DeliveryZoneCondition,
     DeliveryStateConditionInput,
     DeliveryWindowTimeConditionInput,
-    DeliveryZoneConditionInput,
-    DeliveryTransitTimeRule,
-    DeliveryTransitTimeRuleInput
+    DeliveryZoneConditionInput
 } from './types-15.js';
 import type { LocationCoordinate } from './types-29.js';
 import type { MoneyValue, MoneyValueInput } from './types-31.js';
@@ -28,12 +32,102 @@ import type {
     DeliveryPostalCodeConditionInput
 } from './types-12.js';
 import type { AddRiskListItemsRequest } from './types-0.js';
-import type {
-    DeliveryRadiusCondition,
-    DeliveryRadiusConditionInput,
-    DeliveryScheduleWindowRule,
-    DeliveryScheduleWindowRuleRequestInput
-} from './types-14.js';
+import type { DeliveryRadiusCondition, DeliveryRadiusConditionInput } from './types-14.js';
+/**
+ * Shape $ (Value): {@link CustomerVerification}. An email verification requested for linking guest
+ * purchases.
+ */
+export type CustomerVerification = {
+    /** Shape $ (Value): string.  Value enum: "email". */
+    "channel": "email" | (string & {});
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /** Shape $ (Value): string. */
+    "customer_id": string;
+    /** Shape $ (Value): string. */
+    "customer_verification_id": string;
+    /** Shape $ (Value): string. */
+    "email": string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "expires_at": string;
+    /** Shape $ (Value): string.  Value enum: "link_guest_purchases". */
+    "purpose": "link_guest_purchases" | (string & {});
+    /**
+     * Shape $ (Value): string. pending while the code can be confirmed; confirmed while an unused
+     * proof can link purchases; used after linking; expired when the code or proof expires. Value
+     * enum: "pending", "confirmed", "used", "expired".
+     */
+    "status": "pending" | "confirmed" | "used" | "expired" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link CustomerVerificationResponse}. A response containing
+ * `CustomerVerification` data.
+ */
+export type CustomerVerificationResponse = {
+    /**
+     * Shape $ (Value): {@link CustomerVerification}. An email verification requested for linking
+     * guest purchases.
+     */
+    "data": CustomerVerification;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+export type CustomerVerificationsConfirmInput = {
+    /** Shape $ (Value): string. */
+    "customer_verification_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link ConfirmCustomerVerificationRequestInput}. The request body for:
+     * Confirm a customer email verification.
+     */
+    "body": InputValue<ConfirmCustomerVerificationRequestInput>;
+};
+export type CustomerVerificationsCreateInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateCustomerVerificationRequestInput}. The request body for:
+     * Create a customer email verification.
+     */
+    "body": InputValue<CreateCustomerVerificationRequestInput>;
+};
+export type CustomersCreateAccessLinkInput = {
+    /** Shape $ (Value): string. */
+    "customer_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /** Shape $ (Value): object. maxProperties: 0. */
+    "body"?: InputValue<{}>;
+};
+export type CustomersCreateAddressInput = {
+    /** Shape $ (Value): string. */
+    "customer_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateCustomerAddressRequestInput}. The request body for: Create a
+     * customer address; Create an address for the current buyer.
+     */
+    "body": InputValue<CreateCustomerAddressRequestInput>;
+};
+export type CustomersCreateDeletionRequestInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateCustomerDeletionRequestInput}. The request body for: Request
+     * customer account deletion.
+     */
+    "body": InputValue<CreateCustomerDeletionRequestInput>;
+};
 export type CustomersCreateInput = {
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
@@ -47,6 +141,11 @@ export type CustomersDeleteAddressInput = {
     "customer_id": InputValue<string>;
     /** Shape $ (Value): string. */
     "customer_address_id": InputValue<string>;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: InputValue<`${bigint}` | bigint>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
 };
@@ -2892,218 +2991,4 @@ export type DeliveryEligibilityExpressionInput = {
      * the destination or buyer location falls inside the delivery zone `delivery_zone_id`.
      */
     "zone"?: DeliveryZoneConditionInput;
-};
-/**
- * Shape $ (Value): {@link DeliveryEligibilityMismatch}. An eligibility condition that rejected a
- * delivery method, with its condition type, its path in the expression, and the field tested.
- */
-export type DeliveryEligibilityMismatch = {
-    /**
-     * Shape $ (Value): string. The configured eligibility condition family that did not match.
-     * Value enum: "zone", "country", "state", "postal_code", "radius", "window_time",
-     * "subscription_purchase", "customer_segment", "customer_merchant_verified",
-     * "customer_has_email", "customer_has_phone".
-     */
-    "condition": "zone"
-        | "country"
-        | "state"
-        | "postal_code"
-        | "radius"
-        | "window_time"
-        | "subscription_purchase"
-        | "customer_segment"
-        | "customer_merchant_verified"
-        | "customer_has_email"
-        | "customer_has_phone"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. The condition's path in the configured eligibility expression,
-     * starting at $.
-     */
-    "expression_path": string;
-    /**
-     * Shape $ (Value): string. The eligibility fact evaluated by the condition. Buyer fact values
-     * are not included.
-     */
-    "field"?: string;
-    /**
-     * Shape $ (Value): boolean. Whether the condition matched inside a not expression and
-     * therefore rejected the method.
-     */
-    "negated"?: boolean;
-};
-/**
- * Shape $ (Value): {@link DeliveryEstimateRule}. How a delivery method estimates timing, chosen by
- * `type`: no estimate, a transit time, or a schedule window.
- */
-export type DeliveryEstimateRule = {
-    /**
-     * Shape $ (Value): {@link DeliveryScheduleWindowRule}. Estimate rule for a scheduled-window
-     * delivery method, defined by its `availability` schedule.
-     */
-    "schedule_window"?: DeliveryScheduleWindowRule;
-    /**
-     * Shape $ (Value): {@link DeliveryTransitTimeRule}. Estimate rule giving a delivery method's
-     * handling time and transit time as ranges of business days.
-     */
-    "transit_time"?: DeliveryTransitTimeRule;
-    /** Shape $ (Value): string.  Value enum: "none", "transit_time", "schedule_window". */
-    "type": "none" | "transit_time" | "schedule_window" | (string & {});
-};
-/**
- * Shape $ (Value): {@link DeliveryEstimateRuleRequestInput}. The timing estimate rule you supply
- * for a delivery method, chosen by `type`: none, a transit time, or a schedule window.
- */
-export type DeliveryEstimateRuleRequestInput = {
-    /**
-     * Shape $ (Value): {@link DeliveryScheduleWindowRuleRequestInput}. Scheduled-window estimate
-     * rule you supply for a delivery method, defined by its `availability` schedule.
-     */
-    "schedule_window"?: DeliveryScheduleWindowRuleRequestInput;
-    /**
-     * Shape $ (Value): {@link DeliveryTransitTimeRuleInput}. Estimate rule giving a delivery
-     * method's handling time and transit time as ranges of business days.
-     */
-    "transit_time"?: DeliveryTransitTimeRuleInput;
-    /** Shape $ (Value): string.  Value enum: "none", "transit_time", "schedule_window". */
-    "type": "none" | "transit_time" | "schedule_window";
-};
-/**
- * Shape $ (Value): {@link DeliveryExternalPricingStrategy}. Delivery pricing that comes from
- * outside Flint, from a delivery rate callback or the caller, bounded by minimum and maximum fees
- * by currency.
- */
-export type DeliveryExternalPricingStrategy = {
-    /** Shape $ (Value): string. */
-    "delivery_rate_callback_id"?: string;
-    /** Shape $ (Value): string. */
-    "delivery_rate_callback_revision_id"?: string;
-    /**
-     * Shape $ (Value): Map of {@link MoneyValue}. Maximum delivery fee by ISO currency code. Each
-     * key must equal the Money object's currency. Shape $.* (Value): {@link MoneyValue}. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "maximum_fee_currency_options": Record<string, MoneyValue>;
-    /**
-     * Shape $ (Value): Map of {@link MoneyValue}. Minimum delivery fee by ISO currency code. Each
-     * key must equal the Money object's currency. Shape $.* (Value): {@link MoneyValue}. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "minimum_fee_currency_options": Record<string, MoneyValue>;
-    /** Shape $ (Value): boolean. */
-    "preview_enabled"?: boolean;
-};
-/** Shape $ (Value): {@link DeliveryFixedPricingStrategy}. A fixed delivery price, by currency. */
-export type DeliveryFixedPricingStrategy = {
-    /**
-     * Shape $ (Value): Map of {@link MoneyValue}. Shape $.* (Value): {@link MoneyValue}. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "currency_options": Record<string, MoneyValue>;
-};
-/**
- * Shape $ (Value): {@link DeliveryFixedPricingStrategyRequestInput}. A fixed delivery price by
- * currency, supplied for a delivery method.
- */
-export type DeliveryFixedPricingStrategyRequestInput = {
-    /**
-     * Shape $ (Value): Map of {@link MoneyValueInput}. Shape $.* (Value): {@link MoneyValueInput}.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "currency_options": Record<string, MoneyValueInput>;
-};
-/**
- * Shape $ (Value): {@link DeliveryFulfillmentDetails}. Details of a local delivery fulfillment:
- * courier, timing window, instructions, and tracking. Some fields are omitted for credentials that
- * don't act for the verified customer.
- */
-export type DeliveryFulfillmentDetails = {
-    /** Shape $ (Value): string. Carrier responsible for the local delivery. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): string. Time at which the courier collected the order. Format: date-time.
-     */
-    "courier_pickup_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Width of the promised courier pickup window, from 0 to
-     * 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0. maximum: 86400.
-     */
-    "courier_pickup_window_duration_seconds"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Delivery network or merchant fleet provider handling the job.
-     * maxLength: 255.
-     */
-    "courier_provider_name"?: string;
-    /**
-     * Shape $ (Value): string. Buyer-safe support number for the courier or merchant fleet.
-     * maxLength: 30.
-     */
-    "courier_support_phone"?: string;
-    /**
-     * Shape $ (Value): string. When the items were delivered, in RFC3339 format. Format:
-     * date-time.
-     */
-    "delivered_at"?: string;
-    /**
-     * Shape $ (Value): string. When the delivery was dispatched, in RFC3339 format. Format:
-     * date-time.
-     */
-    "dispatched_at"?: string;
-    /**
-     * Shape $ (Value): string. Driver-facing notes for the final handoff. Omitted for a checkout
-     * session credential that doesn't act for the customer the buyer verified. maxLength: 2048.
-     */
-    "dropoff_notes"?: string;
-    /**
-     * Shape $ (Value): string. Deadline after which an undelivered job should enter merchant
-     * review. Format: date-time.
-     */
-    "expires_at"?: string;
-    /**
-     * Shape $ (Value): string. Stable delivery job ID owned by the courier or merchant dispatch
-     * system. maxLength: 255.
-     */
-    "external_delivery_id"?: string;
-    /**
-     * Shape $ (Value): string. Omitted for a checkout session credential that doesn't act for the
-     * customer the buyer verified.
-     */
-    "instructions"?: string;
-    /**
-     * Shape $ (Value): boolean. Whether the buyer requested a no-contact handoff. Omitted for a
-     * checkout session credential that doesn't act for the customer the buyer verified.
-     */
-    "no_contact"?: boolean;
-    /**
-     * Shape $ (Value): integer string. Expected preparation time before courier pickup, from 0 to
-     * 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Time at which the order became ready for courier pickup. Format:
-     * date-time.
-     */
-    "ready_at"?: string;
-    /** Shape $ (Value): string. Delivery service area assigned to this fulfillment. */
-    "service_area_id"?: string;
-    /** Shape $ (Value): string. Timezone used to display the local delivery window. */
-    "timezone"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. Omitted for a checkout session credential that doesn't act for the customer the
-     * buyer verified.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): string. End of the promised delivery window, in RFC3339 format. Format:
-     * date-time.
-     */
-    "window_end_at"?: string;
-    /**
-     * Shape $ (Value): string. Start of the promised delivery window, in RFC3339 format. Format:
-     * date-time.
-     */
-    "window_start_at"?: string;
 };

@@ -20,7 +20,7 @@ A delivery dependency pinned to a checkout, such as the assigned method, eligibi
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Conditional | string | Public Flint ID of the referenced resource. |
-| `resource_type` | Conditional | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [134 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
+| `resource_type` | Conditional | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
 
 ### CheckoutDeliveryPinnedDependency.dependency variant 1
 

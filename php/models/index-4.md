@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CreateGiftCardLoadRequestInput – CreateSubscriptionPreviewRequestInput
+# CreateGiftCardFundingDispositionRequestInput – CreateSubscriptionLineItemRequestVariantInput
 
+- [CreateGiftCardFundingDispositionRequestInput](CreateGiftCardFundingDispositionRequestInput.md)
 - [CreateGiftCardLoadRequestInput](CreateGiftCardLoadRequestInput.md)
 - [CreateGiftCardLoadResultInput](CreateGiftCardLoadResultInput.md)
 - [CreateGiftCardLoadResultResponseInput](CreateGiftCardLoadResultResponseInput.md)
@@ -99,7 +100,6 @@
 - [CreateSubscriptionAccessLinkRequestInput](CreateSubscriptionAccessLinkRequestInput.md)
 - [CreateSubscriptionDeliveryMigrationRequestInput](CreateSubscriptionDeliveryMigrationRequestInput.md)
 - [CreateSubscriptionLineItemRequestInput](CreateSubscriptionLineItemRequestInput.md)
-- [CreateSubscriptionOfferRequestInput](CreateSubscriptionOfferRequestInput.md)
-- [CreateSubscriptionPlanRequestInput](CreateSubscriptionPlanRequestInput.md)
-- [CreateSubscriptionPreviewRequestInput](CreateSubscriptionPreviewRequestInput.md)
+- [CreateSubscriptionLineItemRequestBundleInput](CreateSubscriptionLineItemRequestBundleInput.md)
+- [CreateSubscriptionLineItemRequestVariantInput](CreateSubscriptionLineItemRequestVariantInput.md)
 

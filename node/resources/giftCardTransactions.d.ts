@@ -2,8 +2,8 @@ import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { GiftCardTransaction, GiftCardTransactionListResponse, GiftCardTransactionsListInput } from '../declarations/types-19.js';
 import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-43.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+import type { SdkResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -16,10 +16,10 @@ export type {
     SdkErrorCode,
     SdkErrorDetails
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceType } from '../declarations/types-40.js';
 export type { GiftCardTransactionListResponse, GiftCardTransaction, GiftCardTransactionsListInput } from '../declarations/types-19.js';
-export type { SdkResponse } from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-44.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
@@ -62,7 +62,7 @@ export interface GiftCardTransactionsResource {
             | "funding_loss_accepted"
             | "purchase_refund_recovery"
             | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardTransactionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<GiftCardTransactionListResponse>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/giftCardTransactions.md#giftcardtransactionslist
      */
@@ -93,7 +93,7 @@ export interface GiftCardTransactionsResource {
             | "funding_loss_accepted"
             | "purchase_refund_recovery"
             | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardTransactionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardTransactionListResponse>>;
     /** Iterate pages lazily.
      * @see reference/giftCardTransactions.md#giftcardtransactionslist
      */
@@ -124,7 +124,7 @@ export interface GiftCardTransactionsResource {
             | "funding_loss_accepted"
             | "purchase_refund_recovery"
             | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardTransactionListResponse>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardTransactionListResponse>;
     /** Iterate complete page bodies with HTTP metadata.
      * @see reference/giftCardTransactions.md#giftcardtransactionslist
      */
@@ -155,7 +155,7 @@ export interface GiftCardTransactionsResource {
             | "funding_loss_accepted"
             | "purchase_refund_recovery"
             | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<GiftCardTransactionListResponse>>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<GiftCardTransactionListResponse>>;
     /** Iterate items lazily.
      * @see reference/giftCardTransactions.md#giftcardtransactionslist
      */
@@ -186,7 +186,7 @@ export interface GiftCardTransactionsResource {
             | "funding_loss_accepted"
             | "purchase_refund_recovery"
             | "purchase_refund_recovery_transfer">>;
-    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardTransaction>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<GiftCardTransaction>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnResolutions.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import r0 from '../descriptors/resources/returnResolutions.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import settings from '../descriptors/settings.js?sdk=f26e56e6a3e2880a8b32262ed776607c3be18e132e92afe40d992ddacf961f63';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnResolution"]:r0,["confirmReturnResolution"]:r0,["getOrCreateReturnResolutionCheckoutSession"]:r0,["getReturnResolution"]:r0,["listReturnResolutions"]:r0,["releaseReturnResolution"]:r0,["retryReturnResolution"]:r0,["updateReturnResolution"]:r0});
 export class Client {
@@ -193,6 +193,9 @@ export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeReleaseReturnResolutionRequest } from '../models/ReleaseReturnResolutionRequest.js';
 export { makeRetryReturnResolutionRequest } from '../models/RetryReturnResolutionRequest.js';
 export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeUpdateReturnReplacementLineItemInputBundle } from '../models/UpdateReturnReplacementLineItemInputBundle.js';
+export { makeUpdateReturnReplacementLineItemInputCustom } from '../models/UpdateReturnReplacementLineItemInputCustom.js';
+export { makeUpdateReturnReplacementLineItemInputVariant } from '../models/UpdateReturnReplacementLineItemInputVariant.js';
 export { makeUpdateReturnReplacementLineItemRequest } from '../models/UpdateReturnReplacementLineItemRequest.js';
 export { makeUpdateReturnResolutionAdjustmentRequest } from '../models/UpdateReturnResolutionAdjustmentRequest.js';
 export { makeUpdateReturnResolutionLineItemRequest } from '../models/UpdateReturnResolutionLineItemRequest.js';

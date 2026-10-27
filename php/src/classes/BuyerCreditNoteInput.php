@@ -45,7 +45,7 @@ final class BuyerCreditNoteInput extends Model {
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the credit note was issued. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When issued_at is omitted; use hasIssuedAt() or valueOrDefault().
      */
@@ -105,7 +105,7 @@ final class BuyerCreditNoteInput extends Model {
      */
     public function getTotalMoney(): mixed { return $this->get('total_money'); }
     public function hasTotalMoney(): bool { return $this->has('total_money'); }
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+    /** Shape $ (Value): string. When the credit note was voided. Absent unless it is void. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When voided_at is omitted; use hasVoidedAt() or valueOrDefault().
      */

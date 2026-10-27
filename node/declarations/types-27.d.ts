@@ -1,19 +1,235 @@
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { InvoiceLateFeePolicy, Invoice } from './types-26.js';
+import type { InvoiceManualPayment, Invoice, InvoiceLateFeePolicy } from './types-26.js';
 import type { ResponseMeta } from './types-40.js';
+import type { MoneyValue, MoneyValueInput } from './types-31.js';
+import type { PaymentErrorSummary } from './types-35.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateInvoicePaymentTermRequestInput } from './types-7.js';
 import type { UpdateInvoicePaymentTermRequestInput } from './types-48.js';
+import type { InvoiceScheduleDueWriteAtIssue, InvoiceScheduleDueWriteInvoiceDueDate } from './types-28.js';
+/**
+ * Shape $ (Value): {@link InvoiceManualPaymentListResponse}. A page of `InvoiceManualPayment`
+ * objects.
+ */
+export type InvoiceManualPaymentListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InvoiceManualPayment}. Shape $[] (Value): {@link
+     * InvoiceManualPayment}. A recorded offline payment against an invoice. Its amount contributes
+     * to invoice paid_money while recorded; reversing it returns its full amount to
+     * outstanding_money. A payment can cover principal and late fees. Manual payments are separate
+     * from online payment attempts.
+     */
+    "data": Array<InvoiceManualPayment>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link InvoiceManualPaymentResponse}. A response containing
+ * `InvoiceManualPayment` data.
+ */
+export type InvoiceManualPaymentResponse = {
+    /**
+     * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
+     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
+     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
+     * payments are separate from online payment attempts.
+     */
+    "data": InvoiceManualPayment;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link InvoiceManualPaymentResult}. The recorded or reversed payment and the
+ * updated invoice. expected_version on either write fences the invoice; use the returned invoice
+ * version for the next write.
+ */
+export type InvoiceManualPaymentResult = {
+    /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
+    "invoice": Invoice;
+    /**
+     * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
+     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
+     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
+     * payments are separate from online payment attempts.
+     */
+    "invoice_manual_payment": InvoiceManualPayment;
+};
+/**
+ * Shape $ (Value): {@link InvoiceManualPaymentResultResponse}. A response containing
+ * `InvoiceManualPaymentResult` data.
+ */
+export type InvoiceManualPaymentResultResponse = {
+    /**
+     * Shape $ (Value): {@link InvoiceManualPaymentResult}. The recorded or reversed payment and
+     * the updated invoice. expected_version on either write fences the invoice; use the returned
+     * invoice version for the next write.
+     */
+    "data": InvoiceManualPaymentResult;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/** Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an invoice. */
+export type InvoicePaymentAttempt = {
+    /**
+     * Shape $ (Value): string. When the attempt was canceled. An attempt canceled with its
+     * checkout session before payment started may not have it. Format: date-time.
+     */
+    "canceled_at"?: string;
+    /**
+     * Shape $ (Value): string. When cancellation of this attempt was last requested. It stays set
+     * when the payment processor refuses the cancellation or the payment settles first, so read
+     * status and canceled_at for the outcome. Format: date-time.
+     */
+    "cancellation_requested_at"?: string;
+    /**
+     * Shape $ (Value): string. The hosted or embedded checkout session the buyer pays through.
+     * Absent for automatic charges.
+     */
+    "checkout_session_id"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. The amount this attempt collects: the outstanding
+     * balance, or the targeted schedule entry's outstanding amount. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "expected_amount_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. When a checkout attempt expires, matching its checkout session.
+     * Absent for automatic charges. Format: date-time.
+     */
+    "expires_at"?: string;
+    /** Shape $ (Value): string. The invoice this attempt collects. */
+    "invoice_id": string;
+    /** Shape $ (Value): string. Flint invoice payment attempt ID. */
+    "invoice_payment_attempt_id": string;
+    /**
+     * Shape $ (Value): string. The schedule entry this attempt collects. Absent when the attempt
+     * collects the invoice balance.
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
+     * Shape $ (Value): {@link PaymentErrorSummary}. Why the payment failed. Present only when
+     * status is failed. A summary of why a payment attempt failed, with a normalized error code, a
+     * message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /**
+     * Shape $ (Value): string. The payment intent behind this attempt. Absent until payment
+     * starts, such as a hosted attempt the buyer hasn't paid yet.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. How the attempt collects: card, including Apple Pay, Google Pay,
+     * and Affirm, or ACH debit. Value enum: "card", "ach_debit".
+     */
+    "rail": "card" | "ach_debit" | (string & {});
+    /**
+     * Shape $ (Value): string. When this attempt first settled successfully. Duplicate payment
+     * notifications preserve this timestamp. Format: date-time.
+     */
+    "settled_at"?: string;
+    /** Shape $ (Value): string. When the attempt was created. Format: date-time. */
+    "started_at"?: string;
+    /**
+     * Shape $ (Value): string. Current payment attempt status. settled means this attempt
+     * completed successfully, even if the invoice still has an outstanding balance.
+     * invoice_payment_attempt.settled reports that completion. Value enum: "open", "settled",
+     * "failed", "canceled", "expired", "processing".
+     */
+    "status": "open" | "settled" | "failed" | "canceled" | "expired" | "processing" | (string & {});
+    /**
+     * Shape $ (Value): string. When this attempt last changed. Duplicate payment notifications
+     * preserve this timestamp. Format: date-time.
+     */
+    "updated_at"?: string;
+};
+/**
+ * Shape $ (Value): {@link InvoicePaymentAttemptListResponse}. A page of `InvoicePaymentAttempt`
+ * objects.
+ */
+export type InvoicePaymentAttemptListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InvoicePaymentAttempt}. Shape $[] (Value): {@link
+     * InvoicePaymentAttempt}. An attempt to collect payment for an invoice.
+     */
+    "data": Array<InvoicePaymentAttempt>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link InvoicePaymentAttemptResponse}. A response containing
+ * `InvoicePaymentAttempt` data.
+ */
+export type InvoicePaymentAttemptResponse = {
+    /**
+     * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
+     * invoice.
+     */
+    "data": InvoicePaymentAttempt;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id"?: string;
+};
 /**
  * Shape $ (Value): {@link InvoicePaymentDue}. The invoice due-date policy resolved at write time.
  * The object can be sent back when updating a draft.
  */
 export type InvoicePaymentDue = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. The due date set with type date. Present only with date. The
+     * top-level due_at is the effective due date for every type. Format: date-time.
+     */
     "due_at"?: string;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
+     * Present only with payment_terms.
+     */
     "invoice_payment_term_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "none", "date", "payment_terms". */
+    /**
+     * Shape $ (Value): string. How the due date was set. Value enum: "none", "date",
+     * "payment_terms".
+     */
     "type": "none" | "date" | "payment_terms" | (string & {});
 })
     & ((Exclude<InvoicePaymentDueNone & object, readonly unknown[]>)
@@ -22,17 +238,26 @@ export type InvoicePaymentDue = ({
     | (Record<string, unknown>));
 /** Shape $ (Value): {@link InvoicePaymentDueDate}. The `date` variant of `InvoicePaymentDue`. */
 export type InvoicePaymentDueDate = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. The due date set with type date. Present only with date. The
+     * top-level due_at is the effective due date for every type. Format: date-time.
+     */
     "due_at": string;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
+     * Present only with payment_terms.
+     */
     "invoice_payment_term_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "date". */
+    /** Shape $ (Value): string. How the due date was set. Value enum: "date". */
     "type": "date" | (string & {});
 })
     & (({
     /** Shape $ (Value): string.  Value enum: "date". */
     "type"?: "date" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. The due date set with type date. Present only with date. The
+     * top-level due_at is the effective due date for every type. Format: date-time.
+     */
     "due_at": string;
 }));
 /**
@@ -40,14 +265,20 @@ export type InvoicePaymentDueDate = ({
  * of `InvoicePaymentDueInput`.
  */
 export type InvoicePaymentDueInputCustomerDefault = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "customer_default".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "customer_default".
      */
     "type": "customer_default" | (string & {});
 })
@@ -60,14 +291,20 @@ export type InvoicePaymentDueInputCustomerDefault = ({
  * variant of `InvoicePaymentDueInput`.
  */
 export type InvoicePaymentDueInputCustomerDefaultInput = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "customer_default".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "customer_default".
      */
     "type": "customer_default";
 })
@@ -85,21 +322,30 @@ export type InvoicePaymentDueInputCustomerDefaultInput = ({
  * `InvoicePaymentDueInput`.
  */
 export type InvoicePaymentDueInputDateInput = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at": string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "date".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "date".
      */
     "type": "date";
 })
     & (({
     /** Shape $ (Value): string.  Value enum: "date". */
     "type"?: "date";
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at": string | globalThis.Date;
 })
     & ({
@@ -110,14 +356,20 @@ export type InvoicePaymentDueInputDateInput = ({
  * of `InvoicePaymentDueInput`.
  */
 export type InvoicePaymentDueInputMerchantDefault = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "merchant_default".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "merchant_default".
      */
     "type": "merchant_default" | (string & {});
 })
@@ -130,14 +382,20 @@ export type InvoicePaymentDueInputMerchantDefault = ({
  * variant of `InvoicePaymentDueInput`.
  */
 export type InvoicePaymentDueInputMerchantDefaultInput = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "merchant_default".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "merchant_default".
      */
     "type": "merchant_default";
 })
@@ -155,14 +413,20 @@ export type InvoicePaymentDueInputMerchantDefaultInput = ({
  * `InvoicePaymentDueInput`.
  */
 export type InvoicePaymentDueInputNoneInput = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "none".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "none".
      */
     "type": "none";
 })
@@ -180,21 +444,30 @@ export type InvoicePaymentDueInputNoneInput = ({
  * `InvoicePaymentDueInput`.
  */
 export type InvoicePaymentDueInputPaymentTermsInput = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id": string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "payment_terms".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "payment_terms".
      */
     "type": "payment_terms";
 })
     & (({
     /** Shape $ (Value): string.  Value enum: "payment_terms". */
     "type"?: "payment_terms";
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id": string;
 })
     & ({
@@ -202,11 +475,17 @@ export type InvoicePaymentDueInputPaymentTermsInput = ({
 }));
 /** Shape $ (Value): {@link InvoicePaymentDueNone}. The `none` variant of `InvoicePaymentDue`. */
 export type InvoicePaymentDueNone = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. The due date set with type date. Present only with date. The
+     * top-level due_at is the effective due date for every type. Format: date-time.
+     */
     "due_at"?: string;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
+     * Present only with payment_terms.
+     */
     "invoice_payment_term_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "none". */
+    /** Shape $ (Value): string. How the due date was set. Value enum: "none". */
     "type": "none" | (string & {});
 })
     & (({
@@ -218,17 +497,26 @@ export type InvoicePaymentDueNone = ({
  * `InvoicePaymentDue`.
  */
 export type InvoicePaymentDuePaymentTerms = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    /**
+     * Shape $ (Value): string. The due date set with type date. Present only with date. The
+     * top-level due_at is the effective due date for every type. Format: date-time.
+     */
     "due_at"?: string;
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
+     * Present only with payment_terms.
+     */
     "invoice_payment_term_id": string;
-    /** Shape $ (Value): string.  Value enum: "payment_terms". */
+    /** Shape $ (Value): string. How the due date was set. Value enum: "payment_terms". */
     "type": "payment_terms" | (string & {});
 })
     & (({
     /** Shape $ (Value): string.  Value enum: "payment_terms". */
     "type"?: "payment_terms" | (string & {});
-    /** Shape $ (Value): string. */
+    /**
+     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
+     * Present only with payment_terms.
+     */
     "invoice_payment_term_id": string;
 }));
 /**
@@ -236,15 +524,21 @@ export type InvoicePaymentDuePaymentTerms = ({
  * updating an invoice: no due date, a fixed time, payment terms, or a default.
  */
 export type InvoicePaymentDueRequest = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "none", "date", "payment_terms", "customer_default",
-     * "merchant_default".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "none", "date",
+     * "payment_terms", "customer_default", "merchant_default".
      */
     "type": "none" | "date" | "payment_terms" | "customer_default" | "merchant_default" | (string & {});
 })
@@ -259,15 +553,21 @@ export type InvoicePaymentDueRequest = ({
  * creating or updating an invoice: no due date, a fixed time, payment terms, or a default.
  */
 export type InvoicePaymentDueRequestInput = ({
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    /**
+     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
+     * and not accepted with any other type. Format: date-time. minLength: 1.
+     */
     "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
+     * not accepted with any other type. minLength: 1.
+     */
     "invoice_payment_term_id"?: string;
     /**
-     * Shape $ (Value): string. merchant_default and customer_default resolve at write time. Reads
-     * return the resolved type. Sending payment_terms on a draft snapshots the term current
-     * revision again. Value enum: "none", "date", "payment_terms", "customer_default",
-     * "merchant_default".
+     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
+     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
+     * on a draft captures the term's current revision again. Value enum: "none", "date",
+     * "payment_terms", "customer_default", "merchant_default".
      */
     "type": "none" | "date" | "payment_terms" | "customer_default" | "merchant_default";
 })
@@ -303,13 +603,14 @@ export type InvoicePaymentOptionCostComparison = {
  */
 export type InvoicePaymentOptionLimit = {
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. The largest invoice total, in this currency, for which
+     * Flint offers the option. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
     "max_total_money": MoneyValue;
     /**
-     * Shape $ (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit".
+     * Shape $ (Value): string. The payment option this cap applies to. Value enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit".
      */
     "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
 };
@@ -319,13 +620,14 @@ export type InvoicePaymentOptionLimit = {
  */
 export type InvoicePaymentOptionLimitInput = {
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValueInput}. The largest invoice total, in this currency, for
+     * which Flint offers the option. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
      */
     "max_total_money": MoneyValueInput;
     /**
-     * Shape $ (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit".
+     * Shape $ (Value): string. The payment option this cap applies to. Value enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit".
      */
     "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit";
 };
@@ -335,18 +637,24 @@ export type InvoicePaymentOptionLimitInput = {
  */
 export type InvoicePaymentPolicy = {
     /**
-     * Shape $ (Value): Array of string. maxItems: 5. uniqueItems: true. [] enum: "card",
+     * Shape $ (Value): Array of string. The payment options the buyer can use on the hosted
+     * invoice page. Send at least one. maxItems: 5. uniqueItems: true. [] enum: "card",
      * "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string. Value enum:
      * "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
     "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
     /**
-     * Shape $ (Value): Array of {@link InvoicePaymentOptionLimit}. maxItems: 100. Shape $[]
-     * (Value): {@link InvoicePaymentOptionLimit}. The largest invoice total allowed for a payment
-     * option.
+     * Shape $ (Value): Array of {@link InvoicePaymentOptionLimit}. Caps by payment option and
+     * currency. Flint doesn't offer an option when the invoice total in that currency is above its
+     * max_total_money. maxItems: 100. Shape $[] (Value): {@link InvoicePaymentOptionLimit}. The
+     * largest invoice total allowed for a payment option.
      */
     "payment_option_limits"?: Array<InvoicePaymentOptionLimit>;
-    /** Shape $ (Value): boolean. */
+    /**
+     * Shape $ (Value): boolean. Whether the buyer's invoice shows the estimated savings of a
+     * lower-cost payment option. Requires ach_debit and at least one of card, apple_pay, or
+     * google_pay.
+     */
     "show_cost_comparison"?: boolean;
 };
 /**
@@ -355,18 +663,24 @@ export type InvoicePaymentPolicy = {
  */
 export type InvoicePaymentPolicyInput = {
     /**
-     * Shape $ (Value): Array of string. maxItems: 5. uniqueItems: true. [] enum: "card",
+     * Shape $ (Value): Array of string. The payment options the buyer can use on the hosted
+     * invoice page. Send at least one. maxItems: 5. uniqueItems: true. [] enum: "card",
      * "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string. Value enum:
      * "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
     "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
     /**
-     * Shape $ (Value): Array of {@link InvoicePaymentOptionLimitInput}. maxItems: 100. Shape $[]
-     * (Value): {@link InvoicePaymentOptionLimitInput}. The largest invoice total allowed for a
-     * payment option.
+     * Shape $ (Value): Array of {@link InvoicePaymentOptionLimitInput}. Caps by payment option and
+     * currency. Flint doesn't offer an option when the invoice total in that currency is above its
+     * max_total_money. maxItems: 100. Shape $[] (Value): {@link InvoicePaymentOptionLimitInput}.
+     * The largest invoice total allowed for a payment option.
      */
     "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>;
-    /** Shape $ (Value): boolean. */
+    /**
+     * Shape $ (Value): boolean. Whether the buyer's invoice shows the estimated savings of a
+     * lower-cost payment option. Requires ach_debit and at least one of card, apple_pay, or
+     * google_pay.
+     */
     "show_cost_comparison"?: boolean;
 };
 /** Shape $ (Value): {@link InvoicePaymentTerm}. The payment timing agreed for an invoice. */
@@ -862,13 +1176,21 @@ export type InvoiceResponse = {
  */
 export type InvoiceScheduleAmountSpecification = ({
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValue;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "fixed", "percentage", "remaining_balance". */
+    /**
+     * Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed", "percentage",
+     * "remaining_balance".
+     */
     "type": "fixed" | "percentage" | "remaining_balance" | (string & {});
 })
     & ((Exclude<InvoiceScheduleAmountSpecificationFixed & object, readonly unknown[]>)
@@ -881,21 +1203,27 @@ export type InvoiceScheduleAmountSpecification = ({
  */
 export type InvoiceScheduleAmountSpecificationFixed = ({
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValue;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "fixed". */
+    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed". */
     "type": "fixed" | (string & {});
 })
     & (({
     /** Shape $ (Value): string.  Value enum: "fixed". */
     "type": "fixed" | (string & {});
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValue;
 }));
@@ -905,21 +1233,27 @@ export type InvoiceScheduleAmountSpecificationFixed = ({
  */
 export type InvoiceScheduleAmountSpecificationFixedInput = ({
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValueInput;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "fixed". */
+    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed". */
     "type": "fixed";
 })
     & (({
     /** Shape $ (Value): string.  Value enum: "fixed". */
     "type": "fixed";
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money": MoneyValueInput;
 })
@@ -932,13 +1266,21 @@ export type InvoiceScheduleAmountSpecificationFixedInput = ({
  */
 export type InvoiceScheduleAmountSpecificationInput = ({
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValueInput;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "fixed", "percentage", "remaining_balance". */
+    /**
+     * Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed", "percentage",
+     * "remaining_balance".
+     */
     "type": "fixed" | "percentage" | "remaining_balance";
 })
     & ((Exclude<InvoiceScheduleAmountSpecificationFixedInput & object, readonly unknown[]>)
@@ -950,19 +1292,28 @@ export type InvoiceScheduleAmountSpecificationInput = ({
  */
 export type InvoiceScheduleAmountSpecificationPercentage = ({
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValue;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent": number;
-    /** Shape $ (Value): string.  Value enum: "percentage". */
+    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "percentage". */
     "type": "percentage" | (string & {});
 })
     & (({
     /** Shape $ (Value): string.  Value enum: "percentage". */
     "type": "percentage" | (string & {});
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent": number;
 }));
 /**
@@ -971,19 +1322,28 @@ export type InvoiceScheduleAmountSpecificationPercentage = ({
  */
 export type InvoiceScheduleAmountSpecificationPercentageInput = ({
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValueInput;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent": number;
-    /** Shape $ (Value): string.  Value enum: "percentage". */
+    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "percentage". */
     "type": "percentage";
 })
     & (({
     /** Shape $ (Value): string.  Value enum: "percentage". */
     "type": "percentage";
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent": number;
 })
     & ({
@@ -995,13 +1355,18 @@ export type InvoiceScheduleAmountSpecificationPercentageInput = ({
  */
 export type InvoiceScheduleAmountSpecificationRemainingBalance = ({
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValue;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "remaining_balance". */
+    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "remaining_balance". */
     "type": "remaining_balance" | (string & {});
 })
     & (({
@@ -1014,13 +1379,18 @@ export type InvoiceScheduleAmountSpecificationRemainingBalance = ({
  */
 export type InvoiceScheduleAmountSpecificationRemainingBalanceInput = ({
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
+     * Required with fixed and not accepted with any other type. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
     "amount_money"?: MoneyValueInput;
-    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    /**
+     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
+     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
+     * not accepted with any other type. multipleOf: 0.0001.
+     */
     "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "remaining_balance". */
+    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "remaining_balance". */
     "type": "remaining_balance";
 })
     & (({
@@ -1043,7 +1413,10 @@ export type InvoiceScheduleDue = ({
      * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
      */
     "due_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "at_issue", "date", "invoice_due_date". */
+    /**
+     * Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date",
+     * "invoice_due_date".
+     */
     "type": "at_issue" | "date" | "invoice_due_date" | (string & {});
 })
     & ((Exclude<InvoiceScheduleDueAtIssue & object, readonly unknown[]>)
@@ -1061,7 +1434,7 @@ export type InvoiceScheduleDueAtIssue = ({
      * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
      */
     "due_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue". */
     "type": "at_issue" | (string & {});
 })
     & ({
@@ -1076,7 +1449,7 @@ export type InvoiceScheduleDueDate = ({
      * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
      */
     "due_at": string;
-    /** Shape $ (Value): string.  Value enum: "date". */
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "date". */
     "type": "date" | (string & {});
 })
     & ({
@@ -1100,7 +1473,7 @@ export type InvoiceScheduleDueInvoiceDueDate = ({
      * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
      */
     "due_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
+    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "invoice_due_date". */
     "type": "invoice_due_date" | (string & {});
 })
     & ({
@@ -1119,196 +1492,13 @@ export type InvoiceScheduleDueWrite = ({
      * date-time. minLength: 1.
      */
     "due_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "at_issue", "date", "invoice_due_date". */
+    /**
+     * Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date",
+     * "invoice_due_date".
+     */
     "type": "at_issue" | "date" | "invoice_due_date" | (string & {});
 })
     & ((Exclude<InvoiceScheduleDueWriteAtIssue & object, readonly unknown[]>)
     | (Exclude<InvoiceScheduleDueDate & object, readonly unknown[]>)
     | (Exclude<InvoiceScheduleDueWriteInvoiceDueDate & object, readonly unknown[]>)
     | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteAtIssue}. The `at_issue` variant of
- * `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteAtIssue = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteAtIssueInput}. The `at_issue` variant of
- * `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteAtIssueInput = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
-    "type": "at_issue";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
-    "type": "at_issue";
-})
-    & ({
-    "due_at"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteDateInput}. The `date` variant of
- * `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteDateInput = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at": string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "date". */
-    "type": "date";
-})
-    & ({
-    /** Shape $ (Value): string.  Value enum: "date". */
-    "type": "date";
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at": string | globalThis.Date;
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteInput}. When a payment schedule entry is due, as
- * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice due
- * date.
- */
-export type InvoiceScheduleDueWriteInput = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "at_issue", "date", "invoice_due_date". */
-    "type": "at_issue" | "date" | "invoice_due_date";
-})
-    & ((Exclude<InvoiceScheduleDueWriteAtIssueInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteDateInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteInvoiceDueDateInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteInvoiceDueDate}. The `invoice_due_date` variant
- * of `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteInvoiceDueDate = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWriteInvoiceDueDateInput}. The `invoice_due_date`
- * variant of `InvoiceScheduleDueWrite`.
- */
-export type InvoiceScheduleDueWriteInvoiceDueDateInput = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
-    "type": "invoice_due_date";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
-    "type": "invoice_due_date";
-})
-    & ({
-    "due_at"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleEntry}. One payment on an invoice's payment schedule,
- * such as a deposit, installment, or balance, with its due time, amounts, and status.
- */
-export type InvoiceScheduleEntry = {
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How the entry's amount is set:
-     * a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment
-     * schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining
-     * balance.
-     */
-    "amount_specification": InvoiceScheduleAmountSpecification;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credit note credit allocated to this entry, minus
-     * reversed allocations. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "credit_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link InvoiceScheduleDue}. When the entry is due. When a payment schedule
-     * entry on an invoice is due: at issue, on a set date, or on the invoice due date.
-     */
-    "due": InvoiceScheduleDue;
-    /**
-     * Shape $ (Value): string. Flint invoice schedule entry ID. Kept across draft edits that send
-     * it back with the entry.
-     */
-    "invoice_schedule_entry_id": string;
-    /**
-     * Shape $ (Value): string. The entry's role in the schedule. Value enum: "deposit",
-     * "installment", "balance".
-     */
-    "kind": "deposit" | "installment" | "balance" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. What is still owed on this entry, including its unpaid
-     * late fee, never below zero. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Payments applied to this entry, minus reversed
-     * payments, including payments toward its late fee. It can exceed total_money when the entry
-     * carries a late fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "paid_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. The entry's payment status, computed when the invoice is read. It
-     * follows the entry's balance and due time, not the invoice's status. Value enum: "pending",
-     * "due", "partially_satisfied", "satisfied", "overdue".
-     */
-    "status": "pending" | "due" | "partially_satisfied" | "satisfied" | "overdue" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The entry's share of the invoice total, resolved from
-     * amount_specification against snapshot.pricing_amounts.total_money. Recomputed on draft edits
-     * and fixed at issue. Excludes late fees. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The part of this entry written off when the invoice was
-     * marked uncollectible, including its unpaid late fee. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "written_off_money": MoneyValue;
-};
