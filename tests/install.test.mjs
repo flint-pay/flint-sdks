@@ -223,6 +223,8 @@ console.log('Installed npm package: all operations and model cases passed.');
         join(consumer, "check.php"),
         `<?php
 require __DIR__ . '/vendor/autoload.php';
+if (!(\\Flint\\defaultCredentials() instanceof \\Flint\\CredentialProvider)) throw new \\RuntimeException('Missing default credential provider');
+if (!(\\Flint\\workloadIdentityCredentials(['workloadIdentityId' => 'wid_synthetic']) instanceof \\Flint\\CredentialProvider)) throw new \\RuntimeException('Missing workload identity provider');
 $client = new \\Flint\\Client(new \\Flint\\ClientOptions(baseUrl: 'https://api.example.invalid'));
 $expected = json_decode('${JSON.stringify(expectedMethods)}', true);
 foreach ($expected as [$resource, $method]) {

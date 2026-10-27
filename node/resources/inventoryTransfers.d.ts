@@ -27,7 +27,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateInventoryTransferRequestInput } from '../declarations/types-7.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
@@ -67,10 +69,13 @@ export {
     makeInventoryTransferTransitionRequest,
     makeInventoryTransferTransitionRequestCancel,
     makeInventoryTransferTransitionRequestDepart,
-    makeInventoryTransferTransitionRequestReceive,
-    makeInventoryTransferTransitionRequestReportLoss
+    makeInventoryTransferTransitionRequestReceive
 } from '../declarations/types-67.js';
-export { makeInventoryTransferTransitionRequestReturnToOrigin, makeMoneyValue } from '../declarations/types-68.js';
+export {
+    makeInventoryTransferTransitionRequestReportLoss,
+    makeInventoryTransferTransitionRequestReturnToOrigin,
+    makeMoneyValue
+} from '../declarations/types-68.js';
 export { makeUpdateInventoryTransferRequest } from '../declarations/types-72.js';
 export interface InventoryTransfersResource {
     /**

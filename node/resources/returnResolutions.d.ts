@@ -30,7 +30,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     CancelReturnResolutionRequestInput,
@@ -189,10 +191,9 @@ export {
     makeCancelReturnResolutionRequest,
     makeCheckoutBuyerFields,
     makeCheckoutPromotionConfig,
-    makeCheckoutRedirectsRequest,
-    makeCheckoutTipConfig
+    makeCheckoutRedirectsRequest
 } from '../declarations/types-62.js';
-export { makeConfirmReturnResolutionRequest } from '../declarations/types-63.js';
+export { makeCheckoutTipConfig, makeConfirmReturnResolutionRequest } from '../declarations/types-63.js';
 export { makeDeliveryAddressRequest } from '../declarations/types-65.js';
 export { makeDeliveryRecipientRequirement, makeDeliveryWindowRequest } from '../declarations/types-66.js';
 export { makeGetOrCreateReturnResolutionCheckoutSessionRequest } from '../declarations/types-67.js';

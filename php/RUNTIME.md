@@ -1,6 +1,6 @@
 # Flint Public API runtime guide
 
-Package 5.0.0; API 2026-09-07.
+Package 5.1.0; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 
@@ -112,7 +112,7 @@ Credentials accept strings, CredentialProvider objects with getCredential(): Cre
 
 Providers resolve on every request attempt; the application owns caching and expiry. A replay-safe HTTP 401 invalidates providers implementing invalidate() and retries once, adding at most one attempt beyond the ordinary budget, even with maxAttempts: 1. The idempotency key is preserved. String credentials and closures never trigger this refresh retry. Provider exceptions become authentication errors without retaining potentially sensitive causes.
 
-This SDK does not discover credentials from environment variables. The example scripts explicitly read API_BASE_URL and their named credential variables.
+Default credential discovery is lazy: explicit credentials, then configured API key/access token environment variables (both set is ambiguous_credentials), then configured workload identity. Set ambientCredentials: false to disable it. defaultCredentials() and workloadIdentityCredentials(options) return providers supporting token, token_file and github_actions sources and cached refresh.
 
 ## Responses and errors
 
@@ -224,12 +224,9 @@ require __DIR__ . '/vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
 $baseUrl = getenv('API_BASE_URL');
 if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
-$apiKey = getenv('API_KEY');
-if ($apiKey === false || $apiKey === '') throw new \RuntimeException('Set API_KEY: this call requires a credential');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
-  apiKey: $apiKey,
 ));
 $idempotencyKey = getenv('API_IDEMPOTENCY_KEY');
 if (!$idempotencyKey) throw new \RuntimeException('Set API_IDEMPOTENCY_KEY to the key saved with this action');
@@ -336,12 +333,9 @@ require __DIR__ . '/vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions};
 $baseUrl = getenv('API_BASE_URL');
 if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
-$apiKey = getenv('API_KEY');
-if ($apiKey === false || $apiKey === '') throw new \RuntimeException('Set API_KEY: this call requires a credential');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
-  apiKey: $apiKey,
 ));
 $result = $client->creditNotes->getPDF('example');
 // Choose a destination path; PHP strings preserve every PDF byte.

@@ -67,7 +67,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     ApplyDiscountRequestInput,
@@ -431,10 +433,10 @@ export {
     makeLineItemFulfillmentRequest,
     makeLocationCoordinate,
     makeManualDiscountRequest,
-    makeMoneyValue,
-    makeOrderCalculatedChargeTax
+    makeMoneyValue
 } from '../declarations/types-68.js';
 export {
+    makeOrderCalculatedChargeTax,
     makeOrderCalculatedLineItemTax,
     makeOrderChargeRequest,
     makeOrderChargeTaxAssignment,

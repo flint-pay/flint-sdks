@@ -1,6 +1,6 @@
 {
   "name": "@flintpay/node",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Flint Public API server SDK",
   "type": "module",
   "sideEffects": [

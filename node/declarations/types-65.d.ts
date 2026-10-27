@@ -1,5 +1,6 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    CreateReturnResolutionRequestInput,
     CreateReturnResolutionRequestCorrectionInput,
     CreateReturnResolutionRequestStandardInput,
     CreateRiskListRequestInput,
@@ -68,9 +69,9 @@ import type {
     DeliveryLocationSetConfigurationInput,
     DeliveryMethodConfigurationCreateRequestInput,
     DeliveryMethodConfigurationPatchRequestInput,
-    DeliveryMethodConfigurationRequestInput,
-    DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput
+    DeliveryMethodConfigurationRequestInput
 } from './types-12.js';
+export declare function makeCreateReturnResolutionRequest(value: InputValue<CreateReturnResolutionRequestInput>): Model<CreateReturnResolutionRequestInput>;
 export declare function makeCreateReturnResolutionRequestCorrection(value: InputValue<CreateReturnResolutionRequestCorrectionInput>): Model<CreateReturnResolutionRequestCorrectionInput>;
 export declare function makeCreateReturnResolutionRequestStandard(value: InputValue<CreateReturnResolutionRequestStandardInput>): Model<CreateReturnResolutionRequestStandardInput>;
 export declare function makeCreateRiskListRequest(value: InputValue<CreateRiskListRequestInput>): Model<CreateRiskListRequestInput>;
@@ -135,4 +136,3 @@ export declare function makeDeliveryLocationSetConfiguration(value: InputValue<D
 export declare function makeDeliveryMethodConfigurationCreateRequest(value: InputValue<DeliveryMethodConfigurationCreateRequestInput>): Model<DeliveryMethodConfigurationCreateRequestInput>;
 export declare function makeDeliveryMethodConfigurationPatchRequest(value: InputValue<DeliveryMethodConfigurationPatchRequestInput>): Model<DeliveryMethodConfigurationPatchRequestInput>;
 export declare function makeDeliveryMethodConfigurationRequest(value: InputValue<DeliveryMethodConfigurationRequestInput>): Model<DeliveryMethodConfigurationRequestInput>;
-export declare function makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup(value: InputValue<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput>): Model<DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput>;

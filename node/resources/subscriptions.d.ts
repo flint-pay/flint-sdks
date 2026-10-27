@@ -57,7 +57,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     CancelSubscriptionRequestInput,
@@ -311,8 +313,9 @@ export {
 } from '../declarations/types-65.js';
 export { makeDeliverySelectionRecipientRequest, makeDimensions } from '../declarations/types-66.js';
 export { makeGiftCardCustomAmountBounds, makeGiftCardProductConfiguration } from '../declarations/types-67.js';
-export { makeMoneyValue, makeOrderCalculatedChargeTax } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export {
+    makeOrderCalculatedChargeTax,
     makeOrderCalculatedLineItemTax,
     makeOrderDeliveryDestinationAddressRequest,
     makeOrderLineItemTax,
@@ -332,10 +335,10 @@ export {
     makeSubscriptionBillingScheduleInputFlint,
     makeSubscriptionBillingScheduleRequest,
     makeSubscriptionBillingScheduleUpdateInputExternal,
-    makeSubscriptionBillingScheduleUpdateInputFlint,
-    makeSubscriptionBillingScheduleUpdateRequest
+    makeSubscriptionBillingScheduleUpdateInputFlint
 } from '../declarations/types-71.js';
 export {
+    makeSubscriptionBillingScheduleUpdateRequest,
     makeSubscriptionBillingStartInputImmediate,
     makeSubscriptionBillingStartInputImported,
     makeSubscriptionBillingStartInputScheduled,

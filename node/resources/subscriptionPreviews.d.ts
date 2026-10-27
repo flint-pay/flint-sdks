@@ -20,7 +20,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     SubscriptionPreviewsCreateInput,
@@ -199,10 +201,10 @@ export {
     makeDeliveryDistanceUnitPriceRequest,
     makeDeliveryEligibilityExpression,
     makeDeliveryFixedPricingStrategyRequest,
-    makeDeliveryMethodConfigurationPatchRequest,
-    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup
+    makeDeliveryMethodConfigurationPatchRequest
 } from '../declarations/types-65.js';
 export {
+    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
     makeDeliveryMethodOriginSelectorInputFixedLocation,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollection,
     makeDeliveryMethodOriginSelectorRequest,

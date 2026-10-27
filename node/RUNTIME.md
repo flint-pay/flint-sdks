@@ -1,6 +1,6 @@
 # Flint Public API runtime guide
 
-Package 5.0.0; API 2026-09-07.
+Package 5.1.0; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 
@@ -103,7 +103,7 @@ Credentials accept strings or CredentialProvider objects. getCredential() return
 
 Providers resolve on every request attempt; the application owns caching and expiry. A replay-safe HTTP 401 invalidates providers implementing invalidate() and retries once, adding at most one attempt beyond the ordinary budget, even with maxAttempts: 1. The idempotency key is preserved. String credentials never trigger this refresh retry. Provider exceptions become authentication errors without retaining potentially sensitive causes.
 
-This SDK does not discover credentials from environment variables. The example scripts explicitly read API_BASE_URL and their named credential variables.
+Default credential discovery is lazy: explicit credentials, then configured API key/access token environment variables (both set is ambiguous_credentials), then configured workload identity. Set ambientCredentials: false to disable it. defaultCredentials() and workloadIdentityCredentials(options) return providers supporting token, token_file and github_actions sources and cached refresh.
 
 ## Responses and errors
 
@@ -209,12 +209,9 @@ Use this only after reconciling the previous outcome and confirming the provider
 import { Client } from "@flintpay/node";
 const baseUrl = process.env.API_BASE_URL;
 if (!baseUrl) throw new Error("Set API_BASE_URL to your sandbox or local mock URL");
-const apiKey = process.env.API_KEY;
-if (!apiKey) throw new Error("Set API_KEY: this call requires a credential");
 const client = new Client({
   baseUrl,
   allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
-  apiKey,
 });
 const idempotencyKey = process.env.API_IDEMPOTENCY_KEY;
 if (!idempotencyKey) throw new Error("Set API_IDEMPOTENCY_KEY to the key saved with this action");
@@ -344,12 +341,9 @@ PDF results are buffered bytes. Set API_DOWNLOAD_PATH to choose the file written
 import { Client } from "@flintpay/node";
 const baseUrl = process.env.API_BASE_URL;
 if (!baseUrl) throw new Error("Set API_BASE_URL to your sandbox or local mock URL");
-const apiKey = process.env.API_KEY;
-if (!apiKey) throw new Error("Set API_KEY: this call requires a credential");
 const client = new Client({
   baseUrl,
   allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
-  apiKey,
 });
 const result = await client.creditNotes.getPDF(
   "example"

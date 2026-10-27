@@ -10,12 +10,9 @@ require_once is_file($autoload . '/vendor/autoload.php') ? $autoload . '/vendor/
 use Flint\{Client, ClientOptions, RequestOptions};
 $baseUrl = getenv('API_BASE_URL');
 if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
-$apiKey = getenv('API_KEY');
-if ($apiKey === false || $apiKey === '') throw new \RuntimeException('Set API_KEY: this call requires a credential');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
   allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
-  apiKey: $apiKey,
 ));
 $result = $client->fulfillmentEvents->list();
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;

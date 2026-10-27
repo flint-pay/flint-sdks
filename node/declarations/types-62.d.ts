@@ -1,6 +1,6 @@
 import type { ResponseMeta } from './types-40.js';
 import type { WorkloadIdentity } from './types-61.js';
-import type { InputValue, Model } from '../runtime.js';
+import type { CredentialProvider, InputValue, Model } from '../runtime.js';
 import type {
     AddLineItemsRequestInput,
     AddOrderChargeRequestInput,
@@ -66,8 +66,7 @@ import type {
     CheckoutSavedPaymentDetailsSettingsInput,
     CheckoutSettingsInput,
     CheckoutSubscriptionTermsRequestInput,
-    CheckoutTaxConfigInput,
-    CheckoutTipConfigInput
+    CheckoutTaxConfigInput
 } from './types-4.js';
 /**
  * Shape $ (Value): {@link WorkloadIdentityClaimConditionRequest}. A condition to match one
@@ -147,6 +146,7 @@ export type _SdkRequiredIdempotency<T> = T extends unknown ? Omit<T, 'idempotenc
 export type _SdkWithoutIdempotency<T> = T extends unknown ? Omit<T, 'idempotencyKey'> & {
     idempotencyKey?: never;
 } : never;
+export declare function defaultCredentials(): CredentialProvider;
 export declare function makeAddLineItemsRequest(value: InputValue<AddLineItemsRequestInput>): Model<AddLineItemsRequestInput>;
 export declare function makeAddOrderChargeRequest(value: InputValue<AddOrderChargeRequestInput>): Model<AddOrderChargeRequestInput>;
 export declare function makeAddReturnLineItemRequest(value: InputValue<AddReturnLineItemRequestInput>): Model<AddReturnLineItemRequestInput>;
@@ -204,4 +204,3 @@ export declare function makeCheckoutSavedPaymentDetailsSettings(value: InputValu
 export declare function makeCheckoutSettings(value: InputValue<CheckoutSettingsInput>): Model<CheckoutSettingsInput>;
 export declare function makeCheckoutSubscriptionTermsRequest(value: InputValue<CheckoutSubscriptionTermsRequestInput>): Model<CheckoutSubscriptionTermsRequestInput>;
 export declare function makeCheckoutTaxConfig(value: InputValue<CheckoutTaxConfigInput>): Model<CheckoutTaxConfigInput>;
-export declare function makeCheckoutTipConfig(value: InputValue<CheckoutTipConfigInput>): Model<CheckoutTipConfigInput>;

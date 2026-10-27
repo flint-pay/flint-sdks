@@ -47,7 +47,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type {
     CreateCreditNoteRequestInput,
@@ -209,9 +211,9 @@ export {
     makeInvoiceScheduleAmountSpecificationPercentage,
     makeInvoiceScheduleAmountSpecificationRemainingBalance,
     makeIssueCreditNoteRequest,
-    makeMoneyValue,
-    makeOrderCalculatedChargeTax
+    makeMoneyValue
 } from '../declarations/types-68.js';
+export { makeOrderCalculatedChargeTax } from '../declarations/types-69.js';
 export { makeResourceVersionRequest } from '../declarations/types-70.js';
 export { makeTaxJurisdiction, makeTextModifierRequest, makeUpdateCreditNoteRequest } from '../declarations/types-72.js';
 export interface CreditNotesResource {

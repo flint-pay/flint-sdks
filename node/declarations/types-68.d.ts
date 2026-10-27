@@ -1,5 +1,6 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    InventoryTransferTransitionRequestReportLossInput,
     InventoryTransferTransitionRequestReturnToOriginInput,
     InvoiceAutopayRetryPolicyInput,
     InvoiceCheckoutSessionRequestInput,
@@ -70,7 +71,8 @@ import type {
     OnboardingProfileRequestInput,
     OnboardingStartRequestInput
 } from './types-31.js';
-import type { OnboardingVerifyEmailRequestInput, OrderCalculatedChargeTaxInput } from './types-32.js';
+import type { OnboardingVerifyEmailRequestInput } from './types-32.js';
+export declare function makeInventoryTransferTransitionRequestReportLoss(value: InputValue<InventoryTransferTransitionRequestReportLossInput>): Model<InventoryTransferTransitionRequestReportLossInput>;
 export declare function makeInventoryTransferTransitionRequestReturnToOrigin(value: InputValue<InventoryTransferTransitionRequestReturnToOriginInput>): Model<InventoryTransferTransitionRequestReturnToOriginInput>;
 export declare function makeInvoiceAutopayRetryPolicy(value: InputValue<InvoiceAutopayRetryPolicyInput>): Model<InvoiceAutopayRetryPolicyInput>;
 export declare function makeInvoiceCheckoutSessionRequest(value: InputValue<InvoiceCheckoutSessionRequestInput>): Model<InvoiceCheckoutSessionRequestInput>;
@@ -134,4 +136,3 @@ export declare function makeOnboardingAdvanceRequest(value: InputValue<Onboardin
 export declare function makeOnboardingProfileRequest(value: InputValue<OnboardingProfileRequestInput>): Model<OnboardingProfileRequestInput>;
 export declare function makeOnboardingStartRequest(value: InputValue<OnboardingStartRequestInput>): Model<OnboardingStartRequestInput>;
 export declare function makeOnboardingVerifyEmailRequest(value: InputValue<OnboardingVerifyEmailRequestInput>): Model<OnboardingVerifyEmailRequestInput>;
-export declare function makeOrderCalculatedChargeTax(value: InputValue<OrderCalculatedChargeTaxInput>): Model<OrderCalculatedChargeTaxInput>;

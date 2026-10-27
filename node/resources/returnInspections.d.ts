@@ -22,7 +22,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { DecideReturnInspectionLineItemRequestInput } from '../declarations/types-11.js';
 export type {

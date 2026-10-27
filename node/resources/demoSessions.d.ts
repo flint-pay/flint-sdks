@@ -14,7 +14,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateDemoSessionRequestInput } from '../declarations/types-6.js';
 export type { RequestOptions, ResetDemoSessionRequestInput, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';

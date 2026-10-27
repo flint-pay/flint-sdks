@@ -46,6 +46,8 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.ref_name }}
         run: FLINT_RELEASE_DIRECTORY="releases/${RELEASE_TAG#v}" npm test
+      - name: Scan all public release files and nested archives
+        run: python3 scripts/scan-public-artifacts.py releases
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: sdk-${{ github.ref_name }}

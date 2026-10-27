@@ -14,18 +14,15 @@ Requires Node.js 22.3+, or Node.js 22.12+ to `require()` from CommonJS. TypeScri
 
 ## Quickstart
 
-Set `API_BASE_URL` and `API_KEY` ([authentication](RUNTIME.md#authentication)), then replace the sample values with your own. Choose your sandbox or local mock URL explicitly; the API declares https://api.withflintpay.com as its default server.
+Set `API_BASE_URL` ([authentication](RUNTIME.md#authentication)) and configure default credentials as described in the authentication guide, then replace the sample values with your own. Choose your sandbox or local mock URL explicitly; the API declares https://api.withflintpay.com as its default server.
 
 ```typescript
 import { Client, SdkError } from "@flintpay/node";
 const baseUrl = process.env.API_BASE_URL;
 if (!baseUrl) throw new Error("Set API_BASE_URL to your sandbox or local mock URL");
-const apiKey = process.env.API_KEY;
-if (!apiKey) throw new Error("Set API_KEY: this call requires a credential");
 const client = new Client({
   baseUrl,
   allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
-  apiKey,
 });
 
 // Persist this key with the action before sending; reuse it for every resubmission.
@@ -129,8 +126,9 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [API reference](REFERENCE.md): resource index linking to operation files under reference/
 - [Models](MODELS.md): model index, fields and descriptions
 - [Runtime guide](RUNTIME.md): request options, errors, retries, pagination and webhooks
+- [default-credentials](guides/default-credentials.md)
 - [pagination-and-retries](guides/pagination-and-retries.md)
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `node examples/RESOURCE-METHOD.mjs`; examples are checked with TypeScript checkJs.
 
-Package 5.0.0, generated for API 2026-09-07.
+Package 5.1.0, generated for API 2026-09-07.

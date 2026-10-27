@@ -152,7 +152,7 @@ export interface CredentialProvider {
     }>;
     invalidate?(): void;
 }
-export type WorkloadIdentitySource = 'auto' | 'none' | 'token' | 'token_file';
+export type WorkloadIdentitySource = 'auto' | 'none' | 'token' | 'token_file' | 'github_actions';
 export interface WorkloadIdentityOptions {
     workloadIdentityId: string;
     source?: WorkloadIdentitySource;

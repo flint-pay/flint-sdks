@@ -1,5 +1,12 @@
-import type { InputValue, Model, WebhookHeaders as _SdkWebhookHeaders } from '../runtime.js';
 import type {
+    InputValue,
+    Model,
+    WebhookHeaders as _SdkWebhookHeaders,
+    CredentialProvider,
+    WorkloadIdentityOptions
+} from '../runtime.js';
+import type {
+    UpdateMeSubscriptionRequestInput,
     UpdateMerchantRequestInput,
     UpdateModifierGroupRequestInput,
     UpdateModifierSetRequestInput,
@@ -61,6 +68,7 @@ import type {
 } from './types-50.js';
 import type { WeightInput } from './types-61.js';
 import type { WorkloadIdentityClaimConditionRequestInput } from './types-62.js';
+export declare function makeUpdateMeSubscriptionRequest(value: InputValue<UpdateMeSubscriptionRequestInput>): Model<UpdateMeSubscriptionRequestInput>;
 export declare function makeUpdateMerchantRequest(value: InputValue<UpdateMerchantRequestInput>): Model<UpdateMerchantRequestInput>;
 export declare function makeUpdateModifierGroupRequest(value: InputValue<UpdateModifierGroupRequestInput>): Model<UpdateModifierGroupRequestInput>;
 export declare function makeUpdateModifierSetRequest(value: InputValue<UpdateModifierSetRequestInput>): Model<UpdateModifierSetRequestInput>;
@@ -118,3 +126,4 @@ export declare function makeWaiveReturnLineInspectionRequest(value: InputValue<W
 export declare function makeWeight(value: InputValue<WeightInput>): Model<WeightInput>;
 export declare function makeWorkloadIdentityClaimConditionRequest(value: InputValue<WorkloadIdentityClaimConditionRequestInput>): Model<WorkloadIdentityClaimConditionRequestInput>;
 export declare function verifyWebhook(rawBody: Uint8Array | ArrayBuffer, headers: _SdkWebhookHeaders, secrets: string | readonly string[], nowSeconds?: number): VerifiedWebhook;
+export declare function workloadIdentityCredentials(options: WorkloadIdentityOptions): CredentialProvider;

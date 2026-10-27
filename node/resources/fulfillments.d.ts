@@ -31,7 +31,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateFulfillmentEventRequestInput } from '../declarations/types-6.js';
 export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
@@ -101,10 +103,10 @@ export {
     makeFulfillmentRecipientRequest,
     makeFulfillmentTransitionRequest,
     makeFulfillmentTransitionRequestAccept,
-    makeFulfillmentTransitionRequestCancel,
-    makeFulfillmentTransitionRequestComplete
+    makeFulfillmentTransitionRequestCancel
 } from '../declarations/types-66.js';
 export {
+    makeFulfillmentTransitionRequestComplete,
     makeFulfillmentTransitionRequestDispatch,
     makeFulfillmentTransitionRequestFail,
     makeFulfillmentTransitionRequestHold,

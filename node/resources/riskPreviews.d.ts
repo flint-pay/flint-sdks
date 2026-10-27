@@ -15,7 +15,9 @@ export type {
     CredentialProvider,
     ServerSentEvent,
     SdkErrorCode,
-    SdkErrorDetails
+    SdkErrorDetails,
+    WorkloadIdentityOptions,
+    WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateRiskPreviewRequestInput, Credentials } from '../declarations/types-9.js';
 export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';

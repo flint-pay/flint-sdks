@@ -1,5 +1,6 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    OrderCalculatedChargeTaxInput,
     OrderCalculatedLineItemTaxInput,
     OrderChargeRequestInput,
     OrderChargeTaxAssignmentInput,
@@ -70,9 +71,9 @@ import type {
     PaymentLinkLegalConfigInput,
     PaymentLinkLegalPatchRequestInput,
     PaymentLinkLineItemPatchRequestInput,
-    PaymentLinkLineItemRequestInput,
-    PaymentLinkPaymentConfigInput
+    PaymentLinkLineItemRequestInput
 } from './types-36.js';
+export declare function makeOrderCalculatedChargeTax(value: InputValue<OrderCalculatedChargeTaxInput>): Model<OrderCalculatedChargeTaxInput>;
 export declare function makeOrderCalculatedLineItemTax(value: InputValue<OrderCalculatedLineItemTaxInput>): Model<OrderCalculatedLineItemTaxInput>;
 export declare function makeOrderChargeRequest(value: InputValue<OrderChargeRequestInput>): Model<OrderChargeRequestInput>;
 export declare function makeOrderChargeTaxAssignment(value: InputValue<OrderChargeTaxAssignmentInput>): Model<OrderChargeTaxAssignmentInput>;
@@ -140,4 +141,3 @@ export declare function makePaymentLinkLegalConfig(value: InputValue<PaymentLink
 export declare function makePaymentLinkLegalPatchRequest(value: InputValue<PaymentLinkLegalPatchRequestInput>): Model<PaymentLinkLegalPatchRequestInput>;
 export declare function makePaymentLinkLineItemPatchRequest(value: InputValue<PaymentLinkLineItemPatchRequestInput>): Model<PaymentLinkLineItemPatchRequestInput>;
 export declare function makePaymentLinkLineItemRequest(value: InputValue<PaymentLinkLineItemRequestInput>): Model<PaymentLinkLineItemRequestInput>;
-export declare function makePaymentLinkPaymentConfig(value: InputValue<PaymentLinkPaymentConfigInput>): Model<PaymentLinkPaymentConfigInput>;
