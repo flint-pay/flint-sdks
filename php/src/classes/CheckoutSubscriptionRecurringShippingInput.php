@@ -9,17 +9,20 @@ namespace Flint;
 final class CheckoutSubscriptionRecurringShippingInput extends Model {
     /** @param array{'delivery_method_name': string, 'price_type': string, 'shipping_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionRecurringShippingInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When delivery_method_name is omitted; use hasDeliveryMethodName() or valueOrDefault().
      */
     public function getDeliveryMethodName(): string { return $this->get('delivery_method_name'); }
     public function hasDeliveryMethodName(): bool { return $this->has('delivery_method_name'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "fixed", "quoted".
+     * @return string
      * @throws SdkError When price_type is omitted; use hasPriceType() or valueOrDefault().
      */
     public function getPriceType(): string { return $this->get('price_type'); }
     public function hasPriceType(): bool { return $this->has('price_type'); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When shipping_money is omitted; use hasShippingMoney() or valueOrDefault().
      */
     public function getShippingMoney(): mixed { return $this->get('shipping_money'); }

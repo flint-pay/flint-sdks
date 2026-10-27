@@ -1,115 +1,116 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { AnalyticsGetOverviewInput } from '../declarations/AnalyticsGetOverviewInput.js';
-import type { AnalyticsGetOverviewResponse } from '../declarations/AnalyticsGetOverviewResponse.js';
-import type { AnalyticsGetPaymentVolumeTimeseriesInput } from '../declarations/AnalyticsGetPaymentVolumeTimeseriesInput.js';
-import type { AnalyticsGetPaymentVolumeTimeseriesResponse } from '../declarations/AnalyticsGetPaymentVolumeTimeseriesResponse.js';
-import type { AnalyticsGetSubscriptionInput } from '../declarations/AnalyticsGetSubscriptionInput.js';
-import type { AnalyticsGetSubscriptionResponse } from '../declarations/AnalyticsGetSubscriptionResponse.js';
-import type { AnalyticsOverview } from '../declarations/AnalyticsOverview.js';
-import type { AnalyticsOverviewInput } from '../declarations/AnalyticsOverviewInput.js';
-import type { AnalyticsOverviewResponse } from '../declarations/AnalyticsOverviewResponse.js';
-import type { AnalyticsOverviewResponseInput } from '../declarations/AnalyticsOverviewResponseInput.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { PaymentVolumeTimeseriesResponse } from '../declarations/PaymentVolumeTimeseriesResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { SubscriptionAnalyticsResponse } from '../declarations/SubscriptionAnalyticsResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type {
+    AnalyticsGetOverviewInput,
+    AnalyticsGetPaymentVolumeTimeseriesInput,
+    AnalyticsGetSubscriptionInput,
+    AnalyticsOverview,
+    AnalyticsOverviewResponse
+} from '../declarations/types-0.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { PaymentVolumeTimeseries, PaymentVolumeTimeseriesResponse } from '../declarations/types-36.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-44.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    AnalyticsOverview,
+    AnalyticsOverviewResponse,
+    AnalyticsGetOverviewInput,
+    AnalyticsGetPaymentVolumeTimeseriesInput,
+    AnalyticsGetSubscriptionInput,
+    AuthMode
+} from '../declarations/types-0.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { PaymentVolumeTimeseries, PaymentVolumeTimeseriesResponse, PaymentVolumeBucket } from '../declarations/types-36.js';
+export type { SubscriptionAnalytics, SubscriptionAnalyticsResponse } from '../declarations/types-44.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { SubscriptionSnapshotMetrics, SubscriptionStatusCounts, SubscriptionWindowMetrics } from '../declarations/types-46.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface AnalyticsResource {
     /**
- * Returns high-level merchant analytics for the requested time range.
+ * Returns high-level merchant analytics for the requested half-open period.
+ * @see reference/analytics.md#analyticsgetoverview
  * GET /v1/analytics/overview
  * @example
- * client.analytics.getOverview({range: "today"})
+ * client.analytics.getOverview({period_start_at: "2026-01-01T00:00:00Z"})
  */
-    getOverview(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<AnalyticsOverviewResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getOverviewWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetOverviewResponse>>;
+    getOverview(params: {
+        "period_start_at": InputValue<string | globalThis.Date>;
+        "period_end_at"?: InputValue<string | globalThis.Date>;
+        "currency"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<AnalyticsOverview>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/analytics.md#analyticsgetoverview
+     */
+    getOverviewWithResponse(params: {
+        "period_start_at": InputValue<string | globalThis.Date>;
+        "period_end_at"?: InputValue<string | globalThis.Date>;
+        "currency"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsOverviewResponse>>;
     /**
- * Returns merchant payment volume buckets for the requested time range.
+ * Returns merchant payment volume buckets for the requested half-open period.
+ * @see reference/analytics.md#analyticsgetpaymentvolumetimeseries
  * GET /v1/analytics/payment-volume-timeseries
  * @example
- * client.analytics.getPaymentVolumeTimeseries({range: "today"})
+ * client.analytics.getPaymentVolumeTimeseries({period_start_at: "2026-01-01T00:00:00Z"})
  */
-    getPaymentVolumeTimeseries(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentVolumeTimeseriesResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getPaymentVolumeTimeseriesWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string>; "include_previous_period"?: InputValue<boolean>; "currency"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetPaymentVolumeTimeseriesResponse>>;
+    getPaymentVolumeTimeseries(params: {
+        "period_start_at": InputValue<string | globalThis.Date>;
+        "period_end_at"?: InputValue<string | globalThis.Date>;
+        "currency"?: InputValue<string>;
+        "granularity"?: InputValue<"hour" | "day" | "week" | "month">;
+        "timezone"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<PaymentVolumeTimeseries>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/analytics.md#analyticsgetpaymentvolumetimeseries
+     */
+    getPaymentVolumeTimeseriesWithResponse(params: {
+        "period_start_at": InputValue<string | globalThis.Date>;
+        "period_end_at"?: InputValue<string | globalThis.Date>;
+        "currency"?: InputValue<string>;
+        "granularity"?: InputValue<"hour" | "day" | "week" | "month">;
+        "timezone"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<PaymentVolumeTimeseriesResponse>>;
     /**
  * Returns windowed subscription metrics plus current subscription snapshot metrics.
+ * @see reference/analytics.md#analyticsgetsubscription
  * GET /v1/analytics/subscriptions
  * @example
- * client.analytics.getSubscription({range: "today"})
+ * client.analytics.getSubscription({period_start_at: "2026-01-01T00:00:00Z"})
  */
-    getSubscription(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionAnalyticsResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getSubscriptionWithResponse(params: { "range": InputValue<"today" | "last_7_days" | "last_30_days" | "last_90_days">; "timezone"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<AnalyticsGetSubscriptionResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly analytics: AnalyticsResource;
+    getSubscription(params: {
+        "period_start_at": InputValue<string | globalThis.Date>;
+        "period_end_at"?: InputValue<string | globalThis.Date>;
+        "currency"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionAnalytics>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/analytics.md#analyticsgetsubscription
+     */
+    getSubscriptionWithResponse(params: {
+        "period_start_at": InputValue<string | globalThis.Date>;
+        "period_end_at"?: InputValue<string | globalThis.Date>;
+        "currency"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionAnalyticsResponse>>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { AnalyticsOverviewResponse } from '../declarations/AnalyticsOverviewResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { AnalyticsGetOverviewResponse } from '../declarations/AnalyticsGetOverviewResponse.js';
-export type { PaymentVolumeTimeseriesResponse } from '../declarations/PaymentVolumeTimeseriesResponse.js';
-export type { AnalyticsGetPaymentVolumeTimeseriesResponse } from '../declarations/AnalyticsGetPaymentVolumeTimeseriesResponse.js';
-export type { SubscriptionAnalyticsResponse } from '../declarations/SubscriptionAnalyticsResponse.js';
-export type { AnalyticsGetSubscriptionResponse } from '../declarations/AnalyticsGetSubscriptionResponse.js';
-export type { AnalyticsOverview } from '../declarations/AnalyticsOverview.js';
-export type { AnalyticsOverviewInput } from '../declarations/AnalyticsOverviewInput.js';
-export type { AnalyticsOverviewResponseInput } from '../declarations/AnalyticsOverviewResponseInput.js';
-export type { AnalyticsGetOverviewInput } from '../declarations/AnalyticsGetOverviewInput.js';
-export type { AnalyticsGetPaymentVolumeTimeseriesInput } from '../declarations/AnalyticsGetPaymentVolumeTimeseriesInput.js';
-export type { AnalyticsGetSubscriptionInput } from '../declarations/AnalyticsGetSubscriptionInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { PaymentVolumeTimeseries } from '../declarations/PaymentVolumeTimeseries.js';
-export type { PaymentVolumeBucket } from '../declarations/PaymentVolumeBucket.js';
-export type { CountMetric } from '../declarations/CountMetric.js';
-export type { SubscriptionAnalytics } from '../declarations/SubscriptionAnalytics.js';
-export type { SubscriptionSnapshotMetrics } from '../declarations/SubscriptionSnapshotMetrics.js';
-export type { SubscriptionStatusCounts } from '../declarations/SubscriptionStatusCounts.js';
-export type { SubscriptionWindowMetrics } from '../declarations/SubscriptionWindowMetrics.js';
-export type { MoneyMetric } from '../declarations/MoneyMetric.js';
-export type { SignedMoney } from '../declarations/SignedMoney.js';
-export type { CountMetricInput } from '../declarations/CountMetricInput.js';
-export type { MoneyMetricInput } from '../declarations/MoneyMetricInput.js';
-export type { SignedMoneyInput } from '../declarations/SignedMoneyInput.js';
-export type { ResponseMetaInput } from '../declarations/ResponseMetaInput.js';
-export type { ResponseWarningInput } from '../declarations/ResponseWarningInput.js';
-export type { NextActionInput } from '../declarations/NextActionInput.js';
-export type { NextActionMerchantAccountSessionInput } from '../declarations/NextActionMerchantAccountSessionInput.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export { makeAnalyticsOverviewResponse } from '../declarations/makeAnalyticsOverviewResponse.js';
-export { makePaymentVolumeTimeseriesResponse } from '../declarations/makePaymentVolumeTimeseriesResponse.js';
-export { makeSubscriptionAnalyticsResponse } from '../declarations/makeSubscriptionAnalyticsResponse.js';
-export { makeAnalyticsOverview } from '../declarations/makeAnalyticsOverview.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makePaymentVolumeTimeseries } from '../declarations/makePaymentVolumeTimeseries.js';
-export { makePaymentVolumeBucket } from '../declarations/makePaymentVolumeBucket.js';
-export { makeCountMetric } from '../declarations/makeCountMetric.js';
-export { makeSubscriptionAnalytics } from '../declarations/makeSubscriptionAnalytics.js';
-export { makeSubscriptionSnapshotMetrics } from '../declarations/makeSubscriptionSnapshotMetrics.js';
-export { makeSubscriptionStatusCounts } from '../declarations/makeSubscriptionStatusCounts.js';
-export { makeSubscriptionWindowMetrics } from '../declarations/makeSubscriptionWindowMetrics.js';
-export { makeMoneyMetric } from '../declarations/makeMoneyMetric.js';
-export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly analytics: AnalyticsResource;
+}

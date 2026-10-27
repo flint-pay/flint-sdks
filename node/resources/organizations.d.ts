@@ -1,205 +1,335 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { Organization } from '../declarations/Organization.js';
-import type { OrganizationListResponse } from '../declarations/OrganizationListResponse.js';
-import type { OrganizationMembership } from '../declarations/OrganizationMembership.js';
-import type { OrganizationMembershipListResponse } from '../declarations/OrganizationMembershipListResponse.js';
-import type { OrganizationMembershipResponse } from '../declarations/OrganizationMembershipResponse.js';
-import type { OrganizationResponse } from '../declarations/OrganizationResponse.js';
-import type { OrganizationsCreateInput } from '../declarations/OrganizationsCreateInput.js';
-import type { OrganizationsCreateResponse } from '../declarations/OrganizationsCreateResponse.js';
-import type { OrganizationsGetInput } from '../declarations/OrganizationsGetInput.js';
-import type { OrganizationsGetResponse } from '../declarations/OrganizationsGetResponse.js';
-import type { OrganizationsGrantMembershipInput } from '../declarations/OrganizationsGrantMembershipInput.js';
-import type { OrganizationsGrantMembershipResponse } from '../declarations/OrganizationsGrantMembershipResponse.js';
-import type { OrganizationsListInput } from '../declarations/OrganizationsListInput.js';
-import type { OrganizationsListMembershipsInput } from '../declarations/OrganizationsListMembershipsInput.js';
-import type { OrganizationsListMembershipsResponse } from '../declarations/OrganizationsListMembershipsResponse.js';
-import type { OrganizationsListResponse } from '../declarations/OrganizationsListResponse.js';
-import type { OrganizationsRemoveInput } from '../declarations/OrganizationsRemoveInput.js';
-import type { OrganizationsRemoveResponse } from '../declarations/OrganizationsRemoveResponse.js';
-import type { OrganizationsRevokeMembershipInput } from '../declarations/OrganizationsRevokeMembershipInput.js';
-import type { OrganizationsRevokeMembershipResponse } from '../declarations/OrganizationsRevokeMembershipResponse.js';
-import type { OrganizationsTransferOwnershipInput } from '../declarations/OrganizationsTransferOwnershipInput.js';
-import type { OrganizationsTransferOwnershipResponse } from '../declarations/OrganizationsTransferOwnershipResponse.js';
-import type { OrganizationsUpdateInput } from '../declarations/OrganizationsUpdateInput.js';
-import type { OrganizationsUpdateResponse } from '../declarations/OrganizationsUpdateResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { RevokeOrganizationMembershipResponse } from '../declarations/RevokeOrganizationMembershipResponse.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { TransferOrganizationOwnershipResponse } from '../declarations/TransferOrganizationOwnershipResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateOrganizationRequestInput } from '../declarations/types-7.js';
+import type { GrantOrganizationMembershipRequestInput } from '../declarations/types-19.js';
+import type {
+    Organization,
+    OrganizationListResponse,
+    OrganizationMembership,
+    OrganizationMembershipListResponse,
+    OrganizationMembershipResponse,
+    OrganizationResponse,
+    OrganizationsCreateInput,
+    OrganizationsGetInput,
+    OrganizationsGrantMembershipInput,
+    OrganizationsListInput,
+    OrganizationsListMembershipsInput,
+    OrganizationsRemoveInput,
+    OrganizationsRevokeMembershipInput,
+    OrganizationsUpdateInput
+} from '../declarations/types-34.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdateOrganizationRequestInput } from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateOrganizationRequestInput, CreateOrganizationRequest } from '../declarations/types-7.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    Organization,
+    OrganizationResponse,
+    OrganizationMembership,
+    OrganizationMembershipResponse,
+    OrganizationMembershipListResponse,
+    OrganizationListResponse,
+    OrganizationsCreateInput,
+    OrganizationsRemoveInput,
+    OrganizationsGetInput,
+    OrganizationsGrantMembershipInput,
+    OrganizationsListMembershipsInput,
+    OrganizationsListInput,
+    OrganizationsRevokeMembershipInput,
+    OrganizationsUpdateInput
+} from '../declarations/types-34.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { GrantOrganizationMembershipRequestInput } from '../declarations/types-19.js';
+export type { UpdateOrganizationRequestInput } from '../declarations/types-48.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { ExpandedOrganizationSummary } from '../declarations/types-16.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeCreateOrganizationRequest } from '../declarations/types-64.js';
+export { makeGrantOrganizationMembershipRequest } from '../declarations/types-67.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeUpdateOrganizationRequest } from '../declarations/types-72.js';
 export interface OrganizationsResource {
     /**
  * Creates a child organization within the caller's accessible organization hierarchy.
+ * @see reference/organizations.md#organizationscreate
  * POST /v1/organizations
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.organizations.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "metadata"?: Record<string, string>; "name": string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "metadata"?: Record<string, string>; "name": string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsCreateResponse>>;
+    create(params: (InputValue<CreateOrganizationRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Organization>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/organizations.md#organizationscreate
+     */
+    createWithResponse(params: (InputValue<CreateOrganizationRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationResponse>>;
     /**
- * Soft-deletes an organization when it has no active descendants or merchant links.
+ * Soft-deletes an active organization, reports status archived, and keeps it readable by ID when
+ * it has no active descendants or non-closed merchant links. Conflicts include up to 10
+ * blocking_resources and the total blocking_resource_count. Current organization access and
+ * mutation permissions are checked before idempotent replay. Idempotency keys are scoped to the
+ * merchant, mode, environment, and organization.
+ * @see reference/organizations.md#organizationsremove
  * DELETE /v1/organizations/{organization_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.organizations.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(organization_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(organization_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsRemoveResponse>>;
+    remove(organization_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Organization>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/organizations.md#organizationsremove
+     */
+    removeWithResponse(organization_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationResponse>>;
     /**
- * Returns an accessible organization by ID.
+ * Returns an accessible organization by ID. An inaccessible organization returns 404; an
+ * inaccessible parent requested through expand returns 403 FORBIDDEN with reason
+ * expansion_not_permitted.
+ * @see reference/organizations.md#organizationsget
  * GET /v1/organizations/{organization_id}
  * @example
  * client.organizations.get("example")
  */
-    get(organization_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"parent_organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(organization_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"parent_organization">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsGetResponse>>;
+    get(organization_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"parent_organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Organization>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/organizations.md#organizationsget
+     */
+    getWithResponse(organization_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"parent_organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationResponse>>;
     /**
- * Adds or updates a direct organization membership for a user.
+ * Sets the role of a user who already belongs to this organization or one of its parent
+ * organizations. Returns 201 when it adds a direct membership and 200 when it changes one. It
+ * can't add new people; any other user_id returns 404. Current organization access and mutation
+ * permissions are checked before idempotent replay. Idempotency keys are scoped to the merchant,
+ * mode, environment, and organization.
+ * @see reference/organizations.md#organizationsgrantmembership
  * POST /v1/organizations/{organization_id}/memberships
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.grantMembership("example", {role: "owner", user_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.organizations.grantMembership("example", {role: "admin", user_id: "example"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    grantMembership(organization_id: InputValue<string>, params: (InputValue<{ "role": "owner" | "admin" | "operator" | "viewer"; "user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationMembershipResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    grantMembershipWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "role": "owner" | "admin" | "operator" | "viewer"; "user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsGrantMembershipResponse>>;
+    grantMembership(organization_id: InputValue<string>, params: (InputValue<GrantOrganizationMembershipRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<OrganizationMembership>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/organizations.md#organizationsgrantmembership
+     */
+    grantMembershipWithResponse(organization_id: InputValue<string>, params: (InputValue<GrantOrganizationMembershipRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationMembershipResponse>>;
     /**
  * Returns the direct memberships for an organization.
+ * @see reference/organizations.md#organizationslistmemberships
  * GET /v1/organizations/{organization_id}/memberships
  * @example
  * client.organizations.listMemberships("example")
  */
-    listMemberships(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationMembershipListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listMembershipsWithResponse(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsListMembershipsResponse>>;
-    listMembershipsPages(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationMembershipListResponse>;
-    listMembershipsPagesWithResponse(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrganizationsListMembershipsResponse>>;
-    listMembershipsItems(organization_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationMembership>;
+    listMemberships(organization_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationMembershipListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/organizations.md#organizationslistmemberships
+     */
+    listMembershipsWithResponse(organization_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationMembershipListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/organizations.md#organizationslistmemberships
+     */
+    listMembershipsPages(organization_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationMembershipListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/organizations.md#organizationslistmemberships
+     */
+    listMembershipsPagesWithResponse(organization_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrganizationMembershipListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/organizations.md#organizationslistmemberships
+     */
+    listMembershipsItems(organization_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationMembership>;
     /**
- * Returns the organizations accessible to the caller, filtered to the authenticated merchant's organization subtree for external API keys.
+ * Returns the organizations accessible to the caller, filtered to the authenticated merchant's
+ * organization subtree for external API keys. Pagination uses the last returned sort value and
+ * organization_id, so inserting or deleting earlier rows does not shift later pages. Reuse
+ * page_token with the same filters and sort; page_size may change.
+ * @see reference/organizations.md#organizationslist
  * GET /v1/organizations
  * @example
  * client.organizations.list()
  */
-    list(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationsListResponse>>;
-    listPages(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationListResponse>;
-    listPagesWithResponse(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrganizationsListResponse>>;
-    listItems(params?: { "parent_organization_id"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Organization>;
+    list(params?: {
+        "parent_organization_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"parent_organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<OrganizationListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/organizations.md#organizationslist
+     */
+    listWithResponse(params?: {
+        "parent_organization_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"parent_organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<OrganizationListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/organizations.md#organizationslist
+     */
+    listPages(params?: {
+        "parent_organization_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"parent_organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<OrganizationListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/organizations.md#organizationslist
+     */
+    listPagesWithResponse(params?: {
+        "parent_organization_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"parent_organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<OrganizationListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/organizations.md#organizationslist
+     */
+    listItems(params?: {
+        "parent_organization_id"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"parent_organization">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Organization>;
     /**
- * Revokes a direct organization membership for a user.
+ * Removes a user's direct membership and returns it with status removed. A role the user holds in
+ * a parent organization still applies. The owner can't be removed. Current organization access and
+ * mutation permissions are checked before idempotent replay. Idempotency keys are scoped to the
+ * merchant, mode, environment, and organization.
+ * @see reference/organizations.md#organizationsrevokemembership
  * DELETE /v1/organizations/{organization_id}/memberships/{user_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.revokeMembership("example", "example", {}, { idempotencyKey: idempotencyKey })
+ * client.organizations.revokeMembership("example", "example", {}, { idempotencyKey: idempotencyKey
+ * })
  */
-    revokeMembership(organization_id: InputValue<string>, user_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<RevokeOrganizationMembershipResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    revokeMembershipWithResponse(organization_id: InputValue<string>, user_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsRevokeMembershipResponse>>;
+    revokeMembership(organization_id: InputValue<string>, user_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<OrganizationMembership>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/organizations.md#organizationsrevokemembership
+     */
+    revokeMembershipWithResponse(organization_id: InputValue<string>, user_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationMembershipResponse>>;
     /**
- * Transfers the organization owner role to another user.
- * POST /v1/organizations/{organization_id}/transfer-ownership
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.organizations.transferOwnership("example", {new_owner_user_id: "example"}, { idempotencyKey: idempotencyKey })
- */
-    transferOwnership(organization_id: InputValue<string>, params: (InputValue<{ "new_owner_user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<TransferOrganizationOwnershipResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    transferOwnershipWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "new_owner_user_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsTransferOwnershipResponse>>;
-    /**
- * Applies a sparse update to an accessible organization.
+ * Applies a sparse update to an accessible active organization. Send at least one field; metadata:
+ * {} is a valid no-op patch. The name field cannot be null. Set parent_organization_id to null to
+ * clear the parent or metadata to null to clear all metadata. Current organization access and
+ * mutation permissions are checked before idempotent replay. Idempotency keys are scoped to the
+ * merchant, mode, environment, and organization.
+ * @see reference/organizations.md#organizationsupdate
  * PATCH /v1/organizations/{organization_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.organizations.update("example", {}, { idempotencyKey: idempotencyKey })
+ * client.organizations.update("example", {expected_version: "1"}, { idempotencyKey: idempotencyKey
+ * })
  */
-    update(organization_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "name"?: string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<OrganizationResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(organization_id: InputValue<string>, params: (InputValue<{ "metadata"?: Record<string, string | null> | null; "name"?: string; "parent_organization_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationsUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly organizations: OrganizationsResource;
+    update(organization_id: InputValue<string>, params: (InputValue<UpdateOrganizationRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Organization>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/organizations.md#organizationsupdate
+     */
+    updateWithResponse(organization_id: InputValue<string>, params: (InputValue<UpdateOrganizationRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<OrganizationResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { OrganizationResponse } from '../declarations/OrganizationResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { OrganizationsCreateResponse } from '../declarations/OrganizationsCreateResponse.js';
-export type { OrganizationsRemoveResponse } from '../declarations/OrganizationsRemoveResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { OrganizationsGetResponse } from '../declarations/OrganizationsGetResponse.js';
-export type { OrganizationMembershipResponse } from '../declarations/OrganizationMembershipResponse.js';
-export type { OrganizationsGrantMembershipResponse } from '../declarations/OrganizationsGrantMembershipResponse.js';
-export type { OrganizationMembershipListResponse } from '../declarations/OrganizationMembershipListResponse.js';
-export type { OrganizationsListMembershipsResponse } from '../declarations/OrganizationsListMembershipsResponse.js';
-export type { OrganizationMembership } from '../declarations/OrganizationMembership.js';
-export type { OrganizationListResponse } from '../declarations/OrganizationListResponse.js';
-export type { OrganizationsListResponse } from '../declarations/OrganizationsListResponse.js';
-export type { Organization } from '../declarations/Organization.js';
-export type { RevokeOrganizationMembershipResponse } from '../declarations/RevokeOrganizationMembershipResponse.js';
-export type { OrganizationsRevokeMembershipResponse } from '../declarations/OrganizationsRevokeMembershipResponse.js';
-export type { TransferOrganizationOwnershipResponse } from '../declarations/TransferOrganizationOwnershipResponse.js';
-export type { OrganizationsTransferOwnershipResponse } from '../declarations/OrganizationsTransferOwnershipResponse.js';
-export type { OrganizationsUpdateResponse } from '../declarations/OrganizationsUpdateResponse.js';
-export type { OrganizationsCreateInput } from '../declarations/OrganizationsCreateInput.js';
-export type { OrganizationsRemoveInput } from '../declarations/OrganizationsRemoveInput.js';
-export type { OrganizationsGetInput } from '../declarations/OrganizationsGetInput.js';
-export type { OrganizationsGrantMembershipInput } from '../declarations/OrganizationsGrantMembershipInput.js';
-export type { OrganizationsListMembershipsInput } from '../declarations/OrganizationsListMembershipsInput.js';
-export type { OrganizationsListInput } from '../declarations/OrganizationsListInput.js';
-export type { OrganizationsRevokeMembershipInput } from '../declarations/OrganizationsRevokeMembershipInput.js';
-export type { OrganizationsTransferOwnershipInput } from '../declarations/OrganizationsTransferOwnershipInput.js';
-export type { OrganizationsUpdateInput } from '../declarations/OrganizationsUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { RevokeOrganizationMembershipResult } from '../declarations/RevokeOrganizationMembershipResult.js';
-export type { TransferOrganizationOwnershipResult } from '../declarations/TransferOrganizationOwnershipResult.js';
-export type { CreateOrganizationRequestInput } from '../declarations/CreateOrganizationRequestInput.js';
-export type { GrantOrganizationMembershipRequestInput } from '../declarations/GrantOrganizationMembershipRequestInput.js';
-export type { TransferOrganizationOwnershipRequestInput } from '../declarations/TransferOrganizationOwnershipRequestInput.js';
-export type { UpdateOrganizationRequestInput } from '../declarations/UpdateOrganizationRequestInput.js';
-export type { CreateOrganizationRequest } from '../declarations/CreateOrganizationRequest.js';
-export type { UpdateOrganizationRequest } from '../declarations/UpdateOrganizationRequest.js';
-export { makeOrganizationResponse } from '../declarations/makeOrganizationResponse.js';
-export { makeOrganizationMembershipResponse } from '../declarations/makeOrganizationMembershipResponse.js';
-export { makeOrganizationMembershipListResponse } from '../declarations/makeOrganizationMembershipListResponse.js';
-export { makeOrganizationMembership } from '../declarations/makeOrganizationMembership.js';
-export { makeOrganizationListResponse } from '../declarations/makeOrganizationListResponse.js';
-export { makeOrganization } from '../declarations/makeOrganization.js';
-export { makeRevokeOrganizationMembershipResponse } from '../declarations/makeRevokeOrganizationMembershipResponse.js';
-export { makeTransferOrganizationOwnershipResponse } from '../declarations/makeTransferOrganizationOwnershipResponse.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeRevokeOrganizationMembershipResult } from '../declarations/makeRevokeOrganizationMembershipResult.js';
-export { makeTransferOrganizationOwnershipResult } from '../declarations/makeTransferOrganizationOwnershipResult.js';
-export { makeCreateOrganizationRequest } from '../declarations/makeCreateOrganizationRequest.js';
-export { makeUpdateOrganizationRequest } from '../declarations/makeUpdateOrganizationRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly organizations: OrganizationsResource;
+}

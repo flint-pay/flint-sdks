@@ -1,1 +1,0 @@
-{"shared":"PolicyLocation","phpRepresentation":{"kind":"record","fields":{"group_priority":{"kind":"value","type":"int"},"location_id":{"kind":"value","type":"string"}}},"dependencies":["PolicyLocation"]}

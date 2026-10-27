@@ -9,17 +9,20 @@ namespace Flint;
 final class CustomerEmailPreferencesInput extends Model {
     /** @param array{'checkout_reminders': bool, 'customer_id': string, 'shipping_updates': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerEmailPreferencesInput')); }
-    /** @return bool
+    /** Shape $ (Value): boolean. A reminder after leaving checkout without paying.
+     * @return bool
      * @throws SdkError When checkout_reminders is omitted; use hasCheckoutReminders() or valueOrDefault().
      */
     public function getCheckoutReminders(): bool { return $this->get('checkout_reminders'); }
     public function hasCheckoutReminders(): bool { return $this->has('checkout_reminders'); }
-    /** @return string
+    /** Shape $ (Value): string. Flint customer ID fixed by the customer session.
+     * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** @return bool
+    /** Shape $ (Value): boolean. Emails about shipments and deliveries, such as shipped, out for delivery, and delivered.
+     * @return bool
      * @throws SdkError When shipping_updates is omitted; use hasShippingUpdates() or valueOrDefault().
      */
     public function getShippingUpdates(): bool { return $this->get('shipping_updates'); }

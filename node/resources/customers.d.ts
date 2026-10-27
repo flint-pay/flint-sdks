@@ -1,306 +1,531 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ActionResponse } from '../declarations/ActionResponse.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { Customer } from '../declarations/Customer.js';
-import type { CustomerAddress } from '../declarations/CustomerAddress.js';
-import type { CustomerAddressListResponse } from '../declarations/CustomerAddressListResponse.js';
-import type { CustomerAddressResponse } from '../declarations/CustomerAddressResponse.js';
-import type { CustomerDeletionRequestResponse } from '../declarations/CustomerDeletionRequestResponse.js';
-import type { CustomerListResponse } from '../declarations/CustomerListResponse.js';
-import type { CustomerResponse } from '../declarations/CustomerResponse.js';
-import type { CustomerSessionsRevocationResponse } from '../declarations/CustomerSessionsRevocationResponse.js';
-import type { CustomersCreateAddressInput } from '../declarations/CustomersCreateAddressInput.js';
-import type { CustomersCreateAddressResponse } from '../declarations/CustomersCreateAddressResponse.js';
-import type { CustomersCreateDeletionRequestInput } from '../declarations/CustomersCreateDeletionRequestInput.js';
-import type { CustomersCreateDeletionRequestResponse } from '../declarations/CustomersCreateDeletionRequestResponse.js';
-import type { CustomersCreateInput } from '../declarations/CustomersCreateInput.js';
-import type { CustomersCreateResponse } from '../declarations/CustomersCreateResponse.js';
-import type { CustomersDeleteAddressInput } from '../declarations/CustomersDeleteAddressInput.js';
-import type { CustomersDeleteAddressResponse } from '../declarations/CustomersDeleteAddressResponse.js';
-import type { CustomersGetAddressInput } from '../declarations/CustomersGetAddressInput.js';
-import type { CustomersGetAddressResponse } from '../declarations/CustomersGetAddressResponse.js';
-import type { CustomersGetDeletionRequestInput } from '../declarations/CustomersGetDeletionRequestInput.js';
-import type { CustomersGetDeletionRequestResponse } from '../declarations/CustomersGetDeletionRequestResponse.js';
-import type { CustomersGetInput } from '../declarations/CustomersGetInput.js';
-import type { CustomersGetResponse } from '../declarations/CustomersGetResponse.js';
-import type { CustomersLinkGuestPurchasesInput } from '../declarations/CustomersLinkGuestPurchasesInput.js';
-import type { CustomersLinkGuestPurchasesResponse } from '../declarations/CustomersLinkGuestPurchasesResponse.js';
-import type { CustomersListAddressesInput } from '../declarations/CustomersListAddressesInput.js';
-import type { CustomersListAddressesResponse } from '../declarations/CustomersListAddressesResponse.js';
-import type { CustomersListInput } from '../declarations/CustomersListInput.js';
-import type { CustomersListResponse } from '../declarations/CustomersListResponse.js';
-import type { CustomersRevokeSessionsInput } from '../declarations/CustomersRevokeSessionsInput.js';
-import type { CustomersRevokeSessionsResponse } from '../declarations/CustomersRevokeSessionsResponse.js';
-import type { CustomersSetDefaultAddressInput } from '../declarations/CustomersSetDefaultAddressInput.js';
-import type { CustomersSetDefaultAddressResponse } from '../declarations/CustomersSetDefaultAddressResponse.js';
-import type { CustomersUpdateAddressInput } from '../declarations/CustomersUpdateAddressInput.js';
-import type { CustomersUpdateAddressResponse } from '../declarations/CustomersUpdateAddressResponse.js';
-import type { CustomersUpdateInput } from '../declarations/CustomersUpdateInput.js';
-import type { CustomersUpdateResponse } from '../declarations/CustomersUpdateResponse.js';
-import type { DocumentTaxIDInput } from '../declarations/DocumentTaxIDInput.js';
-import type { GuestPurchaseLinkResponse } from '../declarations/GuestPurchaseLinkResponse.js';
-import type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { TaxIdentityPatchInput } from '../declarations/TaxIdentityPatchInput.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { AccessLink, AccessLinkResponse } from '../declarations/types-0.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    CreateCustomerAddressRequestInput,
+    CreateCustomerDeletionRequestInput,
+    CreateCustomerRequestInput
+} from '../declarations/types-5.js';
+import type {
+    Customer,
+    CustomerAddress,
+    CustomerAddressListResponse,
+    CustomerAddressResponse,
+    CustomerDeletionRequest,
+    CustomerDeletionRequestResponse,
+    CustomerListResponse,
+    CustomerResponse,
+    CustomerSessionsRevocation,
+    CustomerSessionsRevocationResponse,
+    CustomersCreateAccessLinkInput,
+    CustomersCreateAddressInput,
+    CustomersCreateDeletionRequestInput
+} from '../declarations/types-10.js';
+import type {
+    CustomersCreateInput,
+    CustomersDeleteAddressInput,
+    CustomersGetAddressInput,
+    CustomersGetDeletionRequestInput,
+    CustomersGetInput,
+    CustomersLinkGuestPurchasesInput,
+    CustomersListAddressesInput,
+    CustomersListInput,
+    CustomersRevokeSessionsInput,
+    CustomersSetDefaultAddressInput,
+    CustomersUpdateAddressInput,
+    CustomersUpdateInput
+} from '../declarations/types-11.js';
+import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-19.js';
+import type { LinkCustomerGuestPurchasesRequestInput } from '../declarations/types-28.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { SetDefaultCustomerAddressRequestInput } from '../declarations/types-44.js';
+import type { UpdateCustomerAddressRequestInput, UpdateCustomerRequestInput } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type {
+    CreateCustomerRequestInput,
+    CreateCustomerAddressRequestInput,
+    CreateCustomerDeletionRequestInput,
+    CreateCustomerDeletionRequest
+} from '../declarations/types-5.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    Customer,
+    CustomerResponse,
+    CustomerAddress,
+    CustomerAddressResponse,
+    CustomerDeletionRequest,
+    CustomerDeletionRequestResponse,
+    CustomerAddressListResponse,
+    CustomerListResponse,
+    CustomerSessionsRevocation,
+    CustomerSessionsRevocationResponse,
+    CustomersCreateAccessLinkInput,
+    CustomersCreateAddressInput,
+    CustomersCreateDeletionRequestInput,
+    CustomerReceivables,
+    CustomerReceivableBalance
+} from '../declarations/types-10.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { AccessLink, AccessLinkResponse, AddressRequestInput, AuthMode, Address, AddressRequest } from '../declarations/types-0.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-28.js';
+export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-19.js';
+export type { SetDefaultCustomerAddressRequestInput } from '../declarations/types-44.js';
+export type { UpdateCustomerRequestInput, UpdateCustomerAddressRequestInput } from '../declarations/types-47.js';
+export type {
+    CustomersCreateInput,
+    CustomersDeleteAddressInput,
+    CustomersGetInput,
+    CustomersGetAddressInput,
+    CustomersGetDeletionRequestInput,
+    CustomersLinkGuestPurchasesInput,
+    CustomersListAddressesInput,
+    CustomersListInput,
+    CustomersRevokeSessionsInput,
+    CustomersSetDefaultAddressInput,
+    CustomersUpdateInput,
+    CustomersUpdateAddressInput
+} from '../declarations/types-11.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-46.js';
+export type { DocumentTaxIDInput, ExpandedPaymentMethodSummary, DocumentTaxID } from '../declarations/types-16.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { CardDetails } from '../declarations/types-3.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { PostalAddressInput } from '../declarations/types-37.js';
+export { makeAddressRequest } from '../declarations/types-61.js';
+export { makeCreateCustomerAddressRequest, makeCreateCustomerDeletionRequest, makeCreateCustomerRequest } from '../declarations/types-63.js';
+export { makeDocumentTaxID } from '../declarations/types-66.js';
+export { makeLinkCustomerGuestPurchasesRequest, makeMoneyValue } from '../declarations/types-68.js';
+export { makePostalAddress } from '../declarations/types-69.js';
+export { makeSetDefaultCustomerAddressRequest, makeTaxIdentityPatch, makeTaxIdentityRequest } from '../declarations/types-71.js';
+export { makeUpdateCustomerAddressRequest, makeUpdateCustomerRequest } from '../declarations/types-72.js';
 export interface CustomersResource {
     /**
  * Creates a customer for the authenticated merchant.
+ * @see reference/customers.md#customerscreate
  * POST /v1/customers
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.create({email: "example"}, { idempotencyKey: idempotencyKey })
+ * client.customers.create({}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "billing_address"?: PostalAddressInput; "default_invoice_payment_term_id"?: string; "email": string; "external_reference_id"?: string; "group_id"?: string; "internal_note"?: string; "is_verified"?: boolean; "metadata"?: Record<string, string>; "name"?: string; "phone"?: string; "shipping_address"?: PostalAddressInput; "tax_exempt"?: boolean; "tax_identity"?: TaxIdentityPatchInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "billing_address"?: PostalAddressInput; "default_invoice_payment_term_id"?: string; "email": string; "external_reference_id"?: string; "group_id"?: string; "internal_note"?: string; "is_verified"?: boolean; "metadata"?: Record<string, string>; "name"?: string; "phone"?: string; "shipping_address"?: PostalAddressInput; "tax_exempt"?: boolean; "tax_identity"?: TaxIdentityPatchInput; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersCreateResponse>>;
+    create(params: (InputValue<CreateCustomerRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Customer>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customerscreate
+     */
+    createWithResponse(params: (InputValue<CreateCustomerRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerResponse>>;
     /**
- * Creates a stable saved address. The first address becomes both the billing and shipping default. A saved default becomes the customer's effective address for the corresponding role.
+ * Signs the buyer in to your Flint-hosted customer account as this customer. Works for 15 minutes
+ * and one open. The url is a bearer credential. Flint returns it only in this response and in a
+ * retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A
+ * call with a new key creates another link; earlier links keep working until they expire. Send no
+ * request body or an empty object ({}). Requires customers.sessions.write. Idempotency is scoped
+ * to the merchant, credential, environment, and this customer's route. A replay returns the
+ * original link without extending its lifetime or replenishing its open. Without an
+ * Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a
+ * result after minting, contact support with X-Request-Id before sending a new request.
+ * @see reference/customers.md#customerscreateaccesslink
+ * POST /v1/customers/{customer_id}/access-links
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.customers.createAccessLink("example", undefined, { idempotencyKey: idempotencyKey })
+ */
+    createAccessLink(customer_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<AccessLink>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customerscreateaccesslink
+     */
+    createAccessLinkWithResponse(customer_id: InputValue<string>, params?: (InputValue<{}> | {}) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<AccessLinkResponse>>;
+    /**
+ * Creates a stable saved address. The address becomes a default only when the request sets
+ * is_default_billing or is_default_shipping, or later through set-default, including the
+ * customer's first address. A saved default becomes the customer's effective address for the
+ * corresponding role.
+ * @see reference/customers.md#customerscreateaddress
  * POST /v1/customers/{customer_id}/addresses
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.createAddress("example", {address: {city: "example", country: "US", line1: "example", postal_code: "example", state: "example"}, recipient_name: "example"}, { idempotencyKey: idempotencyKey })
+ * client.customers.createAddress("example", {address: {city: "example", country: "US", line1:
+ * "example", postal_code: "example", state: "example"}, recipient_name: "example"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    createAddress(customer_id: InputValue<string>, params: (InputValue<{ "address": PostalAddressInput; "is_default_billing"?: boolean; "is_default_shipping"?: boolean; "label"?: string; "phone"?: string; "recipient_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerAddressResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createAddressWithResponse(customer_id: InputValue<string>, params: (InputValue<{ "address": PostalAddressInput; "is_default_billing"?: boolean; "is_default_shipping"?: boolean; "label"?: string; "phone"?: string; "recipient_name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersCreateAddressResponse>>;
+    createAddress(customer_id: InputValue<string>, params: (InputValue<CreateCustomerAddressRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerAddress>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customerscreateaddress
+     */
+    createAddressWithResponse(customer_id: InputValue<string>, params: (InputValue<CreateCustomerAddressRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerAddressResponse>>;
     /**
- * Creates or returns the pending tracked deletion request. Required commerce records are retained until the deletion workflow resolves their legal retention requirements.
- * POST /v1/customers/{customer_id}/deletion-requests
+ * Creates a deletion request for merchant review, or returns the customer's open request
+ * unchanged. No deletion work starts until approval.
+ * @see reference/customers.md#customerscreatedeletionrequest
+ * POST /v1/customer-deletion-requests
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.createDeletionRequest("example", {}, { idempotencyKey: idempotencyKey })
+ * client.customers.createDeletionRequest({customer_id: "example"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    createDeletionRequest(customer_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerDeletionRequestResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createDeletionRequestWithResponse(customer_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersCreateDeletionRequestResponse>>;
+    createDeletionRequest(params: (InputValue<CreateCustomerDeletionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerDeletionRequest>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customerscreatedeletionrequest
+     */
+    createDeletionRequestWithResponse(params: (InputValue<CreateCustomerDeletionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerDeletionRequestResponse>>;
     /**
  * Deletes a saved address and moves any default designation to the newest remaining address.
+ * @see reference/customers.md#customersdeleteaddress
  * DELETE /v1/customers/{customer_id}/addresses/{customer_address_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.customers.deleteAddress("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ActionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    deleteAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersDeleteAddressResponse>>;
+    deleteAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerAddress>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customersdeleteaddress
+     */
+    deleteAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerAddressResponse>>;
     /**
  * Returns a single customer by ID.
+ * @see reference/customers.md#customersget
  * GET /v1/customers/{customer_id}
  * @example
  * client.customers.get("example")
  */
-    get(customer_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"default_payment_method" | "receivables">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CustomerResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(customer_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"default_payment_method" | "receivables">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomersGetResponse>>;
+    get(customer_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"default_payment_method" | "receivables">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Customer>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customersget
+     */
+    getWithResponse(customer_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"default_payment_method" | "receivables">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerResponse>>;
     /**
  * Returns one saved address owned by the customer.
+ * @see reference/customers.md#customersgetaddress
  * GET /v1/customers/{customer_id}/addresses/{customer_address_id}
  * @example
  * client.customers.getAddress("example", "example")
  */
-    getAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CustomerAddressResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomersGetAddressResponse>>;
+    getAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerAddress>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customersgetaddress
+     */
+    getAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerAddressResponse>>;
     /**
  * Returns the current status of a tracked deletion request.
- * GET /v1/customers/{customer_id}/deletion-requests/{customer_deletion_request_id}
+ * @see reference/customers.md#customersgetdeletionrequest
+ * GET /v1/customer-deletion-requests/{customer_deletion_request_id}
  * @example
- * client.customers.getDeletionRequest("example", "example")
+ * client.customers.getDeletionRequest("example")
  */
-    getDeletionRequest(customer_id: InputValue<string>, customer_deletion_request_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<CustomerDeletionRequestResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getDeletionRequestWithResponse(customer_id: InputValue<string>, customer_deletion_request_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomersGetDeletionRequestResponse>>;
+    getDeletionRequest(customer_deletion_request_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerDeletionRequest>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customersgetdeletionrequest
+     */
+    getDeletionRequestWithResponse(customer_deletion_request_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerDeletionRequestResponse>>;
     /**
- * Links purchases with the verified email and no customer to the verification's customer in the same merchant environment. Purchases bound to another customer stay with that customer. The verification is single use; use the same Idempotency-Key to retry an uncertain result.
+ * Links purchases with the verified email and no customer to the verification's customer in the
+ * same merchant environment. Purchases bound to another customer stay with that customer. The
+ * verification is single use; use the same Idempotency-Key to retry an uncertain result.
+ * @see reference/customers.md#customerslinkguestpurchases
  * POST /v1/customers/{customer_id}/link-guest-purchases
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.linkGuestPurchases("cus_example", {customer_verification_id: "cver_example"}, { idempotencyKey: idempotencyKey })
+ * client.customers.linkGuestPurchases("example", {customer_verification_id: "example"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    linkGuestPurchases(customer_id: InputValue<string>, params: (InputValue<{ "customer_verification_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GuestPurchaseLinkResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    linkGuestPurchasesWithResponse(customer_id: InputValue<string>, params: (InputValue<{ "customer_verification_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersLinkGuestPurchasesResponse>>;
+    linkGuestPurchases(customer_id: InputValue<string>, params: (InputValue<LinkCustomerGuestPurchasesRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<GuestPurchaseLink>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customerslinkguestpurchases
+     */
+    linkGuestPurchasesWithResponse(customer_id: InputValue<string>, params: (InputValue<LinkCustomerGuestPurchasesRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GuestPurchaseLinkResponse>>;
     /**
  * Lists the customer's saved addresses with billing and shipping default flags.
+ * @see reference/customers.md#customerslistaddresses
  * GET /v1/customers/{customer_id}/addresses
  * @example
  * client.customers.listAddresses("example")
  */
-    listAddresses(customer_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerAddressListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listAddressesWithResponse(customer_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomersListAddressesResponse>>;
-    listAddressesPages(customer_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerAddressListResponse>;
-    listAddressesPagesWithResponse(customer_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomersListAddressesResponse>>;
-    listAddressesItems(customer_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerAddress>;
+    listAddresses(customer_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerAddressListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customerslistaddresses
+     */
+    listAddressesWithResponse(customer_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerAddressListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/customers.md#customerslistaddresses
+     */
+    listAddressesPages(customer_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerAddressListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/customers.md#customerslistaddresses
+     */
+    listAddressesPagesWithResponse(customer_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomerAddressListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/customers.md#customerslistaddresses
+     */
+    listAddressesItems(customer_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerAddress>;
     /**
- * Returns a paginated list of customers for the authenticated merchant.
+ * Returns a paginated list of customers for the authenticated merchant. Without a status filter,
+ * returns active and deletion_processing customers; deleted customers appear only when the filter
+ * names deleted.
+ * @see reference/customers.md#customerslist
  * GET /v1/customers
  * @example
  * client.customers.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "email"?: InputValue<string>; "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"receivables">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "email"?: InputValue<string>; "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"receivables">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomersListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "email"?: InputValue<string>; "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"receivables">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "email"?: InputValue<string>; "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"receivables">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomersListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "query"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "email"?: InputValue<string>; "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "expand"?: InputValue<Array<"receivables">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Customer>;
+    list(params?: {
+        "status"?: InputValue<Array<"active" | "deletion_processing" | "deleted">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "email"?: InputValue<string>;
+        "segment"?: InputValue<string>;
+        "is_merchant_verified"?: InputValue<boolean>;
+        "phone"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"default_payment_method" | "receivables">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customerslist
+     */
+    listWithResponse(params?: {
+        "status"?: InputValue<Array<"active" | "deletion_processing" | "deleted">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "email"?: InputValue<string>;
+        "segment"?: InputValue<string>;
+        "is_merchant_verified"?: InputValue<boolean>;
+        "phone"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"default_payment_method" | "receivables">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/customers.md#customerslist
+     */
+    listPages(params?: {
+        "status"?: InputValue<Array<"active" | "deletion_processing" | "deleted">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "email"?: InputValue<string>;
+        "segment"?: InputValue<string>;
+        "is_merchant_verified"?: InputValue<boolean>;
+        "phone"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"default_payment_method" | "receivables">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/customers.md#customerslist
+     */
+    listPagesWithResponse(params?: {
+        "status"?: InputValue<Array<"active" | "deletion_processing" | "deleted">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "email"?: InputValue<string>;
+        "segment"?: InputValue<string>;
+        "is_merchant_verified"?: InputValue<boolean>;
+        "phone"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"default_payment_method" | "receivables">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomerListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/customers.md#customerslist
+     */
+    listItems(params?: {
+        "status"?: InputValue<Array<"active" | "deletion_processing" | "deleted">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "email"?: InputValue<string>;
+        "segment"?: InputValue<string>;
+        "is_merchant_verified"?: InputValue<boolean>;
+        "phone"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "email" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"default_payment_method" | "receivables">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Customer>;
     /**
- * Revokes every customer session for one customer in the selected merchant environment. Flint Account buyer sessions remain independent.
+ * Revokes every customer session for one customer in the selected merchant environment. Flint
+ * Account buyer sessions remain independent.
+ * @see reference/customers.md#customersrevokesessions
  * POST /v1/customers/{customer_id}/sessions/revoke
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.customers.revokeSessions("example", {}, { idempotencyKey: idempotencyKey })
  */
-    revokeSessions(customer_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerSessionsRevocationResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    revokeSessionsWithResponse(customer_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersRevokeSessionsResponse>>;
+    revokeSessions(customer_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerSessionsRevocation>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customersrevokesessions
+     */
+    revokeSessionsWithResponse(customer_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerSessionsRevocationResponse>>;
     /**
- * Sets the address as the billing default, shipping default, or both and makes it the customer's effective address for each selected role.
+ * Sets the address as the billing default, shipping default, or both and makes it the customer's
+ * effective address for each selected role.
+ * @see reference/customers.md#customerssetdefaultaddress
  * POST /v1/customers/{customer_id}/addresses/{customer_address_id}/set-default
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.setDefaultAddress("example", "example", {default_for: "billing"}, { idempotencyKey: idempotencyKey })
+ * client.customers.setDefaultAddress("example", "example", {default_for: "billing"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    setDefaultAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<{ "default_for": "billing" | "shipping" | "both"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerAddressResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    setDefaultAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<{ "default_for": "billing" | "shipping" | "both"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersSetDefaultAddressResponse>>;
+    setDefaultAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<SetDefaultCustomerAddressRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerAddress>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customerssetdefaultaddress
+     */
+    setDefaultAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<SetDefaultCustomerAddressRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerAddressResponse>>;
     /**
- * Applies a sparse update to a customer. Writing billing_address or shipping_address clears the corresponding saved-address default, so that field remains effective until another saved default is selected.
+ * Applies a sparse update to a customer. Writing billing_address or shipping_address clears the
+ * corresponding saved-address default, so that field remains effective until another saved default
+ * is selected. Changing email requires customer_account.mode to be merchant_hosted; otherwise
+ * Flint returns 409 CUSTOMER_EMAIL_BUYER_MANAGED. If Flint cannot read the account settings, it
+ * returns a retryable 503 SERVICE_UNAVAILABLE without changing the customer.
+ * @see reference/customers.md#customersupdate
  * PATCH /v1/customers/{customer_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.customers.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(customer_id: InputValue<string>, params: (InputValue<({ "billing_address"?: PostalAddressInput; "default_invoice_payment_term_id"?: string; "expected_version"?: string; "external_reference_id"?: string; "group_id"?: string; "internal_note"?: string; "is_verified"?: boolean; "metadata"?: Record<string, string | null> | null; "name"?: string; "phone"?: string; "shipping_address"?: PostalAddressInput; "tax_exempt"?: boolean; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(customer_id: InputValue<string>, params: (InputValue<({ "billing_address"?: PostalAddressInput; "default_invoice_payment_term_id"?: string; "expected_version"?: string; "external_reference_id"?: string; "group_id"?: string; "internal_note"?: string; "is_verified"?: boolean; "metadata"?: Record<string, string | null> | null; "name"?: string; "phone"?: string; "shipping_address"?: PostalAddressInput; "tax_exempt"?: boolean; "tax_identity"?: (({ "legal_name"?: string | null; "registered_address"?: (({ "city": string; "country": string; "line1": string; "line2"?: string; "postal_code": string; "state": string; }) | (null)); "tax_ids"?: Array<DocumentTaxIDInput>; }) | (null)); })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersUpdateResponse>>;
+    update(customer_id: InputValue<string>, params: (InputValue<UpdateCustomerRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Customer>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customersupdate
+     */
+    updateWithResponse(customer_id: InputValue<string>, params: (InputValue<UpdateCustomerRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerResponse>>;
     /**
- * Applies a sparse update to a saved address. Updating a default address also updates the customer's effective address for that role.
+ * Applies a sparse update to a saved address. Updating a default address also updates the
+ * customer's effective address for that role.
+ * @see reference/customers.md#customersupdateaddress
  * PATCH /v1/customers/{customer_id}/addresses/{customer_address_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.updateAddress("example", "example", {}, { idempotencyKey: idempotencyKey })
+ * client.customers.updateAddress("example", "example", {address: {city: "example", country: "US",
+ * line1: "example", postal_code: "example", state: "example"}}, { idempotencyKey: idempotencyKey
+ * })
  */
-    updateAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<{ "address"?: PostalAddressInput; "label"?: string; "phone"?: string; "recipient_name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerAddressResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<{ "address"?: PostalAddressInput; "label"?: string; "phone"?: string; "recipient_name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomersUpdateAddressResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly customers: CustomersResource;
+    updateAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<UpdateCustomerAddressRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerAddress>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customers.md#customersupdateaddress
+     */
+    updateAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<UpdateCustomerAddressRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerAddressResponse>>;
 }
-export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
-export type { TaxIdentityPatchInput } from '../declarations/TaxIdentityPatchInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CustomerResponse } from '../declarations/CustomerResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { CustomersCreateResponse } from '../declarations/CustomersCreateResponse.js';
-export type { CustomerAddressResponse } from '../declarations/CustomerAddressResponse.js';
-export type { CustomersCreateAddressResponse } from '../declarations/CustomersCreateAddressResponse.js';
-export type { CustomerDeletionRequestResponse } from '../declarations/CustomerDeletionRequestResponse.js';
-export type { CustomersCreateDeletionRequestResponse } from '../declarations/CustomersCreateDeletionRequestResponse.js';
-export type { ActionResponse } from '../declarations/ActionResponse.js';
-export type { CustomersDeleteAddressResponse } from '../declarations/CustomersDeleteAddressResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { CustomersGetResponse } from '../declarations/CustomersGetResponse.js';
-export type { CustomersGetAddressResponse } from '../declarations/CustomersGetAddressResponse.js';
-export type { CustomersGetDeletionRequestResponse } from '../declarations/CustomersGetDeletionRequestResponse.js';
-export type { GuestPurchaseLinkResponse } from '../declarations/GuestPurchaseLinkResponse.js';
-export type { CustomersLinkGuestPurchasesResponse } from '../declarations/CustomersLinkGuestPurchasesResponse.js';
-export type { CustomerAddressListResponse } from '../declarations/CustomerAddressListResponse.js';
-export type { CustomersListAddressesResponse } from '../declarations/CustomersListAddressesResponse.js';
-export type { CustomerAddress } from '../declarations/CustomerAddress.js';
-export type { CustomerListResponse } from '../declarations/CustomerListResponse.js';
-export type { CustomersListResponse } from '../declarations/CustomersListResponse.js';
-export type { Customer } from '../declarations/Customer.js';
-export type { CustomerSessionsRevocationResponse } from '../declarations/CustomerSessionsRevocationResponse.js';
-export type { CustomersRevokeSessionsResponse } from '../declarations/CustomersRevokeSessionsResponse.js';
-export type { CustomersSetDefaultAddressResponse } from '../declarations/CustomersSetDefaultAddressResponse.js';
-export type { DocumentTaxIDInput } from '../declarations/DocumentTaxIDInput.js';
-export type { CustomersUpdateResponse } from '../declarations/CustomersUpdateResponse.js';
-export type { CustomersUpdateAddressResponse } from '../declarations/CustomersUpdateAddressResponse.js';
-export type { CustomersCreateInput } from '../declarations/CustomersCreateInput.js';
-export type { CustomersCreateAddressInput } from '../declarations/CustomersCreateAddressInput.js';
-export type { CustomersCreateDeletionRequestInput } from '../declarations/CustomersCreateDeletionRequestInput.js';
-export type { CustomersDeleteAddressInput } from '../declarations/CustomersDeleteAddressInput.js';
-export type { CustomersGetInput } from '../declarations/CustomersGetInput.js';
-export type { CustomersGetAddressInput } from '../declarations/CustomersGetAddressInput.js';
-export type { CustomersGetDeletionRequestInput } from '../declarations/CustomersGetDeletionRequestInput.js';
-export type { CustomersLinkGuestPurchasesInput } from '../declarations/CustomersLinkGuestPurchasesInput.js';
-export type { CustomersListAddressesInput } from '../declarations/CustomersListAddressesInput.js';
-export type { CustomersListInput } from '../declarations/CustomersListInput.js';
-export type { CustomersRevokeSessionsInput } from '../declarations/CustomersRevokeSessionsInput.js';
-export type { CustomersSetDefaultAddressInput } from '../declarations/CustomersSetDefaultAddressInput.js';
-export type { CustomersUpdateInput } from '../declarations/CustomersUpdateInput.js';
-export type { CustomersUpdateAddressInput } from '../declarations/CustomersUpdateAddressInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { CustomerDeletionRequest } from '../declarations/CustomerDeletionRequest.js';
-export type { ActionResult } from '../declarations/ActionResult.js';
-export type { GuestPurchaseLink } from '../declarations/GuestPurchaseLink.js';
-export type { PostalAddress } from '../declarations/PostalAddress.js';
-export type { Address } from '../declarations/Address.js';
-export type { CardDetails } from '../declarations/CardDetails.js';
-export type { CustomerReceivables } from '../declarations/CustomerReceivables.js';
-export type { CustomerReceivableBalance } from '../declarations/CustomerReceivableBalance.js';
-export type { DocumentTaxID } from '../declarations/DocumentTaxID.js';
-export type { CustomerSessionsRevocation } from '../declarations/CustomerSessionsRevocation.js';
-export type { CreateCustomerRequestInput } from '../declarations/CreateCustomerRequestInput.js';
-export type { CreateCustomerAddressRequestInput } from '../declarations/CreateCustomerAddressRequestInput.js';
-export type { LinkCustomerGuestPurchasesRequestInput } from '../declarations/LinkCustomerGuestPurchasesRequestInput.js';
-export type { SetDefaultCustomerAddressRequestInput } from '../declarations/SetDefaultCustomerAddressRequestInput.js';
-export type { UpdateCustomerRequestInput } from '../declarations/UpdateCustomerRequestInput.js';
-export type { UpdateCustomerAddressRequestInput } from '../declarations/UpdateCustomerAddressRequestInput.js';
-export type { MeGetAddressResponse } from '../declarations/MeGetAddressResponse.js';
-export type { MeGetResponse } from '../declarations/MeGetResponse.js';
-export type { LinkCustomerGuestPurchasesRequest } from '../declarations/LinkCustomerGuestPurchasesRequest.js';
-export { makeCustomerResponse } from '../declarations/makeCustomerResponse.js';
-export { makeCustomerAddressResponse } from '../declarations/makeCustomerAddressResponse.js';
-export { makeCustomerDeletionRequestResponse } from '../declarations/makeCustomerDeletionRequestResponse.js';
-export { makeActionResponse } from '../declarations/makeActionResponse.js';
-export { makeGuestPurchaseLinkResponse } from '../declarations/makeGuestPurchaseLinkResponse.js';
-export { makeCustomerAddressListResponse } from '../declarations/makeCustomerAddressListResponse.js';
-export { makeCustomerAddress } from '../declarations/makeCustomerAddress.js';
-export { makeCustomerListResponse } from '../declarations/makeCustomerListResponse.js';
-export { makeCustomer } from '../declarations/makeCustomer.js';
-export { makeCustomerSessionsRevocationResponse } from '../declarations/makeCustomerSessionsRevocationResponse.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeCustomerDeletionRequest } from '../declarations/makeCustomerDeletionRequest.js';
-export { makeActionResult } from '../declarations/makeActionResult.js';
-export { makeGuestPurchaseLink } from '../declarations/makeGuestPurchaseLink.js';
-export { makePostalAddress } from '../declarations/makePostalAddress.js';
-export { makeAddress } from '../declarations/makeAddress.js';
-export { makeCardDetails } from '../declarations/makeCardDetails.js';
-export { makeCustomerReceivables } from '../declarations/makeCustomerReceivables.js';
-export { makeCustomerReceivableBalance } from '../declarations/makeCustomerReceivableBalance.js';
-export { makeDocumentTaxID } from '../declarations/makeDocumentTaxID.js';
-export { makeCustomerSessionsRevocation } from '../declarations/makeCustomerSessionsRevocation.js';
-export { makeLinkCustomerGuestPurchasesRequest } from '../declarations/makeLinkCustomerGuestPurchasesRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly customers: CustomersResource;
+}

@@ -7,7 +7,8 @@ namespace Flint;
 final class OnboardingGetStateInput extends Model {
     /** @param array{'sandbox_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingGetStateInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
      */
     public function getSandboxId(): string { return $this->get('sandbox_id'); }

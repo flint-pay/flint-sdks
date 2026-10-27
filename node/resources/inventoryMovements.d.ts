@@ -1,60 +1,303 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { InventoryMovement } from '../declarations/InventoryMovement.js';
-import type { InventoryMovementListResponse } from '../declarations/InventoryMovementListResponse.js';
-import type { InventoryMovementsListInput } from '../declarations/InventoryMovementsListInput.js';
-import type { InventoryMovementsListResponse } from '../declarations/InventoryMovementsListResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    InventoryMovement,
+    InventoryMovementListResponse,
+    InventoryMovementResponse,
+    InventoryMovementsGetInput,
+    InventoryMovementsListInput
+} from '../declarations/types-24.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    InventoryMovement,
+    InventoryMovementResponse,
+    InventoryMovementListResponse,
+    InventoryMovementsGetInput,
+    InventoryMovementsListInput,
+    InventoryItem,
+    InventoryLevel
+} from '../declarations/types-24.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { InventorySourceSystem } from '../declarations/types-25.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface InventoryMovementsResource {
     /**
- * List inventory movements, oldest recorded first. Send expand=inventory_item to render each movement's inventory item inline, so a history table needs no read per row. Filter by idempotency_key to recover the movements a command produced. Send order=desc to read the newest movements first.
+ * Retrieve an inventory movement and its stock changes by ID.
+ * @see reference/inventoryMovements.md#inventorymovementsget
+ * GET /v1/inventory-movements/{inventory_movement_id}
+ * @example
+ * client.inventoryMovements.get("example")
+ */
+    get(inventory_movement_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryMovement>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/inventoryMovements.md#inventorymovementsget
+     */
+    getWithResponse(inventory_movement_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"inventory_item">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryMovementResponse>>;
+    /**
+ * List inventory movements, oldest recorded first. Send expand=inventory_item to render each
+ * movement's inventory item inline, so a history table needs no read per row. Filter by
+ * idempotency_key to recover the movements a command produced. Send sort_direction=desc to read
+ * the newest movements first.
+ * @see reference/inventoryMovements.md#inventorymovementslist
  * GET /v1/inventory-movements
  * @example
  * client.inventoryMovements.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "type"?: InputValue<string>; "reason"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "return_id"?: InputValue<string>; "return_disposition_id"?: InputValue<string>; "order"?: InputValue<"asc" | "desc">; "expand"?: InputValue<Array<"inventory_item">>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "flint" | "other">; "external_source_id"?: InputValue<string>; "external_actor_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "source_reference_type"?: InputValue<string>; "source_reference_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryMovementListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "type"?: InputValue<string>; "reason"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "return_id"?: InputValue<string>; "return_disposition_id"?: InputValue<string>; "order"?: InputValue<"asc" | "desc">; "expand"?: InputValue<Array<"inventory_item">>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "flint" | "other">; "external_source_id"?: InputValue<string>; "external_actor_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "source_reference_type"?: InputValue<string>; "source_reference_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryMovementsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "type"?: InputValue<string>; "reason"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "return_id"?: InputValue<string>; "return_disposition_id"?: InputValue<string>; "order"?: InputValue<"asc" | "desc">; "expand"?: InputValue<Array<"inventory_item">>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "flint" | "other">; "external_source_id"?: InputValue<string>; "external_actor_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "source_reference_type"?: InputValue<string>; "source_reference_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryMovementListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "type"?: InputValue<string>; "reason"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "return_id"?: InputValue<string>; "return_disposition_id"?: InputValue<string>; "order"?: InputValue<"asc" | "desc">; "expand"?: InputValue<Array<"inventory_item">>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "flint" | "other">; "external_source_id"?: InputValue<string>; "external_actor_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "source_reference_type"?: InputValue<string>; "source_reference_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryMovementsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "inventory_item_id"?: InputValue<string>; "location_id"?: InputValue<string>; "type"?: InputValue<string>; "reason"?: InputValue<string>; "idempotency_key"?: InputValue<string>; "return_id"?: InputValue<string>; "return_disposition_id"?: InputValue<string>; "order"?: InputValue<"asc" | "desc">; "expand"?: InputValue<Array<"inventory_item">>; "source_system_type"?: InputValue<"manual" | "pos" | "wms" | "erp" | "flint" | "other">; "external_source_id"?: InputValue<string>; "external_actor_id"?: InputValue<string>; "occurred_after"?: InputValue<string | globalThis.Date>; "occurred_before"?: InputValue<string | globalThis.Date>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "source_reference_type"?: InputValue<string>; "source_reference_id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryMovement>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly inventoryMovements: InventoryMovementsResource;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "type"?: InputValue<Array<"adjustment"
+            | "count_applied"
+            | "reservation_consumed"
+            | "reservation_committed"
+            | "reservation_commitment_released"
+            | "reservation_expired"
+            | "reservation_held"
+            | "reservation_hold_released"
+            | "reservation_reallocated_in"
+            | "reservation_reallocated_out"
+            | "return_received"
+            | "safety_stock_change"
+            | "transfer_departed"
+            | "transfer_received"
+            | "transfer_returned"
+            | "transfer_lost">>;
+        "reason"?: InputValue<Array<"received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction">>;
+        "idempotency_key"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_disposition_id"?: InputValue<string>;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "expand"?: InputValue<Array<"inventory_item">>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
+        "external_source_id"?: InputValue<string>;
+        "external_actor_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "source_reference_type"?: InputValue<Array<"fulfillment"
+            | "inventory_adjustment"
+            | "inventory_count"
+            | "inventory_level"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_transfer">>;
+        "source_reference_id"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<InventoryMovementListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/inventoryMovements.md#inventorymovementslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "type"?: InputValue<Array<"adjustment"
+            | "count_applied"
+            | "reservation_consumed"
+            | "reservation_committed"
+            | "reservation_commitment_released"
+            | "reservation_expired"
+            | "reservation_held"
+            | "reservation_hold_released"
+            | "reservation_reallocated_in"
+            | "reservation_reallocated_out"
+            | "return_received"
+            | "safety_stock_change"
+            | "transfer_departed"
+            | "transfer_received"
+            | "transfer_returned"
+            | "transfer_lost">>;
+        "reason"?: InputValue<Array<"received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction">>;
+        "idempotency_key"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_disposition_id"?: InputValue<string>;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "expand"?: InputValue<Array<"inventory_item">>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
+        "external_source_id"?: InputValue<string>;
+        "external_actor_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "source_reference_type"?: InputValue<Array<"fulfillment"
+            | "inventory_adjustment"
+            | "inventory_count"
+            | "inventory_level"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_transfer">>;
+        "source_reference_id"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<InventoryMovementListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/inventoryMovements.md#inventorymovementslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "type"?: InputValue<Array<"adjustment"
+            | "count_applied"
+            | "reservation_consumed"
+            | "reservation_committed"
+            | "reservation_commitment_released"
+            | "reservation_expired"
+            | "reservation_held"
+            | "reservation_hold_released"
+            | "reservation_reallocated_in"
+            | "reservation_reallocated_out"
+            | "return_received"
+            | "safety_stock_change"
+            | "transfer_departed"
+            | "transfer_received"
+            | "transfer_returned"
+            | "transfer_lost">>;
+        "reason"?: InputValue<Array<"received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction">>;
+        "idempotency_key"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_disposition_id"?: InputValue<string>;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "expand"?: InputValue<Array<"inventory_item">>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
+        "external_source_id"?: InputValue<string>;
+        "external_actor_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "source_reference_type"?: InputValue<Array<"fulfillment"
+            | "inventory_adjustment"
+            | "inventory_count"
+            | "inventory_level"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_transfer">>;
+        "source_reference_id"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryMovementListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/inventoryMovements.md#inventorymovementslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "type"?: InputValue<Array<"adjustment"
+            | "count_applied"
+            | "reservation_consumed"
+            | "reservation_committed"
+            | "reservation_commitment_released"
+            | "reservation_expired"
+            | "reservation_held"
+            | "reservation_hold_released"
+            | "reservation_reallocated_in"
+            | "reservation_reallocated_out"
+            | "return_received"
+            | "safety_stock_change"
+            | "transfer_departed"
+            | "transfer_received"
+            | "transfer_returned"
+            | "transfer_lost">>;
+        "reason"?: InputValue<Array<"received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction">>;
+        "idempotency_key"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_disposition_id"?: InputValue<string>;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "expand"?: InputValue<Array<"inventory_item">>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
+        "external_source_id"?: InputValue<string>;
+        "external_actor_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "source_reference_type"?: InputValue<Array<"fulfillment"
+            | "inventory_adjustment"
+            | "inventory_count"
+            | "inventory_level"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_transfer">>;
+        "source_reference_id"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<InventoryMovementListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/inventoryMovements.md#inventorymovementslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "inventory_item_id"?: InputValue<string>;
+        "location_id"?: InputValue<string>;
+        "type"?: InputValue<Array<"adjustment"
+            | "count_applied"
+            | "reservation_consumed"
+            | "reservation_committed"
+            | "reservation_commitment_released"
+            | "reservation_expired"
+            | "reservation_held"
+            | "reservation_hold_released"
+            | "reservation_reallocated_in"
+            | "reservation_reallocated_out"
+            | "return_received"
+            | "safety_stock_change"
+            | "transfer_departed"
+            | "transfer_received"
+            | "transfer_returned"
+            | "transfer_lost">>;
+        "reason"?: InputValue<Array<"received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction">>;
+        "idempotency_key"?: InputValue<string>;
+        "return_id"?: InputValue<string>;
+        "return_disposition_id"?: InputValue<string>;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "expand"?: InputValue<Array<"inventory_item">>;
+        "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
+        "external_source_id"?: InputValue<string>;
+        "external_actor_id"?: InputValue<string>;
+        "occurred_after"?: InputValue<string | globalThis.Date>;
+        "occurred_before"?: InputValue<string | globalThis.Date>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "source_reference_type"?: InputValue<Array<"fulfillment"
+            | "inventory_adjustment"
+            | "inventory_count"
+            | "inventory_level"
+            | "inventory_receipt"
+            | "inventory_reservation"
+            | "inventory_transfer">>;
+        "source_reference_id"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<InventoryMovement>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { InventoryMovementListResponse } from '../declarations/InventoryMovementListResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { InventoryMovementsListResponse } from '../declarations/InventoryMovementsListResponse.js';
-export type { InventoryMovement } from '../declarations/InventoryMovement.js';
-export type { InventoryMovementsListInput } from '../declarations/InventoryMovementsListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { InventoryItem } from '../declarations/InventoryItem.js';
-export type { InventoryLevel } from '../declarations/InventoryLevel.js';
-export type { InventorySourceReference } from '../declarations/InventorySourceReference.js';
-export { makeInventoryMovementListResponse } from '../declarations/makeInventoryMovementListResponse.js';
-export { makeInventoryMovement } from '../declarations/makeInventoryMovement.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeInventoryItem } from '../declarations/makeInventoryItem.js';
-export { makeInventoryLevel } from '../declarations/makeInventoryLevel.js';
-export { makeInventorySourceReference } from '../declarations/makeInventorySourceReference.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly inventoryMovements: InventoryMovementsResource;
+}

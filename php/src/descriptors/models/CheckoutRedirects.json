@@ -1,0 +1,1 @@
+{"shared":"CheckoutRedirects","phpRepresentation":{"kind":"record","fields":{"cancel_url":{"kind":"value","type":"string"},"expired_url":{"kind":"value","type":"string"},"success_url":{"kind":"value","type":"string"}}},"dependencies":["CheckoutRedirects"]}

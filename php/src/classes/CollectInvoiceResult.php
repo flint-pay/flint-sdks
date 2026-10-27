@@ -2,26 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $idempotency_key
  * @property-read Invoice $invoice
- * @property-read InvoicePaymentAttempt $invoice_payment_attempt
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read InvoicePaymentAttempt|null $invoice_payment_attempt
+ * Presence-aware response; omitted optional fields return null. */
 final class CollectInvoiceResult extends Model {
-    /** @param array{'idempotency_key': string, 'invoice': mixed, 'invoice_payment_attempt'?: mixed, ...}|object $values */
+    /** @param array{'invoice': mixed, 'invoice_payment_attempt': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CollectInvoiceResult')); }
-    /** @return string
-     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
-     */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return Invoice
-     * @throws SdkError When invoice is omitted; use hasInvoice() or valueOrDefault().
+    /** Shape $ (Value): {@see Invoice}. A bill issued to a customer.
+     * @return Invoice
      */
     public function getInvoice(): Invoice { return $this->get('invoice'); }
     public function hasInvoice(): bool { return $this->has('invoice'); }
-    /** @return InvoicePaymentAttempt
-     * @throws SdkError When invoice_payment_attempt is omitted; use hasInvoicePaymentAttempt() or valueOrDefault().
+    /** Shape $ (Value): {@see InvoicePaymentAttempt} or null. Shape $.anyOf[1] (Value): {@see InvoicePaymentAttempt}. An attempt to collect payment for an invoice. Shape $.anyOf[2] (Value): null.
+     * @return InvoicePaymentAttempt|null
      */
-    public function getInvoicePaymentAttempt(): InvoicePaymentAttempt { return $this->get('invoice_payment_attempt'); }
+    public function getInvoicePaymentAttempt(): InvoicePaymentAttempt|null { return $this->get('invoice_payment_attempt'); }
     public function hasInvoicePaymentAttempt(): bool { return $this->has('invoice_payment_attempt'); }
 }

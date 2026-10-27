@@ -11,27 +11,32 @@ namespace Flint;
 final class DeliveryLocationSummaryResourceInput extends Model {
     /** @param array{'address'?: DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass, 'instructions'?: string, 'location_id': string, 'name': string, 'timezone'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSummaryResourceInput')); }
-    /** @return DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryAddressResourceInput}. An address as returned on delivery quotes, selections, previews, and pickup locations.
+     * @return DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When instructions is omitted; use hasInstructions() or valueOrDefault().
      */
     public function getInstructions(): string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
     public function getTimezone(): string { return $this->get('timezone'); }

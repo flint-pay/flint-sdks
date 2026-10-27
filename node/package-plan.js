@@ -17,6 +17,7 @@ export function codecReferences(value) {
                 if ([
                     'fields',
                     'element',
+                    'propertyNames',
                     'extra',
                     'every',
                     'some',

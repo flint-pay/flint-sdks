@@ -3,204 +3,264 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<BuyerAction> $buyer_actions
- * @property-read string $canceled_at
- * @property-read string $completed_at
- * @property-read ReturnActor $completed_by
+ * @property-read ?string $canceled_at
+ * @property-read ?ReturnActor $canceled_by
+ * @property-read ?string $cancellation_reason
+ * @property-read ?string $cancellation_reason_message
+ * @property-read ?string $completed_at
+ * @property-read ?ReturnActor $completed_by
  * @property-read list<ReturnCompletionBlocker> $completion_blockers
- * @property-read string $completion_mode
+ * @property-read ?string $completion_mode
+ * @property-read ?string $completion_reason
+ * @property-read ?string $completion_reason_message
  * @property-read string $created_at
  * @property-read ExpandedCustomerSummary|null $customer
- * @property-read string $customer_id
- * @property-read string $decision_at
+ * @property-read ?string $customer_id
+ * @property-read ?string $decision_at
  * @property-read string $decision_status
- * @property-read string $disposition_count
- * @property-read string $external_reference_id
+ * @property-read ?string $external_reference_id
  * @property-read ReturnFinancialSummary $financial_summary
  * @property-read list<ReturnHandoffRequirement> $handoff_requirements
  * @property-read string $initiated_by
- * @property-read string $inspection_count
  * @property-read list<ReturnLineItem> $line_items
  * @property-read string $merchandise_status
  * @property-read array<array-key, string> $metadata
  * @property-read ExpandedOrderSummary|null $order
  * @property-read string $order_id
- * @property-read ReturnPolicyEvaluation $policy_evaluation
- * @property-read string $receipt_count
- * @property-read string $resolution_count
+ * @property-read ?ReturnPolicyEvaluation $policy_evaluation
  * @property-read string $resolution_status
+ * @property-read list<string> $return_disposition_ids
+ * @property-read ?list<ReturnDisposition> $return_dispositions
  * @property-read string $return_id
+ * @property-read list<string> $return_inspection_ids
+ * @property-read ?list<ReturnInspection> $return_inspections
  * @property-read string $return_number
- * @property-read string $shipment_count
+ * @property-read list<string> $return_receipt_ids
+ * @property-read ?list<ReturnReceipt> $return_receipts
+ * @property-read list<string> $return_resolution_ids
+ * @property-read ?list<ReturnResolution> $return_resolutions
+ * @property-read list<string> $shipment_ids
+ * @property-read ?list<ExpandedShipmentSummary> $shipments
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read string $updated_at
  * @property-read string $version
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class ReturnResource extends Model {
-    /** @param array{'buyer_actions': list<mixed>, 'canceled_at'?: string, 'completed_at'?: string, 'completed_by'?: mixed, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'decision_at'?: string, 'decision_status': string, 'disposition_count': string, 'external_reference_id'?: string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'initiated_by': string, 'inspection_count': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': \stdClass, 'order'?: mixed, 'order_id': string, 'policy_evaluation'?: mixed, 'receipt_count': string, 'resolution_count': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'shipment_count'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'buyer_actions': list<mixed>, 'canceled_at'?: string, 'canceled_by'?: mixed, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'completed_at'?: string, 'completed_by'?: mixed, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'completion_reason'?: string, 'completion_reason_message'?: string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'decision_at'?: string, 'decision_status': string, 'external_reference_id'?: string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'initiated_by': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': \stdClass, 'order'?: mixed, 'order_id': string, 'policy_evaluation'?: mixed, 'resolution_status': string, 'return_disposition_ids': list<string>, 'return_dispositions'?: list<mixed>, 'return_id': string, 'return_inspection_ids': list<string>, 'return_inspections'?: list<mixed>, 'return_number': string, 'return_receipt_ids': list<string>, 'return_receipts'?: list<mixed>, 'return_resolution_ids': list<string>, 'return_resolutions'?: list<mixed>, 'shipment_ids': list<string>, 'shipments'?: list<mixed>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResource')); }
-    /** @return list<BuyerAction>
-     * @throws SdkError When buyer_actions is omitted; use hasBuyerActions() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see BuyerAction}. What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time; merchant reads and webhooks get an empty list. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Shape $[] (Value): {@see BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
+     * @return list<BuyerAction>
      */
     public function getBuyerActions(): array { return $this->get('buyer_actions'); }
     public function hasBuyerActions(): bool { return $this->has('buyer_actions'); }
-    /** @return string
-     * @throws SdkError When canceled_at is omitted; use hasCanceledAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getCanceledAt(): string { return $this->get('canceled_at'); }
+    public function getCanceledAt(): ?string { return $this->get('canceled_at'); }
     public function hasCanceledAt(): bool { return $this->has('canceled_at'); }
-    /** @return string
-     * @throws SdkError When completed_at is omitted; use hasCompletedAt() or valueOrDefault().
+    /** Shape $ (Value): {@see ReturnActor}. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ?ReturnActor
      */
-    public function getCompletedAt(): string { return $this->get('completed_at'); }
+    public function getCanceledBy(): ?ReturnActor { return $this->get('canceled_by'); }
+    public function hasCanceledBy(): bool { return $this->has('canceled_by'); }
+    /** Shape $ (Value): string.  Value enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error", "other".
+     * @return ?string
+     */
+    public function getCancellationReason(): ?string { return $this->get('cancellation_reason'); }
+    public function hasCancellationReason(): bool { return $this->has('cancellation_reason'); }
+    /** Shape $ (Value): string.
+     * @return ?string
+     */
+    public function getCancellationReasonMessage(): ?string { return $this->get('cancellation_reason_message'); }
+    public function hasCancellationReasonMessage(): bool { return $this->has('cancellation_reason_message'); }
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
+     */
+    public function getCompletedAt(): ?string { return $this->get('completed_at'); }
     public function hasCompletedAt(): bool { return $this->has('completed_at'); }
-    /** @return ReturnActor
-     * @throws SdkError When completed_by is omitted; use hasCompletedBy() or valueOrDefault().
+    /** Shape $ (Value): {@see ReturnActor}. Who performed a return action: a buyer, merchant, integration, or the system, with an optional ID.
+     * @return ?ReturnActor
      */
-    public function getCompletedBy(): ReturnActor { return $this->get('completed_by'); }
+    public function getCompletedBy(): ?ReturnActor { return $this->get('completed_by'); }
     public function hasCompletedBy(): bool { return $this->has('completed_by'); }
-    /** @return list<ReturnCompletionBlocker>
-     * @throws SdkError When completion_blockers is omitted; use hasCompletionBlockers() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see ReturnCompletionBlocker}. Shape $[] (Value): {@see ReturnCompletionBlocker}. Something still owed before a return can complete, with the return line or record it concerns.
+     * @return list<ReturnCompletionBlocker>
      */
     public function getCompletionBlockers(): array { return $this->get('completion_blockers'); }
     public function hasCompletionBlockers(): bool { return $this->has('completion_blockers'); }
-    /** @return string
-     * @throws SdkError When completion_mode is omitted; use hasCompletionMode() or valueOrDefault().
+    /** Shape $ (Value): string. automatic completes the Return when the last completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum: "manual", "automatic".
+     * @return ?string
      */
-    public function getCompletionMode(): string { return $this->get('completion_mode'); }
+    public function getCompletionMode(): ?string { return $this->get('completion_mode'); }
     public function hasCompletionMode(): bool { return $this->has('completion_mode'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "manual_completion", "exception_waived", "other".
+     * @return ?string
+     */
+    public function getCompletionReason(): ?string { return $this->get('completion_reason'); }
+    public function hasCompletionReason(): bool { return $this->has('completion_reason'); }
+    /** Shape $ (Value): string.
+     * @return ?string
+     */
+    public function getCompletionReasonMessage(): ?string { return $this->get('completion_reason_message'); }
+    public function hasCompletionReasonMessage(): bool { return $this->has('completion_reason_message'); }
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return ExpandedCustomerSummary|null
-     * @throws SdkError When customer is omitted; use hasCustomer() or valueOrDefault().
+    /** Shape $ (Value): {@see ExpandedCustomerSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. Shape $.anyOf[2] (Value): null.
+     * @return ExpandedCustomerSummary|null
      */
     public function getCustomer(): ExpandedCustomerSummary|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
-    /** @return string
-     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getCustomerId(): string { return $this->get('customer_id'); }
+    public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** @return string
-     * @throws SdkError When decision_at is omitted; use hasDecisionAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getDecisionAt(): string { return $this->get('decision_at'); }
+    public function getDecisionAt(): ?string { return $this->get('decision_at'); }
     public function hasDecisionAt(): bool { return $this->has('decision_at'); }
-    /** @return string
-     * @throws SdkError When decision_status is omitted; use hasDecisionStatus() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "pending", "approved", "partially_approved", "declined".
+     * @return string
      */
     public function getDecisionStatus(): string { return $this->get('decision_status'); }
     public function hasDecisionStatus(): bool { return $this->has('decision_status'); }
-    /** @return string
-     * @throws SdkError When disposition_count is omitted; use hasDispositionCount() or valueOrDefault().
+    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+     * @return ?string
      */
-    public function getDispositionCount(): string { return $this->get('disposition_count'); }
-    public function hasDispositionCount(): bool { return $this->has('disposition_count'); }
-    /** @return string
-     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
-     */
-    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
+    public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return ReturnFinancialSummary
-     * @throws SdkError When financial_summary is omitted; use hasFinancialSummary() or valueOrDefault().
+    /** Shape $ (Value): {@see ReturnFinancialSummary}. The money for a return: returned value, deductions, credits, replacement total, and amounts due to or from the buyer.
+     * @return ReturnFinancialSummary
      */
     public function getFinancialSummary(): ReturnFinancialSummary { return $this->get('financial_summary'); }
     public function hasFinancialSummary(): bool { return $this->has('financial_summary'); }
-    /** @return list<ReturnHandoffRequirement>
-     * @throws SdkError When handoff_requirements is omitted; use hasHandoffRequirements() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see ReturnHandoffRequirement}. Shape $[] (Value): {@see ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination, instructions, line items, and expiry.
+     * @return list<ReturnHandoffRequirement>
      */
     public function getHandoffRequirements(): array { return $this->get('handoff_requirements'); }
     public function hasHandoffRequirements(): bool { return $this->has('handoff_requirements'); }
-    /** @return string
-     * @throws SdkError When initiated_by is omitted; use hasInitiatedBy() or valueOrDefault().
+    /** Shape $ (Value): string. Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. Value enum: "buyer", "merchant", "integration".
+     * @return string
      */
     public function getInitiatedBy(): string { return $this->get('initiated_by'); }
     public function hasInitiatedBy(): bool { return $this->has('initiated_by'); }
-    /** @return string
-     * @throws SdkError When inspection_count is omitted; use hasInspectionCount() or valueOrDefault().
-     */
-    public function getInspectionCount(): string { return $this->get('inspection_count'); }
-    public function hasInspectionCount(): bool { return $this->has('inspection_count'); }
-    /** @return list<ReturnLineItem>
-     * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see ReturnLineItem}. Shape $[] (Value): {@see ReturnLineItem}. An item included in a return request.
+     * @return list<ReturnLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** @return string
-     * @throws SdkError When merchandise_status is omitted; use hasMerchandiseStatus() or valueOrDefault().
+    /** Shape $ (Value): string. On the Return, the least-finished line's value. Value enum: "not_required", "awaiting_handoff", "in_transit", "partially_received", "inspection_required", "partially_inspected", "inspection_review_required", "disposition_required", "resolved", "exception".
+     * @return string
      */
     public function getMerchandiseStatus(): string { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** @return array<array-key, string>
-     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+     * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return ExpandedOrderSummary|null
-     * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
+    /** Shape $ (Value): {@see ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@see ExpandedOrderSummary}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
+     * @return ExpandedOrderSummary|null
      */
     public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** @return string
-     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** @return ReturnPolicyEvaluation
-     * @throws SdkError When policy_evaluation is omitted; use hasPolicyEvaluation() or valueOrDefault().
+    /** Shape $ (Value): {@see ReturnPolicyEvaluation}. How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results.
+     * @return ?ReturnPolicyEvaluation
      */
-    public function getPolicyEvaluation(): ReturnPolicyEvaluation { return $this->get('policy_evaluation'); }
+    public function getPolicyEvaluation(): ?ReturnPolicyEvaluation { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
-    /** @return string
-     * @throws SdkError When receipt_count is omitted; use hasReceiptCount() or valueOrDefault().
-     */
-    public function getReceiptCount(): string { return $this->get('receipt_count'); }
-    public function hasReceiptCount(): bool { return $this->has('receipt_count'); }
-    /** @return string
-     * @throws SdkError When resolution_count is omitted; use hasResolutionCount() or valueOrDefault().
-     */
-    public function getResolutionCount(): string { return $this->get('resolution_count'); }
-    public function hasResolutionCount(): bool { return $this->has('resolution_count'); }
-    /** @return string
-     * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+     * @return string
      */
     public function getResolutionStatus(): string { return $this->get('resolution_status'); }
     public function hasResolutionStatus(): bool { return $this->has('resolution_status'); }
-    /** @return string
-     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+    /** Shape $ (Value): Array of string. IDs of every disposition recorded for this Return, oldest first, including failed and canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline. Shape $[] (Value): string.
+     * @return list<string>
+     */
+    public function getReturnDispositionIds(): array { return $this->get('return_disposition_ids'); }
+    public function hasReturnDispositionIds(): bool { return $this->has('return_disposition_ids'); }
+    /** Shape $ (Value): Array of {@see ReturnDisposition}. Shape $[] (Value): {@see ReturnDisposition}. A decision about how returned merchandise will be handled.
+     * @return ?list<ReturnDisposition>
+     */
+    public function getReturnDispositions(): ?array { return $this->get('return_dispositions'); }
+    public function hasReturnDispositions(): bool { return $this->has('return_dispositions'); }
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** @return string
-     * @throws SdkError When return_number is omitted; use hasReturnNumber() or valueOrDefault().
+    /** Shape $ (Value): Array of string. IDs of every inspection recorded for this Return, oldest first, including superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them inline. Shape $[] (Value): string.
+     * @return list<string>
+     */
+    public function getReturnInspectionIds(): array { return $this->get('return_inspection_ids'); }
+    public function hasReturnInspectionIds(): bool { return $this->has('return_inspection_ids'); }
+    /** Shape $ (Value): Array of {@see ReturnInspection}. Shape $[] (Value): {@see ReturnInspection}. An assessment of the condition of returned items.
+     * @return ?list<ReturnInspection>
+     */
+    public function getReturnInspections(): ?array { return $this->get('return_inspections'); }
+    public function hasReturnInspections(): bool { return $this->has('return_inspections'); }
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getReturnNumber(): string { return $this->get('return_number'); }
     public function hasReturnNumber(): bool { return $this->has('return_number'); }
-    /** @return string
-     * @throws SdkError When shipment_count is omitted; use hasShipmentCount() or valueOrDefault().
+    /** Shape $ (Value): Array of string. IDs of every receipt recorded for this Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. Shape $[] (Value): string.
+     * @return list<string>
      */
-    public function getShipmentCount(): string { return $this->get('shipment_count'); }
-    public function hasShipmentCount(): bool { return $this->has('shipment_count'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    public function getReturnReceiptIds(): array { return $this->get('return_receipt_ids'); }
+    public function hasReturnReceiptIds(): bool { return $this->has('return_receipt_ids'); }
+    /** Shape $ (Value): Array of {@see ReturnReceipt}. Shape $[] (Value): {@see ReturnReceipt}. A record of returned items arriving at a location.
+     * @return ?list<ReturnReceipt>
+     */
+    public function getReturnReceipts(): ?array { return $this->get('return_receipts'); }
+    public function hasReturnReceipts(): bool { return $this->has('return_receipts'); }
+    /** Shape $ (Value): Array of string. IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. Shape $[] (Value): string.
+     * @return list<string>
+     */
+    public function getReturnResolutionIds(): array { return $this->get('return_resolution_ids'); }
+    public function hasReturnResolutionIds(): bool { return $this->has('return_resolution_ids'); }
+    /** Shape $ (Value): Array of {@see ReturnResolution}. Shape $[] (Value): {@see ReturnResolution}. The refund, exchange, or other outcome of a return.
+     * @return ?list<ReturnResolution>
+     */
+    public function getReturnResolutions(): ?array { return $this->get('return_resolutions'); }
+    public function hasReturnResolutions(): bool { return $this->has('return_resolutions'); }
+    /** Shape $ (Value): Array of string. IDs of every shipment raised to send this Return's items back, oldest first, including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline. Shape $[] (Value): string.
+     * @return list<string>
+     */
+    public function getShipmentIds(): array { return $this->get('shipment_ids'); }
+    public function hasShipmentIds(): bool { return $this->has('shipment_ids'); }
+    /** Shape $ (Value): Array of {@see ExpandedShipmentSummary}. Shape $[] (Value): {@see ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and package count, returned when the shipment is expanded.
+     * @return ?list<ExpandedShipmentSummary>
+     */
+    public function getShipments(): ?array { return $this->get('shipments'); }
+    public function hasShipments(): bool { return $this->has('shipments'); }
+    /** Shape $ (Value): string.  Value enum: "requested", "open", "completed", "declined", "canceled".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return list<string>
-     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+    /** Shape $ (Value): Array of string.  [] enum: "cancel", "complete", "decide", "reopen". Shape $[] (Value): string.  Value enum: "cancel", "complete", "decide", "reopen".
+     * @return list<string>
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+     * @return string
      */
     public function getVersion(): string { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }

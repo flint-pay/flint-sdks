@@ -1,0 +1,79 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read string $api_version
+ * @property-read string|\DateTimeInterface $created_at
+ * @property-read array{'object': array{'application_method': PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'available': bool, 'codes'?: list<PromotionCodeInput|array<array-key, mixed>|\stdClass>, 'codes_summary'?: PromotionCodesSummaryInput|array<array-key, mixed>|\stdClass, 'combines_with': PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: PromotionRuleGroupInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string|\DateTimeInterface, 'uses_count': string, 'version': string, ...}|object}|object $data
+ * @property-read string $event_type
+ * @property-read string $merchant_id
+ * @property-read string $mode
+ * @property-read int $payload_version
+ * @property-read array{'id': string, 'idempotency_key'?: string}|object|null $request
+ * @property-read bool $test
+ * @property-read string $webhook_event_id
+ * Presence-aware input; omitted fields throw when accessed. */
+final class Webhook_promotion_archived_merchantInput extends Model {
+    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'object': array{'application_method': PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'available': bool, 'codes'?: list<PromotionCodeInput|array<array-key, mixed>|\stdClass>, 'codes_summary'?: PromotionCodesSummaryInput|array<array-key, mixed>|\stdClass, 'combines_with': PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: PromotionRuleGroupInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string|\DateTimeInterface, 'uses_count': string, 'version': string, ...}|object}|object, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test': bool, 'webhook_event_id': string, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_promotion_archived_merchantInput')); }
+    /** Shape $ (Value): string. Format: date.
+     * @return string
+     * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
+     */
+    public function getApiVersion(): string { return $this->get('api_version'); }
+    public function hasApiVersion(): bool { return $this->has('api_version'); }
+    /** Shape $ (Value): string. Format: date-time.
+     * @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Shape $ (Value): object. Shape $.object (Required): object and {@see PromotionInput}. Promotion evaluation order: manual discounts stay, do not count toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates include codes being applied, existing promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its highest-priority member, then the larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and lower promotion_id; each is admitted unless max_promotions_per_order is reached or both promotions do not allow each other's discount class. Admitted promotions price line item first, then order, then service charge. A zero-value promotion is dropped and selection runs again. Shape $.object.application_method (Required): {@see PromotionApplicationMethodInput}. Discount effect and how it applies to eligible items or charges. A flat application method whose type selects its effect fields. Shape $.object.available (Required): boolean. Whether the promotion can apply right now: it is active, inside its schedule, under its max_uses, and, when code-gated, has at least one redeemable code. Shape $.object.codes (Optional): Array of {@see PromotionCodeInput}. The codes this request created, in request order. Present only on the `POST /v1/promotions` response, where it is `[]` for a promotion created without codes. Read codes later with `GET /v1/promotion-codes?promotion_id=`. Shape $.object.codes[] (Value): {@see PromotionCodeInput}. A code a buyer enters to claim a promotion. Shape $.object.codes_summary (Optional): {@see PromotionCodesSummaryInput}. Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. A count of a promotion's codes, including how many are redeemable now and the newest redeemable code. Shape $.object.combines_with (Required): {@see PromotionCombinesWithInput}. Which promotion discount classes this promotion may share an order with. Both promotions must allow each other's class. Manual discounts are ignored. See Promotion for the evaluation order. Which kinds of discounts a promotion can combine with: line item, order, and service charge discounts. Shape $.object.created_at (Optional): string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Shape $.object.description (Optional): string. Optional description of the promotion for your own records. Shape $.object.discount_class (Required): string. Whether the promotion discounts the order, individual line items, or service charges. Value enum: "order", "line_item", "service_charge". Shape $.object.display_name (Required): string. Buyer-facing promotion name shown in checkout and order discount surfaces. Shape $.object.eligibility_rules (Optional): {@see PromotionRuleGroupInput}. Conditions an order must satisfy for the promotion to apply. Omitted when the promotion has no eligibility conditions. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups. Shape $.object.exclusivity (Optional): {@see PromotionExclusivityInput}. Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. Shape $.object.external_reference_id (Optional): string. Caller-owned identifier for this resource in an external system. maxLength: 255. Shape $.object.max_uses (Optional): integer string. Maximum number of redemptions across all codes and automatic applications. Omitted when there is no redemption limit. Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape $.object.merchant_id (Optional): string. Identifier of the merchant that owns the promotion. Shape $.object.metadata (Optional): Map of string. Key-value data you attach to the promotion. Shape $.object.metadata.* (Value): string. Shape $.object.name (Required): string. Internal promotion name for dashboards, searching, and reporting. Shape $.object.promotion_id (Required): string. Unique identifier for the promotion. Shape $.object.redemption_type (Required): string. Whether the promotion applies automatically when its rules match or requires a promotion code. Value enum: "automatic", "code". Shape $.object.schedule (Optional): {@see PromotionScheduleInput}. Optional start and end times that limit when the promotion can apply. When a promotion is active, with a start time, an end time, and the time zone it was entered in. Shape $.object.status (Required): string. Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable: read available. Value enum: "active", "inactive", "archived". Shape $.object.unavailable_reason (Optional): string. Why available is false. Present only when available is false. Value enum: "inactive", "archived", "not_yet_started", "expired", "exhausted", "no_active_codes". Shape $.object.updated_at (Optional): string. When the promotion was last updated, as an RFC3339 timestamp. Format: date-time. Shape $.object.uses_count (Required): integer string. Number of times the promotion has been redeemed. Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape $.object.version (Required): integer string. Persisted owned-state version. Clock-based availability and expanded resources do not advance this counter. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return array{'object': array{'application_method': PromotionApplicationMethodInput|array<array-key, mixed>|\stdClass, 'available': bool, 'codes'?: list<PromotionCodeInput|array<array-key, mixed>|\stdClass>, 'codes_summary'?: PromotionCodesSummaryInput|array<array-key, mixed>|\stdClass, 'combines_with': PromotionCombinesWithInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: PromotionRuleGroupInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string|\DateTimeInterface, 'uses_count': string, 'version': string, ...}|object}|object
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** Shape $ (Value): string.  Value enum: "promotion.archived".
+     * @return string
+     * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
+     */
+    public function getEventType(): string { return $this->get('event_type'); }
+    public function hasEventType(): bool { return $this->has('event_type'); }
+    /** Shape $ (Value): string.
+     * @return string
+     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+     */
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** Shape $ (Value): string.  Value enum: "test", "live".
+     * @return string
+     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
+     */
+    public function getMode(): string { return $this->get('mode'); }
+    public function hasMode(): bool { return $this->has('mode'); }
+    /** Shape $ (Value): integer. 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Value enum: 1, 2.
+     * @return int
+     * @throws SdkError When payload_version is omitted; use hasPayloadVersion() or valueOrDefault().
+     */
+    public function getPayloadVersion(): int { return $this->get('payload_version'); }
+    public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
+    /** Shape $ (Value): object or null. Shape $.id (Required): string. Shape $.idempotency_key (Optional): string. The Idempotency-Key the originating request sent. Absent when it sent none.
+     * @return array{'id': string, 'idempotency_key'?: string}|object|null
+     * @throws SdkError When request is omitted; use hasRequest() or valueOrDefault().
+     */
+    public function getRequest(): array|object|null { return $this->get('request'); }
+    public function hasRequest(): bool { return $this->has('request'); }
+    /** Shape $ (Value): boolean. true for a synthetic event sent from the test-events endpoint, false otherwise.
+     * @return bool
+     * @throws SdkError When test is omitted; use hasTest() or valueOrDefault().
+     */
+    public function getTest(): bool { return $this->get('test'); }
+    public function hasTest(): bool { return $this->has('test'); }
+    /** Shape $ (Value): string.
+     * @return string
+     * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
+     */
+    public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }
+    public function hasWebhookEventId(): bool { return $this->has('webhook_event_id'); }
+}

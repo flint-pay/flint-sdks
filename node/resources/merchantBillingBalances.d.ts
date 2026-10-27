@@ -1,73 +1,72 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { MerchantBillingBalance } from '../declarations/MerchantBillingBalance.js';
-import type { MerchantBillingBalanceListResponse } from '../declarations/MerchantBillingBalanceListResponse.js';
-import type { MerchantBillingBalanceResponse } from '../declarations/MerchantBillingBalanceResponse.js';
-import type { MerchantBillingBalancesGetInput } from '../declarations/MerchantBillingBalancesGetInput.js';
-import type { MerchantBillingBalancesGetResponse } from '../declarations/MerchantBillingBalancesGetResponse.js';
-import type { MerchantBillingBalancesListInput } from '../declarations/MerchantBillingBalancesListInput.js';
-import type { MerchantBillingBalancesListResponse } from '../declarations/MerchantBillingBalancesListResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    MerchantBillingBalance,
+    MerchantBillingBalanceListResponse,
+    MerchantBillingBalanceResponse,
+    MerchantBillingBalancesGetInput,
+    MerchantBillingBalancesListInput
+} from '../declarations/types-30.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    MerchantBillingBalance,
+    MerchantBillingBalanceResponse,
+    MerchantBillingBalanceListResponse,
+    MerchantBillingBalancesGetInput,
+    MerchantBillingBalancesListInput
+} from '../declarations/types-30.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface MerchantBillingBalancesResource {
     /**
  * Returns what the merchant currently owes Flint and owns as account credit in one currency.
+ * @see reference/merchantBillingBalances.md#merchantbillingbalancesget
  * GET /v1/merchant-billing-balances/{merchant_billing_balance_id}
  * @example
  * client.merchantBillingBalances.get("example")
  */
-    get(merchant_billing_balance_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<MerchantBillingBalanceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(merchant_billing_balance_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantBillingBalancesGetResponse>>;
+    get(merchant_billing_balance_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<MerchantBillingBalance>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/merchantBillingBalances.md#merchantbillingbalancesget
+     */
+    getWithResponse(merchant_billing_balance_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantBillingBalanceResponse>>;
     /**
- * Returns what the merchant currently owes Flint and owns as account credit by currency.
+ * Returns what the merchant currently owes Flint and owns as account credit by currency. All
+ * balances fit on one page, so next_page_token is omitted.
+ * @see reference/merchantBillingBalances.md#merchantbillingbalanceslist
  * GET /v1/merchant-billing-balances
  * @example
  * client.merchantBillingBalances.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<MerchantBillingBalanceListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantBillingBalancesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<MerchantBillingBalanceListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<MerchantBillingBalancesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<MerchantBillingBalance>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly merchantBillingBalances: MerchantBillingBalancesResource;
+    list(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<MerchantBillingBalanceListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/merchantBillingBalances.md#merchantbillingbalanceslist
+     */
+    listWithResponse(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantBillingBalanceListResponse>>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { MerchantBillingBalanceResponse } from '../declarations/MerchantBillingBalanceResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { MerchantBillingBalancesGetResponse } from '../declarations/MerchantBillingBalancesGetResponse.js';
-export type { MerchantBillingBalanceListResponse } from '../declarations/MerchantBillingBalanceListResponse.js';
-export type { MerchantBillingBalancesListResponse } from '../declarations/MerchantBillingBalancesListResponse.js';
-export type { MerchantBillingBalance } from '../declarations/MerchantBillingBalance.js';
-export type { MerchantBillingBalancesGetInput } from '../declarations/MerchantBillingBalancesGetInput.js';
-export type { MerchantBillingBalancesListInput } from '../declarations/MerchantBillingBalancesListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { FeedbackReportsListInput } from '../declarations/FeedbackReportsListInput.js';
-export { makeMerchantBillingBalanceResponse } from '../declarations/makeMerchantBillingBalanceResponse.js';
-export { makeMerchantBillingBalanceListResponse } from '../declarations/makeMerchantBillingBalanceListResponse.js';
-export { makeMerchantBillingBalance } from '../declarations/makeMerchantBillingBalance.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly merchantBillingBalances: MerchantBillingBalancesResource;
+}

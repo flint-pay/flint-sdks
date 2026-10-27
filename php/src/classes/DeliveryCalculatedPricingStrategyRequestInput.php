@@ -12,32 +12,38 @@ namespace Flint;
 final class DeliveryCalculatedPricingStrategyRequestInput extends Model {
     /** @param array{'base_fee_currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'distance'?: DeliveryDistanceUnitPriceRequestInput|array<array-key, mixed>|\stdClass, 'maximum_fee_currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'minimum_fee_currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'per_item_handling_fee_currency_options'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'weight'?: DeliveryWeightUnitPriceRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryCalculatedPricingStrategyRequestInput')); }
-    /** @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
+    /** Shape $ (Value): Map of {@see MoneyValueInput}. Base delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When base_fee_currency_options is omitted; use hasBaseFeeCurrencyOptions() or valueOrDefault().
      */
     public function getBaseFeeCurrencyOptions(): array|object { return $this->get('base_fee_currency_options'); }
     public function hasBaseFeeCurrencyOptions(): bool { return $this->has('base_fee_currency_options'); }
-    /** @return DeliveryDistanceUnitPriceRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryDistanceUnitPriceRequestInput}. A distance rate you supply for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
+     * @return DeliveryDistanceUnitPriceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When distance is omitted; use hasDistance() or valueOrDefault().
      */
     public function getDistance(): mixed { return $this->get('distance'); }
     public function hasDistance(): bool { return $this->has('distance'); }
-    /** @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
+    /** Shape $ (Value): Map of {@see MoneyValueInput}. Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When maximum_fee_currency_options is omitted; use hasMaximumFeeCurrencyOptions() or valueOrDefault().
      */
     public function getMaximumFeeCurrencyOptions(): array|object { return $this->get('maximum_fee_currency_options'); }
     public function hasMaximumFeeCurrencyOptions(): bool { return $this->has('maximum_fee_currency_options'); }
-    /** @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
+    /** Shape $ (Value): Map of {@see MoneyValueInput}. Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When minimum_fee_currency_options is omitted; use hasMinimumFeeCurrencyOptions() or valueOrDefault().
      */
     public function getMinimumFeeCurrencyOptions(): array|object { return $this->get('minimum_fee_currency_options'); }
     public function hasMinimumFeeCurrencyOptions(): bool { return $this->has('minimum_fee_currency_options'); }
-    /** @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
+    /** Shape $ (Value): Map of {@see MoneyValueInput}. Handling fee per item by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When per_item_handling_fee_currency_options is omitted; use hasPerItemHandlingFeeCurrencyOptions() or valueOrDefault().
      */
     public function getPerItemHandlingFeeCurrencyOptions(): array|object { return $this->get('per_item_handling_fee_currency_options'); }
     public function hasPerItemHandlingFeeCurrencyOptions(): bool { return $this->has('per_item_handling_fee_currency_options'); }
-    /** @return DeliveryWeightUnitPriceRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryWeightUnitPriceRequestInput}. Price per unit of weight you supply for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
+     * @return DeliveryWeightUnitPriceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When weight is omitted; use hasWeight() or valueOrDefault().
      */
     public function getWeight(): mixed { return $this->get('weight'); }

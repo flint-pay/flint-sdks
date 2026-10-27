@@ -1,4 +1,0 @@
-
-import type { Webhook_fraud_warning_created_installed_merchants } from './Webhook_fraud_warning_created_installed_merchants.js';
-
-export type Webhook_fraud_warning_updated_installed_merchants = Webhook_fraud_warning_created_installed_merchants;

@@ -7,7 +7,8 @@ namespace Flint;
 final class ErrorEnvelopeInput extends Model {
     /** @param array{'error': ErrorObjectInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorEnvelopeInput')); }
-    /** @return ErrorObjectInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see ErrorObjectInput}. Error code, message, request context, and guidance for resolving the failure. The error returned for a failed request: `type`, `code`, `message`, `remediation`, `request_id`, and a list of `details` for individual failures.
+     * @return ErrorObjectInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When error is omitted; use hasError() or valueOrDefault().
      */
     public function getError(): mixed { return $this->get('error'); }

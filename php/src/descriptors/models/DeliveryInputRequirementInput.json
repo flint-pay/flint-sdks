@@ -1,1 +1,1 @@
-{"shared":"DeliveryInputRequirement","dependencies":["DeliveryInputConstraint","DeliveryInputRequirement","DeliveryWindowResource","MoneyValue","SharedCodec186"]}
+{"shared":"DeliveryInputRequirement","dependencies":["DeliveryInputConstraint","DeliveryInputRequirement","DeliveryWindowResource","MoneyValue","SharedCodec254"]}

@@ -1,4 +1,0 @@
-
-
-
-export type CreateGiftCardRedemptionRequest = ({ "amount_money": ({ /** Use an exact numeric string, not a floating-point number. Format: int64. minimum: 1. */ "amount"?: string; }) & ({ /** Amount in the currency's minor unit, such as cents for USD. Use an exact numeric string, not a floating-point number. Format: int64. minimum: 0. */ "amount": string; /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */ "currency": string; }); "capture_mode": "automatic" | "manual" | (string & {}); /** Use an exact numeric string, not a floating-point number. Format: int64. minimum: 1. */ "expected_version"?: string; /** RFC3339 timestamp. Format: date-time. */ "expires_at"?: string; /** Caller-owned identifier for this resource in an external system. maxLength: 255. */ "external_reference_id": string; "gift_card_id": string; }) & ((({ "capture_mode": unknown; })) | ({ "capture_mode": unknown; }) | (object));

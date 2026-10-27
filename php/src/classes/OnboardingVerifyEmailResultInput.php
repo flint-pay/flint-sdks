@@ -14,42 +14,50 @@ namespace Flint;
 final class OnboardingVerifyEmailResultInput extends Model {
     /** @param array{'can_issue_api_key': bool, 'default_sandbox_id'?: string, 'merchant': MerchantInput|array<array-key, mixed>|\stdClass, 'merchant_created': bool, 'next_step'?: OnboardingNextStepInput|array<array-key, mixed>|\stdClass, 'onboarding_session_expires_at': string|\DateTimeInterface, 'onboarding_session_token': string, 'user': UserInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingVerifyEmailResultInput')); }
-    /** @return bool
+    /** Shape $ (Value): boolean. Whether the merchant has no external API key and a default sandbox exists.
+     * @return bool
      * @throws SdkError When can_issue_api_key is omitted; use hasCanIssueApiKey() or valueOrDefault().
      */
     public function getCanIssueApiKey(): bool { return $this->get('can_issue_api_key'); }
     public function hasCanIssueApiKey(): bool { return $this->has('can_issue_api_key'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When default_sandbox_id is omitted; use hasDefaultSandboxId() or valueOrDefault().
      */
     public function getDefaultSandboxId(): string { return $this->get('default_sandbox_id'); }
     public function hasDefaultSandboxId(): bool { return $this->has('default_sandbox_id'); }
-    /** @return MerchantInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see MerchantInput}. The business accepting payments.
+     * @return MerchantInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When merchant is omitted; use hasMerchant() or valueOrDefault().
      */
     public function getMerchant(): mixed { return $this->get('merchant'); }
     public function hasMerchant(): bool { return $this->has('merchant'); }
-    /** @return bool
+    /** Shape $ (Value): boolean.
+     * @return bool
      * @throws SdkError When merchant_created is omitted; use hasMerchantCreated() or valueOrDefault().
      */
     public function getMerchantCreated(): bool { return $this->get('merchant_created'); }
     public function hasMerchantCreated(): bool { return $this->has('merchant_created'); }
-    /** @return OnboardingNextStepInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see OnboardingNextStepInput}. The next step to move onboarding forward, with who owns it, whether a machine can complete it, and the endpoint to submit to.
+     * @return OnboardingNextStepInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When next_step is omitted; use hasNextStep() or valueOrDefault().
      */
     public function getNextStep(): mixed { return $this->get('next_step'); }
     public function hasNextStep(): bool { return $this->has('next_step'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. Expiry of onboarding_session_token. The token cannot be refreshed; verify the email again to get a new one. Format: date-time.
+     * @return string|\DateTimeInterface
      * @throws SdkError When onboarding_session_expires_at is omitted; use hasOnboardingSessionExpiresAt() or valueOrDefault().
      */
     public function getOnboardingSessionExpiresAt(): string|\DateTimeInterface { return $this->get('onboarding_session_expires_at'); }
     public function hasOnboardingSessionExpiresAt(): bool { return $this->has('onboarding_session_expires_at'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When onboarding_session_token is omitted; use hasOnboardingSessionToken() or valueOrDefault().
      */
     public function getOnboardingSessionToken(): string { return $this->get('onboarding_session_token'); }
     public function hasOnboardingSessionToken(): bool { return $this->has('onboarding_session_token'); }
-    /** @return UserInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see UserInput}. A user with access to merchant accounts.
+     * @return UserInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When user is omitted; use hasUser() or valueOrDefault().
      */
     public function getUser(): mixed { return $this->get('user'); }

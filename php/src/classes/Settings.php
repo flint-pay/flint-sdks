@@ -2,175 +2,133 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read BrandingSettings $branding
- * @property-read CatalogSettings $catalog
- * @property-read CheckoutSettings $checkout
- * @property-read CustomDomainStatus $checkout_domain_status
- * @property-read string $created_at
- * @property-read CustomerAccountSettings $customer_account
- * @property-read CustomDomainStatus $customer_account_domain_status
- * @property-read CustomerEmailDeliverySettings $customer_email_delivery
- * @property-read string $device_id
- * @property-read FulfillmentSettings $fulfillment
- * @property-read InventorySettings $inventory
- * @property-read InvoiceSettings $invoices
- * @property-read LegalSettings $legal
- * @property-read string $location_id
- * @property-read string $merchant_id
- * @property-read array<array-key, string> $metadata
- * @property-read string $organization_id
- * @property-read PaymentLimitSettings $payment_limits
- * @property-read PromotionSettings $promotions
- * @property-read ReceiptSettings $receipts
+ * @property-read ?BrandingSettings $branding
+ * @property-read ?CheckoutSettings $checkout
+ * @property-read ?string $created_at
+ * @property-read ?CustomerAccountSettings $customer_account
+ * @property-read ?CustomerEmailDeliverySettings $customer_email_delivery
+ * @property-read ?FulfillmentSettings $fulfillment
+ * @property-read ?InventorySettings $inventory
+ * @property-read ?InvoiceSettings $invoices
+ * @property-read ?LegalSettings $legal
+ * @property-read ?string $merchant_id
+ * @property-read ?array<array-key, string> $metadata
+ * @property-read ?PaymentLimitSettings $payment_limits
+ * @property-read ?PromotionSettings $promotions
+ * @property-read ?ReceiptSettings $receipts
  * @property-read string $settings_id
- * @property-read string $settings_scope
- * @property-read SubscriptionSettings $subscriptions
- * @property-read TaxSettings $tax
+ * @property-read ?SubscriptionSettings $subscriptions
+ * @property-read ?TaxSettings $tax
  * @property-read TaxIdentity|null $tax_identity
- * @property-read TippingSettings $tipping
- * @property-read string $updated_at
+ * @property-read ?TippingSettings $tipping
+ * @property-read ?string $updated_at
  * @property-read string $version
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class Settings extends Model {
-    /** @param array{'branding'?: mixed, 'catalog'?: mixed, 'checkout'?: mixed, 'checkout_domain_status'?: mixed, 'created_at'?: string, 'customer_account'?: mixed, 'customer_account_domain_status'?: mixed, 'customer_email_delivery'?: mixed, 'device_id'?: string, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: mixed, 'legal'?: mixed, 'location_id'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'organization_id'?: string, 'payment_limits'?: mixed, 'promotions'?: mixed, 'receipts'?: mixed, 'settings_id': string, 'settings_scope': string, 'subscriptions'?: mixed, 'tax'?: mixed, 'tax_identity'?: mixed, 'tipping'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'branding'?: mixed, 'checkout'?: mixed, 'created_at'?: string, 'customer_account'?: mixed, 'customer_email_delivery'?: mixed, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: mixed, 'legal'?: mixed, 'merchant_id'?: string, 'metadata'?: \stdClass, 'payment_limits'?: mixed, 'promotions'?: mixed, 'receipts'?: mixed, 'settings_id': string, 'subscriptions'?: mixed, 'tax'?: mixed, 'tax_identity': mixed, 'tipping'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Settings')); }
-    /** @return BrandingSettings
-     * @throws SdkError When branding is omitted; use hasBranding() or valueOrDefault().
+    /** Shape $ (Value): {@see BrandingSettings}. A merchant's branding settings: colors, corner radius, and font family. Checkout uses them as its default theme.
+     * @return ?BrandingSettings
      */
-    public function getBranding(): BrandingSettings { return $this->get('branding'); }
+    public function getBranding(): ?BrandingSettings { return $this->get('branding'); }
     public function hasBranding(): bool { return $this->has('branding'); }
-    /** @return CatalogSettings
-     * @throws SdkError When catalog is omitted; use hasCatalog() or valueOrDefault().
+    /** Shape $ (Value): {@see CheckoutSettings}. Merchant defaults for checkout: custom domain, delivery methods, expiration, payment options, required contact fields, promotion codes, recovery email, and saved payment details.
+     * @return ?CheckoutSettings
      */
-    public function getCatalog(): CatalogSettings { return $this->get('catalog'); }
-    public function hasCatalog(): bool { return $this->has('catalog'); }
-    /** @return CheckoutSettings
-     * @throws SdkError When checkout is omitted; use hasCheckout() or valueOrDefault().
-     */
-    public function getCheckout(): CheckoutSettings { return $this->get('checkout'); }
+    public function getCheckout(): ?CheckoutSettings { return $this->get('checkout'); }
     public function hasCheckout(): bool { return $this->has('checkout'); }
-    /** @return CustomDomainStatus
-     * @throws SdkError When checkout_domain_status is omitted; use hasCheckoutDomainStatus() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getCheckoutDomainStatus(): CustomDomainStatus { return $this->get('checkout_domain_status'); }
-    public function hasCheckoutDomainStatus(): bool { return $this->has('checkout_domain_status'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
-     */
-    public function getCreatedAt(): string { return $this->get('created_at'); }
+    public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return CustomerAccountSettings
-     * @throws SdkError When customer_account is omitted; use hasCustomerAccount() or valueOrDefault().
+    /** Shape $ (Value): {@see CustomerAccountSettings}. Customer account settings: hosted mode, merchant account URL, presentation, route templates, and what buyers may do to their own subscriptions.
+     * @return ?CustomerAccountSettings
      */
-    public function getCustomerAccount(): CustomerAccountSettings { return $this->get('customer_account'); }
+    public function getCustomerAccount(): ?CustomerAccountSettings { return $this->get('customer_account'); }
     public function hasCustomerAccount(): bool { return $this->has('customer_account'); }
-    /** @return CustomDomainStatus
-     * @throws SdkError When customer_account_domain_status is omitted; use hasCustomerAccountDomainStatus() or valueOrDefault().
+    /** Shape $ (Value): {@see CustomerEmailDeliverySettings}. For each kind of customer email, whether Flint sends it or the merchant sends it.
+     * @return ?CustomerEmailDeliverySettings
      */
-    public function getCustomerAccountDomainStatus(): CustomDomainStatus { return $this->get('customer_account_domain_status'); }
-    public function hasCustomerAccountDomainStatus(): bool { return $this->has('customer_account_domain_status'); }
-    /** @return CustomerEmailDeliverySettings
-     * @throws SdkError When customer_email_delivery is omitted; use hasCustomerEmailDelivery() or valueOrDefault().
-     */
-    public function getCustomerEmailDelivery(): CustomerEmailDeliverySettings { return $this->get('customer_email_delivery'); }
+    public function getCustomerEmailDelivery(): ?CustomerEmailDeliverySettings { return $this->get('customer_email_delivery'); }
     public function hasCustomerEmailDelivery(): bool { return $this->has('customer_email_delivery'); }
-    /** @return string
-     * @throws SdkError When device_id is omitted; use hasDeviceId() or valueOrDefault().
+    /** Shape $ (Value): {@see FulfillmentSettings}. Merchant fulfillment settings, including whether fulfillments require approval (`approval_required`).
+     * @return ?FulfillmentSettings
      */
-    public function getDeviceId(): string { return $this->get('device_id'); }
-    public function hasDeviceId(): bool { return $this->has('device_id'); }
-    /** @return FulfillmentSettings
-     * @throws SdkError When fulfillment is omitted; use hasFulfillment() or valueOrDefault().
-     */
-    public function getFulfillment(): FulfillmentSettings { return $this->get('fulfillment'); }
+    public function getFulfillment(): ?FulfillmentSettings { return $this->get('fulfillment'); }
     public function hasFulfillment(): bool { return $this->has('fulfillment'); }
-    /** @return InventorySettings
-     * @throws SdkError When inventory is omitted; use hasInventory() or valueOrDefault().
+    /** Shape $ (Value): {@see InventorySettings}. Inventory settings: the `low_stock_threshold` and how inventory failures are handled for each order source.
+     * @return ?InventorySettings
      */
-    public function getInventory(): InventorySettings { return $this->get('inventory'); }
+    public function getInventory(): ?InventorySettings { return $this->get('inventory'); }
     public function hasInventory(): bool { return $this->has('inventory'); }
-    /** @return InvoiceSettings
-     * @throws SdkError When invoices is omitted; use hasInvoices() or valueOrDefault().
+    /** Shape $ (Value): {@see InvoiceSettings}. Merchant defaults for invoices, including numbering prefixes, default memo and footer, collection mode, reminders, and autopay retries.
+     * @return ?InvoiceSettings
      */
-    public function getInvoices(): InvoiceSettings { return $this->get('invoices'); }
+    public function getInvoices(): ?InvoiceSettings { return $this->get('invoices'); }
     public function hasInvoices(): bool { return $this->has('invoices'); }
-    /** @return LegalSettings
-     * @throws SdkError When legal is omitted; use hasLegal() or valueOrDefault().
+    /** Shape $ (Value): {@see LegalSettings}. Merchant legal links and terms settings: contract, refund policy, shipping policy, and terms of service URLs, and whether buyers must accept the terms.
+     * @return ?LegalSettings
      */
-    public function getLegal(): LegalSettings { return $this->get('legal'); }
+    public function getLegal(): ?LegalSettings { return $this->get('legal'); }
     public function hasLegal(): bool { return $this->has('legal'); }
-    /** @return string
-     * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getLocationId(): string { return $this->get('location_id'); }
-    public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** @return string
-     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
-     */
-    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return array<array-key, string>
-     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+     * @return ?array<array-key, string>
      */
-    public function getMetadata(): array { return $this->get('metadata'); }
+    public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return string
-     * @throws SdkError When organization_id is omitted; use hasOrganizationId() or valueOrDefault().
+    /** Shape $ (Value): {@see PaymentLimitSettings}. Optional merchant limits that can lower Flint's payment-option and surface policy limits.
+     * @return ?PaymentLimitSettings
      */
-    public function getOrganizationId(): string { return $this->get('organization_id'); }
-    public function hasOrganizationId(): bool { return $this->has('organization_id'); }
-    /** @return PaymentLimitSettings
-     * @throws SdkError When payment_limits is omitted; use hasPaymentLimits() or valueOrDefault().
-     */
-    public function getPaymentLimits(): PaymentLimitSettings { return $this->get('payment_limits'); }
+    public function getPaymentLimits(): ?PaymentLimitSettings { return $this->get('payment_limits'); }
     public function hasPaymentLimits(): bool { return $this->has('payment_limits'); }
-    /** @return PromotionSettings
-     * @throws SdkError When promotions is omitted; use hasPromotions() or valueOrDefault().
+    /** Shape $ (Value): {@see PromotionSettings}. Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order.
+     * @return ?PromotionSettings
      */
-    public function getPromotions(): PromotionSettings { return $this->get('promotions'); }
+    public function getPromotions(): ?PromotionSettings { return $this->get('promotions'); }
     public function hasPromotions(): bool { return $this->has('promotions'); }
-    /** @return ReceiptSettings
-     * @throws SdkError When receipts is omitted; use hasReceipts() or valueOrDefault().
+    /** Shape $ (Value): {@see ReceiptSettings}. Receipt settings: whether receipts are emailed automatically, whether they are itemized, and the header and footer text.
+     * @return ?ReceiptSettings
      */
-    public function getReceipts(): ReceiptSettings { return $this->get('receipts'); }
+    public function getReceipts(): ?ReceiptSettings { return $this->get('receipts'); }
     public function hasReceipts(): bool { return $this->has('receipts'); }
-    /** @return string
-     * @throws SdkError When settings_id is omitted; use hasSettingsId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getSettingsId(): string { return $this->get('settings_id'); }
     public function hasSettingsId(): bool { return $this->has('settings_id'); }
-    /** @return string
-     * @throws SdkError When settings_scope is omitted; use hasSettingsScope() or valueOrDefault().
+    /** Shape $ (Value): {@see SubscriptionSettings}. Subscription settings: the default billing schedule owner, dunning retry days and end action, and the backorder email.
+     * @return ?SubscriptionSettings
      */
-    public function getSettingsScope(): string { return $this->get('settings_scope'); }
-    public function hasSettingsScope(): bool { return $this->has('settings_scope'); }
-    /** @return SubscriptionSettings
-     * @throws SdkError When subscriptions is omitted; use hasSubscriptions() or valueOrDefault().
-     */
-    public function getSubscriptions(): SubscriptionSettings { return $this->get('subscriptions'); }
+    public function getSubscriptions(): ?SubscriptionSettings { return $this->get('subscriptions'); }
     public function hasSubscriptions(): bool { return $this->has('subscriptions'); }
-    /** @return TaxSettings
-     * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
+    /** Shape $ (Value): {@see TaxSettings}. Tax settings: whether tax is calculated by default and the default tax categories for line items and delivery charges.
+     * @return ?TaxSettings
      */
-    public function getTax(): TaxSettings { return $this->get('tax'); }
+    public function getTax(): ?TaxSettings { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** @return TaxIdentity|null
-     * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
+    /** Shape $ (Value): {@see TaxIdentity} or null. Shape $.anyOf[1] (Value): {@see TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2] (Value): null.
+     * @return TaxIdentity|null
      */
     public function getTaxIdentity(): TaxIdentity|null { return $this->get('tax_identity'); }
     public function hasTaxIdentity(): bool { return $this->has('tax_identity'); }
-    /** @return TippingSettings
-     * @throws SdkError When tipping is omitted; use hasTipping() or valueOrDefault().
+    /** Shape $ (Value): {@see TippingSettings}. Tipping settings: percent and fixed tip options, the preselected tip, and whether custom tips are allowed.
+     * @return ?TippingSettings
      */
-    public function getTipping(): TippingSettings { return $this->get('tipping'); }
+    public function getTipping(): ?TippingSettings { return $this->get('tipping'); }
     public function hasTipping(): bool { return $this->has('tipping'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getUpdatedAt(): string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      */
     public function getVersion(): string { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }

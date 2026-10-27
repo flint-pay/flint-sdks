@@ -1,1 +1,1 @@
-{"shared":"CreateInventoryAllocationPolicyRequest","dependencies":["CreateInventoryAllocationPolicyRequest","InventoryAllocationPolicyConfiguration","PolicyLocation"]}
+{"shared":"CreateInventoryAllocationPolicyRequest","dependencies":["CreateInventoryAllocationPolicyRequest","InventoryAllocationConfigurationValue","InventoryAllocationPolicyLocation"]}

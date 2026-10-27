@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionOffers.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/subscriptionOffers.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionOffer"]:r0,["deleteSubscriptionOffer"]:r0,["getSubscriptionOffer"]:r0,["listSubscriptionOffers"]:r0,["updateSubscriptionOffer"]:r0});
 export class Client {
@@ -14,7 +14,7 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.subscriptionOffers = Object.freeze({
       create: async (params, options) => this.#runtime.request("createSubscriptionOffer", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSubscriptionOffer", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createSubscriptionOffer", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
@@ -23,7 +23,7 @@ this.subscriptionOffers = Object.freeze({
 ], [subscription_offer_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteSubscriptionOffer", result, path))),
       removeWithResponse: async (subscription_offer_id, params, options) => this.#runtime.request("deleteSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
 ], [subscription_offer_id], [
@@ -32,7 +32,7 @@ this.subscriptionOffers = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       get: async (subscription_offer_id, params, options) => this.#runtime.request("getSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
-], [subscription_offer_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_offer_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSubscriptionOffer", result, path))),
       getWithResponse: async (subscription_offer_id, params, options) => this.#runtime.request("getSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
 ], [subscription_offer_id], [], false, false, params), options).then(_sdkResponse),
@@ -43,9 +43,14 @@ this.subscriptionOffers = Object.freeze({
   "product_id",
   "variant_id",
   "query",
+  "external_reference_id",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
   "sort_by",
   "sort_direction"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSubscriptionOffers", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listSubscriptionOffers", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -53,6 +58,11 @@ this.subscriptionOffers = Object.freeze({
   "product_id",
   "variant_id",
   "query",
+  "external_reference_id",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
   "sort_by",
   "sort_direction"
 ], false, false, params), options).then(_sdkResponse),
@@ -63,9 +73,14 @@ this.subscriptionOffers = Object.freeze({
   "product_id",
   "variant_id",
   "query",
+  "external_reference_id",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
   "sort_by",
   "sort_direction"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listSubscriptionOffers", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptionOffers", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -73,6 +88,11 @@ this.subscriptionOffers = Object.freeze({
   "product_id",
   "variant_id",
   "query",
+  "external_reference_id",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
   "sort_by",
   "sort_direction"
 ], false, false, params), options)),
@@ -83,6 +103,11 @@ this.subscriptionOffers = Object.freeze({
   "product_id",
   "variant_id",
   "query",
+  "external_reference_id",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before",
   "sort_by",
   "sort_direction"
 ], false, false, params), options),
@@ -90,7 +115,7 @@ this.subscriptionOffers = Object.freeze({
   "subscription_offer_id"
 ], [subscription_offer_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateSubscriptionOffer", result, path))),
       updateWithResponse: async (subscription_offer_id, params, options) => this.#runtime.request("updateSubscriptionOffer", _sdkRequestInput([
   "subscription_offer_id"
 ], [subscription_offer_id], [
@@ -98,13 +123,10 @@ this.subscriptionOffers = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeSubscriptionOfferResponse } from '../models/SubscriptionOfferResponse.js';
-export { makeSubscriptionOfferListResponse } from '../models/SubscriptionOfferListResponse.js';
-export { makeSubscriptionOffer } from '../models/SubscriptionOffer.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateSubscriptionOfferRequest } from '../models/CreateSubscriptionOfferRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeUpdateSubscriptionOfferRequest } from '../models/UpdateSubscriptionOfferRequest.js';

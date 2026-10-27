@@ -1,0 +1,66 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DeliveryMethodOriginSelectorRequest
+
+The origin you supply for a delivery method, chosen by `type`: a fixed location, or locations from a delivery location set or an inline list.
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_location_set_id` | Conditional | string | Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: `1`. |
+| `location_id` | Conditional | string | minLength: `1`. |
+| `location_ids` | Conditional | Array of string | Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. Items: minLength: `1`. |
+| `type` | Required | string | Values: `"fixed_location"`, `"allocated_origin_group"`, `"pickup_location_collection"`. |
+
+### DeliveryMethodOriginSelectorRequest variant 1: `type` = `"fixed_location"`
+
+oneOf variant 1: The `fixed_location` variant of `DeliveryMethodOriginSelectorInput`..
+
+- Condition: not (at least one(present(`delivery_location_set_id`); present(`delivery_location_set_revision_id`); present(`location_ids`))).
+- Required: `location_id`.
+- Optional: `delivery_location_set_id`, `location_ids`.
+- Constraints for `type`: Values: `"fixed_location"`.
+
+### DeliveryMethodOriginSelectorRequest variant 2: `type` = `"allocated_origin_group"`
+
+oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1.
+
+- Condition: not (present(`location_id`)).
+- Required: `delivery_location_set_id`.
+- Optional: `location_id`, `location_ids`.
+- Constraints for `location_ids`: minItems: `1`. maxItems: `25`. uniqueItems: `true`.
+- Constraints for `type`: Values: `"allocated_origin_group"`.
+
+### DeliveryMethodOriginSelectorRequest variant 3: `type` = `"allocated_origin_group"`
+
+oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2.
+
+- Condition: not (present(`location_id`)).
+- Required: `location_ids`.
+- Optional: `delivery_location_set_id`, `location_id`.
+- Constraints for `location_ids`: minItems: `1`. maxItems: `25`. uniqueItems: `true`.
+- Constraints for `type`: Values: `"allocated_origin_group"`.
+
+### DeliveryMethodOriginSelectorRequest variant 4: `type` = `"pickup_location_collection"`
+
+oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1.
+
+- Condition: not (present(`location_id`)).
+- Required: `delivery_location_set_id`.
+- Optional: `location_id`, `location_ids`.
+- Constraints for `location_ids`: minItems: `1`. maxItems: `1000`. uniqueItems: `true`.
+- Constraints for `type`: Values: `"pickup_location_collection"`.
+
+### DeliveryMethodOriginSelectorRequest variant 5: `type` = `"pickup_location_collection"`
+
+oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2.
+
+- Condition: not (present(`location_id`)).
+- Required: `location_ids`.
+- Optional: `delivery_location_set_id`, `location_id`.
+- Constraints for `location_ids`: minItems: `1`. maxItems: `1000`. uniqueItems: `true`.
+- Constraints for `type`: Values: `"pickup_location_collection"`.
+

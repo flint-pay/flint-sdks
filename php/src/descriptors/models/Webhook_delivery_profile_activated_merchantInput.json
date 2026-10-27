@@ -1,1 +1,1 @@
-{"shared":"Webhook_delivery_profile_activated_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec250","Webhook_delivery_profile_activated_merchant"]}
+{"shared":"Webhook_delivery_profile_activated_merchant","dependencies":["DeliveryProfile","DeliveryProfileConfiguration","DeliveryProfileDiagnostics","DeliveryProfileOriginPolicy","MerchantWebhookEnvelope","SharedCodec368","SharedCodec369","SharedCodec495","Webhook_delivery_profile_activated_merchant"]}

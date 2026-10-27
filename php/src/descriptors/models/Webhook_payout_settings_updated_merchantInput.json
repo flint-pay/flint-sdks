@@ -1,1 +1,1 @@
-{"shared":"Webhook_payout_settings_updated_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec250","Webhook_payout_settings_updated_merchant"]}
+{"shared":"Webhook_payout_settings_updated_merchant","dependencies":["MerchantWebhookEnvelope","MoneyMovementBlockedReason","MoneyValue","NextAction","NextActionMerchantAccountSession","PayoutSettings","SharedCodec1","SharedCodec368","SharedCodec369","SharedCodec517","SharedCodec963","Webhook_payout_settings_updated_merchant"]}

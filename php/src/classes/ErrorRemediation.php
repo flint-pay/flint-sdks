@@ -2,32 +2,26 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read list<string> $missing_or_invalid_fields
- * @property-read list<NextAction> $next_actions
- * @property-read string $next_steps
- * @property-read bool $retryable
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?list<NextAction> $next_actions
+ * @property-read ?string $next_steps
+ * @property-read string $retry
+ * Presence-aware response; omitted optional fields return null. */
 final class ErrorRemediation extends Model {
-    /** @param array{'missing_or_invalid_fields'?: list<string>, 'next_actions'?: list<mixed>, 'next_steps'?: string, 'retryable'?: bool, ...}|object $values */
+    /** @param array{'next_actions'?: list<mixed>, 'next_steps'?: string, 'retry': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ErrorRemediation')); }
-    /** @return list<string>
-     * @throws SdkError When missing_or_invalid_fields is omitted; use hasMissingOrInvalidFields() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see NextAction}. Suggested actions for resolving the error, including the target resource and any required input. Shape $[] (Value): {@see NextAction}. A suggested next step for resolving an error, warning, or blocked state, such as the API operation to call or the scope it needs.
+     * @return ?list<NextAction>
      */
-    public function getMissingOrInvalidFields(): array { return $this->get('missing_or_invalid_fields'); }
-    public function hasMissingOrInvalidFields(): bool { return $this->has('missing_or_invalid_fields'); }
-    /** @return list<NextAction>
-     * @throws SdkError When next_actions is omitted; use hasNextActions() or valueOrDefault().
-     */
-    public function getNextActions(): array { return $this->get('next_actions'); }
+    public function getNextActions(): ?array { return $this->get('next_actions'); }
     public function hasNextActions(): bool { return $this->has('next_actions'); }
-    /** @return string
-     * @throws SdkError When next_steps is omitted; use hasNextSteps() or valueOrDefault().
+    /** Shape $ (Value): string. What to change or check before attempting the operation again.
+     * @return ?string
      */
-    public function getNextSteps(): string { return $this->get('next_steps'); }
+    public function getNextSteps(): ?string { return $this->get('next_steps'); }
     public function hasNextSteps(): bool { return $this->has('next_steps'); }
-    /** @return bool
-     * @throws SdkError When retryable is omitted; use hasRetryable() or valueOrDefault().
+    /** Shape $ (Value): string. How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Value enum: "same_request", "after_refresh", "none".
+     * @return string
      */
-    public function getRetryable(): bool { return $this->get('retryable'); }
-    public function hasRetryable(): bool { return $this->has('retryable'); }
+    public function getRetry(): string { return $this->get('retry'); }
+    public function hasRetry(): bool { return $this->has('retry'); }
 }

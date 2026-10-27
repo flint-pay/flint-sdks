@@ -7,7 +7,8 @@ namespace Flint;
 final class DeliveryZonesGetInput extends Model {
     /** @param array{'delivery_zone_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZonesGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDeliveryZoneId() or valueOrDefault().
      */
     public function getDeliveryZoneId(): string { return $this->get('delivery_zone_id'); }

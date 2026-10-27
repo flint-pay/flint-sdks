@@ -1,0 +1,1 @@
+{"shared":"ListReturnActivitiesResponse","dependencies":["ListReturnActivitiesResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","ReturnActivity","ReturnActor","SharedCodec0","SharedCodec1","SharedCodec1063","SharedCodec1064","SharedCodec963"]}

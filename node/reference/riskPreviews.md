@@ -1,0 +1,90 @@
+[API index](../REFERENCE.md) · [Models](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+# riskPreviews
+
+### riskPreviews.create
+
+Validates a draft rule, or an existing rule by risk_rule_id, without saving anything. An invalid rule has is_valid: false and its problems in issues. The warnings array says how the change would affect evaluation. Requires risk.read. Rule content issues return 200 with is_valid false, every issue in order, analysis null, and empty warnings. Valid rules return analysis and any warnings. When risk_rule_id is omitted, action and predicate are required. Malformed requests return 400; a missing risk_rule_id resource returns 404. Proposing action or predicate changes to a system rule returns 409 RULE_RESERVED. List reference issues are included at the list_alias path. A new rule at the active-rule limit receives a risk_rule_limit_reached warning.
+
+`POST /v1/risk-previews`
+
+Signature: `create(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [CreateRiskPreviewRequestInput](../models/CreateRiskPreviewRequest.md#createriskpreviewrequest) | The request body for: Create a risk preview. |
+
+Body model: [CreateRiskPreviewRequestInput](../models/CreateRiskPreviewRequest.md#createriskpreviewrequest).
+
+#### riskPreviews.create body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `action` | Optional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `predicate` | Optional | [RiskPredicateNodeInput](../models/RiskPredicateNode.md#riskpredicatenode) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `risk_rule_id` | Optional | string | minLength: `1`. |
+
+#### riskPreviews.create body oneOf variant 1
+
+
+
+#### riskPreviews.create body oneOf variant 1 fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `action` | Required | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `predicate` | Required | [RiskPredicateNodeInput](../models/RiskPredicateNode.md#riskpredicatenode) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `risk_rule_id` | Optional | string | minLength: `1`. |
+
+#### riskPreviews.create body oneOf variant 2
+
+
+
+#### riskPreviews.create body oneOf variant 2 fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `action` | Optional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
+| `predicate` | Optional | [RiskPredicateNodeInput](../models/RiskPredicateNode.md#riskpredicatenode) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
+| `risk_rule_id` | Required | string | minLength: `1`. |
+
+#### Response
+
+Returned payload: [RiskPreview](../models/RiskPreview.md#riskpreview).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 403 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
+| 409 | ConflictError | conflict |
+| 410 | ApiError | api |
+| 413 | ApiError | api |
+| 415 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.riskPreviews.create({risk_rule_id: "rr_example"}, {  });
+```
+
+[Complete runnable example](../examples/riskPreviews-create.mjs)
+

@@ -1,0 +1,1 @@
+{"shared":"ShipmentFulfillmentDetails","phpRepresentation":{"kind":"record","fields":{"shipped_at":{"kind":"value","type":"string"},"timezone":{"kind":"value","type":"string"},"window_end_at":{"kind":"value","type":"string"},"window_start_at":{"kind":"value","type":"string"}}},"dependencies":["ShipmentFulfillmentDetails"]}

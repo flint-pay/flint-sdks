@@ -1,9 +1,16 @@
-import { d854 as c0, d871 as c1, d896 as c2, d1604 as c3, d323 as c4, d2071 as c5, d2073 as c6, d853 as c7 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d2071 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d2986 as c0 } from '../descriptors/data/112.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3242 as c1, d3243 as c2 } from '../descriptors/data/129.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3069 as c3 } from '../descriptors/data/119.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4711 as c4 } from '../descriptors/data/210.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3000 as c5 } from '../descriptors/data/114.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4718 as c6, d4719 as c7 } from '../descriptors/data/211.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3184 as c8 } from '../descriptors/data/126.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3031 as c9 } from '../descriptors/data/117.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4718 as d4718 } from '../descriptors/data/211.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2071;
+const read = d4718;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["GiftCardCustomAmountBounds"]:c0(),["GiftCardProductConfiguration"]:c1(),["ImageRequest"]:c2(),["InventoryItemCreateRequest"]:c3(),["MoneyValue"]:c4(),["ProductVariantRequest"]:c5(),["ProductVariantSelectedOptionRequest"]:c6(),["SharedCodec247"]:c7()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["Dimensions"]:c0(),["GiftCardCustomAmountBounds"]:c1(),["GiftCardProductConfiguration"]:c2(),["ImageRequest"]:c3(),["InventoryItemCreateRequest"]:c4(),["MoneyValue"]:c5(),["ProductVariantRequest"]:c6(),["ProductVariantSelectedOptionRequest"]:c7(),["SharedCodec364"]:c8(),["Weight"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeProductVariantRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

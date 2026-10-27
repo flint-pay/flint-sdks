@@ -1,1 +1,1 @@
-{"shared":"PaymentLinkSubscriptionPreview","dependencies":["Image","MoneyValue","PaymentLinkSubscriptionPreview"]}
+{"shared":"PaymentLinkSubscriptionPreview","dependencies":["Image","MoneyValue","PaymentLinkSubscriptionPreview","SubscriptionIntervalOption"]}

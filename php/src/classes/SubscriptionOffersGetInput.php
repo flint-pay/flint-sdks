@@ -7,7 +7,8 @@ namespace Flint;
 final class SubscriptionOffersGetInput extends Model {
     /** @param array{'subscription_offer_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOffersGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
      */
     public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }

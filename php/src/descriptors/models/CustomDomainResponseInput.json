@@ -1,0 +1,1 @@
+{"shared":"CustomDomainResponse","dependencies":["CustomDomain","CustomDomainDNSRecord","CustomDomainResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec963"]}

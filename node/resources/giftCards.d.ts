@@ -1,195 +1,321 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { GiftCard } from '../declarations/GiftCard.js';
-import type { GiftCardCommandResponse } from '../declarations/GiftCardCommandResponse.js';
-import type { GiftCardListResponse } from '../declarations/GiftCardListResponse.js';
-import type { GiftCardNotificationRecipientInput } from '../declarations/GiftCardNotificationRecipientInput.js';
-import type { GiftCardResponse } from '../declarations/GiftCardResponse.js';
-import type { GiftCardsCreateInput } from '../declarations/GiftCardsCreateInput.js';
-import type { GiftCardsCreateResponse } from '../declarations/GiftCardsCreateResponse.js';
-import type { GiftCardsGetInput } from '../declarations/GiftCardsGetInput.js';
-import type { GiftCardsGetResponse } from '../declarations/GiftCardsGetResponse.js';
-import type { GiftCardsListInput } from '../declarations/GiftCardsListInput.js';
-import type { GiftCardsListResponse } from '../declarations/GiftCardsListResponse.js';
-import type { GiftCardsLookupInput } from '../declarations/GiftCardsLookupInput.js';
-import type { GiftCardsLookupResponse } from '../declarations/GiftCardsLookupResponse.js';
-import type { GiftCardsRotateCodeInput } from '../declarations/GiftCardsRotateCodeInput.js';
-import type { GiftCardsRotateCodeResponse } from '../declarations/GiftCardsRotateCodeResponse.js';
-import type { GiftCardsTransitionInput } from '../declarations/GiftCardsTransitionInput.js';
-import type { GiftCardsTransitionResponse } from '../declarations/GiftCardsTransitionResponse.js';
-import type { GiftCardsUpdateInput } from '../declarations/GiftCardsUpdateInput.js';
-import type { GiftCardsUpdateResponse } from '../declarations/GiftCardsUpdateResponse.js';
-import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateGiftCardRequestInput, CreateGiftCardResult, CreateGiftCardResultResponse } from '../declarations/types-6.js';
+import type { GiftCard, GiftCardListResponse } from '../declarations/types-18.js';
+import type {
+    GiftCardResponse,
+    GiftCardsCreateInput,
+    GiftCardsGetInput,
+    GiftCardsListInput,
+    GiftCardsLookupInput,
+    GiftCardsRotateCodeInput,
+    GiftCardsTransitionInput,
+    GiftCardsUpdateInput
+} from '../declarations/types-19.js';
+import type { LookupGiftCardRequestInput } from '../declarations/types-29.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type {
+    RotateGiftCardCodeRequestInput,
+    RotateGiftCardCodeResult,
+    RotateGiftCardCodeResultResponse,
+    SdkResponse
+} from '../declarations/types-43.js';
+import type { TransitionGiftCardRequestInput, UpdateGiftCardRequestInput } from '../declarations/types-47.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateGiftCardRequestInput, CreateGiftCardResult, CreateGiftCardResultResponse } from '../declarations/types-6.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    SdkResponse,
+    RotateGiftCardCodeRequestInput,
+    RotateGiftCardCodeResult,
+    RotateGiftCardCodeResultResponse
+} from '../declarations/types-43.js';
+export type {
+    GiftCard,
+    GiftCardListResponse,
+    GiftCardFundingSourceInput,
+    GiftCardFundingSourceExternalPaymentInput,
+    GiftCardFundingSourceFlintPaymentInput,
+    GiftCardFundingSourceFlintManualPaymentInput,
+    GiftCardFundingSourceImportInput,
+    GiftCardFundingSourceAdjustmentInput,
+    GiftCardFundingSourceGiftCardRefundInput,
+    GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput,
+    GiftCardFundingSourceStoreCreditInput,
+    GiftCardLoad,
+    GiftCardFundingDispute,
+    GiftCardFundingLossResolution,
+    GiftCardFundingSource,
+    GiftCardFundingSourceExternalPayment,
+    GiftCardFundingSourceFlintPayment,
+    GiftCardFundingSourceFlintManualPayment,
+    GiftCardFundingSourceImport,
+    GiftCardFundingSourceAdjustment,
+    GiftCardFundingSourceGiftCardRefund,
+    GiftCardFundingSourceGiftCardPurchaseRefundRecovery,
+    GiftCardFundingSourceStoreCredit
+} from '../declarations/types-18.js';
+export type {
+    GiftCardResponse,
+    GiftCardsCreateInput,
+    GiftCardsGetInput,
+    GiftCardsListInput,
+    GiftCardsLookupInput,
+    GiftCardsRotateCodeInput,
+    GiftCardsTransitionInput,
+    GiftCardsUpdateInput,
+    GiftCardNotificationRecipientInput,
+    GiftCardPurchaseRefundValueHold,
+    GiftCardPurchaseRefundAllocation,
+    GiftCardPurchaseRefundRecovery,
+    GiftCardPurchaseRefundRecoveryDestination,
+    GiftCardPurchaseRefundValueAllocation,
+    GiftCardPurchaseRestoration,
+    GiftCardRefundProvenance,
+    GiftCardNotification,
+    GiftCardNotificationDelivery,
+    GiftCardNotificationDeliveryAttempt,
+    GiftCardNotificationDeliveryEvent,
+    GiftCardPurchaseRecipient,
+    GiftCardTransaction,
+    GiftCardRestriction
+} from '../declarations/types-19.js';
+export type { LookupGiftCardRequestInput, LookupGiftCardRequest } from '../declarations/types-29.js';
+export type {
+    TransitionGiftCardRequestInput,
+    UpdateGiftCardRequestInput,
+    TransitionGiftCardRequestFreezeInput,
+    TransitionGiftCardRequestWithoutReasonInput
+} from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { InitialGiftCardFundingInput } from '../declarations/types-23.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export { makeCreateGiftCardRequest } from '../declarations/types-63.js';
+export {
+    makeGiftCardFundingSource,
+    makeGiftCardFundingSourceAdjustment,
+    makeGiftCardFundingSourceExternalPayment,
+    makeGiftCardFundingSourceFlintManualPayment,
+    makeGiftCardFundingSourceFlintPayment,
+    makeGiftCardFundingSourceGiftCardPurchaseRefundRecovery,
+    makeGiftCardFundingSourceGiftCardRefund,
+    makeGiftCardFundingSourceImport,
+    makeGiftCardFundingSourceStoreCredit,
+    makeGiftCardNotificationRecipient
+} from '../declarations/types-66.js';
+export { makeInitialGiftCardFunding } from '../declarations/types-67.js';
+export { makeLookupGiftCardRequest, makeMoneyValue } from '../declarations/types-68.js';
+export {
+    makeRotateGiftCardCodeRequest,
+    makeTransitionGiftCardRequest,
+    makeTransitionGiftCardRequestFreeze,
+    makeTransitionGiftCardRequestWithoutReason
+} from '../declarations/types-71.js';
+export { makeUpdateGiftCardRequest } from '../declarations/types-72.js';
 export interface GiftCardsResource {
     /**
- * Creates a merchant-issued USD gift card with optional paid funding or imported opening value. External funding is merchant-attested and does not collect a payment. The full code is returned only by issuance or code replacement and their authorized retries for 24 hours. Financial command identity is retained for the lifetime of the ledger.
+ * Creates a merchant-issued USD gift card with optional paid funding or imported opening value.
+ * External funding is merchant-attested and does not collect a payment. The full code is returned
+ * only by issuance or code replacement and their authorized retries for 24 hours, while that code
+ * remains current. Replacing a code ends recovery of that code. Financial command identity is
+ * retained for the lifetime of the ledger.
+ * @see reference/giftCards.md#giftcardscreate
  * POST /v1/gift-cards
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.giftCards.create({currency: "USD"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "currency": "USD"; "customer_id"?: string; "external_reference_id"?: string; "funding"?: ((({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": string; })) | (null)); "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); }) & ((({ "consideration_money": MoneyValueInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": string; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))) | (null)); "notification"?: GiftCardNotificationRecipientInput; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "currency": "USD"; "customer_id"?: string; "external_reference_id"?: string; "funding"?: ((({ "consideration_money"?: ((({ "amount"?: string; }) & ({ "amount": string; "currency": string; })) | (null)); "source": ({ "funding_source_type"?: "external_payment" | "flint_payment" | "import"; }) & (({ "buyer_id"?: string; "funding_source_type": "external_payment" | "flint_payment" | "flint_manual_payment" | "import" | "adjustment" | "gift_card_refund" | "gift_card_purchase_refund_recovery"; "order_id"?: string; "order_manual_payment_id"?: never; "payment_intent_id"?: string; "reference_id": string; }) & ((({ "funding_source_type"?: ("external_payment") & ("external_payment"); "buyer_id": unknown; }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | (({ "funding_source_type"?: ("flint_payment") & ("flint_payment"); "payment_intent_id": unknown; }) & ({ "order_manual_payment_id"?: never })) | (({ "funding_source_type"?: ("flint_manual_payment") & ("flint_manual_payment"); "order_id": unknown; "buyer_id": unknown; }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("import") & ("import"); }) & (({ "payment_intent_id"?: never }) & ({ "order_id"?: never }))) | ({ "funding_source_type"?: ("adjustment") & ("adjustment"); }) | (({ "funding_source_type"?: ("gift_card_refund") & ("gift_card_refund"); }) & ({ "payment_intent_id"?: never })) | (({ "funding_source_type"?: ("gift_card_purchase_refund_recovery") & ("gift_card_purchase_refund_recovery"); }) & (({ "payment_intent_id"?: never }) & ({ "order_manual_payment_id"?: never }))))) & ({ "order_manual_payment_id"?: never }); "source_created_at"?: string | globalThis.Date; "value_money": ({ "amount"?: string; }) & ({ "amount": string; "currency": string; }); }) & ((({ "consideration_money": MoneyValueInput; "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: "external_payment" | "flint_payment"; }); }) & ({ "source_created_at"?: never })) | ({ "consideration_money"?: (({ "amount": string; "currency": string; }) | (null)); "source": null | boolean | number | string | unknown[] | ({ "funding_source_type"?: ("import") & ("import"); }); }))) | (null)); "notification"?: GiftCardNotificationRecipientInput; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardsCreateResponse>>;
+    create(params: (InputValue<CreateGiftCardRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CreateGiftCardResult>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/giftCards.md#giftcardscreate
+     */
+    createWithResponse(params: (InputValue<CreateGiftCardRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CreateGiftCardResultResponse>>;
     /**
- * Retrieves the current gift card, including supported lifecycle actions and balance projections. A gift card ID does not authorize a buyer to spend it.
+ * Retrieves the current gift card, including supported lifecycle actions and balance projections.
+ * A gift card ID does not authorize a buyer to spend it.
+ * @see reference/giftCards.md#giftcardsget
  * GET /v1/gift-cards/{gift_card_id}
  * @example
  * client.giftCards.get("example")
  */
-    get(gift_card_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GiftCardResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(gift_card_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardsGetResponse>>;
+    get(gift_card_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCard>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/giftCards.md#giftcardsget
+     */
+    getWithResponse(gift_card_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardResponse>>;
     /**
- * Lists gift cards in descending ID order within the authenticated merchant and environment. Reads include masked codes, posted balance, reserved value and available value. Purchased cards have no expiry or service fees.
+ * Lists gift cards in descending ID order within the authenticated merchant and environment. Reads
+ * include masked codes, posted balance, reserved value and available value. Purchased cards have
+ * no expiry or service fees.
+ * @see reference/giftCards.md#giftcardslist
  * GET /v1/gift-cards
  * @example
  * client.giftCards.list()
  */
-    list(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed" | "frozen" | "pending"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed" | "frozen" | "pending"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardsListResponse>>;
-    listPages(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed" | "frozen" | "pending"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardListResponse>;
-    listPagesWithResponse(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed" | "frozen" | "pending"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<GiftCardsListResponse>>;
-    listItems(params?: { "X-Request-Id"?: InputValue<string>; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "external_reference_id"?: InputValue<string>; "gift_card_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "closed" | "frozen" | "pending"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCard>;
+    list(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "customer_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCardListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/giftCards.md#giftcardslist
+     */
+    listWithResponse(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "customer_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/giftCards.md#giftcardslist
+     */
+    listPages(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "customer_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCardListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/giftCards.md#giftcardslist
+     */
+    listPagesWithResponse(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "customer_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<GiftCardListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/giftCards.md#giftcardslist
+     */
+    listItems(params?: {
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "customer_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "closed" | "frozen" | "pending">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<GiftCard>;
     /**
- * Evaluates a full bearer code in a request body. Codes contain 16 ASCII Crockford base32 characters, accept lowercase and hyphens, and normalize O to 0 and I/L to 1. Lookup is side-effect-free and never reserves funds. Unknown, other-merchant and unusable codes return the same error.
+ * Evaluates a full bearer code in a request body. Codes contain 16 ASCII Crockford base32
+ * characters, accept lowercase and hyphens, and normalize O to 0 and I/L to 1. Lookup is
+ * side-effect-free and never reserves funds. Unknown, other-merchant and unusable codes return the
+ * same error.
+ * @see reference/giftCards.md#giftcardslookup
  * POST /v1/gift-cards/lookup
  * @example
  * client.giftCards.lookup({code: "example"})
  */
-    lookup(params: (InputValue<{ "code": string; }>) & { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<GiftCardResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    lookupWithResponse(params: (InputValue<{ "code": string; }>) & { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardsLookupResponse>>;
+    lookup(params: (InputValue<LookupGiftCardRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<GiftCard>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/giftCards.md#giftcardslookup
+     */
+    lookupWithResponse(params: (InputValue<LookupGiftCardRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<GiftCardResponse>>;
     /**
- * Invalidates the old bearer credential and generates a new code for the same gift card. Balances, funding, reservations and refund history are preserved. Requires commerce.gift_cards.secrets.write. Include notification to send the new private recipient link. Retired links cannot open the current code.
+ * Invalidates the old bearer credential and generates a new code for the same gift card. Balances,
+ * funding, reservations and refund history are preserved. Requires
+ * commerce.gift_cards.secrets.write. Include notification to send the new private recipient link.
+ * Retired links cannot open the current code. The new full code is available in this response and
+ * authorized retries only within 24 hours, while that code remains current. expected_version
+ * fences the gift card version.
+ * @see reference/giftCards.md#giftcardsrotatecode
  * POST /v1/gift-cards/{gift_card_id}/rotate-code
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.giftCards.rotateCode("example", {}, { idempotencyKey: idempotencyKey })
  */
-    rotateCode(gift_card_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "notification"?: GiftCardNotificationRecipientInput; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    rotateCodeWithResponse(gift_card_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "notification"?: GiftCardNotificationRecipientInput; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardsRotateCodeResponse>>;
+    rotateCode(gift_card_id: InputValue<string>, params: (InputValue<RotateGiftCardCodeRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<RotateGiftCardCodeResult>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/giftCards.md#giftcardsrotatecode
+     */
+    rotateCodeWithResponse(gift_card_id: InputValue<string>, params: (InputValue<RotateGiftCardCodeRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<RotateGiftCardCodeResultResponse>>;
     /**
- * Freezes spending, removes a merchant freeze, or closes a card after all value and restrictions are resolved. Unfreezing cannot remove unresolved funding-dispute restrictions. Freezing does not release accepted payment reservations.
+ * Freezes spending, removes a merchant freeze, or closes a card after all value and restrictions
+ * are resolved. Unfreezing cannot remove unresolved funding-dispute restrictions. Freezing does
+ * not release accepted payment reservations. expected_version fences the gift card version.
+ * @see reference/giftCards.md#giftcardstransition
  * POST /v1/gift-cards/{gift_card_id}/transitions
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.giftCards.transition("example", {action: "freeze", reason: "suspicious_activity"}, { idempotencyKey: idempotencyKey })
+ * client.giftCards.transition("example", {action: "freeze", reason: "suspicious_activity"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    transition(gift_card_id: InputValue<string>, params: (InputValue<({ "action": "freeze" | "unfreeze" | "close"; "expected_version"?: string; "reason"?: "suspicious_activity" | "customer_request" | "support_issue"; }) & (({ "action": ("freeze") & ("freeze"); "reason": unknown; }) | (({ "action": "unfreeze" | "close"; }) & ({ "reason"?: never })))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    transitionWithResponse(gift_card_id: InputValue<string>, params: (InputValue<({ "action": "freeze" | "unfreeze" | "close"; "expected_version"?: string; "reason"?: "suspicious_activity" | "customer_request" | "support_issue"; }) & (({ "action": ("freeze") & ("freeze"); "reason": unknown; }) | (({ "action": "unfreeze" | "close"; }) & ({ "reason"?: never })))>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardsTransitionResponse>>;
+    transition(gift_card_id: InputValue<string>, params: (InputValue<TransitionGiftCardRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<GiftCard>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/giftCards.md#giftcardstransition
+     */
+    transitionWithResponse(gift_card_id: InputValue<string>, params: (InputValue<TransitionGiftCardRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardResponse>>;
     /**
- * Updates descriptive associations. Omitted fields are preserved; null clears external_reference_id or customer_id. This operation cannot change balances, currency, code or status.
+ * Updates descriptive associations. Omitted fields are preserved; null clears
+ * external_reference_id or customer_id. This operation cannot change balances, currency, code or
+ * status. expected_version fences the gift card version.
+ * @see reference/giftCards.md#giftcardsupdate
  * PATCH /v1/gift-cards/{gift_card_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.giftCards.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(gift_card_id: InputValue<string>, params: (InputValue<{ "customer_id"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<GiftCardCommandResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(gift_card_id: InputValue<string>, params: (InputValue<{ "customer_id"?: string | null; "expected_version"?: string; "external_reference_id"?: string | null; }>) & { "X-Request-Id"?: InputValue<string>; "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardsUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly giftCards: GiftCardsResource;
+    update(gift_card_id: InputValue<string>, params: (InputValue<UpdateGiftCardRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<GiftCard>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/giftCards.md#giftcardsupdate
+     */
+    updateWithResponse(gift_card_id: InputValue<string>, params: (InputValue<UpdateGiftCardRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<GiftCardResponse>>;
 }
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { GiftCardNotificationRecipientInput } from '../declarations/GiftCardNotificationRecipientInput.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { GiftCardCommandResponse } from '../declarations/GiftCardCommandResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { GiftCardsCreateResponse } from '../declarations/GiftCardsCreateResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { GiftCardResponse } from '../declarations/GiftCardResponse.js';
-export type { GiftCardsGetResponse } from '../declarations/GiftCardsGetResponse.js';
-export type { GiftCardListResponse } from '../declarations/GiftCardListResponse.js';
-export type { GiftCardsListResponse } from '../declarations/GiftCardsListResponse.js';
-export type { GiftCard } from '../declarations/GiftCard.js';
-export type { GiftCardsLookupResponse } from '../declarations/GiftCardsLookupResponse.js';
-export type { GiftCardsRotateCodeResponse } from '../declarations/GiftCardsRotateCodeResponse.js';
-export type { GiftCardsTransitionResponse } from '../declarations/GiftCardsTransitionResponse.js';
-export type { GiftCardsUpdateResponse } from '../declarations/GiftCardsUpdateResponse.js';
-export type { GiftCardsCreateInput } from '../declarations/GiftCardsCreateInput.js';
-export type { GiftCardsGetInput } from '../declarations/GiftCardsGetInput.js';
-export type { GiftCardsListInput } from '../declarations/GiftCardsListInput.js';
-export type { GiftCardsLookupInput } from '../declarations/GiftCardsLookupInput.js';
-export type { GiftCardsRotateCodeInput } from '../declarations/GiftCardsRotateCodeInput.js';
-export type { GiftCardsTransitionInput } from '../declarations/GiftCardsTransitionInput.js';
-export type { GiftCardsUpdateInput } from '../declarations/GiftCardsUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { GiftCardCommandResult } from '../declarations/GiftCardCommandResult.js';
-export type { GiftCardLoad } from '../declarations/GiftCardLoad.js';
-export type { GiftCardFundingDispute } from '../declarations/GiftCardFundingDispute.js';
-export type { GiftCardFundingLossResolution } from '../declarations/GiftCardFundingLossResolution.js';
-export type { GiftCardPurchaseRefundValueHold } from '../declarations/GiftCardPurchaseRefundValueHold.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { GiftCardPurchaseRefundAllocation } from '../declarations/GiftCardPurchaseRefundAllocation.js';
-export type { GiftCardPurchaseRefundRecovery } from '../declarations/GiftCardPurchaseRefundRecovery.js';
-export type { GiftCardPurchaseRefundRecoveryDestination } from '../declarations/GiftCardPurchaseRefundRecoveryDestination.js';
-export type { GiftCardPurchaseRefundValueAllocation } from '../declarations/GiftCardPurchaseRefundValueAllocation.js';
-export type { GiftCardPurchaseRestoration } from '../declarations/GiftCardPurchaseRestoration.js';
-export type { GiftCardRefundProvenance } from '../declarations/GiftCardRefundProvenance.js';
-export type { GiftCardFundingSource } from '../declarations/GiftCardFundingSource.js';
-export type { GiftCardNotification } from '../declarations/GiftCardNotification.js';
-export type { GiftCardNotificationDelivery } from '../declarations/GiftCardNotificationDelivery.js';
-export type { GiftCardNotificationDeliveryAttempt } from '../declarations/GiftCardNotificationDeliveryAttempt.js';
-export type { GiftCardNotificationProviderOutcome } from '../declarations/GiftCardNotificationProviderOutcome.js';
-export type { GiftCardNotificationRecipient } from '../declarations/GiftCardNotificationRecipient.js';
-export type { GiftCardRedemption } from '../declarations/GiftCardRedemption.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { CreateGiftCardRequestInput } from '../declarations/CreateGiftCardRequestInput.js';
-export type { LookupGiftCardRequestInput } from '../declarations/LookupGiftCardRequestInput.js';
-export type { RotateGiftCardCodeRequestInput } from '../declarations/RotateGiftCardCodeRequestInput.js';
-export type { TransitionGiftCardRequestInput } from '../declarations/TransitionGiftCardRequestInput.js';
-export type { UpdateGiftCardRequestInput } from '../declarations/UpdateGiftCardRequestInput.js';
-export type { UpdateGiftCardRequest } from '../declarations/UpdateGiftCardRequest.js';
-export { makeGiftCardCommandResponse } from '../declarations/makeGiftCardCommandResponse.js';
-export { makeGiftCardResponse } from '../declarations/makeGiftCardResponse.js';
-export { makeGiftCardListResponse } from '../declarations/makeGiftCardListResponse.js';
-export { makeGiftCard } from '../declarations/makeGiftCard.js';
-export { makeGiftCardCommandResult } from '../declarations/makeGiftCardCommandResult.js';
-export { makeGiftCardLoad } from '../declarations/makeGiftCardLoad.js';
-export { makeGiftCardFundingDispute } from '../declarations/makeGiftCardFundingDispute.js';
-export { makeGiftCardFundingLossResolution } from '../declarations/makeGiftCardFundingLossResolution.js';
-export { makeGiftCardPurchaseRefundValueHold } from '../declarations/makeGiftCardPurchaseRefundValueHold.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeGiftCardPurchaseRefundAllocation } from '../declarations/makeGiftCardPurchaseRefundAllocation.js';
-export { makeGiftCardPurchaseRefundRecovery } from '../declarations/makeGiftCardPurchaseRefundRecovery.js';
-export { makeGiftCardPurchaseRefundRecoveryDestination } from '../declarations/makeGiftCardPurchaseRefundRecoveryDestination.js';
-export { makeGiftCardPurchaseRefundValueAllocation } from '../declarations/makeGiftCardPurchaseRefundValueAllocation.js';
-export { makeGiftCardPurchaseRestoration } from '../declarations/makeGiftCardPurchaseRestoration.js';
-export { makeGiftCardRefundProvenance } from '../declarations/makeGiftCardRefundProvenance.js';
-export { makeGiftCardFundingSource } from '../declarations/makeGiftCardFundingSource.js';
-export { makeGiftCardNotification } from '../declarations/makeGiftCardNotification.js';
-export { makeGiftCardNotificationDelivery } from '../declarations/makeGiftCardNotificationDelivery.js';
-export { makeGiftCardNotificationDeliveryAttempt } from '../declarations/makeGiftCardNotificationDeliveryAttempt.js';
-export { makeGiftCardNotificationProviderOutcome } from '../declarations/makeGiftCardNotificationProviderOutcome.js';
-export { makeGiftCardNotificationRecipient } from '../declarations/makeGiftCardNotificationRecipient.js';
-export { makeGiftCardRedemption } from '../declarations/makeGiftCardRedemption.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeUpdateGiftCardRequest } from '../declarations/makeUpdateGiftCardRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly giftCards: GiftCardsResource;
+}

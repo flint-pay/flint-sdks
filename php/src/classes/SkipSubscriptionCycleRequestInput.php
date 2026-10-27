@@ -8,12 +8,14 @@ namespace Flint;
 final class SkipSubscriptionCycleRequestInput extends Model {
     /** @param array{'expected_version'?: string, 'initiated_by'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SkipSubscriptionCycleRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string
+    /** Shape $ (Value): string. Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Flint's skip email to the buyer says the buyer skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum: "buyer", "merchant", "integration".
+     * @return string
      * @throws SdkError When initiated_by is omitted; use hasInitiatedBy() or valueOrDefault().
      */
     public function getInitiatedBy(): string { return $this->get('initiated_by'); }

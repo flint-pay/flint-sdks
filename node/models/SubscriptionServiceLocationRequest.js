@@ -1,9 +1,11 @@
-import { d66 as c0, d2412 as c1, d2413 as c2, d2414 as c3 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d2414 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d3148 as c0 } from '../descriptors/data/124.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d5133 as c1, d5134 as c2 } from '../descriptors/data/235.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d5141 as c3 } from '../descriptors/data/236.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d5141 as d5141 } from '../descriptors/data/236.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2414;
+const read = d5141;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["PostalAddress"]:c0(),["SharedCodec598"]:c1(),["SharedCodec599"]:c2(),["SubscriptionServiceLocationRequest"]:c3()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["SharedCodec1147"]:c1(),["SharedCodec1148"]:c2(),["SubscriptionServiceLocationRequest"]:c3()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSubscriptionServiceLocationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

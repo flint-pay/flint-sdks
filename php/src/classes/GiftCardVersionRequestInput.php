@@ -7,7 +7,8 @@ namespace Flint;
 final class GiftCardVersionRequestInput extends Model {
     /** @param array{'expected_version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardVersionRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): integer string. The redemption version last read. Capture or cancel changes the redemption only when its current version matches. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }

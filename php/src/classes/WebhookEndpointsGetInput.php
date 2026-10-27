@@ -7,7 +7,8 @@ namespace Flint;
 final class WebhookEndpointsGetInput extends Model {
     /** @param array{'webhook_endpoint_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }

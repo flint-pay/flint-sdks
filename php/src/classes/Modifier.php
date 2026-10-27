@@ -2,11 +2,11 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $created_at
- * @property-read string $default_quantity
- * @property-read string $line_item_tax_category
- * @property-read array<array-key, string> $metadata
- * @property-read string $modifier_group_id
+ * @property-read ?string $created_at
+ * @property-read ?string $default_quantity
+ * @property-read ?string $line_item_tax_category
+ * @property-read ?array<array-key, string> $metadata
+ * @property-read ?string $modifier_group_id
  * @property-read string $modifier_id
  * @property-read string $name
  * @property-read int $position
@@ -14,86 +14,86 @@ namespace Flint;
  * @property-read bool $show_on_fulfillment
  * @property-read bool $show_on_receipt
  * @property-read string $status
- * @property-read bool $taxable
- * @property-read MoneyValue $unit_price_delta_money
- * @property-read string $updated_at
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?bool $taxable
+ * @property-read ?MoneyValue $unit_price_delta_money
+ * @property-read ?string $updated_at
+ * Presence-aware response; omitted optional fields return null. */
 final class Modifier extends Model {
     /** @param array{'created_at'?: string, 'default_quantity'?: string, 'line_item_tax_category'?: string, 'metadata'?: \stdClass, 'modifier_group_id'?: string, 'modifier_id': string, 'name': string, 'position': int, 'selected_by_default': bool, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'status': string, 'taxable'?: bool, 'unit_price_delta_money'?: mixed, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Modifier')); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. When the modifier was created, as an RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getCreatedAt(): string { return $this->get('created_at'); }
+    public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
-     * @throws SdkError When default_quantity is omitted; use hasDefaultQuantity() or valueOrDefault().
+    /** Shape $ (Value): integer string. Whole-number quantity selected by default. Used only when the choice is available and selected_by_default is true. A modifier set can override this value; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return ?string
      */
-    public function getDefaultQuantity(): string { return $this->get('default_quantity'); }
+    public function getDefaultQuantity(): ?string { return $this->get('default_quantity'); }
     public function hasDefaultQuantity(): bool { return $this->has('default_quantity'); }
-    /** @return string
-     * @throws SdkError When line_item_tax_category is omitted; use hasLineItemTaxCategory() or valueOrDefault().
+    /** Shape $ (Value): string. Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission".
+     * @return ?string
      */
-    public function getLineItemTaxCategory(): string { return $this->get('line_item_tax_category'); }
+    public function getLineItemTaxCategory(): ?string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** @return array<array-key, string>
-     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
+     * @return ?array<array-key, string>
      */
-    public function getMetadata(): array { return $this->get('metadata'); }
+    public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return string
-     * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
+    /** Shape $ (Value): string. Identifier of the group that owns this modifier. For an inline group, read the group through its modifier set.
+     * @return ?string
      */
-    public function getModifierGroupId(): string { return $this->get('modifier_group_id'); }
+    public function getModifierGroupId(): ?string { return $this->get('modifier_group_id'); }
     public function hasModifierGroupId(): bool { return $this->has('modifier_group_id'); }
-    /** @return string
-     * @throws SdkError When modifier_id is omitted; use hasModifierId() or valueOrDefault().
+    /** Shape $ (Value): string. Stable identifier of the modifier. In a replacement request, include it to retain a modifier or omit it to create one.
+     * @return string
      */
     public function getModifierId(): string { return $this->get('modifier_id'); }
     public function hasModifierId(): bool { return $this->has('modifier_id'); }
-    /** @return string
-     * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
+    /** Shape $ (Value): string. Name of the choice shown to buyers.
+     * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return int
-     * @throws SdkError When position is omitted; use hasPosition() or valueOrDefault().
+    /** Shape $ (Value): integer. Display position of the choice within its group; lower values appear first. Format: int32.
+     * @return int
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** @return bool
-     * @throws SdkError When selected_by_default is omitted; use hasSelectedByDefault() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether this choice is selected when the buyer has not supplied selections for the group. A modifier set can override this value; unavailable choices are never selected by default.
+     * @return bool
      */
     public function getSelectedByDefault(): bool { return $this->get('selected_by_default'); }
     public function hasSelectedByDefault(): bool { return $this->has('selected_by_default'); }
-    /** @return bool
-     * @throws SdkError When show_on_fulfillment is omitted; use hasShowOnFulfillment() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether this modifier appears in fulfillment details.
+     * @return bool
      */
     public function getShowOnFulfillment(): bool { return $this->get('show_on_fulfillment'); }
     public function hasShowOnFulfillment(): bool { return $this->has('show_on_fulfillment'); }
-    /** @return bool
-     * @throws SdkError When show_on_receipt is omitted; use hasShowOnReceipt() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether this modifier appears on buyer receipts.
+     * @return bool
      */
     public function getShowOnReceipt(): bool { return $this->get('show_on_receipt'); }
     public function hasShowOnReceipt(): bool { return $this->has('show_on_receipt'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value enum: "active", "inactive", "archived".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return bool
-     * @throws SdkError When taxable is omitted; use hasTaxable() or valueOrDefault().
+    /** Shape $ (Value): boolean. Whether this modifier's price is taxable. A modifier set can override this value.
+     * @return ?bool
      */
-    public function getTaxable(): bool { return $this->get('taxable'); }
+    public function getTaxable(): ?bool { return $this->get('taxable'); }
     public function hasTaxable(): bool { return $this->has('taxable'); }
-    /** @return MoneyValue
-     * @throws SdkError When unit_price_delta_money is omitted; use hasUnitPriceDeltaMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Amount added to the item's unit price for each unit of this modifier. A modifier set can override this value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return ?MoneyValue
      */
-    public function getUnitPriceDeltaMoney(): MoneyValue { return $this->get('unit_price_delta_money'); }
+    public function getUnitPriceDeltaMoney(): ?MoneyValue { return $this->get('unit_price_delta_money'); }
     public function hasUnitPriceDeltaMoney(): bool { return $this->has('unit_price_delta_money'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. When the modifier last changed, as an RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getUpdatedAt(): string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
 }

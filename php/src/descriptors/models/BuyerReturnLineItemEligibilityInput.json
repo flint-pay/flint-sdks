@@ -1,0 +1,1 @@
+{"shared":"BuyerReturnLineItemEligibility","dependencies":["BuyerReturnLineItemEligibility","MoneyValue","ReturnLineItemDecisionProposal","ReturnPolicyAdjustmentProposal"]}

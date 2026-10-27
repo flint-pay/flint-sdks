@@ -1,1 +1,1 @@
-{"shared":"InvoiceCheckoutSessionRequest","dependencies":["CheckoutRedirectsConfig","InvoiceCheckoutSessionRequest"]}
+{"shared":"InvoiceCheckoutSessionRequest","dependencies":["CheckoutRedirectsRequest","InvoiceCheckoutSessionRequest","SharedCodec58","SharedCodec59","SharedCodec60"]}

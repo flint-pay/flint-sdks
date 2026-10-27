@@ -6,14 +6,16 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionRecurrenceInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'period_count'?: int, 'type': string}|object|array{'period_count': int, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionRecurrenceInput')); }
-    /** @return int
+    /** Shape $ (Value): integer. Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
+     * @return int
      * @throws SdkError When period_count is omitted; use hasPeriodCount() or valueOrDefault().
      */
     public function getPeriodCount(): int { return $this->get('period_count'); }
     public function hasPeriodCount(): bool { return $this->has('period_count'); }
-    /** @return string
+    /** Shape $ (Value): string. Use once for the first charged payment, repeating for a fixed number of charged payments, or forever for every payment. period_count is required only for repeating. Value enum: "once", "repeating", "forever".
+     * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }

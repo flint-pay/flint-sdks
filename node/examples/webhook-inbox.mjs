@@ -1,6 +1,6 @@
 // Optional SQLite example: Node.js 22.16+. This is an inbox, not an exactly-once side-effect system.
 import { DatabaseSync } from 'node:sqlite';
-import { parseExact } from '../runtime.js';
+import { parseExact } from "@flintpay/node/webhooks";
 export function openInbox(path) {
   const db = new DatabaseSync(path);
   db.exec(

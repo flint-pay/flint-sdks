@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryAllocationPolicies.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/inventoryAllocationPolicies.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryAllocationPolicy"]:r0,["deleteInventoryAllocationPolicy"]:r0,["getInventoryAllocationPolicy"]:r0,["listInventoryAllocationPolicies"]:r0,["updateInventoryAllocationPolicy"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryAllocationPolicy"]:r0,["deleteInventoryAllocationPolicy"]:r0,["getInventoryAllocationPolicy"]:r0,["getInventoryAllocationPolicyRevision"]:r0,["listInventoryAllocationPolicies"]:r0,["listInventoryAllocationPolicyRevisions"]:r0,["updateInventoryAllocationPolicy"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -14,7 +14,7 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.inventoryAllocationPolicies = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryAllocationPolicy", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInventoryAllocationPolicy", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryAllocationPolicy", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
@@ -23,7 +23,7 @@ this.inventoryAllocationPolicies = Object.freeze({
 ], [inventory_allocation_policy_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteInventoryAllocationPolicy", result, path))),
       removeWithResponse: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("deleteInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
 ], [inventory_allocation_policy_id], [
@@ -32,17 +32,25 @@ this.inventoryAllocationPolicies = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       get: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("getInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
-], [inventory_allocation_policy_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [inventory_allocation_policy_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInventoryAllocationPolicy", result, path))),
       getWithResponse: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("getInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
 ], [inventory_allocation_policy_id], [], false, false, params), options).then(_sdkResponse),
+      getRevision: async (inventory_allocation_policy_id, inventory_allocation_policy_revision_id, params, options) => this.#runtime.request("getInventoryAllocationPolicyRevision", _sdkRequestInput([
+  "inventory_allocation_policy_id",
+  "inventory_allocation_policy_revision_id"
+], [inventory_allocation_policy_id, inventory_allocation_policy_revision_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInventoryAllocationPolicyRevision", result, path))),
+      getRevisionWithResponse: async (inventory_allocation_policy_id, inventory_allocation_policy_revision_id, params, options) => this.#runtime.request("getInventoryAllocationPolicyRevision", _sdkRequestInput([
+  "inventory_allocation_policy_id",
+  "inventory_allocation_policy_revision_id"
+], [inventory_allocation_policy_id, inventory_allocation_policy_revision_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryAllocationPolicies", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "external_reference_id",
   "query"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInventoryAllocationPolicies", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryAllocationPolicies", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -56,7 +64,7 @@ this.inventoryAllocationPolicies = Object.freeze({
   "status",
   "external_reference_id",
   "query"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInventoryAllocationPolicies", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryAllocationPolicies", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -71,11 +79,56 @@ this.inventoryAllocationPolicies = Object.freeze({
   "external_reference_id",
   "query"
 ], false, false, params), options),
+      listRevisions: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("listInventoryAllocationPolicyRevisions", _sdkRequestInput([
+  "inventory_allocation_policy_id"
+], [inventory_allocation_policy_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "created_after",
+  "created_before"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInventoryAllocationPolicyRevisions", result, path))),
+      listRevisionsWithResponse: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("listInventoryAllocationPolicyRevisions", _sdkRequestInput([
+  "inventory_allocation_policy_id"
+], [inventory_allocation_policy_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "created_after",
+  "created_before"
+], false, false, params), options).then(_sdkResponse),
+      listRevisionsPages: (inventory_allocation_policy_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInventoryAllocationPolicyRevisions", _sdkRequestInput([
+  "inventory_allocation_policy_id"
+], [inventory_allocation_policy_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "created_after",
+  "created_before"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInventoryAllocationPolicyRevisions", result, path)),
+      listRevisionsPagesWithResponse: (inventory_allocation_policy_id, params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryAllocationPolicyRevisions", _sdkRequestInput([
+  "inventory_allocation_policy_id"
+], [inventory_allocation_policy_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "created_after",
+  "created_before"
+], false, false, params), options)),
+      listRevisionsItems: (inventory_allocation_policy_id, params, options) => this.#runtime.items("listInventoryAllocationPolicyRevisions", _sdkRequestInput([
+  "inventory_allocation_policy_id"
+], [inventory_allocation_policy_id], [
+  "page_size",
+  "page_token",
+  "sort_direction",
+  "created_after",
+  "created_before"
+], false, false, params), options),
       update: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("updateInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
 ], [inventory_allocation_policy_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateInventoryAllocationPolicy", result, path))),
       updateWithResponse: async (inventory_allocation_policy_id, params, options) => this.#runtime.request("updateInventoryAllocationPolicy", _sdkRequestInput([
   "inventory_allocation_policy_id"
 ], [inventory_allocation_policy_id], [
@@ -83,15 +136,11 @@ this.inventoryAllocationPolicies = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeInventoryAllocationPolicyResponse } from '../models/InventoryAllocationPolicyResponse.js';
-export { makeInventoryAllocationPolicyListResponse } from '../models/InventoryAllocationPolicyListResponse.js';
-export { makeInventoryAllocationPolicy } from '../models/InventoryAllocationPolicy.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateInventoryAllocationPolicyRequest } from '../models/CreateInventoryAllocationPolicyRequest.js';
+export { makeInventoryAllocationConfigurationValue } from '../models/InventoryAllocationConfigurationValue.js';
+export { makeInventoryAllocationPolicyLocation } from '../models/InventoryAllocationPolicyLocation.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeInventoryAllocationPolicyConfiguration } from '../models/InventoryAllocationPolicyConfiguration.js';
-export { makePolicyLocation } from '../models/PolicyLocation.js';
+export { makeUpdateInventoryAllocationPolicyRequest } from '../models/UpdateInventoryAllocationPolicyRequest.js';

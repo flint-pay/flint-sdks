@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $balance_id
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read WebhookEventBalanceUpdatedDataObject $object
+ * Presence-aware response; omitted optional fields return null. */
 final class WebhookEventBalanceUpdatedData extends Model {
-    /** @param array{'balance_id': string, ...}|object $values */
+    /** @param array{'object': \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventBalanceUpdatedData')); }
-    /** @return string
-     * @throws SdkError When balance_id is omitted; use hasBalanceId() or valueOrDefault().
+    /** Shape $ (Value): {@see WebhookEventBalanceUpdatedDataObject}. Current balances for one currency at observed_at. Available and pending amounts are separate buckets and can be negative. Reserve and held amounts are excluded from available_money.
+     * @return WebhookEventBalanceUpdatedDataObject
      */
-    public function getBalanceId(): string { return $this->get('balance_id'); }
-    public function hasBalanceId(): bool { return $this->has('balance_id'); }
+    public function getObject(): WebhookEventBalanceUpdatedDataObject { return $this->get('object'); }
+    public function hasObject(): bool { return $this->has('object'); }
 }

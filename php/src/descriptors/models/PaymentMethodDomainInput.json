@@ -1,1 +1,1 @@
-{"shared":"PaymentMethodDomain","dependencies":["PaymentMethodDomain","PaymentMethodDomainPaymentOption"]}
+{"shared":"PaymentMethodDomain","dependencies":["PaymentMethodDomain","PaymentMethodDomainPaymentOptionStatus"]}

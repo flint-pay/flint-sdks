@@ -2,11 +2,11 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryTransfers.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/inventoryTransfers.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryTransfer"]:r0,["listInventoryTransfers"]:r0,["transitionInventoryTransfer"]:r0,["updateInventoryTransfer"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryTransfer"]:r0,["getInventoryTransfer"]:r0,["listInventoryTransfers"]:r0,["transitionInventoryTransfer"]:r0,["updateInventoryTransfer"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -14,10 +14,16 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.inventoryTransfers = Object.freeze({
       create: async (params, options) => this.#runtime.request("createInventoryTransfer", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInventoryTransfer", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryTransfer", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
+      get: async (inventory_transfer_id, params, options) => this.#runtime.request("getInventoryTransfer", _sdkRequestInput([
+  "inventory_transfer_id"
+], [inventory_transfer_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInventoryTransfer", result, path))),
+      getWithResponse: async (inventory_transfer_id, params, options) => this.#runtime.request("getInventoryTransfer", _sdkRequestInput([
+  "inventory_transfer_id"
+], [inventory_transfer_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -26,7 +32,7 @@ this.inventoryTransfers = Object.freeze({
   "destination_location_id",
   "status",
   "idempotency_key",
-  "external_reference",
+  "external_reference_id",
   "query",
   "closed_reason",
   "created_after",
@@ -35,7 +41,7 @@ this.inventoryTransfers = Object.freeze({
   "departed_before",
   "received_after",
   "received_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInventoryTransfers", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -44,7 +50,7 @@ this.inventoryTransfers = Object.freeze({
   "destination_location_id",
   "status",
   "idempotency_key",
-  "external_reference",
+  "external_reference_id",
   "query",
   "closed_reason",
   "created_after",
@@ -62,7 +68,7 @@ this.inventoryTransfers = Object.freeze({
   "destination_location_id",
   "status",
   "idempotency_key",
-  "external_reference",
+  "external_reference_id",
   "query",
   "closed_reason",
   "created_after",
@@ -71,7 +77,7 @@ this.inventoryTransfers = Object.freeze({
   "departed_before",
   "received_after",
   "received_before"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInventoryTransfers", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryTransfers", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -80,7 +86,7 @@ this.inventoryTransfers = Object.freeze({
   "destination_location_id",
   "status",
   "idempotency_key",
-  "external_reference",
+  "external_reference_id",
   "query",
   "closed_reason",
   "created_after",
@@ -98,7 +104,7 @@ this.inventoryTransfers = Object.freeze({
   "destination_location_id",
   "status",
   "idempotency_key",
-  "external_reference",
+  "external_reference_id",
   "query",
   "closed_reason",
   "created_after",
@@ -108,13 +114,13 @@ this.inventoryTransfers = Object.freeze({
   "received_after",
   "received_before"
 ], false, false, params), options),
-      transition: (input = {}, options) => this.#runtime.request("transitionInventoryTransfer", input, options).then(result => _sdkPayload(result, ["data"])),
+      transition: (input = {}, options) => this.#runtime.request("transitionInventoryTransfer", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryTransfer", result, path))),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryTransfer", input, options).then(_sdkResponse),
       update: async (inventory_transfer_id, params, options) => this.#runtime.request("updateInventoryTransfer", _sdkRequestInput([
   "inventory_transfer_id"
 ], [inventory_transfer_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateInventoryTransfer", result, path))),
       updateWithResponse: async (inventory_transfer_id, params, options) => this.#runtime.request("updateInventoryTransfer", _sdkRequestInput([
   "inventory_transfer_id"
 ], [inventory_transfer_id], [
@@ -122,18 +128,18 @@ this.inventoryTransfers = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeInventoryTransferResponse } from '../models/InventoryTransferResponse.js';
-export { makeInventoryTransferListResponse } from '../models/InventoryTransferListResponse.js';
-export { makeInventoryTransfer } from '../models/InventoryTransfer.js';
-export { makeInventoryTransferResultResponse } from '../models/InventoryTransferResultResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateInventoryTransferRequest } from '../models/CreateInventoryTransferRequest.js';
+export { makeInventoryProvenanceRequest } from '../models/InventoryProvenanceRequest.js';
+export { makeInventorySourceSystemRequest } from '../models/InventorySourceSystemRequest.js';
+export { makeInventoryTransferLineRequest } from '../models/InventoryTransferLineRequest.js';
+export { makeInventoryTransferTransitionRequest } from '../models/InventoryTransferTransitionRequest.js';
+export { makeInventoryTransferTransitionRequestCancel } from '../models/InventoryTransferTransitionRequestCancel.js';
+export { makeInventoryTransferTransitionRequestDepart } from '../models/InventoryTransferTransitionRequestDepart.js';
+export { makeInventoryTransferTransitionRequestReceive } from '../models/InventoryTransferTransitionRequestReceive.js';
+export { makeInventoryTransferTransitionRequestReportLoss } from '../models/InventoryTransferTransitionRequestReportLoss.js';
+export { makeInventoryTransferTransitionRequestReturnToOrigin } from '../models/InventoryTransferTransitionRequestReturnToOrigin.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeInventoryTransferLine } from '../models/InventoryTransferLine.js';
-export { makeInventoryTransferResult } from '../models/InventoryTransferResult.js';
-export { makeInventoryLevel } from '../models/InventoryLevel.js';
-export { makeInventoryItem } from '../models/InventoryItem.js';
+export { makeUpdateInventoryTransferRequest } from '../models/UpdateInventoryTransferRequest.js';

@@ -1,0 +1,15 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## PublishReturnPolicyRevisionRequest
+
+The request body for: Publish return policy revision.
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Required | integer string | Required current version of the Return policy. A stale value returns RETURN_VERSION_CONFLICT. Publishing increments the policy version. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `revision` | Required | [ReturnPolicyRevisionRequest](../models/ReturnPolicyRevisionRequest.md#returnpolicyrevisionrequest) | The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee. |
+

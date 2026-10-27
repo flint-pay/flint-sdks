@@ -1,0 +1,1 @@
+{"shared":"Webhook_shipment_updated_merchant","dependencies":["CheckoutBuyerContact","ExpandedOrderSummary","MerchantWebhookEnvelope","MoneyValue","PricingAmounts","ReturnShipmentLineItemAllocation","SettlementAmounts","SharedCodec368","SharedCodec369","SharedCodec5","SharedCodec633","Shipment","SignedMoney","Webhook_shipment_updated_merchant"]}

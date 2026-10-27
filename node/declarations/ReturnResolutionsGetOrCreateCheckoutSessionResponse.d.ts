@@ -1,4 +1,0 @@
-
-import type { MeCreateReturnResolutionCheckoutSessionResponse } from './MeCreateReturnResolutionCheckoutSessionResponse.js';
-
-export type ReturnResolutionsGetOrCreateCheckoutSessionResponse = MeCreateReturnResolutionCheckoutSessionResponse;

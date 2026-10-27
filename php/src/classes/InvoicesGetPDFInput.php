@@ -7,7 +7,8 @@ namespace Flint;
 final class InvoicesGetPDFInput extends Model {
     /** @param array{'invoice_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesGetPDFInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }

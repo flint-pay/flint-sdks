@@ -1,0 +1,1 @@
+{"shared":"SubscriptionRenewalEstimateDiscount","phpRepresentation":{"kind":"record","fields":{"discount_money":{"kind":"entity","name":"MoneyValue"},"name":{"kind":"value","type":"string"},"promotion_id":{"kind":"nullable","value":{"kind":"value","type":"string"}},"source":{"kind":"value","type":"string"}}},"dependencies":["MoneyValue","SubscriptionRenewalEstimateDiscount"]}

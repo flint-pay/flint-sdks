@@ -1,0 +1,1 @@
+{"shared":"BuyerFulfillmentLineItem","dependencies":["BuyerFulfillmentLineItem","BuyerOrderLineItemModifier","MoneyValue","TextModifierRequest"]}

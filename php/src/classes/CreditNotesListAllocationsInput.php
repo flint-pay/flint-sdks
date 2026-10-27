@@ -10,22 +10,26 @@ namespace Flint;
 final class CreditNotesListAllocationsInput extends Model {
     /** @param array{'credit_note_id': string, 'page_size'?: int, 'page_token'?: string, 'idempotency_key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNotesListAllocationsInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
      */
     public function getCreditNoteId(): string { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
-    /** @return int
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
+     * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }

@@ -2,31 +2,29 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read bool $include_archived
+ * @property-read list<string> $status
  * @property-read int $page_size
  * @property-read string $page_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class RiskRulesListInput extends Model {
-    /** @param array{'include_archived'?: bool, 'page_size'?: int, 'page_token'?: string, 'X-Request-Id'?: string}|object $values */
+    /** @param array{'status'?: list<string>, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskRulesListInput')); }
-    /** @return bool
-     * @throws SdkError When include_archived is omitted; use hasIncludeArchived() or valueOrDefault().
+    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived". Shape $[] (Value): string.  Value enum: "active", "inactive", "archived".
+     * @return list<string>
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
-    public function getIncludeArchived(): bool { return $this->get('include_archived'); }
-    public function hasIncludeArchived(): bool { return $this->has('include_archived'); }
-    /** @return int
+    public function getStatus(): array { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
+     * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
 }

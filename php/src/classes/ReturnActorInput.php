@@ -8,12 +8,14 @@ namespace Flint;
 final class ReturnActorInput extends Model {
     /** @param array{'actor_id'?: string, 'actor_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnActorInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When actor_id is omitted; use hasActorId() or valueOrDefault().
      */
     public function getActorId(): string { return $this->get('actor_id'); }
     public function hasActorId(): bool { return $this->has('actor_id'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "buyer", "merchant", "integration", "system".
+     * @return string
      * @throws SdkError When actor_type is omitted; use hasActorType() or valueOrDefault().
      */
     public function getActorType(): string { return $this->get('actor_type'); }

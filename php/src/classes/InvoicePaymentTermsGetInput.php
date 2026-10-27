@@ -7,7 +7,8 @@ namespace Flint;
 final class InvoicePaymentTermsGetInput extends Model {
     /** @param array{'invoice_payment_term_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentTermsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When invoice_payment_term_id is omitted; use hasInvoicePaymentTermId() or valueOrDefault().
      */
     public function getInvoicePaymentTermId(): string { return $this->get('invoice_payment_term_id'); }

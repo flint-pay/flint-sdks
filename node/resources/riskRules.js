@@ -2,109 +2,83 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/riskRules.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/riskRules.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createRiskRule"]:r0,["deleteRiskRule"]:r0,["getRiskRule"]:r0,["getRiskRuleAttributeRegistry"]:r0,["listRiskRules"]:r0,["updateRiskRule"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createRiskRule"]:r0,["deleteRiskRule"]:r0,["getRiskRule"]:r0,["getRiskRuleAttributes"]:r0,["listRiskRules"]:r0,["updateRiskRule"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.riskRules = Object.freeze({
       create: async (params, options) => this.#runtime.request("createRiskRule", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createRiskRule", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createRiskRule", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (risk_rule_id, params, options) => this.#runtime.request("deleteRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteRiskRule", result, path))),
       removeWithResponse: async (risk_rule_id, params, options) => this.#runtime.request("deleteRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (risk_rule_id, params, options) => this.#runtime.request("getRiskRule", _sdkRequestInput([
   "risk_rule_id"
-], [risk_rule_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [risk_rule_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getRiskRule", result, path))),
       getWithResponse: async (risk_rule_id, params, options) => this.#runtime.request("getRiskRule", _sdkRequestInput([
   "risk_rule_id"
-], [risk_rule_id], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
-      getAttributeRegistry: async (params, options) => this.#runtime.request("getRiskRuleAttributeRegistry", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getAttributeRegistryWithResponse: async (params, options) => this.#runtime.request("getRiskRuleAttributeRegistry", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+], [risk_rule_id], [], false, false, params), options).then(_sdkResponse),
+      getAttributeRegistry: async (params, options) => this.#runtime.request("getRiskRuleAttributes", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getRiskRuleAttributes", result, path))),
+      getAttributeRegistryWithResponse: async (params, options) => this.#runtime.request("getRiskRuleAttributes", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listRiskRules", _sdkRequestInput([], [], [
-  "include_archived",
+  "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listRiskRules", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listRiskRules", _sdkRequestInput([], [], [
-  "include_archived",
+  "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listRiskRules", _sdkRequestInput([], [], [
-  "include_archived",
+  "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listRiskRules", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listRiskRules", _sdkRequestInput([], [], [
-  "include_archived",
+  "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listRiskRules", _sdkRequestInput([], [], [
-  "include_archived",
+  "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options),
       update: async (risk_rule_id, params, options) => this.#runtime.request("updateRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateRiskRule", result, path))),
       updateWithResponse: async (risk_rule_id, params, options) => this.#runtime.request("updateRiskRule", _sdkRequestInput([
   "risk_rule_id"
 ], [risk_rule_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeRiskRuleResponse } from '../models/RiskRuleResponse.js';
-export { makeRiskRuleAttributeRegistryResponse } from '../models/RiskRuleAttributeRegistryResponse.js';
-export { makeRiskRuleListResponse } from '../models/RiskRuleListResponse.js';
-export { makeRiskRule } from '../models/RiskRule.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateRiskRuleRequest } from '../models/CreateRiskRuleRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePublicRiskAttributeRegistry } from '../models/PublicRiskAttributeRegistry.js';
-export { makePublicRiskAttribute } from '../models/PublicRiskAttribute.js';
 export { makeRiskPredicateNode } from '../models/RiskPredicateNode.js';
+export { makeUpdateRiskRuleRequest } from '../models/UpdateRiskRuleRequest.js';

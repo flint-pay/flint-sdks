@@ -8,12 +8,14 @@ namespace Flint;
 final class CreateOrderDiscountInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateOrderDiscountInput')); }
-    /** @return ManualDiscountRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see ManualDiscountRequestInput}. A discount you apply by hand to an order, with a name, an amount, and the order, line items, or charges it applies to.
+     * @return ManualDiscountRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When manual is omitted; use hasManual() or valueOrDefault().
      */
     public function getManual(): mixed { return $this->get('manual'); }
     public function hasManual(): bool { return $this->has('manual'); }
-    /** @return PromotionRefRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see PromotionRefRequestInput}. Identifies the promotion to apply, by promotion code or by promotion ID.
+     * @return PromotionRefRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When promotion is omitted; use hasPromotion() or valueOrDefault().
      */
     public function getPromotion(): mixed { return $this->get('promotion'); }

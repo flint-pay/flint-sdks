@@ -1,0 +1,8 @@
+# Flint Public API SDK
+
+- [Quickstart](README.md): installation, required environment and calling convention.
+- [API index](REFERENCE.md): select a resource, then read its operation.
+- [Model index](MODELS.md): declared fields, variants and enums.
+- [Runtime](RUNTIME.md): client/request options, credentials, retries, errors and recovery.
+
+Read the index, one relevant resource, and the runtime guide first.

@@ -10,8 +10,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "GET",
@@ -19,10 +18,7 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
@@ -47,8 +43,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "GET",
@@ -56,10 +51,7 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
@@ -84,8 +76,7 @@
       "authMode": "customer",
       "credentials": {
         "CustomerSessionBearer": "customer-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "GET",
@@ -93,10 +84,7 @@
       "headers": {
         "authorization": "Bearer customer-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
@@ -122,8 +110,7 @@
       "authMode": "invoice",
       "credentials": {
         "InvoiceAccessTokenBearer": "invoice-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "GET",
@@ -131,10 +118,7 @@
       "headers": {
         "authorization": "Bearer invoice-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
@@ -159,8 +143,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "GET",
@@ -168,15 +151,12 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -195,8 +175,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "GET",
@@ -204,10 +183,7 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
@@ -232,24 +208,18 @@
       "client_id": "app_test",
       "redirect_uri": "https://client.example.invalid/callback",
       "mode": "test",
-      "state": "csrf_test"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      "state": "csrf_test",
+      "code_challenge": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "code_challenge_method": "S256"
     },
     "expected": {
       "method": "GET",
-      "path": "/v1/oauth/authorize?response_type=code&client_id=app_test&redirect_uri=https%3A%2F%2Fclient.example.invalid%2Fcallback&mode=test&state=csrf_test",
-      "headers": {
-        "authorization": "Bearer merchant-test"
-      },
+      "path": "/v1/oauth/authorize?response_type=code&client_id=app_test&redirect_uri=https%3A%2F%2Fclient.example.invalid%2Fcallback&mode=test&code_challenge=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&code_challenge_method=S256&state=csrf_test",
+      "headers": {},
       "absentHeaders": [
         "x-checkout-session-id",
-        "x-checkout-session-secret"
+        "x-checkout-session-secret",
+        "authorization"
       ]
     },
     "responses": [
@@ -276,21 +246,16 @@
     "options": {
       "authMode": "checkout",
       "credentials": {
-        "CheckoutSessionIDHeader": "cs_test",
-        "CheckoutSessionSecretHeader": "checkout-test"
-      },
-      "maxAttempts": 1
+        "CheckoutSessionBearer": "checkout-test"
+      }
     },
     "expected": {
       "method": "GET",
       "path": "/v1/checkout-sessions/cs_test/delivery-quotes/dq_test",
       "headers": {
-        "x-checkout-session-id": "cs_test",
-        "x-checkout-session-secret": "checkout-test"
+        "authorization": "Bearer checkout-test"
       },
-      "absentHeaders": [
-        "authorization"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
@@ -328,27 +293,22 @@
     "options": {
       "authMode": "checkout",
       "credentials": {
-        "CheckoutSessionIDHeader": "cs_test",
-        "CheckoutSessionSecretHeader": "checkout-test"
-      },
-      "maxAttempts": 1
+        "CheckoutSessionBearer": "checkout-test"
+      }
     },
     "expected": {
       "method": "POST",
       "path": "/v1/checkout-sessions/cs_test/delivery-selections",
       "headers": {
-        "x-checkout-session-id": "cs_test",
-        "x-checkout-session-secret": "checkout-test"
+        "authorization": "Bearer checkout-test"
       },
-      "absentHeaders": [
-        "authorization"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"expected_delivery_selection_id\":null}"
     },
     "responses": [
       {
         "status": 201,
-        "body": "{\"data\":{\"audience\":\"buyer\",\"checkout_session\":{\"checkout_session_id\":\"cs_test\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"recovery_mode\":false,\"status\":\"open\",\"surface\":\"hosted\"},\"delivery_selection\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"delivery_selection_id\":\"ds_test\",\"expires_at\":\"2026-01-01T00:00:00Z\",\"status\":\"selected\",\"input_requirements\":[]},\"order\":{\"line_items\":[],\"order_id\":\"ord_test\",\"payment_status\":\"unpaid\",\"pricing_amounts\":{\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_status\":\"none\",\"settlement_amounts\":{\"balance_money\":{\"amount\":0,\"currency\":\"USD\"},\"credit_money\":{\"amount\":0,\"currency\":\"USD\"},\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"tax\":{\"enabled\":false,\"mode\":\"none\",\"status\":\"none\",\"taxability_reason\":\"none\"},\"buyer_actions\":[]}}}"
+        "body": "{\"data\":{\"audience\":\"buyer\",\"checkout_session\":{\"checkout_session_id\":\"cs_test\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"recovery_mode\":false,\"status\":\"open\",\"surface\":\"hosted\",\"is_in_recovery\":false,\"type\":\"order\"},\"delivery_selection\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"delivery_selection_id\":\"ds_test\",\"expires_at\":\"2026-01-01T00:00:00Z\",\"status\":\"selected\",\"input_requirements\":[]},\"order\":{\"line_items\":[],\"order_id\":\"ord_test\",\"payment_status\":\"unpaid\",\"pricing_amounts\":{\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"additive_tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"inclusive_tax_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_status\":\"none\",\"settlement_amounts\":{\"balance_money\":{\"amount\":0,\"currency\":\"USD\"},\"credit_money\":{\"amount\":0,\"currency\":\"USD\"},\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"written_off_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"tax\":{\"enabled\":false,\"mode\":\"none\",\"status\":\"none\",\"taxability_reason\":\"none\"},\"buyer_actions\":[],\"charges\":[],\"checkout_session_ids\":[],\"discounts\":[],\"fulfillments\":[],\"gift_card_settlements\":[],\"gift_card_tender_enabled\":false,\"gift_cards\":[],\"payment_intent_ids\":[],\"refund_ids\":[],\"return_credit_settlements\":[],\"tips\":[],\"version\":1}}}"
       }
     ],
     "data": {
@@ -361,7 +321,9 @@
           "problems": [],
           "recovery_mode": false,
           "status": "open",
-          "surface": "hosted"
+          "surface": "hosted",
+          "is_in_recovery": false,
+          "type": "order"
         },
         "delivery_selection": {
           "amount_money": {
@@ -403,6 +365,14 @@
             "total_money": {
               "amount": "0",
               "currency": "USD"
+            },
+            "additive_tax_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "inclusive_tax_money": {
+              "amount": "0",
+              "currency": "USD"
             }
           },
           "refund_status": "none",
@@ -434,6 +404,10 @@
             "settled_tip_money": {
               "amount": "0",
               "currency": "USD"
+            },
+            "written_off_money": {
+              "amount": "0",
+              "currency": "USD"
             }
           },
           "status": "open",
@@ -443,7 +417,19 @@
             "status": "none",
             "taxability_reason": "none"
           },
-          "buyer_actions": []
+          "buyer_actions": [],
+          "charges": [],
+          "checkout_session_ids": [],
+          "discounts": [],
+          "fulfillments": [],
+          "gift_card_settlements": [],
+          "gift_card_tender_enabled": false,
+          "gift_cards": [],
+          "payment_intent_ids": [],
+          "refund_ids": [],
+          "return_credit_settlements": [],
+          "tips": [],
+          "version": "1"
         }
       }
     }
@@ -458,33 +444,29 @@
     "options": {
       "authMode": "checkout",
       "credentials": {
-        "CheckoutSessionIDHeader": "cs_test",
-        "CheckoutSessionSecretHeader": "checkout-test"
-      },
-      "maxAttempts": 1
+        "CheckoutSessionBearer": "checkout-test"
+      }
     },
     "expected": {
       "method": "GET",
       "path": "/v1/checkout-sessions/cs_test/delivery-selections/current",
       "headers": {
-        "x-checkout-session-id": "cs_test",
-        "x-checkout-session-secret": "checkout-test"
+        "authorization": "Bearer checkout-test"
       },
-      "absentHeaders": [
-        "authorization"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
         "status": 200,
-        "body": "{\"data\":{\"audience\":\"buyer\",\"mutable\":true,\"source\":\"none\"}}"
+        "body": "{\"data\":{\"audience\":\"buyer\",\"mutable\":true,\"source\":\"none\",\"delivery_selection\":null}}"
       }
     ],
     "data": {
       "data": {
         "audience": "buyer",
         "mutable": true,
-        "source": "none"
+        "source": "none",
+        "delivery_selection": null
       }
     }
   },
@@ -500,8 +482,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "GET",
@@ -509,15 +490,12 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
         "status": 200,
-        "body": "{\"data\":{\"audience\":\"merchant\",\"checkout_session_id\":\"cs_test\",\"choice_groups\":[],\"delivery_quote_id\":\"dq_test\",\"delivery_quote_revision\":0,\"eligibility_context_revision\":0,\"evaluated_at\":\"2026-01-01T00:00:00Z\",\"evaluation_status\":\"complete\",\"expires_at\":\"2026-01-01T00:00:00Z\",\"input_requirements\":[],\"merchant_diagnostics\":[],\"order_id\":\"ord_test\",\"selection_required\":true,\"status\":\"active\",\"buyer_actions\":[]}}"
+        "body": "{\"data\":{\"audience\":\"merchant\",\"checkout_session_id\":\"cs_test\",\"choice_groups\":[],\"delivery_quote_id\":\"dq_test\",\"delivery_quote_revision\":0,\"eligibility_context_revision\":0,\"evaluated_at\":\"2026-01-01T00:00:00Z\",\"evaluation_status\":\"complete\",\"expires_at\":\"2026-01-01T00:00:00Z\",\"input_requirements\":[],\"merchant_diagnostics\":[],\"order_id\":\"ord_test\",\"selection_required\":true,\"status\":\"active\",\"buyer_reasons\":[]}}"
       }
     ],
     "data": {
@@ -526,8 +504,8 @@
         "checkout_session_id": "cs_test",
         "choice_groups": [],
         "delivery_quote_id": "dq_test",
-        "delivery_quote_revision": "0",
-        "eligibility_context_revision": "0",
+        "delivery_quote_revision": 0,
+        "eligibility_context_revision": 0,
         "evaluated_at": "2026-01-01T00:00:00Z",
         "evaluation_status": "complete",
         "expires_at": "2026-01-01T00:00:00Z",
@@ -536,7 +514,7 @@
         "order_id": "ord_test",
         "selection_required": true,
         "status": "active",
-        "buyer_actions": []
+        "buyer_reasons": []
       }
     }
   },
@@ -556,8 +534,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -565,16 +542,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"choices\":[],\"delivery_quote_id\":\"dq_test\",\"expected_delivery_selection_id\":null}"
     },
     "responses": [
       {
         "status": 201,
-        "body": "{\"data\":{\"audience\":\"merchant\",\"checkout_session\":{\"checkout_session_id\":\"cs_test\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"recovery_mode\":false,\"status\":\"open\",\"surface\":\"hosted\"},\"delivery_selection\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"calculation_expires_at\":\"2026-01-01T00:00:00Z\",\"checkout_session_id\":\"cs_test\",\"choices\":[],\"created_at\":\"2026-01-01T00:00:00Z\",\"delivery_quote_id\":\"dq_test\",\"delivery_quote_revision\":0,\"delivery_selection_id\":\"ds_test\",\"eligibility_context_revision\":0,\"expires_at\":\"2026-01-01T00:00:00Z\",\"lifecycle_updated_at\":\"2026-01-01T00:00:00Z\",\"limiting_deadline_reason\":\"selection_guarantee_expiry\",\"order_id\":\"ord_test\",\"status\":\"selected\",\"input_requirements\":[],\"buyer_actions\":[]},\"order\":{\"line_items\":[],\"order_id\":\"ord_test\",\"payment_status\":\"unpaid\",\"pricing_amounts\":{\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_status\":\"none\",\"settlement_amounts\":{\"balance_money\":{\"amount\":0,\"currency\":\"USD\"},\"credit_money\":{\"amount\":0,\"currency\":\"USD\"},\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"tax\":{\"enabled\":false,\"mode\":\"none\",\"status\":\"none\",\"taxability_reason\":\"none\"},\"buyer_actions\":[]}}}"
+        "body": "{\"data\":{\"audience\":\"merchant\",\"checkout_session\":{\"checkout_session_id\":\"cs_test\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"recovery_mode\":false,\"status\":\"open\",\"surface\":\"hosted\",\"is_in_recovery\":false,\"type\":\"order\"},\"delivery_selection\":{\"amount_money\":{\"amount\":0,\"currency\":\"USD\"},\"calculation_expires_at\":\"2026-01-01T00:00:00Z\",\"checkout_session_id\":\"cs_test\",\"choices\":[],\"created_at\":\"2026-01-01T00:00:00Z\",\"delivery_quote_id\":\"dq_test\",\"delivery_quote_revision\":0,\"delivery_selection_id\":\"ds_test\",\"eligibility_context_revision\":0,\"expires_at\":\"2026-01-01T00:00:00Z\",\"lifecycle_updated_at\":\"2026-01-01T00:00:00Z\",\"limiting_deadline_reason\":\"selection_guarantee_expiry\",\"order_id\":\"ord_test\",\"status\":\"selected\",\"input_requirements\":[]},\"order\":{\"line_items\":[],\"order_id\":\"ord_test\",\"payment_status\":\"unpaid\",\"pricing_amounts\":{\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"},\"additive_tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"inclusive_tax_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_status\":\"none\",\"settlement_amounts\":{\"balance_money\":{\"amount\":0,\"currency\":\"USD\"},\"credit_money\":{\"amount\":0,\"currency\":\"USD\"},\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"written_off_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"tax\":{\"enabled\":false,\"mode\":\"none\",\"status\":\"none\",\"taxability_reason\":\"none\"},\"buyer_actions\":[],\"charges\":[],\"checkout_session_ids\":[],\"discounts\":[],\"fulfillments\":[],\"gift_card_settlements\":[],\"gift_card_tender_enabled\":false,\"gift_cards\":[],\"payment_intent_ids\":[],\"refund_ids\":[],\"return_credit_settlements\":[],\"tips\":[],\"version\":1}}}"
       }
     ],
     "data": {
@@ -587,7 +561,9 @@
           "problems": [],
           "recovery_mode": false,
           "status": "open",
-          "surface": "hosted"
+          "surface": "hosted",
+          "is_in_recovery": false,
+          "type": "order"
         },
         "delivery_selection": {
           "amount_money": {
@@ -599,16 +575,15 @@
           "choices": [],
           "created_at": "2026-01-01T00:00:00Z",
           "delivery_quote_id": "dq_test",
-          "delivery_quote_revision": "0",
+          "delivery_quote_revision": 0,
           "delivery_selection_id": "ds_test",
-          "eligibility_context_revision": "0",
+          "eligibility_context_revision": 0,
           "expires_at": "2026-01-01T00:00:00Z",
           "lifecycle_updated_at": "2026-01-01T00:00:00Z",
           "limiting_deadline_reason": "selection_guarantee_expiry",
           "order_id": "ord_test",
           "status": "selected",
-          "input_requirements": [],
-          "buyer_actions": []
+          "input_requirements": []
         },
         "order": {
           "line_items": [],
@@ -638,6 +613,14 @@
             "total_money": {
               "amount": "0",
               "currency": "USD"
+            },
+            "additive_tax_money": {
+              "amount": "0",
+              "currency": "USD"
+            },
+            "inclusive_tax_money": {
+              "amount": "0",
+              "currency": "USD"
             }
           },
           "refund_status": "none",
@@ -669,6 +652,10 @@
             "settled_tip_money": {
               "amount": "0",
               "currency": "USD"
+            },
+            "written_off_money": {
+              "amount": "0",
+              "currency": "USD"
             }
           },
           "status": "open",
@@ -678,7 +665,19 @@
             "status": "none",
             "taxability_reason": "none"
           },
-          "buyer_actions": []
+          "buyer_actions": [],
+          "charges": [],
+          "checkout_session_ids": [],
+          "discounts": [],
+          "fulfillments": [],
+          "gift_card_settlements": [],
+          "gift_card_tender_enabled": false,
+          "gift_cards": [],
+          "payment_intent_ids": [],
+          "refund_ids": [],
+          "return_credit_settlements": [],
+          "tips": [],
+          "version": "1"
         }
       }
     }
@@ -694,8 +693,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "GET",
@@ -703,22 +701,20 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"]
     },
     "responses": [
       {
         "status": 200,
-        "body": "{\"data\":{\"audience\":\"merchant\",\"mutable\":true,\"source\":\"none\"}}"
+        "body": "{\"data\":{\"audience\":\"merchant\",\"mutable\":true,\"source\":\"none\",\"delivery_selection\":null}}"
       }
     ],
     "data": {
       "data": {
         "audience": "merchant",
         "mutable": true,
-        "source": "none"
+        "source": "none",
+        "delivery_selection": null
       }
     }
   },
@@ -736,8 +732,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -745,16 +740,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"accept\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -777,8 +769,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -786,16 +777,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"cancel\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -818,8 +806,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -827,16 +814,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"complete\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -859,8 +843,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -868,16 +851,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"dispatch\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -901,8 +881,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -910,16 +889,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"fail\",\"release_quantity\":false}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -943,8 +919,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -952,16 +927,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"hold\",\"reason\":\"other\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -985,8 +957,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -994,16 +965,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_no_show\",\"reason\":\"other\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1026,8 +994,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1035,16 +1002,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_packed\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1067,8 +1031,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1076,16 +1039,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_picked\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1108,8 +1068,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1117,16 +1076,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_preparing\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1149,8 +1105,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1158,16 +1113,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_ready\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1192,8 +1144,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1201,16 +1152,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"schedule\",\"scheduled_start_at\":\"2026-01-01T00:00:00Z\",\"scheduled_end_at\":\"2026-01-01T01:00:00Z\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1233,8 +1181,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1242,16 +1189,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"start\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1263,6 +1207,7 @@
   {
     "name": "FulfillmentTransitionRequest unknown action",
     "operation": "transitionFulfillment",
+    "baseUrl": "https://api.example.invalid",
     "input": {
       "fulfillment_id": "test",
       "body": {
@@ -1273,8 +1218,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "responses": [],
     "error": {
@@ -1296,8 +1240,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1305,16 +1248,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_delivered\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1337,8 +1277,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1346,16 +1285,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_delivery_attempted\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1378,8 +1314,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1387,16 +1322,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_exception\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1419,8 +1351,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1428,16 +1359,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_in_transit\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1460,8 +1388,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1469,16 +1396,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_out_for_delivery\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1501,8 +1425,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1510,16 +1433,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_packed\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1542,8 +1462,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1551,16 +1470,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_returned\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1583,8 +1499,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "expected": {
       "method": "POST",
@@ -1592,16 +1507,13 @@
       "headers": {
         "authorization": "Bearer merchant-test"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"mark_shipped\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1613,6 +1525,7 @@
   {
     "name": "PackageTransitionRequest unknown action",
     "operation": "transitionPackage",
+    "baseUrl": "https://api.example.invalid",
     "input": {
       "package_id": "test",
       "body": {
@@ -1623,8 +1536,7 @@
       "authMode": "merchant",
       "credentials": {
         "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
+      }
     },
     "responses": [],
     "error": {
@@ -1652,24 +1564,22 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "expected": {
       "method": "POST",
       "path": "/v1/orders/ord_test/pay",
       "headers": {
-        "authorization": "Bearer merchant-test"
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "synthetic-fixture-action-key"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"confirm_payment_intents\",\"payment_intents\":[{\"payment_intent_id\":\"pi_test\"}]}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1693,24 +1603,22 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "expected": {
       "method": "POST",
       "path": "/v1/orders/ord_test/pay",
       "headers": {
-        "authorization": "Bearer merchant-test"
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "synthetic-fixture-action-key"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"pay\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1735,24 +1643,22 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "expected": {
       "method": "POST",
       "path": "/v1/orders/ord_test/pay",
       "headers": {
-        "authorization": "Bearer merchant-test"
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "synthetic-fixture-action-key"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"resume\",\"order_payment_attempt_id\":\"pat_test\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1779,24 +1685,22 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "expected": {
       "method": "POST",
       "path": "/v1/orders/ord_test/pay",
       "headers": {
-        "authorization": "Bearer merchant-test"
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "synthetic-fixture-action-key"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"action\":\"setup\",\"setup_payment_source\":{\"token\":\"tok_test\"}}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1808,6 +1712,7 @@
   {
     "name": "PayOrderRequest unknown action",
     "operation": "payOrder",
+    "baseUrl": "https://api.example.invalid",
     "input": {
       "order_id": "test",
       "body": {
@@ -1819,7 +1724,7 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "responses": [],
     "error": {
@@ -1828,17 +1733,15 @@
     "attempts": 0
   },
   {
-    "name": "missing CheckoutSessionIDHeader",
+    "name": "missing CheckoutSessionBearer",
     "operation": "getCheckoutSessionCurrentDeliverySelection",
+    "baseUrl": "https://api.example.invalid",
     "input": {
       "checkout_session_id": "cs_test"
     },
     "options": {
       "authMode": "checkout",
-      "credentials": {
-        "CheckoutSessionSecretHeader": "checkout-test"
-      },
-      "maxAttempts": 1
+      "credentials": {}
     },
     "responses": [],
     "error": {
@@ -1847,17 +1750,17 @@
     "attempts": 0
   },
   {
-    "name": "missing CheckoutSessionSecretHeader",
+    "name": "empty CheckoutSessionBearer",
     "operation": "getCheckoutSessionCurrentDeliverySelection",
+    "baseUrl": "https://api.example.invalid",
     "input": {
       "checkout_session_id": "cs_test"
     },
     "options": {
       "authMode": "checkout",
       "credentials": {
-        "CheckoutSessionIDHeader": "cs_test"
-      },
-      "maxAttempts": 1
+        "CheckoutSessionBearer": ""
+      }
     },
     "responses": [],
     "error": {
@@ -1868,6 +1771,7 @@
   {
     "name": "ACH required purpose",
     "operation": "createPaymentIntent",
+    "baseUrl": "https://api.example.invalid",
     "input": {
       "body": {
         "amount_money": {
@@ -1875,9 +1779,7 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": [
-          "ach_debit"
-        ]
+        "payment_options": ["ach_debit"]
       }
     },
     "options": {
@@ -1885,8 +1787,7 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "idempotencyKey": "fixture-persisted-action-key",
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "responses": [],
     "error": {
@@ -1905,9 +1806,7 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": [
-          "ach_debit"
-        ],
+        "payment_options": ["ach_debit"],
         "transaction_purpose": "goods"
       }
     },
@@ -1916,26 +1815,22 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "idempotencyKey": "fixture-persisted-action-key",
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "expected": {
       "method": "POST",
       "path": "/v1/payment-intents",
       "headers": {
         "authorization": "Bearer merchant-test",
-        "idempotency-key": "fixture-persisted-action-key"
+        "idempotency-key": "synthetic-fixture-action-key"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"amount_money\":{\"amount\":100,\"currency\":\"USD\"},\"capture_method\":\"manual\",\"payment_options\":[\"ach_debit\"],\"transaction_purpose\":\"goods\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -1947,6 +1842,7 @@
   {
     "name": "Affirm required URL",
     "operation": "createPaymentIntent",
+    "baseUrl": "https://api.example.invalid",
     "input": {
       "body": {
         "amount_money": {
@@ -1954,9 +1850,7 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": [
-          "affirm"
-        ]
+        "payment_options": ["affirm"]
       }
     },
     "options": {
@@ -1964,8 +1858,7 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "idempotencyKey": "fixture-persisted-action-key",
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "responses": [],
     "error": {
@@ -1984,9 +1877,7 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": [
-          "affirm"
-        ],
+        "payment_options": ["affirm"],
         "payment_return_url": "https://shop.example.invalid/return"
       }
     },
@@ -1995,26 +1886,22 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "idempotencyKey": "fixture-persisted-action-key",
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "expected": {
       "method": "POST",
       "path": "/v1/payment-intents",
       "headers": {
         "authorization": "Bearer merchant-test",
-        "idempotency-key": "fixture-persisted-action-key"
+        "idempotency-key": "synthetic-fixture-action-key"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"amount_money\":{\"amount\":100,\"currency\":\"USD\"},\"capture_method\":\"manual\",\"payment_options\":[\"affirm\"],\"payment_return_url\":\"https://shop.example.invalid/return\"}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -2034,9 +1921,7 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": [
-          "card"
-        ]
+        "payment_options": ["card"]
       }
     },
     "options": {
@@ -2044,26 +1929,22 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "idempotencyKey": "fixture-persisted-action-key",
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "expected": {
       "method": "POST",
       "path": "/v1/payment-intents",
       "headers": {
         "authorization": "Bearer merchant-test",
-        "idempotency-key": "fixture-persisted-action-key"
+        "idempotency-key": "synthetic-fixture-action-key"
       },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ],
+      "absentHeaders": ["x-checkout-session-id", "x-checkout-session-secret"],
       "body": "{\"amount_money\":{\"amount\":100,\"currency\":\"USD\"},\"capture_method\":\"manual\",\"payment_options\":[\"card\"]}"
     },
     "responses": [
       {
         "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
       }
     ],
     "error": {
@@ -2075,6 +1956,7 @@
   {
     "name": "non-ACH rejects purpose",
     "operation": "createPaymentIntent",
+    "baseUrl": "https://api.example.invalid",
     "input": {
       "body": {
         "amount_money": {
@@ -2082,9 +1964,7 @@
           "currency": "USD"
         },
         "capture_method": "manual",
-        "payment_options": [
-          "card"
-        ],
+        "payment_options": ["card"],
         "transaction_purpose": "goods"
       }
     },
@@ -2093,1890 +1973,12 @@
       "credentials": {
         "BearerAuth": "merchant-test"
       },
-      "idempotencyKey": "fixture-persisted-action-key",
-      "maxAttempts": 1
+      "idempotencyKey": "synthetic-fixture-action-key"
     },
     "responses": [],
     "error": {
       "kind": "validation"
     },
     "attempts": 0
-  },
-  {
-    "name": "list credit note refunds",
-    "operation": "listCreditNoteRefunds",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "credit_note_id": "cn_test"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/credit-notes/cn_test/refunds",
-      "headers": {
-        "authorization": "Bearer merchant-test",
-        "flint-version": "2026-09-07"
-      }
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "create credit note refund with required key",
-    "operation": "createCreditNoteRefund",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "credit_note_id": "cn_test",
-      "body": {
-        "reason": "requested_by_customer"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "idempotencyKey": "credit-refund-test-key",
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/credit-notes/cn_test/refunds",
-      "headers": {
-        "authorization": "Bearer merchant-test",
-        "flint-version": "2026-09-07",
-        "idempotency-key": "credit-refund-test-key"
-      },
-      "body": "{\"reason\":\"requested_by_customer\"}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "assess invoice late fee",
-    "operation": "assessInvoiceLateFee",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "invoice_id": "inv_test",
-      "body": {
-        "invoice_schedule_entry_id": "entry_test"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/invoices/inv_test/late-fees",
-      "headers": {
-        "authorization": "Bearer merchant-test",
-        "flint-version": "2026-09-07"
-      },
-      "body": "{\"invoice_schedule_entry_id\":\"entry_test\"}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "waive invoice late fee",
-    "operation": "waiveInvoiceLateFee",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "invoice_id": "inv_test",
-      "invoice_late_fee_id": "ilf_test",
-      "body": {
-        "reason_message": "courtesy"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/invoices/inv_test/late-fees/ilf_test/waive",
-      "headers": {
-        "authorization": "Bearer merchant-test",
-        "flint-version": "2026-09-07"
-      },
-      "body": "{\"reason_message\":\"courtesy\"}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "applyOrderGiftCard checkout wire",
-    "operation": "applyOrderGiftCard",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "order_id": "ord_gift_fixture",
-      "Flint-Gift-Card-Challenge": "synthetic-challenge",
-      "body": {
-        "gift_card_code": "ABCD-EFGH-JKMN-PQRS",
-        "order_revision": 1790760000
-      }
-    },
-    "options": {
-      "authMode": "checkout",
-      "credentials": {
-        "CheckoutSessionIDHeader": "cs_gift_fixture",
-        "CheckoutSessionSecretHeader": "checkout-fixture-secret"
-      },
-      "idempotencyKey": "gift-fixture-idem",
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/orders/ord_gift_fixture/gift-cards",
-      "headers": {
-        "x-checkout-session-id": "cs_gift_fixture",
-        "x-checkout-session-secret": "checkout-fixture-secret",
-        "flint-version": "2026-09-07",
-        "idempotency-key": "gift-fixture-idem",
-        "flint-gift-card-challenge": "synthetic-challenge"
-      },
-      "absentHeaders": [
-        "authorization"
-      ],
-      "body": "{\"gift_card_code\":\"ABCD-EFGH-JKMN-PQRS\",\"order_revision\":1790760000}"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":{\"line_items\":[],\"order_id\":\"ord_gift_fixture\",\"payment_status\":\"unpaid\",\"pricing_amounts\":{\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_status\":\"none\",\"settlement_amounts\":{\"balance_money\":{\"amount\":0,\"currency\":\"USD\"},\"credit_money\":{\"amount\":0,\"currency\":\"USD\"},\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"tax\":{\"enabled\":false,\"mode\":\"none\",\"status\":\"none\",\"taxability_reason\":\"none\"},\"order_revision\":1790760000,\"buyer_actions\":[]}}"
-      }
-    ],
-    "data": {
-      "data": {
-        "line_items": [],
-        "order_id": "ord_gift_fixture",
-        "payment_status": "unpaid",
-        "pricing_amounts": {
-          "charge_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "discount_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "requested_tip_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "subtotal_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "tax_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "total_money": {
-            "amount": "0",
-            "currency": "USD"
-          }
-        },
-        "refund_status": "none",
-        "settlement_amounts": {
-          "balance_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "credit_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "net_collected_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "outstanding_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "paid_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "refunded_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "settled_tip_money": {
-            "amount": "0",
-            "currency": "USD"
-          }
-        },
-        "status": "open",
-        "tax": {
-          "enabled": false,
-          "mode": "none",
-          "status": "none",
-          "taxability_reason": "none"
-        },
-        "order_revision": "1790760000",
-        "buyer_actions": []
-      }
-    }
-  },
-  {
-    "name": "gift card revision conflict",
-    "operation": "applyOrderGiftCard",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "order_id": "ord_gift_fixture",
-      "Flint-Gift-Card-Challenge": "synthetic-challenge",
-      "body": {
-        "gift_card_code": "ABCD-EFGH-JKMN-PQRS",
-        "order_revision": 1790760000
-      }
-    },
-    "options": {
-      "authMode": "checkout",
-      "credentials": {
-        "CheckoutSessionIDHeader": "cs_gift_fixture",
-        "CheckoutSessionSecretHeader": "checkout-fixture-secret"
-      },
-      "idempotencyKey": "gift-fixture-idem",
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/orders/ord_gift_fixture/gift-cards",
-      "headers": {
-        "x-checkout-session-id": "cs_gift_fixture",
-        "x-checkout-session-secret": "checkout-fixture-secret",
-        "flint-version": "2026-09-07",
-        "idempotency-key": "gift-fixture-idem",
-        "flint-gift-card-challenge": "synthetic-challenge"
-      },
-      "absentHeaders": [
-        "authorization"
-      ],
-      "body": "{\"gift_card_code\":\"ABCD-EFGH-JKMN-PQRS\",\"order_revision\":1790760000}"
-    },
-    "responses": [
-      {
-        "status": 409,
-        "headers": {
-          "x-request-id": "req_gift_conflict"
-        },
-        "body": "{\"error\":{\"code\":\"ORDER_CHANGED\",\"message\":\"Synthetic revision conflict\",\"param\":\"order_revision\"}}"
-      }
-    ],
-    "error": {
-      "kind": "conflict",
-      "code": "ORDER_CHANGED"
-    }
-  },
-  {
-    "name": "removeOrderGiftCard checkout wire",
-    "operation": "removeOrderGiftCard",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "order_id": "ord_gift_fixture",
-      "gift_card_id": "gc_gift_fixture",
-      "body": {
-        "order_revision": 1790760000
-      }
-    },
-    "options": {
-      "authMode": "checkout",
-      "credentials": {
-        "CheckoutSessionIDHeader": "cs_gift_fixture",
-        "CheckoutSessionSecretHeader": "checkout-fixture-secret"
-      },
-      "idempotencyKey": "gift-fixture-idem",
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "DELETE",
-      "path": "/v1/orders/ord_gift_fixture/gift-cards/gc_gift_fixture",
-      "headers": {
-        "x-checkout-session-id": "cs_gift_fixture",
-        "x-checkout-session-secret": "checkout-fixture-secret",
-        "flint-version": "2026-09-07",
-        "idempotency-key": "gift-fixture-idem"
-      },
-      "absentHeaders": [
-        "authorization"
-      ],
-      "body": "{\"order_revision\":1790760000}"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":{\"line_items\":[],\"order_id\":\"ord_gift_fixture\",\"payment_status\":\"unpaid\",\"pricing_amounts\":{\"charge_money\":{\"amount\":0,\"currency\":\"USD\"},\"discount_money\":{\"amount\":0,\"currency\":\"USD\"},\"requested_tip_money\":{\"amount\":0,\"currency\":\"USD\"},\"subtotal_money\":{\"amount\":0,\"currency\":\"USD\"},\"tax_money\":{\"amount\":0,\"currency\":\"USD\"},\"total_money\":{\"amount\":0,\"currency\":\"USD\"}},\"refund_status\":\"none\",\"settlement_amounts\":{\"balance_money\":{\"amount\":0,\"currency\":\"USD\"},\"credit_money\":{\"amount\":0,\"currency\":\"USD\"},\"net_collected_money\":{\"amount\":0,\"currency\":\"USD\"},\"outstanding_money\":{\"amount\":0,\"currency\":\"USD\"},\"paid_money\":{\"amount\":0,\"currency\":\"USD\"},\"refunded_money\":{\"amount\":0,\"currency\":\"USD\"},\"settled_tip_money\":{\"amount\":0,\"currency\":\"USD\"}},\"status\":\"open\",\"tax\":{\"enabled\":false,\"mode\":\"none\",\"status\":\"none\",\"taxability_reason\":\"none\"},\"order_revision\":1790760000,\"buyer_actions\":[]}}"
-      }
-    ],
-    "data": {
-      "data": {
-        "line_items": [],
-        "order_id": "ord_gift_fixture",
-        "payment_status": "unpaid",
-        "pricing_amounts": {
-          "charge_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "discount_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "requested_tip_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "subtotal_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "tax_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "total_money": {
-            "amount": "0",
-            "currency": "USD"
-          }
-        },
-        "refund_status": "none",
-        "settlement_amounts": {
-          "balance_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "credit_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "net_collected_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "outstanding_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "paid_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "refunded_money": {
-            "amount": "0",
-            "currency": "USD"
-          },
-          "settled_tip_money": {
-            "amount": "0",
-            "currency": "USD"
-          }
-        },
-        "status": "open",
-        "tax": {
-          "enabled": false,
-          "mode": "none",
-          "status": "none",
-          "taxability_reason": "none"
-        },
-        "order_revision": "1790760000",
-        "buyer_actions": []
-      }
-    }
-  },
-  {
-    "name": "listMeGiftCards buyer 0",
-    "operation": "listMeGiftCards",
-    "input": {
-      "page_size": 20
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "synthetic-customer-secret"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/me/gift-cards?page_size=20",
-      "headers": {
-        "authorization": "Bearer synthetic-customer-secret",
-        "flint-version": "2026-09-07"
-      },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":[{\"gift_card_id\":\"gc_01J00000000000000000000001\",\"merchant_id\":\"mer_synthetic\",\"version\":1,\"status\":\"active\",\"currency\":\"USD\",\"last_characters\":\"ABCD\",\"balance_money\":{\"amount\":1000,\"currency\":\"USD\"},\"reserved_money\":{\"amount\":0,\"currency\":\"USD\"},\"available_money\":{\"amount\":1000,\"currency\":\"USD\"},\"created_at\":\"2026-10-02T12:00:00Z\",\"updated_at\":\"2026-10-02T12:00:00Z\",\"last_loaded_at\":null,\"last_redeemed_at\":null}],\"next_page_token\":\"synthetic-cursor\"}"
-      }
-    ],
-    "status": 200,
-    "baseUrl": "https://api.example.invalid"
-  },
-  {
-    "name": "saveMeGiftCard buyer 1",
-    "operation": "saveMeGiftCard",
-    "input": {
-      "body": {
-        "credential_type": "code",
-        "code": "SYNTHETIC-CODE"
-      }
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "synthetic-customer-secret"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/me/gift-cards",
-      "headers": {
-        "authorization": "Bearer synthetic-customer-secret",
-        "flint-version": "2026-09-07"
-      },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":{\"gift_card_id\":\"gc_01J00000000000000000000001\",\"merchant_id\":\"mer_synthetic\",\"version\":1,\"status\":\"active\",\"currency\":\"USD\",\"last_characters\":\"ABCD\",\"balance_money\":{\"amount\":1000,\"currency\":\"USD\"},\"reserved_money\":{\"amount\":0,\"currency\":\"USD\"},\"available_money\":{\"amount\":1000,\"currency\":\"USD\"},\"created_at\":\"2026-10-02T12:00:00Z\",\"updated_at\":\"2026-10-02T12:00:00Z\",\"last_loaded_at\":null,\"last_redeemed_at\":null}}"
-      }
-    ],
-    "status": 200,
-    "baseUrl": "https://api.example.invalid"
-  },
-  {
-    "name": "saveMeGiftCard buyer 2",
-    "operation": "saveMeGiftCard",
-    "input": {
-      "body": {
-        "credential_type": "recipient_access",
-        "grant_id": "gcg_synthetic",
-        "recipient_access_token": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-      }
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "synthetic-customer-secret"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/me/gift-cards",
-      "headers": {
-        "authorization": "Bearer synthetic-customer-secret",
-        "flint-version": "2026-09-07"
-      },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":{\"gift_card_id\":\"gc_01J00000000000000000000001\",\"merchant_id\":\"mer_synthetic\",\"version\":1,\"status\":\"active\",\"currency\":\"USD\",\"last_characters\":\"ABCD\",\"balance_money\":{\"amount\":1000,\"currency\":\"USD\"},\"reserved_money\":{\"amount\":0,\"currency\":\"USD\"},\"available_money\":{\"amount\":1000,\"currency\":\"USD\"},\"created_at\":\"2026-10-02T12:00:00Z\",\"updated_at\":\"2026-10-02T12:00:00Z\",\"last_loaded_at\":null,\"last_redeemed_at\":null}}"
-      }
-    ],
-    "status": 200,
-    "baseUrl": "https://api.example.invalid"
-  },
-  {
-    "name": "getMeGiftCard buyer 3",
-    "operation": "getMeGiftCard",
-    "input": {
-      "gift_card_id": "gc_01J00000000000000000000001"
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "synthetic-customer-secret"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/me/gift-cards/gc_01J00000000000000000000001",
-      "headers": {
-        "authorization": "Bearer synthetic-customer-secret",
-        "flint-version": "2026-09-07"
-      },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":{\"gift_card_id\":\"gc_01J00000000000000000000001\",\"merchant_id\":\"mer_synthetic\",\"version\":1,\"status\":\"active\",\"currency\":\"USD\",\"last_characters\":\"ABCD\",\"balance_money\":{\"amount\":1000,\"currency\":\"USD\"},\"reserved_money\":{\"amount\":0,\"currency\":\"USD\"},\"available_money\":{\"amount\":1000,\"currency\":\"USD\"},\"created_at\":\"2026-10-02T12:00:00Z\",\"updated_at\":\"2026-10-02T12:00:00Z\",\"last_loaded_at\":null,\"last_redeemed_at\":null}}"
-      }
-    ],
-    "status": 200,
-    "baseUrl": "https://api.example.invalid"
-  },
-  {
-    "name": "listMeGiftCardTransactions buyer 4",
-    "operation": "listMeGiftCardTransactions",
-    "input": {
-      "gift_card_id": "gc_01J00000000000000000000001",
-      "page_size": 20
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "synthetic-customer-secret"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/me/gift-cards/gc_01J00000000000000000000001/transactions?page_size=20",
-      "headers": {
-        "authorization": "Bearer synthetic-customer-secret",
-        "flint-version": "2026-09-07"
-      },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":[{\"gift_card_transaction_id\":\"gct_01J00000000000000000000001\",\"gift_card_id\":\"gc_01J00000000000000000000001\",\"sequence\":2,\"transaction_type\":\"redeem\",\"amount_money\":{\"amount\":-10,\"currency\":\"USD\"},\"balance_before_money\":{\"amount\":110,\"currency\":\"USD\"},\"balance_after_money\":{\"amount\":100,\"currency\":\"USD\"},\"posted_at\":\"2026-10-02T12:00:00Z\"}]}"
-      }
-    ],
-    "status": 200,
-    "baseUrl": "https://api.example.invalid"
-  },
-  {
-    "name": "removeMeGiftCard buyer 5",
-    "operation": "removeMeGiftCard",
-    "input": {
-      "gift_card_id": "gc_01J00000000000000000000001"
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "synthetic-customer-secret"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "DELETE",
-      "path": "/v1/me/gift-cards/gc_01J00000000000000000000001",
-      "headers": {
-        "authorization": "Bearer synthetic-customer-secret",
-        "flint-version": "2026-09-07"
-      },
-      "absentHeaders": [
-        "x-checkout-session-id",
-        "x-checkout-session-secret"
-      ]
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":{\"success\":true}}"
-      }
-    ],
-    "status": 200,
-    "baseUrl": "https://api.example.invalid"
-  },
-  {
-    "name": "merchant gift card history accepts null external reference",
-    "operation": "listGiftCardTransactions",
-    "input": {
-      "gift_card_id": "gc_01J00000000000000000000001"
-    },
-    "options": {
-      "authMode": "merchantKey",
-      "credentials": {
-        "ApiKeyHeader": "synthetic-merchant-key"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/gift-card-transactions?gift_card_id=gc_01J00000000000000000000001",
-      "headers": {
-        "x-api-key": "synthetic-merchant-key",
-        "flint-version": "2026-09-07"
-      }
-    },
-    "responses": [
-      {
-        "status": 200,
-        "body": "{\"data\":[{\"gift_card_transaction_id\":\"gct_01J00000000000000000000001\",\"gift_card_id\":\"gc_01J00000000000000000000001\",\"external_reference_id\":null,\"sequence\":1,\"merchant_sequence\":1,\"transaction_type\":\"import\",\"amount_money\":{\"amount\":1000,\"currency\":\"USD\"},\"balance_before_money\":{\"amount\":0,\"currency\":\"USD\"},\"balance_after_money\":{\"amount\":1000,\"currency\":\"USD\"},\"source_type\":\"gift_card_load\",\"source_id\":\"gcl_01J00000000000000000000001\",\"reason\":\"\",\"idempotency_key\":\"synthetic-command\",\"posted_at\":\"2026-10-03T00:00:00Z\"}]}"
-      }
-    ],
-    "status": 200,
-    "baseUrl": "https://api.example.invalid"
-  },
-  {
-    "name": "buyer fulfillment events require order ID before dispatch",
-    "operation": "listMeFulfillmentEvents",
-    "input": {},
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "customer-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "buyer fulfillment events preserve order and optional filters",
-    "operation": "listMeFulfillmentEvents",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "order_id": "ord_test",
-      "fulfillment_id": "ful_test",
-      "page_size": 25
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "customer-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/me/fulfillment-events?order_id=ord_test&fulfillment_id=ful_test&page_size=25",
-      "headers": {
-        "authorization": "Bearer customer-test",
-        "flint-version": "2026-09-07"
-      }
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":[]}"
-      }
-    ],
-    "data": {
-      "data": []
-    },
-    "status": 200,
-    "attempts": 1
-  },
-  {
-    "name": "checkout expiration 59 seconds",
-    "operation": "createCheckoutSession",
-    "input": {
-      "body": {
-        "expiration": {
-          "expires_in_seconds": 59
-        },
-        "order_id": "ord_test"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "idempotencyKey": "checkout-expiration-fixture",
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "checkout expiration 60 seconds",
-    "operation": "createCheckoutSession",
-    "input": {
-      "body": {
-        "expiration": {
-          "expires_in_seconds": 60
-        },
-        "order_id": "ord_test"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "idempotencyKey": "checkout-expiration-fixture",
-      "maxAttempts": 1
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1,
-    "baseUrl": "https://api.example.invalid",
-    "expected": {
-      "method": "POST",
-      "path": "/v1/checkout-sessions",
-      "headers": {
-        "authorization": "Bearer merchant-test",
-        "flint-version": "2026-09-07",
-        "idempotency-key": "checkout-expiration-fixture"
-      },
-      "body": "{\"expiration\":{\"expires_in_seconds\":60},\"order_id\":\"ord_test\"}"
-    }
-  },
-  {
-    "name": "checkout expiration 86400 seconds",
-    "operation": "createCheckoutSession",
-    "input": {
-      "body": {
-        "expiration": {
-          "expires_in_seconds": 86400
-        },
-        "order_id": "ord_test"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "idempotencyKey": "checkout-expiration-fixture",
-      "maxAttempts": 1
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1,
-    "baseUrl": "https://api.example.invalid",
-    "expected": {
-      "method": "POST",
-      "path": "/v1/checkout-sessions",
-      "headers": {
-        "authorization": "Bearer merchant-test",
-        "flint-version": "2026-09-07",
-        "idempotency-key": "checkout-expiration-fixture"
-      },
-      "body": "{\"expiration\":{\"expires_in_seconds\":86400},\"order_id\":\"ord_test\"}"
-    }
-  },
-  {
-    "name": "checkout expiration 86401 seconds",
-    "operation": "createCheckoutSession",
-    "input": {
-      "body": {
-        "expiration": {
-          "expires_in_seconds": 86401
-        },
-        "order_id": "ord_test"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "idempotencyKey": "checkout-expiration-fixture",
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "delivery method explicit charge tax category",
-    "operation": "getDeliveryMethod",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "delivery_method_id": "dmet_test"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "delivery-null-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/delivery-methods/dmet_test",
-      "headers": {
-        "authorization": "Bearer delivery-null-test",
-        "flint-version": "2026-09-07"
-      }
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null,\"charge_tax_category\":\"service_fee\"},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\",\"subscription_counts\":{\"active\":0,\"past_due\":0,\"paused\":0}}}"
-      }
-    ],
-    "attempts": 1,
-    "data": {
-      "data": {
-        "delivery_method_id": "dmet_test",
-        "current_delivery_method_revision_id": "dmetr_test",
-        "name": "Synthetic delivery method",
-        "status": "active",
-        "version": "1",
-        "configuration": {
-          "estimate": {
-            "type": "none"
-          },
-          "minimum_option_lifetime_seconds": "0",
-          "offer_windows": false,
-          "origin": {
-            "type": "fixed_location",
-            "location_id": "loc_test"
-          },
-          "pricing": {
-            "type": "calculated",
-            "calculated": {}
-          },
-          "selection_guarantee_seconds": "0",
-          "taxable": null,
-          "charge_tax_category": "service_fee"
-        },
-        "created_at": "2026-10-06T00:00:00Z",
-        "updated_at": "2026-10-06T00:00:00Z",
-        "subscription_counts": {
-          "active": "0",
-          "past_due": "0",
-          "paused": "0"
-        }
-      }
-    },
-    "status": 200
-  },
-  {
-    "name": "delivery method inherited charge tax category",
-    "operation": "getDeliveryMethod",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "delivery_method_id": "dmet_test"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "delivery-null-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/delivery-methods/dmet_test",
-      "headers": {
-        "authorization": "Bearer delivery-null-test",
-        "flint-version": "2026-09-07"
-      }
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null,\"charge_tax_category\":null},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\",\"subscription_counts\":{\"active\":0,\"past_due\":0,\"paused\":0}}}"
-      }
-    ],
-    "attempts": 1,
-    "data": {
-      "data": {
-        "delivery_method_id": "dmet_test",
-        "current_delivery_method_revision_id": "dmetr_test",
-        "name": "Synthetic delivery method",
-        "status": "active",
-        "version": "1",
-        "configuration": {
-          "estimate": {
-            "type": "none"
-          },
-          "minimum_option_lifetime_seconds": "0",
-          "offer_windows": false,
-          "origin": {
-            "type": "fixed_location",
-            "location_id": "loc_test"
-          },
-          "pricing": {
-            "type": "calculated",
-            "calculated": {}
-          },
-          "selection_guarantee_seconds": "0",
-          "taxable": null,
-          "charge_tax_category": null
-        },
-        "created_at": "2026-10-06T00:00:00Z",
-        "updated_at": "2026-10-06T00:00:00Z",
-        "subscription_counts": {
-          "active": "0",
-          "past_due": "0",
-          "paused": "0"
-        }
-      }
-    },
-    "status": 200
-  },
-  {
-    "name": "delivery method future charge tax category",
-    "operation": "getDeliveryMethod",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "delivery_method_id": "dmet_test"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "delivery-null-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/delivery-methods/dmet_test",
-      "headers": {
-        "authorization": "Bearer delivery-null-test",
-        "flint-version": "2026-09-07"
-      }
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null,\"charge_tax_category\":\"future_category\"},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\",\"subscription_counts\":{\"active\":0,\"past_due\":0,\"paused\":0}}}"
-      }
-    ],
-    "attempts": 1,
-    "data": {
-      "data": {
-        "delivery_method_id": "dmet_test",
-        "current_delivery_method_revision_id": "dmetr_test",
-        "name": "Synthetic delivery method",
-        "status": "active",
-        "version": "1",
-        "configuration": {
-          "estimate": {
-            "type": "none"
-          },
-          "minimum_option_lifetime_seconds": "0",
-          "offer_windows": false,
-          "origin": {
-            "type": "fixed_location",
-            "location_id": "loc_test"
-          },
-          "pricing": {
-            "type": "calculated",
-            "calculated": {}
-          },
-          "selection_guarantee_seconds": "0",
-          "taxable": null,
-          "charge_tax_category": "future_category"
-        },
-        "created_at": "2026-10-06T00:00:00Z",
-        "updated_at": "2026-10-06T00:00:00Z",
-        "subscription_counts": {
-          "active": "0",
-          "past_due": "0",
-          "paused": "0"
-        }
-      }
-    },
-    "status": 200
-  },
-  {
-    "name": "delivery method omitted charge tax category",
-    "operation": "getDeliveryMethod",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "delivery_method_id": "dmet_test"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "delivery-null-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/delivery-methods/dmet_test",
-      "headers": {
-        "authorization": "Bearer delivery-null-test",
-        "flint-version": "2026-09-07"
-      }
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\",\"subscription_counts\":{\"active\":0,\"past_due\":0,\"paused\":0}}}"
-      }
-    ],
-    "attempts": 1,
-    "error": {
-      "kind": "protocol",
-      "outcome": "response"
-    }
-  },
-  {
-    "name": "delivery method invalid charge tax category",
-    "operation": "getDeliveryMethod",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "delivery_method_id": "dmet_test"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "delivery-null-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/delivery-methods/dmet_test",
-      "headers": {
-        "authorization": "Bearer delivery-null-test",
-        "flint-version": "2026-09-07"
-      }
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"delivery_method_id\":\"dmet_test\",\"current_delivery_method_revision_id\":\"dmetr_test\",\"name\":\"Synthetic delivery method\",\"status\":\"active\",\"version\":1,\"configuration\":{\"estimate\":{\"type\":\"none\"},\"minimum_option_lifetime_seconds\":0,\"offer_windows\":false,\"origin\":{\"type\":\"fixed_location\",\"location_id\":\"loc_test\"},\"pricing\":{\"type\":\"calculated\",\"calculated\":{}},\"selection_guarantee_seconds\":0,\"taxable\":null,\"charge_tax_category\":false},\"created_at\":\"2026-10-06T00:00:00Z\",\"updated_at\":\"2026-10-06T00:00:00Z\",\"subscription_counts\":{\"active\":0,\"past_due\":0,\"paused\":0}}}"
-      }
-    ],
-    "attempts": 1,
-    "error": {
-      "kind": "protocol",
-      "outcome": "response"
-    }
-  },
-  {
-    "name": "settings explicit account clear",
-    "operation": "updateSettings",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "customer_account": null,
-        "expected_version": "1"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "PATCH",
-      "path": "/v1/settings",
-      "body": "{\"customer_account\":null,\"expected_version\":1}"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"settings_id\":\"set_clear_fixture\",\"settings_scope\":\"merchant\",\"version\":1}}"
-      }
-    ],
-    "data": {
-      "data": {
-        "settings_id": "set_clear_fixture",
-        "settings_scope": "merchant",
-        "version": "1"
-      }
-    },
-    "attempts": 1
-  },
-  {
-    "name": "settings account omission",
-    "operation": "updateSettings",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "expected_version": "1"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "PATCH",
-      "path": "/v1/settings",
-      "body": "{\"expected_version\":1}"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"settings_id\":\"set_clear_fixture\",\"settings_scope\":\"merchant\",\"version\":1}}"
-      }
-    ],
-    "data": {
-      "data": {
-        "settings_id": "set_clear_fixture",
-        "settings_scope": "merchant",
-        "version": "1"
-      }
-    },
-    "attempts": 1
-  },
-  {
-    "name": "settings account object",
-    "operation": "updateSettings",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "customer_account": {
-          "mode": "merchant_hosted"
-        },
-        "expected_version": "1"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "PATCH",
-      "path": "/v1/settings",
-      "body": "{\"customer_account\":{\"mode\":\"merchant_hosted\"},\"expected_version\":1}"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"settings_id\":\"set_clear_fixture\",\"settings_scope\":\"merchant\",\"version\":1}}"
-      }
-    ],
-    "data": {
-      "data": {
-        "settings_id": "set_clear_fixture",
-        "settings_scope": "merchant",
-        "version": "1"
-      }
-    },
-    "attempts": 1
-  },
-  {
-    "name": "settings invalid account false",
-    "operation": "updateSettings",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "customer_account": false,
-        "expected_version": "1"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "settings invalid account 0",
-    "operation": "updateSettings",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "customer_account": 0,
-        "expected_version": "1"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "settings invalid account \"invalid\"",
-    "operation": "updateSettings",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "customer_account": "invalid",
-        "expected_version": "1"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "settings invalid account []",
-    "operation": "updateSettings",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "customer_account": [],
-        "expected_version": "1"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "settings response account remains nonnullable",
-    "operation": "getSettings",
-    "baseUrl": "https://api.example.invalid",
-    "input": {},
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/settings"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"settings_id\":\"set_clear_fixture\",\"settings_scope\":\"merchant\",\"version\":1,\"customer_account\":null}}"
-      }
-    ],
-    "error": {
-      "kind": "protocol"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "createCheckoutSession page origin wire",
-    "operation": "createCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "order_id": "ord_launch_fixture",
-        "surface": "embedded",
-        "page_origin": "https://shop.example.invalid"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/checkout-sessions",
-      "body": "{\"order_id\":\"ord_launch_fixture\",\"surface\":\"embedded\",\"page_origin\":\"https://shop.example.invalid\"}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "createCheckoutSession rejects null page origin",
-    "operation": "createCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "body": {
-        "order_id": "ord_launch_fixture",
-        "surface": "embedded",
-        "page_origin": null
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "getOrCreateInvoiceCheckoutSession page origin wire",
-    "operation": "getOrCreateInvoiceCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "invoice_id": "inv_launch_fixture",
-      "body": {
-        "surface": "embedded",
-        "page_origin": "https://shop.example.invalid"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/invoices/inv_launch_fixture/checkout-session",
-      "body": "{\"surface\":\"embedded\",\"page_origin\":\"https://shop.example.invalid\"}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "getOrCreateInvoiceCheckoutSession rejects null page origin",
-    "operation": "getOrCreateInvoiceCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "invoice_id": "inv_launch_fixture",
-      "body": {
-        "surface": "embedded",
-        "page_origin": null
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "createMeInvoiceCheckoutSession page origin wire",
-    "operation": "createMeInvoiceCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "invoice_id": "inv_launch_fixture",
-      "body": {
-        "surface": "embedded",
-        "page_origin": "https://shop.example.invalid"
-      }
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "customer-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/me/invoices/inv_launch_fixture/checkout-session",
-      "body": "{\"surface\":\"embedded\",\"page_origin\":\"https://shop.example.invalid\"}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "createMeInvoiceCheckoutSession rejects null page origin",
-    "operation": "createMeInvoiceCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "invoice_id": "inv_launch_fixture",
-      "body": {
-        "surface": "embedded",
-        "page_origin": null
-      }
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "customer-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "getOrCreateReturnResolutionCheckoutSession page origin wire",
-    "operation": "getOrCreateReturnResolutionCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "return_resolution_id": "rres_launch_fixture",
-      "body": {
-        "surface": "embedded",
-        "page_origin": "https://shop.example.invalid"
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/return-resolutions/rres_launch_fixture/checkout-session",
-      "body": "{\"surface\":\"embedded\",\"page_origin\":\"https://shop.example.invalid\"}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "getOrCreateReturnResolutionCheckoutSession rejects null page origin",
-    "operation": "getOrCreateReturnResolutionCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "return_resolution_id": "rres_launch_fixture",
-      "body": {
-        "surface": "embedded",
-        "page_origin": null
-      }
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "createMeReturnResolutionCheckoutSession page origin wire",
-    "operation": "createMeReturnResolutionCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "return_resolution_id": "rres_launch_fixture",
-      "body": {
-        "surface": "embedded",
-        "page_origin": "https://shop.example.invalid"
-      }
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "customer-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/me/return-resolutions/rres_launch_fixture/checkout-session",
-      "body": "{\"surface\":\"embedded\",\"page_origin\":\"https://shop.example.invalid\"}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "SDK_TEST"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "createMeReturnResolutionCheckoutSession rejects null page origin",
-    "operation": "createMeReturnResolutionCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "return_resolution_id": "rres_launch_fixture",
-      "body": {
-        "surface": "embedded",
-        "page_origin": null
-      }
-    },
-    "options": {
-      "authMode": "customer",
-      "credentials": {
-        "CustomerSessionBearer": "customer-test"
-      },
-      "maxAttempts": 1
-    },
-    "responses": [],
-    "error": {
-      "kind": "validation",
-      "outcome": "not_sent"
-    },
-    "attempts": 0
-  },
-  {
-    "name": "checkout challenge projection",
-    "operation": "getCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "checkout_session_id": "cs_challenge_fixture"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/checkout-sessions/cs_challenge_fixture"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"checkout_session_id\":\"cs_challenge_fixture\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"recovery_mode\":false,\"status\":\"open\",\"surface\":\"embedded\",\"page_origin\":\"https://shop.example.invalid\",\"gift_card_challenge\":{\"url\":\"https://checkout.example.invalid/gift-card-challenge/opaque-fixture\"}}}"
-      }
-    ],
-    "data": {
-      "data": {
-        "checkout_session_id": "cs_challenge_fixture",
-        "delivery_method_ids": [],
-        "delivery_selection_required": false,
-        "problems": [],
-        "recovery_mode": false,
-        "status": "open",
-        "surface": "embedded",
-        "page_origin": "https://shop.example.invalid",
-        "gift_card_challenge": {
-          "url": "https://checkout.example.invalid/gift-card-challenge/opaque-fixture"
-        }
-      }
-    },
-    "attempts": 1
-  },
-  {
-    "name": "checkout challenge omitted",
-    "operation": "getCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "checkout_session_id": "cs_challenge_fixture"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/checkout-sessions/cs_challenge_fixture"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"checkout_session_id\":\"cs_challenge_fixture\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"recovery_mode\":false,\"status\":\"open\",\"surface\":\"embedded\"}}"
-      }
-    ],
-    "data": {
-      "data": {
-        "checkout_session_id": "cs_challenge_fixture",
-        "delivery_method_ids": [],
-        "delivery_selection_required": false,
-        "problems": [],
-        "recovery_mode": false,
-        "status": "open",
-        "surface": "embedded"
-      }
-    },
-    "attempts": 1
-  },
-  {
-    "name": "checkout challenge requires URL",
-    "operation": "getCheckoutSession",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "checkout_session_id": "cs_challenge_fixture"
-    },
-    "options": {
-      "authMode": "merchant",
-      "credentials": {
-        "BearerAuth": "merchant-test"
-      },
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "GET",
-      "path": "/v1/checkout-sessions/cs_challenge_fixture"
-    },
-    "responses": [
-      {
-        "status": 200,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"data\":{\"checkout_session_id\":\"cs_challenge_fixture\",\"delivery_method_ids\":[],\"delivery_selection_required\":false,\"problems\":[],\"recovery_mode\":false,\"status\":\"open\",\"surface\":\"embedded\",\"gift_card_challenge\":{}}}"
-      }
-    ],
-    "error": {
-      "kind": "protocol"
-    },
-    "attempts": 1
-  },
-  {
-    "name": "applyOrderGiftCard challenge required error",
-    "operation": "applyOrderGiftCard",
-    "baseUrl": "https://api.example.invalid",
-    "input": {
-      "order_id": "ord_challenge_fixture",
-      "body": {
-        "gift_card_code": "ABCD-EFGH-JKMN-PQRS",
-        "order_revision": 1790760000
-      }
-    },
-    "options": {
-      "authMode": "checkout",
-      "credentials": {
-        "CheckoutSessionIDHeader": "cs_challenge_fixture",
-        "CheckoutSessionSecretHeader": "checkout-fixture-secret"
-      },
-      "idempotencyKey": "gift-challenge-fixture",
-      "maxAttempts": 1
-    },
-    "expected": {
-      "method": "POST",
-      "path": "/v1/orders/ord_challenge_fixture/gift-cards",
-      "headers": {
-        "x-checkout-session-id": "cs_challenge_fixture",
-        "x-checkout-session-secret": "checkout-fixture-secret",
-        "flint-version": "2026-09-07",
-        "idempotency-key": "gift-challenge-fixture"
-      },
-      "absentHeaders": [
-        "authorization",
-        "flint-gift-card-challenge"
-      ],
-      "body": "{\"gift_card_code\":\"ABCD-EFGH-JKMN-PQRS\",\"order_revision\":1790760000}"
-    },
-    "responses": [
-      {
-        "status": 400,
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": "{\"error\":{\"code\":\"GIFT_CARD_CHALLENGE_REQUIRED\",\"doc_url\":\"https://withflintpay.com/docs/error-codes#GIFT_CARD_CHALLENGE_REQUIRED\",\"error_source\":\"flint\",\"message\":\"complete the gift card challenge, then send its proof in Flint-Gift-Card-Challenge\",\"param\":\"Flint-Gift-Card-Challenge\",\"reason\":\"proof_required\",\"remediation\":{\"next_actions\":[{\"action_type\":\"complete_gift_card_challenge\",\"url\":\"https://checkout.withflintpay.com/gift-card-challenge/opaque-frame-token\"}],\"retryable\":false},\"type\":\"validation_error\"}}"
-      }
-    ],
-    "error": {
-      "kind": "validation",
-      "code": "GIFT_CARD_CHALLENGE_REQUIRED",
-      "outcome": "response",
-      "status": 400,
-      "details": {
-        "code": "GIFT_CARD_CHALLENGE_REQUIRED",
-        "doc_url": "https://withflintpay.com/docs/error-codes#GIFT_CARD_CHALLENGE_REQUIRED",
-        "error_source": "flint",
-        "message": "complete the gift card challenge, then send its proof in Flint-Gift-Card-Challenge",
-        "param": "Flint-Gift-Card-Challenge",
-        "reason": "proof_required",
-        "remediation": {
-          "next_actions": [
-            {
-              "action_type": "complete_gift_card_challenge",
-              "url": "https://checkout.withflintpay.com/gift-card-challenge/opaque-frame-token"
-            }
-          ],
-          "retryable": false
-        },
-        "type": "validation_error"
-      }
-    },
-    "attempts": 1
   }
 ]

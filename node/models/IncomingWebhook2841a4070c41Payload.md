@@ -1,0 +1,81 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## IncomingWebhook2841a4070c41Payload
+
+
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `api_version` | Required | string | Format: `date`. |
+| `created_at` | Required | string | Format: `date-time`. |
+| `data` | Required | object | `data`: [field definitions](../models/IncomingWebhook2841a4070c41Payload.md#incomingwebhook2841a4070c41payloaddata). |
+| `event_type` | Required | string | Values: `"credit_note.updated"`. |
+| `merchant_id` | Conditional | string |  |
+| `mode` | Conditional | string | Values: `"test"`, `"live"`. |
+| `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
+| `request` | Conditional | object or null | `request`: [field definitions](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-1request). |
+| `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
+| `webhook_event_id` | Required | string |  |
+| `partner_app_id` | Conditional | string |  |
+| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
+
+### IncomingWebhook2841a4070c41Payload variant 1: `event_type` = `"credit_note.updated"`
+
+oneOf variant 1: The `credit_note.updated` webhook payload for the `merchant` event source..
+
+- Required: `merchant_id`, `mode`, `request`.
+- Undeclared: `partner_app_id`, `source`.
+- Constraints for `event_type`: Values: `"credit_note.updated"`.
+
+### IncomingWebhook2841a4070c41Payload variant 2: `event_type` = `"credit_note.updated"`
+
+oneOf variant 2: The `credit_note.updated` webhook payload for the `installed_merchants` event source..
+
+- Required: `partner_app_id`, `source`.
+- Undeclared: `merchant_id`, `mode`, `request`.
+- Constraints for `event_type`: Values: `"credit_note.updated"`.
+
+### IncomingWebhook2841a4070c41Payload.data
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object and [CreditNote](../models/CreditNote.md#creditnote) | A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected. `object`: [field definitions](../models/IncomingWebhook2841a4070c41Payload.md#incomingwebhook2841a4070c41payloaddataobject). |
+
+### IncomingWebhook2841a4070c41Payload.data.object
+
+A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
+
+Field definitions: [shared fields](CreditNote.md#creditnote).
+
+### IncomingWebhook2841a4070c41Payload.data.object.allocated_money
+
+Field definitions: [CreditNote.allocated_money](../models/CreditNote.md#creditnoteallocated_money).
+
+### IncomingWebhook2841a4070c41Payload.data.object.available_money
+
+Field definitions: [CreditNote.available_money](../models/CreditNote.md#creditnoteavailable_money).
+
+### IncomingWebhook2841a4070c41Payload.data.object.pending_refund_money
+
+Field definitions: [CreditNote.pending_refund_money](../models/CreditNote.md#creditnotepending_refund_money).
+
+### IncomingWebhook2841a4070c41Payload.data.object.refunded_money
+
+Field definitions: [BuyerCreditNote.refunded_money](../models/BuyerCreditNote.md#buyercreditnoterefunded_money).
+
+### IncomingWebhook2841a4070c41Payload.data.object.total_money
+
+Field definitions: [BuyerCreditNote.total_money](../models/BuyerCreditNote.md#buyercreditnotetotal_money).
+
+### IncomingWebhook2841a4070c41Payload variant 1.request
+
+Field definitions: [IncomingWebhook019a504a3353Payload variant 1.request](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-1request).
+
+### IncomingWebhook2841a4070c41Payload variant 2.source
+
+Declared alternatives: [IncomingWebhook019a504a3353Payload variant 2.source](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source).
+

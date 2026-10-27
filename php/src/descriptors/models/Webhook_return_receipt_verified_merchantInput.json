@@ -1,1 +1,1 @@
-{"shared":"Webhook_return_receipt_verified_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec250","Webhook_return_receipt_verified_merchant"]}
+{"shared":"Webhook_return_receipt_verified_merchant","dependencies":["MerchantWebhookEnvelope","ReturnActor","ReturnDisposition","ReturnReceipt","ReturnReceiptLineItem","ReturnSourceSystem","ReturnUnverifiedItem","SharedCodec1069","SharedCodec1070","SharedCodec1071","SharedCodec1072","SharedCodec145","SharedCodec368","SharedCodec369","SharedCodec447","Webhook_return_receipt_verified_merchant"]}

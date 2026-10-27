@@ -2,32 +2,22 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $idempotency_key
- * @property-read list<string> $inventory_movement_ids
+ * @property-read list<InventoryLevelInput|array<array-key, mixed>|\stdClass> $inventory_levels
  * @property-read InventoryReservationInput|array<array-key, mixed>|\stdClass $inventory_reservation
- * @property-read list<InventoryLevelInput|array<array-key, mixed>|\stdClass> $resulting_inventory_levels
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationResultInput extends Model {
-    /** @param array{'idempotency_key': string, 'inventory_movement_ids': list<string>, 'inventory_reservation': InventoryReservationInput|array<array-key, mixed>|\stdClass, 'resulting_inventory_levels': list<InventoryLevelInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'inventory_levels': list<InventoryLevelInput|array<array-key, mixed>|\stdClass>, 'inventory_reservation': InventoryReservationInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationResultInput')); }
-    /** @return string
-     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see InventoryLevelInput}. Post-commit state of every level this command touched, so no follow-up read is needed. A replay returns the levels the original command produced. Shape $[] (Value): {@see InventoryLevelInput}. The quantity state of one inventory item at one Location.
+     * @return list<InventoryLevelInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When inventory_levels is omitted; use hasInventoryLevels() or valueOrDefault().
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
-    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return list<string>
-     * @throws SdkError When inventory_movement_ids is omitted; use hasInventoryMovementIds() or valueOrDefault().
-     */
-    public function getInventoryMovementIds(): array { return $this->get('inventory_movement_ids'); }
-    public function hasInventoryMovementIds(): bool { return $this->has('inventory_movement_ids'); }
-    /** @return InventoryReservationInput|array<array-key, mixed>|\stdClass
+    public function getInventoryLevels(): array { return $this->get('inventory_levels'); }
+    public function hasInventoryLevels(): bool { return $this->has('inventory_levels'); }
+    /** Shape $ (Value): {@see InventoryReservationInput}. A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated.
+     * @return InventoryReservationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_reservation is omitted; use hasInventoryReservation() or valueOrDefault().
      */
     public function getInventoryReservation(): mixed { return $this->get('inventory_reservation'); }
     public function hasInventoryReservation(): bool { return $this->has('inventory_reservation'); }
-    /** @return list<InventoryLevelInput|array<array-key, mixed>|\stdClass>
-     * @throws SdkError When resulting_inventory_levels is omitted; use hasResultingInventoryLevels() or valueOrDefault().
-     */
-    public function getResultingInventoryLevels(): array { return $this->get('resulting_inventory_levels'); }
-    public function hasResultingInventoryLevels(): bool { return $this->has('resulting_inventory_levels'); }
 }

@@ -125,6 +125,33 @@ final class SchemaAdapter
             $op['replay'] = $safe ? 'safe' : 'idempotency';
             $op['retry'] ??= $defaults[$safe ? 'read' : 'mutation'];
             foreach ($op['parameters'] as &$parameter) {
+                if (array_key_exists('x-flint-request-option', $parameter)) {
+                    $plans = json_decode(
+                        '{"client_request_id":{"node":"clientRequestId","php":"client_request_id","codec":{"value":{"kind":"string"},"nullable":false,"modelObjectInput":false,"requiredInput":[],"requiredOutput":[],"rejectInput":false,"hiddenOutput":false,"sensitive":false,"checks":{"minLength":1,"maxLength":128,"pattern":"^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])"},"phpPattern":"~^[\\\\x21-\\\\x7E]+(?![\\\\s\\\\S])~uD","constraints":true}}}',
+                        true,
+                        512,
+                        JSON_THROW_ON_ERROR,
+                    );
+                    $extension = $parameter['x-flint-request-option'];
+                    $option = is_string($extension) ? $plans[$extension] ?? null : null;
+                    if (
+                        !$option ||
+                        $parameter['in'] !== 'header' ||
+                        ($parameter['required'] ?? false)
+                    ) {
+                        throw new \InvalidArgumentException(
+                            'Unknown or invalid x-flint-request-option',
+                        );
+                    }
+                    $parameter['source'] = 'request-option';
+                    $parameter['requestOption'] = [
+                        'node' => $option['node'],
+                        'php' => $option['php'],
+                    ];
+                    $parameter['codec'] = $option['codec'];
+                    unset($parameter['schema']);
+                    continue;
+                }
                 $parameter['codec'] = $root($parameter['schema']);
                 unset($parameter['schema']);
                 if (($parameter['in'] ?? null) === 'header') {
@@ -182,7 +209,7 @@ final class SchemaAdapter
         }
         $contract['format'] = 1;
         $contract['semantics'] = '4';
-        $contract['retrySemantics'] = 'budgets-1';
+        $contract['retrySemantics'] = 'budgets-2';
         if (isset($contract['incoming'])) {
             foreach ($contract['incoming'] as &$entry) {
                 $entry['codec'] = $root($entry['schema']);
@@ -329,6 +356,10 @@ final class SchemaAdapter
             foreach ($input['properties'] as $key => $child) {
                 $plan['fields'][$key] = self::node($child, $child, $depth + 1);
             }
+        }
+        if (isset($input['propertyNames'])) {
+            $names = array_replace($input['propertyNames'], ['type' => 'string']);
+            $plan['propertyNames'] = self::node($names, $names, $depth + 1);
         }
         if (isset($input['items'])) {
             $plan['element'] = self::node($input['items'], $input['items'], $depth + 1);

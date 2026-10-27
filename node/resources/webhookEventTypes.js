@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/webhookEventTypes.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/webhookEventTypes.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["listWebhookEventTypes"]:r0});
 export class Client {
@@ -15,7 +15,7 @@ this.webhookEventTypes = Object.freeze({
       list: async (params, options) => this.#runtime.request("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
   "page_token"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listWebhookEventTypes", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
   "page_token"
@@ -23,7 +23,7 @@ this.webhookEventTypes = Object.freeze({
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
   "page_token"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listWebhookEventTypes", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookEventTypes", _sdkRequestInput([], [], [
   "page_size",
   "page_token"
@@ -34,12 +34,7 @@ this.webhookEventTypes = Object.freeze({
 ], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeWebhookEventTypeListResponse } from '../models/WebhookEventTypeListResponse.js';
-export { makeWebhookEventType } from '../models/WebhookEventType.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';

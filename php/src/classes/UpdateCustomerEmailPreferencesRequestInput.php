@@ -8,12 +8,14 @@ namespace Flint;
 final class UpdateCustomerEmailPreferencesRequestInput extends Model {
     /** @param array{'checkout_reminders'?: bool, 'shipping_updates'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateCustomerEmailPreferencesRequestInput')); }
-    /** @return bool
+    /** Shape $ (Value): boolean. A reminder after leaving checkout without paying.
+     * @return bool
      * @throws SdkError When checkout_reminders is omitted; use hasCheckoutReminders() or valueOrDefault().
      */
     public function getCheckoutReminders(): bool { return $this->get('checkout_reminders'); }
     public function hasCheckoutReminders(): bool { return $this->has('checkout_reminders'); }
-    /** @return bool
+    /** Shape $ (Value): boolean. Emails about shipments and deliveries, such as shipped, out for delivery, and delivered.
+     * @return bool
      * @throws SdkError When shipping_updates is omitted; use hasShippingUpdates() or valueOrDefault().
      */
     public function getShippingUpdates(): bool { return $this->get('shipping_updates'); }

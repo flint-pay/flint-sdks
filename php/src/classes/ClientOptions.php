@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 namespace Flint;
+/** Client environment, credentials and transport defaults. See RUNTIME.md#clientoptions. */
 final class ClientOptions
 {
     public function __construct(
         public readonly ?string $baseUrl = null,
-        public readonly ?string $token = null,
+        public readonly string|CredentialProvider|\Closure|null $token = null,
         public readonly ?array $allowedOrigins = null,
         public readonly bool $allowInsecureHttp = false,
         public readonly int $timeoutMs = 10000,
@@ -17,10 +18,13 @@ final class ClientOptions
         public readonly array $redactFields = [],
         public readonly ?string $authMode = null,
         public readonly array $credentials = [],
-        public readonly ?string $apiKey = null,
-        public readonly ?string $customerToken = null,
-        public readonly ?string $invoiceToken = null,
-        public readonly ?string $onboardingToken = null,
+        public readonly string|CredentialProvider|\Closure|null $apiKey = null,
+        public readonly string|CredentialProvider|\Closure|null $checkoutToken = null,
+        public readonly string|CredentialProvider|\Closure|null $customerToken = null,
+        public readonly string|CredentialProvider|\Closure|null $invoiceToken = null,
+        public readonly string|CredentialProvider|\Closure|null $onboardingToken = null,
+        public readonly bool $ambientCredentials = true,
+        public readonly ?object $credentialCache = null,
     ) {}
     public function __debugInfo(): array
     {

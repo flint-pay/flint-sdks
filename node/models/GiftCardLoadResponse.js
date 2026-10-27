@@ -1,9 +1,0 @@
-import { d857 as c0, d858 as c1, d334 as c2, d861 as c3, d863 as c4, d873 as c5, d874 as c6, d875 as c7, d876 as c8, d877 as c9, d879 as c10, d885 as c11, d323 as c12, d1823 as c13, d1824 as c14, d2178 as c15, d2179 as c16, d14 as c17, d330 as c18, d331 as c19, d333 as c20, d332 as c21, d860 as c22, d884 as c23, d1822 as c24, d327 as c25, d326 as c26, d328 as c27, d329 as c28 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d863 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d863;
-let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingDispute"]:c0(),["GiftCardFundingLossResolution"]:c1(),["GiftCardFundingSource"]:c2(),["GiftCardLoad"]:c3(),["GiftCardLoadResponse"]:c4(),["GiftCardPurchaseRefundAllocation"]:c5(),["GiftCardPurchaseRefundRecovery"]:c6(),["GiftCardPurchaseRefundRecoveryDestination"]:c7(),["GiftCardPurchaseRefundValueAllocation"]:c8(),["GiftCardPurchaseRefundValueHold"]:c9(),["GiftCardPurchaseRestoration"]:c10(),["GiftCardRefundProvenance"]:c11(),["MoneyValue"]:c12(),["NextAction"]:c13(),["NextActionMerchantAccountSession"]:c14(),["ResponseMeta"]:c15(),["ResponseWarning"]:c16(),["SharedCodec1"]:c17(),["SharedCodec100"]:c18(),["SharedCodec101"]:c19(),["SharedCodec102"]:c20(),["SharedCodec103"]:c21(),["SharedCodec248"]:c22(),["SharedCodec249"]:c23(),["SharedCodec467"]:c24(),["SharedCodec96"]:c25(),["SharedCodec97"]:c26(),["SharedCodec98"]:c27(),["SharedCodec99"]:c28()}); }
-export { codec as _validate };
-import { modelFromCodec } from '../runtime.js';
-export function makeGiftCardLoadResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

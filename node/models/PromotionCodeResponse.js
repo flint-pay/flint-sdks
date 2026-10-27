@@ -1,9 +1,0 @@
-import { d323 as c0, d1823 as c1, d1824 as c2, d2074 as c3, d2076 as c4, d2078 as c5, d2080 as c6, d2081 as c7, d2082 as c8, d2083 as c9, d2088 as c10, d424 as c11, d2097 as c12, d2098 as c13, d2099 as c14, d2178 as c15, d2179 as c16, d14 as c17, d429 as c18, d427 as c19, d426 as c20, d425 as c21, d428 as c22, d1822 as c23, d2075 as c24, d2086 as c25, d2087 as c26, d2095 as c27, d2094 as c28, d2093 as c29, d2096 as c30 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d2080 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2080;
-let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["NextAction"]:c1(),["NextActionMerchantAccountSession"]:c2(),["Promotion"]:c3(),["PromotionApplicationMethod"]:c4(),["PromotionCode"]:c5(),["PromotionCodeResponse"]:c6(),["PromotionCodesSummary"]:c7(),["PromotionCombinesWith"]:c8(),["PromotionExclusivity"]:c9(),["PromotionRecurrence"]:c10(),["PromotionRule"]:c11(),["PromotionRuleGroup"]:c12(),["PromotionRuleValue"]:c13(),["PromotionSchedule"]:c14(),["ResponseMeta"]:c15(),["ResponseWarning"]:c16(),["SharedCodec1"]:c17(),["SharedCodec141"]:c18(),["SharedCodec142"]:c19(),["SharedCodec143"]:c20(),["SharedCodec144"]:c21(),["SharedCodec145"]:c22(),["SharedCodec467"]:c23(),["SharedCodec512"]:c24(),["SharedCodec513"]:c25(),["SharedCodec514"]:c26(),["SharedCodec517"]:c27(),["SharedCodec518"]:c28(),["SharedCodec519"]:c29(),["SharedCodec520"]:c30()}); }
-export { codec as _validate };
-import { modelFromCodec } from '../runtime.js';
-export function makePromotionCodeResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

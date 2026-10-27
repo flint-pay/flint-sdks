@@ -8,12 +8,14 @@ namespace Flint;
 final class UpdateMeSubscriptionLineItemRequestInput extends Model {
     /** @param array{'expected_version'?: string, 'variant_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateMeSubscriptionLineItemRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */
     public function getVariantId(): string { return $this->get('variant_id'); }

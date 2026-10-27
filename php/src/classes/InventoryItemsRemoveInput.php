@@ -8,17 +8,20 @@ namespace Flint;
 final class InventoryItemsRemoveInput extends Model {
     /** @param array{'inventory_item_id': string, 'expected_version'?: int, 'Idempotency-Key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemsRemoveInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** @return int
+    /** Shape $ (Value): integer. minimum: 1.
+     * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }

@@ -16,52 +16,62 @@ namespace Flint;
 final class InventoryItemInput extends Model {
     /** @param array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Optional searchable barcode.
+     * @return string
      * @throws SdkError When barcode is omitted; use hasBarcode() or valueOrDefault().
      */
     public function getBarcode(): string { return $this->get('barcode'); }
     public function hasBarcode(): bool { return $this->has('barcode'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. Time the inventory item was created. Format: date-time.
+     * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
+    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. maxLength: 255.
+     * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return string
+    /** Shape $ (Value): string. Stable inventory item ID.
+     * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): Map of string. Caller-owned metadata. Shape $.* (Value): string.
+     * @return array<array-key, string>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
     public function getMetadata(): array|object { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** @return string
+    /** Shape $ (Value): string. Merchant-facing inventory item name.
+     * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return string
+    /** Shape $ (Value): string. Optional searchable stock-keeping unit.
+     * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /** @return string
+    /** Shape $ (Value): string. Current inventory item lifecycle status. Value enum: "active", "inactive", "archived".
+     * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. Time the inventory item last changed. Format: date-time.
+     * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Optimistic-concurrency version for item writes. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+     * @return string
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */
     public function getVersion(): string { return $this->get('version'); }

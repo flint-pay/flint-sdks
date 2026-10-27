@@ -1,9 +1,0 @@
-import { d89 as c0, d558 as c1, d559 as c2, d560 as c3, d561 as c4, d568 as c5, d573 as c6, d574 as c7, d584 as c8, d590 as c9, d592 as c10, d600 as c11, d601 as c12, d622 as c13, d623 as c14, d632 as c15, d633 as c16, d666 as c17, d667 as c18, d668 as c19, d669 as c20, d671 as c21, d688 as c22, d714 as c23, d724 as c24, d323 as c25, d565 as c26, d566 as c27, d591 as c28 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d666 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d666;
-let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["BuyerInstructionsConfig"]:c0(),["DeliveryAddressAdvisoryResource"]:c1(),["DeliveryAddressRequest"]:c2(),["DeliveryAddressResource"]:c3(),["DeliveryArrivalEstimate"]:c4(),["DeliveryBuyerLocationResource"]:c5(),["DeliveryCandidateOutcomeResource"]:c6(),["DeliveryCoordinateRequest"]:c7(),["DeliveryEligibilityMismatch"]:c8(),["DeliveryInputConstraint"]:c9(),["DeliveryInputRequirement"]:c10(),["DeliveryLocationSummaryResource"]:c11(),["DeliveryMerchantDiagnostic"]:c12(),["DeliveryOptionProjection"]:c13(),["DeliveryPendingCallerRateRequest"]:c14(),["DeliveryPickupDetails"]:c15(),["DeliveryPlan"]:c16(),["DeliveryQuote"]:c17(),["DeliveryQuoteChoiceGroupResource"]:c18(),["DeliveryQuoteExecutionLegResource"]:c19(),["DeliveryQuoteLineItemResource"]:c20(),["DeliveryQuoteMethodResource"]:c21(),["DeliveryRecipientRequirement"]:c22(),["DeliveryShipmentDetails"]:c23(),["DeliveryWindowResource"]:c24(),["MoneyValue"]:c25(),["SharedCodec182"]:c26(),["SharedCodec183"]:c27(),["SharedCodec186"]:c28()}); }
-export { codec as _validate };
-import { modelFromCodec } from '../runtime.js';
-export function makeDeliveryQuote(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

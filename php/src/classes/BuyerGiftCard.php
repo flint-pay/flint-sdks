@@ -7,80 +7,80 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read string $currency
  * @property-read string $gift_card_id
- * @property-read string $last_characters
  * @property-read string|null $last_loaded_at
  * @property-read string|null $last_redeemed_at
+ * @property-read string $last4
  * @property-read string $merchant_id
  * @property-read MoneyValue $reserved_money
  * @property-read string $status
  * @property-read string $updated_at
  * @property-read string $version
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class BuyerGiftCard extends Model {
-    /** @param array{'available_money': mixed, 'balance_money': mixed, 'created_at': string, 'currency': string, 'gift_card_id': string, 'last_characters': string, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'merchant_id': string, 'reserved_money': mixed, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'available_money': mixed, 'balance_money': mixed, 'created_at': string, 'currency': string, 'gift_card_id': string, 'last_loaded_at': string|null, 'last_redeemed_at': string|null, 'last4': string, 'merchant_id': string, 'reserved_money': mixed, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerGiftCard')); }
-    /** @return MoneyValue
-     * @throws SdkError When available_money is omitted; use hasAvailableMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getAvailableMoney(): MoneyValue { return $this->get('available_money'); }
     public function hasAvailableMoney(): bool { return $this->has('available_money'); }
-    /** @return MoneyValue
-     * @throws SdkError When balance_money is omitted; use hasBalanceMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getBalanceMoney(): MoneyValue { return $this->get('balance_money'); }
     public function hasBalanceMoney(): bool { return $this->has('balance_money'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
-     * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
+    /** Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * @return string
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** @return string
-     * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** @return string
-     * @throws SdkError When last_characters is omitted; use hasLastCharacters() or valueOrDefault().
-     */
-    public function getLastCharacters(): string { return $this->get('last_characters'); }
-    public function hasLastCharacters(): bool { return $this->has('last_characters'); }
-    /** @return string|null
-     * @throws SdkError When last_loaded_at is omitted; use hasLastLoadedAt() or valueOrDefault().
+    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time.
+     * @return string|null
      */
     public function getLastLoadedAt(): string|null { return $this->get('last_loaded_at'); }
     public function hasLastLoadedAt(): bool { return $this->has('last_loaded_at'); }
-    /** @return string|null
-     * @throws SdkError When last_redeemed_at is omitted; use hasLastRedeemedAt() or valueOrDefault().
+    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time.
+     * @return string|null
      */
     public function getLastRedeemedAt(): string|null { return $this->get('last_redeemed_at'); }
     public function hasLastRedeemedAt(): bool { return $this->has('last_redeemed_at'); }
-    /** @return string
-     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+    /** Shape $ (Value): string. Last four characters of the card's current code. minLength: 4. maxLength: 4.
+     * @return string
+     */
+    public function getLast4(): string { return $this->get('last4'); }
+    public function hasLast4(): bool { return $this->has('last4'); }
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return MoneyValue
-     * @throws SdkError When reserved_money is omitted; use hasReservedMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getReservedMoney(): MoneyValue { return $this->get('reserved_money'); }
     public function hasReservedMoney(): bool { return $this->has('reserved_money'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "pending", "active", "frozen", "closed".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      */
     public function getVersion(): string { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }

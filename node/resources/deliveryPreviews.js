@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryPreview"]:r0});
 export class Client {
@@ -12,63 +12,45 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.deliveryPreviews = Object.freeze({
-      create: (input = {}, options) => this.#runtime.request("createDeliveryPreview", input, options).then(result => _sdkPayload(result, ["data"])),
+      create: (input = {}, options) => this.#runtime.request("createDeliveryPreview", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryPreview", result, path))),
       createWithResponse: (input = {}, options) => this.#runtime.request("createDeliveryPreview", input, options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeDeliveryPreviewResponse } from '../models/DeliveryPreviewResponse.js';
-export { makeDeliveryBuyerLocationResource } from '../models/DeliveryBuyerLocationResource.js';
-export { makeDeliveryAddressResource } from '../models/DeliveryAddressResource.js';
-export { makeLocationAddress } from '../models/LocationAddress.js';
-export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
-export { makeDeliveryPreviewChoiceGroupResource } from '../models/DeliveryPreviewChoiceGroupResource.js';
-export { makeDeliveryCandidateOutcomeResource } from '../models/DeliveryCandidateOutcomeResource.js';
-export { makeDeliveryAddressAdvisoryResource } from '../models/DeliveryAddressAdvisoryResource.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
-export { makeDeliveryInputRequirement } from '../models/DeliveryInputRequirement.js';
-export { makeDeliveryInputConstraint } from '../models/DeliveryInputConstraint.js';
-export { makeDeliveryWindowResource } from '../models/DeliveryWindowResource.js';
-export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeDeliveryOptionProjection } from '../models/DeliveryOptionProjection.js';
-export { makeDeliveryArrivalEstimate } from '../models/DeliveryArrivalEstimate.js';
 export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
-export { makeDeliveryPlan } from '../models/DeliveryPlan.js';
-export { makeDeliveryQuoteExecutionLegResource } from '../models/DeliveryQuoteExecutionLegResource.js';
-export { makeDeliveryLocalDeliveryDetails } from '../models/DeliveryLocalDeliveryDetails.js';
-export { makeDeliveryShipmentDetails } from '../models/DeliveryShipmentDetails.js';
-export { makeDeliveryPickupDetails } from '../models/DeliveryPickupDetails.js';
-export { makeDeliveryLocationSummaryResource } from '../models/DeliveryLocationSummaryResource.js';
+export { makeCreateDeliveryOptionsPreviewRequest } from '../models/CreateDeliveryOptionsPreviewRequest.js';
+export { makeCreateDeliveryPickupLocationsPreviewRequest } from '../models/CreateDeliveryPickupLocationsPreviewRequest.js';
+export { makeCreateDeliveryPreviewRequest } from '../models/CreateDeliveryPreviewRequest.js';
+export { makeCreateOrderLineItemRequest } from '../models/CreateOrderLineItemRequest.js';
+export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
+export { makeDeliveryBuyerLocationInputAddress } from '../models/DeliveryBuyerLocationInputAddress.js';
+export { makeDeliveryBuyerLocationInputCoordinate } from '../models/DeliveryBuyerLocationInputCoordinate.js';
+export { makeDeliveryBuyerLocationRequest } from '../models/DeliveryBuyerLocationRequest.js';
+export { makeDeliveryCoordinateRequest } from '../models/DeliveryCoordinateRequest.js';
+export { makeDeliveryPickupAvailabilityMaximumDistanceRequest } from '../models/DeliveryPickupAvailabilityMaximumDistanceRequest.js';
+export { makeDeliveryPreviewRoutingSource } from '../models/DeliveryPreviewRoutingSource.js';
 export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
-export { makeDeliveryQuoteLineItemResource } from '../models/DeliveryQuoteLineItemResource.js';
-export { makeDeliveryPickupAvailabilityQuantityResource } from '../models/DeliveryPickupAvailabilityQuantityResource.js';
-export { makeCreateOrderLineItem } from '../models/CreateOrderLineItem.js';
-export { makeLineItemFulfillmentRequest } from '../models/LineItemFulfillmentRequest.js';
-export { makeLineItemFulfillmentSizeRequest } from '../models/LineItemFulfillmentSizeRequest.js';
-export { makeLineItemFulfillmentOriginRequest } from '../models/LineItemFulfillmentOriginRequest.js';
-export { makeLineItemFulfillmentWeightRequest } from '../models/LineItemFulfillmentWeightRequest.js';
-export { makeGiftCardPurchaseRequest } from '../models/GiftCardPurchaseRequest.js';
-export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
+export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
+export { makeDimensions } from '../models/Dimensions.js';
+export { makeGiftCardPurchaseDetailsRequest } from '../models/GiftCardPurchaseDetailsRequest.js';
+export { makeGiftCardPurchaseRecipientRequest } from '../models/GiftCardPurchaseRecipientRequest.js';
 export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
+export { makeLineItemFulfillmentOriginRequest } from '../models/LineItemFulfillmentOriginRequest.js';
+export { makeLineItemFulfillmentRequest } from '../models/LineItemFulfillmentRequest.js';
+export { makeLocationCoordinate } from '../models/LocationCoordinate.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
-export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeSubscribedLineRequest } from '../models/SubscribedLineRequest.js';
-export { makeOrderDraftLineItemTaxRequest } from '../models/OrderDraftLineItemTaxRequest.js';
 export { makeOrderDraftLineItemTaxCalculationRequest } from '../models/OrderDraftLineItemTaxCalculationRequest.js';
+export { makeOrderDraftLineItemTaxRequest } from '../models/OrderDraftLineItemTaxRequest.js';
 export { makeOrderDraftTaxComponentRequest } from '../models/OrderDraftTaxComponentRequest.js';
 export { makeOrderDraftTaxJurisdictionRequest } from '../models/OrderDraftTaxJurisdictionRequest.js';
-export { makeDeliveryMerchantDiagnostic } from '../models/DeliveryMerchantDiagnostic.js';
-export { makeDeliveryEligibilityMismatch } from '../models/DeliveryEligibilityMismatch.js';
-export { makeDeliveryPickupAvailabilityLocationResource } from '../models/DeliveryPickupAvailabilityLocationResource.js';
-export { makeDeliveryPickupAvailabilityCandidateOutcome } from '../models/DeliveryPickupAvailabilityCandidateOutcome.js';
-export { makeDeliveryPickupAvailabilityMethodResource } from '../models/DeliveryPickupAvailabilityMethodResource.js';
-export { makeDeliveryPickupAvailabilityLocationSummary } from '../models/DeliveryPickupAvailabilityLocationSummary.js';
-export { makeDeliveryPickupAvailabilityDiagnostic } from '../models/DeliveryPickupAvailabilityDiagnostic.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
-export { makeDimensions } from '../models/Dimensions.js';
+export { makeOrderLineItemModifierRequest } from '../models/OrderLineItemModifierRequest.js';
+export { makeSubscribedLineRequest } from '../models/SubscribedLineRequest.js';
+export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
+export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
+export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
+export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeWeight } from '../models/Weight.js';

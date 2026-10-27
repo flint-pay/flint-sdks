@@ -1,0 +1,60 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## PromotionApplicationMethodBuyXGetY
+
+A flat application method whose type selects its effect fields.
+
+The `buy_x_get_y` variant of `PromotionApplicationMethod`.
+
+Response model.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `allocation` | Optional | string | How the effect is applied across the matched items or charges. each applies the effect to every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items discounts 30 USD, each capped at the item price), and a percent_off is taken from each item. across applies the effect once to the matched set as a whole: a fixed amount_off is the whole amount one time (10 USD off the group total, not prorated per item), and a percent_off is taken from the combined subtotal. For percent_off the two produce the same total and differ only in how the discount is attributed to individual line items; for amount_off they differ by the number of matched items, so set it deliberately. Defaults to each for line_item and service_charge promotions and across for order promotions. max_discounted_quantity requires each. Values: `"each"`, `"across"`. |
+| `buy_min_quantity` | Required | integer | Number of qualifying units needed for one application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
+| `calculation_basis` | Optional | string | Basis for merchandise promotion calculations. Omit for service_charge promotions because service-charge discounts are calculated from the targeted charges. Values: `"subtotal_pre_tax"`, `"subtotal_post_tax"`. |
+| `discounted_item_rules` | Required | Alternative shapes (see declared variants) | Which line items receive the discount. Required for service_charge promotions, and for line_item promotions whose eligibility_rules include any non-line-item condition (for example order.subtotal or a customer condition). It is optional only when eligibility_rules consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the matched items are used as the target. Omitting it otherwise returns DISCOUNTED_ITEM_RULES_REQUIRED. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups. `discounted_item_rules`: [declared alternatives](../models/PromotionApplicationMethodPercentOff.md#promotionapplicationmethodpercentoffdiscounted_item_rules). |
+| `get_percent_off` | Required | number | Percentage to discount from reward items, from 1 to 100. Use 100 to make the reward items free. minimum: `1`. maximum: `100`. multipleOf: `0.0001`. |
+| `get_quantity` | Required | integer | Maximum number of reward units discounted per application of a buy_x_get_y promotion. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. |
+| `max_applications_per_order` | Optional | integer | Maximum number of times the buy_x_get_y promotion can apply to one order. Omit for no limit beyond the qualifying and reward quantities. Format: `int32`. minimum: `1`. |
+| `qualifying_item_rules` | Required | Alternative shapes (see declared variants) | Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups. `qualifying_item_rules`: [declared alternatives](../models/PromotionApplicationMethodBuyXGetY.md#promotionapplicationmethodbuyxgetyqualifying_item_rules). |
+| `recurrence` | Optional | object and Alternative shapes (see declared variants) | Optional recurrence for subscription payments: once applies to the first charged payment, repeating applies for period_count charged payments, and forever applies to every payment. One-time orders apply the promotion once. How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever. `recurrence`: [declared alternatives](../models/PromotionApplicationMethodPercentOff.md#promotionapplicationmethodpercentoffrecurrence). |
+| `reward_selection` | Optional | string | Which matching reward items receive the discount: the cheapest, the highest priced, or those added first to the order. Defaults to cheapest. Default: `"cheapest"`. Values: `"cheapest"`, `"highest_price"`, `"first_added"`. |
+| `type` | Required | string | Selects the buy_x_get_y discount effect and its allowed fields. Values: `"buy_x_get_y"`. |
+
+### PromotionApplicationMethodBuyXGetY.discounted_item_rules
+
+Declared alternatives: [PromotionApplicationMethodPercentOff.discounted_item_rules](../models/PromotionApplicationMethodPercentOff.md#promotionapplicationmethodpercentoffdiscounted_item_rules).
+
+### PromotionApplicationMethodBuyXGetY.qualifying_item_rules
+
+Rules that identify the items counted toward buy_min_quantity for a buy_x_get_y promotion. A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null where the field is clearable. Responses list rules before nested groups. Under any, a nested group containing only one rule reads back as that rule. Under all, nested groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the same all group, including its nested groups.
+
+Field definitions: [shared fields](PromotionApplicationMethodPercentOff.md#promotionapplicationmethodpercentoffdiscounted_item_rules).
+
+### PromotionApplicationMethodBuyXGetY.qualifying_item_rules variant 1
+
+oneOf variant 1.
+
+- Required: `all`.
+- Undeclared: `any`.
+
+### PromotionApplicationMethodBuyXGetY.qualifying_item_rules variant 2
+
+oneOf variant 2.
+
+- Required: `any`.
+- Undeclared: `all`.
+
+### PromotionApplicationMethodBuyXGetY.qualifying_item_rules variant 1.all[]
+
+Declared alternatives: [PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[]](../models/PromotionApplicationMethodPercentOff.md#promotionapplicationmethodpercentoffdiscounted_item_rules-variant-1all).
+
+### PromotionApplicationMethodBuyXGetY.qualifying_item_rules variant 2.any[]
+
+Declared alternatives: [PromotionApplicationMethodPercentOff.discounted_item_rules variant 1.all[]](../models/PromotionApplicationMethodPercentOff.md#promotionapplicationmethodpercentoffdiscounted_item_rules-variant-1all).
+
+### PromotionApplicationMethodBuyXGetY.recurrence
+
+Declared alternatives: [PromotionApplicationMethodPercentOff.recurrence](../models/PromotionApplicationMethodPercentOff.md#promotionapplicationmethodpercentoffrecurrence).
+

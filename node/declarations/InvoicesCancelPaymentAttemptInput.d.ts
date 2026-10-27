@@ -1,4 +1,0 @@
-import type { InputValue } from '../runtime.js';
-
-
-export type InvoicesCancelPaymentAttemptInput = { "invoice_id": InputValue<string>; "invoice_payment_attempt_id": InputValue<string>; "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string>; };

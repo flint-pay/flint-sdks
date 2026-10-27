@@ -5,100 +5,112 @@ namespace Flint;
  * @property-read string $capture_mode
  * @property-read MoneyValue $captured_money
  * @property-read string $created_at
- * @property-read string $expires_at
- * @property-read string $external_reference_id
+ * @property-read string|null $expires_at
  * @property-read string $gift_card_id
  * @property-read string $gift_card_redemption_id
- * @property-read string $idempotency_key
+ * @property-read string|null $idempotency_key
  * @property-read string|null $order_id
+ * @property-read string|null $order_payment_attempt_id
  * @property-read MoneyValue $refunded_money
  * @property-read MoneyValue $remaining_refundable_money
  * @property-read MoneyValue $requested_money
  * @property-read MoneyValue $reserved_money
+ * @property-read string|null $sale_reference
+ * @property-read string $source_type
  * @property-read string $status
  * @property-read string $updated_at
  * @property-read string $version
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class GiftCardRedemption extends Model {
-    /** @param array{'capture_mode': string, 'captured_money': mixed, 'created_at': string, 'expires_at': string, 'external_reference_id': string, 'gift_card_id': string, 'gift_card_redemption_id': string, 'idempotency_key': string, 'order_id': string|null, 'refunded_money': mixed, 'remaining_refundable_money': mixed, 'requested_money': mixed, 'reserved_money': mixed, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'capture_mode': string, 'captured_money': mixed, 'created_at': string, 'expires_at': string|null, 'gift_card_id': string, 'gift_card_redemption_id': string, 'idempotency_key': string|null, 'order_id': string|null, 'order_payment_attempt_id': string|null, 'refunded_money': mixed, 'remaining_refundable_money': mixed, 'requested_money': mixed, 'reserved_money': mixed, 'sale_reference': string|null, 'source_type': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardRedemption')); }
-    /** @return string
-     * @throws SdkError When capture_mode is omitted; use hasCaptureMode() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "automatic", "manual".
+     * @return string
      */
     public function getCaptureMode(): string { return $this->get('capture_mode'); }
     public function hasCaptureMode(): bool { return $this->has('capture_mode'); }
-    /** @return MoneyValue
-     * @throws SdkError When captured_money is omitted; use hasCapturedMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getCapturedMoney(): MoneyValue { return $this->get('captured_money'); }
     public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
-     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
+    /** Shape $ (Value): string or null. When an uncaptured manual reservation expires. null for automatic capture, which posts immediately. Format: date-time.
+     * @return string|null
      */
-    public function getExpiresAt(): string { return $this->get('expires_at'); }
+    public function getExpiresAt(): string|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** @return string
-     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
-     */
-    public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
-    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return string
-     * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** @return string
-     * @throws SdkError When gift_card_redemption_id is omitted; use hasGiftCardRedemptionId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getGiftCardRedemptionId(): string { return $this->get('gift_card_redemption_id'); }
     public function hasGiftCardRedemptionId(): bool { return $this->has('gift_card_redemption_id'); }
-    /** @return string
-     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+    /** Shape $ (Value): string or null. Your Idempotency-Key for the command that created this record. null when Flint created it or no key was sent.
+     * @return string|null
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return string|null
-     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+    /** Shape $ (Value): string or null.
+     * @return string|null
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** @return MoneyValue
-     * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
+    /** Shape $ (Value): string or null. The order payment attempt the redemption belongs to. Set for source_type flint_order; null for external.
+     * @return string|null
+     */
+    public function getOrderPaymentAttemptId(): string|null { return $this->get('order_payment_attempt_id'); }
+    public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
+    /** Shape $ (Value): {@see MoneyValue}. Total refunded against this redemption across all refunds. Each refund lists its share in `tender_allocations`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** @return MoneyValue
-     * @throws SdkError When remaining_refundable_money is omitted; use hasRemainingRefundableMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Captured value not yet refunded. A refund allocation to this redemption can be at most this amount. Zero while the redemption is reserved, canceled, or expired. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getRemainingRefundableMoney(): MoneyValue { return $this->get('remaining_refundable_money'); }
     public function hasRemainingRefundableMoney(): bool { return $this->has('remaining_refundable_money'); }
-    /** @return MoneyValue
-     * @throws SdkError When requested_money is omitted; use hasRequestedMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getRequestedMoney(): MoneyValue { return $this->get('requested_money'); }
     public function hasRequestedMoney(): bool { return $this->has('requested_money'); }
-    /** @return MoneyValue
-     * @throws SdkError When reserved_money is omitted; use hasReservedMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getReservedMoney(): MoneyValue { return $this->get('reserved_money'); }
     public function hasReservedMoney(): bool { return $this->has('reserved_money'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string or null. Your reference for the sale the redemption pays for. Set for source_type external; null for flint_order. maxLength: 255.
+     * @return string|null
+     */
+    public function getSaleReference(): string|null { return $this->get('sale_reference'); }
+    public function hasSaleReference(): bool { return $this->has('sale_reference'); }
+    /** Shape $ (Value): string.  Value enum: "external", "flint_order".
+     * @return string
+     */
+    public function getSourceType(): string { return $this->get('source_type'); }
+    public function hasSourceType(): bool { return $this->has('source_type'); }
+    /** Shape $ (Value): string.  Value enum: "reserved", "captured", "canceled", "expired".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      */
     public function getVersion(): string { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }

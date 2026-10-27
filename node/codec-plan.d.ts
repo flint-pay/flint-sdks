@@ -2,29 +2,41 @@ import type { Json, Schema } from './contract.js';
 /** Data-only execution contract. This module is also bundled for dynamic schema APIs. */
 export type ValueInstruction = {
     kind: 'dynamic';
-} | {
+}
+    | {
     kind: 'null';
-} | {
+}
+    | {
     kind: 'null-array';
-} | {
+}
+    | {
     kind: 'boolean';
-} | {
+}
+    | {
     kind: 'string';
-} | {
+}
+    | {
     kind: 'date-time';
-} | {
+}
+    | {
     kind: 'native-number';
-} | {
+}
+    | {
     kind: 'safe-integer';
-} | {
+}
+    | {
     kind: 'exact-integer';
-} | {
+}
+    | {
     kind: 'decimal';
-} | {
+}
+    | {
     kind: 'object';
-} | {
+}
+    | {
     kind: 'array';
-} | {
+}
+    | {
     kind: 'opaque';
     label: string;
 };
@@ -43,12 +55,28 @@ export interface CodecPlan {
     readonly sensitive: boolean;
     readonly fields?: Readonly<Record<string, CodecPlan>>;
     readonly element?: CodecPlan;
+    readonly propertyNames?: CodecPlan;
     readonly extra?: boolean | CodecPlan;
     readonly members?: readonly Json[];
     /** JSON text preserves object/list identity through associative PHP plan loading. */
     readonly literal?: string;
-    readonly range?: readonly [string, string];
-    readonly checks: Readonly<Pick<Schema, 'minimum' | 'maximum' | 'exclusiveMinimum' | 'exclusiveMaximum' | 'multipleOf' | 'minLength' | 'maxLength' | 'minItems' | 'maxItems' | 'minProperties' | 'maxProperties' | 'uniqueItems' | 'pattern'>>;
+    readonly range?: readonly [
+        string,
+        string
+    ];
+    readonly checks: Readonly<Pick<Schema, 'minimum'
+        | 'maximum'
+        | 'exclusiveMinimum'
+        | 'exclusiveMaximum'
+        | 'multipleOf'
+        | 'minLength'
+        | 'maxLength'
+        | 'minItems'
+        | 'maxItems'
+        | 'minProperties'
+        | 'maxProperties'
+        | 'uniqueItems'
+        | 'pattern'>>;
     readonly numberInput?: 'explicit';
     readonly phpPattern?: string;
     readonly constraints?: boolean;

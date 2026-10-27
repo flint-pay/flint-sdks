@@ -1,9 +1,0 @@
-import { d1372 as c0, d1964 as c1, d903 as c2, d902 as c3, d2623 as c4 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d1372 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1372;
-let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["IncomingWebhookad7368dbf165Payload"]:c0(),["PartnerInstallEventPayload"]:c1(),["PartnerWebhookEnvelope"]:c2(),["SharedCodec252"]:c3(),["Webhook_partner_app_install_created_partner_app"]:c4()}); }
-export { codec as _validate };
-import { modelFromCodec } from '../runtime.js';
-export function makeIncomingWebhookad7368dbf165Payload(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

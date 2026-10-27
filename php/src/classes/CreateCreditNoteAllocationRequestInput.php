@@ -8,12 +8,14 @@ namespace Flint;
 final class CreateCreditNoteAllocationRequestInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCreditNoteAllocationRequestInput')); }
-    /** @return MoneyValueInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see MoneyValueInput}. Credit to apply, no more than the credit note's available_money or the invoice's outstanding balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }

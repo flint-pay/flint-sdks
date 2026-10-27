@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/packages.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/packages.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createPackageItem"]:r0,["deletePackageItem"]:r0,["getPackage"]:r0,["getPackageItem"]:r0,["listPackageItems"]:r0,["listPackages"]:r0,["transitionPackage"]:r0,["updatePackage"]:r0,["updatePackageItem"]:r0,["voidPackage"]:r0});
 export class Client {
@@ -15,89 +15,81 @@ this.packages = Object.freeze({
       createItem: async (package_id, params, options) => this.#runtime.request("createPackageItem", _sdkRequestInput([
   "package_id"
 ], [package_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPackageItem", result, path))),
       createItemWithResponse: async (package_id, params, options) => this.#runtime.request("createPackageItem", _sdkRequestInput([
   "package_id"
 ], [package_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       deleteItem: async (package_id, package_item_id, params, options) => this.#runtime.request("deletePackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePackageItem", result, path))),
       deleteItemWithResponse: async (package_id, package_item_id, params, options) => this.#runtime.request("deletePackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (package_id, params, options) => this.#runtime.request("getPackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
-  "expand",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPackage", result, path))),
       getWithResponse: async (package_id, params, options) => this.#runtime.request("getPackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
-  "expand",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       getItem: async (package_id, package_item_id, params, options) => this.#runtime.request("getPackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
-  "expand",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPackageItem", result, path))),
       getItemWithResponse: async (package_id, package_item_id, params, options) => this.#runtime.request("getPackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
-  "expand",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPackageItems: async (package_id, params, options) => this.#runtime.request("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPackageItems", result, path))),
       listPackageItemsWithResponse: async (package_id, params, options) => this.#runtime.request("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPackageItemsPages: (package_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPackageItems", result, path)),
       listPackageItemsPagesWithResponse: (package_id, params, options) => _sdkResponsePages(this.#runtime.pages("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options)),
       listPackageItemsItems: (package_id, params, options) => this.#runtime.items("listPackageItems", _sdkRequestInput([
   "package_id"
 ], [package_id], [
   "page_size",
   "page_token",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -108,8 +100,15 @@ this.packages = Object.freeze({
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "created_after",
+  "created_before",
+  "status",
+  "tracking_number",
+  "carrier",
+  "updated_after",
+  "updated_before",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPackages", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
   "fulfillment_id",
@@ -119,7 +118,14 @@ this.packages = Object.freeze({
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id"
+  "created_after",
+  "created_before",
+  "status",
+  "tracking_number",
+  "carrier",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -130,8 +136,15 @@ this.packages = Object.freeze({
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "created_after",
+  "created_before",
+  "status",
+  "tracking_number",
+  "carrier",
+  "updated_after",
+  "updated_before",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPackages", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
   "fulfillment_id",
@@ -141,7 +154,14 @@ this.packages = Object.freeze({
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id"
+  "created_after",
+  "created_before",
+  "status",
+  "tracking_number",
+  "carrier",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listPackages", _sdkRequestInput([], [], [
   "shipment_id",
@@ -152,78 +172,69 @@ this.packages = Object.freeze({
   "external_system",
   "external_reference_id",
   "query",
-  "X-Request-Id"
+  "created_after",
+  "created_before",
+  "status",
+  "tracking_number",
+  "carrier",
+  "updated_after",
+  "updated_before",
+  "expand"
 ], false, false, params), options),
-      transition: (input = {}, options) => this.#runtime.request("transitionPackage", input, options).then(result => _sdkPayload(result, ["data"])),
+      transition: (input = {}, options) => this.#runtime.request("transitionPackage", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionPackage", result, path))),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionPackage", input, options).then(_sdkResponse),
       update: async (package_id, params, options) => this.#runtime.request("updatePackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePackage", result, path))),
       updateWithResponse: async (package_id, params, options) => this.#runtime.request("updatePackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       updateItem: async (package_id, package_item_id, params, options) => this.#runtime.request("updatePackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePackageItem", result, path))),
       updateItemWithResponse: async (package_id, package_item_id, params, options) => this.#runtime.request("updatePackageItem", _sdkRequestInput([
   "package_id",
   "package_item_id"
 ], [package_id, package_item_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       voidResource: async (package_id, params, options) => this.#runtime.request("voidPackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("voidPackage", result, path))),
       voidResourceWithResponse: async (package_id, params, options) => this.#runtime.request("voidPackage", _sdkRequestInput([
   "package_id"
 ], [package_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makePackageItemResponse } from '../models/PackageItemResponse.js';
-export { makePackageResponse } from '../models/PackageResponse.js';
-export { makePackageItemListResponse } from '../models/PackageItemListResponse.js';
-export { makePackageItem } from '../models/PackageItem.js';
-export { makePackageListResponse } from '../models/PackageListResponse.js';
-export { makePackage } from '../models/Package.js';
-export { makePackageStatusUpdateResponse } from '../models/PackageStatusUpdateResponse.js';
-export { makeUpdatePackageResponse } from '../models/UpdatePackageResponse.js';
-export { makeVoidPackageResponse } from '../models/VoidPackageResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';
-export { makeShippingDimensions } from '../models/ShippingDimensions.js';
-export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
-export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
-export { makeShippingWeight } from '../models/ShippingWeight.js';
-export { makePackageStatusUpdateResult } from '../models/PackageStatusUpdateResult.js';
-export { makeFulfillmentEvent } from '../models/FulfillmentEvent.js';
-export { makeFulfillmentNotification } from '../models/FulfillmentNotification.js';
-export { makePackageStatusUpdate } from '../models/PackageStatusUpdate.js';
-export { makeUpdatePackageResult } from '../models/UpdatePackageResult.js';
-export { makeVoidPackageResult } from '../models/VoidPackageResult.js';
 export { makeCreatePackageItemRequest } from '../models/CreatePackageItemRequest.js';
+export { makeDimensions } from '../models/Dimensions.js';
+export { makeFulfillmentTransitionRequestMarkPacked } from '../models/FulfillmentTransitionRequestMarkPacked.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makePackageTransitionRequest } from '../models/PackageTransitionRequest.js';
+export { makePackageTransitionRequestMarkDelivered } from '../models/PackageTransitionRequestMarkDelivered.js';
+export { makePackageTransitionRequestMarkDeliveryAttempted } from '../models/PackageTransitionRequestMarkDeliveryAttempted.js';
+export { makePackageTransitionRequestMarkException } from '../models/PackageTransitionRequestMarkException.js';
+export { makePackageTransitionRequestMarkInTransit } from '../models/PackageTransitionRequestMarkInTransit.js';
+export { makePackageTransitionRequestMarkOutForDelivery } from '../models/PackageTransitionRequestMarkOutForDelivery.js';
+export { makePackageTransitionRequestMarkPacked } from '../models/PackageTransitionRequestMarkPacked.js';
+export { makePackageTransitionRequestMarkReturned } from '../models/PackageTransitionRequestMarkReturned.js';
+export { makePackageTransitionRequestMarkShipped } from '../models/PackageTransitionRequestMarkShipped.js';
+export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
 export { makeUpdatePackageItemRequest } from '../models/UpdatePackageItemRequest.js';
+export { makeUpdatePackageRequest } from '../models/UpdatePackageRequest.js';
+export { makeVoidPackageRequest } from '../models/VoidPackageRequest.js';
+export { makeWeight } from '../models/Weight.js';

@@ -1,1 +1,1 @@
-{"shared":"RenewSubscriptionRequest","dependencies":["RenewSubscriptionRequest"]}
+{"shared":"InventoryCountTransitionRequest","dependencies":["InventoryCountTransitionRequest","SharedCodec841","SharedCodec842"]}

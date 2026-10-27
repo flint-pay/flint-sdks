@@ -8,12 +8,14 @@ namespace Flint;
 final class UpdateInventoryLevelRequestInput extends Model {
     /** @param array{'expected_version'?: string, 'safety_stock_quantity': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateInventoryLevelRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+     * @return string
      * @throws SdkError When safety_stock_quantity is omitted; use hasSafetyStockQuantity() or valueOrDefault().
      */
     public function getSafetyStockQuantity(): string { return $this->get('safety_stock_quantity'); }

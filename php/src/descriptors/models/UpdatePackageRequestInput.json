@@ -1,1 +1,1 @@
-{"shared":"UpdatePackageRequest","dependencies":["SharedCodec641","SharedCodec642","ShippingDimensions","ShippingWeight","UpdatePackageRequest"]}
+{"shared":"UpdatePackageRequest","dependencies":["Dimensions","SharedCodec1199","SharedCodec1200","UpdatePackageRequest","Weight"]}

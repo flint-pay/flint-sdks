@@ -1,61 +1,63 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { RiskPredicateNodeInput } from '../declarations/RiskPredicateNodeInput.js';
-import type { RiskPreviewsCreateInput } from '../declarations/RiskPreviewsCreateInput.js';
-import type { RiskPreviewsCreateResponse } from '../declarations/RiskPreviewsCreateResponse.js';
-import type { RiskRuleValidationResponse } from '../declarations/RiskRuleValidationResponse.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateRiskPreviewRequestInput } from '../declarations/types-9.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { RiskPreview, RiskPreviewResponse, RiskPreviewsCreateInput, SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateRiskPreviewRequestInput, Credentials } from '../declarations/types-9.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseWarning, ResponseMeta } from '../declarations/types-40.js';
+export type {
+    RiskPreview,
+    SdkResponse,
+    RiskPreviewResponse,
+    RiskPreviewsCreateInput,
+    RiskPredicateNodeInput,
+    RiskRuleAnalysis,
+    RiskRuleIssue
+} from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { MoneyValueInput, NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export { makeCreateRiskPreviewRequest } from '../declarations/types-64.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeRiskPredicateNode } from '../declarations/types-71.js';
 export interface RiskPreviewsResource {
     /**
- * Create a risk preview for the authenticated merchant environment.
+ * Validates a draft rule, or an existing rule by risk_rule_id, without saving anything. An invalid
+ * rule has is_valid: false and its problems in issues. The warnings array says how the change
+ * would affect evaluation. Requires risk.read. Rule content issues return 200 with is_valid false,
+ * every issue in order, analysis null, and empty warnings. Valid rules return analysis and any
+ * warnings. When risk_rule_id is omitted, action and predicate are required. Malformed requests
+ * return 400; a missing risk_rule_id resource returns 404. Proposing action or predicate changes
+ * to a system rule returns 409 RULE_RESERVED. List reference issues are included at the list_alias
+ * path. A new rule at the active-rule limit receives a risk_rule_limit_reached warning.
+ * @see reference/riskPreviews.md#riskpreviewscreate
  * POST /v1/risk-previews
  * @example
  * client.riskPreviews.create({risk_rule_id: "rr_example"})
  */
-    create(params: (InputValue<({ "action"?: "allow" | "block" | "review" | "require_3ds"; "predicate"?: (({ "all": Array<RiskPredicateNodeInput>; }) | ({ "any": Array<RiskPredicateNodeInput>; }) | ({ "not": RiskPredicateNodeInput; }) | ({ "attribute": string; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; "value": ((string) | (number) | (boolean)); }) | ({ "amount_money": MoneyValueInput; "attribute": "amount_money"; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; }) | ({ "attribute": string; "operator": "in"; "values": Array<((string) | (number) | (boolean))>; }) | ({ "attribute": string; "list_alias": string; "operator": "in_list"; }) | ({ "attribute": string; "operator": "is_missing"; })); "risk_rule_id"?: string; }) & ((({ "action": unknown; "predicate": unknown; }) & ({ "risk_rule_id"?: never })) | ({ "risk_rule_id": unknown; }))>) & { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<RiskRuleValidationResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<({ "action"?: "allow" | "block" | "review" | "require_3ds"; "predicate"?: (({ "all": Array<RiskPredicateNodeInput>; }) | ({ "any": Array<RiskPredicateNodeInput>; }) | ({ "not": RiskPredicateNodeInput; }) | ({ "attribute": string; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; "value": ((string) | (number) | (boolean)); }) | ({ "amount_money": MoneyValueInput; "attribute": "amount_money"; "operator": "eq" | "neq" | "gt" | "gte" | "lt" | "lte"; }) | ({ "attribute": string; "operator": "in"; "values": Array<((string) | (number) | (boolean))>; }) | ({ "attribute": string; "list_alias": string; "operator": "in_list"; }) | ({ "attribute": string; "operator": "is_missing"; })); "risk_rule_id"?: string; }) & ((({ "action": unknown; "predicate": unknown; }) & ({ "risk_rule_id"?: never })) | ({ "risk_rule_id": unknown; }))>) & { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskPreviewsCreateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly riskPreviews: RiskPreviewsResource;
+    create(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<RiskPreview>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/riskPreviews.md#riskpreviewscreate
+     */
+    createWithResponse(params: (InputValue<CreateRiskPreviewRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<RiskPreviewResponse>>;
 }
-export type { RiskPredicateNodeInput } from '../declarations/RiskPredicateNodeInput.js';
-export type { MoneyValueInput } from '../declarations/MoneyValueInput.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { RiskRuleValidationResponse } from '../declarations/RiskRuleValidationResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { RiskPreviewsCreateResponse } from '../declarations/RiskPreviewsCreateResponse.js';
-export type { RiskPreviewsCreateInput } from '../declarations/RiskPreviewsCreateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { RuleValidation } from '../declarations/RuleValidation.js';
-export type { Analysis } from '../declarations/Analysis.js';
-export type { RuleWarning } from '../declarations/RuleWarning.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { CreateRiskPreviewRequestInput } from '../declarations/CreateRiskPreviewRequestInput.js';
-export { makeRiskRuleValidationResponse } from '../declarations/makeRiskRuleValidationResponse.js';
-export { makeRuleValidation } from '../declarations/makeRuleValidation.js';
-export { makeAnalysis } from '../declarations/makeAnalysis.js';
-export { makeRuleWarning } from '../declarations/makeRuleWarning.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly riskPreviews: RiskPreviewsResource;
+}

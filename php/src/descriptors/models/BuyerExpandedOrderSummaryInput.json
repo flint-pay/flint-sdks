@@ -1,0 +1,1 @@
+{"shared":"BuyerExpandedOrderSummary","dependencies":["BuyerExpandedOrderSummary","MoneyValue","PricingAmounts","SettlementAmounts","SignedMoney"]}

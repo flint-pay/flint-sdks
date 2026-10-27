@@ -2,61 +2,50 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/merchantSubscriptionInvoices.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/merchantSubscriptionInvoices.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["getMerchantSubscriptionInvoice"]:r0,["listMerchantSubscriptionInvoices"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["getMerchantBillingInvoice"]:r0,["listMerchantBillingInvoices"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.merchantSubscriptionInvoices = Object.freeze({
-      get: async (merchant_subscription_invoice_id, params, options) => this.#runtime.request("getMerchantSubscriptionInvoice", _sdkRequestInput([
-  "merchant_subscription_invoice_id"
-], [merchant_subscription_invoice_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      getWithResponse: async (merchant_subscription_invoice_id, params, options) => this.#runtime.request("getMerchantSubscriptionInvoice", _sdkRequestInput([
-  "merchant_subscription_invoice_id"
-], [merchant_subscription_invoice_id], [
-  "X-Request-Id"
+      get: async (merchant_billing_invoice_id, params, options) => this.#runtime.request("getMerchantBillingInvoice", _sdkRequestInput([
+  "merchant_billing_invoice_id"
+], [merchant_billing_invoice_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMerchantBillingInvoice", result, path))),
+      getWithResponse: async (merchant_billing_invoice_id, params, options) => this.#runtime.request("getMerchantBillingInvoice", _sdkRequestInput([
+  "merchant_billing_invoice_id"
+], [merchant_billing_invoice_id], [], false, false, params), options).then(_sdkResponse),
+      list: async (params, options) => this.#runtime.request("listMerchantBillingInvoices", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMerchantBillingInvoices", result, path))),
+      listWithResponse: async (params, options) => this.#runtime.request("listMerchantBillingInvoices", _sdkRequestInput([], [], [
+  "status",
+  "page_size",
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
-      list: async (params, options) => this.#runtime.request("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMerchantBillingInvoices", _sdkRequestInput([], [], [
+  "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
-      listWithResponse: async (params, options) => this.#runtime.request("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listMerchantBillingInvoices", result, path)),
+      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMerchantBillingInvoices", _sdkRequestInput([], [], [
+  "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
-      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options), []),
-      listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options)),
-      listItems: (params, options) => this.#runtime.items("listMerchantSubscriptionInvoices", _sdkRequestInput([], [], [
+      listItems: (params, options) => this.#runtime.items("listMerchantBillingInvoices", _sdkRequestInput([], [], [
+  "status",
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeMerchantSubscriptionInvoiceResponse } from '../models/MerchantSubscriptionInvoiceResponse.js';
-export { makeMerchantSubscriptionInvoiceListResponse } from '../models/MerchantSubscriptionInvoiceListResponse.js';
-export { makeMerchantSubscriptionInvoice } from '../models/MerchantSubscriptionInvoice.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeMerchantSubscriptionInvoiceLine } from '../models/MerchantSubscriptionInvoiceLine.js';

@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/giftCardTransactions.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/giftCardTransactions.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["listGiftCardTransactions"]:r0});
 export class Client {
@@ -13,8 +13,7 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.giftCardTransactions = Object.freeze({
       list: async (params, options) => this.#runtime.request("listGiftCardTransactions", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "external_reference_id",
+  "cash_out_reference",
   "gift_card_id",
   "idempotency_key",
   "order_id",
@@ -23,11 +22,11 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "source_type",
+  "transaction_type"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listGiftCardTransactions", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCardTransactions", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "external_reference_id",
+  "cash_out_reference",
   "gift_card_id",
   "idempotency_key",
   "order_id",
@@ -36,11 +35,11 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type"
+  "source_type",
+  "transaction_type"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCardTransactions", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "external_reference_id",
+  "cash_out_reference",
   "gift_card_id",
   "idempotency_key",
   "order_id",
@@ -49,11 +48,11 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type"
-], false, false, params), options), []),
+  "source_type",
+  "transaction_type"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listGiftCardTransactions", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCardTransactions", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "external_reference_id",
+  "cash_out_reference",
   "gift_card_id",
   "idempotency_key",
   "order_id",
@@ -62,11 +61,11 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type"
+  "source_type",
+  "transaction_type"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCardTransactions", _sdkRequestInput([], [], [
-  "X-Request-Id",
-  "external_reference_id",
+  "cash_out_reference",
   "gift_card_id",
   "idempotency_key",
   "order_id",
@@ -75,17 +74,12 @@ this.giftCardTransactions = Object.freeze({
   "posted_after",
   "posted_before",
   "source_id",
-  "source_type"
+  "source_type",
+  "transaction_type"
 ], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeGiftCardTransactionListResponse } from '../models/GiftCardTransactionListResponse.js';
-export { makeGiftCardTransaction } from '../models/GiftCardTransaction.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';

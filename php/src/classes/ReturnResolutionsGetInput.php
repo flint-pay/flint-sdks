@@ -8,12 +8,14 @@ namespace Flint;
 final class ReturnResolutionsGetInput extends Model {
     /** @param array{'return_resolution_id': string, 'expand'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** @return list<string>
+    /** Shape $ (Value): Array of string.  [] enum: "payment_intents", "refunds", "replacement_order". Shape $[] (Value): string.  Value enum: "payment_intents", "refunds", "replacement_order".
+     * @return list<string>
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): array { return $this->get('expand'); }

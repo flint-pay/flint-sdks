@@ -1,4 +1,0 @@
-import type { InputValue } from '../runtime.js';
-import type { CreateInvoicePaymentTermRequestInput } from './CreateInvoicePaymentTermRequestInput.js';
-
-export type InvoicePaymentTermsCreateInput = { "Idempotency-Key"?: InputValue<string>; "body": InputValue<CreateInvoicePaymentTermRequestInput>; };

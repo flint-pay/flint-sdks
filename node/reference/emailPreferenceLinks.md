@@ -1,0 +1,120 @@
+[API index](../REFERENCE.md) · [Models](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+# emailPreferenceLinks
+
+### emailPreferenceLinks.lookup
+
+Reads an emailed preference token without signing the buyer in. The merchant key must match the token's merchant and environment. Tokens belong in the request body and must stay on your backend.
+
+`POST /v1/email-preference-links/lookup`
+
+Signature: `lookup(params: (InputValue<EmailPreferenceLinkRequestInput>), options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [EmailPreferenceLinkRequestInput](../models/EmailPreferenceLinkRequest.md#emailpreferencelinkrequest) | The request body for: Look up an email preference link; Unsubscribe an email preference link. |
+
+#### Response
+
+Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLink.md#emailpreferencelink).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 403 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
+| 410 | ApiError | api |
+| 413 | ApiError | api |
+| 415 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `lookupWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.emailPreferenceLinks.lookup({token: "example"}, {  });
+```
+
+[Complete runnable example](../examples/emailPreferenceLinks-lookup.mjs)
+
+### emailPreferenceLinks.unsubscribe
+
+Disables the email preference represented by an emailed token without signing the buyer in. Repeating the request keeps it disabled. The merchant key must match the token's merchant and environment.
+
+`POST /v1/email-preference-links/unsubscribe`
+
+Signature:
+
+```typescript
+unsubscribe(params: (InputValue<EmailPreferenceLinkRequestInput>) & {
+  "Idempotency-Key"?: InputValue<string>
+},
+ options?: RequestOptions<"merchant" | "merchantKey">)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `body` | Required | [EmailPreferenceLinkRequestInput](../models/EmailPreferenceLinkRequest.md#emailpreferencelinkrequest) | The request body for: Look up an email preference link; Unsubscribe an email preference link. |
+
+#### Response
+
+Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLink.md#emailpreferencelink).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 403 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
+| 409 | ConflictError | conflict |
+| 410 | ApiError | api |
+| 413 | ApiError | api |
+| 415 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `unsubscribeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`, `merchantKey`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.emailPreferenceLinks.unsubscribe({token: "example"}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/emailPreferenceLinks-unsubscribe.mjs)
+

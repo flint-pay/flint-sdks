@@ -3,6 +3,9 @@ declare(strict_types=1);
 namespace Flint;
 class Model implements \JsonSerializable
 {
+    private array $hydrated = [];
+    private array $copyOnRead = [];
+    private readonly bool $response;
     protected readonly mixed $values;
     private readonly mixed $inputValues;
     private readonly array $codec;
@@ -16,6 +19,7 @@ class Model implements \JsonSerializable
         array $redactFields = [],
         ?array $compiled = null,
     ) {
+        $this->response = $response;
         $this->schema = $schema;
         $codec = $compiled ?? \Flint\Internal\SchemaAdapter::compile($schema);
         $this->codec = $codec;
@@ -33,7 +37,8 @@ class Model implements \JsonSerializable
         ]);
         // Store public values: unwrap nested models and exact wire-number wrappers,
         // while retaining the normalized distinction between objects and lists.
-        $unwrap = function (mixed $value, int $depth = 0) use (&$unwrap): mixed {
+        $hasWireNumbers = false;
+        $unwrap = function (mixed $value, int $depth = 0) use (&$unwrap, &$hasWireNumbers): mixed {
             if ($depth > 256) {
                 Codec::fail(
                     'value',
@@ -44,6 +49,7 @@ class Model implements \JsonSerializable
                 return $unwrap($value->jsonSerialize(), $depth + 1);
             }
             if ($value instanceof RawNumber) {
+                $hasWireNumbers = true;
                 return $value->value;
             }
             if (is_array($value)) {
@@ -77,8 +83,10 @@ class Model implements \JsonSerializable
             }
             return $value;
         };
-        $this->inputValues = $preserveNumbers($normalized);
         $this->values = $unwrap($normalized);
+        // Most response trees have identical public and input representations.
+        // Share the privately owned tree unless exact wire numbers need wrappers.
+        $this->inputValues = $hasWireNumbers ? $preserveNumbers($normalized) : $this->values;
     }
     /** @internal Validate the serialized public-value graph without invoking schema adapters. */
     public static function assertRepresentation(mixed $plan, int $depth = 0): void
@@ -208,9 +216,59 @@ class Model implements \JsonSerializable
             ? property_exists($this->values, $field)
             : is_array($this->values) && array_key_exists($field, $this->values);
     }
+    private static function declaresField(
+        array $codec,
+        string $field,
+        array $definitions = [],
+        int $depth = 0,
+    ): bool {
+        if ($depth > 256) {
+            throw new \InvalidArgumentException('Codec nesting limit');
+        }
+        $definitions = $codec['definitions'] ?? $definitions;
+        if (isset($codec['fields'][$field])) {
+            return true;
+        }
+        if (isset($codec['reference'])) {
+            return self::declaresField(
+                $definitions[$codec['reference']],
+                $field,
+                $definitions,
+                $depth + 1,
+            );
+        }
+        foreach (['every', 'some', 'exactlyOne'] as $group) {
+            foreach ($codec[$group] ?? [] as $branch) {
+                if (self::declaresField($branch, $field, $definitions, $depth + 1)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private static function containsMutableObject(mixed $value): bool
+    {
+        if ($value instanceof \stdClass) {
+            return true;
+        }
+        if (is_array($value)) {
+            foreach ($value as $child) {
+                if (self::containsMutableObject($child)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public function get(string $field): mixed
     {
         if (!$this->has($field)) {
+            if (!self::declaresField($this->codec, $field)) {
+                throw SdkError::create('validation', 'Unknown model property ' . $field);
+            }
+            if ($this->response) {
+                return null;
+            }
             throw SdkError::create(
                 'validation',
                 'Field ' .
@@ -218,11 +276,21 @@ class Model implements \JsonSerializable
                     ' was omitted; use has() or valueOrDefault() for optional fields.',
             );
         }
-        $value = is_object($this->values) ? $this->values->{$field} : $this->values[$field];
-        $plan = $this->representation['fields'][$field] ?? ($this->representation['extra'] ?? null);
-        return $plan === null
-            ? self::copyValue($value)
-            : self::hydrate($value, $plan, $this->redactFields);
+        if (!array_key_exists($field, $this->hydrated)) {
+            $value = is_object($this->values) ? $this->values->{$field} : $this->values[$field];
+            $plan =
+                $this->representation['fields'][$field] ?? ($this->representation['extra'] ?? null);
+            $this->hydrated[$field] =
+                $plan === null
+                    ? self::copyValue($value)
+                    : self::hydrate($value, $plan, $this->redactFields);
+            $this->copyOnRead[$field] = self::containsMutableObject($this->hydrated[$field]);
+        }
+        // PHP arrays use copy-on-write; immutable model children can be shared.
+        // Untyped objects remain defensive copies so callers cannot mutate the cache.
+        return $this->copyOnRead[$field]
+            ? self::copyValue($this->hydrated[$field])
+            : $this->hydrated[$field];
     }
     /** Return the fallback only for omission; an explicit null remains null. */
     public function valueOrDefault(string $field, mixed $default = null): mixed
@@ -232,6 +300,13 @@ class Model implements \JsonSerializable
     public function __get(string $field): mixed
     {
         return $this->get($field);
+    }
+    public function __set(string $field, mixed $value): void
+    {
+        throw SdkError::create(
+            'validation',
+            'Model properties are read-only; construct a new model with the updated values',
+        );
     }
     public function __isset(string $field): bool
     {

@@ -1,0 +1,1 @@
+{"shared":"RotateGiftCardCodeResult","dependencies":["GiftCard","GiftCardNotification","GiftCardNotificationDelivery","GiftCardNotificationDeliveryAttempt","GiftCardNotificationDeliveryEvent","GiftCardNotificationRecipient","GiftCardRestriction","MoneyValue","RotateGiftCardCodeResult"]}

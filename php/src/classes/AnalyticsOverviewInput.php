@@ -2,74 +2,64 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read CountMetricInput|array<array-key, mixed>|\stdClass $active_subscriptions
- * @property-read MoneyMetricInput|array<array-key, mixed>|\stdClass $average_payment
  * @property-read list<string> $currencies
- * @property-read MoneyMetricInput|array<array-key, mixed>|\stdClass $gross_volume
- * @property-read bool $has_multiple_currencies
- * @property-read MoneyMetricInput|array<array-key, mixed>|\stdClass $net_volume
- * @property-read CountMetricInput|array<array-key, mixed>|\stdClass $new_customers
- * @property-read CountMetricInput|array<array-key, mixed>|\stdClass $payments_count
- * @property-read string $range
- * @property-read MoneyMetricInput|array<array-key, mixed>|\stdClass $refunds_total
- * @property-read string $timezone
+ * @property-read string $currency
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $gross_volume_money
+ * @property-read string $new_customers_count
+ * @property-read string $payments_count
+ * @property-read string|\DateTimeInterface $period_end_at
+ * @property-read string|\DateTimeInterface $period_start_at
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class AnalyticsOverviewInput extends Model {
-    /** @param array{'active_subscriptions': CountMetricInput|array<array-key, mixed>|\stdClass, 'average_payment': MoneyMetricInput|array<array-key, mixed>|\stdClass, 'currencies'?: list<string>, 'gross_volume': MoneyMetricInput|array<array-key, mixed>|\stdClass, 'has_multiple_currencies': bool, 'net_volume': MoneyMetricInput|array<array-key, mixed>|\stdClass, 'new_customers': CountMetricInput|array<array-key, mixed>|\stdClass, 'payments_count': CountMetricInput|array<array-key, mixed>|\stdClass, 'range': string, 'refunds_total': MoneyMetricInput|array<array-key, mixed>|\stdClass, 'timezone': string, ...}|object $values */
+    /** @param array{'currencies': list<string>, 'currency': string, 'gross_volume_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'new_customers_count': string, 'payments_count': string, 'period_end_at': string|\DateTimeInterface, 'period_start_at': string|\DateTimeInterface, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AnalyticsOverviewInput')); }
-    /** @return CountMetricInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When active_subscriptions is omitted; use hasActiveSubscriptions() or valueOrDefault().
-     */
-    public function getActiveSubscriptions(): mixed { return $this->get('active_subscriptions'); }
-    public function hasActiveSubscriptions(): bool { return $this->has('active_subscriptions'); }
-    /** @return MoneyMetricInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When average_payment is omitted; use hasAveragePayment() or valueOrDefault().
-     */
-    public function getAveragePayment(): mixed { return $this->get('average_payment'); }
-    public function hasAveragePayment(): bool { return $this->has('average_payment'); }
-    /** @return list<string>
+    /** Shape $ (Value): Array of string. Currencies of succeeded payments selected by payment created_at or counted refunds selected by refund created_at in the period, regardless of the currency filter. Empty when neither has rows. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies. Shape $[] (Value): string.
+     * @return list<string>
      * @throws SdkError When currencies is omitted; use hasCurrencies() or valueOrDefault().
      */
     public function getCurrencies(): array { return $this->get('currencies'); }
     public function hasCurrencies(): bool { return $this->has('currencies'); }
-    /** @return MoneyMetricInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When gross_volume is omitted; use hasGrossVolume() or valueOrDefault().
+    /** Shape $ (Value): string. ISO 4217 currency for amounts and payment counts. Defaults to the merchant's default currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * @return string
+     * @throws SdkError When currency is omitted; use hasCurrency() or valueOrDefault().
      */
-    public function getGrossVolume(): mixed { return $this->get('gross_volume'); }
-    public function hasGrossVolume(): bool { return $this->has('gross_volume'); }
-    /** @return bool
-     * @throws SdkError When has_multiple_currencies is omitted; use hasHasMultipleCurrencies() or valueOrDefault().
+    public function getCurrency(): string { return $this->get('currency'); }
+    public function hasCurrency(): bool { return $this->has('currency'); }
+    /** Shape $ (Value): {@see MoneyValueInput}. Sum of succeeded payment amounts selected by payment created_at in the period, in currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When gross_volume_money is omitted; use hasGrossVolumeMoney() or valueOrDefault().
      */
-    public function getHasMultipleCurrencies(): bool { return $this->get('has_multiple_currencies'); }
-    public function hasHasMultipleCurrencies(): bool { return $this->has('has_multiple_currencies'); }
-    /** @return MoneyMetricInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When net_volume is omitted; use hasNetVolume() or valueOrDefault().
+    public function getGrossVolumeMoney(): mixed { return $this->get('gross_volume_money'); }
+    public function hasGrossVolumeMoney(): bool { return $this->has('gross_volume_money'); }
+    /** Shape $ (Value): integer string. Customers selected by customer created_at in the period, across all currencies. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
+     * @throws SdkError When new_customers_count is omitted; use hasNewCustomersCount() or valueOrDefault().
      */
-    public function getNetVolume(): mixed { return $this->get('net_volume'); }
-    public function hasNetVolume(): bool { return $this->has('net_volume'); }
-    /** @return CountMetricInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When new_customers is omitted; use hasNewCustomers() or valueOrDefault().
-     */
-    public function getNewCustomers(): mixed { return $this->get('new_customers'); }
-    public function hasNewCustomers(): bool { return $this->has('new_customers'); }
-    /** @return CountMetricInput|array<array-key, mixed>|\stdClass
+    public function getNewCustomersCount(): string { return $this->get('new_customers_count'); }
+    public function hasNewCustomersCount(): bool { return $this->has('new_customers_count'); }
+    /** Shape $ (Value): integer string. Succeeded payments selected by payment created_at in the period, restricted to currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When payments_count is omitted; use hasPaymentsCount() or valueOrDefault().
      */
-    public function getPaymentsCount(): mixed { return $this->get('payments_count'); }
+    public function getPaymentsCount(): string { return $this->get('payments_count'); }
     public function hasPaymentsCount(): bool { return $this->has('payments_count'); }
-    /** @return string
-     * @throws SdkError When range is omitted; use hasRange() or valueOrDefault().
+    /** Shape $ (Value): string. Exclusive resolved end instant. Omitted or future request ends resolve to the request time truncated to the second. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time.
+     * @return string|\DateTimeInterface
+     * @throws SdkError When period_end_at is omitted; use hasPeriodEndAt() or valueOrDefault().
      */
-    public function getRange(): string { return $this->get('range'); }
-    public function hasRange(): bool { return $this->has('range'); }
-    /** @return MoneyMetricInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When refunds_total is omitted; use hasRefundsTotal() or valueOrDefault().
+    public function getPeriodEndAt(): string|\DateTimeInterface { return $this->get('period_end_at'); }
+    public function hasPeriodEndAt(): bool { return $this->has('period_end_at'); }
+    /** Shape $ (Value): string. Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Format: date-time.
+     * @return string|\DateTimeInterface
+     * @throws SdkError When period_start_at is omitted; use hasPeriodStartAt() or valueOrDefault().
      */
-    public function getRefundsTotal(): mixed { return $this->get('refunds_total'); }
-    public function hasRefundsTotal(): bool { return $this->has('refunds_total'); }
-    /** @return string
-     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
+    public function getPeriodStartAt(): string|\DateTimeInterface { return $this->get('period_start_at'); }
+    public function hasPeriodStartAt(): bool { return $this->has('period_start_at'); }
+    /** Shape $ (Value): {@see MoneyValueInput}. Refund amounts selected by refund created_at in the period, excluding failed and canceled refunds. Parent refunds with child executions count through the children once, regardless of payment creation time. Uses currency. The half-open period [period_start_at, period_end_at) includes its start and excludes its end. Amounts and payments_count use currency; customer and subscription counts span currencies.  Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
      */
-    public function getTimezone(): string { return $this->get('timezone'); }
-    public function hasTimezone(): bool { return $this->has('timezone'); }
+    public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
+    public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
 }

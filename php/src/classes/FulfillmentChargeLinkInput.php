@@ -7,7 +7,8 @@ namespace Flint;
 final class FulfillmentChargeLinkInput extends Model {
     /** @param array{'order_charge_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentChargeLinkInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Order charge associated with this fulfillment.
+     * @return string
      * @throws SdkError When order_charge_id is omitted; use hasOrderChargeId() or valueOrDefault().
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }

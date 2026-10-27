@@ -10,22 +10,26 @@ namespace Flint;
 final class GuestPurchaseLinkInput extends Model {
     /** @param array{'customer_id': string, 'email': string, 'linked_at': string|\DateTimeInterface, 'linked_order_count': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GuestPurchaseLinkInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string|\DateTimeInterface
      * @throws SdkError When linked_at is omitted; use hasLinkedAt() or valueOrDefault().
      */
     public function getLinkedAt(): string|\DateTimeInterface { return $this->get('linked_at'); }
     public function hasLinkedAt(): bool { return $this->has('linked_at'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When linked_order_count is omitted; use hasLinkedOrderCount() or valueOrDefault().
      */
     public function getLinkedOrderCount(): string { return $this->get('linked_order_count'); }

@@ -1,1 +1,1 @@
-{"shared":"InvoiceSettings","dependencies":["InvoiceAutopayRetryPolicy","InvoicePaymentOptionLimit","InvoicePaymentPolicy","InvoiceReminderPolicy","InvoiceReminderRule","InvoiceSettings","MoneyValue","PostalAddress"]}
+{"shared":"InvoiceSettings","dependencies":["Address","InvoiceAutopayRetryPolicy","InvoicePaymentOptionLimit","InvoicePaymentPolicy","InvoiceReminderPolicy","InvoiceReminderRule","InvoiceSettings","MoneyValue"]}

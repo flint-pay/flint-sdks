@@ -1,0 +1,1 @@
+{"shared":"BuyerReturnHandoffRequirement","dependencies":["Address","BuyerReturnHandoffDestination","BuyerReturnHandoffRequirement","ReturnHandoffRequirementLineItem"]}

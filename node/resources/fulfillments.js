@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fulfillments.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/fulfillments.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createFulfillmentEvent"]:r0,["createShipment"]:r0,["getFulfillment"]:r0,["listFulfillments"]:r0,["transitionFulfillment"]:r0,["updateFulfillment"]:r0});
 export class Client {
@@ -15,44 +15,38 @@ this.fulfillments = Object.freeze({
       createEvent: async (fulfillment_id, params, options) => this.#runtime.request("createFulfillmentEvent", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillmentEvent", result, path))),
       createEventWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("createFulfillmentEvent", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createShipment: async (fulfillment_id, params, options) => this.#runtime.request("createShipment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createShipment", result, path))),
       createShipmentWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("createShipment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (fulfillment_id, params, options) => this.#runtime.request("getFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "expand",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getFulfillment", result, path))),
       getWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("getFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "expand",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFulfillments", _sdkRequestInput([], [], [
-  "expand",
-  "order_id",
   "page_size",
   "page_token",
+  "expand",
+  "order_id",
   "external_reference_id",
   "query",
   "status",
@@ -62,14 +56,14 @@ this.fulfillments = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "sort_by",
+  "sort_direction"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listFulfillments", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listFulfillments", _sdkRequestInput([], [], [
-  "expand",
-  "order_id",
   "page_size",
   "page_token",
+  "expand",
+  "order_id",
   "external_reference_id",
   "query",
   "status",
@@ -79,14 +73,14 @@ this.fulfillments = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
+  "sort_by",
+  "sort_direction"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFulfillments", _sdkRequestInput([], [], [
-  "expand",
-  "order_id",
   "page_size",
   "page_token",
+  "expand",
+  "order_id",
   "external_reference_id",
   "query",
   "status",
@@ -96,14 +90,14 @@ this.fulfillments = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "sort_by",
+  "sort_direction"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listFulfillments", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFulfillments", _sdkRequestInput([], [], [
-  "expand",
-  "order_id",
   "page_size",
   "page_token",
+  "expand",
+  "order_id",
   "external_reference_id",
   "query",
   "status",
@@ -113,14 +107,14 @@ this.fulfillments = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
+  "sort_by",
+  "sort_direction"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFulfillments", _sdkRequestInput([], [], [
-  "expand",
-  "order_id",
   "page_size",
   "page_token",
+  "expand",
+  "order_id",
   "external_reference_id",
   "query",
   "status",
@@ -130,135 +124,53 @@ this.fulfillments = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before",
-  "sort_direction",
-  "X-Request-Id"
+  "sort_by",
+  "sort_direction"
 ], false, false, params), options),
-      transition: (input = {}, options) => this.#runtime.request("transitionFulfillment", input, options).then(result => _sdkPayload(result, ["data"])),
+      transition: (input = {}, options) => this.#runtime.request("transitionFulfillment", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionFulfillment", result, path))),
       transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionFulfillment", input, options).then(_sdkResponse),
       update: async (fulfillment_id, params, options) => this.#runtime.request("updateFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expand",
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateFulfillment", result, path))),
       updateWithResponse: async (fulfillment_id, params, options) => this.#runtime.request("updateFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "expand",
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeFulfillmentEventResponse } from '../models/FulfillmentEventResponse.js';
-export { makeCreateShipmentResponse } from '../models/CreateShipmentResponse.js';
-export { makeFulfillmentResponse } from '../models/FulfillmentResponse.js';
-export { makeFulfillmentListResponse } from '../models/FulfillmentListResponse.js';
-export { makeFulfillment } from '../models/Fulfillment.js';
-export { makeFulfillmentCommandResponse } from '../models/FulfillmentCommandResponse.js';
-export { makeOrderResponse } from '../models/OrderResponse.js';
-export { makeFulfillmentEventResult } from '../models/FulfillmentEventResult.js';
-export { makeFulfillmentEvent } from '../models/FulfillmentEvent.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
+export { makeAddressRequest } from '../models/AddressRequest.js';
+export { makeCreateFulfillmentEventRequest } from '../models/CreateFulfillmentEventRequest.js';
+export { makeCreateShipmentRequest } from '../models/CreateShipmentRequest.js';
+export { makeFulfillmentRecipientRequest } from '../models/FulfillmentRecipientRequest.js';
+export { makeFulfillmentTransitionRequest } from '../models/FulfillmentTransitionRequest.js';
+export { makeFulfillmentTransitionRequestAccept } from '../models/FulfillmentTransitionRequestAccept.js';
+export { makeFulfillmentTransitionRequestCancel } from '../models/FulfillmentTransitionRequestCancel.js';
+export { makeFulfillmentTransitionRequestComplete } from '../models/FulfillmentTransitionRequestComplete.js';
+export { makeFulfillmentTransitionRequestDispatch } from '../models/FulfillmentTransitionRequestDispatch.js';
+export { makeFulfillmentTransitionRequestFail } from '../models/FulfillmentTransitionRequestFail.js';
+export { makeFulfillmentTransitionRequestHold } from '../models/FulfillmentTransitionRequestHold.js';
+export { makeFulfillmentTransitionRequestMarkNoShow } from '../models/FulfillmentTransitionRequestMarkNoShow.js';
+export { makeFulfillmentTransitionRequestMarkPacked } from '../models/FulfillmentTransitionRequestMarkPacked.js';
+export { makeFulfillmentTransitionRequestMarkPicked } from '../models/FulfillmentTransitionRequestMarkPicked.js';
+export { makeFulfillmentTransitionRequestMarkPreparing } from '../models/FulfillmentTransitionRequestMarkPreparing.js';
+export { makeFulfillmentTransitionRequestMarkReady } from '../models/FulfillmentTransitionRequestMarkReady.js';
+export { makeFulfillmentTransitionRequestReleaseHold } from '../models/FulfillmentTransitionRequestReleaseHold.js';
+export { makeFulfillmentTransitionRequestSchedule } from '../models/FulfillmentTransitionRequestSchedule.js';
+export { makeFulfillmentTransitionRequestStart } from '../models/FulfillmentTransitionRequestStart.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';
-export { makeFulfillmentNotification } from '../models/FulfillmentNotification.js';
-export { makePackage } from '../models/Package.js';
-export { makeShippingDimensions } from '../models/ShippingDimensions.js';
+export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
 export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
-export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
-export { makeShippingWeight } from '../models/ShippingWeight.js';
-export { makeShipment } from '../models/Shipment.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeCreateShipmentResult } from '../models/CreateShipmentResult.js';
-export { makeFulfillmentHold } from '../models/FulfillmentHold.js';
-export { makeFulfillmentChargeLink } from '../models/FulfillmentChargeLink.js';
-export { makeDigitalFulfillmentDetails } from '../models/DigitalFulfillmentDetails.js';
-export { makeFulfillmentLineItem } from '../models/FulfillmentLineItem.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDetails.js';
-export { makeFulfillmentOutcome } from '../models/FulfillmentOutcome.js';
-export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
-export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
-export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
-export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
-export { makeFulfillmentCommandResult } from '../models/FulfillmentCommandResult.js';
-export { makeOrder } from '../models/Order.js';
-export { makeOrderPaymentAttempt } from '../models/OrderPaymentAttempt.js';
-export { makePaymentAttemptGiftCardRedemption } from '../models/PaymentAttemptGiftCardRedemption.js';
-export { makePaymentAttemptPaymentIntent } from '../models/PaymentAttemptPaymentIntent.js';
-export { makePaymentErrorSummary } from '../models/PaymentErrorSummary.js';
-export { makeErrorRemediation } from '../models/ErrorRemediation.js';
-export { makeOrderPaymentAttemptPaymentMethodSave } from '../models/OrderPaymentAttemptPaymentMethodSave.js';
-export { makePendingPaymentAction } from '../models/PendingPaymentAction.js';
-export { makePaymentClientAction } from '../models/PaymentClientAction.js';
-export { makeStripePaymentClientAction } from '../models/StripePaymentClientAction.js';
-export { makeStripePaymentIntentClientAction } from '../models/StripePaymentIntentClientAction.js';
-export { makeStripeSetupIntentClientAction } from '../models/StripeSetupIntentClientAction.js';
-export { makePendingPaymentActionSubject } from '../models/PendingPaymentActionSubject.js';
-export { makePendingPaymentActionPaymentIntentSubject } from '../models/PendingPaymentActionPaymentIntentSubject.js';
-export { makePendingPaymentActionSetupPaymentSourceSubject } from '../models/PendingPaymentActionSetupPaymentSourceSubject.js';
-export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
-export { makeAppliedDiscount } from '../models/AppliedDiscount.js';
-export { makeOrderAuthorizationAmounts } from '../models/OrderAuthorizationAmounts.js';
-export { makeBuyerAction } from '../models/BuyerAction.js';
-export { makeCheckoutBuyerContact } from '../models/CheckoutBuyerContact.js';
-export { makeOrderCharge } from '../models/OrderCharge.js';
-export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
-export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
-export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
-export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
-export { makeOrderDeliveryDestination } from '../models/OrderDeliveryDestination.js';
-export { makeOrderDeliveryDestinationAddress } from '../models/OrderDeliveryDestinationAddress.js';
-export { makeOrderDeliveryDestinationRecipient } from '../models/OrderDeliveryDestinationRecipient.js';
-export { makeOrderGiftCardEstimate } from '../models/OrderGiftCardEstimate.js';
-export { makeOrderGiftCardAllocation } from '../models/OrderGiftCardAllocation.js';
-export { makeOrderGiftCardSettlement } from '../models/OrderGiftCardSettlement.js';
-export { makeOrderGiftCardSelection } from '../models/OrderGiftCardSelection.js';
-export { makeInventoryRoutingSource } from '../models/InventoryRoutingSource.js';
-export { makeOrderLineItem } from '../models/OrderLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeGiftCardPurchaseSnapshot } from '../models/GiftCardPurchaseSnapshot.js';
-export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
-export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
-export { makeGiftCardPurchaseRecipient } from '../models/GiftCardPurchaseRecipient.js';
-export { makeImage } from '../models/Image.js';
-export { makeLineItemInventoryDemand } from '../models/LineItemInventoryDemand.js';
-export { makePurchasedGiftCard } from '../models/PurchasedGiftCard.js';
-export { makeSubscribedLine } from '../models/SubscribedLine.js';
-export { makeOrderLineSubscriptionOfferSummary } from '../models/OrderLineSubscriptionOfferSummary.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeOrderLineSubscriptionOfferDiscount } from '../models/OrderLineSubscriptionOfferDiscount.js';
-export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
-export { makePaymentCollection } from '../models/PaymentCollection.js';
-export { makePaymentCollectionStripe } from '../models/PaymentCollectionStripe.js';
-export { makeSelectableOrderPaymentIntent } from '../models/SelectableOrderPaymentIntent.js';
-export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
-export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
-export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
-export { makePurchasedEvent } from '../models/PurchasedEvent.js';
-export { makeOrderReturnCreditSettlement } from '../models/OrderReturnCreditSettlement.js';
-export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
-export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
-export { makeOrderTax } from '../models/OrderTax.js';
-export { makeOrderTaxExemption } from '../models/OrderTaxExemption.js';
-export { makeOrderTaxLocation } from '../models/OrderTaxLocation.js';
-export { makeTaxBreakdown } from '../models/TaxBreakdown.js';
-export { makeTip } from '../models/Tip.js';
-export { makeTipPaymentIntentAllocation } from '../models/TipPaymentIntentAllocation.js';
-export { makeTipValueSettlementAllocation } from '../models/TipValueSettlementAllocation.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeUpdateDeliveryFulfillmentDetails } from '../models/UpdateDeliveryFulfillmentDetails.js';
+export { makeUpdateDigitalFulfillmentDetails } from '../models/UpdateDigitalFulfillmentDetails.js';
+export { makeUpdateFulfillmentRequest } from '../models/UpdateFulfillmentRequest.js';
+export { makeUpdatePickupFulfillmentDetails } from '../models/UpdatePickupFulfillmentDetails.js';
+export { makeUpdateServiceFulfillmentDetails } from '../models/UpdateServiceFulfillmentDetails.js';

@@ -1,0 +1,115 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## BuyerInvoice
+
+A bill issued to a customer.
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `active_payment_attempt` | Optional | [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#invoicepaymentattempt) | The payment attempt in progress for this invoice, such as a bank debit still processing. Omitted when none is open. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An attempt to collect payment for an invoice. |
+| `balance_rows` | Optional | Array of [InvoiceDocumentRow](../models/InvoiceDocumentRow.md#invoicedocumentrow) | What changed after the invoice was issued, in display order, such as late fees, payments, credit notes, and write-offs. When present, rows where `is_informational` is `false` sum to `outstanding_money`. The opening `total` row contributes to the sum; the closing `amount_due` row is informational and states it. `[]` when nothing changed or the invoice is void. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. |
+| `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the invoice: pay. pay is available when a checkout session can take a payment now, and then required, due by due_at or by the due date of the installment it collects. |
+| `cc_emails` | Required | Array of string | Additional recipients copied on the invoice email and every reminder. |
+| `closed_at` | Optional | string | When the current closed interval began. Cleared when status returns to open or partially_paid. A direct move between closed statuses preserves this timestamp. Format: `date-time`. |
+| `collection_block_status` | Required | string | Whether collection is blocked. While it is inventory_blocked, collection attempts return INVOICE_COLLECTION_BLOCKED. Values: `"none"`, `"inventory_blocked"`, `"resolved"`. |
+| `collection_mode` | Optional | string | How the invoice is collected: buyer_initiated, automatic, or external. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. Values: `"buyer_initiated"`, `"automatic"`, `"external"`. |
+| `created_at` | Optional | string | When the invoice was created. Format: `date-time`. |
+| `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit note credit allocated to this invoice, minus reversed allocations. Unallocated credit isn't included. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `credit_money`: [field definitions](../models/BuyerInvoice.md#buyerinvoicecredit_money). |
+| `currently_due_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due time has arrived and that still has a balance, or 0 when there is none. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `currently_due_money`: [field definitions](../models/BuyerInvoice.md#buyerinvoicecurrently_due_money). |
+| `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | Summary of the billed customer. Returned only with expand=customer. |
+| `customer_id` | Optional | string | Customer billed by this invoice. Absent when the invoice has no customer. |
+| `due_at` | Optional | string | When payment is due. With payment terms, issue sets it from issued_at and the terms, counted in the invoice's timezone. Absent when the invoice has no due date. Format: `date-time`. |
+| `footer` | Required | string or null | Fine print at the bottom of the invoice and PDF. It cannot change after issue. |
+| `invoice_id` | Required | string | Flint invoice ID. |
+| `invoice_number` | Optional | string | Sequential document number assigned when the invoice is issued. Numbering is per merchant, with test and live mode numbered independently. |
+| `is_overdue` | Required | boolean | Whether the invoice is open or partially_paid and past due with a balance remaining. Without schedule_entries, due_at has passed and outstanding_money is above zero; with them, at least one entry is overdue. Computed when the invoice is read. |
+| `issue_rows` | Optional | Array of [InvoiceDocumentRow](../models/InvoiceDocumentRow.md#invoicedocumentrow) | The rows of the invoice's totals as issued, in display order. Rows where `is_informational` is `false` sum to `snapshot.pricing_amounts.total_money`. A closing `total` row is informational and states that sum. Show the rows in order without merging or summing them. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. |
+| `issued_at` | Optional | string | When the invoice was issued. Absent on a draft. Format: `date-time`. |
+| `late_fee_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Late fees assessed after issue, minus waivers, including amounts since paid or written off. Itemized in late_fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `late_fee_money`: [field definitions](../models/BuyerInvoice.md#buyerinvoicelate_fee_money). |
+| `late_fees` | Required | Array of [BuyerInvoiceLateFee](../models/BuyerInvoiceLateFee.md#buyerinvoicelatefee) | Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. late_fee_money is their assessed total minus waivers. |
+| `memo` | Required | string or null | Message to the customer, shown on the invoice. It cannot change after issue. |
+| `merchant_icon` | Optional | [Image](../models/Image.md#image) | The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An image with its `url`, `width`, and `height`, and optional `alt` text. |
+| `merchant_id` | Required | string | Merchant that owns this invoice. |
+| `merchant_logo` | Optional | [Image](../models/Image.md#image) | The merchant's logo. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An image with its `url`, `width`, and `height`, and optional `alt` text. |
+| `merchant_support` | Optional | [CheckoutMerchantSupport](../models/CheckoutMerchantSupport.md#checkoutmerchantsupport) | How the buyer can reach the merchant: the support email, phone, and URL the merchant set. Omitted when the merchant set none. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. The merchant's support contact. Each field is omitted when the merchant has not set it. |
+| `order` | Optional | [BuyerExpandedOrderSummary](../models/BuyerExpandedOrderSummary.md#buyerexpandedordersummary) or null | Summary of the backing order. Returned only with expand=order. |
+| `order_id` | Required | string | The order this invoice bills. Every invoice has one; quick pay creates it. |
+| `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and void invoices. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `outstanding_money`: [field definitions](../models/BuyerInvoice.md#buyerinvoiceoutstanding_money). |
+| `paid_at` | Optional | string | When the invoice most recently became paid. Cleared when status leaves paid and set again on a later paid transition. Format: `date-time`. |
+| `paid_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Payments collected toward this invoice, online or as recorded manual payments, minus reversed payments, including payments toward late fees. Never below zero. Refunds don't reduce it; they are in refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `paid_money`: [field definitions](../models/BuyerInvoice.md#buyerinvoicepaid_money). |
+| `payment_option_cost_comparison` | Optional | [InvoicePaymentOptionCostComparison](../models/InvoicePaymentOptionCostComparison.md#invoicepaymentoptioncostcomparison) | A payment option that costs the merchant less to accept for this invoice, with the estimated savings. Present when the invoice's payment policy turns on `show_cost_comparison` and Flint can compare the options. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. Compares two payment options on an invoice and shows the estimated savings from the lower-cost option. |
+| `payment_options` | Optional | Array of string | Ways the buyer can pay this invoice online, leaving out any option whose limit the amount exceeds. `[]` when it can't be paid online. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
+| `payment_terms_snapshot` | Optional | [InvoicePaymentTermsSnapshot](../models/InvoicePaymentTermsSnapshot.md#invoicepaymenttermssnapshot) | The payment term captured on the draft, with its due date rule and late fee policy. Later changes to the payment term don't affect this invoice. The payment terms saved on an invoice: the term's name, version, due date calculation, and late fee policy. |
+| `po_number` | Required | string or null | The buyer's purchase order number. |
+| `recipient_email` | Required | string or null | Where invoice email goes. Email delivery requires it at issue. |
+| `reference` | Required | string or null | Customer-facing reference shown on the invoice and PDF. It cannot change after issue. |
+| `refund_status` | Required | string | How much of the collected money has been refunded. It doesn't change status. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
+| `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money refunded to the buyer after collection. Refunds don't reopen the balance; refund_status summarizes them. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `refunded_money`: [field definitions](../models/BuyerInvoice.md#buyerinvoicerefunded_money). |
+| `remit_to_address` | Optional | [Address](../models/Address.md#address) | Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. `remit_to_address`: [field definitions](../models/BuyerInvoice.md#buyerinvoiceremit_to_address). |
+| `schedule_entries` | Required | Array of [InvoiceScheduleEntry](../models/InvoiceScheduleEntry.md#invoicescheduleentry) | The payment schedule, in schedule order. Always [] when the invoice has no schedule and is collected in one balance. |
+| `scheduled_issue_at` | Required | string or null | When Flint will issue and deliver this draft. Cleared when the draft is issued or voided, or when you send null. Format: `date-time`. |
+| `service_date` | Required | string or null | The calendar service date shown on the invoice, in YYYY-MM-DD format. Format: `date`. |
+| `show_flint_mark` | Optional | boolean | Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when the merchant's agreement with Flint removes it. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. |
+| `snapshot` | Optional | [InvoiceSnapshot](../models/InvoiceSnapshot.md#invoicesnapshot) | The billing content of the invoice: line items, discounts, charges, tip, tax, and totals. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts. |
+| `status` | Required | string | Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. void and uncollectible are final. Refunds change refund_status without reopening the balance. Values: `"open"`, `"partially_paid"`, `"paid"`, `"void"`, `"uncollectible"`, `"credited"`. |
+| `subscription_id` | Required | string or null | Subscription of the backing order, copied when the draft is created. Null for orders without a subscription. |
+| `theme` | Optional | [CheckoutTheme](../models/CheckoutTheme.md#checkouttheme) | The theme Flint's hosted invoice page renders with, from your branding settings. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. Colors, corner radius, font family, and title that style a checkout, taken from the session or link theme or the merchant's branding settings. |
+| `timezone` | Optional | string | IANA time zone for the invoice's calendar dates, such as due dates from payment terms and reminder and late fee day counts. At issue, an invoice without one takes the invoice settings timezone. |
+| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What the invoice bills, equal to snapshot.pricing_amounts.total_money and fixed at issue. Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `total_money`: [field definitions](../models/BuyerInvoice.md#buyerinvoicetotal_money). |
+| `updated_at` | Optional | string | When the invoice last changed. Format: `date-time`. |
+| `version` | Required | integer string | Current invoice version. Send this as expected_version when updating the draft. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `viewed_at` | Optional | string | When the buyer first opened the invoice through its hosted invoice link. Recorded on a best-effort basis. Format: `date-time`. |
+| `voided_at` | Optional | string | When the invoice was voided. Format: `date-time`. |
+
+### BuyerInvoice.credit_money
+
+Credit note credit allocated to this invoice, minus reversed allocations. Unallocated credit isn't included. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+
+### BuyerInvoice.currently_due_money
+
+The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due time has arrived and that still has a balance, or 0 when there is none. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+
+### BuyerInvoice.late_fee_money
+
+Late fees assessed after issue, minus waivers, including amounts since paid or written off. Itemized in late_fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+
+### BuyerInvoice.outstanding_money
+
+What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and void invoices. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+
+### BuyerInvoice.paid_money
+
+Payments collected toward this invoice, online or as recorded manual payments, minus reversed payments, including payments toward late fees. Never below zero. Refunds don't reduce it; they are in refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+
+### BuyerInvoice.refunded_money
+
+Money refunded to the buyer after collection. Refunds don't reopen the balance; refund_status summarizes them. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+
+### BuyerInvoice.remit_to_address
+
+Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
+
+Field definitions: [shared fields](BuyerCustomer.md#buyercustomerbilling_address).
+
+### BuyerInvoice.total_money
+
+What the invoice bills, equal to snapshot.pricing_amounts.total_money and fixed at issue. Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+
+Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+

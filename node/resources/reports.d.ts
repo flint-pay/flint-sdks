@@ -1,93 +1,183 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { Report } from '../declarations/Report.js';
-import type { ReportListResponse } from '../declarations/ReportListResponse.js';
-import type { ReportResponse } from '../declarations/ReportResponse.js';
-import type { ReportsCreateInput } from '../declarations/ReportsCreateInput.js';
-import type { ReportsCreateResponse } from '../declarations/ReportsCreateResponse.js';
-import type { ReportsGetInput } from '../declarations/ReportsGetInput.js';
-import type { ReportsGetResponse } from '../declarations/ReportsGetResponse.js';
-import type { ReportsListInput } from '../declarations/ReportsListInput.js';
-import type { ReportsListResponse } from '../declarations/ReportsListResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateReportRequestInput } from '../declarations/types-8.js';
+import type { Report, ReportListResponse, ReportResponse } from '../declarations/types-39.js';
+import type { ReportsCreateInput, ReportsGetInput, ReportsListInput, RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateReportRequestInput } from '../declarations/types-8.js';
+export type {
+    RequestOptions,
+    ReportsCreateInput,
+    ReportsGetInput,
+    ReportsListInput,
+    ResponseMeta,
+    ResponseWarning
+} from '../declarations/types-40.js';
+export type { Report, ReportResponse, ReportListResponse, ReportPending, ReportSucceeded, ReportFailed } from '../declarations/types-39.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { PublicDownload } from '../declarations/types-38.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeCreateReportRequest } from '../declarations/types-64.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface ReportsResource {
     /**
- * Creates an idempotent asynchronous CSV report. Poll the returned report until it succeeds or fails.
+ * Creates an idempotent asynchronous CSV report. interval_end_at may be at most the same local
+ * time 366 calendar days after interval_start_at in timezone, and must not be in the future. Poll
+ * the returned report until it succeeds or fails.
+ * @see reference/reports.md#reportscreate
  * POST /v1/reports
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.reports.create({currency: "USD", interval_end_at: "2026-01-02T00:00:00Z", interval_start_at: "2026-01-01T00:00:00Z", report_type: "orders_itemized_v1"}, { idempotencyKey: idempotencyKey })
+ * client.reports.create({currency: "USD", interval_end_at: "2026-01-02T00:00:00Z",
+ * interval_start_at: "2026-01-01T00:00:00Z", report_type: "orders_itemized_v1"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    create(params: (InputValue<{ "currency": string; "interval_end_at": string | globalThis.Date; "interval_start_at": string | globalThis.Date; "report_type": "gift_card_liability_v1" | "orders_itemized_v1" | "orders_itemized_v2" | "payments_itemized_v1" | "balance_transactions_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "merchant_billing_itemized_v1" | "tax_transactions_itemized_v1"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ReportResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "currency": string; "interval_end_at": string | globalThis.Date; "interval_start_at": string | globalThis.Date; "report_type": "gift_card_liability_v1" | "orders_itemized_v1" | "orders_itemized_v2" | "payments_itemized_v1" | "balance_transactions_itemized_v1" | "payouts_itemized_v1" | "tax_itemized_v1" | "tax_summarized_v1" | "merchant_billing_itemized_v1" | "tax_transactions_itemized_v1"; "timezone"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReportsCreateResponse>>;
+    create(params: (InputValue<CreateReportRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Report>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/reports.md#reportscreate
+     */
+    createWithResponse(params: (InputValue<CreateReportRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<ReportResponse>>;
     /**
  * Returns one report and its terminal download or failure details when available.
+ * @see reference/reports.md#reportsget
  * GET /v1/reports/{report_id}
  * @example
  * client.reports.get("example")
  */
-    get(report_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ReportResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(report_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportsGetResponse>>;
-    getWait(report_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<ReportResponse, ["data"]>>;
-    getWaitWithResponse(report_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportsGetResponse>>;
+    get(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Report>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/reports.md#reportsget
+     */
+    getWithResponse(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportResponse>>;
+    /** Poll until a declared terminal state or deadline.
+     * @see reference/reports.md#reportsget
+     */
+    getWait(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Report>;
+    /** Poll for completion and return the full body with HTTP metadata.
+     * @see reference/reports.md#reportsget
+     */
+    getWaitWithResponse(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportResponse>>;
     /**
- * Lists reports in descending creation order using opaque pagination.
+ * Lists reports newest first by created_at, with report_id descending as the tiebreak, using
+ * opaque pagination.
+ * @see reference/reports.md#reportslist
  * GET /v1/reports
  * @example
  * client.reports.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReportListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReportListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReportsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Report>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly reports: ReportsResource;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "report_type"?: InputValue<Array<"gift_card_liability_v1"
+            | "orders_itemized_v1"
+            | "orders_itemized_v2"
+            | "payments_itemized_v1"
+            | "balance_transactions_itemized_v1"
+            | "payouts_itemized_v1"
+            | "tax_itemized_v1"
+            | "tax_summarized_v1"
+            | "merchant_billing_itemized_v1"
+            | "tax_transactions_itemized_v1">>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<ReportListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/reports.md#reportslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "report_type"?: InputValue<Array<"gift_card_liability_v1"
+            | "orders_itemized_v1"
+            | "orders_itemized_v2"
+            | "payments_itemized_v1"
+            | "balance_transactions_itemized_v1"
+            | "payouts_itemized_v1"
+            | "tax_itemized_v1"
+            | "tax_summarized_v1"
+            | "merchant_billing_itemized_v1"
+            | "tax_transactions_itemized_v1">>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<ReportListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/reports.md#reportslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "report_type"?: InputValue<Array<"gift_card_liability_v1"
+            | "orders_itemized_v1"
+            | "orders_itemized_v2"
+            | "payments_itemized_v1"
+            | "balance_transactions_itemized_v1"
+            | "payouts_itemized_v1"
+            | "tax_itemized_v1"
+            | "tax_summarized_v1"
+            | "merchant_billing_itemized_v1"
+            | "tax_transactions_itemized_v1">>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<ReportListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/reports.md#reportslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "report_type"?: InputValue<Array<"gift_card_liability_v1"
+            | "orders_itemized_v1"
+            | "orders_itemized_v2"
+            | "payments_itemized_v1"
+            | "balance_transactions_itemized_v1"
+            | "payouts_itemized_v1"
+            | "tax_itemized_v1"
+            | "tax_summarized_v1"
+            | "merchant_billing_itemized_v1"
+            | "tax_transactions_itemized_v1">>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<ReportListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/reports.md#reportslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "report_type"?: InputValue<Array<"gift_card_liability_v1"
+            | "orders_itemized_v1"
+            | "orders_itemized_v2"
+            | "payments_itemized_v1"
+            | "balance_transactions_itemized_v1"
+            | "payouts_itemized_v1"
+            | "tax_itemized_v1"
+            | "tax_summarized_v1"
+            | "merchant_billing_itemized_v1"
+            | "tax_transactions_itemized_v1">>;
+        "status"?: InputValue<Array<"pending" | "succeeded" | "failed">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Report>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { ReportResponse } from '../declarations/ReportResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { ReportsCreateResponse } from '../declarations/ReportsCreateResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { ReportsGetResponse } from '../declarations/ReportsGetResponse.js';
-export type { ReportListResponse } from '../declarations/ReportListResponse.js';
-export type { ReportsListResponse } from '../declarations/ReportsListResponse.js';
-export type { Report } from '../declarations/Report.js';
-export type { ReportsCreateInput } from '../declarations/ReportsCreateInput.js';
-export type { ReportsGetInput } from '../declarations/ReportsGetInput.js';
-export type { ReportsListInput } from '../declarations/ReportsListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { PublicDownload } from '../declarations/PublicDownload.js';
-export type { CreateReportRequestInput } from '../declarations/CreateReportRequestInput.js';
-export type { FeedbackReportsListInput } from '../declarations/FeedbackReportsListInput.js';
-export { makeReportResponse } from '../declarations/makeReportResponse.js';
-export { makeReportListResponse } from '../declarations/makeReportListResponse.js';
-export { makeReport } from '../declarations/makeReport.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makePublicDownload } from '../declarations/makePublicDownload.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly reports: ReportsResource;
+}

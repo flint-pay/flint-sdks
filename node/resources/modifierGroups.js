@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/modifierGroups.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/modifierGroups.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createModifierGroup"]:r0,["deleteModifierGroup"]:r0,["getModifierGroup"]:r0,["listModifierGroups"]:r0,["updateModifierGroup"]:r0});
 export class Client {
@@ -13,30 +13,26 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.modifierGroups = Object.freeze({
       create: async (params, options) => this.#runtime.request("createModifierGroup", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createModifierGroup", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createModifierGroup", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (modifier_group_id, params, options) => this.#runtime.request("deleteModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteModifierGroup", result, path))),
       removeWithResponse: async (modifier_group_id, params, options) => this.#runtime.request("deleteModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (modifier_group_id, params, options) => this.#runtime.request("getModifierGroup", _sdkRequestInput([
   "modifier_group_id"
-], [modifier_group_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [modifier_group_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getModifierGroup", result, path))),
       getWithResponse: async (modifier_group_id, params, options) => this.#runtime.request("getModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [], false, false, params), options).then(_sdkResponse),
@@ -46,15 +42,27 @@ this.modifierGroups = Object.freeze({
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "query",
+  "sort_by",
+  "sort_direction",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listModifierGroups", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query"
+  "query",
+  "sort_by",
+  "sort_direction",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
@@ -62,15 +70,27 @@ this.modifierGroups = Object.freeze({
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query"
-], false, false, params), options), []),
+  "query",
+  "sort_by",
+  "sort_direction",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listModifierGroups", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query"
+  "query",
+  "sort_by",
+  "sort_direction",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listModifierGroups", _sdkRequestInput([], [], [
   "page_size",
@@ -78,33 +98,34 @@ this.modifierGroups = Object.freeze({
   "status",
   "modifier_group_type",
   "external_reference_id",
-  "query"
+  "query",
+  "sort_by",
+  "sort_direction",
+  "created_after",
+  "created_before",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options),
       update: async (modifier_group_id, params, options) => this.#runtime.request("updateModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateModifierGroup", result, path))),
       updateWithResponse: async (modifier_group_id, params, options) => this.#runtime.request("updateModifierGroup", _sdkRequestInput([
   "modifier_group_id"
 ], [modifier_group_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeModifierGroupResponse } from '../models/ModifierGroupResponse.js';
-export { makeModifierGroupListResponse } from '../models/ModifierGroupListResponse.js';
-export { makeModifierGroup } from '../models/ModifierGroup.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateInlineModifierGroupRequest } from '../models/CreateInlineModifierGroupRequest.js';
+export { makeCreateModifierGroupRequest } from '../models/CreateModifierGroupRequest.js';
+export { makeCreateModifierRequest } from '../models/CreateModifierRequest.js';
+export { makeModifierRequest } from '../models/ModifierRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeModifier } from '../models/Modifier.js';
-export { makeTextModifierConfig } from '../models/TextModifierConfig.js';
-export { makeAvailableTextModifierConfig } from '../models/AvailableTextModifierConfig.js';
-export { makePublicResolvedTextModifier } from '../models/PublicResolvedTextModifier.js';
+export { makeTextModifierConfigPatchRequest } from '../models/TextModifierConfigPatchRequest.js';
+export { makeTextModifierConfigRequest } from '../models/TextModifierConfigRequest.js';
+export { makeUpdateModifierGroupRequest } from '../models/UpdateModifierGroupRequest.js';

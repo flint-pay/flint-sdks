@@ -2,29 +2,27 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/webhookEndpoints.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/webhookEndpoints.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createWebhookEndpoint"]:r0,["createWebhookTestEvent"]:r0,["deleteWebhookEndpoint"]:r0,["getWebhookEndpoint"]:r0,["listWebhookEndpoints"]:r0,["rotateWebhookSecret"]:r0,["updateWebhookEndpoint"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createWebhookEndpoint"]:r0,["createWebhookTestEvent"]:r0,["deleteWebhookEndpoint"]:r0,["getWebhookEndpoint"]:r0,["listWebhookEndpoints"]:r0,["rotateWebhookEndpointSecret"]:r0,["updateWebhookEndpoint"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.webhookEndpoints = Object.freeze({
       create: async (params, options) => this.#runtime.request("createWebhookEndpoint", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createWebhookEndpoint", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createWebhookEndpoint", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createWebhookTestEvent: async (webhook_endpoint_id, params, options) => this.#runtime.request("createWebhookTestEvent", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createWebhookTestEvent", result, path))),
       createWebhookTestEventWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("createWebhookTestEvent", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
@@ -33,18 +31,18 @@ this.webhookEndpoints = Object.freeze({
       remove: async (webhook_endpoint_id, params, options) => this.#runtime.request("deleteWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expected_version",
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteWebhookEndpoint", result, path))),
       removeWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("deleteWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "expected_version",
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (webhook_endpoint_id, params, options) => this.#runtime.request("getWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
-], [webhook_endpoint_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [webhook_endpoint_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getWebhookEndpoint", result, path))),
       getWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("getWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [], false, false, params), options).then(_sdkResponse),
@@ -53,7 +51,7 @@ this.webhookEndpoints = Object.freeze({
   "page_token",
   "event_sources",
   "partner_app_id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listWebhookEndpoints", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listWebhookEndpoints", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -65,7 +63,7 @@ this.webhookEndpoints = Object.freeze({
   "page_token",
   "event_sources",
   "partner_app_id"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listWebhookEndpoints", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listWebhookEndpoints", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -78,45 +76,33 @@ this.webhookEndpoints = Object.freeze({
   "event_sources",
   "partner_app_id"
 ], false, false, params), options),
-      rotateWebhookSecret: async (webhook_endpoint_id, params, options) => this.#runtime.request("rotateWebhookSecret", _sdkRequestInput([
+      rotateWebhookSecret: async (webhook_endpoint_id, params, options) => this.#runtime.request("rotateWebhookEndpointSecret", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
-      rotateWebhookSecretWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("rotateWebhookSecret", _sdkRequestInput([
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateWebhookEndpointSecret", result, path))),
+      rotateWebhookSecretWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("rotateWebhookEndpointSecret", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+  "Idempotency-Key"
+], true, false, params), options).then(_sdkResponse),
       update: async (webhook_endpoint_id, params, options) => this.#runtime.request("updateWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateWebhookEndpoint", result, path))),
       updateWithResponse: async (webhook_endpoint_id, params, options) => this.#runtime.request("updateWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeWebhookEndpointResponse } from '../models/WebhookEndpointResponse.js';
-export { makeWebhookDeliveryActionResponse } from '../models/WebhookDeliveryActionResponse.js';
-export { makeActionResponse } from '../models/ActionResponse.js';
-export { makeWebhookEndpointListResponse } from '../models/WebhookEndpointListResponse.js';
-export { makeWebhookEndpoint } from '../models/WebhookEndpoint.js';
-export { makeWebhookSecretRotationResponse } from '../models/WebhookSecretRotationResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateWebhookEndpointRequest } from '../models/CreateWebhookEndpointRequest.js';
+export { makeCreateWebhookTestEventRequest } from '../models/CreateWebhookTestEventRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeWebhookDeliveryAction } from '../models/WebhookDeliveryAction.js';
-export { makeActionResult } from '../models/ActionResult.js';
-export { makeWebhookSecret } from '../models/WebhookSecret.js';
+export { makeRotateWebhookSecretRequest } from '../models/RotateWebhookSecretRequest.js';
+export { makeUpdateWebhookEndpointRequest } from '../models/UpdateWebhookEndpointRequest.js';

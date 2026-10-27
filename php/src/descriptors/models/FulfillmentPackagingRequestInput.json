@@ -1,1 +1,1 @@
-{"shared":"FulfillmentPackagingRequest","dependencies":["CreatePackageRequest","FulfillmentPackagingRequest","ReturnShipmentLineItemAllocation","ShippingDimensions","ShippingWeight"]}
+{"shared":"FulfillmentPackagingRequest","dependencies":["Dimensions","FulfillmentPackagingRequest","SharedCodec1129","SharedCodec1130","SharedCodec221","SinglePackageCreateRequest","Weight"]}

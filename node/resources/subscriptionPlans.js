@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionPlan"]:r0,["deleteSubscriptionPlan"]:r0,["getSubscriptionPlan"]:r0,["listSubscriptionPlans"]:r0,["updateSubscriptionPlan"]:r0});
 export class Client {
@@ -13,30 +13,26 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.subscriptionPlans = Object.freeze({
       create: async (params, options) => this.#runtime.request("createSubscriptionPlan", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSubscriptionPlan", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createSubscriptionPlan", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (subscription_plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteSubscriptionPlan", result, path))),
       removeWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("deleteSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
   "expected_version",
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (subscription_plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
-], [subscription_plan_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [subscription_plan_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSubscriptionPlan", result, path))),
       getWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("getSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [], false, false, params), options).then(_sdkResponse),
@@ -49,8 +45,10 @@ this.subscriptionPlans = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "created_before",
+  "updated_after",
+  "updated_before"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSubscriptionPlans", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -60,7 +58,9 @@ this.subscriptionPlans = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
+  "created_before",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
@@ -71,8 +71,10 @@ this.subscriptionPlans = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
-], false, false, params), options), []),
+  "created_before",
+  "updated_after",
+  "updated_before"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listSubscriptionPlans", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -82,7 +84,9 @@ this.subscriptionPlans = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
+  "created_before",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listSubscriptionPlans", _sdkRequestInput([], [], [
   "page_size",
@@ -93,45 +97,36 @@ this.subscriptionPlans = Object.freeze({
   "sort_by",
   "sort_direction",
   "created_after",
-  "created_before"
+  "created_before",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options),
       update: async (subscription_plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateSubscriptionPlan", result, path))),
       updateWithResponse: async (subscription_plan_id, params, options) => this.#runtime.request("updateSubscriptionPlan", _sdkRequestInput([
   "subscription_plan_id"
 ], [subscription_plan_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeSubscriptionPlanResponse } from '../models/SubscriptionPlanResponse.js';
-export { makeSubscriptionPlanListResponse } from '../models/SubscriptionPlanListResponse.js';
-export { makeSubscriptionPlan } from '../models/SubscriptionPlan.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
-export { makeSubscriptionDeliveryMethodCounts } from '../models/SubscriptionDeliveryMethodCounts.js';
-export { makeSubscriptionCounts } from '../models/SubscriptionCounts.js';
-export { makeImage } from '../models/Image.js';
-export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
-export { makeSubscriptionPlanLineItem } from '../models/SubscriptionPlanLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeSubscriptionPlanSwapVariant } from '../models/SubscriptionPlanSwapVariant.js';
-export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
+export { makeCreateSubscriptionPlanRequest } from '../models/CreateSubscriptionPlanRequest.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeInventoryRoutingSourceInputFixedLocation } from '../models/InventoryRoutingSourceInputFixedLocation.js';
+export { makeInventoryRoutingSourceInputPolicy } from '../models/InventoryRoutingSourceInputPolicy.js';
+export { makeInventoryRoutingSourceInputPolicyRevision } from '../models/InventoryRoutingSourceInputPolicyRevision.js';
+export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOrderLineItemModifierRequest } from '../models/OrderLineItemModifierRequest.js';
+export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
+export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeSubscriptionPlanLineItemRequest } from '../models/SubscriptionPlanLineItemRequest.js';
+export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeUpdateSubscriptionPlanLineItemRequest } from '../models/UpdateSubscriptionPlanLineItemRequest.js';
+export { makeUpdateSubscriptionPlanRequest } from '../models/UpdateSubscriptionPlanRequest.js';

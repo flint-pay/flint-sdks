@@ -1,1 +1,0 @@
-{"shared":"UpdateShipmentResult","phpRepresentation":{"kind":"record","fields":{"shipment":{"kind":"entity","name":"Shipment"}}},"dependencies":["ExpandedOrderSummary","MoneyValue","PricingAmounts","ReturnShipmentLineItemAllocation","SettlementAmounts","SharedCodec17","Shipment","SignedMoney","UpdateShipmentResult"]}

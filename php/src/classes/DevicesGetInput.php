@@ -7,7 +7,8 @@ namespace Flint;
 final class DevicesGetInput extends Model {
     /** @param array{'device_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DevicesGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When device_id is omitted; use hasDeviceId() or valueOrDefault().
      */
     public function getDeviceId(): string { return $this->get('device_id'); }

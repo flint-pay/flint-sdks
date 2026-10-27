@@ -22,7 +22,6 @@ function deliveryMethod(id) {
   const configuration = {
     estimate: { type: "none" },
     minimum_option_lifetime_seconds: 0,
-    offer_windows: false,
     origin: { type: "fixed_location", location_id: "loc_test" },
     pricing: { type: "calculated", calculated: {} },
     selection_guarantee_seconds: 0,
@@ -37,6 +36,8 @@ function deliveryMethod(id) {
       status: "active",
       subscription_counts: { active: 0, past_due: 0, paused: 0 },
       version: 1,
+      type: "shipment",
+      display_position: 0,
       configuration,
       created_at: "2026-10-06T00:00:00Z",
       updated_at: "2026-10-06T00:00:00Z",

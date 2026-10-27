@@ -1,0 +1,1 @@
+{"shared":"BuyerPayBalanceActionOptions","phpRepresentation":{"kind":"record","fields":{"return_resolution_ids":{"kind":"list","value":{"kind":"value","type":"string"}}}},"dependencies":["BuyerPayBalanceActionOptions"]}

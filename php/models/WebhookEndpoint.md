@@ -1,0 +1,10 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## WebhookEndpoint
+
+A merchant webhook endpoint belongs to the live mode or sandbox of the credential that created it and receives only that environment's events. Partner endpoints select sources with event_sources and installed_merchant_modes.
+
+Response model.
+
+Fields, types, descriptions and enum values: [WebhookEndpointInput](../models/WebhookEndpointInput.md#webhookendpointinput).
+

@@ -1,4 +1,0 @@
-
-import type { Webhook_credit_note_allocation_created_installed_merchants } from './Webhook_credit_note_allocation_created_installed_merchants.js';
-
-export type Webhook_credit_note_allocation_reversed_installed_merchants = Webhook_credit_note_allocation_created_installed_merchants;

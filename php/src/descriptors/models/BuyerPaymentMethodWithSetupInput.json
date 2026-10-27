@@ -1,0 +1,1 @@
+{"shared":"BuyerPaymentMethodWithSetup","dependencies":["BuyerPaymentMethod","BuyerPaymentMethodWithSetup","CardDetails","StripeClientAuthority","StripeClientSetup","StripeClientSetupStripe"]}

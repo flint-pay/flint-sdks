@@ -14,7 +14,7 @@ Requires PHP 8.2+ with ext-json and ext-curl. PHPDoc types target PHPStan 2.2+.
 
 ## Quickstart
 
-Set `API_KEY` ([authentication](RUNTIME.md#authentication)), then replace the sample values with your own. Set `API_BASE_URL` to use another environment.
+Set `API_BASE_URL` and `API_KEY` ([authentication](RUNTIME.md#authentication)), then replace the sample values with your own. Choose your sandbox or local mock URL explicitly; the API declares https://api.withflintpay.com as its default server.
 
 ```php
 <?php
@@ -22,11 +22,12 @@ declare(strict_types=1);
 require __DIR__ . '/vendor/autoload.php';
 use Flint\{Client, ClientOptions, RequestOptions, SdkError};
 $baseUrl = getenv('API_BASE_URL');
-if ($baseUrl === false) $baseUrl = 'https://api.withflintpay.com';
+if ($baseUrl === false || $baseUrl === '') throw new \RuntimeException('Set API_BASE_URL to your sandbox or local mock URL');
 $apiKey = getenv('API_KEY');
 if ($apiKey === false || $apiKey === '') throw new \RuntimeException('Set API_KEY: this call requires a credential');
 $client = new Client(new ClientOptions(
   baseUrl: $baseUrl,
+  allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
   apiKey: $apiKey,
 ));
 
@@ -62,25 +63,25 @@ Methods return the decoded body, except result-mode operations, which return `$r
 
 ### paymentIntents.get
 
-Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. If buyer authentication is required but Flint cannot produce its client action, returns PAYMENT_CLIENT_ACTION_UNAVAILABLE.
+Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm with an empty body to retrieve current_payment_action.
 
 ```php
 $result = $client->paymentIntents->get('example');
-echo $result->payment_intent_id . PHP_EOL;
-echo $result->status . PHP_EOL;
+echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 ```
 
 [Run the standalone example](examples/paymentIntents-get.php)
 
 ### refunds.create
 
-Creates a refund for an order or payment intent. When amount_money and tender_allocations are omitted, the refund amount is the sum of the named line items (including their resolved tax), charges, and top-level tax_breakdown_refunds. Unnamed tips and flat taxes are excluded. With no targets, amount_money, or tender_allocations, refunds the full remaining refundable amount. Explicit tender_allocations set the refund total through their amounts. This is a financial operation.
+Creates a refund for an order, a payment intent, a captured gift card redemption, or a gift card load. Set refund_type to full for the full remaining refundable amount, amount for an explicit amount_money, or targets for named line items, charges, and taxes. To refund a gift card redemption made outside a Flint order, set refund_type to amount and send one tender_allocations entry per redemption, with no order_id. A created refund returns 201 even when processing fails; inspect status and failure_reason. A same-key replay returns the original refund without another money attempt. This is a financial operation.
 
 ```php
 // Persist this key with the action before sending; reuse it for every resubmission.
 $refundsCreateIdempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->refunds->create([
+  'refund_type' => 'full',
   'order_id' => 'example',
 ], new RequestOptions(idempotencyKey: $refundsCreateIdempotencyKey));
 echo $result->refund_id . PHP_EOL;
@@ -91,7 +92,7 @@ echo $result->status . PHP_EOL;
 
 ## Errors and retries
 
-Failed calls throw `SdkError` with `getMessage()`, `kind`, `status`, `errorCode` and the request ID in `meta`. An `outcome` of `unknown` means the request may have succeeded, so check the current state before resubmitting. Operations with a declared retry policy follow it, as listed in the [API reference](REFERENCE.md); otherwise GET, HEAD and OPTIONS calls make up to three attempts and other methods send once. See [errors](RUNTIME.md#responses-and-errors) and [retries](RUNTIME.md#retries-and-idempotency).
+Failed calls throw `SdkError` with `getMessage()`, `kind`, `status`, `errorCode` and the request ID in `meta`. An `outcome` of `unknown` means the request may have succeeded, so check the current state before resubmitting. Each operation retries according to its declared policy; the [API reference](REFERENCE.md) lists its attempt limit. See [errors](RUNTIME.md#responses-and-errors) and [retries](RUNTIME.md#retries-and-idempotency).
 
 Check an error's class to handle a specific failure; every class extends `SdkError`:
 
@@ -117,10 +118,15 @@ Verify each delivery with `$client->verifyWebhook($rawBody, $headers, $secrets)`
 
 ## Documentation
 
-- [API reference](REFERENCE.md): every operation, with examples
-- [Models](MODELS.md): fields and descriptions
+Set API_BASE_URL to your sandbox or local mock URL and supply the credential environment variables shown in the quickstart. Example IDs are placeholders: replace them with IDs from that environment.
+
+Selected methods use positional path arguments; check their signatures. Request options are the last argument.
+
+- [API reference](REFERENCE.md): resource index linking to operation files under reference/
+- [Models](MODELS.md): model index, fields and descriptions
 - [Runtime guide](RUNTIME.md): request options, errors, retries, pagination and webhooks
 - [pagination-and-retries](guides/pagination-and-retries.md)
+- [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 
 Package 4.0.0, generated for API 2026-09-07.

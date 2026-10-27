@@ -1,0 +1,27 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## Category
+
+A catalog grouping used to organize items.
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `assigned_bundle_count` | Required | integer string | Number of bundles currently assigned to the category. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `assigned_product_count` | Required | integer string | Number of products currently assigned to the category. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `category_id` | Required | string | Stable identifier of the category. |
+| `created_at` | Required | string | When this resource was created, as an RFC3339 timestamp. Format: `date-time`. |
+| `description` | Optional | string | Description of the category. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
+| `handle` | Required | string | Immutable handle used to assign this category to products and bundles. |
+| `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
+| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. |
+| `name` | Required | string | Category name shown to buyers. |
+| `status` | Required | string | Category lifecycle status. Active categories can be assigned; deleted is returned only by DELETE. Values: `"active"`, `"deleted"`. |
+| `targeting_reference_count` | Required | integer string | Number of live targeting references that prevent deleting the category. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `updated_at` | Required | string | When this resource last changed, as an RFC3339 timestamp. Format: `date-time`. |
+| `version` | Required | integer string | Persisted owned-state version. Clock-based availability and expanded resources do not advance this counter. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+

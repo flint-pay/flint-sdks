@@ -9,17 +9,20 @@ namespace Flint;
 final class CancelReturnDispositionRequestInput extends Model {
     /** @param array{'expected_version'?: string, 'reason': string, 'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CancelReturnDispositionRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "created_in_error", "changed_disposition", "duplicate", "other".
+     * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }

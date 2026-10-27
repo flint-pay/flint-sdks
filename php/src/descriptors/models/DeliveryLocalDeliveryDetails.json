@@ -1,0 +1,1 @@
+{"shared":"DeliveryShipmentDetails","phpRepresentation":{"kind":"record","fields":{"instructions":{"kind":"value","type":"string"},"service_level":{"kind":"value","type":"string"}}},"dependencies":["DeliveryShipmentDetails"]}

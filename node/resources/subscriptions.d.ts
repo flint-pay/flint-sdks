@@ -1,435 +1,996 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { Subscription } from '../declarations/Subscription.js';
-import type { SubscriptionBillingScheduleRequestInput } from '../declarations/SubscriptionBillingScheduleRequestInput.js';
-import type { SubscriptionBillingStartRequestInput } from '../declarations/SubscriptionBillingStartRequestInput.js';
-import type { SubscriptionDeliveryRequestInput } from '../declarations/SubscriptionDeliveryRequestInput.js';
-import type { SubscriptionListResponse } from '../declarations/SubscriptionListResponse.js';
-import type { SubscriptionPaymentRetry } from '../declarations/SubscriptionPaymentRetry.js';
-import type { SubscriptionPaymentRetryListResponse } from '../declarations/SubscriptionPaymentRetryListResponse.js';
-import type { SubscriptionPaymentRetryResponse } from '../declarations/SubscriptionPaymentRetryResponse.js';
-import type { SubscriptionResponse } from '../declarations/SubscriptionResponse.js';
-import type { SubscriptionServiceLocationRequestInput } from '../declarations/SubscriptionServiceLocationRequestInput.js';
-import type { SubscriptionsCancelInput } from '../declarations/SubscriptionsCancelInput.js';
-import type { SubscriptionsCancelResponse } from '../declarations/SubscriptionsCancelResponse.js';
-import type { SubscriptionsChangePaymentMethodInput } from '../declarations/SubscriptionsChangePaymentMethodInput.js';
-import type { SubscriptionsChangePaymentMethodResponse } from '../declarations/SubscriptionsChangePaymentMethodResponse.js';
-import type { SubscriptionsCreateAccessLinkInput } from '../declarations/SubscriptionsCreateAccessLinkInput.js';
-import type { SubscriptionsCreateAccessLinkResponse } from '../declarations/SubscriptionsCreateAccessLinkResponse.js';
-import type { SubscriptionsCreateInput } from '../declarations/SubscriptionsCreateInput.js';
-import type { SubscriptionsCreateLineItemInput } from '../declarations/SubscriptionsCreateLineItemInput.js';
-import type { SubscriptionsCreateLineItemResponse } from '../declarations/SubscriptionsCreateLineItemResponse.js';
-import type { SubscriptionsCreatePaymentRetryInput } from '../declarations/SubscriptionsCreatePaymentRetryInput.js';
-import type { SubscriptionsCreatePaymentRetryResponse } from '../declarations/SubscriptionsCreatePaymentRetryResponse.js';
-import type { SubscriptionsCreateResponse } from '../declarations/SubscriptionsCreateResponse.js';
-import type { SubscriptionsDeleteLineItemInput } from '../declarations/SubscriptionsDeleteLineItemInput.js';
-import type { SubscriptionsDeleteLineItemResponse } from '../declarations/SubscriptionsDeleteLineItemResponse.js';
-import type { SubscriptionsGetInput } from '../declarations/SubscriptionsGetInput.js';
-import type { SubscriptionsGetPaymentRetryInput } from '../declarations/SubscriptionsGetPaymentRetryInput.js';
-import type { SubscriptionsGetPaymentRetryResponse } from '../declarations/SubscriptionsGetPaymentRetryResponse.js';
-import type { SubscriptionsGetResponse } from '../declarations/SubscriptionsGetResponse.js';
-import type { SubscriptionsListInput } from '../declarations/SubscriptionsListInput.js';
-import type { SubscriptionsListPaymentRetriesInput } from '../declarations/SubscriptionsListPaymentRetriesInput.js';
-import type { SubscriptionsListPaymentRetriesResponse } from '../declarations/SubscriptionsListPaymentRetriesResponse.js';
-import type { SubscriptionsListResponse } from '../declarations/SubscriptionsListResponse.js';
-import type { SubscriptionsPauseInput } from '../declarations/SubscriptionsPauseInput.js';
-import type { SubscriptionsPauseResponse } from '../declarations/SubscriptionsPauseResponse.js';
-import type { SubscriptionsReactivateInput } from '../declarations/SubscriptionsReactivateInput.js';
-import type { SubscriptionsReactivateResponse } from '../declarations/SubscriptionsReactivateResponse.js';
-import type { SubscriptionsRenewInput } from '../declarations/SubscriptionsRenewInput.js';
-import type { SubscriptionsRenewResponse } from '../declarations/SubscriptionsRenewResponse.js';
-import type { SubscriptionsResumeInput } from '../declarations/SubscriptionsResumeInput.js';
-import type { SubscriptionsResumeResponse } from '../declarations/SubscriptionsResumeResponse.js';
-import type { SubscriptionsSkipCycleInput } from '../declarations/SubscriptionsSkipCycleInput.js';
-import type { SubscriptionsSkipCycleResponse } from '../declarations/SubscriptionsSkipCycleResponse.js';
-import type { SubscriptionsUpdateBillingScheduleInput } from '../declarations/SubscriptionsUpdateBillingScheduleInput.js';
-import type { SubscriptionsUpdateBillingScheduleResponse } from '../declarations/SubscriptionsUpdateBillingScheduleResponse.js';
-import type { SubscriptionsUpdateInput } from '../declarations/SubscriptionsUpdateInput.js';
-import type { SubscriptionsUpdateLineItemInput } from '../declarations/SubscriptionsUpdateLineItemInput.js';
-import type { SubscriptionsUpdateLineItemResponse } from '../declarations/SubscriptionsUpdateLineItemResponse.js';
-import type { SubscriptionsUpdateResponse } from '../declarations/SubscriptionsUpdateResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { AccessLink, AccessLinkResponse } from '../declarations/types-0.js';
+import type {
+    CancelSubscriptionRequestInput,
+    ChangeSubscriptionPaymentMethodRequestInput,
+    ChangeSubscriptionPlanRequestInput
+} from '../declarations/types-3.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    CreateSubscriptionAccessLinkRequestInput,
+    CreateSubscriptionLineItemRequestInput,
+    CreateSubscriptionRequestInput
+} from '../declarations/types-9.js';
+import type { PauseSubscriptionRequestInput } from '../declarations/types-35.js';
+import type { RenewSubscriptionRequestInput } from '../declarations/types-39.js';
+import type { RequestOptions, ResourceVersionRequestInput } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { SkipSubscriptionCycleRequestInput, Subscription } from '../declarations/types-44.js';
+import type {
+    SubscriptionListResponse,
+    SubscriptionPaymentRetry,
+    SubscriptionPaymentRetryListResponse,
+    SubscriptionPaymentRetryResponse,
+    SubscriptionPlanChangeResult,
+    SubscriptionPlanChangeResultResponse
+} from '../declarations/types-45.js';
+import type {
+    SubscriptionRenewalResult,
+    SubscriptionRenewalResultResponse,
+    SubscriptionResponse,
+    SubscriptionsCancelInput,
+    SubscriptionsChangePaymentMethodInput,
+    SubscriptionsChangePlanInput,
+    SubscriptionsCreateAccessLinkInput,
+    SubscriptionsCreateInput,
+    SubscriptionsCreateLineItemInput,
+    SubscriptionsCreatePaymentRetryInput,
+    SubscriptionsDeleteLineItemInput,
+    SubscriptionsGetInput,
+    SubscriptionsGetPaymentRetryInput,
+    SubscriptionsListInput,
+    SubscriptionsListPaymentRetriesInput,
+    SubscriptionsPauseInput,
+    SubscriptionsReactivateInput,
+    SubscriptionsRenewInput,
+    SubscriptionsResumeInput,
+    SubscriptionsSkipCycleInput,
+    SubscriptionsUpdateBillingScheduleInput,
+    SubscriptionsUpdateInput,
+    SubscriptionsUpdateLineItemInput
+} from '../declarations/types-46.js';
+import type { UpdateSubscriptionLineItemRequestInput, UpdateSubscriptionRequestInput } from '../declarations/types-49.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type {
+    CancelSubscriptionRequestInput,
+    ChangeSubscriptionPaymentMethodRequestInput,
+    ChangeSubscriptionPlanRequestInput,
+    CategoryReference,
+    CardDetails,
+    CheckoutBuyerContact
+} from '../declarations/types-3.js';
+export type { RequestOptions, ResourceVersionRequestInput, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    Subscription,
+    SkipSubscriptionCycleRequestInput,
+    SubscriptionAddressVerification,
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    SettlementAmounts,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails,
+    SubscribedLine,
+    SubscriptionBillingScheduleRequestInput,
+    SubscriptionBillingScheduleInputFlintInput,
+    SubscriptionBillingScheduleInputExternalInput,
+    SubscriptionBillingStartInputImmediateInput,
+    SubscriptionBillingStartInputScheduledInput,
+    SubscriptionBillingStartInputImportedInput,
+    SubscriptionBillingScheduleUpdateRequestInput,
+    SubscriptionBillingScheduleUpdateInputFlintInput,
+    SubscriptionBillingScheduleUpdateInputExternalInput
+} from '../declarations/types-44.js';
+export type { SdkResponse, SelectedProductOption, SelectableOrderPaymentIntent } from '../declarations/types-43.js';
+export type {
+    SubscriptionResponse,
+    SubscriptionRenewalResult,
+    SubscriptionRenewalResultResponse,
+    SubscriptionsUpdateBillingScheduleInput,
+    SubscriptionsCancelInput,
+    SubscriptionsChangePaymentMethodInput,
+    SubscriptionsChangePlanInput,
+    SubscriptionsCreateInput,
+    SubscriptionsCreateAccessLinkInput,
+    SubscriptionsCreateLineItemInput,
+    SubscriptionsCreatePaymentRetryInput,
+    SubscriptionsDeleteLineItemInput,
+    SubscriptionsGetInput,
+    SubscriptionsGetPaymentRetryInput,
+    SubscriptionsListPaymentRetriesInput,
+    SubscriptionsListInput,
+    SubscriptionsPauseInput,
+    SubscriptionsReactivateInput,
+    SubscriptionsRenewInput,
+    SubscriptionsResumeInput,
+    SubscriptionsSkipCycleInput,
+    SubscriptionsUpdateInput,
+    SubscriptionsUpdateLineItemInput,
+    SubscriptionPromotion,
+    SubscriptionServiceLocation,
+    SubscriptionUpcomingDeliveryHold,
+    TaxCalculationRequest,
+    TaxComponentRequest,
+    TaxJurisdiction,
+    TaxBreakdown,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount,
+    SubscriptionServiceLocationRequestInput,
+    SubscriptionServiceLocationInputCustomerAddressInput,
+    SubscriptionServiceLocationInputAddressInput,
+    SubscriptionTermsRequestInput
+} from '../declarations/types-46.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency, Weight } from '../declarations/types-61.js';
+export type {
+    SubscriptionPlanChangeResult,
+    SubscriptionPlanChangeResultResponse,
+    SubscriptionPaymentRetry,
+    SubscriptionPaymentRetryResponse,
+    SubscriptionPaymentRetryListResponse,
+    SubscriptionListResponse,
+    SubscriptionIntervalOption,
+    SubscriptionCancellationDetails,
+    SubscriptionDelivery,
+    SubscriptionDeliveryMethodSummary,
+    SubscriptionDeliveryDestination,
+    SubscriptionDeliveryHold,
+    SubscriptionInventoryWait,
+    SubscriptionLineItem,
+    SubscriptionPlanLineItem,
+    SubscriptionPlanSwapVariant,
+    SubscriptionBillingStartRequestInput,
+    SubscriptionDeliveryRequestInput,
+    SubscriptionDeliveryDestinationRequestInput,
+    SubscriptionDeliveryDestinationInputCustomerAddressInput,
+    SubscriptionDeliveryDestinationInputAddressInput,
+    SubscriptionPlanTermsRequestInput,
+    SubscriptionOfferTermsRequestInput,
+    SubscriptionOfferLineItemRequestInput,
+    SubscriptionOfferLineItemRequest
+} from '../declarations/types-45.js';
+export type {
+    CreateSubscriptionRequestInput,
+    CreateSubscriptionAccessLinkRequestInput,
+    CreateSubscriptionLineItemRequestInput,
+    Credentials
+} from '../declarations/types-9.js';
+export type {
+    AccessLink,
+    AccessLinkResponse,
+    AuthMode,
+    Address,
+    BundleComponent,
+    BundleComponentVariantSummary,
+    AddressRequestInput,
+    AddressRequest
+} from '../declarations/types-0.js';
+export type {
+    PauseSubscriptionRequestInput,
+    PaymentErrorSummary,
+    PaymentAttemptGiftCardRedemption,
+    PaymentAttemptPaymentIntent,
+    PaymentClientAction,
+    PaymentCollection,
+    PaymentCollectionStripe,
+    PaymentCollectionStripeElements
+} from '../declarations/types-35.js';
+export type { RenewSubscriptionRequestInput, PurchasedGiftCard } from '../declarations/types-39.js';
+export type {
+    UpdateSubscriptionRequestInput,
+    UpdateSubscriptionLineItemRequestInput,
+    UpdateSubscriptionBillingScheduleRequestInput,
+    UpdateSubscriptionBillingScheduleRequestFlintInput,
+    UpdateSubscriptionBillingScheduleRequestExternalInput
+} from '../declarations/types-49.js';
+export type { ClientOptions, ConfigurationVersionRequestInput } from '../declarations/types-4.js';
+export type {
+    BuyerAction,
+    BuyerCancelActionOptions,
+    BuyerCancelRetentionOffer,
+    BuyerPauseActionOptions,
+    BuyerPayBalanceActionOptions
+} from '../declarations/types-1.js';
+export type {
+    ExpandedCustomerSummary,
+    ErrorRemediation,
+    ExpandedPaymentMethodSummary,
+    ExpandedSubscriptionPlanSummary,
+    DigitalFulfillmentDetails,
+    ExpandedOrderSummary,
+    ExpandedPackageSummary,
+    ExpandedShipmentSummary,
+    Dimensions,
+    ExpandedPaymentIntentSummary,
+    ExpandedSubscriptionSummary
+} from '../declarations/types-16.js';
+export type { DeliveryRecipientResource, DeliverySelectionRecipientRequest } from '../declarations/types-14.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { Image, GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-19.js';
+export type {
+    OrderLineItemModifier,
+    OrderLineItemTax,
+    Order,
+    OrderPaymentAttempt,
+    OrderPaymentAttemptPaymentMethodSave,
+    OrderAuthorizationAmounts,
+    OrderCharge,
+    OrderCalculatedChargeTax,
+    OrderDeliveryDestination,
+    OrderDeliveryDestinationAddress,
+    OrderDeliveryDestinationRecipient,
+    OrderDiscount,
+    OrderGiftCardEstimate,
+    OrderGiftCardAllocation,
+    OrderGiftCardSettlement,
+    OrderGiftCardSelection,
+    OrderLineItem,
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements,
+    OrderLineItemFulfillmentComponent,
+    OrderLineItemFulfillmentProfile,
+    OrderLineSubscriptionOfferSummary,
+    OrderLineSubscriptionOfferDiscount,
+    OrderCalculatedLineItemTax,
+    OrderDeliveryDestinationAddressRequestInput,
+    OrderDeliveryDestinationAddressRequest
+} from '../declarations/types-32.js';
+export type {
+    TextModifierRequest,
+    TicketedEvent,
+    Tip,
+    TipPaymentIntentAllocation,
+    TipValueSettlementAllocation
+} from '../declarations/types-47.js';
+export type {
+    PromotionRecurrence,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionRecurrenceForever
+} from '../declarations/types-38.js';
+export type {
+    PendingPaymentAction,
+    PendingPaymentActionSubject,
+    PendingPaymentActionPaymentIntentSubject,
+    PendingPaymentActionSetupPaymentSourceSubject,
+    PricingAmounts,
+    PickupFulfillmentDetails
+} from '../declarations/types-37.js';
+export type {
+    Fulfillment,
+    FulfillmentHold,
+    FulfillmentChargeLink,
+    FulfillmentLineItem,
+    FulfillmentOutcome,
+    FulfillmentRecipient
+} from '../declarations/types-17.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/types-11.js';
+export type { InventoryRoutingSource } from '../declarations/types-25.js';
+export type { GiftCardCustomAmountBounds } from '../declarations/types-18.js';
+export type { LineItemInventorySnapshot, LineItemInventoryDemand } from '../declarations/types-28.js';
+export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-36.js';
+export type { OrderReturnCreditSettlement, OrderTax, OrderTaxExemption, OrderTaxLocation } from '../declarations/types-33.js';
+export type { DeliverySelectionRecipientRequestInput } from '../declarations/types-15.js';
+export type { ConfirmReturnResolutionRequestInput } from '../declarations/types-5.js';
+export type {
+    MeCancelSubscriptionInput,
+    MeChangeSubscriptionPaymentMethodInput,
+    MeCreateSubscriptionPaymentRetryInput,
+    MeGetSubscriptionPaymentRetryInput
+} from '../declarations/types-29.js';
+export type { MePauseSubscriptionInput, MeReactivateSubscriptionInput, MeRenewSubscriptionInput } from '../declarations/types-30.js';
+export { makeAddressRequest } from '../declarations/types-61.js';
+export {
+    makeCancelSubscriptionRequest,
+    makeChangeSubscriptionPaymentMethodRequest,
+    makeChangeSubscriptionPlanRequest,
+    makeConfigurationVersionRequest,
+    makeConfirmReturnResolutionRequest
+} from '../declarations/types-62.js';
+export {
+    makeCreateSubscriptionAccessLinkRequest,
+    makeCreateSubscriptionLineItemRequest,
+    makeCreateSubscriptionRequest
+} from '../declarations/types-64.js';
+export {
+    makeDeliverySelectionRecipientRequest,
+    makeDimensions,
+    makeGiftCardCustomAmountBounds,
+    makeGiftCardProductConfiguration
+} from '../declarations/types-66.js';
+export {
+    makeMoneyValue,
+    makeOrderCalculatedChargeTax,
+    makeOrderCalculatedLineItemTax,
+    makeOrderDeliveryDestinationAddressRequest,
+    makeOrderLineItemTax
+} from '../declarations/types-68.js';
+export {
+    makePauseSubscriptionRequest,
+    makePromotionRecurrence,
+    makePromotionRecurrenceForever,
+    makePromotionRecurrenceOnce,
+    makePromotionRecurrenceRepeating
+} from '../declarations/types-69.js';
+export { makeRenewSubscriptionRequest, makeResourceVersionRequest } from '../declarations/types-70.js';
+export {
+    makeSkipSubscriptionCycleRequest,
+    makeSubscriptionBillingScheduleInputExternal,
+    makeSubscriptionBillingScheduleInputFlint,
+    makeSubscriptionBillingScheduleRequest,
+    makeSubscriptionBillingScheduleUpdateInputExternal,
+    makeSubscriptionBillingScheduleUpdateInputFlint,
+    makeSubscriptionBillingScheduleUpdateRequest,
+    makeSubscriptionBillingStartInputImmediate,
+    makeSubscriptionBillingStartInputImported,
+    makeSubscriptionBillingStartInputScheduled,
+    makeSubscriptionBillingStartRequest,
+    makeSubscriptionDeliveryDestinationInputAddress,
+    makeSubscriptionDeliveryDestinationInputCustomerAddress,
+    makeSubscriptionDeliveryDestinationRequest,
+    makeSubscriptionDeliveryRequest,
+    makeSubscriptionIntervalOption,
+    makeSubscriptionOfferLineItemRequest,
+    makeSubscriptionOfferTermsRequest,
+    makeSubscriptionPlanTermsRequest,
+    makeSubscriptionServiceLocationInputAddress,
+    makeSubscriptionServiceLocationInputCustomerAddress,
+    makeSubscriptionServiceLocationRequest,
+    makeSubscriptionTermsRequest,
+    makeTaxCalculationRequest,
+    makeTaxComponentRequest,
+    makeTaxJurisdiction,
+    makeTextModifierRequest
+} from '../declarations/types-71.js';
+export {
+    makeUpdateSubscriptionBillingScheduleRequest,
+    makeUpdateSubscriptionBillingScheduleRequestExternal,
+    makeUpdateSubscriptionBillingScheduleRequestFlint,
+    makeUpdateSubscriptionLineItemRequest,
+    makeUpdateSubscriptionRequest,
+    makeWeight
+} from '../declarations/types-73.js';
 export interface SubscriptionsResource {
     /**
- * Cancels a subscription immediately or at period end, and records who asked, why, and when in cancellation_details. A buyer's cancellation follows the store's customer_account.buyer_capabilities.
+ * Cancels a subscription and records who asked, why, and when in cancellation_details. With
+ * cancel_immediately: true it ends now. Otherwise, trialing ends at trial_end_at, active at
+ * current_period_end_at (or now when a renewal delivery hold has expired), and past_due at
+ * next_retry_at instead of that retry. Scheduled, incomplete, paused, and past_due without
+ * next_retry_at require cancel_immediately: true or return 409 ACTION_NOT_ALLOWED with reason
+ * period_end_unavailable. Read scheduled_cancel_at for the scheduled end time. A buyer's
+ * cancellation follows the store's customer_account.buyer_capabilities. Send expected_version to
+ * reject a concurrent change.
+ * @see reference/subscriptions.md#subscriptionscancel
  * POST /v1/subscriptions/{subscription_id}/cancel
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.cancel("example", {}, { idempotencyKey: idempotencyKey })
  */
-    cancel(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; "cancellation_comment"?: string; "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    cancelWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "cancel_immediately"?: boolean; "cancellation_comment"?: string; "cancellation_reason_code"?: "too_expensive" | "missing_features" | "switched_service" | "unused" | "customer_service" | "too_complex" | "low_quality" | "other"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCancelResponse>>;
+    cancel(subscription_id: InputValue<string>, params: (InputValue<CancelSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionscancel
+     */
+    cancelWithResponse(subscription_id: InputValue<string>, params: (InputValue<CancelSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Changes the subscription to an active payment method owned by the same customer. The payment method's usage must be off_session.
+ * Changes the subscription to an active payment method owned by the same customer. The payment
+ * method's usage must be off_session. Send expected_version to reject a concurrent change. A card
+ * whose setup hasn't finished returns 409 PAYMENT_METHOD_NOT_READY. Retry the same request with
+ * the same Idempotency-Key once setup finishes.
+ * @see reference/subscriptions.md#subscriptionschangepaymentmethod
  * POST /v1/subscriptions/{subscription_id}/payment-method
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.changePaymentMethod("example", {payment_method_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.changePaymentMethod("example", {payment_method_id: "example"}, {
+ * idempotencyKey: idempotencyKey })
  */
-    changePaymentMethod(subscription_id: InputValue<string>, params: (InputValue<{ "payment_method_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    changePaymentMethodWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "payment_method_id": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsChangePaymentMethodResponse>>;
+    changePaymentMethod(subscription_id: InputValue<string>, params: (InputValue<ChangeSubscriptionPaymentMethodRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionschangepaymentmethod
+     */
+    changePaymentMethodWithResponse(subscription_id: InputValue<string>, params: (InputValue<ChangeSubscriptionPaymentMethodRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
+    /**
+ * Replaces the subscription's lines and recurring options with the active target plan's current
+ * terms. With billing_starts next_renewal, changes terms now without charging and keeps the
+ * current period and next billing date. With billing_starts now, charges a new period and credits
+ * unused paid item time after promotions; the plan changes only when payment succeeds. If the
+ * credit exceeds the new item charge, choose next_renewal. Omit interval and quantity to keep
+ * their current values; the target plan must offer them. Contract terms and existing recurring
+ * promotions are preserved. Requires Idempotency-Key; retry with the same key to recover the same
+ * result. Returns status 200 for a decline, with a closed unpaid order, failed
+ * order_payment_attempt, and unchanged subscription. Inspect
+ * order_payment_attempt.last_payment_error and update the subscription payment method before
+ * trying again. Send expected_version to reject a concurrent change. After a confirmed
+ * CONCURRENT_MODIFICATION with billing_starts now, refresh the subscription and send a new
+ * Idempotency-Key. The buyer account cannot change plans.
+ * @see reference/subscriptions.md#subscriptionschangeplan
+ * POST /v1/subscriptions/{subscription_id}/change-plan
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.subscriptions.changePlan("example", {billing_starts: "now", subscription_plan_id:
+ * "plan_00000000000000000000000000"}, { idempotencyKey: idempotencyKey })
+ */
+    changePlan(subscription_id: InputValue<string>, params: (InputValue<ChangeSubscriptionPlanRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPlanChangeResult>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionschangeplan
+     */
+    changePlanWithResponse(subscription_id: InputValue<string>, params: (InputValue<ChangeSubscriptionPlanRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPlanChangeResultResponse>>;
     /**
  * Creates a subscription for the authenticated merchant.
+ * @see reference/subscriptions.md#subscriptionscreate
  * POST /v1/subscriptions
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.create({billing_start: {type: "immediate"}, customer_id: "example", subscription_plan_id: "example", billing_schedule: {owner: "flint"}}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.create({billing_start: {type: "immediate"}, customer_id: "example", terms:
+ * {subscription_plan_id: "example", type: "subscription_plan"}}, { idempotencyKey: idempotencyKey
+ * })
  */
-    create(params: (InputValue<({ "billing_anchor_day"?: number; "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "delivery"?: SubscriptionDeliveryRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "quantity"?: number; "service_location"?: SubscriptionServiceLocationRequestInput; "subscription_plan_id": string; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<({ "billing_anchor_day"?: number; "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "billing_schedule"?: SubscriptionBillingScheduleRequestInput; "billing_start": SubscriptionBillingStartRequestInput; "customer_id": string; "delivery"?: SubscriptionDeliveryRequestInput; "external_reference_id"?: string; "metadata"?: Record<string, string>; "payment_method_id"?: string; "quantity"?: number; "service_location"?: SubscriptionServiceLocationRequestInput; "subscription_plan_id": string; }) & (({ "billing_schedule": { "owner": "flint"; }; }) | (({ "billing_schedule": { "owner": "external"; }; }) & ({ "billing_anchor_day"?: never })) | ((({ "billing_schedule"?: never }) & ({ "billing_anchor_day"?: never }))))>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreateResponse>>;
+    create(params: (InputValue<CreateSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionscreate
+     */
+    createWithResponse(params: (InputValue<CreateSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Creates a link like the ones in Flint's subscription email, to put in buyer email or messages you send yourself. It opens the subscription in your Flint-hosted customer account without a sign-in. Changing it, such as pausing or canceling, needs the buyer to sign in. It works for 14 days or 5 opens, whichever comes first; after that the buyer signs in to see the subscription. The url is a bearer credential. Flint returns it only in this response and in a retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A call with a new key creates another link; earlier links keep working until they expire. When customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED. Send no request body or an empty object ({}). Idempotency is scoped to the merchant, credential, environment, and this resource's route. A replay returns the original link without extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates a new link and has no replay result. If Flint cannot retain a result after minting, contact support with X-Request-Id before sending a new request.
+ * Creates a link to one subscription in your Flint-hosted customer account, to put in buyer email
+ * or messages you send yourself. Omit purpose or send subscription_view for read-only access
+ * without a sign-in. Send subscription_manage to also let the buyer cancel, pause, or undo a
+ * scheduled cancellation, subject to your store's policy and the subscription's state.
+ * subscription_manage requires commerce.subscriptions.write; subscription_view requires
+ * commerce.subscriptions.read. Neither purpose permits other subscription changes or access to
+ * another subscription. Both work for 14 days or 5 opens, whichever comes first; after that the
+ * buyer signs in. The url is a bearer credential. Flint returns it only in this response and in a
+ * retry with the same Idempotency-Key, so send it only to the buyer and keep it out of logs. A
+ * call with a new key creates another link; earlier links keep working until they expire. When
+ * customer_account.mode is merchant_hosted it returns ACCESS_LINK_MERCHANT_HOSTED. Send no request
+ * body, an empty object ({}), or an optional purpose. Idempotency is scoped to the merchant,
+ * credential, environment, and this resource's route. A replay returns the original link without
+ * extending its lifetime or replenishing its opens. Without an Idempotency-Key, each call creates
+ * a new link and has no replay result. If Flint cannot retain a result after minting, contact
+ * support with X-Request-Id before sending a new request.
+ * @see reference/subscriptions.md#subscriptionscreateaccesslink
  * POST /v1/subscriptions/{subscription_id}/access-links
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.createAccessLink("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    createAccessLink(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<AccessLinkResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createAccessLinkWithResponse(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreateAccessLinkResponse>>;
+    createAccessLink(subscription_id: InputValue<string>, params?: (InputValue<CreateSubscriptionAccessLinkRequestInput> | {
+        "purpose"?: never;
+    })
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<AccessLink>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionscreateaccesslink
+     */
+    createAccessLinkWithResponse(subscription_id: InputValue<string>, params?: (InputValue<CreateSubscriptionAccessLinkRequestInput> | {
+        "purpose"?: never;
+    })
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<AccessLinkResponse>>;
     /**
- * Adds a catalog variant or bundle to future subscription renewals. Current prices and delivery eligibility are checked before the line is saved. Already-created orders keep their lines.
+ * Adds a catalog variant or bundle to future subscription renewals. Current prices and delivery
+ * eligibility are checked before the line is saved. Already-created orders keep their lines.
+ * @see reference/subscriptions.md#subscriptionscreatelineitem
  * POST /v1/subscriptions/{subscription_id}/line-items
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.createLineItem("sub_01J00000000000000000000001", {quantity: 1, variant_id: "var_01J00000000000000000000001"}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.createLineItem("example", {quantity: 1, variant_id:
+ * "var_00000000000000000000000000"}, { idempotencyKey: idempotencyKey })
  */
-    createLineItem(subscription_id: InputValue<string>, params: (InputValue<({ "bundle_id"?: string; "expected_version"?: string; "quantity": number; "variant_id"?: string; }) & ((({ "variant_id": unknown; "quantity": unknown; }) & (({ "bundle_id"?: never }))) | (({ "bundle_id": unknown; "quantity": unknown; }) & (({ "variant_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createLineItemWithResponse(subscription_id: InputValue<string>, params: (InputValue<({ "bundle_id"?: string; "expected_version"?: string; "quantity": number; "variant_id"?: string; }) & ((({ "variant_id": unknown; "quantity": unknown; }) & (({ "bundle_id"?: never }))) | (({ "bundle_id": unknown; "quantity": unknown; }) & (({ "variant_id"?: never }))))>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreateLineItemResponse>>;
+    createLineItem(subscription_id: InputValue<string>, params: (InputValue<CreateSubscriptionLineItemRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionscreatelineitem
+     */
+    createLineItemWithResponse(subscription_id: InputValue<string>, params: (InputValue<CreateSubscriptionLineItemRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome.
+ * Starts one manual collection attempt on a past-due subscription. Send no body, or an empty
+ * object. Poll the returned retry for the outcome.
+ * @see reference/subscriptions.md#subscriptionscreatepaymentretry
  * POST /v1/subscriptions/{subscription_id}/payment-retries
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.createPaymentRetry("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    createPaymentRetry(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionPaymentRetryResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createPaymentRetryWithResponse(subscription_id: InputValue<string>, params?: (InputValue<{  }> | {  }) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsCreatePaymentRetryResponse>>;
+    createPaymentRetry(subscription_id: InputValue<string>, params: (InputValue<{}> | {}) & {
+        "Idempotency-Key"?: InputValue<string>;
+    } | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPaymentRetry>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionscreatepaymentretry
+     */
+    createPaymentRetryWithResponse(subscription_id: InputValue<string>, params: (InputValue<{}> | {}) & {
+        "Idempotency-Key"?: InputValue<string>;
+    } | undefined, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPaymentRetryResponse>>;
     /**
- * Removes a line from future subscription renewals. The final line cannot be removed. Send expected_version as a query parameter to reject a concurrent change.
+ * Removes a line from future subscription renewals. The final line cannot be removed. Send
+ * expected_version as a query parameter to reject a concurrent change.
+ * @see reference/subscriptions.md#subscriptionsdeletelineitem
  * DELETE /v1/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.deleteLineItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    deleteLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "expected_version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    deleteLineItemWithResponse(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "expected_version"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsDeleteLineItemResponse>>;
+    deleteLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsdeletelineitem
+     */
+    deleteLineItemWithResponse(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Returns a single subscription by ID. A paid checkout session's credential can retrieve only the subscription created by its source order. Checkout credentials cannot expand related resources.
+ * Returns a single subscription by ID. A paid checkout session's credential can retrieve only the
+ * subscription created by its source order. Checkout credentials cannot expand related resources.
+ * @see reference/subscriptions.md#subscriptionsget
  * GET /v1/subscriptions/{subscription_id}
  * @example
  * client.subscriptions.get("example")
  */
-    get(subscription_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(subscription_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsGetResponse>>;
+    get(subscription_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsget
+     */
+    getWithResponse(subscription_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionResponse>>;
     /**
  * Returns one durable manual subscription payment retry.
+ * @see reference/subscriptions.md#subscriptionsgetpaymentretry
  * GET /v1/subscriptions/{subscription_id}/payment-retries/{subscription_payment_retry_id}
  * @example
  * client.subscriptions.getPaymentRetry("example", "example")
  */
-    getPaymentRetry(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<SubscriptionPaymentRetryResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getPaymentRetryWithResponse(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsGetPaymentRetryResponse>>;
+    getPaymentRetry(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPaymentRetry>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsgetpaymentretry
+     */
+    getPaymentRetryWithResponse(subscription_id: InputValue<string>, subscription_payment_retry_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPaymentRetryResponse>>;
     /**
  * Returns a subscription's manual payment retries, newest first.
+ * @see reference/subscriptions.md#subscriptionslistpaymentretries
  * GET /v1/subscriptions/{subscription_id}/payment-retries
  * @example
  * client.subscriptions.listPaymentRetries("example")
  */
-    listPaymentRetries(subscription_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPaymentRetryListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listPaymentRetriesWithResponse(subscription_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsListPaymentRetriesResponse>>;
-    listPaymentRetriesPages(subscription_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPaymentRetryListResponse>;
-    listPaymentRetriesPagesWithResponse(subscription_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionsListPaymentRetriesResponse>>;
-    listPaymentRetriesItems(subscription_id: InputValue<string>, params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "idempotency_key"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPaymentRetry>;
+    listPaymentRetries(subscription_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionPaymentRetryListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionslistpaymentretries
+     */
+    listPaymentRetriesWithResponse(subscription_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionPaymentRetryListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/subscriptions.md#subscriptionslistpaymentretries
+     */
+    listPaymentRetriesPages(subscription_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPaymentRetryListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/subscriptions.md#subscriptionslistpaymentretries
+     */
+    listPaymentRetriesPagesWithResponse(subscription_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionPaymentRetryListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/subscriptions.md#subscriptionslistpaymentretries
+     */
+    listPaymentRetriesItems(subscription_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "idempotency_key"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionPaymentRetry>;
     /**
- * Returns a paginated list of subscriptions for the authenticated merchant.
+ * Returns a paginated list of subscriptions for the authenticated merchant. Subscriptions without
+ * a next_billing_at never match next_billing_after or next_billing_before, and sort last with
+ * sort_by=next_billing_at in either direction.
+ * @see reference/subscriptions.md#subscriptionslist
  * GET /v1/subscriptions
  * @example
  * client.subscriptions.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionsListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionsListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete">>; "billing_schedule_owner"?: InputValue<"flint" | "external">; "awaiting_billing_schedule"?: InputValue<boolean>; "cancel_at_period_end"?: InputValue<boolean>; "customer_id"?: InputValue<string>; "delivery_method_id"?: InputValue<string>; "hold_reason"?: InputValue<"method_unavailable" | "destination_not_served" | "rate_unavailable">; "subscription_offer_id"?: InputValue<string>; "subscription_plan_id"?: InputValue<string>; "external_reference_id"?: InputValue<string>; "query"?: InputValue<string>; "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">; "sort_direction"?: InputValue<"asc" | "desc">; "created_after"?: InputValue<string | globalThis.Date>; "created_before"?: InputValue<string | globalThis.Date>; "updated_after"?: InputValue<string | globalThis.Date>; "updated_before"?: InputValue<string | globalThis.Date>; "next_billing_at_after"?: InputValue<string | globalThis.Date>; "next_billing_at_before"?: InputValue<string | globalThis.Date>; "needs_attention"?: InputValue<boolean>; "expand"?: InputValue<Array<"customer" | "subscription_plan">> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Subscription>;
+    list(params?: {
+        "terms_type"?: InputValue<Array<"subscription_plan" | "subscription_offer">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
+        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
+        "awaiting_billing_schedule"?: InputValue<boolean>;
+        "cancel_at_period_end"?: InputValue<boolean>;
+        "customer_id"?: InputValue<string>;
+        "delivery_method_id"?: InputValue<string>;
+        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
+        "subscription_offer_id"?: InputValue<string>;
+        "subscription_plan_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "next_billing_after"?: InputValue<string | globalThis.Date>;
+        "next_billing_before"?: InputValue<string | globalThis.Date>;
+        "needs_attention"?: InputValue<boolean>;
+        "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionslist
+     */
+    listWithResponse(params?: {
+        "terms_type"?: InputValue<Array<"subscription_plan" | "subscription_offer">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
+        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
+        "awaiting_billing_schedule"?: InputValue<boolean>;
+        "cancel_at_period_end"?: InputValue<boolean>;
+        "customer_id"?: InputValue<string>;
+        "delivery_method_id"?: InputValue<string>;
+        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
+        "subscription_offer_id"?: InputValue<string>;
+        "subscription_plan_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "next_billing_after"?: InputValue<string | globalThis.Date>;
+        "next_billing_before"?: InputValue<string | globalThis.Date>;
+        "needs_attention"?: InputValue<boolean>;
+        "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/subscriptions.md#subscriptionslist
+     */
+    listPages(params?: {
+        "terms_type"?: InputValue<Array<"subscription_plan" | "subscription_offer">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
+        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
+        "awaiting_billing_schedule"?: InputValue<boolean>;
+        "cancel_at_period_end"?: InputValue<boolean>;
+        "customer_id"?: InputValue<string>;
+        "delivery_method_id"?: InputValue<string>;
+        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
+        "subscription_offer_id"?: InputValue<string>;
+        "subscription_plan_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "next_billing_after"?: InputValue<string | globalThis.Date>;
+        "next_billing_before"?: InputValue<string | globalThis.Date>;
+        "needs_attention"?: InputValue<boolean>;
+        "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SubscriptionListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/subscriptions.md#subscriptionslist
+     */
+    listPagesWithResponse(params?: {
+        "terms_type"?: InputValue<Array<"subscription_plan" | "subscription_offer">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
+        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
+        "awaiting_billing_schedule"?: InputValue<boolean>;
+        "cancel_at_period_end"?: InputValue<boolean>;
+        "customer_id"?: InputValue<string>;
+        "delivery_method_id"?: InputValue<string>;
+        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
+        "subscription_offer_id"?: InputValue<string>;
+        "subscription_plan_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "next_billing_after"?: InputValue<string | globalThis.Date>;
+        "next_billing_before"?: InputValue<string | globalThis.Date>;
+        "needs_attention"?: InputValue<boolean>;
+        "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<SubscriptionListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/subscriptions.md#subscriptionslist
+     */
+    listItems(params?: {
+        "terms_type"?: InputValue<Array<"subscription_plan" | "subscription_offer">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
+        "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
+        "awaiting_billing_schedule"?: InputValue<boolean>;
+        "cancel_at_period_end"?: InputValue<boolean>;
+        "customer_id"?: InputValue<string>;
+        "delivery_method_id"?: InputValue<string>;
+        "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
+        "subscription_offer_id"?: InputValue<string>;
+        "subscription_plan_id"?: InputValue<string>;
+        "external_reference_id"?: InputValue<string>;
+        "query"?: InputValue<string>;
+        "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "updated_after"?: InputValue<string | globalThis.Date>;
+        "updated_before"?: InputValue<string | globalThis.Date>;
+        "next_billing_after"?: InputValue<string | globalThis.Date>;
+        "next_billing_before"?: InputValue<string | globalThis.Date>;
+        "needs_attention"?: InputValue<boolean>;
+        "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Subscription>;
     /**
- * Pauses a subscription immediately, optionally for a fixed number of billing cycles. A buyer's pause follows the store's customer_account.buyer_capabilities.
+ * Pauses a subscription immediately, optionally for at least one billing cycle. A pause with a
+ * duration resumes automatically at scheduled_resume_at. Repeating the stored pause length returns
+ * the paused subscription; a different length returns ACTION_NOT_ALLOWED with reason field_locked
+ * and param pause_duration_cycles and requires resuming first. A buyer's pause follows the store's
+ * customer_account.buyer_capabilities. Send expected_version to reject a concurrent change.
+ * @see reference/subscriptions.md#subscriptionspause
  * POST /v1/subscriptions/{subscription_id}/pause
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.pause("example", {}, { idempotencyKey: idempotencyKey })
  */
-    pause(subscription_id: InputValue<string>, params: (InputValue<{ "pause_duration_cycles"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    pauseWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "pause_duration_cycles"?: number; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsPauseResponse>>;
+    pause(subscription_id: InputValue<string>, params: (InputValue<PauseSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionspause
+     */
+    pauseWithResponse(subscription_id: InputValue<string>, params: (InputValue<PauseSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Clears a pending period-end cancellation without changing the current billing period.
+ * Clears a pending cancellation without changing the current billing period. Alternatively, PATCH
+ * the subscription with cancel_at_period_end set to false. Send expected_version to reject a
+ * concurrent change.
+ * @see reference/subscriptions.md#subscriptionsreactivate
  * POST /v1/subscriptions/{subscription_id}/reactivate
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.reactivate("example", {}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.reactivate("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    reactivate(subscription_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    reactivateWithResponse(subscription_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsReactivateResponse>>;
+    reactivate(subscription_id: InputValue<string>, params?: (InputValue<ResourceVersionRequestInput> | {
+        "expected_version"?: never;
+    })
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsreactivate
+     */
+    reactivateWithResponse(subscription_id: InputValue<string>, params?: (InputValue<ResourceVersionRequestInput> | {
+        "expected_version"?: never;
+    })
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires Idempotency-Key; retry with the same key to recover the same attempt. Returns the resulting subscription after collection.
+ * Charges the next renewal now, ships it when the subscription has delivery, and moves the next
+ * billing date forward by one interval. Available while the subscription is active on a
+ * Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end
+ * of its period, is not in a trial, and has no delivery hold or renewal in progress. The
+ * subscription's payment method must be active and allow off-session charges. Requires
+ * Idempotency-Key; retry with the same key to recover the same attempt. Returns the subscription,
+ * renewal order, and payment attempt with status 200, including when the payment is declined.
+ * Inspect order_payment_attempt.last_payment_error for a failed payment.
+ * @see reference/subscriptions.md#subscriptionsrenew
  * POST /v1/subscriptions/{subscription_id}/renew
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.renew("sub_01J00000000000000000000001", {}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.renew("example", {}, { idempotencyKey: idempotencyKey })
  */
-    renew(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    renewWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsRenewResponse>>;
+    renew(subscription_id: InputValue<string>, params: (InputValue<RenewSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SubscriptionRenewalResult>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsrenew
+     */
+    renewWithResponse(subscription_id: InputValue<string>, params: (InputValue<RenewSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options: _SdkRequiredIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<SubscriptionRenewalResultResponse>>;
     /**
- * Requests resumption of a paused subscription. Processing is asynchronous, so the response can still show paused. Retrieve the subscription to follow its status. Paid access resumes only when the subscription is active; overdue payment must be collected first.
+ * Asks Flint to resume a paused subscription. Returns 202 while the subscription is still paused,
+ * with resume_requested_at set. Flint then makes it active, or past_due while an overdue period is
+ * collected, and sends subscription.resumed. If Flint can't resume it, it stays paused,
+ * resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with
+ * 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, use reactivate.
+ * @see reference/subscriptions.md#subscriptionsresume
  * POST /v1/subscriptions/{subscription_id}/resume
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.resume("example", {}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.resume("example", undefined, { idempotencyKey: idempotencyKey })
  */
-    resume(subscription_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resumeWithResponse(subscription_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsResumeResponse>>;
+    resume(subscription_id: InputValue<string>, params?: (InputValue<ResourceVersionRequestInput> | {
+        "expected_version"?: never;
+    })
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsresume
+     */
+    resumeWithResponse(subscription_id: InputValue<string>, params?: (InputValue<ResourceVersionRequestInput> | {
+        "expected_version"?: never;
+    })
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves forward by one of the subscription's billing intervals. Available while the subscription is active, is not set to cancel at the end of its period, and has a next billing date.
+ * Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves
+ * forward by one of the subscription's billing intervals. A Flint-owned schedule keeps its
+ * billing_anchor_day, including when the skipped date falls in a shorter month. Available while
+ * the subscription is active, is not set to cancel at the end of its period, and has a next
+ * billing date.
+ * @see reference/subscriptions.md#subscriptionsskipcycle
  * POST /v1/subscriptions/{subscription_id}/skip-cycle
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.skipCycle("example", {}, { idempotencyKey: idempotencyKey })
  */
-    skipCycle(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "initiated_by"?: "buyer" | "merchant" | "integration"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    skipCycleWithResponse(subscription_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "initiated_by"?: "buyer" | "merchant" | "integration"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsSkipCycleResponse>>;
+    skipCycle(subscription_id: InputValue<string>, params: (InputValue<SkipSubscriptionCycleRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsskipcycle
+     */
+    skipCycleWithResponse(subscription_id: InputValue<string>, params: (InputValue<SkipSubscriptionCycleRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Updates metadata, external_reference_id, delivery, billing interval and quantity. A delivery change is checked with a delivery preview before it is saved. Send billing_interval and billing_interval_count together. The billing interval and quantity must be offered by the subscription plan or frozen offer, and apply from the next renewal. Send expected_version to reject concurrent changes. Change the payment method with the payment-method route and undo a scheduled cancellation with the reactivate route.
+ * Updates metadata, external_reference_id, payment_method_id, delivery, billing interval,
+ * quantity, or cancel_at_period_end: false to undo a scheduled cancellation. Send billing_interval
+ * and billing_interval_count together. A billing_schedule update must be the only mutable field.
+ * Delivery, cadence and quantity changes apply to future unpaid renewals. Send expected_version to
+ * reject concurrent changes. Schedule a cancellation with POST
+ * /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines
+ * through the line-items collection.
+ * @see reference/subscriptions.md#subscriptionsupdate
  * PATCH /v1/subscriptions/{subscription_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.subscriptions.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(subscription_id: InputValue<string>, params: (InputValue<({ "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "delivery"?: SubscriptionDeliveryRequestInput; "expected_version"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "quantity"?: number; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(subscription_id: InputValue<string>, params: (InputValue<({ "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly"; "billing_interval_count"?: number; "delivery"?: SubscriptionDeliveryRequestInput; "expected_version"?: string; "external_reference_id"?: string; "metadata"?: Record<string, string | null> | null; "quantity"?: number; })>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsUpdateResponse>>;
+    update(subscription_id: InputValue<string>, params: (InputValue<UpdateSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsupdate
+     */
+    updateWithResponse(subscription_id: InputValue<string>, params: (InputValue<UpdateSubscriptionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Sets the next billing date, clears an external schedule while it awaits a date, or transfers schedule ownership. The response carries the updated subscription.
+ * Sets the next billing date, clears an external schedule while it awaits a date, or transfers
+ * schedule ownership. Moving a Flint-owned next_billing_at sets billing_anchor_day to its UTC day
+ * unless you send an explicit anchor. Transferring an external schedule to Flint with a next
+ * billing date follows the same rule. An unchanged date and owner preserve the anchor. The
+ * response carries the updated subscription. Send expected_version to reject a concurrent change.
+ * @see reference/subscriptions.md#subscriptionsupdatebillingschedule
  * PATCH /v1/subscriptions/{subscription_id}/billing-schedule
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.updateBillingSchedule({subscription_id: "example", body: {owner: "flint", initiated_by: "buyer", next_billing_at: "2026-01-01T00:00:00Z"}}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.updateBillingSchedule({subscription_id: "example", body: {owner: "flint",
+ * next_billing_at: "2026-01-01T00:00:00Z"}}, { idempotencyKey: idempotencyKey })
  */
-    updateBillingSchedule(input: SubscriptionsUpdateBillingScheduleInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateBillingScheduleWithResponse(input: SubscriptionsUpdateBillingScheduleInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsUpdateBillingScheduleResponse>>;
+    updateBillingSchedule(input: SubscriptionsUpdateBillingScheduleInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsupdatebillingschedule
+     */
+    updateBillingScheduleWithResponse(input: SubscriptionsUpdateBillingScheduleInput, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
     /**
- * Updates a subscription line for future renewals. Send expected_version to reject a concurrent change. Already-created orders keep their lines.
+ * Updates a subscription line for future renewals. Send expected_version to reject a concurrent
+ * change. Already-created orders keep their lines.
+ * @see reference/subscriptions.md#subscriptionsupdatelineitem
  * PATCH /v1/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.subscriptions.updateLineItem("sub_01J00000000000000000000001", "sli_01J00000000000000000000001", {quantity: 2}, { idempotencyKey: idempotencyKey })
+ * client.subscriptions.updateLineItem("example", "example", {}, { idempotencyKey: idempotencyKey })
  */
-    updateLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "quantity"?: number; "variant_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SubscriptionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateLineItemWithResponse(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<{ "expected_version"?: string; "quantity"?: number; "variant_id"?: string; }>) & { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionsUpdateLineItemResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly subscriptions: SubscriptionsResource;
+    updateLineItem(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<UpdateSubscriptionLineItemRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Subscription>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/subscriptions.md#subscriptionsupdatelineitem
+     */
+    updateLineItemWithResponse(subscription_id: InputValue<string>, subscription_line_item_id: InputValue<string>, params: (InputValue<UpdateSubscriptionLineItemRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SubscriptionResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { SubscriptionResponse } from '../declarations/SubscriptionResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { SubscriptionsCancelResponse } from '../declarations/SubscriptionsCancelResponse.js';
-export type { SubscriptionsChangePaymentMethodResponse } from '../declarations/SubscriptionsChangePaymentMethodResponse.js';
-export type { SubscriptionBillingScheduleRequestInput } from '../declarations/SubscriptionBillingScheduleRequestInput.js';
-export type { SubscriptionBillingStartRequestInput } from '../declarations/SubscriptionBillingStartRequestInput.js';
-export type { SubscriptionDeliveryRequestInput } from '../declarations/SubscriptionDeliveryRequestInput.js';
-export type { SubscriptionServiceLocationRequestInput } from '../declarations/SubscriptionServiceLocationRequestInput.js';
-export type { SubscriptionsCreateResponse } from '../declarations/SubscriptionsCreateResponse.js';
-export type { AccessLinkResponse } from '../declarations/AccessLinkResponse.js';
-export type { SubscriptionsCreateAccessLinkResponse } from '../declarations/SubscriptionsCreateAccessLinkResponse.js';
-export type { SubscriptionsCreateLineItemResponse } from '../declarations/SubscriptionsCreateLineItemResponse.js';
-export type { SubscriptionPaymentRetryResponse } from '../declarations/SubscriptionPaymentRetryResponse.js';
-export type { SubscriptionsCreatePaymentRetryResponse } from '../declarations/SubscriptionsCreatePaymentRetryResponse.js';
-export type { SubscriptionsDeleteLineItemResponse } from '../declarations/SubscriptionsDeleteLineItemResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { SubscriptionsGetResponse } from '../declarations/SubscriptionsGetResponse.js';
-export type { SubscriptionsGetPaymentRetryResponse } from '../declarations/SubscriptionsGetPaymentRetryResponse.js';
-export type { SubscriptionPaymentRetryListResponse } from '../declarations/SubscriptionPaymentRetryListResponse.js';
-export type { SubscriptionsListPaymentRetriesResponse } from '../declarations/SubscriptionsListPaymentRetriesResponse.js';
-export type { SubscriptionPaymentRetry } from '../declarations/SubscriptionPaymentRetry.js';
-export type { SubscriptionListResponse } from '../declarations/SubscriptionListResponse.js';
-export type { SubscriptionsListResponse } from '../declarations/SubscriptionsListResponse.js';
-export type { Subscription } from '../declarations/Subscription.js';
-export type { SubscriptionsPauseResponse } from '../declarations/SubscriptionsPauseResponse.js';
-export type { SubscriptionsReactivateResponse } from '../declarations/SubscriptionsReactivateResponse.js';
-export type { SubscriptionsRenewResponse } from '../declarations/SubscriptionsRenewResponse.js';
-export type { SubscriptionsResumeResponse } from '../declarations/SubscriptionsResumeResponse.js';
-export type { SubscriptionsSkipCycleResponse } from '../declarations/SubscriptionsSkipCycleResponse.js';
-export type { SubscriptionsUpdateResponse } from '../declarations/SubscriptionsUpdateResponse.js';
-export type { SubscriptionsUpdateBillingScheduleInput } from '../declarations/SubscriptionsUpdateBillingScheduleInput.js';
-export type { SubscriptionsUpdateBillingScheduleResponse } from '../declarations/SubscriptionsUpdateBillingScheduleResponse.js';
-export type { SubscriptionsUpdateLineItemResponse } from '../declarations/SubscriptionsUpdateLineItemResponse.js';
-export type { SubscriptionsCancelInput } from '../declarations/SubscriptionsCancelInput.js';
-export type { SubscriptionsChangePaymentMethodInput } from '../declarations/SubscriptionsChangePaymentMethodInput.js';
-export type { SubscriptionsCreateInput } from '../declarations/SubscriptionsCreateInput.js';
-export type { SubscriptionsCreateAccessLinkInput } from '../declarations/SubscriptionsCreateAccessLinkInput.js';
-export type { SubscriptionsCreateLineItemInput } from '../declarations/SubscriptionsCreateLineItemInput.js';
-export type { SubscriptionsCreatePaymentRetryInput } from '../declarations/SubscriptionsCreatePaymentRetryInput.js';
-export type { SubscriptionsDeleteLineItemInput } from '../declarations/SubscriptionsDeleteLineItemInput.js';
-export type { SubscriptionsGetInput } from '../declarations/SubscriptionsGetInput.js';
-export type { SubscriptionsGetPaymentRetryInput } from '../declarations/SubscriptionsGetPaymentRetryInput.js';
-export type { SubscriptionsListPaymentRetriesInput } from '../declarations/SubscriptionsListPaymentRetriesInput.js';
-export type { SubscriptionsListInput } from '../declarations/SubscriptionsListInput.js';
-export type { SubscriptionsPauseInput } from '../declarations/SubscriptionsPauseInput.js';
-export type { SubscriptionsReactivateInput } from '../declarations/SubscriptionsReactivateInput.js';
-export type { SubscriptionsRenewInput } from '../declarations/SubscriptionsRenewInput.js';
-export type { SubscriptionsResumeInput } from '../declarations/SubscriptionsResumeInput.js';
-export type { SubscriptionsSkipCycleInput } from '../declarations/SubscriptionsSkipCycleInput.js';
-export type { SubscriptionsUpdateInput } from '../declarations/SubscriptionsUpdateInput.js';
-export type { SubscriptionsUpdateLineItemInput } from '../declarations/SubscriptionsUpdateLineItemInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { SubscriptionDeliveryDestinationRequestInput } from '../declarations/SubscriptionDeliveryDestinationRequestInput.js';
-export type { OrderDeliveryDestinationAddressRequestInput } from '../declarations/OrderDeliveryDestinationAddressRequestInput.js';
-export type { DeliverySelectionRecipientRequestInput } from '../declarations/DeliverySelectionRecipientRequestInput.js';
-export type { PostalAddressInput } from '../declarations/PostalAddressInput.js';
-export type { AccessLink } from '../declarations/AccessLink.js';
-export type { SubscriptionPaymentRetryFailure } from '../declarations/SubscriptionPaymentRetryFailure.js';
-export type { SubscriptionIntervalOption } from '../declarations/SubscriptionIntervalOption.js';
-export type { BuyerAction } from '../declarations/BuyerAction.js';
-export type { SubscriptionCancellationDetails } from '../declarations/SubscriptionCancellationDetails.js';
-export type { SubscriptionDelivery } from '../declarations/SubscriptionDelivery.js';
-export type { SubscriptionAddressVerification } from '../declarations/SubscriptionAddressVerification.js';
-export type { SubscriptionDeliveryMethodSummary } from '../declarations/SubscriptionDeliveryMethodSummary.js';
-export type { SubscriptionDeliveryDestination } from '../declarations/SubscriptionDeliveryDestination.js';
-export type { Address } from '../declarations/Address.js';
-export type { PostalAddress } from '../declarations/PostalAddress.js';
-export type { DeliveryRecipientResource } from '../declarations/DeliveryRecipientResource.js';
-export type { SubscriptionDeliveryHold } from '../declarations/SubscriptionDeliveryHold.js';
-export type { SubscriptionInventoryWait } from '../declarations/SubscriptionInventoryWait.js';
-export type { SubscriptionLineItem } from '../declarations/SubscriptionLineItem.js';
-export type { BundleComponent } from '../declarations/BundleComponent.js';
-export type { BundleComponentVariantSummary } from '../declarations/BundleComponentVariantSummary.js';
-export type { SelectedProductOption } from '../declarations/SelectedProductOption.js';
-export type { CategoryReference } from '../declarations/CategoryReference.js';
-export type { Image } from '../declarations/Image.js';
-export type { OrderLineItemModifier } from '../declarations/OrderLineItemModifier.js';
-export type { TextModifierRequest } from '../declarations/TextModifierRequest.js';
-export type { CardDetails } from '../declarations/CardDetails.js';
-export type { SubscriptionServiceLocation } from '../declarations/SubscriptionServiceLocation.js';
-export type { SubscriptionPlanLineItem } from '../declarations/SubscriptionPlanLineItem.js';
-export type { SubscriptionPlanSwapVariant } from '../declarations/SubscriptionPlanSwapVariant.js';
-export type { OrderLineItemTax } from '../declarations/OrderLineItemTax.js';
-export type { SubscriptionUpcomingDeliveryHold } from '../declarations/SubscriptionUpcomingDeliveryHold.js';
-export type { UpdateSubscriptionBillingScheduleRequestInput } from '../declarations/UpdateSubscriptionBillingScheduleRequestInput.js';
-export type { CancelSubscriptionRequestInput } from '../declarations/CancelSubscriptionRequestInput.js';
-export type { ChangeSubscriptionPaymentMethodRequestInput } from '../declarations/ChangeSubscriptionPaymentMethodRequestInput.js';
-export type { CreateSubscriptionRequestInput } from '../declarations/CreateSubscriptionRequestInput.js';
-export type { CreateSubscriptionLineItemRequestInput } from '../declarations/CreateSubscriptionLineItemRequestInput.js';
-export type { PauseSubscriptionRequestInput } from '../declarations/PauseSubscriptionRequestInput.js';
-export type { InventoryCountTransitionRequestInput } from '../declarations/InventoryCountTransitionRequestInput.js';
-export type { SkipSubscriptionCycleRequestInput } from '../declarations/SkipSubscriptionCycleRequestInput.js';
-export type { UpdateSubscriptionRequestInput } from '../declarations/UpdateSubscriptionRequestInput.js';
-export type { UpdateSubscriptionLineItemRequestInput } from '../declarations/UpdateSubscriptionLineItemRequestInput.js';
-export type { MeCancelSubscriptionInput } from '../declarations/MeCancelSubscriptionInput.js';
-export type { MeChangeSubscriptionPaymentMethodInput } from '../declarations/MeChangeSubscriptionPaymentMethodInput.js';
-export type { MeCreateSubscriptionPaymentRetryInput } from '../declarations/MeCreateSubscriptionPaymentRetryInput.js';
-export type { MeGetSubscriptionPaymentRetryInput } from '../declarations/MeGetSubscriptionPaymentRetryInput.js';
-export type { MePauseSubscriptionInput } from '../declarations/MePauseSubscriptionInput.js';
-export type { MeReactivateSubscriptionInput } from '../declarations/MeReactivateSubscriptionInput.js';
-export type { MeRenewSubscriptionInput } from '../declarations/MeRenewSubscriptionInput.js';
-export type { OrderDeliveryDestinationAddressRequest } from '../declarations/OrderDeliveryDestinationAddressRequest.js';
-export type { DeliverySelectionRecipientRequest } from '../declarations/DeliverySelectionRecipientRequest.js';
-export type { ResolvePaymentLinkTextModifierRequest } from '../declarations/ResolvePaymentLinkTextModifierRequest.js';
-export type { PauseSubscriptionRequest } from '../declarations/PauseSubscriptionRequest.js';
-export type { InventoryCountTransitionRequest } from '../declarations/InventoryCountTransitionRequest.js';
-export type { UpdateSubscriptionLineItemRequest } from '../declarations/UpdateSubscriptionLineItemRequest.js';
-export { makeSubscriptionResponse } from '../declarations/makeSubscriptionResponse.js';
-export { makeAccessLinkResponse } from '../declarations/makeAccessLinkResponse.js';
-export { makeSubscriptionPaymentRetryResponse } from '../declarations/makeSubscriptionPaymentRetryResponse.js';
-export { makeSubscriptionPaymentRetryListResponse } from '../declarations/makeSubscriptionPaymentRetryListResponse.js';
-export { makeSubscriptionPaymentRetry } from '../declarations/makeSubscriptionPaymentRetry.js';
-export { makeSubscriptionListResponse } from '../declarations/makeSubscriptionListResponse.js';
-export { makeSubscription } from '../declarations/makeSubscription.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeAccessLink } from '../declarations/makeAccessLink.js';
-export { makeSubscriptionPaymentRetryFailure } from '../declarations/makeSubscriptionPaymentRetryFailure.js';
-export { makeSubscriptionIntervalOption } from '../declarations/makeSubscriptionIntervalOption.js';
-export { makeBuyerAction } from '../declarations/makeBuyerAction.js';
-export { makeSubscriptionCancellationDetails } from '../declarations/makeSubscriptionCancellationDetails.js';
-export { makeSubscriptionDelivery } from '../declarations/makeSubscriptionDelivery.js';
-export { makeSubscriptionAddressVerification } from '../declarations/makeSubscriptionAddressVerification.js';
-export { makeSubscriptionDeliveryMethodSummary } from '../declarations/makeSubscriptionDeliveryMethodSummary.js';
-export { makeSubscriptionDeliveryDestination } from '../declarations/makeSubscriptionDeliveryDestination.js';
-export { makeAddress } from '../declarations/makeAddress.js';
-export { makePostalAddress } from '../declarations/makePostalAddress.js';
-export { makeDeliveryRecipientResource } from '../declarations/makeDeliveryRecipientResource.js';
-export { makeSubscriptionDeliveryHold } from '../declarations/makeSubscriptionDeliveryHold.js';
-export { makeSubscriptionInventoryWait } from '../declarations/makeSubscriptionInventoryWait.js';
-export { makeSubscriptionLineItem } from '../declarations/makeSubscriptionLineItem.js';
-export { makeBundleComponent } from '../declarations/makeBundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../declarations/makeBundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../declarations/makeSelectedProductOption.js';
-export { makeCategoryReference } from '../declarations/makeCategoryReference.js';
-export { makeImage } from '../declarations/makeImage.js';
-export { makeOrderLineItemModifier } from '../declarations/makeOrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../declarations/makeTextModifierRequest.js';
-export { makeCardDetails } from '../declarations/makeCardDetails.js';
-export { makeSubscriptionServiceLocation } from '../declarations/makeSubscriptionServiceLocation.js';
-export { makeSubscriptionPlanLineItem } from '../declarations/makeSubscriptionPlanLineItem.js';
-export { makeSubscriptionPlanSwapVariant } from '../declarations/makeSubscriptionPlanSwapVariant.js';
-export { makeOrderLineItemTax } from '../declarations/makeOrderLineItemTax.js';
-export { makeSubscriptionUpcomingDeliveryHold } from '../declarations/makeSubscriptionUpcomingDeliveryHold.js';
-export { makeOrderDeliveryDestinationAddressRequest } from '../declarations/makeOrderDeliveryDestinationAddressRequest.js';
-export { makeDeliverySelectionRecipientRequest } from '../declarations/makeDeliverySelectionRecipientRequest.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../declarations/makeResolvePaymentLinkTextModifierRequest.js';
-export { makePauseSubscriptionRequest } from '../declarations/makePauseSubscriptionRequest.js';
-export { makeInventoryCountTransitionRequest } from '../declarations/makeInventoryCountTransitionRequest.js';
-export { makeUpdateSubscriptionLineItemRequest } from '../declarations/makeUpdateSubscriptionLineItemRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly subscriptions: SubscriptionsResource;
+}

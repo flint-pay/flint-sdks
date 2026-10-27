@@ -1,1 +1,1 @@
-{"shared":"FeedbackReport","dependencies":["FeedbackReport","FeedbackReportingClient"]}
+{"shared":"FeedbackReport","dependencies":["FeedbackReport","FeedbackReportingClient","SharedCodec347","SharedCodec348"]}

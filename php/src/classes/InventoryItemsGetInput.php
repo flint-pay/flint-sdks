@@ -7,7 +7,8 @@ namespace Flint;
 final class InventoryItemsGetInput extends Model {
     /** @param array{'inventory_item_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }

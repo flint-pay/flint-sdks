@@ -11,27 +11,32 @@ namespace Flint;
 final class DocumentTaxIDInput extends Model {
     /** @param array{'country': string, 'document_tax_id'?: string, 'identifier_type': string, 'region'?: string, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DocumentTaxIDInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Two-letter ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US".
+     * @return string
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** @return string
+    /** Shape $ (Value): string. Server-generated identity of an existing entry. Omit when adding an entry. minLength: 1. pattern: ^dti_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
      * @throws SdkError When document_tax_id is omitted; use hasDocumentTaxId() or valueOrDefault().
      */
     public function getDocumentTaxId(): string { return $this->get('document_tax_id'); }
     public function hasDocumentTaxId(): bool { return $this->has('document_tax_id'); }
-    /** @return string
+    /** Shape $ (Value): string. Provider-independent identifier type, for example vat, gst, or ein. This is an open vocabulary. minLength: 1. maxLength: 64. pattern: ^[a-z][a-z0-9_]*$.
+     * @return string
      * @throws SdkError When identifier_type is omitted; use hasIdentifierType() or valueOrDefault().
      */
     public function getIdentifierType(): string { return $this->get('identifier_type'); }
     public function hasIdentifierType(): bool { return $this->has('identifier_type'); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1. maxLength: 64.
+     * @return string
      * @throws SdkError When region is omitted; use hasRegion() or valueOrDefault().
      */
     public function getRegion(): string { return $this->get('region'); }
     public function hasRegion(): bool { return $this->has('region'); }
-    /** @return string
+    /** Shape $ (Value): string. Full identifier printed on documents. Not verified by Flint. minLength: 1. maxLength: 255.
+     * @return string
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */
     public function getValue(): string { return $this->get('value'); }

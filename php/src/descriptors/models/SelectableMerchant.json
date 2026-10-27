@@ -1,0 +1,1 @@
+{"shared":"SelectableMerchant","phpRepresentation":{"kind":"record","fields":{"business_name":{"kind":"value","type":"string"},"merchant_id":{"kind":"value","type":"string"}}},"dependencies":["SelectableMerchant"]}

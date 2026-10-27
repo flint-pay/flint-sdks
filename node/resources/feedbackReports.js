@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/feedbackReports.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/feedbackReports.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createFeedbackReport"]:r0,["getFeedbackReport"]:r0,["listFeedbackReports"]:r0});
 export class Client {
@@ -13,58 +13,44 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.feedbackReports = Object.freeze({
       create: async (params, options) => this.#runtime.request("createFeedbackReport", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFeedbackReport", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createFeedbackReport", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (feedback_report_id, params, options) => this.#runtime.request("getFeedbackReport", _sdkRequestInput([
   "feedback_report_id"
-], [feedback_report_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [feedback_report_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getFeedbackReport", result, path))),
       getWithResponse: async (feedback_report_id, params, options) => this.#runtime.request("getFeedbackReport", _sdkRequestInput([
   "feedback_report_id"
-], [feedback_report_id], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+], [feedback_report_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listFeedbackReports", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listFeedbackReports", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFeedbackReports", _sdkRequestInput([], [], [
   "page_size",
-  "page_token",
-  "X-Request-Id"
+  "page_token"
 ], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeFeedbackReportResponse } from '../models/FeedbackReportResponse.js';
-export { makeFeedbackReportListResponse } from '../models/FeedbackReportListResponse.js';
-export { makeFeedbackReport } from '../models/FeedbackReport.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeCreateFeedbackReportNarrative } from '../models/CreateFeedbackReportNarrative.js';
+export { makeCreateFeedbackReportRating } from '../models/CreateFeedbackReportRating.js';
+export { makeCreateFeedbackReportRequest } from '../models/CreateFeedbackReportRequest.js';
 export { makeFeedbackReportingClient } from '../models/FeedbackReportingClient.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';

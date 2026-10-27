@@ -5,14 +5,10 @@ namespace Flint;
  * @property-read string $partner_app_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperGetPartnerAppInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'partner_app_id': string}|object $values */
+    /** @param array{'partner_app_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeveloperGetPartnerAppInput')); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }

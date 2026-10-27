@@ -1,0 +1,1 @@
+{"shared":"BuyerReturnCompletionBlocker","phpRepresentation":{"kind":"record","fields":{"code":{"kind":"value","type":"string"},"message":{"kind":"value","type":"string"},"return_line_item_id":{"kind":"value","type":"string"},"return_resolution_id":{"kind":"value","type":"string"}}},"dependencies":["BuyerReturnCompletionBlocker"]}

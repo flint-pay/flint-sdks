@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'payout_id': string, ...}|object $data
- * @property-read string $event_type
  * @property-read string $api_version
  * @property-read string|\DateTimeInterface $created_at
+ * @property-read array{'object': array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string|\DateTimeInterface, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': array{'amount': string, 'currency': string}|object|null, 'initiated_by': string, 'merchant_id': string, 'metadata'?: array<array-key, string>|\stdClass, 'method': string, 'net_money': array{'amount': string, 'currency': string, ...}|object|null, 'original_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'original_payout_id'?: string, 'payout_destination'?: array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: PayoutTraceIDInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, ...}|object}|object $data
+ * @property-read string $event_type
  * @property-read string $merchant_id
  * @property-read string $mode
  * @property-read int $payload_version
@@ -14,54 +14,64 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class Webhook_payout_reversed_merchantInput extends Model {
-    /** @param array{'data': array{'payout_id': string, ...}|object, 'event_type': string, 'api_version': string, 'created_at': string|\DateTimeInterface, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test'?: bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'api_version': string, 'created_at': string|\DateTimeInterface, 'data': array{'object': array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string|\DateTimeInterface, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': array{'amount': string, 'currency': string}|object|null, 'initiated_by': string, 'merchant_id': string, 'metadata'?: array<array-key, string>|\stdClass, 'method': string, 'net_money': array{'amount': string, 'currency': string, ...}|object|null, 'original_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'original_payout_id'?: string, 'payout_destination'?: array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: PayoutTraceIDInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, ...}|object}|object, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': array{'id': string, 'idempotency_key'?: string}|object|null, 'test': bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Webhook_payout_reversed_merchantInput')); }
-    /** @return array{'payout_id': string, ...}|object
-     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
-     */
-    public function getData(): array|object { return $this->get('data'); }
-    public function hasData(): bool { return $this->has('data'); }
-    /** @return string
-     * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
-     */
-    public function getEventType(): string { return $this->get('event_type'); }
-    public function hasEventType(): bool { return $this->has('event_type'); }
-    /** @return string
+    /** Shape $ (Value): string. Format: date.
+     * @return string
      * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. Format: date-time.
+     * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
+    /** Shape $ (Value): object. Shape $.object (Required): object and {@see PayoutInput}. Funds sent from a merchant balance to a payout destination. Shape $.object.amount_money (Required): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.object.arrival_date (Optional): string. Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date. Shape $.object.balance_source_type (Required): string. Balance source this payout draws from. Flint chooses the source when balance_source_type is omitted at create. Clients must accept source types added in future releases. Value enum: "card", "bank_account". Shape $.object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Shape $.object.currency (Required): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". Shape $.object.description (Optional): string. Shape $.object.external_reference_id (Optional): string. Caller-owned identifier for this resource in an external system. maxLength: 255. Shape $.object.failure_code (Optional): string. Flint-normalized payout failure code. Unknown provider values are returned as payout_failed. Value enum: "account_closed", "account_frozen", "bank_account_restricted", "bank_ownership_changed", "could_not_process", "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number", "incorrect_account_holder_name", "incorrect_account_holder_address", "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card", "payout_failed". Shape $.object.failure_message (Optional): string. Flint-authored payout failure message. This is stable explanatory text, not a raw provider message. Shape $.object.fee_amount_status (Required): string. Whether the payout fee is estimated or final. not_applicable means no applicable fee status is known, including unmapped fee states. Value enum: "estimated", "final", "not_applicable". Shape $.object.fee_money (Required): {@see MoneyValueInput} or null. Shape $.object.fee_money.anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.object.fee_money.anyOf[2] (Value): null. Shape $.object.initiated_by (Required): string. What started the payout. Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform", "other". Shape $.object.merchant_id (Required): string. Shape $.object.metadata (Optional): Map of string. Shape $.object.metadata.* (Value): string. Shape $.object.method (Required): string. Payout method. instant can appear on imported payouts; unmapped methods are returned as other. Value enum: "standard", "instant", "other". Shape $.object.net_money (Required): {@see SignedMoneyInput} or null. Shape $.object.net_money.anyOf[1] (Value): {@see SignedMoneyInput}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape $.object.net_money.anyOf[2] (Value): null. Shape $.object.original_payout (Optional): {@see ExpandedPayoutSummaryInput} or null. Shape $.object.original_payout.anyOf[1] (Value): {@see ExpandedPayoutSummaryInput}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.object.original_payout.anyOf[2] (Value): null. Shape $.object.original_payout_id (Optional): string. Shape $.object.payout_destination (Optional): {@see ExpandedPayoutDestinationSummaryInput} or null. Shape $.object.payout_destination.anyOf[1] (Value): {@see ExpandedPayoutDestinationSummaryInput}. A payout destination's summary fields, such as type, bank name, last four digits, and status, returned when the destination is expanded. Shape $.object.payout_destination.anyOf[2] (Value): null. Shape $.object.payout_destination_id (Optional): string. Shape $.object.payout_id (Required): string. Shape $.object.reversal_status (Required): string.  Value enum: "none", "reversing", "reversed". Shape $.object.reversed_by_payout (Optional): {@see ExpandedPayoutSummaryInput} or null. Shape $.object.reversed_by_payout.anyOf[1] (Value): {@see ExpandedPayoutSummaryInput}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.object.reversed_by_payout.anyOf[2] (Value): null. Shape $.object.reversed_by_payout_id (Optional): string. Shape $.object.statement_descriptor (Optional): string. Shape $.object.status (Required): string.  Value enum: "pending", "in_transit", "paid", "failed", "canceled". Shape $.object.trace_id (Optional): {@see PayoutTraceIDInput}. A payout's bank trace ID, with whether it is pending, available, or unsupported. Shape $.object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
+     * @return array{'object': array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string|\DateTimeInterface, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': array{'amount': string, 'currency': string}|object|null, 'initiated_by': string, 'merchant_id': string, 'metadata'?: array<array-key, string>|\stdClass, 'method': string, 'net_money': array{'amount': string, 'currency': string, ...}|object|null, 'original_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'original_payout_id'?: string, 'payout_destination'?: array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: PayoutTraceIDInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, ...}|object}|object
+     * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
+     */
+    public function getData(): array|object { return $this->get('data'); }
+    public function hasData(): bool { return $this->has('data'); }
+    /** Shape $ (Value): string.  Value enum: "payout.reversed".
+     * @return string
+     * @throws SdkError When event_type is omitted; use hasEventType() or valueOrDefault().
+     */
+    public function getEventType(): string { return $this->get('event_type'); }
+    public function hasEventType(): bool { return $this->has('event_type'); }
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "test", "live".
+     * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** @return int
+    /** Shape $ (Value): integer. 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Value enum: 1, 2.
+     * @return int
      * @throws SdkError When payload_version is omitted; use hasPayloadVersion() or valueOrDefault().
      */
     public function getPayloadVersion(): int { return $this->get('payload_version'); }
     public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
-    /** @return array{'id': string, 'idempotency_key'?: string}|object|null
+    /** Shape $ (Value): object or null. Shape $.id (Required): string. Shape $.idempotency_key (Optional): string. The Idempotency-Key the originating request sent. Absent when it sent none.
+     * @return array{'id': string, 'idempotency_key'?: string}|object|null
      * @throws SdkError When request is omitted; use hasRequest() or valueOrDefault().
      */
     public function getRequest(): array|object|null { return $this->get('request'); }
     public function hasRequest(): bool { return $this->has('request'); }
-    /** @return bool
+    /** Shape $ (Value): boolean. true for a synthetic event sent from the test-events endpoint, false otherwise.
+     * @return bool
      * @throws SdkError When test is omitted; use hasTest() or valueOrDefault().
      */
     public function getTest(): bool { return $this->get('test'); }
     public function hasTest(): bool { return $this->has('test'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
      */
     public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }

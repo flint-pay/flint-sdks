@@ -1,1 +1,1 @@
-{"shared":"InventoryReservationOwner","dependencies":["InventoryReservationOwner"]}
+{"shared":"InventoryReservationOwner","dependencies":["InventoryReservationOwner","SharedCodec843","SharedCodec844"]}

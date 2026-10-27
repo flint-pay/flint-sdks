@@ -5,94 +5,88 @@ namespace Flint;
  * @property-read SignedMoney $amount_money
  * @property-read MoneyValue $balance_after_money
  * @property-read MoneyValue $balance_before_money
- * @property-read string|null $external_reference_id
+ * @property-read string|null $cash_out_reference
  * @property-read string $gift_card_id
  * @property-read string $gift_card_transaction_id
- * @property-read string $idempotency_key
+ * @property-read string|null $idempotency_key
  * @property-read string $merchant_sequence
- * @property-read string $order_id
+ * @property-read ?string $order_id
  * @property-read string $posted_at
- * @property-read string $reason
+ * @property-read string|null $reason
  * @property-read string $sequence
- * @property-read string $source_id
- * @property-read string $source_type
+ * @property-read ResourceReference|null $source
  * @property-read string $transaction_type
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class GiftCardTransaction extends Model {
-    /** @param array{'amount_money': mixed, 'balance_after_money': mixed, 'balance_before_money': mixed, 'external_reference_id': string|null, 'gift_card_id': string, 'gift_card_transaction_id': string, 'idempotency_key': string, 'merchant_sequence': string, 'order_id'?: string, 'posted_at': string, 'reason': string, 'sequence': string, 'source_id': string, 'source_type': string, 'transaction_type': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'balance_after_money': mixed, 'balance_before_money': mixed, 'cash_out_reference': string|null, 'gift_card_id': string, 'gift_card_transaction_id': string, 'idempotency_key': string|null, 'merchant_sequence': string, 'order_id'?: string, 'posted_at': string, 'reason': string|null, 'sequence': string, 'source': mixed, 'transaction_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardTransaction')); }
-    /** @return SignedMoney
-     * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see SignedMoney}. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return SignedMoney
      */
     public function getAmountMoney(): SignedMoney { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** @return MoneyValue
-     * @throws SdkError When balance_after_money is omitted; use hasBalanceAfterMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getBalanceAfterMoney(): MoneyValue { return $this->get('balance_after_money'); }
     public function hasBalanceAfterMoney(): bool { return $this->has('balance_after_money'); }
-    /** @return MoneyValue
-     * @throws SdkError When balance_before_money is omitted; use hasBalanceBeforeMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getBalanceBeforeMoney(): MoneyValue { return $this->get('balance_before_money'); }
     public function hasBalanceBeforeMoney(): bool { return $this->has('balance_before_money'); }
-    /** @return string|null
-     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+    /** Shape $ (Value): string or null. Your reference for the cash you paid the buyer outside Flint. Set only on cash_out transactions; null for other transactions. maxLength: 255.
+     * @return string|null
      */
-    public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
-    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return string
-     * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
+    public function getCashOutReference(): string|null { return $this->get('cash_out_reference'); }
+    public function hasCashOutReference(): bool { return $this->has('cash_out_reference'); }
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** @return string
-     * @throws SdkError When gift_card_transaction_id is omitted; use hasGiftCardTransactionId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getGiftCardTransactionId(): string { return $this->get('gift_card_transaction_id'); }
     public function hasGiftCardTransactionId(): bool { return $this->has('gift_card_transaction_id'); }
-    /** @return string
-     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+    /** Shape $ (Value): string or null. Your Idempotency-Key for the command that created this record. null when Flint created it or no key was sent.
+     * @return string|null
      */
-    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function getIdempotencyKey(): string|null { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return string
-     * @throws SdkError When merchant_sequence is omitted; use hasMerchantSequence() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      */
     public function getMerchantSequence(): string { return $this->get('merchant_sequence'); }
     public function hasMerchantSequence(): bool { return $this->has('merchant_sequence'); }
-    /** @return string
-     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getOrderId(): string { return $this->get('order_id'); }
+    public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** @return string
-     * @throws SdkError When posted_at is omitted; use hasPostedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getPostedAt(): string { return $this->get('posted_at'); }
     public function hasPostedAt(): bool { return $this->has('posted_at'); }
-    /** @return string
-     * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
+    /** Shape $ (Value): string or null. Your adjustment reason on adjustment transactions; customer_request on cash_out; null on all other transaction types. Value enum: "complimentary", "balance_accidentally_decreased", "support_issue", "suspicious_activity", "balance_accidentally_increased", "customer_request", null.
+     * @return string|null
      */
-    public function getReason(): string { return $this->get('reason'); }
+    public function getReason(): string|null { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** @return string
-     * @throws SdkError When sequence is omitted; use hasSequence() or valueOrDefault().
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      */
     public function getSequence(): string { return $this->get('sequence'); }
     public function hasSequence(): bool { return $this->has('sequence'); }
-    /** @return string
-     * @throws SdkError When source_id is omitted; use hasSourceId() or valueOrDefault().
+    /** Shape $ (Value): {@see ResourceReference} or null. Shape $.anyOf[1] (Value): {@see ResourceReference}. A reference to another resource by `resource_type` and `resource_id`. Shape $.anyOf[2] (Value): null.
+     * @return ResourceReference|null
      */
-    public function getSourceId(): string { return $this->get('source_id'); }
-    public function hasSourceId(): bool { return $this->has('source_id'); }
-    /** @return string
-     * @throws SdkError When source_type is omitted; use hasSourceType() or valueOrDefault().
-     */
-    public function getSourceType(): string { return $this->get('source_type'); }
-    public function hasSourceType(): bool { return $this->has('source_type'); }
-    /** @return string
-     * @throws SdkError When transaction_type is omitted; use hasTransactionType() or valueOrDefault().
+    public function getSource(): ResourceReference|null { return $this->get('source'); }
+    public function hasSource(): bool { return $this->has('source'); }
+    /** Shape $ (Value): string.  Value enum: "load", "import", "redeem", "refund", "refund_transfer", "adjustment", "cash_out", "purchase_reversal", "funding_loss_accepted", "purchase_refund_recovery", "purchase_refund_recovery_transfer".
+     * @return string
      */
     public function getTransactionType(): string { return $this->get('transaction_type'); }
     public function hasTransactionType(): bool { return $this->has('transaction_type'); }

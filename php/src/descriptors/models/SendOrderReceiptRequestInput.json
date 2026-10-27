@@ -1,1 +1,1 @@
-{"shared":"SendOrderReceiptRequest","dependencies":["SendOrderReceiptRequest"]}
+{"shared":"SendPaymentIntentReceiptRequest","dependencies":["SendPaymentIntentReceiptRequest"]}

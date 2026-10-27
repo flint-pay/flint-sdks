@@ -7,7 +7,8 @@ namespace Flint;
 final class OrderPaymentSourceCardSelectionInput extends Model {
     /** @param array{'digital_wallets'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentSourceCardSelectionInput')); }
-    /** @return list<string>
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
+     * @return list<string>
      * @throws SdkError When digital_wallets is omitted; use hasDigitalWallets() or valueOrDefault().
      */
     public function getDigitalWallets(): array { return $this->get('digital_wallets'); }

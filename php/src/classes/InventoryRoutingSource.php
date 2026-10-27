@@ -2,37 +2,31 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $inventory_allocation_policy_id
- * @property-read string $inventory_allocation_policy_version_id
- * @property-read string $location_id
- * @property-read list<string> $location_ids
+ * @property-read ?string $inventory_allocation_policy_id
+ * @property-read ?string $inventory_allocation_policy_revision_id
+ * @property-read ?string $location_id
  * @property-read string $type
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class InventoryRoutingSource extends Model {
-    /** @param array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_version_id'?: string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string, ...}|object $values */
+    /** @param array{'inventory_allocation_policy_id'?: string, 'inventory_allocation_policy_revision_id'?: string, 'location_id'?: string, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryRoutingSource')); }
-    /** @return string
-     * @throws SdkError When inventory_allocation_policy_id is omitted; use hasInventoryAllocationPolicyId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getInventoryAllocationPolicyId(): string { return $this->get('inventory_allocation_policy_id'); }
+    public function getInventoryAllocationPolicyId(): ?string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** @return string
-     * @throws SdkError When inventory_allocation_policy_version_id is omitted; use hasInventoryAllocationPolicyVersionId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getInventoryAllocationPolicyVersionId(): string { return $this->get('inventory_allocation_policy_version_id'); }
-    public function hasInventoryAllocationPolicyVersionId(): bool { return $this->has('inventory_allocation_policy_version_id'); }
-    /** @return string
-     * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
+    public function getInventoryAllocationPolicyRevisionId(): ?string { return $this->get('inventory_allocation_policy_revision_id'); }
+    public function hasInventoryAllocationPolicyRevisionId(): bool { return $this->has('inventory_allocation_policy_revision_id'); }
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getLocationId(): string { return $this->get('location_id'); }
+    public function getLocationId(): ?string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** @return list<string>
-     * @throws SdkError When location_ids is omitted; use hasLocationIds() or valueOrDefault().
-     */
-    public function getLocationIds(): array { return $this->get('location_ids'); }
-    public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** @return string
-     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "fixed_location", "policy", "policy_revision".
+     * @return string
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }

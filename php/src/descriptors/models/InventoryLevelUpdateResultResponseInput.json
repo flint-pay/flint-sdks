@@ -1,1 +1,0 @@
-{"shared":"InventoryLevelUpdateResultResponse","dependencies":["InventoryItem","InventoryLevel","InventoryLevelUpdateResult","InventoryLevelUpdateResultResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseMeta","ResponseWarning","SharedCodec1","SharedCodec467"]}

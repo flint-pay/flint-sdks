@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryRateCallbacks.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/deliveryRateCallbacks.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["checkDeliveryRateCallbackConnection"]:r0,["createDeliveryRateCallback"]:r0,["createDeliveryRateCallbackTestDelivery"]:r0,["deleteDeliveryRateCallback"]:r0,["getDeliveryRateCallback"]:r0,["listDeliveryRateCallbacks"]:r0,["rotateDeliveryRateCallbackSigningKey"]:r0,["updateDeliveryRateCallback"]:r0});
 export class Client {
@@ -16,7 +16,7 @@ this.deliveryRateCallbacks = Object.freeze({
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("checkDeliveryRateCallbackConnection", result, path))),
       checkConnectionWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("checkDeliveryRateCallbackConnection", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
@@ -24,7 +24,7 @@ this.deliveryRateCallbacks = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createDeliveryRateCallback", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryRateCallback", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createDeliveryRateCallback", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
@@ -32,7 +32,7 @@ this.deliveryRateCallbacks = Object.freeze({
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryRateCallbackTestDelivery", result, path))),
       createTestDeliveryWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("createDeliveryRateCallbackTestDelivery", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
@@ -43,7 +43,7 @@ this.deliveryRateCallbacks = Object.freeze({
 ], [delivery_rate_callback_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeliveryRateCallback", result, path))),
       removeWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("deleteDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
@@ -52,7 +52,7 @@ this.deliveryRateCallbacks = Object.freeze({
 ], false, false, params), options).then(_sdkResponse),
       get: async (delivery_rate_callback_id, params, options) => this.#runtime.request("getDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
-], [delivery_rate_callback_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [delivery_rate_callback_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeliveryRateCallback", result, path))),
       getWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("getDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [], false, false, params), options).then(_sdkResponse),
@@ -63,7 +63,7 @@ this.deliveryRateCallbacks = Object.freeze({
   "external_reference_id",
   "status",
   "delivery_method_id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeliveryRateCallbacks", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listDeliveryRateCallbacks", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -79,7 +79,7 @@ this.deliveryRateCallbacks = Object.freeze({
   "external_reference_id",
   "status",
   "delivery_method_id"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDeliveryRateCallbacks", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeliveryRateCallbacks", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -100,7 +100,7 @@ this.deliveryRateCallbacks = Object.freeze({
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateDeliveryRateCallbackSigningKey", result, path))),
       rotateSigningKeyWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("rotateDeliveryRateCallbackSigningKey", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
@@ -110,7 +110,7 @@ this.deliveryRateCallbacks = Object.freeze({
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateDeliveryRateCallback", result, path))),
       updateWithResponse: async (delivery_rate_callback_id, params, options) => this.#runtime.request("updateDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
@@ -118,20 +118,11 @@ this.deliveryRateCallbacks = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeDeliveryRateCallbackConnectionCheckResponse } from '../models/DeliveryRateCallbackConnectionCheckResponse.js';
-export { makeDeliveryRateCallbackResponse } from '../models/DeliveryRateCallbackResponse.js';
-export { makeDeliveryRateCallbackTestDeliveryResponse } from '../models/DeliveryRateCallbackTestDeliveryResponse.js';
-export { makeDeliveryRateCallbackListResponse } from '../models/DeliveryRateCallbackListResponse.js';
-export { makeDeliveryRateCallback } from '../models/DeliveryRateCallback.js';
-export { makeDeliveryRateCallbackSigningKeyRotationResponse } from '../models/DeliveryRateCallbackSigningKeyRotationResponse.js';
-export { makeDeliveryRateCallbackConnectionCheck } from '../models/DeliveryRateCallbackConnectionCheck.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeDeliveryRateCallbackTestDelivery } from '../models/DeliveryRateCallbackTestDelivery.js';
+export { makeCreateDeliveryRateCallbackRequest } from '../models/CreateDeliveryRateCallbackRequest.js';
 export { makeDeliveryRateCallbackConfiguration } from '../models/DeliveryRateCallbackConfiguration.js';
-export { makeDeliveryRateCallbackSigningKeyRotation } from '../models/DeliveryRateCallbackSigningKeyRotation.js';
+export { makeDeliveryRateCallbackConfigurationPatchRequest } from '../models/DeliveryRateCallbackConfigurationPatchRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateDeliveryRateCallbackRequest } from '../models/UpdateDeliveryRateCallbackRequest.js';

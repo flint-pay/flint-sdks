@@ -6,24 +6,22 @@ namespace Flint;
  * @property-read array<array-key, mixed>|\stdClass $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutsCancelInput extends Model {
-    /** @param array{'payout_id': string, 'Idempotency-Key'?: string, 'X-Request-Id'?: string, 'body': array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'payout_id': string, 'Idempotency-Key'?: string, 'body'?: array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutsCancelInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When payout_id is omitted; use hasPayoutId() or valueOrDefault().
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): object. The request body for: Cancel a payout.
+     * @return array<array-key, mixed>|\stdClass
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

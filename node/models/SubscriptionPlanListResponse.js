@@ -1,9 +1,0 @@
-import { d59 as c0, d61 as c1, d136 as c2, d894 as c3, d1631 as c4, d323 as c5, d1823 as c6, d1824 as c7, d1879 as c8, d1880 as c9, d2178 as c10, d2179 as c11, d2334 as c12, d14 as c13, d1628 as c14, d1629 as c15, d1630 as c16, d1822 as c17, d1995 as c18, d1994 as c19, d2393 as c20, d2394 as c21, d2363 as c22, d2370 as c23, d2381 as c24, d2392 as c25, d2395 as c26, d2401 as c27, d2403 as c28, d2431 as c29 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d2401 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2401;
-let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["BundleComponent"]:c0(),["BundleComponentVariantSummary"]:c1(),["CategoryReference"]:c2(),["Image"]:c3(),["InventoryRoutingSourceRequest"]:c4(),["MoneyValue"]:c5(),["NextAction"]:c6(),["NextActionMerchantAccountSession"]:c7(),["OrderLineItemModifier"]:c8(),["OrderLineItemTax"]:c9(),["ResponseMeta"]:c10(),["ResponseWarning"]:c11(),["SelectedProductOption"]:c12(),["SharedCodec1"]:c13(),["SharedCodec404"]:c14(),["SharedCodec405"]:c15(),["SharedCodec406"]:c16(),["SharedCodec467"]:c17(),["SharedCodec500"]:c18(),["SharedCodec501"]:c19(),["SharedCodec589"]:c20(),["SharedCodec590"]:c21(),["SubscriptionCounts"]:c22(),["SubscriptionDeliveryMethodCounts"]:c23(),["SubscriptionIntervalOption"]:c24(),["SubscriptionPlan"]:c25(),["SubscriptionPlanLineItem"]:c26(),["SubscriptionPlanListResponse"]:c27(),["SubscriptionPlanSwapVariant"]:c28(),["TextModifierRequest"]:c29()}); }
-export { codec as _validate };
-import { modelFromCodec } from '../runtime.js';
-export function makeSubscriptionPlanListResponse(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

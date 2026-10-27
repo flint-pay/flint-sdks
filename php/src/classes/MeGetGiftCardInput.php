@@ -5,14 +5,10 @@ namespace Flint;
  * @property-read string $gift_card_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeGetGiftCardInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'gift_card_id': string}|object $values */
+    /** @param array{'gift_card_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetGiftCardInput')); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }

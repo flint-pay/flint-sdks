@@ -1,1 +1,1 @@
-{"shared":"SubscriptionServiceLocation","dependencies":["PostalAddress","SubscriptionServiceLocation"]}
+{"shared":"SubscriptionServiceLocation","dependencies":["Address","SubscriptionServiceLocation"]}

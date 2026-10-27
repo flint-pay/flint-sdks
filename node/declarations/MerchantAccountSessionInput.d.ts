@@ -1,6 +1,0 @@
-
-import type { MerchantAccountSessionClientSessionInput } from './MerchantAccountSessionClientSessionInput.js';
-import type { MerchantAccountSessionEffectivePolicyInput } from './MerchantAccountSessionEffectivePolicyInput.js';
-import type { OnboardingRequirementsInput } from './OnboardingRequirementsInput.js';
-
-export type MerchantAccountSessionInput = { /** Browser initialization data required to mount embedded account-management components. These instructions are not merchant account resource state. */ "client_session": MerchantAccountSessionClientSessionInput; /** minItems: 1. */ "components": Array<"account_onboarding" | "account_management" | "payouts" | "balances" | "tax_documents" | "notification_banner">; "effective_policy": MerchantAccountSessionEffectivePolicyInput; /** Signed Flint token to exchange at POST /v1/merchant-account-sessions/refresh. Each successful refresh rotates this token. The caller must still authenticate and authorize the human using the session. */ "launch_token": string; /** Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format: date-time. */ "launch_token_expires_at": string | globalThis.Date; "requirements": OnboardingRequirementsInput; };

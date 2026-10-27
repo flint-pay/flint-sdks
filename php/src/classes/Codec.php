@@ -184,7 +184,7 @@ final class Codec
                 self::assertPlan($child, "$path.$key.$name", $depth + 1);
             }
         }
-        foreach (['element', 'exclude', 'includes'] as $key) {
+        foreach (['element', 'propertyNames', 'exclude', 'includes'] as $key) {
             if (isset($value[$key])) {
                 self::assertPlan($value[$key], "$path.$key", $depth + 1);
             }
@@ -222,69 +222,67 @@ final class Codec
     }
     public static function parse(string $text, bool $preserveNumbers = false): mixed
     {
-        // This tree supplies token kinds only; rounded values are never returned.
-        $original = json_decode($text, false, 512, JSON_THROW_ON_ERROR);
+        // Validate the original bytes before rewriting numeric tokens. Discard
+        // that temporary tree before decoding the exact representation.
+        if (!function_exists('json_validate') || !json_validate($text)) {
+            json_decode($text, false, 512, JSON_THROW_ON_ERROR);
+        }
+        // Scan validated JSON in linear time. Skip string contents, including
+        // escaped quotes/backslashes, without depending on PCRE resource limits.
+        // Copy unchanged spans only when a token actually needs rewriting.
         $encoded = '';
-        $quoted = false;
-        $escaped = false;
+        $copied = 0;
+        $offset = 0;
         $length = strlen($text);
-        for ($i = 0; $i < $length; ) {
-            $c = $text[$i];
-            if ($quoted) {
-                $encoded .= $c;
-                $i++;
-                if ($escaped) {
-                    $escaped = false;
-                } elseif ($c === '\\') {
-                    $escaped = true;
-                } elseif ($c === '"') {
-                    $quoted = false;
+        while ($offset < $length) {
+            $offset += strcspn($text, '"-0123456789', $offset);
+            if ($offset === $length) {
+                break;
+            }
+            $start = $offset;
+            if ($text[$offset] === '"') {
+                ++$offset;
+                // Escape genuine strings beginning with our private marker.
+                if (substr_compare($text, '\u0000', $offset, 6) === 0) {
+                    $encoded .= substr($text, $copied, $offset - $copied) . '\u0000';
+                    $copied = $offset;
                 }
+                do {
+                    $offset += strcspn($text, "\"\\", $offset);
+                    $escaped = $text[$offset] === '\\';
+                    $offset += $escaped ? 2 : 1;
+                } while ($escaped);
                 continue;
             }
-            if ($c === '"') {
-                $quoted = true;
-                $encoded .= $c;
-                $i++;
-                continue;
+            $offset += strspn($text, '0123456789.eE+-', $offset);
+            $token = substr($text, $start, $offset - $start);
+            $safe =
+                strcspn($token, '.eE') === strlen($token) &&
+                abs((float) $token) <= 9007199254740991;
+            if (!$safe) {
+                $encoded .= substr($text, $copied, $start - $copied) . '"\u0000' . $token . '"';
+                $copied = $offset;
             }
-            if ($c === '-' || ctype_digit($c)) {
-                preg_match(
-                    '/\G-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?/',
-                    $text,
-                    $matches,
-                    0,
-                    $i,
-                );
-                $token = $matches[0];
-                $safe =
-                    preg_match('/^-?(?:0|[1-9]\d*)$/', $token) &&
-                    abs((float) $token) <= 9007199254740991;
-                $encoded .= $safe ? $token : json_encode($token, JSON_THROW_ON_ERROR);
-                $i += strlen($token);
-                continue;
-            }
-            $encoded .= $c;
-            $i++;
         }
-        $parsed = json_decode($encoded, false, 512, JSON_THROW_ON_ERROR | JSON_BIGINT_AS_STRING);
-        return $preserveNumbers ? self::markNumbers($parsed, $original) : $parsed;
+        $encoded .= substr($text, $copied);
+        $parsed = json_decode($encoded, false, 512, JSON_THROW_ON_ERROR);
+        self::restoreNumbers($parsed, $preserveNumbers);
+        return $parsed;
     }
-    private static function markNumbers(mixed $value, mixed $original): mixed
+    private static function restoreNumbers(mixed &$value, bool $preserveNumbers): void
     {
-        if ((is_int($original) || is_float($original)) && is_string($value)) {
-            return new ParsedNumber($value);
-        }
-        if (is_array($value)) {
-            foreach ($value as $key => $child) {
-                $value[$key] = self::markNumbers($child, $original[$key]);
+        if (is_string($value) && str_starts_with($value, "\0")) {
+            $token = substr($value, 1);
+            $value =
+                str_starts_with($token, "\0") || !$preserveNumbers
+                    ? $token
+                    : new ParsedNumber($token);
+        } elseif (is_array($value) || $value instanceof \stdClass) {
+            foreach ($value as &$child) {
+                self::restoreNumbers($child, $preserveNumbers);
             }
-        } elseif (is_object($value)) {
-            foreach ($value as $key => $child) {
-                $value->{$key} = self::markNumbers($child, $original->{$key});
-            }
+            unset($child);
         }
-        return $value;
     }
     public static function plainNumbers(mixed $value): mixed
     {
@@ -1272,7 +1270,7 @@ final class Codec
             foreach ($shapes as [$codec]) {
                 $pattern =
                     $codec['value']['kind'] === 'exact-integer'
-                        ? '/^-?(?:0|[1-9]\d*)$/'
+                        ? '/^-?(?:0|[1-9]\d*)$/D'
                         : '/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/';
                 if (
                     self::exactValue($codec['value']) &&
@@ -1799,6 +1797,14 @@ final class Codec
         ) {
             self::fail($path, "expected $type; received a JSON string");
         }
+        if (
+            !$response &&
+            $type === 'integer' &&
+            $value instanceof ExactNumber &&
+            !preg_match('/^-?(?:0|[1-9]\d*)$/D', $value->value)
+        ) {
+            self::fail($path, 'expected an integer string');
+        }
         $numberToken = $value instanceof ParsedNumber ? $value->value : null;
         if ($value instanceof ParsedNumber) {
             if ($type === null) {
@@ -1859,10 +1865,15 @@ final class Codec
                 $token = is_int($value) ? (string) $value : $value;
                 $pattern =
                     $type === 'integer'
-                        ? '/^-?(?:0|[1-9]\d*)$/'
+                        ? '/^-?(?:0|[1-9]\d*)$/D'
                         : '/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/';
                 if (!is_string($token) || !preg_match($pattern, $token)) {
-                    self::fail($path, 'expected an exact numeric string');
+                    self::fail(
+                        $path,
+                        $type === 'integer'
+                            ? 'expected an integer string'
+                            : 'expected an exact numeric string',
+                    );
                 }
                 if (!$response || $matching) {
                     self::numericConstraints($token, $s, $path, $validateConstraints || $matching);
@@ -1922,6 +1933,27 @@ final class Codec
             }
             $out = new \stdClass();
             foreach ($data as $key => $v) {
+                if (isset($s['propertyNames'])) {
+                    self::executeNode(
+                        (string) $key,
+                        $s['propertyNames'],
+                        $path .
+                            '[' .
+                            json_encode(
+                                (string) $key,
+                                JSON_UNESCAPED_UNICODE |
+                                    JSON_UNESCAPED_SLASHES |
+                                    JSON_UNESCAPED_LINE_TERMINATORS |
+                                    JSON_INVALID_UTF8_SUBSTITUTE,
+                            ) .
+                            ']',
+                        true,
+                        true,
+                        $definitions,
+                        $depth + 1,
+                        true,
+                    );
+                }
                 if (isset($s['fields'][$key])) {
                     if (!$response && ($s['fields'][$key]['rejectInput'] ?? false)) {
                         self::fail("$path.$key", 'readOnly fields cannot be sent');

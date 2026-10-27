@@ -4,83 +4,95 @@ namespace Flint;
 /**
  * @property-read string|null $closed_reason
  * @property-read string $created_at
+ * @property-read string|null $expires_at
  * @property-read string $idempotency_key
- * @property-read InventoryActionRequired $inventory_action_required
+ * @property-read ?InventoryActionRequired $inventory_action_required
  * @property-read string $inventory_reservation_id
  * @property-read InventoryRoutingSource $inventory_routing_source
- * @property-read list<ReservationLine> $lines
- * @property-read InventoryReservationOwner $owner
- * @property-read string $replacement_inventory_reservation_id
- * @property-read string $source_inventory_reservation_id
+ * @property-read list<InventoryReservationLine> $lines
+ * @property-read InventoryReservationOwnerMerchant|InventoryReservationOwnerOrder|\stdClass $owner
+ * @property-read ?string $replacement_inventory_reservation_id
+ * @property-read ?string $source_inventory_reservation_id
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read string $updated_at
  * @property-read string $version
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class InventoryReservation extends Model {
-    /** @param array{'closed_reason'?: string|null, 'created_at': string, 'idempotency_key': string, 'inventory_action_required'?: mixed, 'inventory_reservation_id': string, 'inventory_routing_source': mixed, 'lines': list<mixed>, 'owner': mixed, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'closed_reason'?: string|null, 'created_at': string, 'expires_at': string|null, 'idempotency_key': string, 'inventory_action_required'?: mixed, 'inventory_reservation_id': string, 'inventory_routing_source': mixed, 'lines': list<mixed>, 'owner': mixed, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservation')); }
-    /** @return string|null
-     * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
+    /** Shape $ (Value): string or null. How the reservation ended. mixed when more than one terminal outcome applied. Value enum: "consumed", "released", "expired", "reallocated", "mixed", null.
+     * @return string|null
      */
     public function getClosedReason(): string|null { return $this->get('closed_reason'); }
     public function hasClosedReason(): bool { return $this->has('closed_reason'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
-     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+    /** Shape $ (Value): string or null. When held quantity is released if it isn't committed first. null once no line holds quantity. Committed and consumed quantity never expire. Format: date-time.
+     * @return string|null
+     */
+    public function getExpiresAt(): string|null { return $this->get('expires_at'); }
+    public function hasExpiresAt(): bool { return $this->has('expires_at'); }
+    /** Shape $ (Value): string. The Idempotency-Key of the command that created this reservation.
+     * @return string
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** @return InventoryActionRequired
-     * @throws SdkError When inventory_action_required is omitted; use hasInventoryActionRequired() or valueOrDefault().
+    /** Shape $ (Value): {@see InventoryActionRequired}. Present when the claim needs a merchant action before commerce can continue. Says that an inventory reservation needs action, with the `reason` and the reservation lines affected.
+     * @return ?InventoryActionRequired
      */
-    public function getInventoryActionRequired(): InventoryActionRequired { return $this->get('inventory_action_required'); }
+    public function getInventoryActionRequired(): ?InventoryActionRequired { return $this->get('inventory_action_required'); }
     public function hasInventoryActionRequired(): bool { return $this->has('inventory_action_required'); }
-    /** @return string
-     * @throws SdkError When inventory_reservation_id is omitted; use hasInventoryReservationId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getInventoryReservationId(): string { return $this->get('inventory_reservation_id'); }
     public function hasInventoryReservationId(): bool { return $this->has('inventory_reservation_id'); }
-    /** @return InventoryRoutingSource
-     * @throws SdkError When inventory_routing_source is omitted; use hasInventoryRoutingSource() or valueOrDefault().
+    /** Shape $ (Value): {@see InventoryRoutingSource}. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+     * @return InventoryRoutingSource
      */
     public function getInventoryRoutingSource(): InventoryRoutingSource { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /** @return list<ReservationLine>
-     * @throws SdkError When lines is omitted; use hasLines() or valueOrDefault().
+    /** Shape $ (Value): Array of {@see InventoryReservationLine}. Shape $[] (Value): {@see InventoryReservationLine}. One item's location allocation within a reservation.
+     * @return list<InventoryReservationLine>
      */
     public function getLines(): array { return $this->get('lines'); }
     public function hasLines(): bool { return $this->has('lines'); }
-    /** @return InventoryReservationOwner
-     * @throws SdkError When owner is omitted; use hasOwner() or valueOrDefault().
+    /** Shape $ (Value): {@see InventoryReservationOwner}. Who holds an inventory reservation: either a merchant claim identified by your `key`, or an order.
+     * @return InventoryReservationOwnerMerchant|InventoryReservationOwnerOrder|\stdClass
      */
-    public function getOwner(): InventoryReservationOwner { return $this->get('owner'); }
+    public function getOwner(): InventoryReservationOwnerMerchant|InventoryReservationOwnerOrder|\stdClass { return $this->get('owner'); }
     public function hasOwner(): bool { return $this->has('owner'); }
-    /** @return string
-     * @throws SdkError When replacement_inventory_reservation_id is omitted; use hasReplacementInventoryReservationId() or valueOrDefault().
+    /** Shape $ (Value): string. Set on a reservation whose claim Flint moved when it rerouted an order: the replacement reservation that now holds the quantity named in this reservation's reallocated_quantity.
+     * @return ?string
      */
-    public function getReplacementInventoryReservationId(): string { return $this->get('replacement_inventory_reservation_id'); }
+    public function getReplacementInventoryReservationId(): ?string { return $this->get('replacement_inventory_reservation_id'); }
     public function hasReplacementInventoryReservationId(): bool { return $this->has('replacement_inventory_reservation_id'); }
-    /** @return string
-     * @throws SdkError When source_inventory_reservation_id is omitted; use hasSourceInventoryReservationId() or valueOrDefault().
+    /** Shape $ (Value): string. Set on a replacement reservation: the reservation whose claim Flint moved here when it rerouted an order. This reservation holds the quantity that reservation reports as reallocated_quantity.
+     * @return ?string
      */
-    public function getSourceInventoryReservationId(): string { return $this->get('source_inventory_reservation_id'); }
+    public function getSourceInventoryReservationId(): ?string { return $this->get('source_inventory_reservation_id'); }
     public function hasSourceInventoryReservationId(): bool { return $this->has('source_inventory_reservation_id'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string. active while any held or committed quantity remains; closed once none does. Value enum: "active", "closed".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): Array of string. Actions that can change this reservation now. Empty for a closed reservation and for one Flint holds for an order. Resending targets already applied succeeds in any status. Computed when Flint produced this response or event, so replays and webhooks keep their original value. [] enum: "commit", "consume", "release". Shape $[] (Value): string.  Value enum: "commit", "consume", "release".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** @return string
-     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+    /** Shape $ (Value): integer string. The reservation version. Send it as expected_version to reject a write if the reservation changed. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+     * @return string
      */
     public function getVersion(): string { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }

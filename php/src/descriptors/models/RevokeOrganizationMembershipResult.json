@@ -1,1 +1,0 @@
-{"shared":"RevokeOrganizationMembershipResult","phpRepresentation":{"kind":"record","fields":{"organization_id":{"kind":"value","type":"string"},"user_id":{"kind":"value","type":"string"}}},"dependencies":["RevokeOrganizationMembershipResult"]}

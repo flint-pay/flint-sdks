@@ -1,137 +1,190 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ActionResponse } from '../declarations/ActionResponse.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { PaymentMethod } from '../declarations/PaymentMethod.js';
-import type { PaymentMethodListResponse } from '../declarations/PaymentMethodListResponse.js';
-import type { PaymentMethodResponse } from '../declarations/PaymentMethodResponse.js';
-import type { PaymentMethodsGetInput } from '../declarations/PaymentMethodsGetInput.js';
-import type { PaymentMethodsGetResponse } from '../declarations/PaymentMethodsGetResponse.js';
-import type { PaymentMethodsListInput } from '../declarations/PaymentMethodsListInput.js';
-import type { PaymentMethodsListResponse } from '../declarations/PaymentMethodsListResponse.js';
-import type { PaymentMethodsRemoveInput } from '../declarations/PaymentMethodsRemoveInput.js';
-import type { PaymentMethodsRemoveResponse } from '../declarations/PaymentMethodsRemoveResponse.js';
-import type { PaymentMethodsSaveInput } from '../declarations/PaymentMethodsSaveInput.js';
-import type { PaymentMethodsSaveResponse } from '../declarations/PaymentMethodsSaveResponse.js';
-import type { PaymentMethodsSetDefaultInput } from '../declarations/PaymentMethodsSetDefaultInput.js';
-import type { PaymentMethodsSetDefaultResponse } from '../declarations/PaymentMethodsSetDefaultResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SavePaymentMethodResponse } from '../declarations/SavePaymentMethodResponse.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    PaymentMethod,
+    PaymentMethodListResponse,
+    PaymentMethodResponse,
+    PaymentMethodWithSetup,
+    PaymentMethodsGetInput,
+    PaymentMethodsListInput,
+    PaymentMethodsRemoveInput,
+    PaymentMethodsSaveInput
+} from '../declarations/types-36.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SavePaymentMethodRequestInput, SavePaymentMethodResponse, SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { SavePaymentMethodRequestInput, SdkResponse, SavePaymentMethodResponse } from '../declarations/types-43.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    PaymentMethodWithSetup,
+    PaymentMethod,
+    PaymentMethodResponse,
+    PaymentMethodListResponse,
+    PaymentMethodsSaveInput,
+    PaymentMethodsRemoveInput,
+    PaymentMethodsGetInput,
+    PaymentMethodsListInput
+} from '../declarations/types-36.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-44.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export type { CardDetails } from '../declarations/types-3.js';
+export type { ExpandedCustomerSummary } from '../declarations/types-16.js';
+export type { MeRemovePaymentMethodInput } from '../declarations/types-30.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeSavePaymentMethodRequest } from '../declarations/types-71.js';
 export interface PaymentMethodsResource {
     /**
- * Returns a single payment method by ID.
- * GET /v1/payment-methods/{payment_method_id}
- * @example
- * client.paymentMethods.get("example")
- */
-    get(payment_method_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer">> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<_SdkPayloadAt<PaymentMethodResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(payment_method_id: InputValue<string>, params?: { "expand"?: InputValue<Array<"customer">> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<PaymentMethodsGetResponse>>;
-    /**
- * Returns saved payment methods for the merchant, optionally filtered to a customer. By default, only active payment methods are returned. Filter by usage off_session to list the payment methods a subscription, automatic invoice, or default payment method can use.
- * GET /v1/payment-methods
- * @example
- * client.paymentMethods.list()
- */
-    list(params?: { "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "type"?: InputValue<"card">; "status"?: InputValue<"active" | "pending" | "expired" | "removed" | "failed">; "usage"?: InputValue<"on_session" | "off_session"> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<PaymentMethodListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "type"?: InputValue<"card">; "status"?: InputValue<"active" | "pending" | "expired" | "removed" | "failed">; "usage"?: InputValue<"on_session" | "off_session"> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<PaymentMethodsListResponse>>;
-    listPages(params?: { "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "type"?: InputValue<"card">; "status"?: InputValue<"active" | "pending" | "expired" | "removed" | "failed">; "usage"?: InputValue<"on_session" | "off_session"> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<PaymentMethodListResponse>;
-    listPagesWithResponse(params?: { "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "type"?: InputValue<"card">; "status"?: InputValue<"active" | "pending" | "expired" | "removed" | "failed">; "usage"?: InputValue<"on_session" | "off_session"> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentMethodsListResponse>>;
-    listItems(params?: { "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "type"?: InputValue<"card">; "status"?: InputValue<"active" | "pending" | "expired" | "removed" | "failed">; "usage"?: InputValue<"on_session" | "off_session"> }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<PaymentMethod>;
-    /**
- * Soft-removes a saved payment method so it can no longer be used for future payments.
- * DELETE /v1/payment-methods/{payment_method_id}
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.paymentMethods.remove("example", {}, { idempotencyKey: idempotencyKey })
- */
-    remove(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<ActionResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentMethodsRemoveResponse>>;
-    /**
- * Initiates saving a payment method and returns the client setup payload needed to complete setup on the frontend.
+ * Initiates saving a payment method and returns the client setup payload needed to complete setup
+ * on the frontend.
+ * @see reference/paymentMethods.md#paymentmethodssave
  * POST /v1/payment-methods
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.paymentMethods.save({customer_id: "example"}, { idempotencyKey: idempotencyKey })
  */
-    save(params: (InputValue<{ "customer_id": string; "type"?: "card"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<SavePaymentMethodResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    saveWithResponse(params: (InputValue<{ "customer_id": string; "type"?: "card"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentMethodsSaveResponse>>;
+    save(params: (InputValue<SavePaymentMethodRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PaymentMethodWithSetup>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/paymentMethods.md#paymentmethodssave
+     */
+    saveWithResponse(params: (InputValue<SavePaymentMethodRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<SavePaymentMethodResponse>>;
     /**
- * Sets the default payment method for the payment method's owning customer. Subscriptions and automatic invoices charge the default without the buyer, so the payment method's usage must be off_session.
- * POST /v1/payment-methods/{payment_method_id}/set-default
+ * Deletes a saved payment method so it can no longer be used for future payments. Returns the
+ * payment method with status archived, including when it was already archived.
+ * @see reference/paymentMethods.md#paymentmethodsremove
+ * DELETE /v1/payment-methods/{payment_method_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.paymentMethods.setDefault("example", {}, { idempotencyKey: idempotencyKey })
+ * client.paymentMethods.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    setDefault(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<PaymentMethodResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    setDefaultWithResponse(payment_method_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentMethodsSetDefaultResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly paymentMethods: PaymentMethodsResource;
+    remove(payment_method_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<PaymentMethod>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/paymentMethods.md#paymentmethodsremove
+     */
+    removeWithResponse(payment_method_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<PaymentMethodResponse>>;
+    /**
+ * Returns a single payment method by ID.
+ * @see reference/paymentMethods.md#paymentmethodsget
+ * GET /v1/payment-methods/{payment_method_id}
+ * @example
+ * client.paymentMethods.get("example")
+ */
+    get(payment_method_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"customer">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<PaymentMethod>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/paymentMethods.md#paymentmethodsget
+     */
+    getWithResponse(payment_method_id: InputValue<string>, params?: {
+        "expand"?: InputValue<Array<"customer">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<PaymentMethodResponse>>;
+    /**
+ * Lists payment methods in every status except archived, newest first. Filter by status=active for
+ * the cards you can charge. Optionally filter to a customer. Filter by usage off_session to list
+ * the payment methods a subscription, automatic invoice, or default payment method can use.
+ * @see reference/paymentMethods.md#paymentmethodslist
+ * GET /v1/payment-methods
+ * @example
+ * client.paymentMethods.list()
+ */
+    list(params?: {
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "type"?: InputValue<Array<"card">>;
+        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
+        "usage"?: InputValue<Array<"on_session" | "off_session">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"customer">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<PaymentMethodListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/paymentMethods.md#paymentmethodslist
+     */
+    listWithResponse(params?: {
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "type"?: InputValue<Array<"card">>;
+        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
+        "usage"?: InputValue<Array<"on_session" | "off_session">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"customer">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): Promise<SdkResponse<PaymentMethodListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/paymentMethods.md#paymentmethodslist
+     */
+    listPages(params?: {
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "type"?: InputValue<Array<"card">>;
+        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
+        "usage"?: InputValue<Array<"on_session" | "off_session">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"customer">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<PaymentMethodListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/paymentMethods.md#paymentmethodslist
+     */
+    listPagesWithResponse(params?: {
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "type"?: InputValue<Array<"card">>;
+        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
+        "usage"?: InputValue<Array<"on_session" | "off_session">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"customer">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<PaymentMethodListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/paymentMethods.md#paymentmethodslist
+     */
+    listItems(params?: {
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "type"?: InputValue<Array<"card">>;
+        "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
+        "usage"?: InputValue<Array<"on_session" | "off_session">>;
+        "created_after"?: InputValue<string | globalThis.Date>;
+        "created_before"?: InputValue<string | globalThis.Date>;
+        "expand"?: InputValue<Array<"customer">>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"checkout" | "merchant" | "merchantKey">>): AsyncGenerator<PaymentMethod>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { PaymentMethodResponse } from '../declarations/PaymentMethodResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { PaymentMethodsGetResponse } from '../declarations/PaymentMethodsGetResponse.js';
-export type { PaymentMethodListResponse } from '../declarations/PaymentMethodListResponse.js';
-export type { PaymentMethodsListResponse } from '../declarations/PaymentMethodsListResponse.js';
-export type { PaymentMethod } from '../declarations/PaymentMethod.js';
-export type { ActionResponse } from '../declarations/ActionResponse.js';
-export type { PaymentMethodsRemoveResponse } from '../declarations/PaymentMethodsRemoveResponse.js';
-export type { SavePaymentMethodResponse } from '../declarations/SavePaymentMethodResponse.js';
-export type { PaymentMethodsSaveResponse } from '../declarations/PaymentMethodsSaveResponse.js';
-export type { PaymentMethodsSetDefaultResponse } from '../declarations/PaymentMethodsSetDefaultResponse.js';
-export type { PaymentMethodsGetInput } from '../declarations/PaymentMethodsGetInput.js';
-export type { PaymentMethodsListInput } from '../declarations/PaymentMethodsListInput.js';
-export type { PaymentMethodsRemoveInput } from '../declarations/PaymentMethodsRemoveInput.js';
-export type { PaymentMethodsSaveInput } from '../declarations/PaymentMethodsSaveInput.js';
-export type { PaymentMethodsSetDefaultInput } from '../declarations/PaymentMethodsSetDefaultInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { CardDetails } from '../declarations/CardDetails.js';
-export type { ActionResult } from '../declarations/ActionResult.js';
-export type { SavePaymentMethodResult } from '../declarations/SavePaymentMethodResult.js';
-export type { StripeClientSetup } from '../declarations/StripeClientSetup.js';
-export type { StripeClientSetupStripe } from '../declarations/StripeClientSetupStripe.js';
-export type { StripeClientAuthority } from '../declarations/StripeClientAuthority.js';
-export type { SavePaymentMethodRequestInput } from '../declarations/SavePaymentMethodRequestInput.js';
-export type { MeRemovePaymentMethodInput } from '../declarations/MeRemovePaymentMethodInput.js';
-export { makePaymentMethodResponse } from '../declarations/makePaymentMethodResponse.js';
-export { makePaymentMethodListResponse } from '../declarations/makePaymentMethodListResponse.js';
-export { makePaymentMethod } from '../declarations/makePaymentMethod.js';
-export { makeActionResponse } from '../declarations/makeActionResponse.js';
-export { makeSavePaymentMethodResponse } from '../declarations/makeSavePaymentMethodResponse.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeCardDetails } from '../declarations/makeCardDetails.js';
-export { makeActionResult } from '../declarations/makeActionResult.js';
-export { makeSavePaymentMethodResult } from '../declarations/makeSavePaymentMethodResult.js';
-export { makeStripeClientSetup } from '../declarations/makeStripeClientSetup.js';
-export { makeStripeClientSetupStripe } from '../declarations/makeStripeClientSetupStripe.js';
-export { makeStripeClientAuthority } from '../declarations/makeStripeClientAuthority.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly paymentMethods: PaymentMethodsResource;
+}

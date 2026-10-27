@@ -8,12 +8,14 @@ namespace Flint;
 final class MerchantAccountSessionStripeAccountSessionInput extends Model {
     /** @param array{'client_secret': string, 'stripe_js_call': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSessionStripeAccountSessionInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Short-lived account session client secret to return from fetchClientSecret. Return it only to an authenticated human authorized to manage this merchant.
+     * @return string
      * @throws SdkError When client_secret is omitted; use hasClientSecret() or valueOrDefault().
      */
     public function getClientSecret(): string { return $this->get('client_secret'); }
     public function hasClientSecret(): bool { return $this->has('client_secret'); }
-    /** @return string
+    /** Shape $ (Value): string. Browser initialization operation to perform. load_connect_and_initialize means call loadConnectAndInitialize with publishableKey and fetchClientSecret. Value enum: "load_connect_and_initialize".
+     * @return string
      * @throws SdkError When stripe_js_call is omitted; use hasStripeJsCall() or valueOrDefault().
      */
     public function getStripeJsCall(): string { return $this->get('stripe_js_call'); }

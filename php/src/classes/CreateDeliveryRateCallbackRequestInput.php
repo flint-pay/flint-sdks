@@ -9,17 +9,20 @@ namespace Flint;
 final class CreateDeliveryRateCallbackRequestInput extends Model {
     /** @param array{'configuration': DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDeliveryRateCallbackRequestInput')); }
-    /** @return DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryRateCallbackConfigurationInput}. Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it.
+     * @return DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** @return string
+    /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+     * @return string
      * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }

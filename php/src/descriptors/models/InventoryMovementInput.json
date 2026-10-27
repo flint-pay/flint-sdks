@@ -1,1 +1,1 @@
-{"shared":"InventoryMovement","dependencies":["InventoryItem","InventoryLevel","InventoryMovement","InventorySourceReference","InventorySourceSystem","SharedCodec42"]}
+{"shared":"InventoryMovement","dependencies":["InventoryItem","InventoryLevel","InventoryMovement","InventorySourceSystem","ResourceReference","ResourceType","SharedCodec145","SharedCodec45","SharedCodec831","SharedCodec832","SharedCodec833","SharedCodec834"]}

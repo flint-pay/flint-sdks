@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/giftCards.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/giftCards.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createGiftCard"]:r0,["getGiftCard"]:r0,["listGiftCards"]:r0,["lookupGiftCard"]:r0,["rotateGiftCardCode"]:r0,["transitionGiftCard"]:r0,["updateGiftCard"]:r0});
 export class Client {
@@ -13,144 +13,115 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.giftCards = Object.freeze({
       create: async (params, options) => this.#runtime.request("createGiftCard", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createGiftCard", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createGiftCard", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (gift_card_id, params, options) => this.#runtime.request("getGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [gift_card_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getGiftCard", result, path))),
       getWithResponse: async (gift_card_id, params, options) => this.#runtime.request("getGiftCard", _sdkRequestInput([
   "gift_card_id"
-], [gift_card_id], [
-  "X-Request-Id"
-], false, false, params), options).then(_sdkResponse),
+], [gift_card_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "created_after",
   "created_before",
+  "customer_id",
   "external_reference_id",
-  "gift_card_id",
   "page_size",
   "page_token",
   "status"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listGiftCards", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "created_after",
   "created_before",
+  "customer_id",
   "external_reference_id",
-  "gift_card_id",
   "page_size",
   "page_token",
   "status"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "created_after",
   "created_before",
+  "customer_id",
   "external_reference_id",
-  "gift_card_id",
   "page_size",
   "page_token",
   "status"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listGiftCards", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "created_after",
   "created_before",
+  "customer_id",
   "external_reference_id",
-  "gift_card_id",
   "page_size",
   "page_token",
   "status"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listGiftCards", _sdkRequestInput([], [], [
-  "X-Request-Id",
   "created_after",
   "created_before",
+  "customer_id",
   "external_reference_id",
-  "gift_card_id",
   "page_size",
   "page_token",
   "status"
 ], false, false, params), options),
-      lookup: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      lookupWithResponse: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [
-  "X-Request-Id"
-], true, true, params), options).then(_sdkResponse),
+      lookup: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("lookupGiftCard", result, path))),
+      lookupWithResponse: async (params, options) => this.#runtime.request("lookupGiftCard", _sdkRequestInput([], [], [], true, true, params), options).then(_sdkResponse),
       rotateCode: async (gift_card_id, params, options) => this.#runtime.request("rotateGiftCardCode", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateGiftCardCode", result, path))),
       rotateCodeWithResponse: async (gift_card_id, params, options) => this.#runtime.request("rotateGiftCardCode", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       transition: async (gift_card_id, params, options) => this.#runtime.request("transitionGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionGiftCard", result, path))),
       transitionWithResponse: async (gift_card_id, params, options) => this.#runtime.request("transitionGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       update: async (gift_card_id, params, options) => this.#runtime.request("updateGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateGiftCard", result, path))),
       updateWithResponse: async (gift_card_id, params, options) => this.#runtime.request("updateGiftCard", _sdkRequestInput([
   "gift_card_id"
 ], [gift_card_id], [
-  "X-Request-Id",
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeGiftCardCommandResponse } from '../models/GiftCardCommandResponse.js';
-export { makeGiftCardResponse } from '../models/GiftCardResponse.js';
-export { makeGiftCardListResponse } from '../models/GiftCardListResponse.js';
-export { makeGiftCard } from '../models/GiftCard.js';
-export { makeGiftCardCommandResult } from '../models/GiftCardCommandResult.js';
-export { makeGiftCardLoad } from '../models/GiftCardLoad.js';
-export { makeGiftCardFundingDispute } from '../models/GiftCardFundingDispute.js';
-export { makeGiftCardFundingLossResolution } from '../models/GiftCardFundingLossResolution.js';
-export { makeGiftCardPurchaseRefundValueHold } from '../models/GiftCardPurchaseRefundValueHold.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeGiftCardPurchaseRefundAllocation } from '../models/GiftCardPurchaseRefundAllocation.js';
-export { makeGiftCardPurchaseRefundRecovery } from '../models/GiftCardPurchaseRefundRecovery.js';
-export { makeGiftCardPurchaseRefundRecoveryDestination } from '../models/GiftCardPurchaseRefundRecoveryDestination.js';
-export { makeGiftCardPurchaseRefundValueAllocation } from '../models/GiftCardPurchaseRefundValueAllocation.js';
-export { makeGiftCardPurchaseRestoration } from '../models/GiftCardPurchaseRestoration.js';
-export { makeGiftCardRefundProvenance } from '../models/GiftCardRefundProvenance.js';
+export { makeCreateGiftCardRequest } from '../models/CreateGiftCardRequest.js';
 export { makeGiftCardFundingSource } from '../models/GiftCardFundingSource.js';
-export { makeGiftCardNotification } from '../models/GiftCardNotification.js';
-export { makeGiftCardNotificationDelivery } from '../models/GiftCardNotificationDelivery.js';
-export { makeGiftCardNotificationDeliveryAttempt } from '../models/GiftCardNotificationDeliveryAttempt.js';
-export { makeGiftCardNotificationProviderOutcome } from '../models/GiftCardNotificationProviderOutcome.js';
+export { makeGiftCardFundingSourceAdjustment } from '../models/GiftCardFundingSourceAdjustment.js';
+export { makeGiftCardFundingSourceExternalPayment } from '../models/GiftCardFundingSourceExternalPayment.js';
+export { makeGiftCardFundingSourceFlintManualPayment } from '../models/GiftCardFundingSourceFlintManualPayment.js';
+export { makeGiftCardFundingSourceFlintPayment } from '../models/GiftCardFundingSourceFlintPayment.js';
+export { makeGiftCardFundingSourceGiftCardPurchaseRefundRecovery } from '../models/GiftCardFundingSourceGiftCardPurchaseRefundRecovery.js';
+export { makeGiftCardFundingSourceGiftCardRefund } from '../models/GiftCardFundingSourceGiftCardRefund.js';
+export { makeGiftCardFundingSourceImport } from '../models/GiftCardFundingSourceImport.js';
+export { makeGiftCardFundingSourceStoreCredit } from '../models/GiftCardFundingSourceStoreCredit.js';
 export { makeGiftCardNotificationRecipient } from '../models/GiftCardNotificationRecipient.js';
-export { makeGiftCardRedemption } from '../models/GiftCardRedemption.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeInitialGiftCardFunding } from '../models/InitialGiftCardFunding.js';
+export { makeLookupGiftCardRequest } from '../models/LookupGiftCardRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeRotateGiftCardCodeRequest } from '../models/RotateGiftCardCodeRequest.js';
+export { makeTransitionGiftCardRequest } from '../models/TransitionGiftCardRequest.js';
+export { makeTransitionGiftCardRequestFreeze } from '../models/TransitionGiftCardRequestFreeze.js';
+export { makeTransitionGiftCardRequestWithoutReason } from '../models/TransitionGiftCardRequestWithoutReason.js';
 export { makeUpdateGiftCardRequest } from '../models/UpdateGiftCardRequest.js';

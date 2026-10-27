@@ -2,25 +2,25 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MoneyValue $amount_money
- * @property-read float $percent
+ * @property-read InvoiceScheduleEntryAmountSpecificationFixedAmountMoney $amount_money
+ * @property-read ?float $percent
  * @property-read string $type
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class InvoiceScheduleEntryAmountSpecificationFixed extends Model {
     /** @param array{'amount_money': mixed, 'percent'?: float, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceScheduleEntryAmountSpecificationFixed')); }
-    /** @return MoneyValue
-     * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see InvoiceScheduleEntryAmountSpecificationFixedAmountMoney}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return InvoiceScheduleEntryAmountSpecificationFixedAmountMoney
      */
-    public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
+    public function getAmountMoney(): InvoiceScheduleEntryAmountSpecificationFixedAmountMoney { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** @return float
-     * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
+    /** Shape $ (Value): number. multipleOf: 0.0001.
+     * @return ?float
      */
-    public function getPercent(): float { return $this->get('percent'); }
+    public function getPercent(): ?float { return $this->get('percent'); }
     public function hasPercent(): bool { return $this->has('percent'); }
-    /** @return string
-     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "fixed".
+     * @return string
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }

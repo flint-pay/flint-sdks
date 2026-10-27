@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnPreviews.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/returnPreviews.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createReturnPreview"]:r0});
 export class Client {
@@ -12,40 +12,26 @@ export class Client {
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.returnPreviews = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+      create: async (params, options) => this.#runtime.request("createReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnPreview", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createReturnPreview", _sdkRequestInput([], [], [], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeCreateReturnPreviewResponse } from '../models/CreateReturnPreviewResponse.js';
-export { makeCreateReturnPreviewData } from '../models/CreateReturnPreviewData.js';
-export { makeReturnEligibilityCheck } from '../models/ReturnEligibilityCheck.js';
-export { makeReturnEligibilityCheckLineItem } from '../models/ReturnEligibilityCheckLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeReturnLineItemEligibility } from '../models/ReturnLineItemEligibility.js';
-export { makeReturnLineItemDecisionProposal } from '../models/ReturnLineItemDecisionProposal.js';
-export { makeReturnPolicyAdjustmentProposal } from '../models/ReturnPolicyAdjustmentProposal.js';
+export { makeCreateReturnEligibilityPreviewRequest } from '../models/CreateReturnEligibilityPreviewRequest.js';
+export { makeCreateReturnPreviewRequest } from '../models/CreateReturnPreviewRequest.js';
+export { makeCreateReturnPreviewRequestEligibility } from '../models/CreateReturnPreviewRequestEligibility.js';
+export { makeCreateReturnPreviewRequestResolution } from '../models/CreateReturnPreviewRequestResolution.js';
+export { makeCreateReturnResolutionPreviewRequest } from '../models/CreateReturnResolutionPreviewRequest.js';
+export { makeCreateReturnResolutionPreviewRequestCorrection } from '../models/CreateReturnResolutionPreviewRequestCorrection.js';
+export { makeCreateReturnResolutionPreviewRequestStandard } from '../models/CreateReturnResolutionPreviewRequestStandard.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeImage } from '../models/Image.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
-export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeReturnReasonSummary } from '../models/ReturnReasonSummary.js';
-export { makeReturnPolicyEvaluation } from '../models/ReturnPolicyEvaluation.js';
-export { makeReturnPolicyEvaluationLineItem } from '../models/ReturnPolicyEvaluationLineItem.js';
+export { makeReturnEligibilityLineItemRequest } from '../models/ReturnEligibilityLineItemRequest.js';
 export { makeReturnEligibilitySelection } from '../models/ReturnEligibilitySelection.js';
-export { makeReturnLineItemRequest } from '../models/ReturnLineItemRequest.js';
-export { makeReturnResolutionPreview } from '../models/ReturnResolutionPreview.js';
-export { makeReturnResolutionAdjustment } from '../models/ReturnResolutionAdjustment.js';
-export { makeReturnActor } from '../models/ReturnActor.js';
-export { makeReturnResolutionLineItem } from '../models/ReturnResolutionLineItem.js';
-export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineItem.js';
-export { makeReturnResolutionWarning } from '../models/ReturnResolutionWarning.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeReturnEligibilitySelectionAllRemainingFulfilled } from '../models/ReturnEligibilitySelectionAllRemainingFulfilled.js';
+export { makeReturnEligibilitySelectionLineItems } from '../models/ReturnEligibilitySelectionLineItems.js';
+export { makeReturnReplacementLineItemRequest } from '../models/ReturnReplacementLineItemRequest.js';
+export { makeReturnResolutionAdjustmentRequest } from '../models/ReturnResolutionAdjustmentRequest.js';
+export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
+export { makeTextModifierRequest } from '../models/TextModifierRequest.js';

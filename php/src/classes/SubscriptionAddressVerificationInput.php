@@ -7,7 +7,8 @@ namespace Flint;
 final class SubscriptionAddressVerificationInput extends Model {
     /** @param array{'state': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionAddressVerificationInput')); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "verified", "unverified", "needs_review", "unverifiable".
+     * @return string
      * @throws SdkError When state is omitted; use hasState() or valueOrDefault().
      */
     public function getState(): string { return $this->get('state'); }

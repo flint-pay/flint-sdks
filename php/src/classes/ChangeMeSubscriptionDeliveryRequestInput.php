@@ -8,12 +8,14 @@ namespace Flint;
 final class ChangeMeSubscriptionDeliveryRequestInput extends Model {
     /** @param array{'delivery': SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ChangeMeSubscriptionDeliveryRequestInput')); }
-    /** @return SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see SubscriptionDeliveryRequestInput}. The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
+     * @return SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
      */
     public function getDelivery(): mixed { return $this->get('delivery'); }
     public function hasDelivery(): bool { return $this->has('delivery'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }

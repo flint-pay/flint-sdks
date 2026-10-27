@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnInspections.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/returnInspections.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["decideReturnInspectionLineItem"]:r0,["getReturnInspection"]:r0,["listReturnInspections"]:r0});
 export class Client {
@@ -17,7 +17,7 @@ this.returnInspections = Object.freeze({
   "return_inspection_line_item_id"
 ], [return_inspection_id, return_inspection_line_item_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("decideReturnInspectionLineItem", result, path))),
       decideLineItemWithResponse: async (return_inspection_id, return_inspection_line_item_id, params, options) => this.#runtime.request("decideReturnInspectionLineItem", _sdkRequestInput([
   "return_inspection_id",
   "return_inspection_line_item_id"
@@ -26,7 +26,7 @@ this.returnInspections = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
       get: async (return_inspection_id, params, options) => this.#runtime.request("getReturnInspection", _sdkRequestInput([
   "return_inspection_id"
-], [return_inspection_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_inspection_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getReturnInspection", result, path))),
       getWithResponse: async (return_inspection_id, params, options) => this.#runtime.request("getReturnInspection", _sdkRequestInput([
   "return_inspection_id"
 ], [return_inspection_id], [], false, false, params), options).then(_sdkResponse),
@@ -37,7 +37,7 @@ this.returnInspections = Object.freeze({
   "external_reference_id",
   "inspected_after",
   "inspected_before",
-  "location_id",
+  "inspection_location_id",
   "page_size",
   "page_token",
   "query",
@@ -45,8 +45,10 @@ this.returnInspections = Object.freeze({
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "status",
+  "updated_after",
+  "updated_before"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listReturnInspections", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
   "created_after",
@@ -54,7 +56,7 @@ this.returnInspections = Object.freeze({
   "external_reference_id",
   "inspected_after",
   "inspected_before",
-  "location_id",
+  "inspection_location_id",
   "page_size",
   "page_token",
   "query",
@@ -62,7 +64,9 @@ this.returnInspections = Object.freeze({
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status"
+  "status",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
@@ -71,7 +75,7 @@ this.returnInspections = Object.freeze({
   "external_reference_id",
   "inspected_after",
   "inspected_before",
-  "location_id",
+  "inspection_location_id",
   "page_size",
   "page_token",
   "query",
@@ -79,8 +83,10 @@ this.returnInspections = Object.freeze({
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status"
-], false, false, params), options), []),
+  "status",
+  "updated_after",
+  "updated_before"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listReturnInspections", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
   "created_after",
@@ -88,7 +94,7 @@ this.returnInspections = Object.freeze({
   "external_reference_id",
   "inspected_after",
   "inspected_before",
-  "location_id",
+  "inspection_location_id",
   "page_size",
   "page_token",
   "query",
@@ -96,7 +102,9 @@ this.returnInspections = Object.freeze({
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status"
+  "status",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturnInspections", _sdkRequestInput([], [], [
   "acceptance_status",
@@ -105,7 +113,7 @@ this.returnInspections = Object.freeze({
   "external_reference_id",
   "inspected_after",
   "inspected_before",
-  "location_id",
+  "inspection_location_id",
   "page_size",
   "page_token",
   "query",
@@ -113,22 +121,15 @@ this.returnInspections = Object.freeze({
   "return_line_item_id",
   "return_receipt_id",
   "source_system_type",
-  "status"
+  "status",
+  "updated_after",
+  "updated_before"
 ], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeDecideReturnInspectionLineItemResponse } from '../models/DecideReturnInspectionLineItemResponse.js';
-export { makeGetReturnInspectionResponse } from '../models/GetReturnInspectionResponse.js';
-export { makeListReturnInspectionsResponse } from '../models/ListReturnInspectionsResponse.js';
-export { makeReturnInspection } from '../models/ReturnInspection.js';
-export { makeCreateReturnInspectionResponse } from '../models/CreateReturnInspectionResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../models/DecideReturnInspectionLineItemRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeReturnDisposition } from '../models/ReturnDisposition.js';
-export { makeReturnActor } from '../models/ReturnActor.js';
-export { makeReturnInspectionLineItem } from '../models/ReturnInspectionLineItem.js';
+export { makeReturnSourceSystem } from '../models/ReturnSourceSystem.js';

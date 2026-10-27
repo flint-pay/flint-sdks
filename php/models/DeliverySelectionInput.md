@@ -1,0 +1,42 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DeliverySelectionInput
+
+The delivery choice selected for a checkout or order.
+
+Request input.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Delivery charge committed by this selection. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `buyer_location` | Optional | [DeliveryBuyerLocationResourceInput](../models/DeliveryBuyerLocationResourceInput.md#deliverybuyerlocationresourceinput) | Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or dashboard credential. The normalized buyer address or coordinate used for this quote. |
+| `calculation_expires_at` | Optional | string | Deadline after which calculated pricing evidence is no longer valid. Always present with an API key or dashboard credential. Format: `date-time`. |
+| `checkout_session_id` | Optional | string | Checkout session that owns the selection. Always present with an API key or dashboard credential. |
+| `choices` | Required | Array of [DeliverySelectionChoiceResourceInput](../models/DeliverySelectionChoiceResourceInput.md#deliveryselectionchoiceresourceinput) | One chosen option for each required choice group. |
+| `created_at` | Optional | string | Time the selection was created. Always present with an API key or dashboard credential. Format: `date-time`. |
+| `delivery_quote_id` | Required | string | Quote from which this selection was made. |
+| `delivery_quote_version` | Optional | integer string | Quote version from which this selection was created. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `delivery_selection_id` | Required | string | Stable delivery selection ID. |
+| `destination_address` | Optional | [DeliveryAddressResourceInput](../models/DeliveryAddressResourceInput.md#deliveryaddressresourceinput) | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations. |
+| `eligibility_context_version` | Optional | integer string | Checkout eligibility context version evaluated by this selection. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `expires_at` | Required | string | Deadline after which this provisional selection can no longer be committed. Format: `date-time`. |
+| `input_requirements` | Required | Array of [DeliveryInputRequirementInput](../models/DeliveryInputRequirementInput.md#deliveryinputrequirementinput) | Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. |
+| `instructions` | Optional | string | Buyer-provided delivery instructions. Returned with an API key or dashboard credential. |
+| `lifecycle_events` | Optional | Array of [DeliverySelectionLifecycleEventResourceInput](../models/DeliverySelectionLifecycleEventResourceInput.md#deliveryselectionlifecycleeventresourceinput) | Ordered lifecycle events recorded for this selection. |
+| `lifecycle_updated_at` | Optional | string | Time the selection lifecycle last changed. Always present with an API key or dashboard credential. Format: `date-time`. |
+| `limiting_deadline_reason` | Optional | string | Constraint that determined the selection expiry. Always present with an API key or dashboard credential. Values: [6 declared values](#deliveryselectioninput-limiting_deadline_reason-values). |
+| `order_id` | Optional | string | Order affected by the selection. Always present with an API key or dashboard credential. |
+| `private_data_status` | Optional | string | Availability state of merchant-private selection evidence. Values: `"available"`, `"redacted"`. |
+| `recipient` | Optional | [DeliveryRecipientResourceInput](../models/DeliveryRecipientResourceInput.md#deliveryrecipientresourceinput) | Recipient details captured with the selection. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The person receiving a delivery selection, with optional `name`, `email`, and `phone`. |
+| `redacted_at` | Optional | string | Time merchant-private selection evidence was redacted. Format: `date-time`. |
+| `status` | Required | string | Current selection lifecycle status. Values: `"selected"`, `"locked_for_payment"`, `"committed"`, `"superseded"`, `"expired"`, `"released"`. |
+
+#### DeliverySelectionInput limiting_deadline_reason values
+
+- `"selection_guarantee_expiry"`
+- `"calculation_expiry"`
+- `"selection_maximum_lifetime"`
+- `"inventory_reservation_expiry"`
+- `"tax_validity_expiry"`
+- `"checkout_session_expiry"`
+

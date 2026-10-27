@@ -8,17 +8,20 @@ namespace Flint;
 final class DeliveryRateCallbacksRemoveInput extends Model {
     /** @param array{'delivery_rate_callback_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbacksRemoveInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }

@@ -8,12 +8,14 @@ namespace Flint;
 final class ChangeMeSubscriptionQuantityRequestInput extends Model {
     /** @param array{'expected_version'?: string, 'quantity': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ChangeMeSubscriptionQuantityRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return int
+    /** Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
+     * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */
     public function getQuantity(): int { return $this->get('quantity'); }

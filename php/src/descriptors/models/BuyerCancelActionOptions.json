@@ -1,0 +1,1 @@
+{"shared":"BuyerCancelActionOptions","phpRepresentation":{"kind":"record","fields":{"cancellation_reasons":{"kind":"list","value":{"kind":"value","type":"string"}},"retention_offer":{"kind":"entity","name":"BuyerCancelRetentionOffer"},"timing":{"kind":"value","type":"string"}}},"dependencies":["BuyerCancelActionOptions","BuyerCancelRetentionOffer"]}

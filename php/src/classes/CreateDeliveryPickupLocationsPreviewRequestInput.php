@@ -11,27 +11,32 @@ namespace Flint;
 final class CreateDeliveryPickupLocationsPreviewRequestInput extends Model {
     /** @param array{'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_id': string, 'expected_delivery_selection_id'?: string|null, 'maximum_distance'?: DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass, 'mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDeliveryPickupLocationsPreviewRequestInput')); }
-    /** @return DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryBuyerLocationRequestInput}. The buyer's location for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
+     * @return DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_location is omitted; use hasBuyerLocation() or valueOrDefault().
      */
     public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
-    /** @return string
+    /** Shape $ (Value): string. Checkout session whose pickup locations to evaluate. Checkout credentials must identify their own session. minLength: 1.
+     * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** @return string|null
+    /** Shape $ (Value): string or null. ID of the checkout's current delivery selection, as GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The search does not change or release the selection. minLength: 1.
+     * @return string|null
      * @throws SdkError When expected_delivery_selection_id is omitted; use hasExpectedDeliverySelectionId() or valueOrDefault().
      */
     public function getExpectedDeliverySelectionId(): string|null { return $this->get('expected_delivery_selection_id'); }
     public function hasExpectedDeliverySelectionId(): bool { return $this->has('expected_delivery_selection_id'); }
-    /** @return DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see DeliveryPickupAvailabilityMaximumDistanceRequestInput}. A maximum distance from the buyer location, as a value and unit, that limits which pickup locations a preview returns.
+     * @return DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When maximum_distance is omitted; use hasMaximumDistance() or valueOrDefault().
      */
     public function getMaximumDistance(): mixed { return $this->get('maximum_distance'); }
     public function hasMaximumDistance(): bool { return $this->has('maximum_distance'); }
-    /** @return string
+    /** Shape $ (Value): string. The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. Value enum: "pickup_locations".
+     * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }

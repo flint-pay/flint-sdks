@@ -1,0 +1,1 @@
+{"shared":"WorkloadIdentity","dependencies":["ResourceType","WorkloadIdentity","WorkloadIdentityClaimCondition","WorkloadIdentityCreator"]}

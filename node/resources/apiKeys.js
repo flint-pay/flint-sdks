@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/apiKeys.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/apiKeys.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createAPIKey"]:r0,["getAPIKey"]:r0,["listAPIKeys"]:r0,["revokeAPIKey"]:r0,["updateAPIKey"]:r0});
 export class Client {
@@ -14,13 +14,13 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.apiKeys = Object.freeze({
       create: async (params, options) => this.#runtime.request("createAPIKey", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createAPIKey", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createAPIKey", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       get: async (api_key_id, params, options) => this.#runtime.request("getAPIKey", _sdkRequestInput([
   "api_key_id"
-], [api_key_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [api_key_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getAPIKey", result, path))),
       getWithResponse: async (api_key_id, params, options) => this.#runtime.request("getAPIKey", _sdkRequestInput([
   "api_key_id"
 ], [api_key_id], [], false, false, params), options).then(_sdkResponse),
@@ -34,7 +34,7 @@ this.apiKeys = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listAPIKeys", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listAPIKeys", _sdkRequestInput([], [], [
   "status",
   "page_size",
@@ -56,7 +56,7 @@ this.apiKeys = Object.freeze({
   "created_before",
   "updated_after",
   "updated_before"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listAPIKeys", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listAPIKeys", _sdkRequestInput([], [], [
   "status",
   "page_size",
@@ -83,17 +83,17 @@ this.apiKeys = Object.freeze({
   "api_key_id"
 ], [api_key_id], [
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeAPIKey", result, path))),
       revokeWithResponse: async (api_key_id, params, options) => this.#runtime.request("revokeAPIKey", _sdkRequestInput([
   "api_key_id"
 ], [api_key_id], [
   "Idempotency-Key"
-], false, false, params), options).then(_sdkResponse),
+], true, false, params), options).then(_sdkResponse),
       update: async (api_key_id, params, options) => this.#runtime.request("updateAPIKey", _sdkRequestInput([
   "api_key_id"
 ], [api_key_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateAPIKey", result, path))),
       updateWithResponse: async (api_key_id, params, options) => this.#runtime.request("updateAPIKey", _sdkRequestInput([
   "api_key_id"
 ], [api_key_id], [
@@ -101,15 +101,10 @@ this.apiKeys = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeCreateAPIKeyResponse } from '../models/CreateAPIKeyResponse.js';
-export { makeAPIKeyResponse } from '../models/APIKeyResponse.js';
-export { makeAPIKeyListResponse } from '../models/APIKeyListResponse.js';
-export { makeAPIKey } from '../models/APIKey.js';
-export { makeAPIKeyWithSecret } from '../models/APIKeyWithSecret.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeConfigurationVersionRequest } from '../models/ConfigurationVersionRequest.js';
+export { makeCreateAPIKeyRequest } from '../models/CreateAPIKeyRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateAPIKeyRequest } from '../models/UpdateAPIKeyRequest.js';

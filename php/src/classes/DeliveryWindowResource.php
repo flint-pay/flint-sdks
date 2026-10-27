@@ -7,32 +7,32 @@ namespace Flint;
  * @property-read string $end_at
  * @property-read string $expires_at
  * @property-read string $start_at
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class DeliveryWindowResource extends Model {
     /** @param array{'amount_money': mixed, 'delivery_window_id': string, 'end_at': string, 'expires_at': string, 'start_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryWindowResource')); }
-    /** @return MoneyValue
-     * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** @return string
-     * @throws SdkError When delivery_window_id is omitted; use hasDeliveryWindowId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getDeliveryWindowId(): string { return $this->get('delivery_window_id'); }
     public function hasDeliveryWindowId(): bool { return $this->has('delivery_window_id'); }
-    /** @return string
-     * @throws SdkError When end_at is omitted; use hasEndAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getEndAt(): string { return $this->get('end_at'); }
     public function hasEndAt(): bool { return $this->has('end_at'); }
-    /** @return string
-     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
+    /** Shape $ (Value): string. Last moment the buyer can choose this window. For a schedule_window method it is the preparation lead time before the window starts, or the same-day cutoff when that is earlier. Format: date-time.
+     * @return string
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** @return string
-     * @throws SdkError When start_at is omitted; use hasStartAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return string
      */
     public function getStartAt(): string { return $this->get('start_at'); }
     public function hasStartAt(): bool { return $this->has('start_at'); }

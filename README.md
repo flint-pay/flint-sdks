@@ -8,7 +8,9 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
-Version `4.0.0` is generated from the API contract deployed to production and pinned in [`spec/openapi.json`](spec/openapi.json). Install with `npm install @flintpay/node` or `composer require flintpay/flint:^4.0`. It removes the `requested_tip` duplicate from order responses, the checkout session headers that `orders.create`, `me.getOrder` and `me.getSubscription` no longer accept, and retired error codes, and types promotion rule values. The API version remains `2026-09-07`. See [the migration guide](MIGRATION.md#sdk-400).
+Version `4.0.0` updates both SDKs to the production API pinned in [`sdk.lock.json`](sdk.lock.json) and refreshes their types, runtimes and documentation. Install with `npm install @flintpay/node@4.0.0` or `composer require flintpay/flint:^4.0` after publication. The API date remains `2026-09-07`. The previously prepared `4.0.0` was never tagged or published, so this release keeps that version.
+
+This major release preserves published method names for moved API operations, including payment reviews, gift card adjustments and merchant billing invoices. Inventory actions use the canonical transition methods with explicit action values. Five retired operations are removed, and several callers need new parameters or request shapes. It also removes order response `requested_tip` and retired error codes, and types promotion rule values. TypeScript uses canonical model names, closed request enums and `${bigint}` integer strings. PHP optional getters return `null` when omitted. Checkout uses `checkoutToken`; webhook resources live in `data.object`. Packages add resource documentation, `RUNTIME.md`, `llms.txt` and the Node `webhooks` subpath. Review [the 4.0.0 migration guide](MIGRATION.md#sdk-400) before upgrading.
 
 Version `3.0.0` is the first stable release of the 3.0 line, published under npm `latest` and as a stable Composer release. Install with `npm install @flintpay/node` or `composer require flintpay/flint:^3.0`. It is generated from the API contract pinned in [`spec/openapi.json`](spec/openapi.json); the API version remains `2026-09-07`. Upgrading from `2.0.0` also brings every change in the `3.0.0-beta` entries below. See [the migration guide](MIGRATION.md#sdk-300).
 
@@ -35,15 +37,15 @@ When `orders.applyGiftCard` fails with `GIFT_CARD_CHALLENGE_REQUIRED`, load the 
 
 This beta also adds required fields to existing response and webhook types:
 
-| Type | New required fields |
-| ---- | ------------------- |
-| `Subscription` | `completed_cycles`, `quantity`, `version` |
-| `CheckoutSubscriptionTerms` | `billing_interval_options`, `quantity`, `quantity_options` |
-| `DeliveryMethod` | `subscription_counts` |
-| `SubscriptionPlan` | `billing_interval_options`, `delivery_method_subscription_counts`, `delivery_required`, `quantity_options`, `subscription_delivery_method_ids` |
-| `SubscriptionPlanLineItem` | `swap_variant_ids` |
-| `PaymentLinkSubscriptionPreview` | `delivery_required` |
-| `subscription.payment_succeeded` webhook `data` | `order_id` |
+| Type                                            | New required fields                                                                                                                            |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Subscription`                                  | `completed_cycles`, `quantity`, `version`                                                                                                      |
+| `CheckoutSubscriptionTerms`                     | `billing_interval_options`, `quantity`, `quantity_options`                                                                                     |
+| `DeliveryMethod`                                | `subscription_counts`                                                                                                                          |
+| `SubscriptionPlan`                              | `billing_interval_options`, `delivery_method_subscription_counts`, `delivery_required`, `quantity_options`, `subscription_delivery_method_ids` |
+| `SubscriptionPlanLineItem`                      | `swap_variant_ids`                                                                                                                             |
+| `PaymentLinkSubscriptionPreview`                | `delivery_required`                                                                                                                            |
+| `subscription.payment_succeeded` webhook `data` | `order_id`                                                                                                                                     |
 
 `Subscription.subscription_plan_id` is now optional. The SDK rejects responses that omit required fields with a `protocol` error. `verifyWebhook` still authenticates a `subscription.payment_succeeded` event without `data.order_id`, but returns `known` as `false` for it. Events in that earlier shape can arrive as retries or replays of events created before your API build included this change, so handle them in your unknown-event path. Use this version with an API build that includes these changes; the API version remains `2026-09-07`.
 
@@ -75,10 +77,10 @@ Each package guide includes its own requirements, installation command and examp
 
 ## SDK ↔ API versions
 
-| SDK version (Node and PHP) | API version  |
-| -------------------------- | ------------ |
-| `4.0.0`                  | `2026-09-07` |
-| `3.0.0`                  | `2026-09-07` |
+| SDK version (Node and PHP)  | API version  |
+| --------------------------- | ------------ |
+| `4.0.0`                     | `2026-09-07` |
+| `3.0.0`                     | `2026-09-07` |
 | `3.0.0-beta.20261012044000` | `2026-09-07` |
 | `3.0.0-beta.20261009223830` | `2026-09-07` |
 | `3.0.0-beta.20261008013000` | `2026-09-07` |
@@ -87,17 +89,17 @@ Each package guide includes its own requirements, installation command and examp
 | `3.0.0-beta.20261006210100` | `2026-09-07` |
 | `3.0.0-beta.20261006020957` | `2026-09-07` |
 | `3.0.0-beta.20261003024310` | `2026-09-07` |
-| `2.0.0`                  | `2026-09-07` |
-| `0.4.0-beta.1`             | `2026-09-07` |
-| `0.3.0-beta.1`             | `2026-09-07` |
+| `2.0.0`                     | `2026-09-07` |
+| `0.4.0-beta.1`              | `2026-09-07` |
+| `0.3.0-beta.1`              | `2026-09-07` |
 
 The API version identifies the pinned contract used to generate the SDK. The SDK sends this version in the `Flint-Version` request header. SDK versions and API versions are independent: multiple SDK releases can target the same API version. When upgrading, review both the SDK changes and any API-version change.
 
 ## Contract and authentication
 
-The pinned API version is `2026-09-07`. The packages expose 570 operations from the pinned export, including PDF downloads, redirects, and an event stream. Four CLI OAuth operations use form-encoded request bodies that the generator does not yet support. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps each generated operation ID to its resource and method.
+The pinned API version is `2026-09-07`. The packages expose 607 operations from the pinned export, including PDF downloads, redirects, and an event stream. Five CLI/OAuth operations use form-encoded request bodies that the generator does not yet support. Outbound methods are grouped by resource, such as `client.paymentIntents.create()`, `client.orders.get()` and `client.refunds.create()`. The naming configuration maps each generated operation ID to its resource and method.
 
-Named credential modes cover merchant bearer tokens, merchant API keys, customer sessions, onboarding, checkout session ID/secret pairs, and invoice tokens. Select the mode appropriate to the operation. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
+Named credential modes cover merchant bearer tokens, merchant API keys, customer sessions, onboarding, checkout bearer tokens, and invoice tokens. Select the mode appropriate to the operation. Anonymous operations remain anonymous. Keep merchant secret keys server-side; customer and checkout credentials have their own scopes.
 
 The refreshed generator supports nullable response fields, including nested resources. Generated response validation follows the pinned API schema, so a response that is missing a required field or has a value of the wrong type fails with a `protocol` error.
 
@@ -107,6 +109,7 @@ Generated operation coverage does not establish live backend acceptance. Shared 
 
 ```sh
 npm run setup       # Build the exact generator revision in sdk.lock.json
+npm run diagnose    # Check the pinned contract and profiles
 npm run generate    # Regenerate node/, php/, and root composer.json
 npm run check       # Fail if committed packages differ from generation
 npm run validate    # Validate packages and shared HTTP fixtures

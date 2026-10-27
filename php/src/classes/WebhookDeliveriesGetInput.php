@@ -7,7 +7,8 @@ namespace Flint;
 final class WebhookDeliveriesGetInput extends Model {
     /** @param array{'webhook_delivery_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveriesGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When webhook_delivery_id is omitted; use hasWebhookDeliveryId() or valueOrDefault().
      */
     public function getWebhookDeliveryId(): string { return $this->get('webhook_delivery_id'); }

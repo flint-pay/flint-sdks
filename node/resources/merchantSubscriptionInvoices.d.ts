@@ -1,75 +1,103 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { MerchantSubscriptionInvoice } from '../declarations/MerchantSubscriptionInvoice.js';
-import type { MerchantSubscriptionInvoiceListResponse } from '../declarations/MerchantSubscriptionInvoiceListResponse.js';
-import type { MerchantSubscriptionInvoiceResponse } from '../declarations/MerchantSubscriptionInvoiceResponse.js';
-import type { MerchantSubscriptionInvoicesGetInput } from '../declarations/MerchantSubscriptionInvoicesGetInput.js';
-import type { MerchantSubscriptionInvoicesGetResponse } from '../declarations/MerchantSubscriptionInvoicesGetResponse.js';
-import type { MerchantSubscriptionInvoicesListInput } from '../declarations/MerchantSubscriptionInvoicesListInput.js';
-import type { MerchantSubscriptionInvoicesListResponse } from '../declarations/MerchantSubscriptionInvoicesListResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { MerchantBillingInvoice, MerchantBillingInvoiceListResponse, MerchantBillingInvoiceResponse } from '../declarations/types-30.js';
+import type { MerchantSubscriptionInvoicesGetInput, MerchantSubscriptionInvoicesListInput } from '../declarations/types-31.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    MerchantBillingInvoice,
+    MerchantBillingInvoiceResponse,
+    MerchantBillingInvoiceListResponse,
+    MerchantBillingInvoiceLineItem
+} from '../declarations/types-30.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type {
+    MerchantSubscriptionInvoicesGetInput,
+    MerchantSubscriptionInvoicesListInput,
+    MoneyValue,
+    NextAction,
+    NextActionMerchantAccountSession
+} from '../declarations/types-31.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface MerchantSubscriptionInvoicesResource {
     /**
  * Returns one invoice issued by Flint for the authenticated merchant environment.
- * GET /v1/merchant-subscription-invoices/{merchant_subscription_invoice_id}
+ * @see reference/merchantSubscriptionInvoices.md#merchantsubscriptioninvoicesget
+ * GET /v1/merchant-billing-invoices/{merchant_billing_invoice_id}
  * @example
  * client.merchantSubscriptionInvoices.get("example")
  */
-    get(merchant_subscription_invoice_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<MerchantSubscriptionInvoiceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(merchant_subscription_invoice_id: InputValue<string>, params?: { "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantSubscriptionInvoicesGetResponse>>;
+    get(merchant_billing_invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<MerchantBillingInvoice>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/merchantSubscriptionInvoices.md#merchantsubscriptioninvoicesget
+     */
+    getWithResponse(merchant_billing_invoice_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantBillingInvoiceResponse>>;
     /**
  * Returns invoices issued by Flint for the authenticated merchant environment.
- * GET /v1/merchant-subscription-invoices
+ * @see reference/merchantSubscriptionInvoices.md#merchantsubscriptioninvoiceslist
+ * GET /v1/merchant-billing-invoices
  * @example
  * client.merchantSubscriptionInvoices.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<MerchantSubscriptionInvoiceListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantSubscriptionInvoicesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<MerchantSubscriptionInvoiceListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<MerchantSubscriptionInvoicesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<MerchantSubscriptionInvoice>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly merchantSubscriptionInvoices: MerchantSubscriptionInvoicesResource;
+    list(params?: {
+        "status"?: InputValue<Array<"draft" | "open" | "collecting" | "paid" | "delinquent" | "void" | "written_off">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<MerchantBillingInvoiceListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/merchantSubscriptionInvoices.md#merchantsubscriptioninvoiceslist
+     */
+    listWithResponse(params?: {
+        "status"?: InputValue<Array<"draft" | "open" | "collecting" | "paid" | "delinquent" | "void" | "written_off">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<MerchantBillingInvoiceListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/merchantSubscriptionInvoices.md#merchantsubscriptioninvoiceslist
+     */
+    listPages(params?: {
+        "status"?: InputValue<Array<"draft" | "open" | "collecting" | "paid" | "delinquent" | "void" | "written_off">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<MerchantBillingInvoiceListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/merchantSubscriptionInvoices.md#merchantsubscriptioninvoiceslist
+     */
+    listPagesWithResponse(params?: {
+        "status"?: InputValue<Array<"draft" | "open" | "collecting" | "paid" | "delinquent" | "void" | "written_off">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<MerchantBillingInvoiceListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/merchantSubscriptionInvoices.md#merchantsubscriptioninvoiceslist
+     */
+    listItems(params?: {
+        "status"?: InputValue<Array<"draft" | "open" | "collecting" | "paid" | "delinquent" | "void" | "written_off">>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<MerchantBillingInvoice>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { MerchantSubscriptionInvoiceResponse } from '../declarations/MerchantSubscriptionInvoiceResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { MerchantSubscriptionInvoicesGetResponse } from '../declarations/MerchantSubscriptionInvoicesGetResponse.js';
-export type { MerchantSubscriptionInvoiceListResponse } from '../declarations/MerchantSubscriptionInvoiceListResponse.js';
-export type { MerchantSubscriptionInvoicesListResponse } from '../declarations/MerchantSubscriptionInvoicesListResponse.js';
-export type { MerchantSubscriptionInvoice } from '../declarations/MerchantSubscriptionInvoice.js';
-export type { MerchantSubscriptionInvoicesGetInput } from '../declarations/MerchantSubscriptionInvoicesGetInput.js';
-export type { MerchantSubscriptionInvoicesListInput } from '../declarations/MerchantSubscriptionInvoicesListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { MerchantSubscriptionInvoiceLine } from '../declarations/MerchantSubscriptionInvoiceLine.js';
-export type { FeedbackReportsListInput } from '../declarations/FeedbackReportsListInput.js';
-export { makeMerchantSubscriptionInvoiceResponse } from '../declarations/makeMerchantSubscriptionInvoiceResponse.js';
-export { makeMerchantSubscriptionInvoiceListResponse } from '../declarations/makeMerchantSubscriptionInvoiceListResponse.js';
-export { makeMerchantSubscriptionInvoice } from '../declarations/makeMerchantSubscriptionInvoice.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeMerchantSubscriptionInvoiceLine } from '../declarations/makeMerchantSubscriptionInvoiceLine.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly merchantSubscriptionInvoices: MerchantSubscriptionInvoicesResource;
+}

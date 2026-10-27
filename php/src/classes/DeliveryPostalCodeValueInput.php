@@ -9,17 +9,20 @@ namespace Flint;
 final class DeliveryPostalCodeValueInput extends Model {
     /** @param array{'country': string, 'type'?: string, 'value': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPostalCodeValueInput')); }
-    /** @return string
+    /** Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US".
+     * @return string
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** @return string
+    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "prefix".
+     * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */
     public function getValue(): string { return $this->get('value'); }

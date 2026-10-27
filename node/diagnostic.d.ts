@@ -2,6 +2,7 @@ export declare const pointerSegment: (value: string) => string;
 export declare class Diagnostic extends Error {
     location: string;
     detail: string;
+    source?: string;
     constructor(location: string, detail: string);
 }
 export declare class DiagnosticGroup extends Diagnostic {

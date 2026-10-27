@@ -8,12 +8,14 @@ namespace Flint;
 final class BundlesGetInput extends Model {
     /** @param array{'bundle_id': string, 'expand'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundlesGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** @return list<string>
+    /** Shape $ (Value): Array of string.  [] enum: "modifier_set". Shape $[] (Value): string.  Value enum: "modifier_set".
+     * @return list<string>
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): array { return $this->get('expand'); }

@@ -1,0 +1,1 @@
+{"shared":"FileUpload","phpRepresentation":{"kind":"record","fields":{"expires_at":{"kind":"value","type":"string"},"headers":{"kind":"map","value":{"kind":"value","type":"string"}},"method":{"kind":"value","type":"string"},"url":{"kind":"value","type":"string"}}},"dependencies":["FileUpload"]}

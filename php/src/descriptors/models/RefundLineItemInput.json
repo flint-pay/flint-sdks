@@ -1,1 +1,1 @@
-{"shared":"RefundLineItem","dependencies":["MoneyValue","RefundAdjustmentAudit","RefundAdjustmentReason","RefundLineItem","RefundLineItemAdjustmentIn","RefundLineItemAdjustmentRefundIn","RefundTaxBreakdownRefundIn"]}
+{"shared":"RefundLineItem","dependencies":["MoneyValue","RefundAdjustmentAudit","RefundAdjustmentReasonRequest","RefundLineItem","RefundLineItemAdjustmentIn","RefundLineItemAdjustmentRefundIn","RefundTaxBreakdownRefundIn"]}

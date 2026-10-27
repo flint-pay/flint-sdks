@@ -8,17 +8,20 @@ namespace Flint;
 final class CheckoutSessionsCreateDeliverySelectionInput extends Model {
     /** @param array{'checkout_session_id': string, 'Idempotency-Key'?: string, 'body': array{'choices': list<mixed>, 'delivery_quote_id': string, 'destination_address'?: mixed, 'expected_delivery_selection_id': string|null, 'external_reference_id'?: string, 'external_system'?: string, 'recipient'?: mixed, ...}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsCreateDeliverySelectionInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return array{'choices': list<mixed>, 'delivery_quote_id': string, 'destination_address'?: mixed, 'expected_delivery_selection_id': string|null, 'external_reference_id'?: string, 'external_system'?: string, 'recipient'?: mixed, ...}|object
+    /** Shape $ (Value): object. The request body for: Create delivery selection.
+     * @return array{'choices': list<mixed>, 'delivery_quote_id': string, 'destination_address'?: mixed, 'expected_delivery_selection_id': string|null, 'external_reference_id'?: string, 'external_system'?: string, 'recipient'?: mixed, ...}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

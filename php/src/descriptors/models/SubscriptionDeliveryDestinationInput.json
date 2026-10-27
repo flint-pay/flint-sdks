@@ -1,1 +1,1 @@
-{"shared":"SubscriptionDeliveryDestination","dependencies":["PostalAddress","SubscriptionDeliveryDestination"]}
+{"shared":"SubscriptionDeliveryDestination","dependencies":["Address","SharedCodec11","SubscriptionDeliveryDestination"]}

@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/merchants.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/merchants.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getMerchant"]:r0,["updateMerchant"]:r0});
 export class Client {
@@ -14,32 +14,22 @@ this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.merchants = Object.freeze({
       get: async (params, options) => this.#runtime.request("getMerchant", _sdkRequestInput([], [], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMerchant", result, path))),
       getWithResponse: async (params, options) => this.#runtime.request("getMerchant", _sdkRequestInput([], [], [
   "expand"
 ], false, false, params), options).then(_sdkResponse),
       update: async (params, options) => this.#runtime.request("updateMerchant", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateMerchant", result, path))),
       updateWithResponse: async (params, options) => this.#runtime.request("updateMerchant", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeMerchantResponse } from '../models/MerchantResponse.js';
-export { makeMerchant } from '../models/Merchant.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeBanner } from '../models/Banner.js';
-export { makeImage } from '../models/Image.js';
-export { makeMerchantReadinessAxis } from '../models/MerchantReadinessAxis.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMerchantReadinessRequirements } from '../models/MerchantReadinessRequirements.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
+export { makeAddressRequest } from '../models/AddressRequest.js';
+export { makeImageRequest } from '../models/ImageRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateMerchantRequest } from '../models/UpdateMerchantRequest.js';

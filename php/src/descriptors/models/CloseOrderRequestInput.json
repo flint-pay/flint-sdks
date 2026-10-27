@@ -1,1 +1,1 @@
-{"shared":"ResolveOrderInventoryExceptionRequest","dependencies":["ResolveOrderInventoryExceptionRequest"]}
+{"shared":"CloseOrderRequest","dependencies":["CloseOrderRequest"]}

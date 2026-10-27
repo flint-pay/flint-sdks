@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace Flint;
+/** Per-call overrides, passed as the final argument. See RUNTIME.md#requestoptions. */
 final class RequestOptions
 {
     public function __construct(
@@ -18,11 +19,13 @@ final class RequestOptions
         public readonly ?array $credentials = null,
         public readonly ?int $streamIdleTimeoutMs = null,
         public readonly ?int $streamLifetimeMs = null,
-        public readonly ?string $apiKey = null,
-        public readonly ?string $customerToken = null,
-        public readonly ?string $invoiceToken = null,
-        public readonly ?string $onboardingToken = null,
-        public readonly ?string $token = null,
+        public readonly string|CredentialProvider|\Closure|null $apiKey = null,
+        public readonly string|CredentialProvider|\Closure|null $checkoutToken = null,
+        public readonly string|CredentialProvider|\Closure|null $customerToken = null,
+        public readonly string|CredentialProvider|\Closure|null $invoiceToken = null,
+        public readonly string|CredentialProvider|\Closure|null $onboardingToken = null,
+        public readonly string|CredentialProvider|\Closure|null $token = null,
+        public readonly ?string $client_request_id = null,
     ) {}
     public function __debugInfo(): array
     {
@@ -49,10 +52,12 @@ final class RequestOptions
             $this->streamIdleTimeoutMs,
             $this->streamLifetimeMs,
             $this->apiKey,
+            $this->checkoutToken,
             $this->customerToken,
             $this->invoiceToken,
             $this->onboardingToken,
             $this->token,
+            $this->client_request_id,
         );
     }
 }

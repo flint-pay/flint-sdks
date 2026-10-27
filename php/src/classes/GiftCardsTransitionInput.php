@@ -3,27 +3,25 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $gift_card_id
- * @property-read mixed $body
+ * @property-read array{'action': string, 'expected_version'?: string, 'reason': string}|object|array{'action': string, 'expected_version'?: string, 'reason'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardsTransitionInput extends Model {
-    /** @param array{'X-Request-Id'?: string, 'gift_card_id': string, 'Idempotency-Key'?: string, 'body': mixed}|object $values */
+    /** @param array{'gift_card_id': string, 'Idempotency-Key'?: string, 'body': array{'action': string, 'expected_version'?: string, 'reason': string}|object|array{'action': string, 'expected_version'?: string, 'reason'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardsTransitionInput')); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return mixed
+    /** Shape $ (Value): object and Alternative shapes (see declared variants). The request body for: Transition a gift card.
+     * @return array{'action': string, 'expected_version'?: string, 'reason': string}|object|array{'action': string, 'expected_version'?: string, 'reason'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): mixed { return $this->get('body'); }

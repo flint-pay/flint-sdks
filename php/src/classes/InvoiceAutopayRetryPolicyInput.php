@@ -7,7 +7,8 @@ namespace Flint;
 final class InvoiceAutopayRetryPolicyInput extends Model {
     /** @param array{'retry_day_offsets': list<int>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceAutopayRetryPolicyInput')); }
-    /** @return list<int>
+    /** Shape $ (Value): Array of integer. maxItems: 5. uniqueItems: true. Shape $[] (Value): integer. Format: int32. minimum: 1. maximum: 30.
+     * @return list<int>
      * @throws SdkError When retry_day_offsets is omitted; use hasRetryDayOffsets() or valueOrDefault().
      */
     public function getRetryDayOffsets(): array { return $this->get('retry_day_offsets'); }

@@ -7,7 +7,8 @@ namespace Flint;
 final class ReturnDispositionsGetInput extends Model {
     /** @param array{'return_disposition_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnDispositionsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturnDispositionId() or valueOrDefault().
      */
     public function getReturnDispositionId(): string { return $this->get('return_disposition_id'); }

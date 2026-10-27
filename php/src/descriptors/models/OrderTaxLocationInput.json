@@ -1,1 +1,1 @@
-{"shared":"OrderTaxLocation","dependencies":["OrderTaxLocation","PostalAddress"]}
+{"shared":"OrderTaxLocation","dependencies":["Address","OrderTaxLocation"]}

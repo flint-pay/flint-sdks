@@ -1,76 +1,122 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CustomerDeletionRequest } from '../declarations/CustomerDeletionRequest.js';
-import type { CustomerDeletionRequestListResponse } from '../declarations/CustomerDeletionRequestListResponse.js';
-import type { CustomerDeletionRequestResponse } from '../declarations/CustomerDeletionRequestResponse.js';
-import type { CustomerDeletionRequestsListInput } from '../declarations/CustomerDeletionRequestsListInput.js';
-import type { CustomerDeletionRequestsListResponse } from '../declarations/CustomerDeletionRequestsListResponse.js';
-import type { CustomerDeletionRequestsResolveInput } from '../declarations/CustomerDeletionRequestsResolveInput.js';
-import type { CustomerDeletionRequestsResolveResponse } from '../declarations/CustomerDeletionRequestsResolveResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type {
+    CustomerDeletionRequest,
+    CustomerDeletionRequestListResponse,
+    CustomerDeletionRequestResponse,
+    CustomerDeletionRequestsListInput,
+    CustomerDeletionRequestsResolveInput
+} from '../declarations/types-10.js';
+import type { RequestOptions, ResolveCustomerDeletionRequestInput } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResolveCustomerDeletionRequestInput, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    CustomerDeletionRequestListResponse,
+    CustomerDeletionRequest,
+    CustomerDeletionRequestResponse,
+    CustomerDeletionRequestsListInput,
+    CustomerDeletionRequestsResolveInput
+} from '../declarations/types-10.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeResolveCustomerDeletionRequest } from '../declarations/types-70.js';
 export interface CustomerDeletionRequestsResource {
     /**
- * Lists deletion requests across the selected merchant environment so a merchant can discover and review buyer-created requests.
+ * Lists deletion requests across the selected merchant environment so a merchant can discover and
+ * review buyer-created requests.
+ * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
  * GET /v1/customer-deletion-requests
  * @example
  * client.customerDeletionRequests.list()
  */
-    list(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerDeletionRequestListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerDeletionRequestsListResponse>>;
-    listPages(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequestListResponse>;
-    listPagesWithResponse(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomerDeletionRequestsListResponse>>;
-    listItems(params?: { "status"?: InputValue<"pending_review" | "processing" | "completed" | "rejected" | "failed">; "customer_id"?: InputValue<string>; "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequest>;
+    list(params?: {
+        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<CustomerDeletionRequestListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
+     */
+    listWithResponse(params?: {
+        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<CustomerDeletionRequestListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
+     */
+    listPages(params?: {
+        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequestListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
+     */
+    listPagesWithResponse(params?: {
+        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<CustomerDeletionRequestListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/customerDeletionRequests.md#customerdeletionrequestslist
+     */
+    listItems(params?: {
+        "status"?: InputValue<Array<"pending_review" | "processing" | "completed" | "rejected" | "failed">>;
+        "customer_id"?: InputValue<string>;
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<CustomerDeletionRequest>;
     /**
- * Approves or rejects a pending deletion request. Approval returns processing while account data and buyer credentials are deleted asynchronously. A failed deletion can be approved again but cannot be rejected. Approval is blocked while the customer has non-canceled subscriptions or usable saved payment methods.
+ * Approves or rejects a pending deletion request. Approval returns processing while account data
+ * and buyer credentials are deleted asynchronously. A failed deletion can be approved again but
+ * cannot be rejected. Approval is blocked while the customer has non-canceled subscriptions or
+ * usable saved payment methods.
+ * @see reference/customerDeletionRequests.md#customerdeletionrequestsresolve
  * POST /v1/customer-deletion-requests/{customer_deletion_request_id}/resolve
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customerDeletionRequests.resolve("example", {decision: "approve"}, { idempotencyKey: idempotencyKey })
+ * client.customerDeletionRequests.resolve("example", {decision: "approve"}, { idempotencyKey:
+ * idempotencyKey })
  */
-    resolve(customer_deletion_request_id: InputValue<string>, params: (InputValue<{ "decision": "approve" | "reject"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CustomerDeletionRequestResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    resolveWithResponse(customer_deletion_request_id: InputValue<string>, params: (InputValue<{ "decision": "approve" | "reject"; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerDeletionRequestsResolveResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly customerDeletionRequests: CustomerDeletionRequestsResource;
+    resolve(customer_deletion_request_id: InputValue<string>, params: (InputValue<ResolveCustomerDeletionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<CustomerDeletionRequest>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/customerDeletionRequests.md#customerdeletionrequestsresolve
+     */
+    resolveWithResponse(customer_deletion_request_id: InputValue<string>, params: (InputValue<ResolveCustomerDeletionRequestInput>)
+        & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<CustomerDeletionRequestResponse>>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { CustomerDeletionRequestListResponse } from '../declarations/CustomerDeletionRequestListResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { CustomerDeletionRequestsListResponse } from '../declarations/CustomerDeletionRequestsListResponse.js';
-export type { CustomerDeletionRequest } from '../declarations/CustomerDeletionRequest.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CustomerDeletionRequestResponse } from '../declarations/CustomerDeletionRequestResponse.js';
-export type { CustomerDeletionRequestsResolveResponse } from '../declarations/CustomerDeletionRequestsResolveResponse.js';
-export type { CustomerDeletionRequestsListInput } from '../declarations/CustomerDeletionRequestsListInput.js';
-export type { CustomerDeletionRequestsResolveInput } from '../declarations/CustomerDeletionRequestsResolveInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { ResolveCustomerDeletionRequestInput } from '../declarations/ResolveCustomerDeletionRequestInput.js';
-export type { MeGetDeletionRequestResponse } from '../declarations/MeGetDeletionRequestResponse.js';
-export { makeCustomerDeletionRequestListResponse } from '../declarations/makeCustomerDeletionRequestListResponse.js';
-export { makeCustomerDeletionRequest } from '../declarations/makeCustomerDeletionRequest.js';
-export { makeCustomerDeletionRequestResponse } from '../declarations/makeCustomerDeletionRequestResponse.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly customerDeletionRequests: CustomerDeletionRequestsResource;
+}

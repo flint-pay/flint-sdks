@@ -1,1 +1,0 @@
-{"shared":"PublicReviewRisk","phpRepresentation":{"kind":"record","fields":{"level":{"kind":"value","type":"string"},"score":{"kind":"nullable","value":{"kind":"value","type":"int"}}}},"dependencies":["PublicReviewRisk"]}

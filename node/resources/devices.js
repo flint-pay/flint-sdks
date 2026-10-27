@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/devices.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/devices.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDevice"]:r0,["deleteDevice"]:r0,["getDevice"]:r0,["listDevices"]:r0,["updateDevice"]:r0});
 export class Client {
@@ -13,28 +13,26 @@ constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.devices = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDevice", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDevice", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createDevice", _sdkRequestInput([], [], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       remove: async (device_id, params, options) => this.#runtime.request("deleteDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expected_version",
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDevice", result, path))),
       removeWithResponse: async (device_id, params, options) => this.#runtime.request("deleteDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "expected_version",
+  "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (device_id, params, options) => this.#runtime.request("getDevice", _sdkRequestInput([
   "device_id"
-], [device_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [device_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDevice", result, path))),
       getWithResponse: async (device_id, params, options) => this.#runtime.request("getDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [], false, false, params), options).then(_sdkResponse),
@@ -43,14 +41,16 @@ this.devices = Object.freeze({
   "page_token",
   "status",
   "location_id",
+  "hardware_fingerprint",
   "sort_by",
   "sort_direction"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDevices", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listDevices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "location_id",
+  "hardware_fingerprint",
   "sort_by",
   "sort_direction"
 ], false, false, params), options).then(_sdkResponse),
@@ -59,14 +59,16 @@ this.devices = Object.freeze({
   "page_token",
   "status",
   "location_id",
+  "hardware_fingerprint",
   "sort_by",
   "sort_direction"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDevices", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDevices", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status",
   "location_id",
+  "hardware_fingerprint",
   "sort_by",
   "sort_direction"
 ], false, false, params), options)),
@@ -75,34 +77,25 @@ this.devices = Object.freeze({
   "page_token",
   "status",
   "location_id",
+  "hardware_fingerprint",
   "sort_by",
   "sort_direction"
 ], false, false, params), options),
       update: async (device_id, params, options) => this.#runtime.request("updateDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateDevice", result, path))),
       updateWithResponse: async (device_id, params, options) => this.#runtime.request("updateDevice", _sdkRequestInput([
   "device_id"
 ], [device_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeCreateDeviceResponse } from '../models/CreateDeviceResponse.js';
-export { makeDeviceResponse } from '../models/DeviceResponse.js';
-export { makeDeviceListResponse } from '../models/DeviceListResponse.js';
-export { makeDevice } from '../models/Device.js';
-export { makeCreateDeviceResult } from '../models/CreateDeviceResult.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeCreateDeviceRequest } from '../models/CreateDeviceRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeUpdateDeviceRequest } from '../models/UpdateDeviceRequest.js';

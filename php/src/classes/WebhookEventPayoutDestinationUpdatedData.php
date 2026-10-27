@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $payout_destination_id
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read WebhookEventPayoutDestinationUpdatedDataObject $object
+ * Presence-aware response; omitted optional fields return null. */
 final class WebhookEventPayoutDestinationUpdatedData extends Model {
-    /** @param array{'payout_destination_id': string, ...}|object $values */
+    /** @param array{'object': \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventPayoutDestinationUpdatedData')); }
-    /** @return string
-     * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
+    /** Shape $ (Value): {@see WebhookEventPayoutDestinationUpdatedDataObject}. The account that receives merchant payouts.
+     * @return WebhookEventPayoutDestinationUpdatedDataObject
      */
-    public function getPayoutDestinationId(): string { return $this->get('payout_destination_id'); }
-    public function hasPayoutDestinationId(): bool { return $this->has('payout_destination_id'); }
+    public function getObject(): WebhookEventPayoutDestinationUpdatedDataObject { return $this->get('object'); }
+    public function hasObject(): bool { return $this->has('object'); }
 }

@@ -1,0 +1,1 @@
+{"shared":"CheckoutCustomTextConfig","phpRepresentation":{"kind":"record","fields":{"order_summary_message":{"kind":"value","type":"string"},"shipping_address_label":{"kind":"value","type":"string"}}},"dependencies":["CheckoutCustomTextConfig"]}

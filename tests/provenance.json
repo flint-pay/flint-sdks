@@ -27,21 +27,13 @@
     "server/monolith/internal/services/payment_intents/domain/webhookevents/events.go": "4eb3912cd5d1e2d7882871a9709c1a0c2ab0e255f41f635d3d0b7d63588e6841"
   },
   "riskOverride": {
-    "pointer": "/components/schemas/AddRiskListItemsRequest/required",
-    "original": [
-      "values"
-    ],
-    "replacement": [],
-    "reason": "The exported required list contradicts its oneOf. The handler accepts exactly one of value or values; the profile removes only the redundant required list."
+    "pointers": [],
+    "reason": "No production override: the source requires plural values and rejects singular value."
   },
   "riskSliceSha256": "7077821046302edb8c39d5e14c24b0ac6ff4ad6c28bda437534474e89210da68",
   "readResponseOverrides": {
     "pointers": [],
-    "previousPointers": [
-      "/components/schemas/GetPaymentIntentResult/properties/last_payment_error",
-      "/components/schemas/GetPaymentIntentResult/properties/risk"
-    ],
-    "reason": "Removed for 3.0.0: the pinned export declares PaymentIntent.risk and last_payment_error as nullable, so the profile no longer overrides them."
+    "reason": "No production override: use the current PaymentIntent schemas and their declared optionality/nullability."
   },
   "webhookProfile": {
     "format": "standard-webhooks",
@@ -60,72 +52,446 @@
   "apiVersion": "2026-09-07",
   "fullSpec": {
     "repository": "flint-pay/flint",
-    "revision": "7371f839471a98516461709ea17e1625b4da636a",
+    "revision": "366e50d4088674e7ac978355724cd8b753695cf3",
     "source": "web/apps/developers/src/generated/openapi.json",
-    "sourceSha256": "c50ad61fe29c534f56794be4c63c263021059614308d03d02d21b73a17b7e50e",
+    "sourceSha256": "71ba4e19c479fc38834228b423d47b769bfd8455f9bcb6e2ec16f15a75013947",
     "apiVersion": "2026-09-07",
-    "basis": "Public API export from the committed buyer gift card implementation combined with current main; the source hash pins the exact bytes.",
+    "basis": "Unmodified public versioned export matching the running production backend-prod:64 image; ECS running-task digest matched the ECR commit tag 366e50d40.",
+    "generatorFixtureSource": {
+      "repository": "flint-pay/sdk-generator",
+      "revision": "314de2ee5975e3a5cc7cf385babd23b84eb489fa",
+      "path": "tests/providers/flint/",
+      "apiRevision": "dcd2401490dadf0be5733b2322e37056013dcb11"
+    },
     "profileCorrections": {
-      "basis": "Full export remains byte-for-byte unchanged; provider-specific names, examples, credentials, and event payload bindings are explicit SDK profiles.",
-      "modelNames": {
-        "Money": "MoneyValue",
-        "Return": "ReturnResource",
-        "DeliveryCalculatedPricingStrategyInput": "DeliveryCalculatedPricingStrategyRequest",
-        "DeliveryDistanceUnitPriceInput": "DeliveryDistanceUnitPriceRequest",
-        "DeliveryEstimateRuleInput": "DeliveryEstimateRuleRequest",
-        "DeliveryFixedPricingStrategyInput": "DeliveryFixedPricingStrategyRequest",
-        "DeliveryMethodConfigurationInput": "DeliveryMethodConfigurationRequest",
-        "DeliveryMethodOriginSelectorInput": "DeliveryMethodOriginSelectorRequest",
-        "DeliveryPricingRateInput": "DeliveryPricingRateRequest",
-        "DeliveryPricingStrategyInput": "DeliveryPricingStrategyRequest",
-        "DeliveryPricingTierBandInput": "DeliveryPricingTierBandRequest",
-        "DeliveryProfileConfigurationInput": "DeliveryProfileConfigurationRequest",
-        "DeliveryProfileOriginPolicyInput": "DeliveryProfileOriginPolicyRequest",
-        "DeliveryRateTablePricingStrategyInput": "DeliveryRateTablePricingStrategyRequest",
-        "DeliveryScheduleWindowRuleInput": "DeliveryScheduleWindowRuleRequest",
-        "DeliveryTieredPricingStrategyInput": "DeliveryTieredPricingStrategyRequest",
-        "DeliveryWeightUnitPriceInput": "DeliveryWeightUnitPriceRequest",
-        "FulfillmentLineItemInput": "FulfillmentLineItemRequest",
-        "ImageInput": "ImageRequest",
-        "InventoryReceiptLineInput": "InventoryReceiptLineRequest",
-        "InventoryRoutingSourceInput": "InventoryRoutingSourceRequest",
-        "InventorySourceSystemInput": "InventorySourceSystemRequest",
-        "InventoryTransferLineInput": "InventoryTransferLineRequest",
-        "LocationInventoryInput": "LocationInventoryRequest",
-        "ModifierInput": "ModifierRequest",
-        "ModifierSetGroupInput": "ModifierSetGroupRequest",
-        "OnboardingProfileInput": "OnboardingProfileRequest",
-        "OrderChargeInput": "OrderChargeRequest",
-        "OrderDeliveryDestinationAddressInput": "OrderDeliveryDestinationAddressRequest",
-        "OrderDeliveryDestinationInput": "OrderDeliveryDestinationRequest",
-        "OrderDeliveryDestinationRecipientInput": "OrderDeliveryDestinationRecipientRequest",
-        "OrderLineItemModifierInput": "OrderLineItemModifierRequest",
-        "OrderTaxInput": "OrderTaxRequest",
-        "OrderTaxLocationInput": "OrderTaxLocationRequest",
-        "PaymentLinkCustomFieldInput": "PaymentLinkCustomFieldRequest",
-        "PaymentLinkLineItemInput": "PaymentLinkLineItemRequest",
-        "ProductVariantInput": "ProductVariantRequest",
-        "ReturnInspectionLineItemInput": "ReturnInspectionLineItemRequest",
-        "ReturnLineItemInput": "ReturnLineItemRequest",
-        "ReturnPolicyRevisionInput": "ReturnPolicyRevisionRequest",
-        "ReturnReceiptLineItemInput": "ReturnReceiptLineItemRequest",
-        "ReturnReplacementLineItemInput": "ReturnReplacementLineItemRequest",
-        "ReturnResolutionAdjustmentInput": "ReturnResolutionAdjustmentRequest",
-        "ReturnResolutionLineItemInput": "ReturnResolutionLineItemRequest",
-        "SubscriptionPlanLineItemInput": "SubscriptionPlanLineItemRequest",
-        "SubscriptionServiceLocationInput": "SubscriptionServiceLocationRequest",
-        "TextModifierConfigInput": "TextModifierConfigRequest"
+      "authentication": "Exact complete security alternatives for six modes; checkoutToken uses CheckoutSessionBearer. Preserve the production apiKey shortcut as merchant/BearerAuth.",
+      "requestStyle": "Preserve positional IDs and flat params except 13 operations with non-object union bodies, which require object-style {path IDs, body} inputs. The exact overrides are recorded in the common profile.",
+      "releasePolicy": "semver, version 4.0.0; single-attempt requests and caller-supplied idempotency keys. Shared capability defaults do not enable automatic retries or keys.",
+      "methodCompatibility": "Keep previous same-ID and same-route-rename public resource/method bindings. Eight cross-resource moved methods remain primary bindings under their published 3.0.0 names; no paymentReviews, giftCards.adjustBalance/cashOut, or merchantBillingInvoices replacements are added. invoices.reverseManualPayment is already canonical. Only Location publishGeography/updateInventory are deprecated aliases of locations.update. Action-dependent inventory names are removed; expose only inventoryCounts.transition and inventoryReservations.transition.",
+      "paymentIntents": "Create/get payloads expose payment fields directly; current source nullability applies without overrides.",
+      "webhooks": "Resources use data.object and exact int64 strings, including amounts beyond the safe native integer range.",
+      "risk": "Plural values is required; obsolete singular-value and nullability overrides are absent.",
+      "models": "Port the current fixture model-name collision resolutions without source constraint overrides.",
+      "examples": "Port current synthetic fixture request examples and strict shared HTTP/model cases; test provider errors through real clients.",
+      "httpFixtures": "Current generator fixtures, with explicit synthetic keys for required-key operations because production keeps automatic keys disabled.",
+      "generatorAliasLimitation": "Generator 314de2ee supports deprecated method aliases only within one resource, and cannot bind or constrain fixed request-body values. Cross-resource deprecated aliases are unsupported; production primary bindings preserve the eight existing names instead. The five action-dependent inventory aliases are intentionally omitted."
+    },
+    "operationMigrations": [
+      {
+        "previousOperationId": "applyInventoryCount",
+        "previousMethod": "inventoryCounts.apply",
+        "previousRoute": "POST /v1/inventory-counts/{inventory_count_id}/apply",
+        "classification": "moved; legacy name dropped (action-dependent)",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "transitionInventoryCount",
+        "route": "POST /v1/inventory-counts/{inventory_count_id}/transitions",
+        "method": "inventoryCounts.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "apply",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
       },
-      "authentication": "Six named modes cover all seven declared schemes, with checkout-session ID and secret as one complete AND requirement; operation bindings are selected from exact security alternatives.",
-      "numericUnions": "Explicit ExactNumber inputs preserve the distinction between PromotionRule JSON string and exact-number values.",
-      "streamEvents": "Full SDK stream event references are copied from the text/event-stream x-flint-event-schemas declaration.",
-      "examples": {
-        "createDeliveryMethod": "The export example omits required name and minimum_option_lifetime_seconds; the profile supplies Standard shipping and 120.",
-        "updateDeliveryMethod": "The export empty example fails its anyOf requirement; the profile uses the valid status-only update.",
-        "updateInventoryCount": "The export native integers are converted to exact SDK strings for int64 inputs.",
-        "other": "Finite synthetic examples exercise the declared risk, return, delivery-zone, and domain schemas; no source constraint is removed."
+      {
+        "previousOperationId": "approveReview",
+        "previousMethod": "reviews.approve",
+        "previousRoute": "POST /v1/reviews/{review_id}/approve",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "93fbe5ce524be9157bc4dc9c726092c480557332",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "approvePaymentReview",
+        "route": "POST /v1/payment-reviews/{payment_review_id}/approve",
+        "method": "reviews.approve",
+        "binding": "primary preserving 3.0.0 name"
       },
-      "schemaSharing": "Named schema and compiled-instruction sharing preserve the full surface within PHP default memory limits."
+      {
+        "previousOperationId": "cancelInventoryCount",
+        "previousMethod": "inventoryCounts.cancel",
+        "previousRoute": "POST /v1/inventory-counts/{inventory_count_id}/cancel",
+        "classification": "moved; legacy name dropped (action-dependent)",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "transitionInventoryCount",
+        "route": "POST /v1/inventory-counts/{inventory_count_id}/transitions",
+        "method": "inventoryCounts.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "cancel",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
+      },
+      {
+        "previousOperationId": "commitInventoryReservation",
+        "previousMethod": "inventoryReservations.commit",
+        "previousRoute": "POST /v1/inventory-reservations/{inventory_reservation_id}/commit",
+        "classification": "moved; legacy name dropped (action-dependent)",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "transitionInventoryReservation",
+        "route": "POST /v1/inventory-reservations/{inventory_reservation_id}/transitions",
+        "method": "inventoryReservations.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "commit",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
+      },
+      {
+        "previousOperationId": "consumeInventoryReservation",
+        "previousMethod": "inventoryReservations.consume",
+        "previousRoute": "POST /v1/inventory-reservations/{inventory_reservation_id}/consume",
+        "classification": "moved; legacy name dropped (action-dependent)",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "transitionInventoryReservation",
+        "route": "POST /v1/inventory-reservations/{inventory_reservation_id}/transitions",
+        "method": "inventoryReservations.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "consume",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
+      },
+      {
+        "previousOperationId": "createGiftCardAdjustment",
+        "previousMethod": "giftCardAdjustments.create",
+        "previousRoute": "POST /v1/gift-cards/{gift_card_id}/adjustments",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "d4b5fe5e2e5878c7e2cc2b6cf6dc160e1f819f69",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "adjustGiftCardBalance",
+        "route": "POST /v1/gift-cards/{gift_card_id}/adjust-balance",
+        "method": "giftCardAdjustments.create",
+        "binding": "primary preserving 3.0.0 name"
+      },
+      {
+        "previousOperationId": "createGiftCardCashOut",
+        "previousMethod": "giftCardCashOuts.create",
+        "previousRoute": "POST /v1/gift-cards/{gift_card_id}/cash-outs",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "d4b5fe5e2e5878c7e2cc2b6cf6dc160e1f819f69",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "cashOutGiftCard",
+        "route": "POST /v1/gift-cards/{gift_card_id}/cash-out",
+        "method": "giftCardCashOuts.create",
+        "binding": "primary preserving 3.0.0 name"
+      },
+      {
+        "previousOperationId": "declineReview",
+        "previousMethod": "reviews.decline",
+        "previousRoute": "POST /v1/reviews/{review_id}/decline",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "93fbe5ce524be9157bc4dc9c726092c480557332",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "declinePaymentReview",
+        "route": "POST /v1/payment-reviews/{payment_review_id}/decline",
+        "method": "reviews.decline",
+        "binding": "primary preserving 3.0.0 name"
+      },
+      {
+        "previousOperationId": "getMerchantSubscriptionInvoice",
+        "previousMethod": "merchantSubscriptionInvoices.get",
+        "previousRoute": "GET /v1/merchant-subscription-invoices/{merchant_subscription_invoice_id}",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "88b7419cb6e1470158bb3df4211fa51210a4cc4e",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "getMerchantBillingInvoice",
+        "route": "GET /v1/merchant-billing-invoices/{merchant_billing_invoice_id}",
+        "method": "merchantSubscriptionInvoices.get",
+        "binding": "primary preserving 3.0.0 name"
+      },
+      {
+        "previousOperationId": "getReview",
+        "previousMethod": "reviews.get",
+        "previousRoute": "GET /v1/reviews/{review_id}",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "93fbe5ce524be9157bc4dc9c726092c480557332",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "getPaymentReview",
+        "route": "GET /v1/payment-reviews/{payment_review_id}",
+        "method": "reviews.get",
+        "binding": "primary preserving 3.0.0 name"
+      },
+      {
+        "previousOperationId": "listCapabilities",
+        "previousMethod": "capabilities.list",
+        "previousRoute": "GET /v1/capabilities",
+        "classification": "removed",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "982c7709f35e88df81ed711846a4c32989fcc116",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "replacement": "merchant.get().readiness"
+      },
+      {
+        "previousOperationId": "listMerchantSubscriptionInvoices",
+        "previousMethod": "merchantSubscriptionInvoices.list",
+        "previousRoute": "GET /v1/merchant-subscription-invoices",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "88b7419cb6e1470158bb3df4211fa51210a4cc4e",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "listMerchantBillingInvoices",
+        "route": "GET /v1/merchant-billing-invoices",
+        "method": "merchantSubscriptionInvoices.list",
+        "binding": "primary preserving 3.0.0 name"
+      },
+      {
+        "previousOperationId": "listPayoutEntries",
+        "previousMethod": "payouts.listEntries",
+        "previousRoute": "GET /v1/payouts/{payout_id}/entries",
+        "classification": "removed",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "963b332913741118e37a89093f6eceb5a96c7a9d",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "replacement": "balanceTransactions.list({ payout_id })"
+      },
+      {
+        "previousOperationId": "listReviews",
+        "previousMethod": "reviews.list",
+        "previousRoute": "GET /v1/reviews",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "93fbe5ce524be9157bc4dc9c726092c480557332",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "listPaymentReviews",
+        "route": "GET /v1/payment-reviews",
+        "method": "reviews.list",
+        "binding": "primary preserving 3.0.0 name"
+      },
+      {
+        "previousOperationId": "publishLocationGeography",
+        "previousMethod": "locations.publishGeography",
+        "previousRoute": "PATCH /v1/locations/{location_id}/geography",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "342518b354363a821fc11b88964e22a2b712eea8",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "updateLocation",
+        "route": "PATCH /v1/locations/{location_id}",
+        "method": "locations.publishGeography",
+        "binding": "deprecated alias",
+        "migration": "Use the unified sparse Location update fields; geography values are atomic, and address requires coordinate."
+      },
+      {
+        "previousOperationId": "releaseInventoryReservation",
+        "previousMethod": "inventoryReservations.release",
+        "previousRoute": "POST /v1/inventory-reservations/{inventory_reservation_id}/release",
+        "classification": "moved; legacy name dropped (action-dependent)",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "3039b31a34b1f5f1f800fc31b85497ac0ead4f53",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "transitionInventoryReservation",
+        "route": "POST /v1/inventory-reservations/{inventory_reservation_id}/transitions",
+        "method": "inventoryReservations.transition",
+        "binding": "canonical transition only",
+        "requiredAction": "release",
+        "migration": "Call the canonical transition operation with an explicit body.action value; the legacy method is removed because aliases cannot fix or constrain action."
+      },
+      {
+        "previousOperationId": "reverseManualInvoicePayment",
+        "previousMethod": "invoices.reverseManualPayment",
+        "previousRoute": "POST /v1/invoices/{invoice_id}/manual-payments/reverse",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "c3080921c156a6edef2bec450c06f0254a68b793",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "reverseInvoiceManualPayment",
+        "route": "POST /v1/invoices/{invoice_id}/manual-payments/{invoice_manual_payment_id}/reverse",
+        "method": "invoices.reverseManualPayment",
+        "binding": "canonical primary; unchanged 3.0.0 name"
+      },
+      {
+        "previousOperationId": "setDefaultMePaymentMethod",
+        "previousMethod": "me.setDefaultPaymentMethod",
+        "previousRoute": "POST /v1/me/payment-methods/{payment_method_id}/set-default",
+        "classification": "removed",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "1e589851097ef88dc1df4c380b336b95d52038d1",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "replacement": "me.update({ default_payment_method_id })"
+      },
+      {
+        "previousOperationId": "setDefaultPaymentMethod",
+        "previousMethod": "paymentMethods.setDefault",
+        "previousRoute": "POST /v1/payment-methods/{payment_method_id}/set-default",
+        "classification": "removed",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "1e589851097ef88dc1df4c380b336b95d52038d1",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "replacement": "customers.update(customerId, { default_payment_method_id })"
+      },
+      {
+        "previousOperationId": "transferOrganizationOwnership",
+        "previousMethod": "organizations.transferOwnership",
+        "previousRoute": "POST /v1/organizations/{organization_id}/transfer-ownership",
+        "classification": "removed",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "885b2f61d258470a39b28d65574bdfea14ab4f03",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "replacement": "removed from the API; ownership changes are reserved for Flint"
+      },
+      {
+        "previousOperationId": "updateLocationInventory",
+        "previousMethod": "locations.updateInventory",
+        "previousRoute": "PATCH /v1/locations/{location_id}/inventory",
+        "classification": "moved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "342518b354363a821fc11b88964e22a2b712eea8",
+          "basis": "Compared request/response schemas and summaries in the public exports, git log -p for export and API declarations, active production route registrations, and current developer guides/changelog."
+        },
+        "operationId": "updateLocation",
+        "route": "PATCH /v1/locations/{location_id}",
+        "method": "locations.updateInventory",
+        "binding": "deprecated alias",
+        "migration": "Send the flat inventory_allocation_enabled boolean; the route also requires Location write authority."
+      },
+      {
+        "previousOperationId": "createCustomerDeletionRequest",
+        "operationId": "createCustomerDeletionRequest",
+        "previousMethod": "customers.createDeletionRequest",
+        "method": "customers.createDeletionRequest",
+        "previousRoute": "POST /v1/customers/{customer_id}/deletion-requests",
+        "route": "POST /v1/customer-deletion-requests",
+        "classification": "route changed; method preserved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "e7554ae8d72241a54ffbc044c33cb0c426820a97",
+          "basis": "Matching public operation summary, request/response schemas and production route declaration; export and handler git history."
+        }
+      },
+      {
+        "previousOperationId": "confirmCheckoutSessionCustomerVerification",
+        "operationId": "confirmCheckoutSessionCustomerVerification",
+        "previousMethod": "checkoutSessions.confirmCustomerVerification",
+        "method": "checkoutSessions.confirmCustomerVerification",
+        "previousRoute": "POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications/{customer_verification_id}/confirm",
+        "route": "POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications/{checkout_session_customer_verification_id}/confirm",
+        "classification": "route changed; method preserved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "5b216842417b3234d5e45bcee53d00d4573b8eac",
+          "basis": "Matching public operation summary, request/response schemas and production route declaration; export and handler git history."
+        }
+      },
+      {
+        "previousOperationId": "validateCustomDomain",
+        "operationId": "validateCustomDomain",
+        "previousMethod": "settings.validateCustomDomain",
+        "method": "settings.validateCustomDomain",
+        "previousRoute": "POST /v1/settings/custom-domains/{domain_type}/validate",
+        "route": "POST /v1/custom-domains/{custom_domain_id}/validate",
+        "classification": "route changed; method preserved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "d5b1f5af14a3a0c5dfb44e1ec0ad767dcefe90bd",
+          "basis": "Matching public operation summary, request/response schemas and production route declaration; export and handler git history."
+        }
+      },
+      {
+        "previousOperationId": "listWebhookDeliveries",
+        "operationId": "listWebhookDeliveries",
+        "previousMethod": "webhookEvents.listWebhookDeliveries",
+        "method": "webhookEvents.listWebhookDeliveries",
+        "previousRoute": "GET /v1/webhook-events/{webhook_event_id}/deliveries",
+        "route": "GET /v1/webhook-deliveries",
+        "classification": "route changed; method preserved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "73b4ee63040e84bd050a7a713e0818fc653ac859",
+          "basis": "Matching public operation summary, request/response schemas and production route declaration; export and handler git history."
+        }
+      },
+      {
+        "previousOperationId": "getCustomerDeletionRequest",
+        "operationId": "getCustomerDeletionRequest",
+        "previousMethod": "customers.getDeletionRequest",
+        "method": "customers.getDeletionRequest",
+        "previousRoute": "GET /v1/customers/{customer_id}/deletion-requests/{customer_deletion_request_id}",
+        "route": "GET /v1/customer-deletion-requests/{customer_deletion_request_id}",
+        "classification": "route changed; method preserved",
+        "evidence": {
+          "repository": "flint-pay/flint",
+          "commit": "e7554ae8d72241a54ffbc044c33cb0c426820a97",
+          "basis": "Matching public operation summary, request/response schemas and production route declaration; export and handler git history."
+        }
+      }
+    ],
+    "sameRouteRenames": {
+      "addRiskListItems": "createRiskListItems",
+      "revokeOrganizationMembership": "removeOrganizationMembership",
+      "rotateWebhookSecret": "rotateWebhookEndpointSecret",
+      "addOrderLineItems": "createOrderLineItems",
+      "getCurrentAPIKeyRequestLog": "getAPIRequestLog",
+      "processExistingReturn": "processReturn",
+      "removeMePaymentMethod": "deleteMePaymentMethod",
+      "savePaymentMethod": "createPaymentMethod",
+      "removePaymentMethod": "deletePaymentMethod",
+      "assessInvoiceLateFee": "createInvoiceLateFee",
+      "exchangePartnerInstallToken": "exchangeOAuthToken",
+      "revokeCLIGrant": "revokeOAuthToken",
+      "recordManualInvoicePayment": "createInvoiceManualPayment",
+      "saveMePaymentMethod": "createMePaymentMethod",
+      "getRiskRuleAttributeRegistry": "getRiskRuleAttributes",
+      "publishReturnPolicyRevision": "createReturnPolicyRevision",
+      "addOrderCharge": "createOrderCharge",
+      "listCurrentAPIKeyRequestLogs": "listAPIRequestLogs",
+      "addReturnLineItem": "createReturnLineItem",
+      "waiveReturnLineInspection": "waiveReturnLineItemInspection"
+    },
+    "excludedFormOperations": [
+      "authorizeCLIDevice",
+      "exchangeOAuthToken",
+      "listCLIContexts",
+      "reauthorizeCLIDevice",
+      "revokeOAuthToken"
+    ],
+    "removalReview": {
+      "escalations": [],
+      "basis": "The five genuinely removed operations are explicitly removed by their source commits and developer changelogs. Their old public routes and registered handlers are absent at the production revision. Historical changelog references describe earlier versions, not current availability."
     }
   }
 }

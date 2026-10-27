@@ -1,9 +1,11 @@
-import { d32 as c0, d1779 as c1, d323 as c2, d2091 as c3, d30 as c4, d31 as c5, d2089 as c6, d2090 as c7 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d32 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d14 as c0 } from '../descriptors/data/0.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3795 as c1, d3796 as c3, d3797 as c4, d3798 as c5, d3799 as c6, d3800 as c7 } from '../descriptors/data/158.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3000 as c2 } from '../descriptors/data/114.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d14 as d14 } from '../descriptors/data/0.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d32;
+const read = d14;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ApplyDiscountRequest"]:c0(),["ManualDiscountRequest"]:c1(),["MoneyValue"]:c2(),["PromotionRefRequest"]:c3(),["SharedCodec3"]:c4(),["SharedCodec4"]:c5(),["SharedCodec515"]:c6(),["SharedCodec516"]:c7()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ApplyDiscountRequest"]:c0(),["ManualDiscountRequest"]:c1(),["MoneyValue"]:c2(),["PromotionRefRequest"]:c3(),["SharedCodec1033"]:c4(),["SharedCodec1034"]:c5(),["SharedCodec3"]:c6(),["SharedCodec4"]:c7()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeApplyDiscountRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

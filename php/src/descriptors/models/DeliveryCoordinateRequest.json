@@ -1,1 +1,0 @@
-{"shared":"DeliveryCoordinateRequest","phpRepresentation":{"kind":"record","fields":{"latitude":{"kind":"value","type":"float"},"longitude":{"kind":"value","type":"float"}}},"dependencies":["DeliveryCoordinateRequest"]}

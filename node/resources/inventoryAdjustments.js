@@ -2,22 +2,24 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryAdjustments.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/inventoryAdjustments.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryAdjustment"]:r0,["listInventoryAdjustments"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryAdjustment"]:r0,["getInventoryAdjustment"]:r0,["listInventoryAdjustments"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.inventoryAdjustments = Object.freeze({
-      create: async (params, options) => this.#runtime.request("createInventoryAdjustment", _sdkRequestInput([], [], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      createWithResponse: async (params, options) => this.#runtime.request("createInventoryAdjustment", _sdkRequestInput([], [], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
+      create: (input = {}, options) => this.#runtime.request("createInventoryAdjustment", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInventoryAdjustment", result, path))),
+      createWithResponse: (input = {}, options) => this.#runtime.request("createInventoryAdjustment", input, options).then(_sdkResponse),
+      get: async (inventory_adjustment_id, params, options) => this.#runtime.request("getInventoryAdjustment", _sdkRequestInput([
+  "inventory_adjustment_id"
+], [inventory_adjustment_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInventoryAdjustment", result, path))),
+      getWithResponse: async (inventory_adjustment_id, params, options) => this.#runtime.request("getInventoryAdjustment", _sdkRequestInput([
+  "inventory_adjustment_id"
+], [inventory_adjustment_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryAdjustments", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -32,7 +34,7 @@ this.inventoryAdjustments = Object.freeze({
   "occurred_before",
   "created_after",
   "created_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInventoryAdjustments", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryAdjustments", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -62,7 +64,7 @@ this.inventoryAdjustments = Object.freeze({
   "occurred_before",
   "created_after",
   "created_before"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInventoryAdjustments", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryAdjustments", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -95,18 +97,16 @@ this.inventoryAdjustments = Object.freeze({
 ], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeInventoryAdjustmentResultResponse } from '../models/InventoryAdjustmentResultResponse.js';
-export { makeInventoryAdjustmentListResponse } from '../models/InventoryAdjustmentListResponse.js';
-export { makeInventoryAdjustment } from '../models/InventoryAdjustment.js';
-export { makeInventoryAdjustmentResult } from '../models/InventoryAdjustmentResult.js';
-export { makeInventoryLevel } from '../models/InventoryLevel.js';
-export { makeInventoryItem } from '../models/InventoryItem.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeCreateInventoryAdjustmentConditionChangeRequest } from '../models/CreateInventoryAdjustmentConditionChangeRequest.js';
+export { makeCreateInventoryAdjustmentCorrectionRequest } from '../models/CreateInventoryAdjustmentCorrectionRequest.js';
+export { makeCreateInventoryAdjustmentCountedRequest } from '../models/CreateInventoryAdjustmentCountedRequest.js';
+export { makeCreateInventoryAdjustmentQuantityRequest } from '../models/CreateInventoryAdjustmentQuantityRequest.js';
+export { makeCreateInventoryAdjustmentRequest } from '../models/CreateInventoryAdjustmentRequest.js';
+export { makeInventoryAdjustmentConditionChangeLineRequest } from '../models/InventoryAdjustmentConditionChangeLineRequest.js';
+export { makeInventoryAdjustmentQuantityLineRequest } from '../models/InventoryAdjustmentQuantityLineRequest.js';
+export { makeInventoryAdjustmentSetLineRequest } from '../models/InventoryAdjustmentSetLineRequest.js';
+export { makeInventorySourceSystemRequest } from '../models/InventorySourceSystemRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeAdjustmentLine } from '../models/AdjustmentLine.js';
-export { makeInventoryAdjustmentLineRequest } from '../models/InventoryAdjustmentLineRequest.js';

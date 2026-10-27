@@ -1,0 +1,1 @@
+{"shared":"DisputeResponseSessionStripeComponent","phpRepresentation":{"kind":"record","fields":{"component":{"kind":"value","type":"string"},"payment":{"kind":"value","type":"string"}}},"dependencies":["DisputeResponseSessionStripeComponent"]}

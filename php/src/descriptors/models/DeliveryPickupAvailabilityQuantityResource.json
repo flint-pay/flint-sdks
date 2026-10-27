@@ -1,0 +1,1 @@
+{"shared":"DeliveryQuoteLineItemResource","phpRepresentation":{"kind":"record","fields":{"bundle_component_id":{"kind":"value","type":"string"},"order_line_item_id":{"kind":"value","type":"string"},"quantity":{"kind":"value","type":"string"}}},"dependencies":["DeliveryQuoteLineItemResource"]}

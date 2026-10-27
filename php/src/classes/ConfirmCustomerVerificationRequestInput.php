@@ -7,7 +7,8 @@ namespace Flint;
 final class ConfirmCustomerVerificationRequestInput extends Model {
     /** @param array{'code': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ConfirmCustomerVerificationRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1. pattern: ^[0-9]{6}$.
+     * @return string
      * @throws SdkError When code is omitted; use hasCode() or valueOrDefault().
      */
     public function getCode(): string { return $this->get('code'); }

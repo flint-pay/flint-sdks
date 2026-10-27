@@ -7,7 +7,8 @@ namespace Flint;
 final class DeliveryRateCallbacksGetInput extends Model {
     /** @param array{'delivery_rate_callback_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbacksGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }

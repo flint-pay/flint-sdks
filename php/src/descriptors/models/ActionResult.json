@@ -1,1 +1,0 @@
-{"shared":"ActionResult","phpRepresentation":{"kind":"record","fields":{"success":{"kind":"value","type":"bool"}}},"dependencies":["ActionResult"]}

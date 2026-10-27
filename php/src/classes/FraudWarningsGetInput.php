@@ -6,21 +6,18 @@ namespace Flint;
  * @property-read list<string> $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class FraudWarningsGetInput extends Model {
-    /** @param array{'fraud_warning_id': string, 'expand'?: list<string>, 'X-Request-Id'?: string}|object $values */
+    /** @param array{'fraud_warning_id': string, 'expand'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FraudWarningsGetInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When fraud_warning_id is omitted; use hasFraudWarningId() or valueOrDefault().
      */
     public function getFraudWarningId(): string { return $this->get('fraud_warning_id'); }
     public function hasFraudWarningId(): bool { return $this->has('fraud_warning_id'); }
-    /** @return list<string>
+    /** Shape $ (Value): Array of string.  [] enum: "dispute", "payment_intent". Shape $[] (Value): string.  Value enum: "dispute", "payment_intent".
+     * @return list<string>
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */
     public function getExpand(): array { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
 }

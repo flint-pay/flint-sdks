@@ -1,1 +1,1 @@
-{"shared":"PaymentVolumeBucket","dependencies":["CountMetric","MoneyValue","PaymentVolumeBucket"]}
+{"shared":"PaymentVolumeBucket","dependencies":["MoneyValue","PaymentVolumeBucket"]}

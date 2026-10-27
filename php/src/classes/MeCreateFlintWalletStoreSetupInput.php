@@ -7,12 +7,14 @@ namespace Flint;
 final class MeCreateFlintWalletStoreSetupInput extends Model {
     /** @param array{'id': string, 'Idempotency-Key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateFlintWalletStoreSetupInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When id is omitted; use hasId() or valueOrDefault().
      */
     public function getId(): string { return $this->get('id'); }
     public function hasId(): bool { return $this->has('id'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }

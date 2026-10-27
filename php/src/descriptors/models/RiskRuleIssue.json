@@ -1,0 +1,1 @@
+{"shared":"RiskRuleIssue","phpRepresentation":{"kind":"record","fields":{"code":{"kind":"value","type":"string"},"message":{"kind":"value","type":"string"},"path":{"kind":"value","type":"string"},"unavailable_reason":{"kind":"value","type":"string"}}},"dependencies":["RiskRuleIssue"]}

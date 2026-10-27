@@ -5,29 +5,33 @@ namespace Flint;
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $from_delivery_method_id
- * @property-read string $status
+ * @property-read list<string> $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionDeliveryMigrationsListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'from_delivery_method_id'?: string, 'status'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'from_delivery_method_id'?: string, 'status'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMigrationsListInput')); }
-    /** @return int
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20.
+     * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().
      */
     public function getPageSize(): int { return $this->get('page_size'); }
     public function hasPageSize(): bool { return $this->has('page_size'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When page_token is omitted; use hasPageToken() or valueOrDefault().
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When from_delivery_method_id is omitted; use hasFromDeliveryMethodId() or valueOrDefault().
      */
     public function getFromDeliveryMethodId(): string { return $this->get('from_delivery_method_id'); }
     public function hasFromDeliveryMethodId(): bool { return $this->has('from_delivery_method_id'); }
-    /** @return string
+    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "pending", "running", "completed". Shape $[] (Value): string.  Value enum: "pending", "running", "completed".
+     * @return list<string>
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
-    public function getStatus(): string { return $this->get('status'); }
+    public function getStatus(): array { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
 }

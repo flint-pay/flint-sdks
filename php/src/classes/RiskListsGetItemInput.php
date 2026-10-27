@@ -6,21 +6,18 @@ namespace Flint;
  * @property-read string $risk_list_item_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class RiskListsGetItemInput extends Model {
-    /** @param array{'risk_list_id': string, 'risk_list_item_id': string, 'X-Request-Id'?: string}|object $values */
+    /** @param array{'risk_list_id': string, 'risk_list_item_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskListsGetItemInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When risk_list_id is omitted; use hasRiskListId() or valueOrDefault().
      */
     public function getRiskListId(): string { return $this->get('risk_list_id'); }
     public function hasRiskListId(): bool { return $this->has('risk_list_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When risk_list_item_id is omitted; use hasRiskListItemId() or valueOrDefault().
      */
     public function getRiskListItemId(): string { return $this->get('risk_list_item_id'); }
     public function hasRiskListItemId(): bool { return $this->has('risk_list_item_id'); }
-    /** @return string
-     * @throws SdkError When X-Request-Id is omitted; use hasXRequestId() or valueOrDefault().
-     */
-    public function getXRequestId(): string { return $this->get('X-Request-Id'); }
-    public function hasXRequestId(): bool { return $this->has('X-Request-Id'); }
 }

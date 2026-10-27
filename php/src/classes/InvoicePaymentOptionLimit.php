@@ -4,17 +4,17 @@ namespace Flint;
 /**
  * @property-read MoneyValue $max_total_money
  * @property-read string $payment_option
- * Presence-aware response; omitted fields throw when accessed. */
+ * Presence-aware response; omitted optional fields return null. */
 final class InvoicePaymentOptionLimit extends Model {
     /** @param array{'max_total_money': mixed, 'payment_option': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentOptionLimit')); }
-    /** @return MoneyValue
-     * @throws SdkError When max_total_money is omitted; use hasMaxTotalMoney() or valueOrDefault().
+    /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValue
      */
     public function getMaxTotalMoney(): MoneyValue { return $this->get('max_total_money'); }
     public function hasMaxTotalMoney(): bool { return $this->has('max_total_money'); }
-    /** @return string
-     * @throws SdkError When payment_option is omitted; use hasPaymentOption() or valueOrDefault().
+    /** Shape $ (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     * @return string
      */
     public function getPaymentOption(): string { return $this->get('payment_option'); }
     public function hasPaymentOption(): bool { return $this->has('payment_option'); }

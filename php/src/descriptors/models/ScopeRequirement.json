@@ -1,0 +1,1 @@
+{"shared":"ScopeRequirement","phpRepresentation":{"kind":"record","fields":{"mode":{"kind":"value","type":"string"},"scopes":{"kind":"list","value":{"kind":"value","type":"string"}}}},"dependencies":["ScopeRequirement"]}

@@ -9,17 +9,20 @@ namespace Flint;
 final class OrderTaxExemptionInput extends Model {
     /** @param array{'customer_id'?: string, 'source'?: string, 'tax_exempt': bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxExemptionInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** @return string
+    /** Shape $ (Value): string. The source of the tax exemption assessment. Omitted when the source has not been established. Value enum: "none", "customer".
+     * @return string
      * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
      */
     public function getSource(): string { return $this->get('source'); }
     public function hasSource(): bool { return $this->has('source'); }
-    /** @return bool
+    /** Shape $ (Value): boolean.
+     * @return bool
      * @throws SdkError When tax_exempt is omitted; use hasTaxExempt() or valueOrDefault().
      */
     public function getTaxExempt(): bool { return $this->get('tax_exempt'); }

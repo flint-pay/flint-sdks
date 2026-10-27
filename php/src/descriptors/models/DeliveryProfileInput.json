@@ -1,1 +1,1 @@
-{"shared":"DeliveryProfile","dependencies":["DeliveryProfile","DeliveryProfileConfiguration","DeliveryProfileDiagnostics","DeliveryProfileOriginPolicy","Dimensions","Weight"]}
+{"shared":"DeliveryProfile","dependencies":["DeliveryProfile","DeliveryProfileConfiguration","DeliveryProfileDiagnostics","DeliveryProfileOriginPolicy"]}

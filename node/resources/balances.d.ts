@@ -1,54 +1,57 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { BalanceListResponse } from '../declarations/BalanceListResponse.js';
-import type { BalancesListInput } from '../declarations/BalancesListInput.js';
-import type { BalancesListResponse } from '../declarations/BalancesListResponse.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { BalanceListResponse, BalancesListInput } from '../declarations/types-0.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseWarning } from '../declarations/types-40.js';
+export type { BalanceListResponse, BalancesListInput, AuthMode, Balance } from '../declarations/types-0.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type {
+    MoneyValue,
+    MoneyMovementListMeta,
+    MoneyMovementHistoryMeta,
+    NextAction,
+    NextActionMerchantAccountSession
+} from '../declarations/types-31.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface BalancesResource {
     /**
- * Returns an unpaginated current balance snapshot grouped by currency and balance source for the authenticated merchant.
+ * Returns the current balance snapshot grouped by currency for the authenticated merchant in the
+ * standard list envelope. All balances fit on one page, so next_page_token is omitted.
+ * @see reference/balances.md#balanceslist
  * GET /v1/balances
  * @example
  * client.balances.list()
  */
-    list(params?: { "currency"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BalanceListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "currency"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BalancesListResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly balances: BalancesResource;
+    list(params?: {
+        "currency"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<BalanceListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/balances.md#balanceslist
+     */
+    listWithResponse(params?: {
+        "currency"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<BalanceListResponse>>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { BalanceListResponse } from '../declarations/BalanceListResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { BalancesListResponse } from '../declarations/BalancesListResponse.js';
-export type { BalancesListInput } from '../declarations/BalancesListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { Balance } from '../declarations/Balance.js';
-export type { SignedMoney } from '../declarations/SignedMoney.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { MoneyMovementListMeta } from '../declarations/MoneyMovementListMeta.js';
-export type { MoneyMovementHistoryMeta } from '../declarations/MoneyMovementHistoryMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export { makeBalanceListResponse } from '../declarations/makeBalanceListResponse.js';
-export { makeBalance } from '../declarations/makeBalance.js';
-export { makeSignedMoney } from '../declarations/makeSignedMoney.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeMoneyMovementListMeta } from '../declarations/makeMoneyMovementListMeta.js';
-export { makeMoneyMovementHistoryMeta } from '../declarations/makeMoneyMovementHistoryMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly balances: BalancesResource;
+}

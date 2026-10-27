@@ -2,42 +2,28 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/inventoryCounts.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/inventoryCounts.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["applyInventoryCount"]:r0,["cancelInventoryCount"]:r0,["createInventoryCount"]:r0,["listInventoryCounts"]:r0,["updateInventoryCount"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createInventoryCount"]:r0,["getInventoryCount"]:r0,["listInventoryCounts"]:r0,["transitionInventoryCount"]:r0,["updateInventoryCount"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.inventoryCounts = Object.freeze({
-      apply: async (inventory_count_id, params, options) => this.#runtime.request("applyInventoryCount", _sdkRequestInput([
-  "inventory_count_id"
-], [inventory_count_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      applyWithResponse: async (inventory_count_id, params, options) => this.#runtime.request("applyInventoryCount", _sdkRequestInput([
-  "inventory_count_id"
-], [inventory_count_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
-      cancel: async (inventory_count_id, params, options) => this.#runtime.request("cancelInventoryCount", _sdkRequestInput([
-  "inventory_count_id"
-], [inventory_count_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      cancelWithResponse: async (inventory_count_id, params, options) => this.#runtime.request("cancelInventoryCount", _sdkRequestInput([
-  "inventory_count_id"
-], [inventory_count_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createInventoryCount", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInventoryCount", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createInventoryCount", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
+      get: async (inventory_count_id, params, options) => this.#runtime.request("getInventoryCount", _sdkRequestInput([
+  "inventory_count_id"
+], [inventory_count_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getInventoryCount", result, path))),
+      getWithResponse: async (inventory_count_id, params, options) => this.#runtime.request("getInventoryCount", _sdkRequestInput([
+  "inventory_count_id"
+], [inventory_count_id], [], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listInventoryCounts", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -49,7 +35,7 @@ this.inventoryCounts = Object.freeze({
   "created_before",
   "applied_after",
   "applied_before"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInventoryCounts", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listInventoryCounts", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -73,7 +59,7 @@ this.inventoryCounts = Object.freeze({
   "created_before",
   "applied_after",
   "applied_before"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listInventoryCounts", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listInventoryCounts", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -98,11 +84,13 @@ this.inventoryCounts = Object.freeze({
   "applied_after",
   "applied_before"
 ], false, false, params), options),
+      transition: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("transitionInventoryCount", result, path))),
+      transitionWithResponse: (input = {}, options) => this.#runtime.request("transitionInventoryCount", input, options).then(_sdkResponse),
       update: async (inventory_count_id, params, options) => this.#runtime.request("updateInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateInventoryCount", result, path))),
       updateWithResponse: async (inventory_count_id, params, options) => this.#runtime.request("updateInventoryCount", _sdkRequestInput([
   "inventory_count_id"
 ], [inventory_count_id], [
@@ -110,22 +98,14 @@ this.inventoryCounts = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeInventoryCountResultResponse } from '../models/InventoryCountResultResponse.js';
-export { makeInventoryCountResponse } from '../models/InventoryCountResponse.js';
-export { makeInventoryCountListResponse } from '../models/InventoryCountListResponse.js';
-export { makeInventoryCount } from '../models/InventoryCount.js';
-export { makeInventoryCountResult } from '../models/InventoryCountResult.js';
-export { makeInventoryLevel } from '../models/InventoryLevel.js';
-export { makeInventoryItem } from '../models/InventoryItem.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeInventoryCountLine } from '../models/InventoryCountLine.js';
-export { makeCountProvenance } from '../models/CountProvenance.js';
+export { makeCreateInventoryCountRequest } from '../models/CreateInventoryCountRequest.js';
 export { makeInventoryCountObservationRequest } from '../models/InventoryCountObservationRequest.js';
 export { makeInventoryCountTransitionRequest } from '../models/InventoryCountTransitionRequest.js';
-export { makeCreateInventoryCountRequest } from '../models/CreateInventoryCountRequest.js';
+export { makeInventoryCountTransitionRequestApply } from '../models/InventoryCountTransitionRequestApply.js';
+export { makeInventoryCountTransitionRequestCancel } from '../models/InventoryCountTransitionRequestCancel.js';
+export { makeInventorySourceSystemRequest } from '../models/InventorySourceSystemRequest.js';
+export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeUpdateInventoryCountRequest } from '../models/UpdateInventoryCountRequest.js';

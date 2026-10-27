@@ -1,0 +1,1 @@
+{"shared":"BuyerPauseActionOptions","phpRepresentation":{"kind":"record","fields":{"max_pause_duration_cycles":{"kind":"value","type":"int"}}},"dependencies":["BuyerPauseActionOptions"]}

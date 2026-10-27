@@ -3,85 +3,97 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $api_key_id
- * @property-read string $created_at
- * @property-read string $expires_at
+ * @property-read ?string $created_at
+ * @property-read ?ResourceReference $created_by
+ * @property-read ?string $expires_at
  * @property-read string $key_prefix
- * @property-read string $key_type
- * @property-read string $last_used_at
- * @property-read string $merchant_id
+ * @property-read ?string $last_used_at
+ * @property-read ?string $merchant_id
  * @property-read string $name
- * @property-read string $sandbox_id
+ * @property-read ?string $revoked_at
+ * @property-read ?string $sandbox_id
  * @property-read list<string> $scopes
- * @property-read string $secret_key
  * @property-read string $status
- * @property-read string $updated_at
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?string $updated_at
+ * @property-read string $version
+ * @property-read string $secret_key
+ * Presence-aware response; omitted optional fields return null. */
 final class APIKeyWithSecret extends Model {
-    /** @param array{'api_key_id': string, 'created_at'?: string, 'expires_at'?: string, 'key_prefix': string, 'key_type': string, 'last_used_at'?: string, 'merchant_id'?: string, 'name': string, 'sandbox_id'?: string, 'scopes': list<string>, 'secret_key': string, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'api_key_id': string, 'created_at'?: string, 'created_by'?: mixed, 'expires_at'?: string, 'key_prefix': string, 'last_used_at'?: string, 'merchant_id'?: string, 'name': string, 'revoked_at'?: string, 'sandbox_id'?: string, 'scopes': list<string>, 'status': string, 'updated_at'?: string, 'version': string, 'secret_key': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('APIKeyWithSecret')); }
-    /** @return string
-     * @throws SdkError When api_key_id is omitted; use hasApiKeyId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getApiKeyId(): string { return $this->get('api_key_id'); }
     public function hasApiKeyId(): bool { return $this->has('api_key_id'); }
-    /** @return string
-     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getCreatedAt(): string { return $this->get('created_at'); }
+    public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** @return string
-     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
+    /** Shape $ (Value): {@see ResourceReference}. The API key or user that created this key. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Absent when the creator is unavailable. A reference to another resource by `resource_type` and `resource_id`.
+     * @return ?ResourceReference
      */
-    public function getExpiresAt(): string { return $this->get('expires_at'); }
+    public function getCreatedBy(): ?ResourceReference { return $this->get('created_by'); }
+    public function hasCreatedBy(): bool { return $this->has('created_by'); }
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
+     */
+    public function getExpiresAt(): ?string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** @return string
-     * @throws SdkError When key_prefix is omitted; use hasKeyPrefix() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return string
      */
     public function getKeyPrefix(): string { return $this->get('key_prefix'); }
     public function hasKeyPrefix(): bool { return $this->has('key_prefix'); }
-    /** @return string
-     * @throws SdkError When key_type is omitted; use hasKeyType() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getKeyType(): string { return $this->get('key_type'); }
-    public function hasKeyType(): bool { return $this->has('key_type'); }
-    /** @return string
-     * @throws SdkError When last_used_at is omitted; use hasLastUsedAt() or valueOrDefault().
-     */
-    public function getLastUsedAt(): string { return $this->get('last_used_at'); }
+    public function getLastUsedAt(): ?string { return $this->get('last_used_at'); }
     public function hasLastUsedAt(): bool { return $this->has('last_used_at'); }
-    /** @return string
-     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+    /** Shape $ (Value): string.
+     * @return ?string
      */
-    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** @return string
-     * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
+    /** Shape $ (Value): string. maxLength: 100.
+     * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** @return string
-     * @throws SdkError When sandbox_id is omitted; use hasSandboxId() or valueOrDefault().
+    /** Shape $ (Value): string. When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. Format: date-time.
+     * @return ?string
      */
-    public function getSandboxId(): string { return $this->get('sandbox_id'); }
+    public function getRevokedAt(): ?string { return $this->get('revoked_at'); }
+    public function hasRevokedAt(): bool { return $this->has('revoked_at'); }
+    /** Shape $ (Value): string.
+     * @return ?string
+     */
+    public function getSandboxId(): ?string { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
-    /** @return list<string>
-     * @throws SdkError When scopes is omitted; use hasScopes() or valueOrDefault().
+    /** Shape $ (Value): Array of string.  [] enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write", "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write", "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write", "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read", "commerce.inventory.write", "commerce.inventory_locations.write", "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write", "commerce.products.read", "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write", "commerce.return_policies.write", "commerce.return_reasons.write", "commerce.returns.operations.write", "commerce.returns.read", "commerce.returns.resolutions.write", "commerce.returns.write", "commerce.subscription_plans.read", "commerce.subscription_plans.write", "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read", "customers.sessions.write", "customers.write", "developer.feedback_reports.read", "developer.feedback_reports.write", "developer.partner_apps.read", "developer.partner_apps.write", "developer.request_logs.read", "developer.request_logs.self.read", "developer.resource_timelines.read", "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write", "money_movement.balance_transactions.read", "money_movement.balances.read", "money_movement.payout_settings.read", "money_movement.payout_settings.write", "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read", "payments.payment_intents.write", "payments.payment_method_domains.read", "payments.payment_method_domains.write", "payments.payment_methods.read", "payments.payment_methods.write", "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read", "webhooks.write". Shape $[] (Value): string.  Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write", "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write", "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write", "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read", "commerce.inventory.write", "commerce.inventory_locations.write", "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write", "commerce.products.read", "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write", "commerce.return_policies.write", "commerce.return_reasons.write", "commerce.returns.operations.write", "commerce.returns.read", "commerce.returns.resolutions.write", "commerce.returns.write", "commerce.subscription_plans.read", "commerce.subscription_plans.write", "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read", "customers.sessions.write", "customers.write", "developer.feedback_reports.read", "developer.feedback_reports.write", "developer.partner_apps.read", "developer.partner_apps.write", "developer.request_logs.read", "developer.request_logs.self.read", "developer.resource_timelines.read", "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write", "money_movement.balance_transactions.read", "money_movement.balances.read", "money_movement.payout_settings.read", "money_movement.payout_settings.write", "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read", "payments.payment_intents.write", "payments.payment_method_domains.read", "payments.payment_method_domains.write", "payments.payment_methods.read", "payments.payment_methods.write", "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     * @return list<string>
      */
     public function getScopes(): array { return $this->get('scopes'); }
     public function hasScopes(): bool { return $this->has('scopes'); }
-    /** @return string
-     * @throws SdkError When secret_key is omitted; use hasSecretKey() or valueOrDefault().
-     */
-    public function getSecretKey(): string { return $this->get('secret_key'); }
-    public function hasSecretKey(): bool { return $this->has('secret_key'); }
-    /** @return string
-     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+    /** Shape $ (Value): string. Current key status. A non-revoked key is expired when expires_at is at or before the current time; otherwise it is active. Revoked keys remain revoked regardless of expires_at. Value enum: "active", "expired", "revoked".
+     * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** @return string
-     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
+     * @return ?string
      */
-    public function getUpdatedAt(): string { return $this->get('updated_at'); }
+    public function getUpdatedAt(): ?string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
+     */
+    public function getVersion(): string { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+    /** Shape $ (Value): string. One-time secret returned only when the API key is created.
+     * @return string
+     */
+    public function getSecretKey(): string { return $this->get('secret_key'); }
+    public function hasSecretKey(): bool { return $this->has('secret_key'); }
 }

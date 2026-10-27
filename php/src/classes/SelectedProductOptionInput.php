@@ -10,22 +10,26 @@ namespace Flint;
 final class SelectedProductOptionInput extends Model {
     /** @param array{'option_id': string, 'option_name': string, 'option_value_id': string, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SelectedProductOptionInput')); }
-    /** @return string
+    /** Shape $ (Value): string. Identifier of the selected product option.
+     * @return string
      * @throws SdkError When option_id is omitted; use hasOptionId() or valueOrDefault().
      */
     public function getOptionId(): string { return $this->get('option_id'); }
     public function hasOptionId(): bool { return $this->has('option_id'); }
-    /** @return string
+    /** Shape $ (Value): string. Name of the selected product option.
+     * @return string
      * @throws SdkError When option_name is omitted; use hasOptionName() or valueOrDefault().
      */
     public function getOptionName(): string { return $this->get('option_name'); }
     public function hasOptionName(): bool { return $this->has('option_name'); }
-    /** @return string
+    /** Shape $ (Value): string. Identifier of the selected option value.
+     * @return string
      * @throws SdkError When option_value_id is omitted; use hasOptionValueId() or valueOrDefault().
      */
     public function getOptionValueId(): string { return $this->get('option_value_id'); }
     public function hasOptionValueId(): bool { return $this->has('option_value_id'); }
-    /** @return string
+    /** Shape $ (Value): string. Selected value of the product option.
+     * @return string
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */
     public function getValue(): string { return $this->get('value'); }

@@ -2,9 +2,9 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fraudWarnings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/fraudWarnings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["getFraudWarning"]:r0,["listFraudWarnings"]:r0});
 export class Client {
@@ -15,66 +15,61 @@ this.fraudWarnings = Object.freeze({
       get: async (fraud_warning_id, params, options) => this.#runtime.request("getFraudWarning", _sdkRequestInput([
   "fraud_warning_id"
 ], [fraud_warning_id], [
-  "expand",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getFraudWarning", result, path))),
       getWithResponse: async (fraud_warning_id, params, options) => this.#runtime.request("getFraudWarning", _sdkRequestInput([
   "fraud_warning_id"
 ], [fraud_warning_id], [
-  "expand",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       list: async (params, options) => this.#runtime.request("listFraudWarnings", _sdkRequestInput([], [], [
-  "actionable",
+  "is_actionable",
   "payment_intent_id",
+  "created_after",
+  "created_before",
   "page_size",
   "page_token",
-  "X-Request-Id"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listFraudWarnings", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listFraudWarnings", _sdkRequestInput([], [], [
-  "actionable",
+  "is_actionable",
   "payment_intent_id",
+  "created_after",
+  "created_before",
   "page_size",
   "page_token",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listFraudWarnings", _sdkRequestInput([], [], [
-  "actionable",
+  "is_actionable",
   "payment_intent_id",
+  "created_after",
+  "created_before",
   "page_size",
   "page_token",
-  "X-Request-Id"
-], false, false, params), options), []),
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listFraudWarnings", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listFraudWarnings", _sdkRequestInput([], [], [
-  "actionable",
+  "is_actionable",
   "payment_intent_id",
+  "created_after",
+  "created_before",
   "page_size",
   "page_token",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listFraudWarnings", _sdkRequestInput([], [], [
-  "actionable",
+  "is_actionable",
   "payment_intent_id",
+  "created_after",
+  "created_before",
   "page_size",
   "page_token",
-  "X-Request-Id"
+  "expand"
 ], false, false, params), options),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeFraudWarningResponse } from '../models/FraudWarningResponse.js';
-export { makeFraudWarningListResponse } from '../models/FraudWarningListResponse.js';
-export { makeFraudWarning } from '../models/FraudWarning.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';
-export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
-export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
-export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
-export { makePublicFraudWarningPaymentSummary } from '../models/PublicFraudWarningPaymentSummary.js';

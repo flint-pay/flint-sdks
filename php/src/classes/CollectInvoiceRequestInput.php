@@ -8,12 +8,14 @@ namespace Flint;
 final class CollectInvoiceRequestInput extends Model {
     /** @param array{'invoice_schedule_entry_id'?: string, 'payment_method_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CollectInvoiceRequestInput')); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      * @throws SdkError When invoice_schedule_entry_id is omitted; use hasInvoiceScheduleEntryId() or valueOrDefault().
      */
     public function getInvoiceScheduleEntryId(): string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** @return string
+    /** Shape $ (Value): string. minLength: 1.
+     * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }

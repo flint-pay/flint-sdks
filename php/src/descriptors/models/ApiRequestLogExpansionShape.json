@@ -1,1 +1,0 @@
-{"shared":"ApiRequestLogExpansionShape","phpRepresentation":{"kind":"record","fields":{"path":{"kind":"value","type":"string"},"shape":{"kind":"value","type":"string"}}},"dependencies":["ApiRequestLogExpansionShape"]}

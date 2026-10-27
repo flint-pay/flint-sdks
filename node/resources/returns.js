@@ -2,31 +2,21 @@ import { responsePayload as _sdkPayload, sdkResponse as _sdkResponse, payloadPag
 import { requestInput as _sdkRequestInput } from '../request.js';
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returns.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import r0 from '../descriptors/resources/returns.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import settings from '../descriptors/settings.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["addReturnLineItem"]:r0,["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnAccessLink"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processExistingReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineInspection"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnAccessLink"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnLineItem"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnActivities"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineItemInspection"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.returns = Object.freeze({
-      addLineItem: async (return_id, params, options) => this.#runtime.request("addReturnLineItem", _sdkRequestInput([
-  "return_id"
-], [return_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      addLineItemWithResponse: async (return_id, params, options) => this.#runtime.request("addReturnLineItem", _sdkRequestInput([
-  "return_id"
-], [return_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
       cancel: async (return_id, params, options) => this.#runtime.request("cancelReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelReturn", result, path))),
       cancelWithResponse: async (return_id, params, options) => this.#runtime.request("cancelReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -37,7 +27,7 @@ this.returns = Object.freeze({
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelReturnLineItem", result, path))),
       cancelLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("cancelReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
@@ -48,7 +38,7 @@ this.returns = Object.freeze({
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("completeReturn", result, path))),
       completeWithResponse: async (return_id, params, options) => this.#runtime.request("completeReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -56,27 +46,25 @@ this.returns = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
       create: async (params, options) => this.#runtime.request("createReturn", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturn", result, path))),
       createWithResponse: async (params, options) => this.#runtime.request("createReturn", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createAccessLink: async (return_id, params, options) => this.#runtime.request("createReturnAccessLink", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"])),
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnAccessLink", result, path))),
       createAccessLinkWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnAccessLink", _sdkRequestInput([
   "return_id"
 ], [return_id], [
-  "Idempotency-Key",
-  "X-Request-Id"
+  "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
       createDisposition: async (return_id, params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnDisposition", result, path))),
       createDispositionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -86,8 +74,18 @@ this.returns = Object.freeze({
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnInspection", result, path))),
       createInspectionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnInspection", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(_sdkResponse),
+      addLineItem: async (return_id, params, options) => this.#runtime.request("createReturnLineItem", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "Idempotency-Key"
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnLineItem", result, path))),
+      addLineItemWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnLineItem", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
@@ -96,7 +94,7 @@ this.returns = Object.freeze({
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnReceipt", result, path))),
       createReceiptWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnReceipt", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -106,7 +104,7 @@ this.returns = Object.freeze({
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnResolution", result, path))),
       createResolutionWithResponse: async (return_id, params, options) => this.#runtime.request("createReturnResolution", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -116,7 +114,7 @@ this.returns = Object.freeze({
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("decideReturn", result, path))),
       decideWithResponse: async (return_id, params, options) => this.#runtime.request("decideReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -126,19 +124,21 @@ this.returns = Object.freeze({
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
+  "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteReturnLineItem", result, path))),
       deleteLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("deleteReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
+  "expected_version",
   "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
       get: async (return_id, params, options) => this.#runtime.request("getReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "expand"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getReturn", result, path))),
       getWithResponse: async (return_id, params, options) => this.#runtime.request("getReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -147,11 +147,46 @@ this.returns = Object.freeze({
       getLineItem: async (return_id, return_line_item_id, params, options) => this.#runtime.request("getReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
-], [return_id, return_line_item_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"])),
+], [return_id, return_line_item_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getReturnLineItem", result, path))),
       getLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("getReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [], false, false, params), options).then(_sdkResponse),
+      listActivities: async (return_id, params, options) => this.#runtime.request("listReturnActivities", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "page_size",
+  "page_token",
+  "sort_direction"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listReturnActivities", result, path))),
+      listActivitiesWithResponse: async (return_id, params, options) => this.#runtime.request("listReturnActivities", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "page_size",
+  "page_token",
+  "sort_direction"
+], false, false, params), options).then(_sdkResponse),
+      listActivitiesPages: (return_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listReturnActivities", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "page_size",
+  "page_token",
+  "sort_direction"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listReturnActivities", result, path)),
+      listActivitiesPagesWithResponse: (return_id, params, options) => _sdkResponsePages(this.#runtime.pages("listReturnActivities", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "page_size",
+  "page_token",
+  "sort_direction"
+], false, false, params), options)),
+      listActivitiesItems: (return_id, params, options) => this.#runtime.items("listReturnActivities", _sdkRequestInput([
+  "return_id"
+], [return_id], [
+  "page_size",
+  "page_token",
+  "sort_direction"
+], false, false, params), options),
       listLineItems: async (return_id, params, options) => this.#runtime.request("listReturnLineItems", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -163,7 +198,7 @@ this.returns = Object.freeze({
   "resolution_status",
   "return_reason_id",
   "status"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listReturnLineItems", result, path))),
       listLineItemsWithResponse: async (return_id, params, options) => this.#runtime.request("listReturnLineItems", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -187,7 +222,7 @@ this.returns = Object.freeze({
   "resolution_status",
   "return_reason_id",
   "status"
-], false, false, params), options), []),
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listReturnLineItems", result, path)),
       listLineItemsPagesWithResponse: (return_id, params, options) => _sdkResponsePages(this.#runtime.pages("listReturnLineItems", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -228,11 +263,14 @@ this.returns = Object.freeze({
   "resolution_type",
   "return_number",
   "return_reason_id",
+  "sort_by",
+  "sort_direction",
   "status",
   "updated_after",
   "updated_before",
-  "work_type"
-], false, false, params), options).then(result => _sdkPayload(result, [])),
+  "work_type",
+  "expand"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listReturns", result, path))),
       listWithResponse: async (params, options) => this.#runtime.request("listReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -249,10 +287,13 @@ this.returns = Object.freeze({
   "resolution_type",
   "return_number",
   "return_reason_id",
+  "sort_by",
+  "sort_direction",
   "status",
   "updated_after",
   "updated_before",
-  "work_type"
+  "work_type",
+  "expand"
 ], false, false, params), options).then(_sdkResponse),
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -270,11 +311,14 @@ this.returns = Object.freeze({
   "resolution_type",
   "return_number",
   "return_reason_id",
+  "sort_by",
+  "sort_direction",
   "status",
   "updated_after",
   "updated_before",
-  "work_type"
-], false, false, params), options), []),
+  "work_type",
+  "expand"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listReturns", result, path)),
       listPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -291,10 +335,13 @@ this.returns = Object.freeze({
   "resolution_type",
   "return_number",
   "return_reason_id",
+  "sort_by",
+  "sort_direction",
   "status",
   "updated_after",
   "updated_before",
-  "work_type"
+  "work_type",
+  "expand"
 ], false, false, params), options)),
       listItems: (params, options) => this.#runtime.items("listReturns", _sdkRequestInput([], [], [
   "created_after",
@@ -312,17 +359,20 @@ this.returns = Object.freeze({
   "resolution_type",
   "return_number",
   "return_reason_id",
+  "sort_by",
+  "sort_direction",
   "status",
   "updated_after",
   "updated_before",
-  "work_type"
+  "work_type",
+  "expand"
 ], false, false, params), options),
-      processExisting: async (return_id, params, options) => this.#runtime.request("processExistingReturn", _sdkRequestInput([
+      processExisting: async (return_id, params, options) => this.#runtime.request("processReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      processExistingWithResponse: async (return_id, params, options) => this.#runtime.request("processExistingReturn", _sdkRequestInput([
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("processReturn", result, path))),
+      processExistingWithResponse: async (return_id, params, options) => this.#runtime.request("processReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
@@ -331,7 +381,7 @@ this.returns = Object.freeze({
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("reopenReturn", result, path))),
       reopenWithResponse: async (return_id, params, options) => this.#runtime.request("reopenReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -341,7 +391,7 @@ this.returns = Object.freeze({
   "return_id"
 ], [return_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateReturn", result, path))),
       updateWithResponse: async (return_id, params, options) => this.#runtime.request("updateReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -352,20 +402,20 @@ this.returns = Object.freeze({
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateReturnLineItem", result, path))),
       updateLineItemWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("updateReturnLineItem", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      waiveLineInspection: async (return_id, return_line_item_id, params, options) => this.#runtime.request("waiveReturnLineInspection", _sdkRequestInput([
+      waiveLineInspection: async (return_id, return_line_item_id, params, options) => this.#runtime.request("waiveReturnLineItemInspection", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"])),
-      waiveLineInspectionWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("waiveReturnLineInspection", _sdkRequestInput([
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("waiveReturnLineItemInspection", result, path))),
+      waiveLineInspectionWithResponse: async (return_id, return_line_item_id, params, options) => this.#runtime.request("waiveReturnLineItemInspection", _sdkRequestInput([
   "return_id",
   "return_line_item_id"
 ], [return_id, return_line_item_id], [
@@ -373,114 +423,40 @@ this.returns = Object.freeze({
 ], true, true, params), options).then(_sdkResponse),
     });
 }
+[Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeAddReturnLineItemResponse } from '../models/AddReturnLineItemResponse.js';
-export { makeCancelReturnResponse } from '../models/CancelReturnResponse.js';
-export { makeCancelReturnLineItemResponse } from '../models/CancelReturnLineItemResponse.js';
-export { makeCompleteReturnResponse } from '../models/CompleteReturnResponse.js';
-export { makeCreateReturnResponse } from '../models/CreateReturnResponse.js';
-export { makeAccessLinkResponse } from '../models/AccessLinkResponse.js';
-export { makeCreateReturnDispositionResponse } from '../models/CreateReturnDispositionResponse.js';
-export { makeCreateReturnInspectionResponse } from '../models/CreateReturnInspectionResponse.js';
-export { makeCreateReturnReceiptResponse } from '../models/CreateReturnReceiptResponse.js';
-export { makeCreateReturnResolutionResponse } from '../models/CreateReturnResolutionResponse.js';
-export { makeDecideReturnResponse } from '../models/DecideReturnResponse.js';
-export { makeDeleteReturnLineItemResponse } from '../models/DeleteReturnLineItemResponse.js';
-export { makeGetReturnResponse } from '../models/GetReturnResponse.js';
-export { makeGetReturnLineItemResponse } from '../models/GetReturnLineItemResponse.js';
-export { makeListReturnLineItemsResponse } from '../models/ListReturnLineItemsResponse.js';
-export { makeReturnLineItem } from '../models/ReturnLineItem.js';
-export { makeListReturnsResponse } from '../models/ListReturnsResponse.js';
-export { makeReturnResource } from '../models/ReturnResource.js';
-export { makeProcessExistingReturnResponse } from '../models/ProcessExistingReturnResponse.js';
-export { makeReopenReturnResponse } from '../models/ReopenReturnResponse.js';
-export { makeUpdateReturnResponse } from '../models/UpdateReturnResponse.js';
-export { makeUpdateReturnLineItemResponse } from '../models/UpdateReturnLineItemResponse.js';
-export { makeWaiveReturnLineInspectionResponse } from '../models/WaiveReturnLineInspectionResponse.js';
-export { makeResponseMeta } from '../models/ResponseMeta.js';
-export { makeResponseWarning } from '../models/ResponseWarning.js';
-export { makeNextAction } from '../models/NextAction.js';
-export { makeNextActionMerchantAccountSession } from '../models/NextActionMerchantAccountSession.js';
+export { makeAddReturnLineItemRequest } from '../models/AddReturnLineItemRequest.js';
+export { makeCancelReturnLineItemRequest } from '../models/CancelReturnLineItemRequest.js';
+export { makeCancelReturnRequest } from '../models/CancelReturnRequest.js';
+export { makeCompleteReturnRequest } from '../models/CompleteReturnRequest.js';
+export { makeCreateReturnDispositionRequest } from '../models/CreateReturnDispositionRequest.js';
+export { makeCreateReturnInspectionRequest } from '../models/CreateReturnInspectionRequest.js';
+export { makeCreateReturnReceiptRequest } from '../models/CreateReturnReceiptRequest.js';
+export { makeCreateReturnRequest } from '../models/CreateReturnRequest.js';
+export { makeCreateReturnResolutionRequest } from '../models/CreateReturnResolutionRequest.js';
+export { makeCreateReturnResolutionRequestCorrection } from '../models/CreateReturnResolutionRequestCorrection.js';
+export { makeCreateReturnResolutionRequestStandard } from '../models/CreateReturnResolutionRequestStandard.js';
+export { makeDecideReturnRequest } from '../models/DecideReturnRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeAccessLink } from '../models/AccessLink.js';
-export { makeCancelReturnDispositionResponse } from '../models/CancelReturnDispositionResponse.js';
-export { makeGetReturnDispositionResponse } from '../models/GetReturnDispositionResponse.js';
-export { makeRetryReturnDispositionResponse } from '../models/RetryReturnDispositionResponse.js';
-export { makeReturnDisposition } from '../models/ReturnDisposition.js';
-export { makeReturnActor } from '../models/ReturnActor.js';
-export { makeDecideReturnInspectionLineItemResponse } from '../models/DecideReturnInspectionLineItemResponse.js';
-export { makeGetReturnInspectionResponse } from '../models/GetReturnInspectionResponse.js';
-export { makeReturnInspection } from '../models/ReturnInspection.js';
-export { makeReturnInspectionLineItem } from '../models/ReturnInspectionLineItem.js';
-export { makeGetReturnReceiptResponse } from '../models/GetReturnReceiptResponse.js';
-export { makeVerifyReturnReceiptLineItemResponse } from '../models/VerifyReturnReceiptLineItemResponse.js';
-export { makeReturnReceipt } from '../models/ReturnReceipt.js';
-export { makeReturnReceiptLineItem } from '../models/ReturnReceiptLineItem.js';
+export { makeProcessExistingReturnLineItemRequest } from '../models/ProcessExistingReturnLineItemRequest.js';
+export { makeProcessExistingReturnRequest } from '../models/ProcessExistingReturnRequest.js';
+export { makeReopenReturnRequest } from '../models/ReopenReturnRequest.js';
+export { makeReturnInspectionLineItemRequest } from '../models/ReturnInspectionLineItemRequest.js';
+export { makeReturnLineDecision } from '../models/ReturnLineDecision.js';
+export { makeReturnLineItemRequest } from '../models/ReturnLineItemRequest.js';
+export { makeReturnProcessDecision } from '../models/ReturnProcessDecision.js';
+export { makeReturnProcessDispositionRequest } from '../models/ReturnProcessDispositionRequest.js';
+export { makeReturnProcessInspectionRequest } from '../models/ReturnProcessInspectionRequest.js';
+export { makeReturnProcessReceiptRequest } from '../models/ReturnProcessReceiptRequest.js';
+export { makeReturnProcessResolutionRequest } from '../models/ReturnProcessResolutionRequest.js';
+export { makeReturnReceiptLineItemRequest } from '../models/ReturnReceiptLineItemRequest.js';
+export { makeReturnReplacementLineItemRequest } from '../models/ReturnReplacementLineItemRequest.js';
+export { makeReturnResolutionAdjustmentRequest } from '../models/ReturnResolutionAdjustmentRequest.js';
+export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
+export { makeReturnSourceSystem } from '../models/ReturnSourceSystem.js';
 export { makeReturnUnverifiedItem } from '../models/ReturnUnverifiedItem.js';
-export { makeCancelReturnResolutionResponse } from '../models/CancelReturnResolutionResponse.js';
-export { makeConfirmReturnResolutionResponse } from '../models/ConfirmReturnResolutionResponse.js';
-export { makeGetReturnResolutionResponse } from '../models/GetReturnResolutionResponse.js';
-export { makeReleaseReturnResolutionResponse } from '../models/ReleaseReturnResolutionResponse.js';
-export { makeRetryReturnResolutionResponse } from '../models/RetryReturnResolutionResponse.js';
-export { makeUpdateReturnResolutionResponse } from '../models/UpdateReturnResolutionResponse.js';
-export { makeReturnResolution } from '../models/ReturnResolution.js';
-export { makeReturnResolutionAdjustment } from '../models/ReturnResolutionAdjustment.js';
-export { makeReturnResolutionExecutionBlocker } from '../models/ReturnResolutionExecutionBlocker.js';
-export { makeReturnResolutionLineItem } from '../models/ReturnResolutionLineItem.js';
-export { makeExpandedPaymentIntentSummary } from '../models/ExpandedPaymentIntentSummary.js';
-export { makePaymentSourceSummary } from '../models/PaymentSourceSummary.js';
-export { makePaymentSourceAchDebitSummary } from '../models/PaymentSourceAchDebitSummary.js';
-export { makePaymentSourceCardSummary } from '../models/PaymentSourceCardSummary.js';
-export { makeRefund } from '../models/Refund.js';
-export { makeRefundLineItemAllocation } from '../models/RefundLineItemAllocation.js';
-export { makeRefundLineItemAdjustmentRefund } from '../models/RefundLineItemAdjustmentRefund.js';
-export { makeRefundLineItemAdjustment } from '../models/RefundLineItemAdjustment.js';
-export { makeRefundAdjustmentReason } from '../models/RefundAdjustmentReason.js';
-export { makeRefundLineItemAutomaticRefund } from '../models/RefundLineItemAutomaticRefund.js';
-export { makeCategoryReference } from '../models/CategoryReference.js';
-export { makeRefundLineItemModifierAllocation } from '../models/RefundLineItemModifierAllocation.js';
-export { makeSelectedProductOption } from '../models/SelectedProductOption.js';
-export { makeRefundTaxBreakdownRefund } from '../models/RefundTaxBreakdownRefund.js';
-export { makePricingAmounts } from '../models/PricingAmounts.js';
-export { makeSettlementAmounts } from '../models/SettlementAmounts.js';
-export { makeSignedMoney } from '../models/SignedMoney.js';
-export { makePaymentRefund } from '../models/PaymentRefund.js';
-export { makeRefundTenderAllocation } from '../models/RefundTenderAllocation.js';
-export { makeRefundGiftCardDestination } from '../models/RefundGiftCardDestination.js';
-export { makeRefundUnissuedGiftCardRecovery } from '../models/RefundUnissuedGiftCardRecovery.js';
-export { makeReturnReplacementLineItem } from '../models/ReturnReplacementLineItem.js';
-export { makeBundleComponent } from '../models/BundleComponent.js';
-export { makeBundleComponentVariantSummary } from '../models/BundleComponentVariantSummary.js';
-export { makeReturnLineItemEligibility } from '../models/ReturnLineItemEligibility.js';
-export { makeReturnLineItemDecisionProposal } from '../models/ReturnLineItemDecisionProposal.js';
-export { makeReturnPolicyAdjustmentProposal } from '../models/ReturnPolicyAdjustmentProposal.js';
-export { makeFulfillmentHold } from '../models/FulfillmentHold.js';
-export { makeFulfillmentChargeLink } from '../models/FulfillmentChargeLink.js';
-export { makeDigitalFulfillmentDetails } from '../models/DigitalFulfillmentDetails.js';
-export { makeFulfillmentLineItem } from '../models/FulfillmentLineItem.js';
-export { makeOrderLineItemModifier } from '../models/OrderLineItemModifier.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeDeliveryFulfillmentDetails } from '../models/DeliveryFulfillmentDetails.js';
-export { makeFulfillmentOutcome } from '../models/FulfillmentOutcome.js';
-export { makeExpandedPackageSummary } from '../models/ExpandedPackageSummary.js';
-export { makePickupFulfillmentDetails } from '../models/PickupFulfillmentDetails.js';
-export { makeAddress } from '../models/Address.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeFulfillmentRecipient } from '../models/FulfillmentRecipient.js';
-export { makeServiceFulfillmentDetails } from '../models/ServiceFulfillmentDetails.js';
-export { makeExpandedShipmentSummary } from '../models/ExpandedShipmentSummary.js';
-export { makeImage } from '../models/Image.js';
-export { makeReturnLineItemValue } from '../models/ReturnLineItemValue.js';
-export { makeBuyerAction } from '../models/BuyerAction.js';
-export { makeReturnCompletionBlocker } from '../models/ReturnCompletionBlocker.js';
-export { makeReturnFinancialSummary } from '../models/ReturnFinancialSummary.js';
-export { makeReturnHandoffRequirement } from '../models/ReturnHandoffRequirement.js';
-export { makeReturnHandoffDestination } from '../models/ReturnHandoffDestination.js';
-export { makeReturnHandoffRequirementLineItem } from '../models/ReturnHandoffRequirementLineItem.js';
-export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
-export { makeReturnPolicyEvaluation } from '../models/ReturnPolicyEvaluation.js';
-export { makeReturnPolicyEvaluationLineItem } from '../models/ReturnPolicyEvaluationLineItem.js';
-export { makeReturnProcessResult } from '../models/ReturnProcessResult.js';
-export { makeResolvePaymentLinkTextModifierRequest } from '../models/ResolvePaymentLinkTextModifierRequest.js';
+export { makeUpdateReturnLineItemRequest } from '../models/UpdateReturnLineItemRequest.js';
 export { makeUpdateReturnRequest } from '../models/UpdateReturnRequest.js';
+export { makeWaiveReturnLineInspectionRequest } from '../models/WaiveReturnLineInspectionRequest.js';

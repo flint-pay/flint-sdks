@@ -8,12 +8,14 @@ namespace Flint;
 final class DeliveryCallerSuppliedPricingStrategyRequestInput extends Model {
     /** @param array{'maximum_fee_currency_options': array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'minimum_fee_currency_options': array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryCallerSuppliedPricingStrategyRequestInput')); }
-    /** @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
+    /** Shape $ (Value): Map of {@see MoneyValueInput}. Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When maximum_fee_currency_options is omitted; use hasMaximumFeeCurrencyOptions() or valueOrDefault().
      */
     public function getMaximumFeeCurrencyOptions(): array|object { return $this->get('maximum_fee_currency_options'); }
     public function hasMaximumFeeCurrencyOptions(): bool { return $this->has('maximum_fee_currency_options'); }
-    /** @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
+    /** Shape $ (Value): Map of {@see MoneyValueInput}. Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. Shape $.* (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When minimum_fee_currency_options is omitted; use hasMinimumFeeCurrencyOptions() or valueOrDefault().
      */
     public function getMinimumFeeCurrencyOptions(): array|object { return $this->get('minimum_fee_currency_options'); }

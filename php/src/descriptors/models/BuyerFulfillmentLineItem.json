@@ -1,0 +1,1 @@
+{"shared":"BuyerFulfillmentLineItem","phpRepresentation":{"kind":"record","fields":{"modifiers":{"kind":"list","value":{"kind":"entity","name":"BuyerOrderLineItemModifier"}},"order_line_item_id":{"kind":"value","type":"string"},"quantity":{"kind":"value","type":"string"}}},"dependencies":["BuyerFulfillmentLineItem","BuyerOrderLineItemModifier","MoneyValue","TextModifierRequest"]}

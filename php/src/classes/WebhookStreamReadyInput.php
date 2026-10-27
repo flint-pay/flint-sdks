@@ -7,7 +7,8 @@ namespace Flint;
 final class WebhookStreamReadyInput extends Model {
     /** @param array{'cursor'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookStreamReadyInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When cursor is omitted; use hasCursor() or valueOrDefault().
      */
     public function getCursor(): string { return $this->get('cursor'); }

@@ -1,55 +1,75 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { WebhookEventType } from '../declarations/WebhookEventType.js';
-import type { WebhookEventTypeListResponse } from '../declarations/WebhookEventTypeListResponse.js';
-import type { WebhookEventTypesListInput } from '../declarations/WebhookEventTypesListInput.js';
-import type { WebhookEventTypesListResponse } from '../declarations/WebhookEventTypesListResponse.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { WebhookEventType, WebhookEventTypeListResponse, WebhookEventTypesListInput } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceType } from '../declarations/types-40.js';
+export type { WebhookEventTypeListResponse, WebhookEventType, WebhookEventTypesListInput } from '../declarations/types-54.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
 export interface WebhookEventTypesResource {
     /**
- * Returns the webhook event types that can be used in enabled_events and event_type filters, grouped by the event source each type is valid for.
+ * Returns every webhook event type you can use in enabled_events and event filters, with the event
+ * sources each type is valid for.
+ * @see reference/webhookEventTypes.md#webhookeventtypeslist
  * GET /v1/webhook-event-types
  * @example
  * client.webhookEventTypes.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookEventTypeListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookEventTypesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookEventTypeListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<WebhookEventTypesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookEventType>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly webhookEventTypes: WebhookEventTypesResource;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<WebhookEventTypeListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/webhookEventTypes.md#webhookeventtypeslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<WebhookEventTypeListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/webhookEventTypes.md#webhookeventtypeslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookEventTypeListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/webhookEventTypes.md#webhookeventtypeslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<WebhookEventTypeListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/webhookEventTypes.md#webhookeventtypeslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<WebhookEventType>;
 }
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { WebhookEventTypeListResponse } from '../declarations/WebhookEventTypeListResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { WebhookEventTypesListResponse } from '../declarations/WebhookEventTypesListResponse.js';
-export type { WebhookEventType } from '../declarations/WebhookEventType.js';
-export type { WebhookEventTypesListInput } from '../declarations/WebhookEventTypesListInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { PaymentMethodDomainsListInput } from '../declarations/PaymentMethodDomainsListInput.js';
-export { makeWebhookEventTypeListResponse } from '../declarations/makeWebhookEventTypeListResponse.js';
-export { makeWebhookEventType } from '../declarations/makeWebhookEventType.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly webhookEventTypes: WebhookEventTypesResource;
+}

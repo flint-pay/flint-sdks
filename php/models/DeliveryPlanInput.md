@@ -1,0 +1,10 @@
+[Model index](../MODELS.md) · [Runtime guide](../RUNTIME.md)
+
+## DeliveryPlanInput
+
+Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count.
+
+Request input.
+
+Fields, types, descriptions and enum values: [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionDeliveryPlan](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionDeliveryPlan.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoptiondeliveryplan).
+

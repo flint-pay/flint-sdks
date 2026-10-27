@@ -1,9 +1,16 @@
-import { d323 as c0, d2057 as c1, d2254 as c2, d2255 as c3, d2256 as c4, d2258 as c5, d2276 as c6, d1994 as c7, d2201 as c8, d2202 as c9, d2205 as c10, d2204 as c11, d2203 as c12, d2208 as c13, d2207 as c14, d2206 as c15, d2211 as c16, d2210 as c17, d2209 as c18, d2214 as c19, d2213 as c20, d2212 as c21, d2216 as c22, d2215 as c23, d2227 as c24, d2219 as c25, d2217 as c26, d2218 as c27, d2221 as c28, d2220 as c29, d2224 as c30, d2222 as c31, d2223 as c32, d2226 as c33, d2225 as c34, d2271 as c35, d2270 as c36, d2273 as c37, d2272 as c38, d2274 as c39 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d2057 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d3000 as c0 } from '../descriptors/data/114.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4931 as c1 } from '../descriptors/data/224.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4939 as c2, d4940 as c3, d4941 as c4, d4943 as c5 } from '../descriptors/data/225.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4902 as c6 } from '../descriptors/data/222.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4949 as c7, d4950 as c8 } from '../descriptors/data/226.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4894 as c9, d4895 as c10, d4896 as c11, d4897 as c12, d4898 as c13 } from '../descriptors/data/221.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4978 as c14 } from '../descriptors/data/227.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d3236 as c15 } from '../descriptors/data/129.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d4931 as d4931 } from '../descriptors/data/224.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2057;
+const read = d4931;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ProcessExistingReturnLineItemRequest"]:c1(),["ReturnProcessDecision"]:c2(),["ReturnProcessDispositionRequest"]:c3(),["ReturnProcessInspectionRequest"]:c4(),["ReturnProcessResolutionRequest"]:c5(),["ReturnReplacementLineItemRequest"]:c6(),["SharedCodec501"]:c7(),["SharedCodec530"]:c8(),["SharedCodec531"]:c9(),["SharedCodec532"]:c10(),["SharedCodec533"]:c11(),["SharedCodec534"]:c12(),["SharedCodec535"]:c13(),["SharedCodec536"]:c14(),["SharedCodec537"]:c15(),["SharedCodec538"]:c16(),["SharedCodec539"]:c17(),["SharedCodec540"]:c18(),["SharedCodec541"]:c19(),["SharedCodec542"]:c20(),["SharedCodec543"]:c21(),["SharedCodec544"]:c22(),["SharedCodec545"]:c23(),["SharedCodec546"]:c24(),["SharedCodec547"]:c25(),["SharedCodec548"]:c26(),["SharedCodec549"]:c27(),["SharedCodec550"]:c28(),["SharedCodec551"]:c29(),["SharedCodec552"]:c30(),["SharedCodec553"]:c31(),["SharedCodec554"]:c32(),["SharedCodec555"]:c33(),["SharedCodec556"]:c34(),["SharedCodec574"]:c35(),["SharedCodec575"]:c36(),["SharedCodec576"]:c37(),["SharedCodec577"]:c38(),["SharedCodec578"]:c39()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["ProcessExistingReturnLineItemRequest"]:c1(),["ReturnProcessDecision"]:c2(),["ReturnProcessDispositionRequest"]:c3(),["ReturnProcessInspectionRequest"]:c4(),["ReturnProcessResolutionRequest"]:c5(),["ReturnReplacementLineItemRequest"]:c6(),["SharedCodec1073"]:c7(),["SharedCodec1074"]:c8(),["SharedCodec1096"]:c9(),["SharedCodec1097"]:c10(),["SharedCodec1098"]:c11(),["SharedCodec1099"]:c12(),["SharedCodec1100"]:c13(),["SharedCodec205"]:c14(),["SharedCodec34"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeProcessExistingReturnLineItemRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

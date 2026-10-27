@@ -2,26 +2,26 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $email
- * @property-read string $phone
- * @property-read string $url
- * Presence-aware response; omitted fields throw when accessed. */
+ * @property-read ?string $email
+ * @property-read ?string $phone
+ * @property-read ?string $url
+ * Presence-aware response; omitted optional fields return null. */
 final class CheckoutMerchantSupport extends Model {
     /** @param array{'email'?: string, 'phone'?: string, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutMerchantSupport')); }
-    /** @return string
-     * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
+    /** Shape $ (Value): string. Support email address. Format: email.
+     * @return ?string
      */
-    public function getEmail(): string { return $this->get('email'); }
+    public function getEmail(): ?string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** @return string
-     * @throws SdkError When phone is omitted; use hasPhone() or valueOrDefault().
+    /** Shape $ (Value): string. Support phone number.
+     * @return ?string
      */
-    public function getPhone(): string { return $this->get('phone'); }
+    public function getPhone(): ?string { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** @return string
-     * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
+    /** Shape $ (Value): string. Support page, as an absolute http or https URL. Format: uri.
+     * @return ?string
      */
-    public function getUrl(): string { return $this->get('url'); }
+    public function getUrl(): ?string { return $this->get('url'); }
     public function hasUrl(): bool { return $this->has('url'); }
 }

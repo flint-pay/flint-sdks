@@ -1,1 +1,1 @@
-{"shared":"Webhook_inventory_reservation_released_merchant","dependencies":["MerchantWebhookEnvelope","SharedCodec176","SharedCodec250","Webhook_inventory_reservation_released_merchant"]}
+{"shared":"Webhook_inventory_reservation_released_merchant","dependencies":["InventoryActionRequired","InventoryReservation","InventoryReservationLine","InventoryReservationOwner","InventoryRoutingSource","MerchantWebhookEnvelope","SharedCodec368","SharedCodec369","SharedCodec600","SharedCodec843","SharedCodec844","Webhook_inventory_reservation_released_merchant"]}

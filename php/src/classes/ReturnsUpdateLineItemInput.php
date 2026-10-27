@@ -9,22 +9,26 @@ namespace Flint;
 final class ReturnsUpdateLineItemInput extends Model {
     /** @param array{'return_id': string, 'return_line_item_id': string, 'Idempotency-Key'?: string, 'body': array{'buyer_note'?: string|null, 'expected_version'?: string, 'requested_quantity'?: string, 'requested_resolution_type'?: string|null, 'return_reason_id'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsUpdateLineItemInput')); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** @return string
+    /** Shape $ (Value): string.
+     * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** @return string
+    /** Shape $ (Value): string. maxLength: 255.
+     * @return string
      * @throws SdkError When Idempotency-Key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
-    /** @return array{'buyer_note'?: string|null, 'expected_version'?: string, 'requested_quantity'?: string, 'requested_resolution_type'?: string|null, 'return_reason_id'?: string}|object
+    /** Shape $ (Value): object. The request body for: Update return line item.
+     * @return array{'buyer_note'?: string|null, 'expected_version'?: string, 'requested_quantity'?: string, 'requested_resolution_type'?: string|null, 'return_reason_id'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

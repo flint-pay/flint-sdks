@@ -1,1 +1,1 @@
-{"shared":"BalanceListResponse","dependencies":["Balance","BalanceListResponse","MoneyMovementHistoryMeta","MoneyMovementListMeta","MoneyValue","NextAction","NextActionMerchantAccountSession","ResponseWarning","SharedCodec1","SharedCodec467","SignedMoney"]}
+{"shared":"BalanceListResponse","dependencies":["Balance","BalanceListResponse","MoneyMovementHistoryMeta","MoneyMovementListMeta","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec963","SignedMoney"]}

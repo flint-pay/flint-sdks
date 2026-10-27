@@ -1,128 +1,195 @@
-export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-export type { Result, Metadata, ErrorKind, DiagnosticEvent, InputValue, ServerSentEvent } from '../runtime.js';
 import type { InputValue } from '../runtime.js';
-import type { ClientOptions } from '../declarations/ClientOptions.js';
-import type { CreateDeviceResponse } from '../declarations/CreateDeviceResponse.js';
-import type { Device } from '../declarations/Device.js';
-import type { DeviceListResponse } from '../declarations/DeviceListResponse.js';
-import type { DeviceResponse } from '../declarations/DeviceResponse.js';
-import type { DevicesCreateInput } from '../declarations/DevicesCreateInput.js';
-import type { DevicesCreateResponse } from '../declarations/DevicesCreateResponse.js';
-import type { DevicesGetInput } from '../declarations/DevicesGetInput.js';
-import type { DevicesGetResponse } from '../declarations/DevicesGetResponse.js';
-import type { DevicesListInput } from '../declarations/DevicesListInput.js';
-import type { DevicesListResponse } from '../declarations/DevicesListResponse.js';
-import type { DevicesRemoveInput } from '../declarations/DevicesRemoveInput.js';
-import type { DevicesRemoveResponse } from '../declarations/DevicesRemoveResponse.js';
-import type { DevicesUpdateInput } from '../declarations/DevicesUpdateInput.js';
-import type { DevicesUpdateResponse } from '../declarations/DevicesUpdateResponse.js';
-import type { RequestOptions } from '../declarations/RequestOptions.js';
-import type { SdkResponse } from '../declarations/SdkResponse.js';
-import type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-import type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
+import type { ClientOptions } from '../declarations/types-4.js';
+import type { CreateDeviceRequestInput } from '../declarations/types-6.js';
+import type {
+    Device,
+    DeviceListResponse,
+    DeviceResponse,
+    DevicesCreateInput,
+    DevicesGetInput,
+    DevicesListInput,
+    DevicesRemoveInput,
+    DevicesUpdateInput
+} from '../declarations/types-16.js';
+import type { RequestOptions } from '../declarations/types-40.js';
+import type { SdkResponse } from '../declarations/types-43.js';
+import type { UpdateDeviceRequestInput } from '../declarations/types-47.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
+export type {
+    Result,
+    Metadata,
+    ErrorKind,
+    DiagnosticEvent,
+    InputValue,
+    CredentialProvider,
+    ServerSentEvent,
+    SdkErrorCode,
+    SdkErrorDetails
+} from '../runtime.js';
+export type { CreateDeviceRequestInput, CreateDeviceRequest } from '../declarations/types-6.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    Device,
+    DeviceResponse,
+    DeviceListResponse,
+    DevicesCreateInput,
+    DevicesRemoveInput,
+    DevicesGetInput,
+    DevicesListInput,
+    DevicesUpdateInput
+} from '../declarations/types-16.js';
+export type { SdkResponse } from '../declarations/types-43.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-61.js';
+export type { UpdateDeviceRequestInput } from '../declarations/types-47.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-9.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export { makeCreateDeviceRequest } from '../declarations/types-63.js';
+export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeUpdateDeviceRequest } from '../declarations/types-72.js';
 export interface DevicesResource {
     /**
- * Creates a device for the authenticated merchant. If hardware_fingerprint matches an existing device, the existing device is returned with 200 OK and data.already_existed=true.
+ * Creates a device. If an active device already has the hardware_fingerprint, returns 409
+ * ALREADY_EXISTS with reason hardware_fingerprint_already_exists and changes nothing. The
+ * details[0].current_resource field names the existing device.
+ * @see reference/devices.md#devicescreate
  * POST /v1/devices
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.devices.create({name: "example"}, { idempotencyKey: idempotencyKey })
  */
-    create(params: (InputValue<{ "hardware_fingerprint"?: string; "location_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<CreateDeviceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    createWithResponse(params: (InputValue<{ "hardware_fingerprint"?: string; "location_id"?: string; "metadata"?: Record<string, string>; "name": string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DevicesCreateResponse>>;
+    create(params: (InputValue<CreateDeviceRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Device>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/devices.md#devicescreate
+     */
+    createWithResponse(params: (InputValue<CreateDeviceRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeviceResponse>>;
     /**
- * Marks a device as deleted and returns its final state.
+ * Archives a device and releases its hardware_fingerprint for reuse. The archived device no longer
+ * returns hardware_fingerprint.
+ * @see reference/devices.md#devicesremove
  * DELETE /v1/devices/{device_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.devices.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
-    remove(device_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeviceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    removeWithResponse(device_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DevicesRemoveResponse>>;
+    remove(device_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Device>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/devices.md#devicesremove
+     */
+    removeWithResponse(device_id: InputValue<string>, params?: {
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeviceResponse>>;
     /**
  * Returns a single device by ID.
+ * @see reference/devices.md#devicesget
  * GET /v1/devices/{device_id}
  * @example
  * client.devices.get("example")
  */
-    get(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<_SdkPayloadAt<DeviceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    getWithResponse(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DevicesGetResponse>>;
+    get(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<Device>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/devices.md#devicesget
+     */
+    getWithResponse(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeviceResponse>>;
     /**
  * Returns a paginated list of devices for the authenticated merchant.
+ * @see reference/devices.md#deviceslist
  * GET /v1/devices
  * @example
  * client.devices.list()
  */
-    list(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "location_id"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeviceListResponse>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    listWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "location_id"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DevicesListResponse>>;
-    listPages(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "location_id"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeviceListResponse>;
-    listPagesWithResponse(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "location_id"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DevicesListResponse>>;
-    listItems(params?: { "page_size"?: InputValue<number>; "page_token"?: InputValue<string>; "status"?: InputValue<"active" | "deleted">; "location_id"?: InputValue<string>; "sort_by"?: InputValue<"name" | "created_at" | "updated_at">; "sort_direction"?: InputValue<"asc" | "desc"> }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Device>;
+    list(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "location_id"?: InputValue<string>;
+        "hardware_fingerprint"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<DeviceListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/devices.md#deviceslist
+     */
+    listWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "location_id"?: InputValue<string>;
+        "hardware_fingerprint"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): Promise<SdkResponse<DeviceListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/devices.md#deviceslist
+     */
+    listPages(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "location_id"?: InputValue<string>;
+        "hardware_fingerprint"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<DeviceListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/devices.md#deviceslist
+     */
+    listPagesWithResponse(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "location_id"?: InputValue<string>;
+        "hardware_fingerprint"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<SdkResponse<DeviceListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/devices.md#deviceslist
+     */
+    listItems(params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+        "status"?: InputValue<Array<"active" | "archived">>;
+        "location_id"?: InputValue<string>;
+        "hardware_fingerprint"?: InputValue<string>;
+        "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+        "sort_direction"?: InputValue<"asc" | "desc">;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "merchantKey">>): AsyncGenerator<Device>;
     /**
- * Applies a sparse update to a device. Send location_id=null to unassign a location.
+ * Applies a sparse update to a device. Send null to clear location_id or all metadata. The name
+ * field cannot be null. Archived devices return DEVICE_ARCHIVED with current_status archived.
+ * @see reference/devices.md#devicesupdate
  * PATCH /v1/devices/{device_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.devices.update("example", {}, { idempotencyKey: idempotencyKey })
  */
-    update(device_id: InputValue<string>, params: (InputValue<{ "location_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<_SdkPayloadAt<DeviceResponse, ["data"]>>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping. */
-    updateWithResponse(device_id: InputValue<string>, params: (InputValue<{ "location_id"?: string; "metadata"?: Record<string, string | null> | null; "name"?: string; }>) & { "Idempotency-Key"?: InputValue<string>; "X-Request-Id"?: InputValue<string> }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DevicesUpdateResponse>>;
-  }
-export declare class Client {
-
-  constructor(options?: ClientOptions);
-
-  close(): Promise<void>;
-readonly devices: DevicesResource;
+    update(device_id: InputValue<string>, params: (InputValue<UpdateDeviceRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<Device>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/devices.md#devicesupdate
+     */
+    updateWithResponse(device_id: InputValue<string>, params: (InputValue<UpdateDeviceRequestInput>) & {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant" | "merchantKey">): Promise<SdkResponse<DeviceResponse>>;
 }
-export type { RequestOptions } from '../declarations/RequestOptions.js';
-export type { _SdkPayloadAt } from '../declarations/_SdkPayloadAt.js';
-export type { CreateDeviceResponse } from '../declarations/CreateDeviceResponse.js';
-export type { SdkResponse } from '../declarations/SdkResponse.js';
-export type { DevicesCreateResponse } from '../declarations/DevicesCreateResponse.js';
-export type { DeviceResponse } from '../declarations/DeviceResponse.js';
-export type { DevicesRemoveResponse } from '../declarations/DevicesRemoveResponse.js';
-export type { _SdkWithoutIdempotency } from '../declarations/_SdkWithoutIdempotency.js';
-export type { DevicesGetResponse } from '../declarations/DevicesGetResponse.js';
-export type { DeviceListResponse } from '../declarations/DeviceListResponse.js';
-export type { DevicesListResponse } from '../declarations/DevicesListResponse.js';
-export type { Device } from '../declarations/Device.js';
-export type { DevicesUpdateResponse } from '../declarations/DevicesUpdateResponse.js';
-export type { DevicesCreateInput } from '../declarations/DevicesCreateInput.js';
-export type { DevicesRemoveInput } from '../declarations/DevicesRemoveInput.js';
-export type { DevicesGetInput } from '../declarations/DevicesGetInput.js';
-export type { DevicesListInput } from '../declarations/DevicesListInput.js';
-export type { DevicesUpdateInput } from '../declarations/DevicesUpdateInput.js';
-export type { ClientOptions } from '../declarations/ClientOptions.js';
-export type { AuthMode } from '../declarations/AuthMode.js';
-export type { Credentials } from '../declarations/Credentials.js';
-export type { CreateDeviceResult } from '../declarations/CreateDeviceResult.js';
-export type { ResponseMeta } from '../declarations/ResponseMeta.js';
-export type { ResponseWarning } from '../declarations/ResponseWarning.js';
-export type { NextAction } from '../declarations/NextAction.js';
-export type { NextActionMerchantAccountSession } from '../declarations/NextActionMerchantAccountSession.js';
-export type { MoneyValue } from '../declarations/MoneyValue.js';
-export type { CreateDeviceRequestInput } from '../declarations/CreateDeviceRequestInput.js';
-export type { UpdateDeviceRequestInput } from '../declarations/UpdateDeviceRequestInput.js';
-export type { CreateDeviceRequest } from '../declarations/CreateDeviceRequest.js';
-export type { UpdateDeviceRequest } from '../declarations/UpdateDeviceRequest.js';
-export { makeCreateDeviceResponse } from '../declarations/makeCreateDeviceResponse.js';
-export { makeDeviceResponse } from '../declarations/makeDeviceResponse.js';
-export { makeDeviceListResponse } from '../declarations/makeDeviceListResponse.js';
-export { makeDevice } from '../declarations/makeDevice.js';
-export { makeCreateDeviceResult } from '../declarations/makeCreateDeviceResult.js';
-export { makeResponseMeta } from '../declarations/makeResponseMeta.js';
-export { makeResponseWarning } from '../declarations/makeResponseWarning.js';
-export { makeNextAction } from '../declarations/makeNextAction.js';
-export { makeNextActionMerchantAccountSession } from '../declarations/makeNextActionMerchantAccountSession.js';
-export { makeMoneyValue } from '../declarations/makeMoneyValue.js';
-export { makeCreateDeviceRequest } from '../declarations/makeCreateDeviceRequest.js';
-export { makeUpdateDeviceRequest } from '../declarations/makeUpdateDeviceRequest.js';
+/** API client; see README.md and RUNTIME.md#clientoptions. */
+export declare class Client {
+    constructor(options?: ClientOptions);
+    close(): Promise<void>;
+    readonly devices: DevicesResource;
+}

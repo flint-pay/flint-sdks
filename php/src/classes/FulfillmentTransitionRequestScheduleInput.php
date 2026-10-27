@@ -14,42 +14,50 @@ namespace Flint;
 final class FulfillmentTransitionRequestScheduleInput extends Model {
     /** @param array{'action': string, 'buyer_notification_behavior'?: string, 'expected_version'?: string, 'occurred_at'?: string|\DateTimeInterface, 'reason_message'?: string, 'scheduled_end_at': string|\DateTimeInterface, 'scheduled_start_at': string|\DateTimeInterface, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentTransitionRequestScheduleInput')); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "schedule".
+     * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
     public function getAction(): string { return $this->get('action'); }
     public function hasAction(): bool { return $this->has('action'); }
-    /** @return string
+    /** Shape $ (Value): string.  Value enum: "send", "suppress".
+     * @return string
      * @throws SdkError When buyer_notification_behavior is omitted; use hasBuyerNotificationBehavior() or valueOrDefault().
      */
     public function getBuyerNotificationBehavior(): string { return $this->get('buyer_notification_behavior'); }
     public function hasBuyerNotificationBehavior(): bool { return $this->has('buyer_notification_behavior'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Resource version the caller last read. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1.
+     * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** @return string
+    /** Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
+     * @return string
      * @throws SdkError When reason_message is omitted; use hasReasonMessage() or valueOrDefault().
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1.
+     * @return string|\DateTimeInterface
      * @throws SdkError When scheduled_end_at is omitted; use hasScheduledEndAt() or valueOrDefault().
      */
     public function getScheduledEndAt(): string|\DateTimeInterface { return $this->get('scheduled_end_at'); }
     public function hasScheduledEndAt(): bool { return $this->has('scheduled_end_at'); }
-    /** @return string|\DateTimeInterface
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1.
+     * @return string|\DateTimeInterface
      * @throws SdkError When scheduled_start_at is omitted; use hasScheduledStartAt() or valueOrDefault().
      */
     public function getScheduledStartAt(): string|\DateTimeInterface { return $this->get('scheduled_start_at'); }
     public function hasScheduledStartAt(): bool { return $this->has('scheduled_start_at'); }
-    /** @return string
+    /** Shape $ (Value): string. IANA timezone of the service appointment. minLength: 1.
+     * @return string
      * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
      */
     public function getTimezone(): string { return $this->get('timezone'); }

@@ -1,1 +1,1 @@
-{"shared":"APIKey","dependencies":["APIKey","SharedCodec0","SharedCodec1"]}
+{"shared":"APIKey","dependencies":["APIKey","ResourceReference","ResourceType","SharedCodec0","SharedCodec1"]}

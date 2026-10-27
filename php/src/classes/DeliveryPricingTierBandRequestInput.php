@@ -9,17 +9,20 @@ namespace Flint;
 final class DeliveryPricingTierBandRequestInput extends Model {
     /** @param array{'currency_options': array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'from': string, 'to'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPricingTierBandRequestInput')); }
-    /** @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
+    /** Shape $ (Value): Map of {@see MoneyValueInput}. Shape $.* (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When currency_options is omitted; use hasCurrencyOptions() or valueOrDefault().
      */
     public function getCurrencyOptions(): array|object { return $this->get('currency_options'); }
     public function hasCurrencyOptions(): bool { return $this->has('currency_options'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When from is omitted; use hasFrom() or valueOrDefault().
      */
     public function getFrom(): string { return $this->get('from'); }
     public function hasFrom(): bool { return $this->has('from'); }
-    /** @return string
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * @return string
      * @throws SdkError When to is omitted; use hasTo() or valueOrDefault().
      */
     public function getTo(): string { return $this->get('to'); }

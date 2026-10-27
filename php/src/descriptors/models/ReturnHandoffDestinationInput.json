@@ -1,1 +1,1 @@
-{"shared":"ReturnHandoffDestination","dependencies":["PostalAddress","ReturnHandoffDestination"]}
+{"shared":"ReturnHandoffDestination","dependencies":["Address","ReturnHandoffDestination"]}

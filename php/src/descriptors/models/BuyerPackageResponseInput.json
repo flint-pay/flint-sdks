@@ -1,0 +1,1 @@
+{"shared":"BuyerPackageResponse","dependencies":["BuyerPackage","BuyerPackageResponse","Dimensions","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","ReturnShipmentLineItemAllocation","SharedCodec0","SharedCodec1","SharedCodec963","Weight"]}

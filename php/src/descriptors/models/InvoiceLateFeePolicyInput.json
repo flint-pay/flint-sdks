@@ -1,1 +1,1 @@
-{"shared":"InvoiceLateFeePolicy","dependencies":["InvoiceLateFeePolicy","MoneyValue","SharedCodec434","SharedCodec435"]}
+{"shared":"InvoiceLateFeePolicy","dependencies":["InvoiceLateFeePolicy","MoneyValue","SharedCodec16","SharedCodec17","SharedCodec18","SharedCodec19"]}

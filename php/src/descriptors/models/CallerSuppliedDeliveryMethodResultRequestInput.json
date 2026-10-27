@@ -1,1 +1,1 @@
-{"shared":"CallerSuppliedDeliveryMethodResultRequest","dependencies":["CallerSuppliedDeliveryMethodResultRequest","CallerSuppliedDeliveryOutcomeRequest","DeliveryWindowRequest","MoneyValue","SharedCodec19"]}
+{"shared":"CallerSuppliedDeliveryMethodResultRequest","dependencies":["CallerSuppliedDeliveryMethodResultRequest","CallerSuppliedDeliveryOutcomeRequest","DeliveryWindowRequest","MoneyValue","SharedCodec39","SharedCodec40","SharedCodec41"]}

@@ -1,0 +1,1 @@
+{"shared":"BuyerFulfillmentOutcome","phpRepresentation":{"kind":"record","fields":{"occurred_at":{"kind":"value","type":"string"},"outcome_type":{"kind":"value","type":"string"},"reason":{"kind":"value","type":"string"}}},"dependencies":["BuyerFulfillmentOutcome"]}

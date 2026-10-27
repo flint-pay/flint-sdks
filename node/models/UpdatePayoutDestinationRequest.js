@@ -1,9 +1,9 @@
-import { d2534 as c0, d2544 as c1 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
-import { d2534 } from '../descriptors/data.js?sdk=50f9c16f4dffbb7ff2528d427a616050712fc55fd9a73bec783011e006d2d7be';
+import { d2460 as c0 } from '../descriptors/data/98.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
+import { d2460 as d2460 } from '../descriptors/data/98.js?sdk=94d3dafcb454caf78a11dff3f62c8571a61273fd7185b71866d728c7984ecec1';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2534;
+const read = d2460;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["UpdatePayoutDestinationRequest"]:c0(),["UpdateRefundRequest"]:c1()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["UpdatePayoutDestinationRequest"]:c0()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdatePayoutDestinationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }
