@@ -47,11 +47,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `createPartnerAppWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -177,11 +177,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `createSandboxWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -274,11 +274,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `createSandboxAPIKeyWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -334,11 +334,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `deletePartnerAppWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -390,11 +390,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `deleteSandboxWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -441,7 +441,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `getAuthContextWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -490,7 +490,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `getCurrentAPIKeyRequestLogWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -539,7 +539,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `getPartnerAppWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -600,7 +600,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `getPartnerAppInstallWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -706,7 +706,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `getResourceTimelineWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -755,7 +755,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `getSandboxWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -816,7 +816,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `listCurrentAPIKeyRequestLogsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -871,7 +871,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `listPartnerAppInstallsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -924,7 +924,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `listPartnerAppsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -977,7 +977,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `listPartnerInstallsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -1026,7 +1026,7 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `listSandboxesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
@@ -1079,11 +1079,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `resetSandboxWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1147,11 +1147,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `revokePartnerAppInstallWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1218,11 +1218,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `revokePartnerEnvironmentGrantWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1283,11 +1283,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `rotatePartnerAppSecretWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1438,11 +1438,11 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 #### Request behavior
 
-Attempt limit: 1; retry statuses: none; transport retries: disabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
 Complete body and metadata: `updatePartnerAppWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key optional — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
