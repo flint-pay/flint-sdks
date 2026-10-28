@@ -5,26 +5,28 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/developer.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/developer.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createDeveloperPartnerApp"]:r0,["createDeveloperSandbox"]:r0,["createSandboxAPIKey"]:r0,["deleteDeveloperPartnerApp"]:r0,["deleteDeveloperSandbox"]:r0,["getAPIRequestLog"]:r0,["getDeveloperAuthContext"]:r0,["getDeveloperPartnerApp"]:r0,["getDeveloperPartnerAppInstall"]:r0,["getDeveloperSandbox"]:r0,["getResourceTimeline"]:r0,["listAPIRequestLogs"]:r0,["listDeveloperPartnerAppInstalls"]:r0,["listDeveloperPartnerApps"]:r0,["listDeveloperPartnerInstalls"]:r0,["listDeveloperSandboxes"]:r0,["resetDeveloperSandbox"]:r0,["revokeDeveloperPartnerAppInstall"]:r0,["revokeDeveloperPartnerEnvironmentGrant"]:r0,["rotateDeveloperPartnerAppSecret"]:r0,["updateDeveloperPartnerApp"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createPartnerApp"]:r0,["createPartnerAppCredential"]:r0,["createSandbox"]:r0,["createSandboxAPIKey"]:r0,["deletePartnerApp"]:r0,["deletePartnerAppCredential"]:r0,["deleteSandbox"]:r0,["getAPIRequestLog"]:r0,["getAuthContext"]:r0,["getPartnerApp"]:r0,["getPartnerAppCredential"]:r0,["getPartnerAppInstall"]:r0,["getResourceTimeline"]:r0,["getSandbox"]:r0,["listAPIRequestLogs"]:r0,["listPartnerAppCredentials"]:r0,["listPartnerAppInstalls"]:r0,["listPartnerApps"]:r0,["listSandboxes"]:r0,["resetSandbox"]:r0,["revokePartnerAppEnvironmentGrant"]:r0,["revokePartnerAppInstall"]:r0,["rotatePartnerAppSecret"]:r0,["updatePartnerApp"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.developer = Object.freeze({
-      createPartnerApp: async (params, options) => this.#runtime.request("createDeveloperPartnerApp", _sdkRequestInput([], [], [
+      createPartnerApp: async (params, options) => this.#runtime.request("createPartnerApp", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeveloperPartnerApp", result, path))),
-      createPartnerAppWithResponse: async (params, options) => this.#runtime.request("createDeveloperPartnerApp", _sdkRequestInput([], [], [
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPartnerApp", result, path))),
+      createPartnerAppWithResponse: async (params, options) => this.#runtime.request("createPartnerApp", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      createSandbox: async (params, options) => this.#runtime.request("createDeveloperSandbox", _sdkRequestInput([], [], [
+      createPartnerAppCredential: (input = {}, options) => this.#runtime.request("createPartnerAppCredential", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPartnerAppCredential", result, path))),
+      createPartnerAppCredentialWithResponse: (input = {}, options) => this.#runtime.request("createPartnerAppCredential", input, options).then(_sdkResponse),
+      createSandbox: async (params, options) => this.#runtime.request("createSandbox", _sdkRequestInput([], [], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeveloperSandbox", result, path))),
-      createSandboxWithResponse: async (params, options) => this.#runtime.request("createDeveloperSandbox", _sdkRequestInput([], [], [
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSandbox", result, path))),
+      createSandboxWithResponse: async (params, options) => this.#runtime.request("createSandbox", _sdkRequestInput([], [], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
       createSandboxAPIKey: async (sandbox_id, params, options) => this.#runtime.request("createSandboxAPIKey", _sdkRequestInput([
@@ -37,24 +39,36 @@ this.developer = Object.freeze({
 ], [sandbox_id], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      deletePartnerApp: async (partner_app_id, params, options) => this.#runtime.request("deleteDeveloperPartnerApp", _sdkRequestInput([
+      deletePartnerApp: async (partner_app_id, params, options) => this.#runtime.request("deletePartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "expected_version",
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeveloperPartnerApp", result, path))),
-      deletePartnerAppWithResponse: async (partner_app_id, params, options) => this.#runtime.request("deleteDeveloperPartnerApp", _sdkRequestInput([
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePartnerApp", result, path))),
+      deletePartnerAppWithResponse: async (partner_app_id, params, options) => this.#runtime.request("deletePartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "expected_version",
   "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
-      deleteSandbox: async (sandbox_id, params, options) => this.#runtime.request("deleteDeveloperSandbox", _sdkRequestInput([
+      deletePartnerAppCredential: async (partner_app_id, partner_app_credential_id, params, options) => this.#runtime.request("deletePartnerAppCredential", _sdkRequestInput([
+  "partner_app_id",
+  "partner_app_credential_id"
+], [partner_app_id, partner_app_credential_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deletePartnerAppCredential", result, path))),
+      deletePartnerAppCredentialWithResponse: async (partner_app_id, partner_app_credential_id, params, options) => this.#runtime.request("deletePartnerAppCredential", _sdkRequestInput([
+  "partner_app_id",
+  "partner_app_credential_id"
+], [partner_app_id, partner_app_credential_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(_sdkResponse),
+      deleteSandbox: async (sandbox_id, params, options) => this.#runtime.request("deleteSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteDeveloperSandbox", result, path))),
-      deleteSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("deleteDeveloperSandbox", _sdkRequestInput([
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteSandbox", result, path))),
+      deleteSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("deleteSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key"
@@ -65,28 +79,30 @@ this.developer = Object.freeze({
       getCurrentAPIKeyRequestLogWithResponse: async (api_request_log_id, params, options) => this.#runtime.request("getAPIRequestLog", _sdkRequestInput([
   "api_request_log_id"
 ], [api_request_log_id], [], false, false, params), options).then(_sdkResponse),
-      getAuthContext: async (params, options) => this.#runtime.request("getDeveloperAuthContext", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeveloperAuthContext", result, path))),
-      getAuthContextWithResponse: async (params, options) => this.#runtime.request("getDeveloperAuthContext", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
-      getPartnerApp: async (partner_app_id, params, options) => this.#runtime.request("getDeveloperPartnerApp", _sdkRequestInput([
+      getAuthContext: async (params, options) => this.#runtime.request("getAuthContext", _sdkRequestInput([], [], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getAuthContext", result, path))),
+      getAuthContextWithResponse: async (params, options) => this.#runtime.request("getAuthContext", _sdkRequestInput([], [], [], false, false, params), options).then(_sdkResponse),
+      getPartnerApp: async (partner_app_id, params, options) => this.#runtime.request("getPartnerApp", _sdkRequestInput([
   "partner_app_id"
-], [partner_app_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeveloperPartnerApp", result, path))),
-      getPartnerAppWithResponse: async (partner_app_id, params, options) => this.#runtime.request("getDeveloperPartnerApp", _sdkRequestInput([
+], [partner_app_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPartnerApp", result, path))),
+      getPartnerAppWithResponse: async (partner_app_id, params, options) => this.#runtime.request("getPartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [], false, false, params), options).then(_sdkResponse),
-      getPartnerAppInstall: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("getDeveloperPartnerAppInstall", _sdkRequestInput([
+      getPartnerAppCredential: async (partner_app_id, partner_app_credential_id, params, options) => this.#runtime.request("getPartnerAppCredential", _sdkRequestInput([
+  "partner_app_id",
+  "partner_app_credential_id"
+], [partner_app_id, partner_app_credential_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPartnerAppCredential", result, path))),
+      getPartnerAppCredentialWithResponse: async (partner_app_id, partner_app_credential_id, params, options) => this.#runtime.request("getPartnerAppCredential", _sdkRequestInput([
+  "partner_app_id",
+  "partner_app_credential_id"
+], [partner_app_id, partner_app_credential_id], [], false, false, params), options).then(_sdkResponse),
+      getPartnerAppInstall: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("getPartnerAppInstall", _sdkRequestInput([
   "partner_app_id",
   "partner_app_install_id"
-], [partner_app_id, partner_app_install_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeveloperPartnerAppInstall", result, path))),
-      getPartnerAppInstallWithResponse: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("getDeveloperPartnerAppInstall", _sdkRequestInput([
+], [partner_app_id, partner_app_install_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPartnerAppInstall", result, path))),
+      getPartnerAppInstallWithResponse: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("getPartnerAppInstall", _sdkRequestInput([
   "partner_app_id",
   "partner_app_install_id"
 ], [partner_app_id, partner_app_install_id], [], false, false, params), options).then(_sdkResponse),
-      getSandbox: async (sandbox_id, params, options) => this.#runtime.request("getDeveloperSandbox", _sdkRequestInput([
-  "sandbox_id"
-], [sandbox_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeveloperSandbox", result, path))),
-      getSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("getDeveloperSandbox", _sdkRequestInput([
-  "sandbox_id"
-], [sandbox_id], [], false, false, params), options).then(_sdkResponse),
       getResourceTimeline: async (resource_id, params, options) => this.#runtime.request("getResourceTimeline", _sdkRequestInput([
   "resource_id"
 ], [resource_id], [
@@ -107,6 +123,12 @@ this.developer = Object.freeze({
   "occurred_after",
   "occurred_before"
 ], false, false, params), options).then(_sdkResponse),
+      getSandbox: async (sandbox_id, params, options) => this.#runtime.request("getSandbox", _sdkRequestInput([
+  "sandbox_id"
+], [sandbox_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSandbox", result, path))),
+      getSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("getSandbox", _sdkRequestInput([
+  "sandbox_id"
+], [sandbox_id], [], false, false, params), options).then(_sdkResponse),
       listCurrentAPIKeyRequestLogs: async (params, options) => this.#runtime.request("listAPIRequestLogs", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -187,15 +209,45 @@ this.developer = Object.freeze({
   "created_after",
   "created_before"
 ], false, false, params), options),
-      listPartnerAppInstalls: async (partner_app_id, params, options) => this.#runtime.request("listDeveloperPartnerAppInstalls", _sdkRequestInput([
+      listPartnerAppCredentials: async (partner_app_id, params, options) => this.#runtime.request("listPartnerAppCredentials", _sdkRequestInput([
+  "partner_app_id"
+], [partner_app_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPartnerAppCredentials", result, path))),
+      listPartnerAppCredentialsWithResponse: async (partner_app_id, params, options) => this.#runtime.request("listPartnerAppCredentials", _sdkRequestInput([
+  "partner_app_id"
+], [partner_app_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options).then(_sdkResponse),
+      listPartnerAppCredentialsPages: (partner_app_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listPartnerAppCredentials", _sdkRequestInput([
+  "partner_app_id"
+], [partner_app_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPartnerAppCredentials", result, path)),
+      listPartnerAppCredentialsPagesWithResponse: (partner_app_id, params, options) => _sdkResponsePages(this.#runtime.pages("listPartnerAppCredentials", _sdkRequestInput([
+  "partner_app_id"
+], [partner_app_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options)),
+      listPartnerAppCredentialsItems: (partner_app_id, params, options) => this.#runtime.items("listPartnerAppCredentials", _sdkRequestInput([
+  "partner_app_id"
+], [partner_app_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options),
+      listPartnerAppInstalls: async (partner_app_id, params, options) => this.#runtime.request("listPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "page_size",
   "page_token",
   "merchant_id",
   "status"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeveloperPartnerAppInstalls", result, path))),
-      listPartnerAppInstallsWithResponse: async (partner_app_id, params, options) => this.#runtime.request("listDeveloperPartnerAppInstalls", _sdkRequestInput([
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPartnerAppInstalls", result, path))),
+      listPartnerAppInstallsWithResponse: async (partner_app_id, params, options) => this.#runtime.request("listPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "page_size",
@@ -203,15 +255,15 @@ this.developer = Object.freeze({
   "merchant_id",
   "status"
 ], false, false, params), options).then(_sdkResponse),
-      listPartnerAppInstallsPages: (partner_app_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listDeveloperPartnerAppInstalls", _sdkRequestInput([
+      listPartnerAppInstallsPages: (partner_app_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "page_size",
   "page_token",
   "merchant_id",
   "status"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDeveloperPartnerAppInstalls", result, path)),
-      listPartnerAppInstallsPagesWithResponse: (partner_app_id, params, options) => _sdkResponsePages(this.#runtime.pages("listDeveloperPartnerAppInstalls", _sdkRequestInput([
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPartnerAppInstalls", result, path)),
+      listPartnerAppInstallsPagesWithResponse: (partner_app_id, params, options) => _sdkResponsePages(this.#runtime.pages("listPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "page_size",
@@ -219,7 +271,7 @@ this.developer = Object.freeze({
   "merchant_id",
   "status"
 ], false, false, params), options)),
-      listPartnerAppInstallsItems: (partner_app_id, params, options) => this.#runtime.items("listDeveloperPartnerAppInstalls", _sdkRequestInput([
+      listPartnerAppInstallsItems: (partner_app_id, params, options) => this.#runtime.items("listPartnerAppInstalls", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "page_size",
@@ -227,138 +279,108 @@ this.developer = Object.freeze({
   "merchant_id",
   "status"
 ], false, false, params), options),
-      listPartnerApps: async (params, options) => this.#runtime.request("listDeveloperPartnerApps", _sdkRequestInput([], [], [
+      listPartnerApps: async (params, options) => this.#runtime.request("listPartnerApps", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeveloperPartnerApps", result, path))),
-      listPartnerAppsWithResponse: async (params, options) => this.#runtime.request("listDeveloperPartnerApps", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status"
-], false, false, params), options).then(_sdkResponse),
-      listPartnerAppsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeveloperPartnerApps", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDeveloperPartnerApps", result, path)),
-      listPartnerAppsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeveloperPartnerApps", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status"
-], false, false, params), options)),
-      listPartnerAppsItems: (params, options) => this.#runtime.items("listDeveloperPartnerApps", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status"
-], false, false, params), options),
-      listPartnerInstalls: async (params, options) => this.#runtime.request("listDeveloperPartnerInstalls", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "partner_app_id",
-  "status"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeveloperPartnerInstalls", result, path))),
-      listPartnerInstallsWithResponse: async (params, options) => this.#runtime.request("listDeveloperPartnerInstalls", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "partner_app_id",
-  "status"
-], false, false, params), options).then(_sdkResponse),
-      listPartnerInstallsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeveloperPartnerInstalls", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "partner_app_id",
-  "status"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDeveloperPartnerInstalls", result, path)),
-      listPartnerInstallsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeveloperPartnerInstalls", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "partner_app_id",
-  "status"
-], false, false, params), options)),
-      listPartnerInstallsItems: (params, options) => this.#runtime.items("listDeveloperPartnerInstalls", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "partner_app_id",
-  "status"
-], false, false, params), options),
-      listSandboxes: async (params, options) => this.#runtime.request("listDeveloperSandboxes", _sdkRequestInput([], [], [
-  "page_size",
-  "page_token",
-  "status"
-], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeveloperSandboxes", result, path))),
-      listSandboxesWithResponse: async (params, options) => this.#runtime.request("listDeveloperSandboxes", _sdkRequestInput([], [], [
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPartnerApps", result, path))),
+      listPartnerAppsWithResponse: async (params, options) => this.#runtime.request("listPartnerApps", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status"
 ], false, false, params), options).then(_sdkResponse),
-      listSandboxesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeveloperSandboxes", _sdkRequestInput([], [], [
+      listPartnerAppsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPartnerApps", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status"
-], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listDeveloperSandboxes", result, path)),
-      listSandboxesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listDeveloperSandboxes", _sdkRequestInput([], [], [
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listPartnerApps", result, path)),
+      listPartnerAppsPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listPartnerApps", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status"
 ], false, false, params), options)),
-      listSandboxesItems: (params, options) => this.#runtime.items("listDeveloperSandboxes", _sdkRequestInput([], [], [
+      listPartnerAppsItems: (params, options) => this.#runtime.items("listPartnerApps", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
   "status"
 ], false, false, params), options),
-      resetSandbox: async (sandbox_id, params, options) => this.#runtime.request("resetDeveloperSandbox", _sdkRequestInput([
+      listSandboxes: async (params, options) => this.#runtime.request("listSandboxes", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "status"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSandboxes", result, path))),
+      listSandboxesWithResponse: async (params, options) => this.#runtime.request("listSandboxes", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "status"
+], false, false, params), options).then(_sdkResponse),
+      listSandboxesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listSandboxes", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "status"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listSandboxes", result, path)),
+      listSandboxesPagesWithResponse: (params, options) => _sdkResponsePages(this.#runtime.pages("listSandboxes", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "status"
+], false, false, params), options)),
+      listSandboxesItems: (params, options) => this.#runtime.items("listSandboxes", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "status"
+], false, false, params), options),
+      resetSandbox: async (sandbox_id, params, options) => this.#runtime.request("resetSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resetDeveloperSandbox", result, path))),
-      resetSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("resetDeveloperSandbox", _sdkRequestInput([
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resetSandbox", result, path))),
+      resetSandboxWithResponse: async (sandbox_id, params, options) => this.#runtime.request("resetSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [
   "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
-      revokePartnerAppInstall: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("revokeDeveloperPartnerAppInstall", _sdkRequestInput([
-  "partner_app_id",
-  "partner_app_install_id"
-], [partner_app_id, partner_app_install_id], [
-  "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeDeveloperPartnerAppInstall", result, path))),
-      revokePartnerAppInstallWithResponse: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("revokeDeveloperPartnerAppInstall", _sdkRequestInput([
-  "partner_app_id",
-  "partner_app_install_id"
-], [partner_app_id, partner_app_install_id], [
-  "Idempotency-Key"
-], false, false, params), options).then(_sdkResponse),
-      revokePartnerEnvironmentGrant: async (partner_app_id, partner_app_install_id, environment_grant_id, params, options) => this.#runtime.request("revokeDeveloperPartnerEnvironmentGrant", _sdkRequestInput([
+      revokePartnerEnvironmentGrant: async (partner_app_id, partner_app_install_id, environment_grant_id, params, options) => this.#runtime.request("revokePartnerAppEnvironmentGrant", _sdkRequestInput([
   "partner_app_id",
   "partner_app_install_id",
   "environment_grant_id"
 ], [partner_app_id, partner_app_install_id, environment_grant_id], [
   "Idempotency-Key"
-], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeDeveloperPartnerEnvironmentGrant", result, path))),
-      revokePartnerEnvironmentGrantWithResponse: async (partner_app_id, partner_app_install_id, environment_grant_id, params, options) => this.#runtime.request("revokeDeveloperPartnerEnvironmentGrant", _sdkRequestInput([
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokePartnerAppEnvironmentGrant", result, path))),
+      revokePartnerEnvironmentGrantWithResponse: async (partner_app_id, partner_app_install_id, environment_grant_id, params, options) => this.#runtime.request("revokePartnerAppEnvironmentGrant", _sdkRequestInput([
   "partner_app_id",
   "partner_app_install_id",
   "environment_grant_id"
 ], [partner_app_id, partner_app_install_id, environment_grant_id], [
   "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
-      rotatePartnerAppSecret: async (partner_app_id, params, options) => this.#runtime.request("rotateDeveloperPartnerAppSecret", _sdkRequestInput([
+      revokePartnerAppInstall: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("revokePartnerAppInstall", _sdkRequestInput([
+  "partner_app_id",
+  "partner_app_install_id"
+], [partner_app_id, partner_app_install_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokePartnerAppInstall", result, path))),
+      revokePartnerAppInstallWithResponse: async (partner_app_id, partner_app_install_id, params, options) => this.#runtime.request("revokePartnerAppInstall", _sdkRequestInput([
+  "partner_app_id",
+  "partner_app_install_id"
+], [partner_app_id, partner_app_install_id], [
+  "Idempotency-Key"
+], false, false, params), options).then(_sdkResponse),
+      rotatePartnerAppSecret: async (partner_app_id, params, options) => this.#runtime.request("rotatePartnerAppSecret", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateDeveloperPartnerAppSecret", result, path))),
-      rotatePartnerAppSecretWithResponse: async (partner_app_id, params, options) => this.#runtime.request("rotateDeveloperPartnerAppSecret", _sdkRequestInput([
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotatePartnerAppSecret", result, path))),
+      rotatePartnerAppSecretWithResponse: async (partner_app_id, params, options) => this.#runtime.request("rotatePartnerAppSecret", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "Idempotency-Key"
 ], true, false, params), options).then(_sdkResponse),
-      updatePartnerApp: async (partner_app_id, params, options) => this.#runtime.request("updateDeveloperPartnerApp", _sdkRequestInput([
+      updatePartnerApp: async (partner_app_id, params, options) => this.#runtime.request("updatePartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateDeveloperPartnerApp", result, path))),
-      updatePartnerAppWithResponse: async (partner_app_id, params, options) => this.#runtime.request("updateDeveloperPartnerApp", _sdkRequestInput([
+], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePartnerApp", result, path))),
+      updatePartnerAppWithResponse: async (partner_app_id, params, options) => this.#runtime.request("updatePartnerApp", _sdkRequestInput([
   "partner_app_id"
 ], [partner_app_id], [
   "Idempotency-Key"
@@ -368,11 +390,22 @@ this.developer = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
+export { makeCreatePartnerAppCredentialJWKSURLRequest } from '../models/CreatePartnerAppCredentialJWKSURLRequest.js';
+export { makeCreatePartnerAppCredentialPublicKeyRequest } from '../models/CreatePartnerAppCredentialPublicKeyRequest.js';
+export { makeCreatePartnerAppCredentialRequest } from '../models/CreatePartnerAppCredentialRequest.js';
+export { makeCreatePartnerAppCredentialWorkloadIdentityRequest } from '../models/CreatePartnerAppCredentialWorkloadIdentityRequest.js';
 export { makeCreatePartnerAppRequest } from '../models/CreatePartnerAppRequest.js';
 export { makeCreateSandboxRequest } from '../models/CreateSandboxRequest.js';
 export { makeDeveloperInitialAPIKeyRequest } from '../models/DeveloperInitialAPIKeyRequest.js';
 export { makeIssueSandboxAPIKeyRequest } from '../models/IssueSandboxAPIKeyRequest.js';
+export { makeIssueSandboxAPIKeyRequestFull } from '../models/IssueSandboxAPIKeyRequestFull.js';
+export { makeIssueSandboxAPIKeyRequestReadOnly } from '../models/IssueSandboxAPIKeyRequestReadOnly.js';
+export { makeIssueSandboxAPIKeyRequestRestricted } from '../models/IssueSandboxAPIKeyRequestRestricted.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePartnerAppPermissionManifestEntry } from '../models/PartnerAppPermissionManifestEntry.js';
+export { makePartnerAppCredentialJWKSURLRequest } from '../models/PartnerAppCredentialJWKSURLRequest.js';
+export { makePartnerAppCredentialPublicKeyRequest } from '../models/PartnerAppCredentialPublicKeyRequest.js';
+export { makePartnerAppCredentialWorkloadIdentityRequest } from '../models/PartnerAppCredentialWorkloadIdentityRequest.js';
+export { makePartnerAppPermissionManifestEntryRequestRequest } from '../models/PartnerAppPermissionManifestEntryRequestRequest.js';
 export { makeRotatePartnerAppSecretRequest } from '../models/RotatePartnerAppSecretRequest.js';
 export { makeUpdatePartnerAppRequest } from '../models/UpdatePartnerAppRequest.js';
+export { makeWorkloadIdentityClaimConditionRequest } from '../models/WorkloadIdentityClaimConditionRequest.js';

@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $surface
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceCheckoutSessionRequestInput extends Model {
-    /** @param array{'invoice_schedule_entry_id'?: string, 'page_origin'?: string, 'payment_return_url'?: string, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'return_url'?: string, 'surface'?: string, ...}|object $values */
+    /** @param array{'invoice_schedule_entry_id'?: string, 'page_origin'?: string, 'payment_return_url'?: string, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'return_url'?: string, 'surface'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceCheckoutSessionRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

@@ -7,6 +7,7 @@ const client = new Client({
 });
 const result = await client.riskPreviews.create(
   {
+    mode: "stored_rule",
     risk_rule_id: "rr_example",
   }
 );

@@ -1,9 +1,9 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateReturnReasonRequestInput } from '../declarations/types-8.js';
-import type { GetReturnReasonResponse } from '../declarations/types-18.js';
-import type { ListReturnReasonsResponse } from '../declarations/types-29.js';
-import type { RequestOptions } from '../declarations/types-40.js';
+import type { CreateReturnReasonRequestInput } from '../declarations/types-9.js';
+import type { GetReturnReasonResponse } from '../declarations/types-20.js';
+import type { ListReturnReasonsResponse } from '../declarations/types-30.js';
+import type { RequestOptions } from '../declarations/types-42.js';
 import type {
     ReturnReason,
     ReturnReasonsCreateInput,
@@ -11,10 +11,10 @@ import type {
     ReturnReasonsListInput,
     ReturnReasonsRemoveInput,
     ReturnReasonsUpdateInput
-} from '../declarations/types-41.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateReturnReasonRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-44.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateReturnReasonRequestInput } from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,8 +29,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateReturnReasonRequestInput, CreateReturnReasonRequest } from '../declarations/types-8.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateReturnReasonRequestInput, CreateReturnReasonRequest } from '../declarations/types-9.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     ReturnReason,
     ReturnReasonsCreateInput,
@@ -38,19 +38,20 @@ export type {
     ReturnReasonsGetInput,
     ReturnReasonsListInput,
     ReturnReasonsUpdateInput
-} from '../declarations/types-41.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { GetReturnReasonResponse } from '../declarations/types-18.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ListReturnReasonsResponse } from '../declarations/types-29.js';
-export type { UpdateReturnReasonRequestInput } from '../declarations/types-49.js';
+} from '../declarations/types-44.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { GetReturnReasonResponse } from '../declarations/types-20.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { ListReturnReasonsResponse } from '../declarations/types-30.js';
+export type { UpdateReturnReasonRequestInput } from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateReturnReasonRequest } from '../declarations/types-64.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateReturnReasonRequest } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateReturnReasonRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateReturnReasonRequest } from '../declarations/types-78.js';
 export interface ReturnReasonsResource {
     /**
  * Create a merchant Return reason buyers can select. Buyer reasons are distinct from inspection
@@ -112,7 +113,8 @@ export interface ReturnReasonsResource {
     /**
  * List Return reasons, including Flint-provided defaults and merchant-defined reasons. Newest
  * first: created_at descending, with return_reason_id descending as the tiebreak. Flint reasons
- * have a created_at of 1970-01-01T00:00:00Z, so they follow your own.
+ * have a created_at of 1970-01-01T00:00:00Z, so they follow your own. Default order: created_at
+ * descending, then return_reason_id descending.
  * @see reference/returnReasons.md#returnreasonslist
  * GET /v1/return-reasons
  * @example

@@ -1,1 +1,1 @@
-{"shared":"BuyerShipmentResponse","dependencies":["BuyerShipment","BuyerShipmentResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","ReturnShipmentLineItemAllocation","SharedCodec0","SharedCodec1","SharedCodec968"]}
+{"shared":"BuyerShipmentResponse","dependencies":["BuyerShipment","BuyerShipmentResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","ReturnShipmentLineItemAllocation","SharedCodec1005","SharedCodec2","SharedCodec3"]}

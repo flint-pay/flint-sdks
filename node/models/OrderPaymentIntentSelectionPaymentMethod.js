@@ -1,0 +1,9 @@
+import { d864 as c0 } from '../descriptors/data/40.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d864 as d864 } from '../descriptors/data/40.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { lazyCodec, preparedCodec } from '../descriptor-source.js';
+const read = d864;
+let prepared;
+function codec() { return prepared ??= preparedCodec(read(), {["OrderPaymentIntentSelectionPaymentMethod"]:c0()}); }
+export { codec as _validate };
+import { modelFromCodec } from '../runtime.js';
+export function makeOrderPaymentIntentSelectionPaymentMethod(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

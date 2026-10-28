@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateWebhookDeliveryRequestInput extends Model {
-    /** @param array{'reason_message'?: string, 'webhook_endpoint_id': string, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'reason_message'?: string, 'webhook_endpoint_id': string, 'webhook_event_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateWebhookDeliveryRequestInput')); }
     /** Shape $ (Value): string. Your note explaining this action. minLength: 1. maxLength: 500.
      * @return string

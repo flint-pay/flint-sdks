@@ -9,8 +9,8 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.demoSessions.reset(
+  "example",
   {
-    demo_session_id: "example",
     "Flint-Challenge-Token": "example",
   },
   { idempotencyKey: idempotencyKey },

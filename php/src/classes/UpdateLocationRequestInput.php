@@ -2,8 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read LocationAddressRequestInput|array<array-key, mixed>|\stdClass $address
- * @property-read array{'latitude': int|float, 'longitude': int|float, ...}|object|null $coordinate
+ * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $address
+ * @property-read array{'latitude': int|float, 'longitude': int|float}|object|null $coordinate
  * @property-read string|null $coordinate_source
  * @property-read string $expected_version
  * @property-read string|null $external_reference_id
@@ -14,16 +14,16 @@ namespace Flint;
  * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateLocationRequestInput extends Model {
-    /** @param array{'address'?: LocationAddressRequestInput|array<array-key, mixed>|\stdClass, 'coordinate'?: array{'latitude': int|float, 'longitude': int|float, ...}|object|null, 'coordinate_source'?: string|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'inventory_allocation_enabled'?: bool, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'status'?: string, 'timezone'?: string}|object $values */
+    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'coordinate'?: array{'latitude': int|float, 'longitude': int|float}|object|null, 'coordinate_source'?: string|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'inventory_allocation_enabled'?: bool, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'status'?: string, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateLocationRequestInput')); }
-    /** Shape $ (Value): {@see LocationAddressRequestInput}. Complete replacement postal address, validated as on create. Requires coordinate in the same request, including null to clear it. The street address you supply when creating or updating a merchant location. Send null on an optional field to clear it.
-     * @return LocationAddressRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressRequestInput}. Complete replacement postal address, validated as on create. Requires coordinate in the same request, including null to clear it. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+     * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Shape $ (Value): {@see LocationCoordinateInput} or null. Complete replacement coordinate. Send null to clear both coordinate and coordinate_source. A non-null value requires coordinate_source in the same request. Shape $.anyOf[1] (Value): {@see LocationCoordinateInput}. A latitude and longitude for a merchant location. Shape $.anyOf[2] (Value): null.
-     * @return array{'latitude': int|float, 'longitude': int|float, ...}|object|null
+    /** Shape $ (Value): {@see LocationCoordinateRequestRequestInput} or null. Complete replacement coordinate. Send null to clear both coordinate and coordinate_source. A non-null value requires coordinate_source in the same request. Shape $.anyOf[1] (Value): {@see LocationCoordinateRequestRequestInput}. A latitude and longitude for a merchant location. Shape $.anyOf[2] (Value): null.
+     * @return array{'latitude': int|float, 'longitude': int|float}|object|null
      * @throws SdkError When coordinate is omitted; use hasCoordinate() or valueOrDefault().
      */
     public function getCoordinate(): mixed { return $this->get('coordinate'); }
@@ -46,17 +46,17 @@ final class UpdateLocationRequestInput extends Model {
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): boolean. Whether this Location accepts inventory allocation. Sending this field requires commerce.inventory_locations.write in addition to the route scope.
+    /** Shape $ (Value): boolean. Whether this Location accepts inventory allocation. Sending this field requires commerce.inventory.allocation.write in addition to the route scope.
      * @return bool
      * @throws SdkError When inventory_allocation_enabled is omitted; use hasInventoryAllocationEnabled() or valueOrDefault().
      */
     public function getInventoryAllocationEnabled(): bool { return $this->get('inventory_allocation_enabled'); }
     public function hasInventoryAllocationEnabled(): bool { return $this->has('inventory_allocation_enabled'); }
-    /** Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. maxProperties: 50. Shape $.* (Value): string or null. minLength: 1. maxLength: 4096.
+    /** Shape $ (Value): {@see MetadataPatchRequestInput} or null. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.anyOf[1] (Value): {@see MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. Shape $.anyOf[2] (Value): null.
      * @return array<array-key, string|null>|\stdClass|null
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string

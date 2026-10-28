@@ -4,16 +4,17 @@ namespace Flint;
 /**
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string $calculation_basis
+ * @property-read string $calculation_type
  * @property-read string $description
  * @property-read string $fulfillment_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read int|float $percent
  * @property-read OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass $tax
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderChargeRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'calculation_type': string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'percent'?: int|float, 'tax'?: OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'calculation_type': string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'percent': int|float, 'tax'?: OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderChargeRequestInput')); }
     /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -27,6 +28,12 @@ final class OrderChargeRequestInput extends Model {
      */
     public function getCalculationBasis(): string { return $this->get('calculation_basis'); }
     public function hasCalculationBasis(): bool { return $this->has('calculation_basis'); }
+    /** Shape $ (Value): string. Selects a fixed amount or percentage calculation. Value enum: "amount", "percent".
+     * @return string
+     * @throws SdkError When calculation_type is omitted; use hasCalculationType() or valueOrDefault().
+     */
+    public function getCalculationType(): string { return $this->get('calculation_type'); }
+    public function hasCalculationType(): bool { return $this->has('calculation_type'); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 2048.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
@@ -39,11 +46,11 @@ final class OrderChargeRequestInput extends Model {
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string

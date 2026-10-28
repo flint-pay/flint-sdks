@@ -1,8 +1,16 @@
 <?php
 declare(strict_types=1);
 namespace Flint;
-/** Presence-aware input; omitted fields throw when accessed. */
+/**
+ * @property-read ErrorObjectInput|array<array-key, mixed>|\stdClass $error
+ * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryTransferConflictErrorEnvelopeInput extends Model {
-    /** @param array{'error': InventoryTransferActionConflictErrorObjectInput|array<array-key, mixed>|\stdClass}|object|array{'error': array{'code': string, 'details'?: list<ErrorDetailInput|array<array-key, mixed>|\stdClass>, 'doc_url': string, 'error_source': string, 'message': string, 'param'?: string, 'remediation': array{'next_actions'?: list<NextActionInput|array<array-key, mixed>|\stdClass>, 'next_steps'?: string, 'retry': string, ...}|object|null, 'request_id'?: string, 'request_log_url'?: string, 'type': string, ...}|object, ...}|object $values */
-    public function __construct(mixed $values, array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransferConflictErrorEnvelopeInput')); }
+    /** @param array{'error': ErrorObjectInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryTransferConflictErrorEnvelopeInput')); }
+    /** Shape $ (Value): {@see ErrorObjectInput}. Error code, message, request context, and guidance for resolving the failure. The error returned for a failed request: `type`, `code`, `message`, `remediation`, `request_id`, and a list of `details` for individual failures.
+     * @return ErrorObjectInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When error is omitted; use hasError() or valueOrDefault().
+     */
+    public function getError(): mixed { return $this->get('error'); }
+    public function hasError(): bool { return $this->has('error'); }
 }

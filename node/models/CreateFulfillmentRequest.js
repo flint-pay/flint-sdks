@@ -1,17 +1,18 @@
-import { d3162 as c0 } from '../descriptors/data/125.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4523 as c1, d4524 as c2, d4525 as c4, d4526 as c5, d4527 as c7, d4528 as c8 } from '../descriptors/data/199.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d151 as c3 } from '../descriptors/data/7.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d2999 as c6 } from '../descriptors/data/114.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3887 as c9, d3889 as c17 } from '../descriptors/data/164.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4547 as c10, d4548 as c11, d4549 as c12 } from '../descriptors/data/200.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4550 as c13, d4551 as c14, d4552 as c15, d4553 as c16 } from '../descriptors/data/201.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4588 as c18 } from '../descriptors/data/203.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3044 as c19 } from '../descriptors/data/118.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d151 as d151 } from '../descriptors/data/7.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3345 as c0, d3346 as c14, d3347 as c15 } from '../descriptors/data/137.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4766 as c1, d4767 as c2, d4768 as c5, d4769 as c6, d4770 as c8, d4771 as c9 } from '../descriptors/data/216.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d168 as c3 } from '../descriptors/data/8.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4131 as c4, d4128 as c10, d4129 as c12, d4132 as c13, d4133 as c23, d4134 as c26, d4135 as c27 } from '../descriptors/data/180.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3153 as c7 } from '../descriptors/data/125.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3250 as c11 } from '../descriptors/data/131.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4806 as c16, d4807 as c17, d4815 as c18, d4816 as c19, d4820 as c20 } from '../descriptors/data/218.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4822 as c21, d4823 as c22 } from '../descriptors/data/219.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4839 as c24, d4840 as c25, d4841 as c28, d4842 as c29, d4843 as c30 } from '../descriptors/data/220.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3211 as c31 } from '../descriptors/data/129.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d168 as d168 } from '../descriptors/data/8.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d151;
+const read = d168;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CreateDeliveryFulfillmentDetails"]:c1(),["CreateDigitalFulfillmentDetails"]:c2(),["CreateFulfillmentRequest"]:c3(),["CreatePickupFulfillmentDetails"]:c4(),["CreateServiceFulfillmentDetails"]:c5(),["Dimensions"]:c6(),["FulfillmentLineItemRequest"]:c7(),["FulfillmentPackagingRequest"]:c8(),["FulfillmentRecipientRequest"]:c9(),["SharedCodec114"]:c10(),["SharedCodec1140"]:c11(),["SharedCodec1141"]:c12(),["SharedCodec115"]:c13(),["SharedCodec116"]:c14(),["SharedCodec117"]:c15(),["SharedCodec118"]:c16(),["SharedCodec226"]:c17(),["SinglePackageCreateRequest"]:c18(),["Weight"]:c19()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CreateDeliveryFulfillmentDetails"]:c1(),["CreateDigitalFulfillmentDetails"]:c2(),["CreateFulfillmentRequest"]:c3(),["CreatePackageItemRequest"]:c4(),["CreatePickupFulfillmentDetails"]:c5(),["CreateServiceFulfillmentDetails"]:c6(),["Dimensions"]:c7(),["FulfillmentLineItemRequest"]:c8(),["FulfillmentPackagingRequest"]:c9(),["FulfillmentRecipientRequest"]:c10(),["MetadataRequest"]:c11(),["PackageCreateRequest"]:c12(),["ReturnShipmentLineItemAllocationRequestRequest"]:c13(),["SharedCodec0"]:c14(),["SharedCodec1"]:c15(),["SharedCodec1211"]:c16(),["SharedCodec1212"]:c17(),["SharedCodec133"]:c18(),["SharedCodec134"]:c19(),["SharedCodec135"]:c20(),["SharedCodec136"]:c21(),["SharedCodec137"]:c22(),["SharedCodec257"]:c23(),["SharedCodec389"]:c24(),["SharedCodec390"]:c25(),["SharedCodec391"]:c26(),["SharedCodec392"]:c27(),["SharedCodec393"]:c28(),["SharedCodec394"]:c29(),["SinglePackageCreateRequest"]:c30(),["Weight"]:c31()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateFulfillmentRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

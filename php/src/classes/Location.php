@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read LocationAddress|null $address
+ * @property-read Address|null $address
  * @property-read ?LocationCoordinate $coordinate
  * @property-read string|null $coordinate_source
  * @property-read string $created_at
@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string $location_id
  * @property-read array<array-key, string> $metadata
  * @property-read string $name
- * @property-read ?LocationAddress $normalized_address
+ * @property-read ?Address $normalized_address
  * @property-read string $status
  * @property-read string $timezone
  * @property-read string $updated_at
@@ -20,12 +20,12 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class Location extends Model {
-    /** @param array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string|null, 'created_at': string, 'external_reference_id'?: string, 'geography_version': string, 'inventory_allocation_enabled': bool, 'location_id': string, 'metadata': \stdClass, 'name': string, 'normalized_address'?: mixed, 'status': string, 'timezone': string, 'updated_at': string, 'validation_status': string, 'version': string, ...}|object $values */
+    /** @param array{'address': mixed, 'coordinate'?: mixed, 'coordinate_source'?: string|null, 'created_at': string, 'external_reference_id'?: string, 'geography_version': string, 'inventory_allocation_enabled': bool, 'location_id': string, 'metadata': mixed, 'name': string, 'normalized_address'?: mixed, 'status': string, 'timezone': string, 'updated_at': string, 'validation_status': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Location')); }
-    /** Shape $ (Value): {@see LocationAddress} or null. Published postal address. Shape $.anyOf[1] (Value): {@see LocationAddress}. The street address of a merchant location. Shape $.anyOf[2] (Value): null.
-     * @return LocationAddress|null
+    /** Shape $ (Value): {@see Address} or null. Published postal address. Shape $.anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+     * @return Address|null
      */
-    public function getAddress(): LocationAddress|null { return $this->get('address'); }
+    public function getAddress(): Address|null { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
     /** Shape $ (Value): {@see LocationCoordinate}. Published geographic coordinate. A latitude and longitude for a merchant location.
      * @return ?LocationCoordinate
@@ -62,7 +62,7 @@ final class Location extends Model {
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. maxProperties: 50. Shape $.* (Value): string. maxLength: 4096.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
@@ -72,10 +72,10 @@ final class Location extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): {@see LocationAddress}. Provider-normalized address used for geography evaluation. The street address of a merchant location.
-     * @return ?LocationAddress
+    /** Shape $ (Value): {@see Address}. Provider-normalized address used for geography evaluation. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return ?Address
      */
-    public function getNormalizedAddress(): ?LocationAddress { return $this->get('normalized_address'); }
+    public function getNormalizedAddress(): ?Address { return $this->get('normalized_address'); }
     public function hasNormalizedAddress(): bool { return $this->has('normalized_address'); }
     /** Shape $ (Value): string. Current Location lifecycle status. Value enum: "active", "inactive", "archived".
      * @return string
@@ -97,7 +97,7 @@ final class Location extends Model {
      */
     public function getValidationStatus(): string { return $this->get('validation_status'); }
     public function hasValidationStatus(): bool { return $this->has('validation_status'); }
-    /** Shape $ (Value): integer string. Optimistic-concurrency version that advances on every Location change. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Optimistic-concurrency version that advances on every Location change. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string
      */
     public function getVersion(): string { return $this->get('version'); }

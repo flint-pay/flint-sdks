@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `availability` | Required | [DeliveryAvailabilityInput](../models/DeliveryAvailabilityInput.md#deliveryavailabilityinput) | When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book. |
+| `availability` | Required | [DeliveryAvailabilityRequestRequestInput](../models/DeliveryAvailabilityRequestRequestInput.md#deliveryavailabilityrequestrequestinput) | When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book. |
 

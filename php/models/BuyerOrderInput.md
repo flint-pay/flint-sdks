@@ -27,7 +27,7 @@ Request input.
 | `gift_card_settlements` | Required | Array of [OrderGiftCardSettlementInput](../models/OrderGiftCardSettlementInput.md#ordergiftcardsettlementinput) |  |
 | `gift_card_tender_enabled` | Required | boolean |  |
 | `gift_cards` | Required | Array of [OrderGiftCardSelectionInput](../models/OrderGiftCardSelectionInput.md#ordergiftcardselectioninput) |  |
-| `governing_delivery_selection_id` | Optional | string | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Read with GET /v1/orders/{order_id}; other order responses may omit this field. While present, change the destination through the delivery selection. Omitted when no selection governs the order. |
+| `governing_delivery_selection_id` | Required | string or null | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection. |
 | `line_items` | Required | Array of [BuyerOrderLineItemInput](../models/BuyerOrderLineItemInput.md#buyerorderlineiteminput) |  |
 | `merchant_id` | Optional | string |  |
 | `order_id` | Required | string |  |

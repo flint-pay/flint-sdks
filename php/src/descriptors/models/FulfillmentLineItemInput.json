@@ -1,1 +1,1 @@
-{"shared":"FulfillmentLineItem","dependencies":["FulfillmentLineItem","MoneyValue","OrderLineItemModifier","TextModifierRequest"]}
+{"shared":"FulfillmentLineItem","dependencies":["FulfillmentLineItem","MetadataMap","MoneyValue","OrderLineItemModifier","TextModifierRequest"]}

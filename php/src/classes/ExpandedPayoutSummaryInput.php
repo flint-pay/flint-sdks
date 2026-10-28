@@ -65,7 +65,7 @@ final class ExpandedPayoutSummaryInput extends Model {
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Shape $ (Value): string.  Value enum: "none", "reversing", "reversed".
+    /** Shape $ (Value): string.  Value enum: "none", "reversed".
      * @return string
      * @throws SdkError When reversal_status is omitted; use hasReversalStatus() or valueOrDefault().
      */

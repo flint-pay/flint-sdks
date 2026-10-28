@@ -28,7 +28,7 @@ Response model.
 | `line_items` | Optional | Array of (object and Alternative shapes (see declared variants)) | `line_items[]`: [declared alternatives](../models/PaymentLinksCreateResponse201.md#paymentlinkscreateresponse201dataline_items). |
 | `max_completions` | Optional | integer | Format: `int32`. |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
 | `name` | Required | string |  |
 | `payment_link_id` | Required | string |  |
 | `payment_link_type` | Optional | string | Values: `"standard"`, `"donation"`, `"event"`. |
@@ -51,4 +51,8 @@ Response model.
 ### PaymentLink.line_items[]
 
 Declared alternatives: [PaymentLinksCreateResponse201.data.line_items[]](../models/PaymentLinksCreateResponse201.md#paymentlinkscreateresponse201dataline_items).
+
+### PaymentLink.metadata
+
+Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
 

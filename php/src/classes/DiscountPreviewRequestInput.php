@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $order_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DiscountPreviewRequestInput extends Model {
-    /** @param array{'discount'?: CreateOrderDiscountInput|array<array-key, mixed>|\stdClass, 'order_id': string, ...}|object $values */
+    /** @param array{'discount'?: CreateOrderDiscountInput|array<array-key, mixed>|\stdClass, 'order_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DiscountPreviewRequestInput')); }
     /** Shape $ (Value): {@see CreateOrderDiscountInput}. A discount to apply when creating an order: either a manual discount or a reference to a promotion.
      * @return CreateOrderDiscountInput|array<array-key, mixed>|\stdClass

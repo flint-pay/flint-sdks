@@ -1,12 +1,11 @@
-import { d3013 as c0 } from '../descriptors/data/116.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4213 as c1, d4214 as c2, d4215 as c3, d4216 as c4, d4217 as c5, d4218 as c6, d4219 as c7, d4220 as c8 } from '../descriptors/data/179.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4221 as c9, d4222 as c10, d4223 as c11, d4226 as c13, d4227 as c14, d4228 as c15, d4229 as c16 } from '../descriptors/data/180.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3941 as c12 } from '../descriptors/data/167.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4223 as d4223 } from '../descriptors/data/180.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3168 as c0 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4455 as c1, d4456 as c2, d4457 as c3, d4458 as c4, d4459 as c5, d4460 as c6, d4461 as c7, d4462 as c8, d4463 as c9, d4464 as c10, d4465 as c11, d4466 as c12, d4467 as c13, d4468 as c14 } from '../descriptors/data/196.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4188 as c15 } from '../descriptors/data/183.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4461 as d4461 } from '../descriptors/data/196.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d4223;
+const read = d4461;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["OrderTaxCalculationRequest"]:c1(),["OrderTaxComponentRequest"]:c2(),["OrderTaxJurisdictionRequest"]:c3(),["OrderTaxLocationFullAddressRequest"]:c4(),["OrderTaxLocationInputFullAddress"]:c5(),["OrderTaxLocationInputInferredFullAddress"]:c6(),["OrderTaxLocationInputInferredPostalCode"]:c7(),["OrderTaxLocationInputPostalCode"]:c8(),["OrderTaxLocationPostalAddressRequest"]:c9(),["OrderTaxLocationRequest"]:c10(),["OrderTaxRequest"]:c11(),["SharedCodec139"]:c12(),["SharedCodec982"]:c13(),["SharedCodec983"]:c14(),["SharedCodec984"]:c15(),["SharedCodec985"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["OrderTaxCalculationRequest"]:c1(),["OrderTaxComponentRequest"]:c2(),["OrderTaxJurisdictionRequest"]:c3(),["OrderTaxLocationFullAddressRequest"]:c4(),["OrderTaxLocationPostalAddressRequest"]:c5(),["OrderTaxLocationRequest"]:c6(),["OrderTaxRequest"]:c7(),["SharedCodec1020"]:c8(),["SharedCodec1021"]:c9(),["SharedCodec1022"]:c10(),["SharedCodec1023"]:c11(),["SharedCodec1024"]:c12(),["SharedCodec1025"]:c13(),["SharedCodec1026"]:c14(),["SharedCodec158"]:c15()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOrderTaxRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

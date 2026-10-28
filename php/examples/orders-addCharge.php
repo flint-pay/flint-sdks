@@ -23,6 +23,7 @@ $result = $client->orders->addCharge('example', [
       'amount' => '100',
       'currency' => 'USD',
     ],
+    'calculation_type' => 'amount',
     'name' => 'example',
     'type' => 'service_fee',
   ],

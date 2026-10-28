@@ -30,7 +30,7 @@ Request input.
 | `initiated_by` | Required | string | Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. Values: `"buyer"`, `"merchant"`, `"integration"`. |
 | `line_items` | Required | Array of [ReturnLineItemInput](../models/ReturnLineItemInput.md#returnlineiteminput) |  |
 | `merchandise_status` | Required | string | On the Return, the least-finished line's value. Values: [10 declared values](#returnresourceinput-merchandise_status-values). |
-| `metadata` | Required | Map of string |  |
+| `metadata` | Required | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null |  |
 | `order_id` | Required | string |  |
 | `policy_evaluation` | Optional | [ReturnPolicyEvaluationInput](../models/ReturnPolicyEvaluationInput.md#returnpolicyevaluationinput) | How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. |

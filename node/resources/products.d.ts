@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateProductRequestInput } from '../declarations/types-8.js';
+import type { CreateProductRequestInput } from '../declarations/types-9.js';
 import type {
     Product,
     ProductListResponse,
@@ -9,7 +9,9 @@ import type {
     ProductOptionResponse,
     ProductResponse,
     ProductVariant,
-    ProductVariantListResponse,
+    ProductVariantListResponse
+} from '../declarations/types-39.js';
+import type {
     ProductVariantRequestInput,
     ProductVariantResponse,
     ProductsCreateInput,
@@ -24,11 +26,11 @@ import type {
     ProductsRemoveInput,
     ProductsUpdateInput,
     ProductsUpdateVariantInput
-} from '../declarations/types-37.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-40.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateProductRequestInput, UpdateProductVariantRequestInput } from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -43,19 +45,30 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateProductRequestInput, CreateProductOptionRequestInput, CreateProductOptionValueRequestInput } from '../declarations/types-8.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type {
+    CreateProductRequestInput,
+    CreateProductOptionRequestInput,
+    CreateProductOptionValueRequestInput,
+    CreateProductRequestSimpleInput,
+    CreateProductRequestOptionedInput
+} from '../declarations/types-9.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     Product,
     ProductResponse,
-    ProductVariantRequestInput,
     ProductVariant,
-    ProductVariantResponse,
     ProductOption,
     ProductOptionResponse,
     ProductOptionListResponse,
     ProductListResponse,
     ProductVariantListResponse,
+    ProductPriceRange,
+    ProductOptionValue
+} from '../declarations/types-39.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type {
+    ProductVariantRequestInput,
+    ProductVariantResponse,
     ProductsCreateInput,
     ProductsCreateVariantInput,
     ProductsRemoveInput,
@@ -69,30 +82,32 @@ export type {
     ProductsUpdateInput,
     ProductsUpdateVariantInput,
     ProductVariantMatch,
-    ProductPriceRange,
     ProductVariantSelectedOptionRequestInput,
-    ProductOptionValue,
     ProductVariantSelectedOptionRequest
-} from '../declarations/types-37.js';
-export type { SdkResponse, SelectedProductOption } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-40.js';
+export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-65.js';
 export type {
     UpdateProductRequestInput,
     UpdateProductVariantRequestInput,
     UpdateProductOptionRequestInput,
     UpdateProductOptionValueRequestInput
-} from '../declarations/types-49.js';
+} from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { ImageRequestInput } from '../declarations/types-20.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-21.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    ModifierGroup,
+    Modifier,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-32.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
+export type { Credentials } from '../declarations/types-11.js';
 export type { CategoryReference } from '../declarations/types-3.js';
-export type { ImageAttachment, GiftCardProductConfigurationInput, GiftCardProductConfiguration } from '../declarations/types-19.js';
 export type {
     ModifierSet,
     ModifierSetGroup,
-    ModifierGroup,
-    Modifier,
     MoneyValue,
     ModifierOverride,
     ModifierSetGroupExisting,
@@ -100,29 +115,44 @@ export type {
     NextAction,
     NextActionMerchantAccountSession,
     MoneyValueInput
-} from '../declarations/types-31.js';
-export type { TextModifierConfig } from '../declarations/types-47.js';
-export type { GiftCardCustomAmountBoundsInput, GiftCardCustomAmountBounds } from '../declarations/types-18.js';
-export type { InventoryItemCreateRequestInput, InventoryItemCreateRequest } from '../declarations/types-24.js';
-export type { DimensionsInput, Dimensions } from '../declarations/types-16.js';
-export type { WeightInput, Weight } from '../declarations/types-61.js';
-export { makeCreateProductOptionRequest, makeCreateProductOptionValueRequest, makeCreateProductRequest } from '../declarations/types-64.js';
-export { makeDimensions } from '../declarations/types-66.js';
+} from '../declarations/types-33.js';
+export type { TextModifierConfig } from '../declarations/types-50.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type {
+    GiftCardProductConfigurationRequestRequestInput,
+    GiftCardCustomAmountBoundsRequestRequestInput,
+    GiftCardProductConfiguration,
+    GiftCardCustomAmountBounds
+} from '../declarations/types-20.js';
+export type { InventoryItemCreateRequestInput } from '../declarations/types-26.js';
+export type { DimensionsInput, Dimensions } from '../declarations/types-17.js';
+export type { SelectedProductOption } from '../declarations/types-47.js';
 export {
-    makeGiftCardCustomAmountBounds,
-    makeGiftCardProductConfiguration,
+    makeCreateProductOptionRequest,
+    makeCreateProductOptionValueRequest,
+    makeCreateProductRequest,
+    makeCreateProductRequestOptioned,
+    makeCreateProductRequestSimple
+} from '../declarations/types-68.js';
+export { makeDimensions } from '../declarations/types-70.js';
+export {
+    makeGiftCardCustomAmountBoundsRequestRequest,
+    makeGiftCardProductConfigurationRequestRequest,
+    makeImageInputFile,
+    makeImageInputSourceURL,
     makeImageRequest,
     makeInventoryItemCreateRequest
-} from '../declarations/types-67.js';
-export { makeModifierOverride, makeMoneyValue } from '../declarations/types-68.js';
-export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-70.js';
+} from '../declarations/types-71.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeProductVariantRequest, makeProductVariantSelectedOptionRequest } from '../declarations/types-74.js';
 export {
     makeUpdateProductOptionRequest,
     makeUpdateProductOptionValueRequest,
     makeUpdateProductRequest,
-    makeUpdateProductVariantRequest,
-    makeWeight
-} from '../declarations/types-73.js';
+    makeUpdateProductVariantRequest
+} from '../declarations/types-77.js';
+export { makeWeight } from '../declarations/types-78.js';
 export interface ProductsResource {
     /**
  * Creates a product for the authenticated merchant.
@@ -132,7 +162,8 @@ export interface ProductsResource {
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.products.create({default_variant: {unit_price_money: {amount: "100", currency: "USD"}},
- * name: "example", product_type: "physical"}, { idempotencyKey: idempotencyKey })
+ * name: "example", product_type: "physical", variant_mode: "simple"}, { idempotencyKey:
+ * idempotencyKey })
  */
     create(params: (InputValue<CreateProductRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
@@ -255,7 +286,7 @@ export interface ProductsResource {
         "expand"?: InputValue<Array<"modifier_set">>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ProductVariantResponse>>;
     /**
- * List product options.
+ * List product options. Default order: position ascending, then option_id ascending.
  * @see reference/products.md#productslistoptions
  * GET /v1/products/{product_id}/options
  * @example
@@ -299,7 +330,8 @@ export interface ProductsResource {
         "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<ProductOption>;
     /**
- * Returns a paginated list of products for the authenticated merchant.
+ * Returns a paginated list of products for the authenticated merchant. Default order: created_at
+ * descending, then product_id descending.
  * @see reference/products.md#productslist
  * GET /v1/products
  * @example
@@ -423,7 +455,7 @@ export interface ProductsResource {
         "expand"?: InputValue<Array<"modifier_set">>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Product>;
     /**
- * List product variants.
+ * List product variants. Default order: position ascending, then variant_id ascending.
  * @see reference/products.md#productslistvariants
  * GET /v1/products/{product_id}/variants
  * @example

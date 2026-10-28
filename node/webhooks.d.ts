@@ -1,7 +1,12 @@
 export { parseExact } from './runtime.js';
-export { verifyWebhook, verifyWebhookAsync } from './declarations/types-73.js';
+export { verifyWebhook, verifyWebhookAsync } from './declarations/types-78.js';
 export type {
     WebhookVerificationOptions,
+    WebhookEventRefundSucceeded,
+    WebhookEventRefundUpdated,
+    WebhookEventReportFailed,
+    WebhookEventReportSucceeded,
+    WebhookEventReturnDispositionCreated,
     WebhookEventReturnDispositionUpdated,
     WebhookEventReturnInspectionAcceptanceDecided,
     WebhookEventReturnInspectionCreated,
@@ -11,6 +16,10 @@ export type {
     WebhookEventReturnReceiptVerified,
     WebhookEventReturnResolutionCreated,
     WebhookEventReturnResolutionUpdated,
+    WebhookEventReturnCanceled,
+    WebhookEventReturnCompleted,
+    WebhookEventReturnCreated,
+    WebhookEventReturnDecisionRecorded,
     WebhookEventReturnReopened,
     WebhookEventReturnUpdated,
     WebhookEventShipmentCreated,
@@ -36,9 +45,10 @@ export type {
     WebhookEventSubscriptionRenewalUpcoming,
     WebhookEventSubscriptionResumed,
     WebhookEventSubscriptionTrialEnding,
-    WebhookEventSubscriptionUpdated
-} from './declarations/types-54.js';
-export type { KnownWebhookEvent } from './declarations/types-28.js';
+    WebhookEventSubscriptionUpdated,
+    WebhookEventTaxConnectionUpdated
+} from './declarations/types-57.js';
+export type { KnownWebhookEvent } from './declarations/types-30.js';
 export type {
     VerifiedWebhook,
     WebhookEventBalanceTransactionCreated,
@@ -50,7 +60,9 @@ export type {
     WebhookEventCategoryCreated,
     WebhookEventCategoryDeleted,
     WebhookEventCategoryUpdated,
-    WebhookEventCheckoutSessionClosed,
+    WebhookEventCheckoutSessionClosed
+} from './declarations/types-53.js';
+export type {
     WebhookEventCheckoutSessionCreated,
     WebhookEventCheckoutSessionExpired,
     WebhookEventCheckoutSessionInvalidated,
@@ -60,9 +72,7 @@ export type {
     WebhookEventCreditNoteAllocationReversed,
     WebhookEventCreditNoteCreated,
     WebhookEventCreditNoteIssued,
-    WebhookEventCreditNoteUpdated
-} from './declarations/types-50.js';
-export type {
+    WebhookEventCreditNoteUpdated,
     WebhookEventCreditNoteVoided,
     WebhookEventCustomDomainArchived,
     WebhookEventCustomDomainUpdated,
@@ -116,7 +126,9 @@ export type {
     WebhookEventFulfillmentCanceled,
     WebhookEventFulfillmentCompleted,
     WebhookEventFulfillmentCreated,
-    WebhookEventFulfillmentFailed,
+    WebhookEventFulfillmentFailed
+} from './declarations/types-54.js';
+export type {
     WebhookEventFulfillmentUpdated,
     WebhookEventGiftCardLoadCreated,
     WebhookEventGiftCardLoadUpdated,
@@ -126,9 +138,7 @@ export type {
     WebhookEventGiftCardRedemptionUpdated,
     WebhookEventGiftCardTransactionCreated,
     WebhookEventGiftCardCreated,
-    WebhookEventGiftCardUpdated
-} from './declarations/types-51.js';
-export type {
+    WebhookEventGiftCardUpdated,
     WebhookEventInventoryCountApplied,
     WebhookEventInventoryLevelShortageDetected,
     WebhookEventInventoryLevelUpdated,
@@ -181,7 +191,9 @@ export type {
     WebhookEventMerchantBillingInvoiceUpdated,
     WebhookEventMerchantReadinessUpdated,
     WebhookEventMerchantUpdated,
-    WebhookEventModifierGroupArchived,
+    WebhookEventModifierGroupArchived
+} from './declarations/types-55.js';
+export type {
     WebhookEventModifierGroupCreated,
     WebhookEventModifierGroupUpdated,
     WebhookEventModifierSetArchived,
@@ -191,9 +203,7 @@ export type {
     WebhookEventOrderCreated,
     WebhookEventOrderInventoryExceptionCreated,
     WebhookEventOrderInventoryExceptionResolved,
-    WebhookEventOrderPaid
-} from './declarations/types-52.js';
-export type {
+    WebhookEventOrderPaid,
     WebhookEventOrderPartiallyPaid,
     WebhookEventOrderPartiallyRefunded,
     WebhookEventOrderRefunded,
@@ -247,14 +257,5 @@ export type {
     WebhookEventPromotionUpdated,
     WebhookEventRefundCreated,
     WebhookEventRefundFailed,
-    WebhookEventRefundPartiallySucceeded,
-    WebhookEventRefundSucceeded,
-    WebhookEventRefundUpdated,
-    WebhookEventReportFailed,
-    WebhookEventReportSucceeded,
-    WebhookEventReturnDispositionCreated,
-    WebhookEventReturnCanceled,
-    WebhookEventReturnCompleted,
-    WebhookEventReturnCreated,
-    WebhookEventReturnDecisionRecorded
-} from './declarations/types-53.js';
+    WebhookEventRefundPartiallySucceeded
+} from './declarations/types-56.js';

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CancelOrderPaymentAttemptResponseInput extends Model {
-    /** @param array{'data': CancelOrderPaymentAttemptResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': CancelOrderPaymentAttemptResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CancelOrderPaymentAttemptResponseInput')); }
     /** Shape $ (Value): {@see CancelOrderPaymentAttemptResultInput}. The order is the primary resource and expected_version target; order_payment_attempt is the canceled attempt.
      * @return CancelOrderPaymentAttemptResultInput|array<array-key, mixed>|\stdClass

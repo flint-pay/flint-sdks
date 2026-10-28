@@ -17,7 +17,7 @@
 
 ### InventoryRoutingSource variant 1
 
-anyOf variant 1: Declared schema DeliveryPreviewRoutingSource. Chooses where a delivery options preview routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision..
+anyOf variant 1: Declared schema OrderInventoryRoutingSourceRequest. Where inventory for an order is allocated from: a fixed location, an allocation policy, or a specific policy revision..
 
 - Constraints for `inventory_allocation_policy_id`: minLength: `1`.
 - Constraints for `inventory_allocation_policy_revision_id`: minLength: `1`.
@@ -28,12 +28,4 @@ anyOf variant 1: Declared schema DeliveryPreviewRoutingSource. Chooses where a d
 anyOf variant 2: Declared schema InventoryRoutingSource. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision..
 
 No additional constraints.
-
-### InventoryRoutingSource variant 3
-
-anyOf variant 3: Declared schema OrderInventoryRoutingSourceRequest. Where inventory for an order is allocated from: a fixed location, an allocation policy, or a specific policy revision..
-
-- Constraints for `inventory_allocation_policy_id`: minLength: `1`.
-- Constraints for `inventory_allocation_policy_revision_id`: minLength: `1`.
-- Constraints for `location_id`: minLength: `1`.
 

@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionPickupLocationAddress](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionPickupLocationAddress.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueunavailableoptionpickuplocationaddress) | An address as returned on delivery quotes, selections, previews, and pickup locations. `address`: [field definitions](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionPickupLocation.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueunavailableoptionpickuplocationaddress-fields-1). |
+| `address` | Optional | [DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionPickupLocationAddress](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionPickupLocationAddress.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueunavailableoptionpickuplocationaddress) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionPickupLocation.md#deliverypreviewchoicegroupresourcecandidateoutcomesvalueunavailableoptionpickuplocationaddress-fields-1). |
 | `instructions` | Optional | string |  |
 | `location_id` | Required | string |  |
 | `name` | Required | string |  |
@@ -16,7 +16,7 @@ Response model.
 
 ### DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableOptionPickupLocation.address fields 1
 
-An address as returned on delivery quotes, selections, previews, and pickup locations.
+A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
 
-Field definitions: [shared fields](DeliveryAddressResourceInput.md#deliveryaddressresourceinput).
+Field definitions: [shared fields](AddressInput.md#addressinput).
 

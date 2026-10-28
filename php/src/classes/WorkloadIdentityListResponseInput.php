@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class WorkloadIdentityListResponseInput extends Model {
-    /** @param array{'data': list<WorkloadIdentityInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<WorkloadIdentityInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WorkloadIdentityListResponseInput')); }
     /** Shape $ (Value): Array of {@see WorkloadIdentityInput}. Shape $[] (Value): {@see WorkloadIdentityInput}. A policy that grants API access to a workload authenticated by an external identity provider.
      * @return list<WorkloadIdentityInput|array<array-key, mixed>|\stdClass>

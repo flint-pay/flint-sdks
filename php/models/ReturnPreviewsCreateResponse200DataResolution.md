@@ -26,7 +26,7 @@ Field definitions: [ReturnPreviewsCreateResponse200.data.eligibility fields 1.li
 
 ### ReturnPreviewsCreateResponse200DataResolution.eligibility fields 1.selection
 
-Declared alternatives: [ReturnPreviewsCreateResponse200.data.eligibility fields 1.selection](../models/ReturnPreviewsCreateResponse200.md#returnpreviewscreateresponse200dataeligibility-fields-1selection).
+Declared alternatives: [MeCreateReturnPreviewResponse200.data.eligibility fields 1.selection](../models/MeCreateReturnPreviewResponse200.md#mecreatereturnpreviewresponse200dataeligibility-fields-1selection).
 
 ### ReturnPreviewsCreateResponse200DataResolution.resolution fields 1
 

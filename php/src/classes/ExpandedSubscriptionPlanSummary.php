@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read ?string $created_at
  * @property-read string $currency
  * @property-read ?string $description
- * @property-read ?list<\stdClass> $line_items
+ * @property-read list<ExpandedSubscriptionPlanSummaryLineItemsItemVariant|ExpandedSubscriptionPlanSummaryLineItemsItemBundle|ExpandedSubscriptionPlanSummaryLineItemsItemCustom|\stdClass>|null $line_items
  * @property-read string $name
  * @property-read ?list<int> $quantity_options
  * @property-read ?MoneyValue $setup_fee_money
@@ -51,7 +51,7 @@ final class ExpandedSubscriptionPlanSummary extends Model {
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
     /** Shape $ (Value): Array of {@see SubscriptionPlanLineItem}. Shape $[] (Value): {@see SubscriptionPlanLineItem}. A line item on a subscription plan, from a variant or bundle, with its quantity, price, and variants a subscriber can swap to.
-     * @return ?list<\stdClass>
+     * @return list<ExpandedSubscriptionPlanSummaryLineItemsItemVariant|ExpandedSubscriptionPlanSummaryLineItemsItemBundle|ExpandedSubscriptionPlanSummaryLineItemsItemCustom|\stdClass>|null
      */
     public function getLineItems(): ?array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
@@ -70,7 +70,7 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getSetupFeeMoney(): ?MoneyValue { return $this->get('setup_fee_money'); }
     public function hasSetupFeeMoney(): bool { return $this->has('setup_fee_money'); }
-    /** Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive", "archived".
+    /** Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive", "archived".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

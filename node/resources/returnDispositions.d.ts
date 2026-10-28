@@ -1,19 +1,19 @@
 import type { InputValue } from '../runtime.js';
 import type { CancelReturnDispositionRequestInput } from '../declarations/types-3.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { GetReturnDispositionResponse } from '../declarations/types-18.js';
-import type { ListReturnDispositionsResponse } from '../declarations/types-29.js';
+import type { GetReturnDispositionResponse } from '../declarations/types-20.js';
+import type { ListReturnDispositionsResponse } from '../declarations/types-30.js';
+import type { RequestOptions } from '../declarations/types-42.js';
 import type {
-    RequestOptions,
     RetryReturnDispositionRequestInput,
     ReturnDisposition,
     ReturnDispositionsCancelInput,
     ReturnDispositionsGetInput,
     ReturnDispositionsListInput,
     ReturnDispositionsRetryInput
-} from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-43.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,8 +29,8 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CancelReturnDispositionRequestInput } from '../declarations/types-3.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
-    RequestOptions,
     ReturnDisposition,
     RetryReturnDispositionRequestInput,
     ReturnDispositionsCancelInput,
@@ -38,20 +38,20 @@ export type {
     ReturnDispositionsListInput,
     ReturnDispositionsRetryInput,
     ReturnActor,
-    ResponseMeta,
     ResponseWarning
-} from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { GetReturnDispositionResponse } from '../declarations/types-18.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ListReturnDispositionsResponse } from '../declarations/types-29.js';
+} from '../declarations/types-43.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { GetReturnDispositionResponse } from '../declarations/types-20.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { ListReturnDispositionsResponse } from '../declarations/types-30.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCancelReturnDispositionRequest } from '../declarations/types-62.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeRetryReturnDispositionRequest } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { MetadataMap } from '../declarations/types-32.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCancelReturnDispositionRequest } from '../declarations/types-65.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeRetryReturnDispositionRequest } from '../declarations/types-75.js';
 export interface ReturnDispositionsResource {
     /**
  * Cancel a disposition that has not started its inventory effect. Cancellation is refused once the
@@ -91,7 +91,7 @@ export interface ReturnDispositionsResource {
     /**
  * List merchandise dispositions. Omitting return_id lists dispositions across every Return for the
  * merchant. Newest first: created_at descending, with return_disposition_id descending as the
- * tiebreak.
+ * tiebreak. Default order: created_at descending, then return_disposition_id descending.
  * @see reference/returnDispositions.md#returndispositionslist
  * GET /v1/return-dispositions
  * @example

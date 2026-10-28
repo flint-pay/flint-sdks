@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ShipmentListResponseInput extends Model {
-    /** @param array{'data': list<ShipmentInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<ShipmentInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ShipmentListResponseInput')); }
     /** Shape $ (Value): Array of {@see ShipmentInput}. Shape $[] (Value): {@see ShipmentInput}. A shipment carrying fulfilled order items.
      * @return list<ShipmentInput|array<array-key, mixed>|\stdClass>

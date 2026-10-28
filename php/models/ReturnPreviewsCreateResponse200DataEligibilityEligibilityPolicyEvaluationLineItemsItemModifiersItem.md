@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemmetadata). |
 | `modifier_group_name` | Required | string | Name of the modifier group recorded when this selection was added to the order line item. |
 | `modifier_id` | Optional | string | Identifier of the selected catalog modifier. If its group is owned by a modifier set (source: inline), read the group through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. |
 | `name` | Required | string | Name of the selected modifier recorded on the order line item. |
@@ -21,4 +21,8 @@ Response model.
 | `text_value` | Optional | string | Buyer-entered text recorded for a text modifier selection. |
 | `total_money` | Required | [ReturnPreviewsCreateResponse200DataEligibilityEligibilityPolicyEvaluationLineItemsItemModifiersItemTotalMoney](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibilityPolicyEvaluationLineItemsItemModifiersItemTotalMoney.md#returnpreviewscreateresponse200dataeligibilityeligibilitypolicyevaluationlineitemsitemmodifiersitemtotalmoney) | Total price added by this selection. Multiplies unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `unit_price_delta_money` | Required | [ReturnPreviewsCreateResponse200DataEligibilityEligibilityPolicyEvaluationLineItemsItemModifiersItemUnitPriceDeltaMoney](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibilityPolicyEvaluationLineItemsItemModifiersItemUnitPriceDeltaMoney.md#returnpreviewscreateresponse200dataeligibilityeligibilitypolicyevaluationlineitemsitemmodifiersitemunitpricedeltamoney) | Amount added to the item's unit price for each unit of this selection, recorded when selected. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+
+### ReturnPreviewsCreateResponse200DataEligibilityEligibilityPolicyEvaluationLineItemsItemModifiersItem.metadata
+
+Field definitions: [ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem.metadata](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItem.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemmetadata).
 

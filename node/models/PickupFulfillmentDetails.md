@@ -10,7 +10,7 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [Address](../models/Address.md#address) | Address where the buyer collects the order. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. `address`: [field definitions](../models/PickupFulfillmentDetails.md#pickupfulfillmentdetailsaddress). |
+| `address` | Optional | [Address](../models/Address.md#address) | Address where the buyer collects the order. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `curbside_instructions` | Optional | string | Instructions specific to curbside handoff. maxLength: `2048`. |
 | `customer_arrived_at` | Optional | string | Buyer-reported arrival time for curbside or counter pickup. Format: `date-time`. |
 | `expires_at` | Optional | string | Deadline after which an uncollected pickup should enter merchant review. Format: `date-time`. |
@@ -25,10 +25,4 @@ Pickup details. For a pickup that checkout creates, location_name, address, and 
 | `vehicle_description` | Optional | string | Buyer vehicle description used for curbside handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `500`. |
 | `window_end_at` | Optional | string | End of the promised pickup window, in RFC3339 format. Format: `date-time`. |
 | `window_start_at` | Optional | string | Start of the promised pickup window, in RFC3339 format. Format: `date-time`. |
-
-### PickupFulfillmentDetails.address
-
-Address where the buyer collects the order. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
-
-Field definitions: [shared fields](BuyerCustomer.md#buyercustomerbilling_address).
 

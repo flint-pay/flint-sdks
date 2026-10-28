@@ -6,11 +6,5 @@ One permission a partner app can request, with a title, a description, and the F
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `description` | Required | string | minLength: `1`. |
-| `optional` | Optional | boolean |  |
-| `permission_id` | Required | string | minLength: `1`. |
-| `required_scopes` | Required | Array of string | Items: minLength: `1`. |
-| `title` | Required | string | minLength: `1`. |
+Fields, types, descriptions and enum values: [PartnerAppPermissionManifestEntryRequestRequestInput](../models/PartnerAppPermissionManifestEntryRequestRequestInput.md#partnerapppermissionmanifestentryrequestrequestinput).
 

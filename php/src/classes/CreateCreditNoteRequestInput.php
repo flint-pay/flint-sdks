@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string $reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCreditNoteRequestInput extends Model {
-    /** @param array{'external_reference_id'?: string, 'invoice_id': string, 'line_items'?: list<CreditNoteLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'memo'?: string, 'reason': string, ...}|object $values */
+    /** @param array{'external_reference_id'?: string, 'invoice_id': string, 'line_items'?: list<CreditNoteLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'memo'?: string, 'reason': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCreditNoteRequestInput')); }
     /** Shape $ (Value): string. Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
      * @return string

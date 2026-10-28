@@ -1,1 +1,1 @@
-{"shared":"Webhook_modifier_group_archived_merchant","dependencies":["MerchantWebhookEnvelope","Modifier","ModifierGroup","MoneyValue","SharedCodec373","SharedCodec374","SharedCodec527","TextModifierConfig","Webhook_modifier_group_archived_merchant"]}
+{"shared":"Webhook_modifier_group_archived_merchant","dependencies":["MerchantWebhookEnvelope","MetadataMap","Modifier","ModifierGroup","MoneyValue","SharedCodec413","SharedCodec414","SharedCodec564","TextModifierConfig","Webhook_modifier_group_archived_merchant"]}

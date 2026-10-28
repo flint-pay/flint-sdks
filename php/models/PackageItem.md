@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `created_at` | Optional | string | Creation timestamp. Format: `date-time`. |
 | `fulfillment_id` | Required | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null |  |
 | `order_id` | Required | string |  |
 | `order_line_item_id` | Required | string |  |
@@ -20,4 +20,8 @@ Response model.
 | `shipment_id` | Required | string |  |
 | `updated_at` | Optional | string | Last update timestamp. Format: `date-time`. |
 | `version` | Required | integer string | Persisted item version, independent of package shipment and capacity guards. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+
+### PackageItem.metadata
+
+Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
 

@@ -8,10 +8,10 @@ import type {
     FeedbackReportsCreateInput,
     FeedbackReportsGetInput,
     FeedbackReportsListInput
-} from '../declarations/types-17.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-18.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,7 +31,7 @@ export type {
     CreateFeedbackReportRatingInput,
     CreateFeedbackReportNarrativeInput
 } from '../declarations/types-6.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     FeedbackReport,
     FeedbackReportResponse,
@@ -43,20 +43,21 @@ export type {
     FeedbackReportingClient,
     FeedbackReportRating,
     FeedbackReportNarrative
-} from '../declarations/types-17.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-18.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
 export {
     makeCreateFeedbackReportNarrative,
     makeCreateFeedbackReportRating,
     makeCreateFeedbackReportRequest
-} from '../declarations/types-63.js';
-export { makeFeedbackReportingClient } from '../declarations/types-66.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+} from '../declarations/types-67.js';
+export { makeFeedbackReportingClient } from '../declarations/types-70.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface FeedbackReportsResource {
     /**
  * Stores one immutable occurrence of Flint feedback. Use one report per root cause and include
@@ -94,7 +95,7 @@ export interface FeedbackReportsResource {
     getWithResponse(feedback_report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<FeedbackReportResponse>>;
     /**
  * Lists feedback reports in descending creation order for the credential's merchant and
- * environment.
+ * environment. Default order: created_at descending, then feedback_report_id descending.
  * @see reference/feedbackReports.md#feedbackreportslist
  * GET /v1/feedback-reports
  * @example

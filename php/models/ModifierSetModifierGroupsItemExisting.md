@@ -30,3 +30,7 @@ Modifier group owned by this set when source is inline. Read this group through 
 
 Field definitions: [shared fields](ModifierGroup.md#modifiergroup).
 
+### ModifierSetModifierGroupsItemExisting.modifier_group.metadata
+
+Field definitions: [PayoutsCancelResponse200.data.metadata](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datametadata).
+

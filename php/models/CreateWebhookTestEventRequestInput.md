@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [245 declared values](#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [246 declared values](#createwebhooktesteventrequestinput-event_type-values). |
 
 #### CreateWebhookTestEventRequestInput event_type values
 
@@ -257,4 +257,5 @@ Request input.
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
+- `"tax_connection.updated"`
 

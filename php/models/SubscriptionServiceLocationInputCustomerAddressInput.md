@@ -9,5 +9,5 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `customer_address_id` | Required | string | minLength: `1`. |
-| `source` | Required | string | Values: `"customer_address"`. |
+| `type` | Required | string | Values: `"customer_address"`. |
 

@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read bool $required
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkCustomFieldPatchRequestInput extends Model {
-    /** @param array{'custom_field_type': string, 'key': string, 'label': string, 'max_length'?: int, 'options'?: list<string>, 'payment_link_custom_field_id'?: string, 'placeholder'?: string, 'position'?: int, 'required'?: bool, ...}|object $values */
+    /** @param array{'custom_field_type': string, 'key': string, 'label': string, 'max_length'?: int, 'options'?: list<string>, 'payment_link_custom_field_id'?: string, 'placeholder'?: string, 'position'?: int, 'required'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkCustomFieldPatchRequestInput')); }
     /** Shape $ (Value): string.  Value enum: "text", "dropdown", "checkbox", "textarea".
      * @return string

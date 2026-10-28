@@ -13,14 +13,14 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class Organization extends Model {
-    /** @param array{'created_at'?: string, 'metadata'?: \stdClass, 'name': string, 'organization_id': string, 'parent_organization'?: mixed, 'parent_organization_id'?: string, 'status': string, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'created_at'?: string, 'metadata'?: mixed, 'name': string, 'organization_id': string, 'parent_organization'?: mixed, 'parent_organization_id'?: string, 'status': string, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Organization')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return ?string
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

@@ -55,7 +55,7 @@ $result = $client->fulfillmentEvents->get('example', [], new RequestOptions());
 
 ### fulfillmentEvents.list
 
-Lists provider-neutral fulfillment events. Results default to received_at descending, with fulfillment_event_id descending as the tiebreaker. sort_direction applies to both the selected timestamp and the ID tiebreaker.
+Lists provider-neutral fulfillment events. Results default to received_at descending, with fulfillment_event_id descending as the tiebreaker. sort_direction applies to both the selected timestamp and the ID tiebreaker. Default order: received_at descending, then fulfillment_event_id descending.
 
 `GET /v1/fulfillment-events`
 

@@ -1,1 +1,1 @@
-{"shared":"SubscriptionOffer","dependencies":["SubscriptionIntervalOption","SubscriptionOffer"]}
+{"shared":"SubscriptionOffer","dependencies":["MetadataMap","SubscriptionIntervalOption","SubscriptionOffer"]}

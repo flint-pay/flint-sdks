@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read PromotionRefRequestInput|array<array-key, mixed>|\stdClass $promotion
  * Presence-aware input; omitted fields throw when accessed. */
 final class ApplyDiscountRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'expected_version'?: string, 'manual'?: ManualDiscountRequestInput|array<array-key, mixed>|\stdClass, 'promotion': PromotionRefRequestInput|array<array-key, mixed>|\stdClass}|object|array{'expected_version'?: string, 'manual': ManualDiscountRequestInput|array<array-key, mixed>|\stdClass, 'promotion'?: PromotionRefRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApplyDiscountRequestInput')); }
     /** Shape $ (Value): integer string. Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
      * @return string

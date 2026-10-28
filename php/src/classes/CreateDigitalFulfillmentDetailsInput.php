@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $delivery_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateDigitalFulfillmentDetailsInput extends Model {
-    /** @param array{'delivery_url'?: string, ...}|object $values */
+    /** @param array{'delivery_url'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDigitalFulfillmentDetailsInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

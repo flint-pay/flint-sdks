@@ -14,7 +14,7 @@ Request input.
 
 ### BuyerReturnPreviewInput variant 1: `mode` = `"eligibility"`
 
-oneOf variant 1.
+oneOf variant 1: The `eligibility` variant of `BuyerReturnPreview`..
 
 - Condition: not (present(`resolution`)).
 - Required: `eligibility`.
@@ -23,7 +23,7 @@ oneOf variant 1.
 
 ### BuyerReturnPreviewInput variant 2: `mode` = `"resolution"`
 
-oneOf variant 2.
+oneOf variant 2: The `resolution` variant of `BuyerReturnPreview`..
 
 - Condition: not (present(`eligibility`)).
 - Required: `resolution`.

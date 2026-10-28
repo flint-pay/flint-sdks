@@ -1,1 +1,1 @@
-{"shared":"BuyerPaymentAttemptPaymentIntent","dependencies":["BuyerErrorRemediation","BuyerPaymentAttemptPaymentIntent","BuyerPaymentErrorSummary","MoneyValue","SharedCodec23","SharedCodec24"]}
+{"shared":"BuyerPaymentAttemptPaymentIntent","dependencies":["BuyerErrorRemediation","BuyerPaymentAttemptPaymentIntent","BuyerPaymentErrorSummary","MoneyValue","SharedCodec32","SharedCodec33"]}

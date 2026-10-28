@@ -1,0 +1,1 @@
+{"shared":"TaxDisclosureStatement","phpRepresentation":{"kind":"record","fields":{"text":{"kind":"value","type":"string"}}},"dependencies":["TaxDisclosureStatement"]}

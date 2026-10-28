@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/subscriptionPlans.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionPlan"]:r0,["deleteSubscriptionPlan"]:r0,["getSubscriptionPlan"]:r0,["listSubscriptionPlans"]:r0,["updateSubscriptionPlan"]:r0});
 export class Client {
@@ -120,16 +120,28 @@ this.subscriptionPlans = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeCreateSubscriptionPlanRequest } from '../models/CreateSubscriptionPlanRequest.js';
+export { makeImageInputFile } from '../models/ImageInputFile.js';
+export { makeImageInputSourceURL } from '../models/ImageInputSourceURL.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
 export { makeInventoryRoutingSourceInputFixedLocation } from '../models/InventoryRoutingSourceInputFixedLocation.js';
 export { makeInventoryRoutingSourceInputPolicy } from '../models/InventoryRoutingSourceInputPolicy.js';
 export { makeInventoryRoutingSourceInputPolicyRevision } from '../models/InventoryRoutingSourceInputPolicyRevision.js';
 export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOrderLineItemModifierInputCatalog } from '../models/OrderLineItemModifierInputCatalog.js';
+export { makeOrderLineItemModifierInputText } from '../models/OrderLineItemModifierInputText.js';
 export { makeOrderLineItemModifierRequest } from '../models/OrderLineItemModifierRequest.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makeSubscriptionIntervalOption } from '../models/SubscriptionIntervalOption.js';
+export { makeSubscriptionPlanLineItemInputBundle } from '../models/SubscriptionPlanLineItemInputBundle.js';
+export { makeSubscriptionPlanLineItemInputCustom } from '../models/SubscriptionPlanLineItemInputCustom.js';
+export { makeSubscriptionPlanLineItemInputVariant } from '../models/SubscriptionPlanLineItemInputVariant.js';
 export { makeSubscriptionPlanLineItemRequest } from '../models/SubscriptionPlanLineItemRequest.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
+export { makeUpdateSubscriptionPlanLineItemInputBundle } from '../models/UpdateSubscriptionPlanLineItemInputBundle.js';
+export { makeUpdateSubscriptionPlanLineItemInputCustom } from '../models/UpdateSubscriptionPlanLineItemInputCustom.js';
+export { makeUpdateSubscriptionPlanLineItemInputVariant } from '../models/UpdateSubscriptionPlanLineItemInputVariant.js';
 export { makeUpdateSubscriptionPlanLineItemRequest } from '../models/UpdateSubscriptionPlanLineItemRequest.js';
 export { makeUpdateSubscriptionPlanRequest } from '../models/UpdateSubscriptionPlanRequest.js';

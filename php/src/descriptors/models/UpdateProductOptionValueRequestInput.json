@@ -1,1 +1,1 @@
-{"shared":"UpdateProductOptionValueRequest","dependencies":["UpdateProductOptionValueRequest"]}
+{"shared":"UpdateProductOptionValueRequest","dependencies":["SharedCodec1304","UpdateProductOptionValueRequest"]}

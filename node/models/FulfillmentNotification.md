@@ -17,7 +17,7 @@ A message sent about an order's fulfillment.
 | `fulfillment_event_id` | Optional | string |  |
 | `fulfillment_id` | Required | string |  |
 | `fulfillment_notification_id` | Required | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BuyerRefund.md#buyerrefundmetadata). |
 | `notification_type` | Required | string | Values: [14 declared values](#fulfillmentnotification-notification_type-values). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null |  |
 | `order_id` | Required | string |  |
@@ -56,4 +56,8 @@ A message sent about an order's fulfillment.
 - `"template_not_configured"`
 - `"merchant_managed_email"`
 - `"recipient_unsubscribed"`
+
+### FulfillmentNotification.metadata
+
+Field definitions: [BuyerRefund.metadata](../models/BuyerRefund.md#buyerrefundmetadata).
 

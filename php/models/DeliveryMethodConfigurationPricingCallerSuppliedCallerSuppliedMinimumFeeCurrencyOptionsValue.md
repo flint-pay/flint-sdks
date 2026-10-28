@@ -6,5 +6,5 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 
 Response model.
 
-Fields, types, descriptions and enum values: [OrderTaxTaxBreakdownsItemPercentageFlatMoney](../models/OrderTaxTaxBreakdownsItemPercentageFlatMoney.md#ordertaxtaxbreakdownsitempercentageflatmoney).
+Fields, types, descriptions and enum values: [ExpandedSubscriptionPlanSummaryLineItemsItemVariantUnitPriceMoney](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantUnitPriceMoney.md#expandedsubscriptionplansummarylineitemsitemvariantunitpricemoney).
 

@@ -6,5 +6,5 @@ What checkout asks the buyer for. Each field you leave out uses your checkout se
 
 Response model.
 
-Fields, types, descriptions and enum values: [CheckoutBuyerFieldsInput](../models/CheckoutBuyerFieldsInput.md#checkoutbuyerfieldsinput).
+Fields, types, descriptions and enum values: [CheckoutBuyerFieldsRequestRequestInput](../models/CheckoutBuyerFieldsRequestRequestInput.md#checkoutbuyerfieldsrequestrequestinput).
 

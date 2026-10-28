@@ -12,7 +12,7 @@ const result = await client.developer.createSandbox(
   {
     name: "example",
     issue_test_key: true,
-    scopes: [],
+    access: "full",
   },
   { idempotencyKey: idempotencyKey },
 );

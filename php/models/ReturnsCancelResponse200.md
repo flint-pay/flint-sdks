@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [ReturnResource](../models/ReturnResource.md#returnresource) | A request to send purchased items back. `data`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### ReturnsCancelResponse200.data
 
@@ -40,7 +40,7 @@ A request to send purchased items back.
 | `initiated_by` | Required | string | Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. Values: `"buyer"`, `"merchant"`, `"integration"`. |
 | `line_items` | Required | Array of [ReturnLineItem](../models/ReturnLineItem.md#returnlineitem) | `line_items[]`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200dataline_items). |
 | `merchandise_status` | Required | string | On the Return, the least-finished line's value. Values: [10 declared values](#returnscancelresponse200data-merchandise_status-values). |
-| `metadata` | Required | Map of string |  |
+| `metadata` | Required | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null |  |
 | `order_id` | Required | string |  |
 | `policy_evaluation` | Optional | [ReturnPolicyEvaluation](../models/ReturnPolicyEvaluation.md#returnpolicyevaluation) | How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. |
@@ -156,6 +156,10 @@ An item included in a return request.
 - `"disposition_required"`
 - `"resolved"`
 - `"exception"`
+
+### ReturnsCancelResponse200.data.metadata
+
+Value shape: Map of string. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
 
 ### ReturnsCancelResponse200.data.return_inspections[]
 

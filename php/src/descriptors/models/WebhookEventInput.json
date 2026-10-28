@@ -1,1 +1,1 @@
-{"shared":"WebhookEvent","dependencies":["ResourceType","SharedCodec1253","SharedCodec238","SharedCodec374","SharedCodec377","SharedCodec378","SharedCodec379","WebhookEvent"]}
+{"shared":"WebhookEvent","dependencies":["ResourceType","SharedCodec1047","SharedCodec1048","SharedCodec268","SharedCodec414","SharedCodec417","WebhookEvent","WebhookEventSource"]}

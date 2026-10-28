@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfileAssignmentResponseInput extends Model {
-    /** @param array{'data': DeliveryProfileAssignmentInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': DeliveryProfileAssignmentInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileAssignmentResponseInput')); }
     /** Shape $ (Value): {@see DeliveryProfileAssignmentInput}. Result of assigning a delivery profile to catalog items that had none, with counts of the product variants and bundle components updated.
      * @return DeliveryProfileAssignmentInput|array<array-key, mixed>|\stdClass

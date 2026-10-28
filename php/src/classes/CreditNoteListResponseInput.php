@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNoteListResponseInput extends Model {
-    /** @param array{'data': list<CreditNoteInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<CreditNoteInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteListResponseInput')); }
     /** Shape $ (Value): Array of {@see CreditNoteInput}. Shape $[] (Value): {@see CreditNoteInput}. A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
      * @return list<CreditNoteInput|array<array-key, mixed>|\stdClass>

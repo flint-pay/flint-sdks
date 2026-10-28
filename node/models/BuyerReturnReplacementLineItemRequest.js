@@ -1,11 +1,10 @@
-import { d4294 as c0 } from '../descriptors/data/187.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4377 as c1, d4378 as c2, d4379 as c3 } from '../descriptors/data/191.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4380 as c4 } from '../descriptors/data/192.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4294 as d4294 } from '../descriptors/data/187.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d4534 as c0 } from '../descriptors/data/204.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4617 as c1, d4618 as c2, d4619 as c3, d4620 as c4 } from '../descriptors/data/208.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4534 as d4534 } from '../descriptors/data/204.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d4294;
+const read = d4534;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["BuyerReturnReplacementLineItemRequest"]:c0(),["SharedCodec29"]:c1(),["SharedCodec30"]:c2(),["SharedCodec31"]:c3(),["SharedCodec32"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["BuyerReturnReplacementLineItemRequest"]:c0(),["SharedCodec40"]:c1(),["SharedCodec41"]:c2(),["SharedCodec42"]:c3(),["SharedCodec43"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeBuyerReturnReplacementLineItemRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

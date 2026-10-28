@@ -5,12 +5,12 @@ namespace Flint;
  * @property-read string $code
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $max_uses
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $status
  * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePromotionCodeRequestInput extends Model {
-    /** @param array{'code': string, 'expires_at'?: string|\DateTimeInterface, 'max_uses'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'status'?: string, 'timezone'?: string, ...}|object $values */
+    /** @param array{'code': string, 'expires_at'?: string|\DateTimeInterface, 'max_uses'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'status'?: string, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePromotionCodeRequestInput')); }
     /** Shape $ (Value): string. Code a buyer enters to redeem the promotion. minLength: 1. maxLength: 100.
      * @return string
@@ -30,11 +30,11 @@ final class CreatePromotionCodeRequestInput extends Model {
      */
     public function getMaxUses(): string { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a code that cannot be redeemed. Default: "active". Value enum: "active", "inactive".
      * @return string

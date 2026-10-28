@@ -26,7 +26,7 @@ final class PublicPaymentLinkResultInput extends Model {
      */
     public function getCheckoutTheme(): mixed { return $this->get('checkout_theme'); }
     public function hasCheckoutTheme(): bool { return $this->has('checkout_theme'); }
-    /** Shape $ (Value): boolean.
+    /** Shape $ (Value): boolean. True for an event with no tickets remaining. For other active links with inventory_routing_source, true when any catalog line cannot be bought at its minimum quantity from that source. Untracked and ad hoc lines do not count. A choice line counts only when every offered variant is sold out. Fixed locations use available stock; policies use their allocatable locations. Stock is not reserved by this read.
      * @return bool
      * @throws SdkError When is_sold_out is omitted; use hasIsSoldOut() or valueOrDefault().
      */

@@ -10,9 +10,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.checkoutSessions.createDeliveryQuote(
   "example",
-  {
-    expected_delivery_selection_id: "example",
-  },
+  {},
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.delivery_quote_id);

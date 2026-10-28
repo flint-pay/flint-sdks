@@ -3,12 +3,12 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $address
- * @property-read string $source
+ * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionServiceLocationInputAddressInput extends Model {
-    /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'source': string}|object $values */
+    /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionServiceLocationInputAddressInput')); }
-    /** Shape $ (Value): {@see AddressRequestInput}. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
+    /** Shape $ (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
@@ -16,8 +16,8 @@ final class SubscriptionServiceLocationInputAddressInput extends Model {
     public function hasAddress(): bool { return $this->has('address'); }
     /** Shape $ (Value): string.  Value enum: "address".
      * @return string
-     * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
-    public function getSource(): string { return $this->get('source'); }
-    public function hasSource(): bool { return $this->has('source'); }
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
 }

@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read list<UpdateProductOptionValueRequestInput|array<array-key, mixed>|\stdClass> $values
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateProductOptionRequestInput extends Model {
-    /** @param array{'existing_variant_value'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name': string, 'option_id'?: string, 'position'?: int, 'status'?: string, 'values'?: list<UpdateProductOptionValueRequestInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'existing_variant_value'?: string, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name': string, 'option_id'?: string, 'position'?: int, 'status'?: string, 'values'?: list<UpdateProductOptionValueRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateProductOptionRequestInput')); }
     /** Shape $ (Value): string. Value of this option given to every active variant that has no active value for it after this request, such as when you add an option to a product that already has active variants. It must match one of this option's active `values`, ignoring case and surrounding whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
      * @return string

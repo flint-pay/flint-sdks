@@ -18,5 +18,5 @@ $client = new Client(new ClientOptions(
   customerToken: $customerToken,
 ));
 $result = $client->me->listReturns();
-echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
+echo $result->request_id . PHP_EOL;
 $client->close();

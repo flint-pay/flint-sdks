@@ -22,7 +22,7 @@ Response model.
 | `status` | Required | string | active while any held or committed quantity remains; closed once none does. Values: `"active"`, `"closed"`. |
 | `supported_actions` | Required | Array of string | Actions that can change this reservation now. Empty for a closed reservation and for one Flint holds for an order. Resending targets already applied succeeds in any status. Computed when Flint produced this response or event, so replays and webhooks keep their original value. Items values: `"commit"`, `"consume"`, `"release"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `version` | Required | integer string | The reservation version. Send it as expected_version to reject a write if the reservation changed. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `version` | Required | integer string | The reservation version. Send it as expected_version to reject a write if the reservation changed. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 
 ### InventoryReservation.owner
 

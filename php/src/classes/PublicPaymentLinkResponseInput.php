@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PublicPaymentLinkResponseInput extends Model {
-    /** @param array{'data': PublicPaymentLinkResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': PublicPaymentLinkResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkResponseInput')); }
     /** Shape $ (Value): {@see PublicPaymentLinkResultInput}. The result of resolving a public payment link: the link, merchant branding, availability, resolved line items, and a resolution context for starting checkout.
      * @return PublicPaymentLinkResultInput|array<array-key, mixed>|\stdClass

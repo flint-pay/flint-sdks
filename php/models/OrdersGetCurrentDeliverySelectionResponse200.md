@@ -6,5 +6,5 @@ A response containing `DeliverySelection` data.
 
 Response model.
 
-Fields, types, descriptions and enum values: [CheckoutSessionsGetDeliverySelectionHistoryResponse200](../models/CheckoutSessionsGetDeliverySelectionHistoryResponse200.md#checkoutsessionsgetdeliveryselectionhistoryresponse200).
+Fields, types, descriptions and enum values: [CheckoutSessionsGetDeliverySelectionResponse200](../models/CheckoutSessionsGetDeliverySelectionResponse200.md#checkoutsessionsgetdeliveryselectionresponse200).
 

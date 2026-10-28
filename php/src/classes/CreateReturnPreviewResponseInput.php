@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnPreviewResponseInput extends Model {
-    /** @param array{'data': CreateReturnPreviewDataInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': CreateReturnPreviewDataInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnPreviewResponseInput')); }
     /** Shape $ (Value): {@see CreateReturnPreviewDataInput}. A return preview, selected by `mode`: either the eligibility of the selected items or the amounts of a resolution.
      * @return CreateReturnPreviewDataInput|array<array-key, mixed>|\stdClass

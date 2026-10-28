@@ -1,1 +1,1 @@
-{"shared":"UpdateRefundRequest","dependencies":["UpdateRefundRequest"]}
+{"shared":"UpdateRefundRequest","dependencies":["MetadataPatchRequest","SharedCodec1256","UpdateRefundRequest"]}

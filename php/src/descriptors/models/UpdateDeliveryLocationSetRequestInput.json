@@ -1,1 +1,1 @@
-{"shared":"UpdateDeliveryLocationSetRequest","dependencies":["DeliveryLocationSetConfiguration","SharedCodec1179","UpdateDeliveryLocationSetRequest"]}
+{"shared":"UpdateDeliveryLocationSetRequest","dependencies":["DeliveryLocationSetConfiguration","MetadataPatchRequest","SharedCodec1256","SharedCodec1262","UpdateDeliveryLocationSetRequest"]}

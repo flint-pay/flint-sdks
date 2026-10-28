@@ -21,9 +21,7 @@ $result = $client->workloadIdentities->create([
   'name' => 'example',
   'issuer' => 'example',
   'subject' => 'example',
-  'scopes' => [
-    'accounts.api_keys.read',
-  ],
+  'scopes' => [],
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->created_by->resource_id . PHP_EOL;
 echo $result->status . PHP_EOL;

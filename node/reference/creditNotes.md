@@ -64,7 +64,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -140,7 +140,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createAllocationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -219,7 +219,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createRefundWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -400,7 +400,7 @@ const result = await client.creditNotes.getPDF("example", {}, {  });
 
 ### creditNotes.issue
 
-Issues a draft credit note and freezes its PDF. Provide allocation to issue and apply credit to its invoice atomically, or refund to initiate a linked refund on a paid invoice. Allocation and refund cannot be combined. Omit allocation.amount_money to apply the smaller of the credit available after issue and the invoice's outstanding balance. An explicit amount must be positive, use the invoice's currency, and fit both balances. The result includes credit_note_allocation when allocation is requested. Idempotency-Key is required and is retained for as long as the issue's effects exist, scoped to merchant, environment, credit note, and key. Reuse the key with the identical request to recover the original credit note and allocation. Recover an allocation after a lost response by listing this note's allocations with idempotency_key=issue:<issue key>. For refunds, list this note's refunds filtered by the original idempotency_key. A pending refund is accepted but has not completed. Without allocation or refund, issuance leaves the invoice balance unchanged. Issue validates the stored preview against current shared creditable pools. A fitting correction whose preview changed returns CONCURRENT_MODIFICATION with reason credit_note_creditable_value_changed: replace its existing corrections with PATCH using the current expected_version, review the recalculated amounts, and issue again. A correction exceeding the remaining pool returns CREDIT_NOTE_AMOUNT_EXCEEDS_CREDITABLE. Affected historical tax allocations return ACTION_NOT_ALLOWED with reason credit_note_tax_reconciliation_required.
+Issues a draft credit note and freezes its PDF. Provide allocation to issue and apply credit to its invoice atomically, or refund to initiate a linked refund on a paid invoice. Allocation and refund cannot be combined. Omit allocation.amount_money to apply the smaller of the credit available after issue and the invoice's outstanding balance. An explicit amount must be positive, use the invoice's currency, and fit both balances. The result includes credit_note_allocation when allocation is requested. Idempotency-Key is required and is retained for as long as the issue's effects exist, scoped to merchant, environment, credit note, and key. Reuse the key with the identical request to recover the original credit note and allocation. Recover an allocation after a lost response by listing this note's allocations with idempotency_key=issue:<issue key>. For refunds, list this note's refunds filtered by the original idempotency_key. A pending refund is accepted but has not completed. Without allocation or refund, issuance leaves the invoice balance unchanged. Issue validates the stored preview against current shared creditable pools. A fitting correction whose preview changed returns CONCURRENT_MODIFICATION with reason credit_note_creditable_value_changed: replace its existing corrections with PATCH using the current expected_version, review the recalculated amounts, and issue again. A stored correction exceeding the remaining pool returns ACTION_NOT_ALLOWED with reason not_offered. Update the draft lines before issuing again. Affected historical tax allocations return ACTION_NOT_ALLOWED with reason credit_note_tax_reconciliation_required.
 
 `POST /v1/credit-notes/{credit_note_id}/issue`
 
@@ -465,7 +465,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `issueWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -482,7 +482,7 @@ const result = await client.creditNotes.issue("example", undefined, { idempotenc
 
 ### creditNotes.list
 
-Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see everything credited against one invoice.
+Returns credit notes for the authenticated merchant, newest first. Filter by invoice_id to see everything credited against one invoice. Default order: created_at descending, then credit_note_id descending.
 
 `GET /v1/credit-notes`
 
@@ -563,7 +563,7 @@ const result = await client.creditNotes.list({}, {  });
 
 ### creditNotes.listAllocations
 
-Returns every allocation made from a credit note, including reversed ones. Filter by idempotency_key to find the allocation a given request produced.
+Returns every allocation made from a credit note, including reversed ones. Filter by idempotency_key to find the allocation a given request produced. Default order: allocated_at descending, then credit_note_allocation_id descending.
 
 `GET /v1/credit-notes/{credit_note_id}/allocations`
 
@@ -627,7 +627,7 @@ const result = await client.creditNotes.listAllocations("example", {}, {  });
 
 ### creditNotes.listRefunds
 
-Lists linked refunds, including failed attempts, newest first. Filter by idempotency_key to recover a refund after a lost response.
+Lists linked refunds, including failed attempts, newest first. Filter by idempotency_key to recover a refund after a lost response. Default order: time each refund was applied to the credit note (descending), then refund_id descending.
 
 `GET /v1/credit-notes/{credit_note_id}/refunds`
 
@@ -711,7 +711,7 @@ reverseAllocation(credit_note_id: InputValue<string>,
 | `credit_note_id` | Required | string |  |
 | `credit_note_allocation_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Reactivate a subscription; Reactivate one of the current buyer's subscriptions; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
+| `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
 
@@ -741,7 +741,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `reverseAllocationWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -820,7 +820,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -860,7 +860,7 @@ voidResource(credit_note_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `credit_note_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Reactivate a subscription; Reactivate one of the current buyer's subscriptions; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
+| `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
 
@@ -890,7 +890,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `voidResourceWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

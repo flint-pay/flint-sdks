@@ -1,1 +1,1 @@
-{"shared":"UpdatePartnerAppRequest","dependencies":["PartnerAppPermissionManifestEntry","SharedCodec1212","SharedCodec1213","SharedCodec1214","UpdatePartnerAppRequest"]}
+{"shared":"UpdatePartnerAppRequest","dependencies":["PartnerAppPermissionManifestEntryRequestRequest","SharedCodec1295","SharedCodec1296","SharedCodec1297","UpdatePartnerAppRequest"]}

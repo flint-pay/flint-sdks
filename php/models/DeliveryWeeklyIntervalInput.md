@@ -6,10 +6,5 @@ A recurring weekly span, from a start weekday and minute to an end weekday and m
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `end_minute` | Required | integer |  |
-| `end_weekday` | Required | integer |  |
-| `start_minute` | Required | integer |  |
-| `start_weekday` | Required | integer |  |
+Fields, types, descriptions and enum values: [DeliveryWeeklyIntervalRequestRequestInput](../models/DeliveryWeeklyIntervalRequestRequestInput.md#deliveryweeklyintervalrequestrequestinput).
 

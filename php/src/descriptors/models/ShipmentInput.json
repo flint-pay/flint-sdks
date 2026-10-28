@@ -1,1 +1,1 @@
-{"shared":"Shipment","dependencies":["CheckoutBuyerContact","ExpandedOrderSummary","MoneyValue","PricingAmounts","ReturnShipmentLineItemAllocation","SettlementAmounts","SharedCodec5","Shipment","SignedMoney"]}
+{"shared":"Shipment","dependencies":["CheckoutBuyerContact","ExpandedOrderSummary","ExpandedPackageSummary","MetadataMap","MoneyValue","PricingAmounts","ReturnShipmentLineItemAllocation","SettlementAmounts","SharedCodec11","Shipment","SignedMoney"]}

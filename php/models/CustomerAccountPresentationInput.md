@@ -6,7 +6,5 @@ How a customer account is presented: its account name and custom domain. Send nu
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `account_name` | Optional | string or null | Send null to clear it. minLength: `1`. |
+Fields, types, descriptions and enum values: [CustomerAccountPresentationRequestRequestInput](../models/CustomerAccountPresentationRequestRequestInput.md#customeraccountpresentationrequestrequestinput).
 

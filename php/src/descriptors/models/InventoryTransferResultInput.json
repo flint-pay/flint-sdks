@@ -1,1 +1,1 @@
-{"shared":"InventoryTransferResult","dependencies":["InventoryItem","InventoryLevel","InventoryTransfer","InventoryTransferLine","InventoryTransferResult"]}
+{"shared":"InventoryTransferResult","dependencies":["InventoryItem","InventoryLevel","InventoryTransfer","InventoryTransferLine","InventoryTransferResult","MetadataMap"]}

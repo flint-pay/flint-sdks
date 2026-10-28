@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'email': string, 'first_name': string, 'last_name': string, ...}|object $body
+ * @property-read array{'email': string, 'first_name': string, 'last_name': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingStartFlowInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'body': array{'email': string, 'first_name': string, 'last_name': string, ...}|object}|object $values */
+    /** @param array{'Idempotency-Key'?: string, 'body': array{'email': string, 'first_name': string, 'last_name': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStartFlowInput')); }
     /** Shape $ (Value): string. maxLength: 255.
      * @return string
@@ -14,7 +14,7 @@ final class OnboardingStartFlowInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): object. The request body for: Start onboarding flow.
-     * @return array{'email': string, 'first_name': string, 'last_name': string, ...}|object
+     * @return array{'email': string, 'first_name': string, 'last_name': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

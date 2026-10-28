@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass $buyer_fields
+ * @property-read CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass $buyer_fields
  * @property-read string $checkout_session_expires_in_seconds
  * @property-read list<PaymentLinkCustomFieldPatchRequestInput|array<array-key, mixed>|\stdClass> $custom_fields
  * @property-read PaymentLinkCustomTextPatchRequestInput|array<array-key, mixed>|\stdClass $custom_text
@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read PaymentLinkEventConfigPatchRequestInput|array<array-key, mixed>|\stdClass $event_config
  * @property-read string $expected_version
  * @property-read string|null $external_reference_id
- * @property-read mixed $image
+ * @property-read array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null $image
  * @property-read string|null $inactive_message
  * @property-read InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read PaymentLinkLegalPatchRequestInput|array<array-key, mixed>|\stdClass $legal
@@ -23,19 +23,19 @@ namespace Flint;
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $name
  * @property-read PaymentLinkPaymentPatchRequestInput|array<array-key, mixed>|\stdClass $payments
- * @property-read CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass $promotion_config
+ * @property-read CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass $promotion_config
  * @property-read PaymentLinkRedirectsPatchRequestInput|array<array-key, mixed>|\stdClass $redirects
  * @property-read string|\DateTimeInterface|null $sales_end_at
  * @property-read string $status
- * @property-read CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass $tax
+ * @property-read CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass $tax
  * @property-read PaymentLinkThemePatchRequestInput|array<array-key, mixed>|\stdClass $theme
- * @property-read CheckoutTipConfigInput|array<array-key, mixed>|\stdClass $tip
+ * @property-read CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass $tip
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePaymentLinkRequestInput extends Model {
-    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass, 'checkout_session_expires_in_seconds'?: string, 'custom_fields'?: list<PaymentLinkCustomFieldPatchRequestInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: PaymentLinkCustomTextPatchRequestInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'description'?: string|null, 'donation_max_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_min_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigPatchRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'external_reference_id'?: string|null, 'image'?: mixed, 'inactive_message'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'legal'?: PaymentLinkLegalPatchRequestInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemPatchRequestInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'payments'?: PaymentLinkPaymentPatchRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: PaymentLinkRedirectsPatchRequestInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface|null, 'status'?: string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: PaymentLinkThemePatchRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_expires_in_seconds'?: string, 'custom_fields'?: list<PaymentLinkCustomFieldPatchRequestInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: PaymentLinkCustomTextPatchRequestInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'description'?: string|null, 'donation_max_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_min_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigPatchRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'external_reference_id'?: string|null, 'image'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'inactive_message'?: string|null, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'legal'?: PaymentLinkLegalPatchRequestInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemPatchRequestInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'payments'?: PaymentLinkPaymentPatchRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: PaymentLinkRedirectsPatchRequestInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface|null, 'status'?: string, 'tax'?: CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: PaymentLinkThemePatchRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePaymentLinkRequestInput')); }
-    /** Shape $ (Value): {@see CheckoutBuyerFieldsInput}. What checkout asks the buyer for. Each field you leave out uses your checkout settings.
-     * @return CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutBuyerFieldsRequestRequestInput}. What checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * @return CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_fields is omitted; use hasBuyerFields() or valueOrDefault().
      */
     public function getBuyerFields(): mixed { return $this->get('buyer_fields'); }
@@ -107,7 +107,7 @@ final class UpdatePaymentLinkRequestInput extends Model {
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
     /** Shape $ (Value): {@see ImageRequestInput} or null. Send null to clear. Shape $.anyOf[1] (Value): {@see ImageRequestInput}. An image you supply by `source_url`, with optional `alt` text and external reference. Shape $.anyOf[2] (Value): null.
-     * @return mixed
+     * @return array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
     public function getImage(): mixed { return $this->get('image'); }
@@ -142,11 +142,11 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getMaxCompletions(): int|null { return $this->get('max_completions'); }
     public function hasMaxCompletions(): bool { return $this->has('max_completions'); }
-    /** Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. Shape $.* (Value): string or null. minLength: 1.
+    /** Shape $ (Value): {@see MetadataPatchRequestInput} or null. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. Shape $.anyOf[1] (Value): {@see MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. Shape $.anyOf[1].* (Value): string or null. minLength: 1. maxLength: 4096. Shape $.anyOf[2] (Value): null.
      * @return array<array-key, string|null>|\stdClass|null
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string
@@ -160,8 +160,8 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getPayments(): mixed { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
-    /** Shape $ (Value): {@see CheckoutPromotionConfigInput}. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
-     * @return CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutPromotionConfigRequestRequestInput}. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * @return CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When promotion_config is omitted; use hasPromotionConfig() or valueOrDefault().
      */
     public function getPromotionConfig(): mixed { return $this->get('promotion_config'); }
@@ -184,8 +184,8 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Shape $ (Value): {@see CheckoutTaxConfigInput}. Whether tax is collected for a checkout session or payment link.
-     * @return CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutTaxConfigRequestRequestInput}. Whether tax is collected for a checkout session or payment link.
+     * @return CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }
@@ -196,8 +196,8 @@ final class UpdatePaymentLinkRequestInput extends Model {
      */
     public function getTheme(): mixed { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** Shape $ (Value): {@see CheckoutTipConfigInput}. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
-     * @return CheckoutTipConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutTipConfigRequestRequestInput}. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     * @return CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip is omitted; use hasTip() or valueOrDefault().
      */
     public function getTip(): mixed { return $this->get('tip'); }

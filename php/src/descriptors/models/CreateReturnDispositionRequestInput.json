@@ -1,1 +1,1 @@
-{"shared":"CreateReturnDispositionRequest","dependencies":["CreateReturnDispositionRequest"]}
+{"shared":"CreateReturnDispositionRequest","dependencies":["CreateReturnDispositionRequest","CreateReturnDispositionRequestInspectionLine","CreateReturnDispositionRequestReceiptLine","MetadataRequest"]}

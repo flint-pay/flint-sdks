@@ -12,7 +12,7 @@ A session in which a buyer completes an order's payment.
 | --- | --- | --- | --- |
 | `active_payment_attempt` | Optional | [BuyerOrderPaymentAttempt](../models/BuyerOrderPaymentAttempt.md#buyerorderpaymentattempt) | An attempt to pay an order. |
 | `buyer_contact` | Optional | [CheckoutBuyerContact](../models/CheckoutBuyerContact.md#checkoutbuyercontact) | Contact the buyer entered in checkout before paying, saved with the session's checkout credential. Separate from merchant-supplied prefill and customer_prefill from the customer record. Omitted until the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the session ends, and when a customer linked to the session is deleted. Buyer contact supplied with payment or saved during checkout. |
-| `buyer_fields` | Optional | [CheckoutBuyerFields](../models/CheckoutBuyerFields.md#checkoutbuyerfields) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
+| `buyer_fields` | Optional | [CheckoutBuyerFields](../models/CheckoutBuyerFields.md#checkoutbuyerfields) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. `buyer_fields`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessionbuyer_fields). |
 | `can_save_payment_method` | Optional | boolean | Whether checkout offers the buyer the option to save the card they type for faster checkout at this merchant. When true and save_payment_method_requires_verification is false, PayOrder accepts save_payment_method: true for one newly collected card. False when the merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted, card is not an available payment option, the checkout collects an invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot email the buyer a verification code. Returned only to the checkout credential; never in webhook payloads. |
 | `can_save_payment_method_with_phone` | Optional | boolean | Whether the buyer can save the card they type by giving a US or Canadian mobile phone number with the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted code after paying. True while Flint can send texts and either save_payment_method_requires_verification is true, so the number replaces confirming an email before paying, or the checkout acts for the customer whose email the buyer confirmed with this credential, so the number joins that customer's saved details once the buyer confirms it. Returned only to the checkout credential; never in webhook payloads. |
 | `checkout_session_id` | Required | string |  |
@@ -20,12 +20,12 @@ A session in which a buyer completes an order's payment.
 | `custom_text` | Optional | [CheckoutCustomTextConfig](../models/CheckoutCustomTextConfig.md#checkoutcustomtextconfig) | Custom text shown in checkout: an order summary message and a shipping address label. `custom_text`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessioncustom_text). |
 | `customer_id` | Optional | string | The customer of the session's order. Omitted when the order has none. A checkout credential issued for this session acts for this customer. Add expand=customer to include the customer. |
 | `customer_prefill` | Optional | [CheckoutCustomerPrefill](../models/CheckoutCustomerPrefill.md#checkoutcustomerprefill) | Contact and default addresses of the customer the checkout acts for, with the recipient name on its default shipping address: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. Present on GET and PATCH responses while the session is open and acts for a customer. Separate from merchant-supplied prefill and buyer_contact saved by the buyer. Returned only to the checkout credential; never in webhook payloads. Details the buyer's checkout can prefill from the customer it acts for. |
+| `delivery` | Optional | [CheckoutDerivedDeliveryResource](../models/CheckoutDerivedDeliveryResource.md#checkoutderiveddeliveryresource) | Current delivery choices for Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field does not request a delivery quote. Omitted when the session is not open, has no order, or Flint cannot read its delivery. The delivery options Flint derived for a checkout as a buyer sees them: choice groups, input requirements, and evaluation status. |
 | `delivery_method_ids` | Required | Array of string | Immutable delivery method assignment captured when the checkout was created. |
 | `delivery_selection_required` | Required | boolean | Whether the order has at least one remaining quote-resolved fulfillment choice that must be selected before payment. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `expires_in_seconds` | Optional | integer string | The lifetime the session got. expires_at is its deadline. Omitted for invoice sessions, which take their deadline from the invoice. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `fulfillment` | Optional | [CheckoutDerivedDeliveryResource](../models/CheckoutDerivedDeliveryResource.md#checkoutderiveddeliveryresource) | Current fulfillment choices for Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field does not request a delivery quote. Omitted when the session is not open, has no order, or Flint cannot read its delivery. The delivery options Flint derived for a checkout as a buyer sees them: choice groups, input requirements, and evaluation status. |
-| `gift_card_challenge` | Optional | [CheckoutGiftCardChallenge](../models/CheckoutGiftCardChallenge.md#checkoutgiftcardchallenge) | Where the buyer completes a gift card challenge for this checkout. Returned on single-session reads, session create and update responses, checkout launch results, and customer verification confirmation results while the session is open and can show the challenge. Omitted from lists, webhooks, expanded resources, and delivery selection results. A URL to load in an iframe when applying a gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`. |
+| `gift_card_challenge` | Optional | [CheckoutGiftCardChallenge](../models/CheckoutGiftCardChallenge.md#checkoutgiftcardchallenge) | Where the buyer completes a gift card challenge for this checkout. Returned on single-session reads, session create and update responses, checkout launch results, and customer verification confirmation results while the session is open and can show the challenge. Omitted from lists, webhooks, expanded resources, and delivery selection results. A URL to load in an iframe when applying a gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`. `gift_card_challenge`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiongift_card_challenge). |
 | `invoice_id` | Optional | string |  |
 | `is_in_recovery` | Required | boolean | Whether this terminal session credential is temporarily restricted to recovering its owning payment attempt. |
 | `legal` | Optional | [LegalSettings](../models/LegalSettings.md#legalsettings) | Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract. `legal`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessionlegal). |
@@ -45,7 +45,7 @@ A session in which a buyer completes an order's payment.
 | `payments` | Optional | [CheckoutPaymentConfig](../models/CheckoutPaymentConfig.md#checkoutpaymentconfig) | Configured payment options for merchant credentials; currently available payment options for the checkout credential. Payment settings for a checkout: the enabled payment options and a note shown with payment. `payments`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessionpayments). |
 | `prefill` | Optional | [CheckoutPrefill](../models/CheckoutPrefill.md#checkoutprefill) | Contact details and addresses to fill in for the buyer, who can change them. For a customer with saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's tax location. Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the checkout credential reads from the customer record. |
 | `problems` | Required | Array of [BuyerCheckoutProblemResource](../models/BuyerCheckoutProblemResource.md#buyercheckoutproblemresource) | Named conditions that affect checkout completion. Follow each problem's remediation action instead of reconstructing delivery lifecycle rules in the client. payment_in_progress means another payment for the order must finish before this checkout can complete. When Flint cannot read the checkout's delivery, the read still succeeds and reports delivery_unreadable; its remediation says whether reading the session again can succeed, and its next action's reason_code names the error. |
-| `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
+| `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. `promotion_config`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessionpromotion_config). |
 | `recovery_expires_at` | Optional | string or null | RFC3339 deadline for the restricted payment-attempt recovery window. Format: `date-time`. |
 | `recovery_payment_attempt_id` | Optional | string | Payment attempt that this checkout credential may recover while is_in_recovery is true. |
 | `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url. `redirects`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessionredirects). |
@@ -61,16 +61,24 @@ A session in which a buyer completes an order's payment.
 | `tax` | Optional | [CheckoutSessionTax](../models/CheckoutSessionTax.md#checkoutsessiontax) | The session's tax settings. Omitted when the session sets none. Tax settings of a checkout session: whether it collects tax and any tax location the merchant fixed. |
 | `terminal_reason` | Optional | string | Values: [11 declared values](BuyerCheckoutSession.md#buyercheckoutsession-terminal_reason-values). |
 | `theme` | Optional | [CheckoutTheme](../models/CheckoutTheme.md#checkouttheme) | The theme checkout renders with: your branding settings, with the session's `title`, `primary_color`, and `accent_color` over them. A session sets only those three; the other fields come from branding settings. Omitted when neither sets a value. Colors, corner radius, font family, and title that style a checkout, taken from the session or link theme or the merchant's branding settings. |
-| `tip` | Optional | [CheckoutTipConfig](../models/CheckoutTipConfig.md#checkouttipconfig) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. |
+| `tip` | Optional | [CheckoutTipConfig](../models/CheckoutTipConfig.md#checkouttipconfig) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. `tip`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontip). |
 | `type` | Required | string | Values: `"order"`, `"quick_pay"`, `"subscription_plan"`, `"invoice"`, `"payment_link"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `url` | Optional | string | Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay. Present only for hosted sessions read with a merchant credential that can manage checkout sessions. Launch results include it for hosted sessions: create, payment-link resolve, and invoice and return-resolution checkout. Omitted for embedded sessions. |
 | `version` | Required | integer string | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `checkout_auth_token` | Optional | string | Checkout credential. Send it as Authorization: Bearer &lt;checkout_auth_token>. Present on checkout launch and customer binding confirmation; omitted when a saved-card confirmation keeps the current credential. |
 
+### BuyerCheckoutSessionWithSecret.buyer_fields
+
+Field definitions: [BuyerCheckoutSession.buyer_fields](../models/BuyerCheckoutSession.md#buyercheckoutsessionbuyer_fields).
+
 ### BuyerCheckoutSessionWithSecret.custom_text
 
 Field definitions: [BuyerCheckoutSession.custom_text](../models/BuyerCheckoutSession.md#buyercheckoutsessioncustom_text).
+
+### BuyerCheckoutSessionWithSecret.gift_card_challenge
+
+Field definitions: [BuyerCheckoutSession.gift_card_challenge](../models/BuyerCheckoutSession.md#buyercheckoutsessiongift_card_challenge).
 
 ### BuyerCheckoutSessionWithSecret.legal
 
@@ -80,7 +88,15 @@ Field definitions: [BuyerCheckoutSession.legal](../models/BuyerCheckoutSession.m
 
 Field definitions: [BuyerCheckoutSession.payments](../models/BuyerCheckoutSession.md#buyercheckoutsessionpayments).
 
+### BuyerCheckoutSessionWithSecret.promotion_config
+
+Field definitions: [BuyerCheckoutSession.promotion_config](../models/BuyerCheckoutSession.md#buyercheckoutsessionpromotion_config).
+
 ### BuyerCheckoutSessionWithSecret.redirects
 
 Field definitions: [BuyerCheckoutSession.redirects](../models/BuyerCheckoutSession.md#buyercheckoutsessionredirects).
+
+### BuyerCheckoutSessionWithSecret.tip
+
+Field definitions: [BuyerCheckoutSession.tip](../models/BuyerCheckoutSession.md#buyercheckoutsessiontip).
 

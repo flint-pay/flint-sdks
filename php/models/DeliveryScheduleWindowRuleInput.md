@@ -6,5 +6,7 @@ Estimate rule for a scheduled-window delivery method, defined by its `availabili
 
 Request input.
 
-Fields, types, descriptions and enum values: [DeliveryScheduleWindowRuleRequestInput](../models/DeliveryScheduleWindowRuleRequestInput.md#deliveryschedulewindowrulerequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `availability` | Required | [DeliveryAvailabilityInput](../models/DeliveryAvailabilityInput.md#deliveryavailabilityinput) | When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book. |
 

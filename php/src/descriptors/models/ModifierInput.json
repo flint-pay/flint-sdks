@@ -1,1 +1,1 @@
-{"shared":"Modifier","dependencies":["Modifier","MoneyValue"]}
+{"shared":"Modifier","dependencies":["MetadataMap","Modifier","MoneyValue"]}

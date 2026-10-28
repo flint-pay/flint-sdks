@@ -1,1 +1,1 @@
-{"shared":"Webhook_merchant_billing_balance_updated_merchant","dependencies":["MerchantBillingBalance","MerchantWebhookEnvelope","MoneyValue","SharedCodec373","SharedCodec374","SharedCodec517","Webhook_merchant_billing_balance_updated_merchant"]}
+{"shared":"Webhook_merchant_billing_balance_updated_merchant","dependencies":["MerchantBillingBalance","MerchantWebhookEnvelope","MoneyValue","SharedCodec413","SharedCodec414","SharedCodec554","Webhook_merchant_billing_balance_updated_merchant"]}

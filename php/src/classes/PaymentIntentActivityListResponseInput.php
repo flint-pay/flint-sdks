@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentActivityListResponseInput extends Model {
-    /** @param array{'data': list<PaymentIntentActivityInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<PaymentIntentActivityInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentActivityListResponseInput')); }
     /** Shape $ (Value): Array of {@see PaymentIntentActivityInput}. Shape $[] (Value): {@see PaymentIntentActivityInput}. A read-only entry in a payment intent's human-readable history. Read the referenced resource for authoritative state.
      * @return list<PaymentIntentActivityInput|array<array-key, mixed>|\stdClass>

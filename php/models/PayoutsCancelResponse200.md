@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [Payout](../models/Payout.md#payout) | Funds sent from a merchant balance to a payout destination. `data`: [field definitions](../models/PayoutsCancelResponse200.md#payoutscancelresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### PayoutsCancelResponse200.data
 
@@ -31,21 +31,25 @@ Funds sent from a merchant balance to a payout destination.
 | `fee_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout, and null until then. |
 | `initiated_by` | Required | string | What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Values: `"manual"`, `"scheduled"`, `"platform"`, `"other"`. |
 | `merchant_id` | Required | string | Merchant receiving the payout. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datametadata). |
 | `method` | Required | string | Payout method. instant can appear on imported payouts; unmapped methods are returned as other. Values: `"standard"`, `"instant"`, `"other"`. |
 | `net_money` | Required | [SignedMoney](../models/SignedMoney.md#signedmoney) or null | Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. Null until your processor records the payout. |
 | `original_payout` | Optional | [ExpandedPayoutSummary](../models/ExpandedPayoutSummary.md#expandedpayoutsummary) or null | The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. `original_payout`: [declared alternatives](../models/PayoutsCancelResponse200.md#payoutscancelresponse200dataoriginal_payout). |
-| `original_payout_id` | Optional | string | On a payout that reverses another payout, the payout it reverses. A payout has at most one of original_payout_id and reversed_by_payout_id. |
+| `original_payout_id` | Optional | string | On a payout that reverses another payout, the payout it reverses. Present only when Flint has the matching original payout. A payout has at most one of original_payout_id and reversed_by_payout_id. |
 | `payout_destination` | Optional | [ExpandedPayoutDestinationSummary](../models/ExpandedPayoutDestinationSummary.md#expandedpayoutdestinationsummary) or null | The payout destination, inlined when you request expand=payout_destination. null when expanded and payout_destination_id is absent. `payout_destination`: [declared alternatives](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datapayout_destination). |
 | `payout_destination_id` | Optional | string | Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. |
 | `payout_id` | Required | string | Stable identifier of the payout. |
-| `reversal_status` | Required | string | Whether Flint has pulled a paid payout back from your bank: none, reversing while a reversal is in progress, or reversed once it completes and a payout_reversal balance transaction returns the money. status stays paid throughout. Values: `"none"`, `"reversing"`, `"reversed"`. |
-| `reversed_by_payout` | Optional | [ExpandedPayoutSummary](../models/ExpandedPayoutSummary.md#expandedpayoutsummary) or null | The payout that reversed this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. `reversed_by_payout`: [declared alternatives](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datareversed_by_payout). |
-| `reversed_by_payout_id` | Optional | string | On a reversed payout, the separate payout that reversed it, when there is one. A payout has at most one of original_payout_id and reversed_by_payout_id. |
+| `reversal_status` | Required | string | Whether Flint has pulled a paid payout back from your bank: none until the reversal completes, then reversed. A payout_reversal balance transaction returns the money, and status stays paid. Values: `"none"`, `"reversed"`. |
+| `reversed_by_payout` | Optional | [ExpandedPayoutSummary](../models/ExpandedPayoutSummary.md#expandedpayoutsummary) or null | The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. `reversed_by_payout`: [declared alternatives](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datareversed_by_payout). |
+| `reversed_by_payout_id` | Optional | string | The separate payout reversing this one, when Flint has the matching payout. Its presence does not mean the reversal has completed; read reversal_status. A payout has at most one of original_payout_id and reversed_by_payout_id. |
 | `statement_descriptor` | Optional | string | Text shown on your bank statement for the deposit, when one was set. |
 | `status` | Required | string | Where the payout is: pending until it is sent, in_transit on its way to your bank, then paid or failed. A paid payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Values: `"pending"`, `"in_transit"`, `"paid"`, `"failed"`, `"canceled"`. |
 | `trace_id` | Optional | [PayoutTraceID](../models/PayoutTraceID.md#payouttraceid) | The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with whether it is pending, available, or unsupported. |
 | `updated_at` | Required | string | When the payout last changed. Format: `date-time`. |
+
+### PayoutsCancelResponse200.data.metadata
+
+Value shape: Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
 
 ### PayoutsCancelResponse200.data.original_payout
 
@@ -61,7 +65,7 @@ The payout this one reverses, inlined when you request expand=original_payout. n
 | `method` | Conditional | string | Payout method. instant can appear on imported payouts; unmapped methods are returned as other. Values: `"standard"`, `"instant"`, `"other"`. |
 | `payout_destination_id` | Conditional | string |  |
 | `payout_id` | Conditional | string |  |
-| `reversal_status` | Conditional | string | Values: `"none"`, `"reversing"`, `"reversed"`. |
+| `reversal_status` | Conditional | string | Values: `"none"`, `"reversed"`. |
 | `status` | Conditional | string | Values: `"pending"`, `"in_transit"`, `"paid"`, `"failed"`, `"canceled"`. |
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. |
 
@@ -114,7 +118,7 @@ anyOf variant 2.
 
 ### PayoutsCancelResponse200.data.reversed_by_payout
 
-The payout that reversed this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
+The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent.
 
 Field definitions: [shared fields](#payoutscancelresponse200dataoriginal_payout).
 
@@ -130,5 +134,5 @@ anyOf variant 1: A payout's summary fields, including amount, method, status, an
 anyOf variant 2.
 
 - Undeclared: `amount_money`, `arrival_date`, `balance_source_type`, `created_at`, `currency`, `method`, `payout_destination_id`, `payout_id`, `reversal_status`, `status`, `updated_at`.
-- Value shape: null. The payout that reversed this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. 
+- Value shape: null. The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. 
 

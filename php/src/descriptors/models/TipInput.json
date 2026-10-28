@@ -1,1 +1,1 @@
-{"shared":"Tip","dependencies":["MoneyValue","Tip","TipPaymentIntentAllocation","TipValueSettlementAllocation"]}
+{"shared":"Tip","dependencies":["MetadataMap","MoneyValue","Tip","TipPaymentIntentAllocation","TipValueSettlementAllocation"]}

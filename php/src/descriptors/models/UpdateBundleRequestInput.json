@@ -1,1 +1,1 @@
-{"shared":"UpdateBundleRequest","dependencies":["ImageRequest","MoneyValue","SharedCodec1172","SharedCodec1173","UpdateBundleComponentRequest","UpdateBundleRequest"]}
+{"shared":"UpdateBundleRequest","dependencies":["ImageInputFile","ImageInputSourceURL","ImageRequest","MetadataPatchRequest","MoneyValue","SharedCodec1252","SharedCodec1253","SharedCodec1254","SharedCodec1255","UpdateBundleComponentRequest","UpdateBundleRequest"]}

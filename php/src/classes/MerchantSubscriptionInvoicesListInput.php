@@ -9,7 +9,7 @@ namespace Flint;
 final class MerchantSubscriptionInvoicesListInput extends Model {
     /** @param array{'status'?: list<string>, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantSubscriptionInvoicesListInput')); }
-    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "draft", "open", "collecting", "paid", "delinquent", "void", "written_off". Shape $[] (Value): string.  Value enum: "draft", "open", "collecting", "paid", "delinquent", "void", "written_off".
+    /** Shape $ (Value): Array of string. minItems: 1. [] enum: "open", "paid", "written_off". Shape $[] (Value): string.  Value enum: "open", "paid", "written_off".
      * @return list<string>
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

@@ -8,5 +8,5 @@ Monetary amount represented as integer minor units plus an ISO 4217 currency cod
 
 Response model.
 
-Fields, types, descriptions and enum values: [ReturnPreviewsCreateResponse200DataEligibilityEligibilityLineItemsItemModifiersItemTotalMoney](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibilityLineItemsItemModifiersItemTotalMoney.md#returnpreviewscreateresponse200dataeligibilityeligibilitylineitemsitemmodifiersitemtotalmoney).
+Fields, types, descriptions and enum values: [ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemTotalMoney](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantModifiersItemTotalMoney.md#expandedsubscriptionplansummarylineitemsitemvariantmodifiersitemtotalmoney).
 

@@ -58,7 +58,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -124,7 +124,7 @@ const result = await client.returnReasons.get("example", {}, {  });
 
 ### returnReasons.list
 
-List Return reasons, including Flint-provided defaults and merchant-defined reasons. Newest first: created_at descending, with return_reason_id descending as the tiebreak. Flint reasons have a created_at of 1970-01-01T00:00:00Z, so they follow your own.
+List Return reasons, including Flint-provided defaults and merchant-defined reasons. Newest first: created_at descending, with return_reason_id descending as the tiebreak. Flint reasons have a created_at of 1970-01-01T00:00:00Z, so they follow your own. Default order: created_at descending, then return_reason_id descending.
 
 `GET /v1/return-reasons`
 
@@ -243,7 +243,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -316,7 +316,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

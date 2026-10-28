@@ -12,7 +12,7 @@ A delivery option in a quote or preview: its price, type, timing, delivery plan,
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
 | `arrival_estimate` | Optional | [DeliveryArrivalEstimate](../models/DeliveryArrivalEstimate.md#deliveryarrivalestimate) | The estimated arrival date range for a delivery option, as calendar dates in the option's timezone. |
-| `buyer_instructions` | Required | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
+| `buyer_instructions` | Required | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. `buyer_instructions`: [field definitions](../models/DeliveryOptionProjection.md#deliveryoptionprojectionbuyer_instructions). |
 | `charge_tax_category` | Optional | string | Flint charge tax category. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`. |
 | `consumed_by_delivery_selection_id` | Optional | string |  |
 | `delivery_method_id` | Required | string |  |
@@ -41,6 +41,12 @@ A delivery option in a quote or preview: its price, type, timing, delivery plan,
 ### DeliveryOptionProjection.amount_money
 
 Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+
+### DeliveryOptionProjection.buyer_instructions
+
+Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
+
+Field definitions: [shared fields](BuyerInstructionsConfig.md#buyerinstructionsconfig).
 
 ### DeliveryOptionProjection.offered_windows[]
 

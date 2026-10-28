@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateAPIKeyResponseInput extends Model {
-    /** @param array{'data': APIKeyWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': APIKeyWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateAPIKeyResponseInput')); }
     /** Shape $ (Value): {@see APIKeyWithSecretInput}. An API key including its `secret_key`, returned by the calls that create or issue a key. A credential used to authenticate API requests.
      * @return APIKeyWithSecretInput|array<array-key, mixed>|\stdClass

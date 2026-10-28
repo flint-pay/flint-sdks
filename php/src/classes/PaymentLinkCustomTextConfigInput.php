@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $shipping_address_label
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkCustomTextConfigInput extends Model {
-    /** @param array{'order_summary_message'?: string, 'shipping_address_label'?: string, ...}|object $values */
+    /** @param array{'order_summary_message'?: string, 'shipping_address_label'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkCustomTextConfigInput')); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 2048.
      * @return string

@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryMethods.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/deliveryMethods.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryMethod"]:r0,["deleteDeliveryMethod"]:r0,["getDeliveryMethod"]:r0,["listDeliveryMethods"]:r0,["updateDeliveryMethod"]:r0});
 export class Client {
@@ -115,14 +115,14 @@ this.deliveryMethods = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeAddRiskListItemsRequest } from '../models/AddRiskListItemsRequest.js';
-export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
+export { makeBuyerInstructionsConfigRequestRequest } from '../models/BuyerInstructionsConfigRequestRequest.js';
 export { makeCreateDeliveryMethodRequest } from '../models/CreateDeliveryMethodRequest.js';
 export { makeCreateDeliveryMethodRequestLocalDelivery } from '../models/CreateDeliveryMethodRequestLocalDelivery.js';
 export { makeCreateDeliveryMethodRequestPickup } from '../models/CreateDeliveryMethodRequestPickup.js';
 export { makeCreateDeliveryMethodRequestShipment } from '../models/CreateDeliveryMethodRequestShipment.js';
-export { makeDeliveryAvailability } from '../models/DeliveryAvailability.js';
-export { makeDeliveryBlackoutInterval } from '../models/DeliveryBlackoutInterval.js';
-export { makeDeliveryBusinessDayRange } from '../models/DeliveryBusinessDayRange.js';
+export { makeDeliveryAvailabilityRequestRequest } from '../models/DeliveryAvailabilityRequestRequest.js';
+export { makeDeliveryBlackoutIntervalRequestRequest } from '../models/DeliveryBlackoutIntervalRequestRequest.js';
+export { makeDeliveryBusinessDayRangeRequestRequest } from '../models/DeliveryBusinessDayRangeRequestRequest.js';
 export { makeDeliveryCalculatedPricingStrategyRequest } from '../models/DeliveryCalculatedPricingStrategyRequest.js';
 export { makeDeliveryCallbackPricingStrategyRequest } from '../models/DeliveryCallbackPricingStrategyRequest.js';
 export { makeDeliveryCallerSuppliedPricingStrategyRequest } from '../models/DeliveryCallerSuppliedPricingStrategyRequest.js';
@@ -138,8 +138,12 @@ export { makeDeliveryMethodConfigurationCreateRequest } from '../models/Delivery
 export { makeDeliveryMethodConfigurationPatchRequest } from '../models/DeliveryMethodConfigurationPatchRequest.js';
 export { makeDeliveryMethodConfigurationRequest } from '../models/DeliveryMethodConfigurationRequest.js';
 export { makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup } from '../models/DeliveryMethodOriginSelectorInputAllocatedOriginGroup.js';
+export { makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet } from '../models/DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet.js';
+export { makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations } from '../models/DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations.js';
 export { makeDeliveryMethodOriginSelectorInputFixedLocation } from '../models/DeliveryMethodOriginSelectorInputFixedLocation.js';
 export { makeDeliveryMethodOriginSelectorInputPickupLocationCollection } from '../models/DeliveryMethodOriginSelectorInputPickupLocationCollection.js';
+export { makeDeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet } from '../models/DeliveryMethodOriginSelectorInputPickupLocationCollectionDeliveryLocationSet.js';
+export { makeDeliveryMethodOriginSelectorInputPickupLocationCollectionLocations } from '../models/DeliveryMethodOriginSelectorInputPickupLocationCollectionLocations.js';
 export { makeDeliveryMethodOriginSelectorRequest } from '../models/DeliveryMethodOriginSelectorRequest.js';
 export { makeDeliveryPostalCodeCondition } from '../models/DeliveryPostalCodeCondition.js';
 export { makeDeliveryPostalCodeValue } from '../models/DeliveryPostalCodeValue.js';
@@ -170,10 +174,12 @@ export { makeDeliveryStateCondition } from '../models/DeliveryStateCondition.js'
 export { makeDeliveryTieredPricingStrategyInputQuantityOrMoney } from '../models/DeliveryTieredPricingStrategyInputQuantityOrMoney.js';
 export { makeDeliveryTieredPricingStrategyInputWeight } from '../models/DeliveryTieredPricingStrategyInputWeight.js';
 export { makeDeliveryTieredPricingStrategyRequest } from '../models/DeliveryTieredPricingStrategyRequest.js';
-export { makeDeliveryTransitTimeRule } from '../models/DeliveryTransitTimeRule.js';
-export { makeDeliveryWeeklyInterval } from '../models/DeliveryWeeklyInterval.js';
+export { makeDeliveryTransitTimeRuleRequestRequest } from '../models/DeliveryTransitTimeRuleRequestRequest.js';
+export { makeDeliveryWeeklyIntervalRequestRequest } from '../models/DeliveryWeeklyIntervalRequestRequest.js';
 export { makeDeliveryWeightUnitPriceRequest } from '../models/DeliveryWeightUnitPriceRequest.js';
 export { makeDeliveryWindowTimeCondition } from '../models/DeliveryWindowTimeCondition.js';
 export { makeDeliveryZoneCondition } from '../models/DeliveryZoneCondition.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeUpdateDeliveryMethodRequest } from '../models/UpdateDeliveryMethodRequest.js';

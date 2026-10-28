@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $splitting_policy
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfileConfigurationRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'allowed_types'?: list<string>, 'combination_policy'?: string, 'origin_policy'?: DeliveryProfileOriginPolicyRequestInput|array<array-key, mixed>|\stdClass, 'requirement': string, 'resolution_mode'?: string, 'splitting_policy'?: string}|object|array{'allowed_types': list<string>, 'combination_policy': string, 'origin_policy': DeliveryProfileOriginPolicyRequestInput|array<array-key, mixed>|\stdClass, 'requirement': string, 'resolution_mode': string, 'splitting_policy': string}|object|array{'allowed_types': list<string>, 'combination_policy'?: string, 'origin_policy'?: DeliveryProfileOriginPolicyRequestInput|array<array-key, mixed>|\stdClass, 'requirement': string, 'resolution_mode': string, 'splitting_policy'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileConfigurationRequestInput')); }
     /** Shape $ (Value): Array of string. Required as a non-empty unique list when requirement is required. quote accepts shipment, pickup, and local_delivery. manual accepts digital and service. minItems: 1. uniqueItems: true. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". Shape $[] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
      * @return list<string>

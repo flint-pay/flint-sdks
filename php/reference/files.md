@@ -4,7 +4,7 @@
 
 ### files.complete
 
-After PUT succeeds, complete the file to process its image. Returns the ready file; completing a ready file again returns it. Send no request body or {}. Completing before the bytes arrive returns FILE_NOT_UPLOADED and leaves the file awaiting_upload. Attach the returned file_id as images[].file_id before expires_at, 24 hours after processing. Completion requires the purpose's write scope, with the same merchant-wide branding and environment boundaries as createFile. Partner installs can upload commerce images but cannot upload merchant_logo or merchant_icon: those purposes return INSUFFICIENT_SCOPE with scope_requirement because merchants.profile.write is not grantable to installs. Idempotency is scoped to merchant, credential, environment, route, and file_id. A replay returns the original result; it does not extend upload or attachment deadlines. After a lost completion response, repeat this route with the same key and file_id.
+After PUT succeeds, complete the file to process its image. Returns the ready file; completing a ready file again returns it. Send no request body or {}. Completing before the bytes arrive returns ACTION_NOT_ALLOWED with reason status_not_reached and current_status awaiting_upload. Attach the returned file_id as images[].file_id before expires_at, 24 hours after processing. Completion requires the purpose's write scope, with the same merchant-wide branding and environment boundaries as createFile. Partner installs can upload commerce images but cannot upload merchant_logo or merchant_icon: those purposes return INSUFFICIENT_SCOPE with scope_requirement because merchants.profile.write is not grantable to installs. Idempotency is scoped to merchant, credential, environment, route, and file_id. A replay returns the original result; it does not extend upload or attachment deadlines. After a lost completion response, repeat this route with the same key and file_id.
 
 `POST /v1/files/{file_id}/complete`
 
@@ -46,7 +46,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `completeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -109,7 +109,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnListResponseInput extends Model {
-    /** @param array{'data': list<BuyerReturnInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<BuyerReturnInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnListResponseInput')); }
     /** Shape $ (Value): Array of {@see BuyerReturnInput}. Shape $[] (Value): {@see BuyerReturnInput}. A request to send purchased items back.
      * @return list<BuyerReturnInput|array<array-key, mixed>|\stdClass>

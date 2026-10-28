@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -120,7 +120,7 @@ $result = $client->webhookDeliveries->get('example', [], new RequestOptions());
 
 ### webhookDeliveries.listAttempts
 
-Returns the attempts recorded for a specific webhook delivery.
+Returns the attempts recorded for a specific webhook delivery. Default order: attempt_number ascending; this key uniquely orders the results.
 
 `GET /v1/webhook-deliveries/{webhook_delivery_id}/attempts`
 
@@ -223,7 +223,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `resendWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

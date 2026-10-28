@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookDeliveryListResponseInput extends Model {
-    /** @param array{'data': list<WebhookDeliveryInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<WebhookDeliveryInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveryListResponseInput')); }
     /** Shape $ (Value): Array of {@see WebhookDeliveryInput}. Shape $[] (Value): {@see WebhookDeliveryInput}. An attempt to deliver an event to a webhook endpoint.
      * @return list<WebhookDeliveryInput|array<array-key, mixed>|\stdClass>

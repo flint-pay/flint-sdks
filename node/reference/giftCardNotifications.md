@@ -26,9 +26,9 @@ cancel(gift_card_notification_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `gift_card_notification_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [CancelGiftCardNotificationRequestInput](../models/CancelGiftCardNotificationRequest.md#cancelgiftcardnotificationrequest) | The request body for: Cancel a gift card notification. |
+| `body` | Optional | [CancelGiftCardNotificationRequestInput](../models/CancelGiftCardNotificationRequestInput.md#cancelgiftcardnotificationrequestinput) | The request body for: Cancel a gift card notification. |
 
-Body model: [CancelGiftCardNotificationRequestInput](../models/CancelGiftCardNotificationRequest.md#cancelgiftcardnotificationrequest).
+Body model: [CancelGiftCardNotificationRequestInput](../models/CancelGiftCardNotificationRequestInput.md#cancelgiftcardnotificationrequestinput).
 
 #### Response
 
@@ -58,7 +58,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -133,7 +133,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -200,7 +200,7 @@ const result = await client.giftCardNotifications.get("example", {}, {  });
 
 ### giftCardNotifications.list
 
-Lists recipient notification identities, schedules and delivery outcomes. No redemption codes or recipient access tokens are returned.
+Lists recipient notification identities, schedules and delivery outcomes. No redemption codes or recipient access tokens are returned. Default order: gift_card_notification_id descending; this key uniquely orders the results.
 
 `GET /v1/gift-card-notifications`
 

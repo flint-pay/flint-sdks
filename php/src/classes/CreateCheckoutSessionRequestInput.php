@@ -2,36 +2,36 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass $buyer_fields
+ * @property-read CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass $buyer_fields
  * @property-read CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass $custom_text
  * @property-read string $customer_id
  * @property-read list<string> $delivery_method_ids
  * @property-read string $expires_in_seconds
  * @property-read string $external_reference_id
  * @property-read CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass $legal
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $order_id
  * @property-read string $page_origin
  * @property-read string $payment_return_url
  * @property-read CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass $payments
  * @property-read CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass $prefill
- * @property-read CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass $promotion_config
+ * @property-read CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass $promotion_config
  * @property-read CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass $quick_pay_item
  * @property-read CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass $redirects
  * @property-read string $replace_checkout_session_id
  * @property-read string $subscription_plan_id
  * @property-read CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass $subscription_terms
  * @property-read string $surface
- * @property-read CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass $tax
+ * @property-read CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass $tax
  * @property-read ThemeConfigRequestInput|array<array-key, mixed>|\stdClass $theme
- * @property-read CheckoutTipConfigInput|array<array-key, mixed>|\stdClass $tip
+ * @property-read CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass $tip
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCheckoutSessionRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'delivery_method_ids'?: list<string>, 'expires_in_seconds'?: string, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'quick_pay_item'?: CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'replace_checkout_session_id'?: string, 'subscription_plan_id'?: string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'surface'?: string, 'tax'?: CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'buyer_fields'?: CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'delivery_method_ids'?: list<string>, 'expires_in_seconds'?: string, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'quick_pay_item': CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'replace_checkout_session_id'?: string, 'subscription_plan_id'?: string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'surface'?: string, 'tax'?: CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'buyer_fields'?: array{'address_autocomplete_enabled'?: bool, 'require_billing_address'?: bool, 'require_email'?: bool, 'require_phone'?: bool}|object, 'custom_text'?: CheckoutCustomTextWriteConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'delivery_method_ids'?: list<string>, 'expires_in_seconds'?: string, 'external_reference_id'?: string, 'legal'?: CheckoutLegalConfigRequestInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'page_origin'?: string, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillRequestInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'quick_pay_item'?: CheckoutQuickPayItemRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'replace_checkout_session_id'?: string, 'subscription_plan_id': string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'surface'?: string, 'tax'?: CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: ThemeConfigRequestInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCheckoutSessionRequestInput')); }
-    /** Shape $ (Value): {@see CheckoutBuyerFieldsInput}. What checkout asks the buyer for. Each field you leave out uses your checkout settings.
-     * @return CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutBuyerFieldsRequestRequestInput}. What checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * @return CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_fields is omitted; use hasBuyerFields() or valueOrDefault().
      */
     public function getBuyerFields(): mixed { return $this->get('buyer_fields'); }
@@ -72,11 +72,11 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getLegal(): mixed { return $this->get('legal'); }
     public function hasLegal(): bool { return $this->has('legal'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. The order to collect. It must be open and not collected by an invoice or a return resolution. minLength: 1.
      * @return string
@@ -108,8 +108,8 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getPrefill(): mixed { return $this->get('prefill'); }
     public function hasPrefill(): bool { return $this->has('prefill'); }
-    /** Shape $ (Value): {@see CheckoutPromotionConfigInput}. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
-     * @return CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutPromotionConfigRequestRequestInput}. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * @return CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When promotion_config is omitted; use hasPromotionConfig() or valueOrDefault().
      */
     public function getPromotionConfig(): mixed { return $this->get('promotion_config'); }
@@ -150,8 +150,8 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getSurface(): string { return $this->get('surface'); }
     public function hasSurface(): bool { return $this->has('surface'); }
-    /** Shape $ (Value): {@see CheckoutTaxConfigInput}. Automatic tax settings for the order Flint creates from quick_pay_item or subscription_plan_id. With order_id, set tax on the order; sending tax returns INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and status. Whether tax is collected for a checkout session or payment link.
-     * @return CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutTaxConfigRequestRequestInput}. Automatic tax settings for the order Flint creates from quick_pay_item or subscription_plan_id. With order_id, set tax on the order; sending tax returns INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and status. Whether tax is collected for a checkout session or payment link.
+     * @return CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }
@@ -162,8 +162,8 @@ final class CreateCheckoutSessionRequestInput extends Model {
      */
     public function getTheme(): mixed { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** Shape $ (Value): {@see CheckoutTipConfigInput}. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
-     * @return CheckoutTipConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutTipConfigRequestRequestInput}. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     * @return CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip is omitted; use hasTip() or valueOrDefault().
      */
     public function getTip(): mixed { return $this->get('tip'); }

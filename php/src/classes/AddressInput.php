@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $state
  * Presence-aware input; omitted fields throw when accessed. */
 final class AddressInput extends Model {
-    /** @param array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object $values */
+    /** @param array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AddressInput')); }
     /** Shape $ (Value): string. City or locality of the address.
      * @return string

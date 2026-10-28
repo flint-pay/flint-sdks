@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string $terms_of_service_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkLegalConfigInput extends Model {
-    /** @param array{'contract_url'?: string, 'refund_policy_url'?: string, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string, 'terms_of_service_url'?: string, ...}|object $values */
+    /** @param array{'contract_url'?: string, 'refund_policy_url'?: string, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string, 'terms_of_service_url'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkLegalConfigInput')); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 2048.
      * @return string

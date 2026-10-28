@@ -1,1 +1,1 @@
-{"shared":"OrderActivityListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","OrderActivity","OrderActivityListResponse","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968","SharedCodec972","SignedMoney"]}
+{"shared":"OrderActivityListResponse","dependencies":["MoneyValue","NextAction","NextActionMerchantAccountSession","OrderActivity","OrderActivityListResponse","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec1009","SharedCodec2","SharedCodec3","SignedMoney"]}

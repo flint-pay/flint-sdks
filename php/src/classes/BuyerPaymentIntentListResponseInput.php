@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerPaymentIntentListResponseInput extends Model {
-    /** @param array{'data': list<BuyerPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<BuyerPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentIntentListResponseInput')); }
     /** Shape $ (Value): Array of {@see BuyerPaymentIntentInput}. Shape $[] (Value): {@see BuyerPaymentIntentInput}. A payment as the buyer sees it. Omits the store's fees, net, risk assessment, and dispute state.
      * @return list<BuyerPaymentIntentInput|array<array-key, mixed>|\stdClass>

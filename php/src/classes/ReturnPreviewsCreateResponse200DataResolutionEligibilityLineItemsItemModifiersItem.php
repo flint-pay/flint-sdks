@@ -17,9 +17,9 @@ namespace Flint;
  * @property-read ReturnPreviewsCreateResponse200DataResolutionEligibilityLineItemsItemModifiersItemUnitPriceDeltaMoney $unit_price_delta_money
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnPreviewsCreateResponse200DataResolutionEligibilityLineItemsItemModifiersItem extends Model {
-    /** @param array{'metadata'?: \stdClass, 'modifier_group_name': string, 'modifier_id'?: string, 'name': string, 'order_line_item_modifier_id': string, 'quantity': string, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'source_type': string, 'text'?: mixed, 'text_value'?: string, 'total_money': mixed, 'unit_price_delta_money': mixed, ...}|object $values */
+    /** @param array{'metadata'?: mixed, 'modifier_group_name': string, 'modifier_id'?: string, 'name': string, 'order_line_item_modifier_id': string, 'quantity': string, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'source_type': string, 'text'?: mixed, 'text_value'?: string, 'total_money': mixed, 'unit_price_delta_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPreviewsCreateResponse200DataResolutionEligibilityLineItemsItemModifiersItem')); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Shape $.* (Value): string. maxLength: 4096.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

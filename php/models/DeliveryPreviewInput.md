@@ -12,7 +12,7 @@ Request input.
 | `choice_groups` | Required | Array of [DeliveryPreviewChoiceGroupResourceInput](../models/DeliveryPreviewChoiceGroupResourceInput.md#deliverypreviewchoicegroupresourceinput) |  |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `delivery_method_ids` | Required | Array of string |  |
-| `destination_address` | Optional | [DeliveryAddressResourceInput](../models/DeliveryAddressResourceInput.md#deliveryaddressresourceinput) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations. |
+| `destination_address` | Optional | [AddressInput](../models/AddressInput.md#addressinput) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
 | `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |

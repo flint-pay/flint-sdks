@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $modifier_group_name
  * @property-read string $modifier_id
  * @property-read string $name
@@ -17,13 +17,13 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_delta_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderLineItemModifierInput extends Model {
-    /** @param array{'metadata'?: array<array-key, string>|\stdClass, 'modifier_group_name': string, 'modifier_id'?: string, 'name': string, 'order_line_item_modifier_id': string, 'quantity': string, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'source_type': string, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'text_value'?: string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_price_delta_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_group_name': string, 'modifier_id'?: string, 'name': string, 'order_line_item_modifier_id': string, 'quantity': string, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'source_type': string, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'text_value'?: string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_price_delta_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemModifierInput')); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Name of the modifier group recorded when this selection was added to the order line item.
      * @return string

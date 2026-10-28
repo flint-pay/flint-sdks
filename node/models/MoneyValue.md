@@ -25,3 +25,10 @@ anyOf variant 2: Declared schema SignedMoney. Signed monetary amount represented
 
 - Constraints for `amount`: Signed amount in the currency's minor unit, such as cents for USD.
 
+### MoneyValue variant 3
+
+anyOf variant 3: Declared schema SignedMoneyRequestRequest. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code..
+
+- Constraints for `amount`: Signed amount in the currency's minor unit, such as cents for USD.
+- Constraints for `currency`: Example: `"USD"`.
+

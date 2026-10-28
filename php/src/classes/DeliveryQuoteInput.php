@@ -8,10 +8,11 @@ namespace Flint;
  * @property-read list<string> $buyer_reasons
  * @property-read string $checkout_session_id
  * @property-read list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass> $choice_groups
- * @property-read string $consumed_by_delivery_selection_id
+ * @property-read string|\DateTimeInterface $created_at
  * @property-read string $delivery_quote_id
  * @property-read string $delivery_quote_version
- * @property-read DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass $destination_address
+ * @property-read string|null $delivery_revocation_id
+ * @property-read AddressInput|array<array-key, mixed>|\stdClass $destination_address
  * @property-read string $eligibility_context_version
  * @property-read string|\DateTimeInterface $evaluated_at
  * @property-read string $evaluation_status
@@ -26,9 +27,10 @@ namespace Flint;
  * @property-read bool $selection_required
  * @property-read string $stale_reason
  * @property-read string $status
+ * @property-read string $superseded_by_delivery_quote_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryQuoteInput extends Model {
-    /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'consumed_by_delivery_selection_id'?: string, 'delivery_quote_id': string, 'delivery_quote_version'?: string, 'destination_address'?: DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass, 'eligibility_context_version'?: string, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'methods'?: list<DeliveryQuoteMethodResourceInput|array<array-key, mixed>|\stdClass>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<DeliveryPendingCallerRateRequestInput|array<array-key, mixed>|\stdClass>, 'revocation_reason'?: string, 'revoked_at'?: string|\DateTimeInterface, 'selection_required': bool, 'stale_reason'?: string, 'status': string, ...}|object $values */
+    /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'delivery_quote_id': string, 'delivery_quote_version'?: string, 'delivery_revocation_id': string|null, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'eligibility_context_version'?: string, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'methods'?: list<DeliveryQuoteMethodResourceInput|array<array-key, mixed>|\stdClass>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<DeliveryPendingCallerRateRequestInput|array<array-key, mixed>|\stdClass>, 'revocation_reason'?: string, 'revoked_at'?: string|\DateTimeInterface, 'selection_required': bool, 'stale_reason'?: string, 'status': string, 'superseded_by_delivery_quote_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -66,12 +68,12 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getChoiceGroups(): array { return $this->get('choice_groups'); }
     public function hasChoiceGroups(): bool { return $this->has('choice_groups'); }
-    /** Shape $ (Value): string.
-     * @return string
-     * @throws SdkError When consumed_by_delivery_selection_id is omitted; use hasConsumedByDeliverySelectionId() or valueOrDefault().
+    /** Shape $ (Value): string. When Flint created this quote. Format: date-time.
+     * @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
      */
-    public function getConsumedByDeliverySelectionId(): string { return $this->get('consumed_by_delivery_selection_id'); }
-    public function hasConsumedByDeliverySelectionId(): bool { return $this->has('consumed_by_delivery_selection_id'); }
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Shape $ (Value): string.
      * @return string
      * @throws SdkError When delivery_quote_id is omitted; use hasDeliveryQuoteId() or valueOrDefault().
@@ -84,8 +86,14 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getDeliveryQuoteVersion(): string { return $this->get('delivery_quote_version'); }
     public function hasDeliveryQuoteVersion(): bool { return $this->has('delivery_quote_version'); }
-    /** Shape $ (Value): {@see DeliveryAddressResourceInput}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations.
-     * @return DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): string or null. The delivery revocation that revoked this quote, or null when no revocation applies.
+     * @return string|null
+     * @throws SdkError When delivery_revocation_id is omitted; use hasDeliveryRevocationId() or valueOrDefault().
+     */
+    public function getDeliveryRevocationId(): string|null { return $this->get('delivery_revocation_id'); }
+    public function hasDeliveryRevocationId(): bool { return $this->has('delivery_revocation_id'); }
+    /** Shape $ (Value): {@see AddressInput}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return AddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
@@ -162,16 +170,22 @@ final class DeliveryQuoteInput extends Model {
      */
     public function getSelectionRequired(): bool { return $this->get('selection_required'); }
     public function hasSelectionRequired(): bool { return $this->has('selection_required'); }
-    /** Shape $ (Value): string.  Value enum: "checkout_changed", "selection_changed", "eligibility_changed", "inventory_changed", "authority_changed", "consumed_by_priced_quote".
+    /** Shape $ (Value): string.  Value enum: "checkout_changed", "selection_changed", "eligibility_changed", "inventory_changed", "authority_changed", "superseded_by_priced_quote".
      * @return string
      * @throws SdkError When stale_reason is omitted; use hasStaleReason() or valueOrDefault().
      */
     public function getStaleReason(): string { return $this->get('stale_reason'); }
     public function hasStaleReason(): bool { return $this->has('stale_reason'); }
-    /** Shape $ (Value): string.  Value enum: "active", "consumed", "stale", "expired", "revoked".
+    /** Shape $ (Value): string. Whether the quote can be selected now, derived from the current checkout or renewal order on every read. Value enum: "active", "consumed", "stale", "expired", "revoked".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Shape $ (Value): string. The priced delivery quote that replaced this quote. Its basis_delivery_quote_id names this quote.
+     * @return string
+     * @throws SdkError When superseded_by_delivery_quote_id is omitted; use hasSupersededByDeliveryQuoteId() or valueOrDefault().
+     */
+    public function getSupersededByDeliveryQuoteId(): string { return $this->get('superseded_by_delivery_quote_id'); }
+    public function hasSupersededByDeliveryQuoteId(): bool { return $this->has('superseded_by_delivery_quote_id'); }
 }

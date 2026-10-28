@@ -21,12 +21,13 @@
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
+| `source` | Conditional | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
 
 ### IncomingWebhook019a504a3353Payload variant 1: `event_type` = `"payment_review.reopened"`
 
 oneOf variant 1: The `payment_review.reopened` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"payment_review.reopened"`.
@@ -35,6 +36,7 @@ oneOf variant 1: The `payment_review.reopened` webhook payload for the `merchant
 
 oneOf variant 2: The `payment_review.reopened` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"payment_review.reopened"`.
@@ -117,18 +119,13 @@ anyOf variant 2.
 
 ### IncomingWebhook019a504a3353Payload variant 2.source
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `environment_grant_id` | Required | string |  |
-| `merchant_id` | Required | string |  |
-| `mode` | Required | string | Values: `"test"`, `"live"`. |
-| `partner_app_install_id` | Required | string |  |
-| `sandbox_id` | Optional | string |  |
-| `type` | Required | string | Values: `"installed_merchants"`. |
+The source of a partner webhook event, selected by type.
+
+Field definitions: [shared fields](WebhookEventSourceInstalledMerchants.md#webhookeventsourceinstalledmerchants).
 
 ### IncomingWebhook019a504a3353Payload variant 2.source variant 1: `type` = `"installed_merchants"`
 
-oneOf variant 2.
+oneOf variant 2: The installed_merchants source of a partner webhook event..
 
 No additional constraints.
 

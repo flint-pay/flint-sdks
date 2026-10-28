@@ -30,7 +30,7 @@ namespace Flint;
  * @property-read ?Weight $weight
  * Presence-aware response; omitted optional fields return null. */
 final class Package extends Model {
-    /** @param array{'carrier'?: string, 'created_at'?: string, 'delivered_at'?: string, 'dimensions'?: mixed, 'expected_delivery_at'?: string|null, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'label_url'?: string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'status_reason'?: string, 'supported_actions': list<string>, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at'?: string, 'version': string, 'weight'?: mixed, ...}|object $values */
+    /** @param array{'carrier'?: string, 'created_at'?: string, 'delivered_at'?: string, 'dimensions'?: mixed, 'expected_delivery_at'?: string|null, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'label_url'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'package_id': string, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'service_code'?: string, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'status_reason'?: string, 'supported_actions': list<string>, 'tracking_number'?: string, 'tracking_url'?: string, 'updated_at'?: string, 'version': string, 'weight'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Package')); }
     /** Shape $ (Value): string. Carrier transporting the package.
      * @return ?string
@@ -77,7 +77,7 @@ final class Package extends Model {
      */
     public function getLabelUrl(): ?string { return $this->get('label_url'); }
     public function hasLabelUrl(): bool { return $this->has('label_url'); }
-    /** Shape $ (Value): Map of string. Caller-owned key-value metadata associated with the package. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value metadata associated with the package. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

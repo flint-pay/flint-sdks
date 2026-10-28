@@ -1,1 +1,1 @@
-{"shared":"ReturnDisposition","dependencies":["ReturnActor","ReturnDisposition"]}
+{"shared":"ReturnDisposition","dependencies":["MetadataMap","ReturnActor","ReturnDisposition"]}

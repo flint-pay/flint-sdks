@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [Order](../models/Order.md#order) | A customer's purchase and its payment and fulfillment progress. `data`: [field definitions](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### OrdersApplyDiscountResponse200.data
 
@@ -40,7 +40,7 @@ A customer's purchase and its payment and fulfillment progress.
 | `gift_card_settlements` | Required | Array of [OrderGiftCardSettlement](../models/OrderGiftCardSettlement.md#ordergiftcardsettlement) |  |
 | `gift_card_tender_enabled` | Required | boolean |  |
 | `gift_cards` | Required | Array of [OrderGiftCardSelection](../models/OrderGiftCardSelection.md#ordergiftcardselection) |  |
-| `governing_delivery_selection_id` | Optional | string | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Read with GET /v1/orders/{order_id}; other order responses may omit this field. While present, change the destination through the delivery selection. Omitted when no selection governs the order. |
+| `governing_delivery_selection_id` | Required | string or null | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection. |
 | `internal_note` | Optional | string |  |
 | `inventory_exception_reason` | Optional | string | Why inventory could not be committed after payment. The cause remains after resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values may be added. Values: `"inventory_deduction_failed"`, `"inventory_handoff_failed"`, `"auto_refund_required"`, `"auto_refund_failed"`, `"policy_resolution_failed"`, `"other"`. |
 | `inventory_exception_resolution_message` | Optional | string | The merchant note supplied when resolving the inventory exception. It is not shown to the buyer. |
@@ -49,7 +49,7 @@ A customer's purchase and its payment and fulfillment progress.
 | `inventory_routing_source` | Optional | [InventoryRoutingSource](../models/InventoryRoutingSource.md#inventoryroutingsource) | Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. |
 | `line_items` | Required | Array of [OrderLineItem](../models/OrderLineItem.md#orderlineitem) |  |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200datametadata). |
 | `order_id` | Required | string |  |
 | `order_number` | Optional | string |  |
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
@@ -78,6 +78,10 @@ A customer's purchase and its payment and fulfillment progress.
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer string | Order version for optimistic concurrency. Send this value as the expected version when changing the order. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 
+### OrdersApplyDiscountResponse200.data.metadata
+
+Value shape: Map of string. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
+
 ### OrdersApplyDiscountResponse200.data.subscription_plan
 
 | Field | Presence | Type | Description |
@@ -92,7 +96,7 @@ A customer's purchase and its payment and fulfillment progress.
 | `name` | Conditional | string |  |
 | `quantity_options` | Conditional | Array of integer | maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
 | `setup_fee_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `status` | Conditional | string | Active plans accept new signups. Inactive plans refuse new signups with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `status` | Conditional | string | Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `subscription_plan_id` | Conditional | string |  |
 | `trial_period_days` | Conditional | integer | Format: `int32`. |
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -132,32 +136,36 @@ A line item on a subscription plan, from a variant or bundle, with its quantity,
 | `swap_variant_ids` | Required | Array of string | maxItems: `25`. uniqueItems: `true`. Items: pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `swap_variants` | Optional | Array of object | Current sellable alternatives in swap_variant_ids order, excluding the line's own variant and variants priced in a different currency. Present on variant lines, including an empty array. maxItems: `25`. `swap_variants[]`: [field definitions](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200datasubscription_plan-variant-1line_itemsswap_variants). |
 | `tax` | Optional | object | A line item's tax category and whether it is taxable. `tax`: [field definitions](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200datasubscription_plan-variant-1line_itemstax). |
+| `type` | Required | string | Values: `"variant"`, `"bundle"`, `"custom"`. |
 | `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Conditional | string |  |
 
-### OrdersApplyDiscountResponse200.data.subscription_plan variant 1.line_items[] variant 1
+### OrdersApplyDiscountResponse200.data.subscription_plan variant 1.line_items[] variant 1: `type` = `"variant"`
 
-oneOf variant 1.
+oneOf variant 1: The `variant` variant of `SubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`bundle_id`))).
 - Required: `variant_id`.
 - Optional: `bundle_id`, `name`, `unit_price_money`.
+- Constraints for `type`: Values: `"variant"`.
 
-### OrdersApplyDiscountResponse200.data.subscription_plan variant 1.line_items[] variant 2
+### OrdersApplyDiscountResponse200.data.subscription_plan variant 1.line_items[] variant 2: `type` = `"bundle"`
 
-oneOf variant 2.
+oneOf variant 2: The `bundle` variant of `SubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`))).
 - Required: `bundle_id`.
 - Optional: `name`, `unit_price_money`, `variant_id`.
+- Constraints for `type`: Values: `"bundle"`.
 
-### OrdersApplyDiscountResponse200.data.subscription_plan variant 1.line_items[] variant 3
+### OrdersApplyDiscountResponse200.data.subscription_plan variant 1.line_items[] variant 3: `type` = `"custom"`
 
-oneOf variant 3.
+oneOf variant 3: The `custom` variant of `SubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`, `unit_price_money`.
 - Optional: `bundle_id`, `variant_id`.
+- Constraints for `type`: Values: `"custom"`.
 
 ### OrdersApplyDiscountResponse200.data.subscription_plan variant 1.line_items[].swap_variants[]
 

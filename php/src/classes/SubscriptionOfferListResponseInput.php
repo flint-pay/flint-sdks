@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionOfferListResponseInput extends Model {
-    /** @param array{'data': list<SubscriptionOfferInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<SubscriptionOfferInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOfferListResponseInput')); }
     /** Shape $ (Value): Array of {@see SubscriptionOfferInput}. Shape $[] (Value): {@see SubscriptionOfferInput}. Recurring terms offered on catalog products or variants. Updates affect new signups; existing subscriptions keep their paid signup terms.
      * @return list<SubscriptionOfferInput|array<array-key, mixed>|\stdClass>

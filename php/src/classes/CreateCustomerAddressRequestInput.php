@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read PostalAddressInput|array<array-key, mixed>|\stdClass $address
+ * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $address
  * @property-read bool $is_default_billing
  * @property-read bool $is_default_shipping
  * @property-read string $label
@@ -10,10 +10,10 @@ namespace Flint;
  * @property-read string $recipient_name
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCustomerAddressRequestInput extends Model {
-    /** @param array{'address': PostalAddressInput|array<array-key, mixed>|\stdClass, 'is_default_billing'?: bool, 'is_default_shipping'?: bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, ...}|object $values */
+    /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'is_default_billing'?: bool, 'is_default_shipping'?: bool, 'label'?: string, 'phone'?: string, 'recipient_name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCustomerAddressRequestInput')); }
-    /** Shape $ (Value): {@see PostalAddressInput}. A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country.
-     * @return PostalAddressInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+     * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }

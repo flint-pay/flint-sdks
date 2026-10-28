@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerSubscriptionResponseInput extends Model {
-    /** @param array{'data': BuyerSubscriptionInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': BuyerSubscriptionInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerSubscriptionResponseInput')); }
     /** Shape $ (Value): {@see BuyerSubscriptionInput}. A customer's recurring purchase.
      * @return BuyerSubscriptionInput|array<array-key, mixed>|\stdClass

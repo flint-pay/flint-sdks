@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/shipments.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/shipments.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createPackage"]:r0,["getShipment"]:r0,["listShipments"]:r0,["updateShipment"]:r0,["voidShipment"]:r0});
 export class Client {
@@ -157,12 +157,14 @@ close() { return this.#runtime.close(); }
 }
 export { makeCreatePackageItemRequest } from '../models/CreatePackageItemRequest.js';
 export { makeDimensions } from '../models/Dimensions.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makePackageCreateInputCreated } from '../models/PackageCreateInputCreated.js';
 export { makePackageCreateInputShipped } from '../models/PackageCreateInputShipped.js';
 export { makePackageCreateRequest } from '../models/PackageCreateRequest.js';
 export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
-export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
+export { makeReturnShipmentLineItemAllocationRequestRequest } from '../models/ReturnShipmentLineItemAllocationRequestRequest.js';
 export { makeUpdateShipmentRequest } from '../models/UpdateShipmentRequest.js';
 export { makeVoidPackageRequest } from '../models/VoidPackageRequest.js';
 export { makeVoidShipmentRequest } from '../models/VoidShipmentRequest.js';

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfileListResponseInput extends Model {
-    /** @param array{'data': list<DeliveryProfileInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<DeliveryProfileInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileListResponseInput')); }
     /** Shape $ (Value): Array of {@see DeliveryProfileInput}. Shape $[] (Value): {@see DeliveryProfileInput}. Reusable delivery rules assigned to catalog items.
      * @return list<DeliveryProfileInput|array<array-key, mixed>|\stdClass>

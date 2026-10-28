@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read string $tier_key
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCheckoutDeliveryQuoteRequestInput extends Model {
-    /** @param array{'basis_delivery_quote_id'?: string, 'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'destination_address'?: DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_selection_id': string|null, 'inventory_assignments'?: list<DeliveryInventoryAssignmentRequestInput|array<array-key, mixed>|\stdClass>, 'method_results'?: list<CallerSuppliedDeliveryMethodResultRequestInput|array<array-key, mixed>|\stdClass>, 'pickup_location_id'?: string, 'tier_key'?: string, ...}|object $values */
+    /** @param array{'basis_delivery_quote_id'?: string, 'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'destination_address'?: DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_selection_id'?: string|null, 'inventory_assignments'?: list<DeliveryInventoryAssignmentRequestInput|array<array-key, mixed>|\stdClass>, 'method_results'?: list<CallerSuppliedDeliveryMethodResultRequestInput|array<array-key, mixed>|\stdClass>, 'pickup_location_id'?: string, 'tier_key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCheckoutDeliveryQuoteRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string
@@ -26,13 +26,13 @@ final class CreateCheckoutDeliveryQuoteRequestInput extends Model {
      */
     public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
-    /** Shape $ (Value): {@see DeliveryAddressRequestInput}. An address you supply for delivery quotes, previews, and selections.
+    /** Shape $ (Value): {@see DeliveryAddressRequestInput}. Partial is fine when quoting: send what the buyer has entered, at least country. A destination_address sent with a selection must be complete; a selection that omits it uses the quote's destination, which may be partial. A partial address for delivery quotes, previews, and buyer locations. Country is required when any member is present.
      * @return DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** Shape $ (Value): string or null. Current delivery selection ID used for compare-and-swap. Send null to assert that no selection exists. minLength: 1.
+    /** Shape $ (Value): string or null. Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no assertion, send null to assert that no selection exists, or send an ID to assert that it is current. minLength: 1.
      * @return string|null
      * @throws SdkError When expected_delivery_selection_id is omitted; use hasExpectedDeliverySelectionId() or valueOrDefault().
      */

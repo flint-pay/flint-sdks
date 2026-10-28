@@ -8,4 +8,4 @@ const client = new Client({
 const result = await client.bundles.listComponents(
   "example"
 );
-console.log(result);
+console.log(result.request_id);

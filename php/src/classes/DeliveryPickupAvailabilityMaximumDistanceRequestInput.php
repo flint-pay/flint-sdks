@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read int|float $value
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryPickupAvailabilityMaximumDistanceRequestInput extends Model {
-    /** @param array{'unit': string, 'value': int|float, ...}|object $values */
+    /** @param array{'unit': string, 'value': int|float}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityMaximumDistanceRequestInput')); }
     /** Shape $ (Value): string.  Value enum: "meter", "kilometer", "mile".
      * @return string

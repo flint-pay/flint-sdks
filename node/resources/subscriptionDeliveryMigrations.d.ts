@@ -1,8 +1,8 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateSubscriptionDeliveryMigrationRequestInput } from '../declarations/types-9.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
+import type { CreateSubscriptionDeliveryMigrationRequestInput } from '../declarations/types-10.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
 import type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
@@ -13,8 +13,8 @@ import type {
     SubscriptionDeliveryMigrationsGetInput,
     SubscriptionDeliveryMigrationsListFailuresInput,
     SubscriptionDeliveryMigrationsListInput
-} from '../declarations/types-45.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-48.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,12 +29,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type {
-    CreateSubscriptionDeliveryMigrationRequestInput,
-    Credentials,
-    CreateSubscriptionDeliveryMigrationRequest
-} from '../declarations/types-9.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-10.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationResponse,
@@ -46,14 +42,16 @@ export type {
     SubscriptionDeliveryMigrationsListFailuresInput,
     SubscriptionDeliveryMigrationsListInput,
     SubscriptionDeliveryMigrationFailureReasonCount
-} from '../declarations/types-45.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-48.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface SubscriptionDeliveryMigrationsResource {
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
@@ -92,7 +90,8 @@ export interface SubscriptionDeliveryMigrationsResource {
     getWithResponse(subscription_delivery_migration_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionDeliveryMigrationResponse>>;
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
- * failures remain available after completion.
+ * failures remain available after completion. Default order: subscription_id ascending; this key
+ * uniquely orders the results.
  * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslistfailures
  * GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}/failures
  * @example
@@ -162,7 +161,8 @@ export interface SubscriptionDeliveryMigrationsResource {
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SubscriptionDeliveryMigrationFailure>;
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription
- * failures remain available after completion.
+ * failures remain available after completion. Default order: created_at descending, then
+ * subscription_delivery_migration_id descending.
  * @see reference/subscriptionDeliveryMigrations.md#subscriptiondeliverymigrationslist
  * GET /v1/subscription-delivery-migrations
  * @example

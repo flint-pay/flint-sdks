@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppWithSecretResponseInput extends Model {
-    /** @param array{'data': PartnerAppWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': PartnerAppWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppWithSecretResponseInput')); }
     /** Shape $ (Value): {@see PartnerAppWithSecretInput}. A partner app returned with its client secret, as in the response to creating a partner app. An application that merchants can authorize to access their accounts.
      * @return PartnerAppWithSecretInput|array<array-key, mixed>|\stdClass

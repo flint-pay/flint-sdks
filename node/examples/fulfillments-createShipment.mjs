@@ -10,7 +10,9 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.fulfillments.createShipment(
   "example",
-  {},
+  {
+    direction: "outbound",
+  },
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.fulfillment_id);

@@ -1,1 +1,1 @@
-{"shared":"OrderCharge","dependencies":["MoneyValue","OrderCalculatedChargeTax","OrderCharge","TaxCalculationRequest","TaxComponentRequest","TaxJurisdiction"]}
+{"shared":"OrderCharge","dependencies":["MetadataMap","MoneyValue","OrderCalculatedChargeTax","OrderCharge","TaxCalculationRequest","TaxComponentRequest","TaxJurisdiction"]}

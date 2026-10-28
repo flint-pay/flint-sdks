@@ -23,30 +23,34 @@ Request input.
 | `swap_variant_ids` | Required | Array of string | maxItems: `25`. uniqueItems: `true`. Items: pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `swap_variants` | Optional | Array of [SubscriptionPlanSwapVariantInput](../models/SubscriptionPlanSwapVariantInput.md#subscriptionplanswapvariantinput) | Current sellable alternatives in swap_variant_ids order, excluding the line's own variant and variants priced in a different currency. Present on variant lines, including an empty array. maxItems: `25`. |
 | `tax` | Optional | [OrderLineItemTaxInput](../models/OrderLineItemTaxInput.md#orderlineitemtaxinput) | A line item's tax category and whether it is taxable. |
+| `type` | Required | string | Values: `"variant"`, `"bundle"`, `"custom"`. |
 | `unit_price_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Conditional | string |  |
 
-### SubscriptionPlanLineItemInput variant 1
+### SubscriptionPlanLineItemInput variant 1: `type` = `"variant"`
 
-oneOf variant 1.
+oneOf variant 1: The `variant` variant of `SubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`bundle_id`))).
 - Required: `variant_id`.
 - Optional: `bundle_id`, `name`, `unit_price_money`.
+- Constraints for `type`: Values: `"variant"`.
 
-### SubscriptionPlanLineItemInput variant 2
+### SubscriptionPlanLineItemInput variant 2: `type` = `"bundle"`
 
-oneOf variant 2.
+oneOf variant 2: The `bundle` variant of `SubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`))).
 - Required: `bundle_id`.
 - Optional: `name`, `unit_price_money`, `variant_id`.
+- Constraints for `type`: Values: `"bundle"`.
 
-### SubscriptionPlanLineItemInput variant 3
+### SubscriptionPlanLineItemInput variant 3: `type` = `"custom"`
 
-oneOf variant 3.
+oneOf variant 3: The `custom` variant of `SubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`, `unit_price_money`.
 - Optional: `bundle_id`, `variant_id`.
+- Constraints for `type`: Values: `"custom"`.
 

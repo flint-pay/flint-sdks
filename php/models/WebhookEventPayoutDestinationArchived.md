@@ -31,5 +31,9 @@ Response model.
 
 The account that receives merchant payouts.
 
-Field definitions: [shared fields](PayoutDestinationInput.md#payoutdestinationinput).
+Field definitions: [shared fields](PayoutSettingsDeletePayoutDestinationResponse200.md#payoutsettingsdeletepayoutdestinationresponse200data).
+
+### WebhookEventPayoutDestinationArchived.data fields 1.object.metadata
+
+Field definitions: [PayoutsCancelResponse200.data.metadata](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datametadata).
 

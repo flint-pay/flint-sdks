@@ -6,10 +6,10 @@ import type {
     FraudWarningResponse,
     FraudWarningsGetInput,
     FraudWarningsListInput
-} from '../declarations/types-17.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-18.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -24,26 +24,29 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     FraudWarning,
     FraudWarningResponse,
     FraudWarningListResponse,
     FraudWarningsGetInput,
     FraudWarningsListInput,
+    ExpandedCustomerSummary,
+    ExpandedOrderSummary,
+    ExpandedPaymentIntentSummary,
     FraudWarningPaymentSummary
-} from '../declarations/types-17.js';
-export type { SdkResponse, SettlementAmounts } from '../declarations/types-44.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-18.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { ClientOptions, CheckoutBuyerContact } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { Dispute, ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-16.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export type { CheckoutBuyerContact } from '../declarations/types-3.js';
-export type { PricingAmounts } from '../declarations/types-37.js';
-export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-36.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { Dispute } from '../declarations/types-17.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { PricingAmounts, PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-39.js';
+export type { SettlementAmounts } from '../declarations/types-47.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface FraudWarningsResource {
     /**
  * Retrieves an early fraud warning. Expand `payment_intent` or `dispute` to include them.
@@ -64,7 +67,7 @@ export interface FraudWarningsResource {
     /**
  * Lists early fraud warnings that card networks reported on your payments, most recently reported
  * first. Filter with `is_actionable=true` to find warnings a full refund can still resolve before
- * a dispute.
+ * a dispute. Default order: reported_at descending, then fraud_warning_id descending.
  * @see reference/fraudWarnings.md#fraudwarningslist
  * GET /v1/fraud-warnings
  * @example

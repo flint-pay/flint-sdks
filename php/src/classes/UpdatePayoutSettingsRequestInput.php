@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read list<string> $weekly_payout_days
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePayoutSettingsRequestInput extends Model {
-    /** @param array{'delay_days_override'?: int|null, 'expected_version'?: string, 'interval'?: string, 'minimum_balance_by_currency'?: array<array-key, array{'amount': string, 'currency': string}|object|null>|\stdClass, 'monthly_payout_days'?: list<int>, 'statement_descriptor'?: string|null, 'weekly_payout_days'?: list<string>, ...}|object $values */
+    /** @param array{'delay_days_override'?: int|null, 'expected_version'?: string, 'interval'?: string, 'minimum_balance_by_currency'?: array<array-key, array{'amount': string, 'currency': string}|object|null>|\stdClass, 'monthly_payout_days'?: list<int>, 'statement_descriptor'?: string|null, 'weekly_payout_days'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePayoutSettingsRequestInput')); }
     /** Shape $ (Value): integer or null. Days, 0 through 31, a payment stays pending before its funds become available, in place of the account's default. Send null to go back to the default. Format: int32.
      * @return int|null

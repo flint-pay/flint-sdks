@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnResolutionResponseInput extends Model {
-    /** @param array{'data': BuyerReturnResolutionInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': BuyerReturnResolutionInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnResolutionResponseInput')); }
     /** Shape $ (Value): {@see BuyerReturnResolutionInput}. The refund, exchange, or other outcome of a return.
      * @return BuyerReturnResolutionInput|array<array-key, mixed>|\stdClass

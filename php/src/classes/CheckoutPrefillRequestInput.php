@@ -8,9 +8,9 @@ namespace Flint;
  * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $shipping_address
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutPrefillRequestInput extends Model {
-    /** @param array{'billing_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'phone'?: string, 'shipping_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'billing_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'phone'?: string, 'shipping_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutPrefillRequestInput')); }
-    /** Shape $ (Value): {@see AddressRequestInput}. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
+    /** Shape $ (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When billing_address is omitted; use hasBillingAddress() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class CheckoutPrefillRequestInput extends Model {
      */
     public function getPhone(): string { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Shape $ (Value): {@see AddressRequestInput}. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
+    /** Shape $ (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When shipping_address is omitted; use hasShippingAddress() or valueOrDefault().
      */

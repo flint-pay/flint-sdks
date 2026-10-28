@@ -4,7 +4,7 @@
 
 ### giftCardTransactions.list
 
-Lists immutable financial entries across the merchant in ascending merchant_sequence order. Per-card sequences and balance snapshots support reconciliation. Reservations and code replacement never create financial debits.
+Lists immutable financial entries across the merchant in ascending merchant_sequence order. Per-card sequences and balance snapshots support reconciliation. Reservations and code replacement never create financial debits. Default order: merchant_sequence ascending; this key uniquely orders the results.
 
 `GET /v1/gift-card-transactions`
 

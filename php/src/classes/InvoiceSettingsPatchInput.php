@@ -11,12 +11,12 @@ namespace Flint;
  * @property-read string|null $invoice_number_prefix
  * @property-read array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null $payment_policy
  * @property-read array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null $reminder_policy
- * @property-read array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code': string, 'state': string, ...}|object|null $remit_to_address
+ * @property-read array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null $remit_to_address
  * @property-read string|null $reply_to_email
  * @property-read string|null $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceSettingsPatchInput extends Model {
-    /** @param array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|object|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null, 'reminder_policy'?: array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code': string, 'state': string, ...}|object|null, 'reply_to_email'?: string|null, 'timezone'?: string|null}|object $values */
+    /** @param array{'autopay_retry_policy'?: array{'retry_day_offsets': list<int>}|object|null, 'credit_note_number_prefix'?: string|null, 'default_collection_mode'?: string|null, 'default_footer'?: string|null, 'default_invoice_payment_term_id'?: string|null, 'default_memo'?: string|null, 'invoice_number_prefix'?: string|null, 'payment_policy'?: array{'enabled_payment_options': list<string>, 'payment_option_limits'?: list<InvoicePaymentOptionLimitInput|array<array-key, mixed>|\stdClass>, 'show_cost_comparison'?: bool}|object|null, 'reminder_policy'?: array{'rules': list<InvoiceReminderRuleInput|array<array-key, mixed>|\stdClass>}|object|null, 'remit_to_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'reply_to_email'?: string|null, 'timezone'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceSettingsPatchInput')); }
     /** Shape $ (Value): {@see InvoiceAutopayRetryPolicyInput} or null. Replaced as a whole: send every field you want to keep. Shape $.anyOf[1] (Value): {@see InvoiceAutopayRetryPolicyInput}. When to retry a failed automatic invoice payment, as a list of day offsets. Shape $.anyOf[2] (Value): null.
      * @return array{'retry_day_offsets': list<int>}|object|null
@@ -30,7 +30,7 @@ final class InvoiceSettingsPatchInput extends Model {
      */
     public function getCreditNoteNumberPrefix(): string|null { return $this->get('credit_note_number_prefix'); }
     public function hasCreditNoteNumberPrefix(): bool { return $this->has('credit_note_number_prefix'); }
-    /** Shape $ (Value): string or null. Send null to clear it. Value enum: "buyer_initiated", "automatic", "external", null.
+    /** Shape $ (Value): string or null.  Value enum: "buyer_initiated", "automatic", "external", null.
      * @return string|null
      * @throws SdkError When default_collection_mode is omitted; use hasDefaultCollectionMode() or valueOrDefault().
      */
@@ -72,8 +72,8 @@ final class InvoiceSettingsPatchInput extends Model {
      */
     public function getReminderPolicy(): mixed { return $this->get('reminder_policy'); }
     public function hasReminderPolicy(): bool { return $this->has('reminder_policy'); }
-    /** Shape $ (Value): {@see AddressRequestInput} or null. Replaced as a whole: send every field you want to keep. Shape $.anyOf[1] (Value): {@see AddressRequestInput}. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. Shape $.anyOf[2] (Value): null.
-     * @return array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code': string, 'state': string, ...}|object|null
+    /** Shape $ (Value): {@see AddressRequestInput} or null. Replaced as a whole: send every field you want to keep. Shape $.anyOf[1] (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. Shape $.anyOf[2] (Value): null.
+     * @return array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null
      * @throws SdkError When remit_to_address is omitted; use hasRemitToAddress() or valueOrDefault().
      */
     public function getRemitToAddress(): mixed { return $this->get('remit_to_address'); }

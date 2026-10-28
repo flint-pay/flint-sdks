@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read RevokeDeliveryDependencyTargetInput|array<array-key, mixed>|\stdClass $target
  * Presence-aware input; omitted fields throw when accessed. */
 final class RevokeDeliveryDependencyRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'merchant_note'?: string, 'reason': string, 'target': RevokeDeliveryDependencyTargetInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'merchant_note'?: string, 'reason': string, 'target': RevokeDeliveryDependencyTargetInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RevokeDeliveryDependencyRequestInput')); }
     /** Shape $ (Value): integer string. Required when target.target_type is delivery_method or delivery_rate_callback. The version of the stable resource whose current revision will be revoked. Omit it for exact revision, geography, and signing-key targets. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string

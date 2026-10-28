@@ -7,6 +7,10 @@ namespace Flint;
  * @property-read ?string $completed_at
  * @property-read ?string $created_at
  * @property-read ?string $customer_id
+ * @property-read string|null $delivery_choice_group_id
+ * @property-read string|null $delivery_execution_leg_id
+ * @property-read string|null $delivery_method_id
+ * @property-read string|null $delivery_selection_id
  * @property-read ?string $device_id
  * @property-read ?DigitalFulfillmentDetails $digital_details
  * @property-read ?string $dispatched_at
@@ -37,7 +41,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class Fulfillment extends Model {
-    /** @param array{'active_hold'?: mixed, 'charges'?: list<mixed>, 'completed_at'?: string, 'created_at'?: string, 'customer_id'?: string, 'device_id'?: string, 'digital_details'?: mixed, 'dispatched_at'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'line_items': list<mixed>, 'local_delivery_details'?: mixed, 'location_id'?: string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id': string, 'order_number'?: string, 'outcome'?: mixed, 'packages'?: list<mixed>, 'packed_at'?: string, 'picked_at'?: string, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at': string|null, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: list<mixed>, 'status': string, 'supported_actions': list<string>, 'terminal_at'?: string, 'type': string, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'active_hold'?: mixed, 'charges'?: list<mixed>, 'completed_at'?: string, 'created_at'?: string, 'customer_id'?: string, 'delivery_choice_group_id': string|null, 'delivery_execution_leg_id': string|null, 'delivery_method_id': string|null, 'delivery_selection_id': string|null, 'device_id'?: string, 'digital_details'?: mixed, 'dispatched_at'?: string, 'external_reference_id'?: string, 'fulfillment_id': string, 'line_items': list<mixed>, 'local_delivery_details'?: mixed, 'location_id'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_number'?: string, 'outcome'?: mixed, 'packages'?: list<mixed>, 'packed_at'?: string, 'picked_at'?: string, 'pickup_details'?: mixed, 'recipient'?: mixed, 'scheduled_start_at': string|null, 'service_details'?: mixed, 'shipment_details'?: mixed, 'shipments'?: list<mixed>, 'status': string, 'supported_actions': list<string>, 'terminal_at'?: string, 'type': string, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Fulfillment')); }
     /** Shape $ (Value): {@see FulfillmentHold}. Current hold details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and when it became active.
      * @return ?FulfillmentHold
@@ -64,6 +68,26 @@ final class Fulfillment extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Shape $ (Value): string or null. Delivery choice group that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote.
+     * @return string|null
+     */
+    public function getDeliveryChoiceGroupId(): string|null { return $this->get('delivery_choice_group_id'); }
+    public function hasDeliveryChoiceGroupId(): bool { return $this->has('delivery_choice_group_id'); }
+    /** Shape $ (Value): string or null. Execution leg of the selected delivery option that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote.
+     * @return string|null
+     */
+    public function getDeliveryExecutionLegId(): string|null { return $this->get('delivery_execution_leg_id'); }
+    public function hasDeliveryExecutionLegId(): bool { return $this->has('delivery_execution_leg_id'); }
+    /** Shape $ (Value): string or null. Delivery method chosen for this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. Also null for fulfillments created before this field was added.
+     * @return string|null
+     */
+    public function getDeliveryMethodId(): string|null { return $this->get('delivery_method_id'); }
+    public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
+    /** Shape $ (Value): string or null. Delivery selection that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote.
+     * @return string|null
+     */
+    public function getDeliverySelectionId(): string|null { return $this->get('delivery_selection_id'); }
+    public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
     /** Shape $ (Value): string. Device associated with the fulfillment, when one is recorded.
      * @return ?string
      */
@@ -104,7 +128,7 @@ final class Fulfillment extends Model {
      */
     public function getLocationId(): ?string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned key-value metadata associated with the fulfillment. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [Address](../models/Address.md#address) | A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. `address`: [field definitions](../models/CustomersCreateResponse200.md#customerscreateresponse200databilling_address). |
+| `address` | Optional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress). |
 | `api_version` | Optional | string | Default API version for requests without a Flint-Version header. Shared across live and test environments. |
 | `api_version_changed_at` | Optional | string | When the merchant's default API version last changed. Format: `date-time`. |
 | `api_version_pinned_at` | Optional | string | When the merchant's default API version was first set. Format: `date-time`. |
@@ -21,7 +21,7 @@ Response model.
 | `icon` | Optional | [ImageAttachment](../models/ImageAttachment.md#imageattachment) | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. An image attached to a resource, with its display properties and attachment metadata. |
 | `logo` | Optional | [ImageAttachment](../models/ImageAttachment.md#imageattachment) | An image attached to a resource, with its display properties and attachment metadata. |
 | `merchant_id` | Required | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
 | `organization` | Optional | [ExpandedOrganizationSummary](../models/ExpandedOrganizationSummary.md#expandedorganizationsummary) or null |  |
 | `organization_id` | Required | string | The organization this merchant belongs to. Flint creates it with the merchant, and it can't be changed through the API. |
 | `phone` | Optional | string |  |
@@ -37,5 +37,9 @@ Response model.
 
 ### Merchant.address
 
-Field definitions: [CustomersCreateResponse200.data.billing_address](../models/CustomersCreateResponse200.md#customerscreateresponse200databilling_address).
+Field definitions: [DeliveryPreviewsCreateResponse200.data variant 1.buyer_location.address](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress).
+
+### Merchant.metadata
+
+Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
 

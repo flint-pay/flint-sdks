@@ -10,6 +10,7 @@ A credential used to authenticate API requests.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `api_key_id` | Required | string |  |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_by` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The API key or user that created this key. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Absent when the creator is unavailable. A reference to another resource by `resource_type` and `resource_id`. `created_by`: [field definitions](../models/APIKey.md#apikeycreated_by). |
@@ -20,7 +21,7 @@ A credential used to authenticate API requests.
 | `name` | Required | string | maxLength: `100`. |
 | `revoked_at` | Optional | string | When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. Format: `date-time`. |
 | `sandbox_id` | Optional | string |  |
-| `scopes` | Required | Array of string | Items values: [95 declared values](APIKey.md#apikey-scopes--values). |
+| `scopes` | Required | Array of string | The scopes the key holds now. For full and read_only keys this list grows when Flint adds scopes. Items values: [96 declared values](APIKey.md#apikey-scopes--values). |
 | `status` | Required | string | Current key status. A non-revoked key is expired when expires_at is at or before the current time; otherwise it is active. Revoked keys remain revoked regardless of expires_at. Values: `"active"`, `"expired"`, `"revoked"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |

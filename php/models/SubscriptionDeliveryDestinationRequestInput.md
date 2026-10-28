@@ -10,7 +10,7 @@ Request input.
 | --- | --- | --- | --- |
 | `customer_address_id` | Conditional | string | minLength: `1`. pattern: `^caddr_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `type` | Required | string |  |
-| `address` | Conditional | [OrderDeliveryDestinationAddressRequestInput](../models/OrderDeliveryDestinationAddressRequestInput.md#orderdeliverydestinationaddressrequestinput) | The delivery address you supply on an order. Postal code and state are required for US addresses. |
+| `address` | Conditional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 
 ### SubscriptionDeliveryDestinationRequestInput variant 1: `type` = `"customer_address"`
 

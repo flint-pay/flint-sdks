@@ -1,1 +1,1 @@
-{"shared":"PayoutSettingsResponse","dependencies":["MoneyMovementBlockedReason","MoneyValue","NextAction","NextActionMerchantAccountSession","PayoutSettings","PayoutSettingsResponse","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}
+{"shared":"PayoutSettingsResponse","dependencies":["MoneyMovementBlockedReason","MoneyValue","NextAction","NextActionMerchantAccountSession","PayoutSettings","PayoutSettingsResponse","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}

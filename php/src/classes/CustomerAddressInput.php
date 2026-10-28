@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read PostalAddressInput|array<array-key, mixed>|\stdClass $address
+ * @property-read AddressInput|array<array-key, mixed>|\stdClass $address
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $customer_address_id
  * @property-read string $customer_id
@@ -15,10 +15,10 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerAddressInput extends Model {
-    /** @param array{'address': PostalAddressInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer_address_id': string, 'customer_id': string, 'is_default_billing': bool, 'is_default_shipping': bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'address': AddressInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'customer_address_id': string, 'customer_id': string, 'is_default_billing': bool, 'is_default_shipping': bool, 'label'?: string, 'phone'?: string, 'recipient_name': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAddressInput')); }
-    /** Shape $ (Value): {@see PostalAddressInput}. A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country.
-     * @return PostalAddressInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return AddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }

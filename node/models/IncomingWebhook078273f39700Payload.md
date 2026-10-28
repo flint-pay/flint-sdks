@@ -16,7 +16,7 @@ Fields shared by partner webhook payloads.
 | `event_type` | Required | string | Values: `"environment_grant.created"`. |
 | `partner_app_id` | Required | string |  |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `source` | Required | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook078273f39700Payload.md#incomingwebhook078273f39700payloadsource). |
+| `source` | Required | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook078273f39700Payload.md#incomingwebhook078273f39700payloadsource). |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 
@@ -34,9 +34,13 @@ Field definitions: [shared fields](PartnerEnvironmentGrant.md#partnerenvironment
 
 ### IncomingWebhook078273f39700Payload.data.object.granted_permissions[]
 
-Field definitions: [CreatePartnerAppRequest.permission_manifest[]](../models/CreatePartnerAppRequest.md#createpartnerapprequestpermission_manifest).
+One permission a partner app can request, with a title, a description, and the Flint scopes it grants.
+
+Field definitions: [shared fields](PartnerAppPermissionManifestEntryRequestRequestInput.md#partnerapppermissionmanifestentryrequestrequestinput).
 
 ### IncomingWebhook078273f39700Payload.source
+
+The source of a partner webhook event, selected by type.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -46,7 +50,7 @@ Field definitions: [CreatePartnerAppRequest.permission_manifest[]](../models/Cre
 
 ### IncomingWebhook078273f39700Payload.source variant 1: `type` = `"partner_app"`
 
-oneOf variant 1.
+oneOf variant 1: The partner_app source of a partner webhook event..
 
 No additional constraints.
 

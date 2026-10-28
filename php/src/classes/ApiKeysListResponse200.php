@@ -5,10 +5,10 @@ namespace Flint;
  * @property-read list<APIKey> $data
  * @property-read ?ResponseMeta $meta
  * @property-read ?string $next_page_token
- * @property-read ?string $request_id
+ * @property-read string $request_id
  * Presence-aware response; omitted optional fields return null. */
 final class ApiKeysListResponse200 extends Model {
-    /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApiKeysListResponse200')); }
     /** Shape $ (Value): Array of {@see APIKey}. Shape $[] (Value): {@see APIKey}. A credential used to authenticate API requests.
      * @return list<APIKey>
@@ -26,8 +26,8 @@ final class ApiKeysListResponse200 extends Model {
     public function getNextPageToken(): ?string { return $this->get('next_page_token'); }
     public function hasNextPageToken(): bool { return $this->has('next_page_token'); }
     /** Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
-     * @return ?string
+     * @return string
      */
-    public function getRequestId(): ?string { return $this->get('request_id'); }
+    public function getRequestId(): string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
 }

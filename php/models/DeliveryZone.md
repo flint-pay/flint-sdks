@@ -13,7 +13,7 @@ Response model.
 | `current_delivery_zone_revision_id` | Required | string | Immutable revision used for new quotes. |
 | `delivery_zone_id` | Required | string | Stable delivery zone ID. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/LocationsCreateResponse201.md#locationscreateresponse201datametadata). |
 | `name` | Required | string | Merchant-facing zone name. |
 | `status` | Required | string | Current zone lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the zone last changed. Format: `date-time`. |
@@ -355,4 +355,8 @@ Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesIt
 ### DeliveryZone.configuration.state
 
 Field definitions: [DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.when variant 1.all[].all[].state](../models/DeliveryMethodConfigurationPricingCalculatedRateTableRatesItem.md#deliverymethodconfigurationpricingcalculatedratetableratesitemwhen-variant-1allallstate).
+
+### DeliveryZone.metadata
+
+Field definitions: [LocationsCreateResponse201.data.metadata](../models/LocationsCreateResponse201.md#locationscreateresponse201datametadata).
 

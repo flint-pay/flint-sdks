@@ -2,5 +2,13 @@
 
 ## SubscriptionServiceLocationInputAddressInput
 
-Request input. Response: [SubscriptionServiceLocationInputAddress](../models/SubscriptionServiceLocationInputAddress.md#subscriptionservicelocationinputaddress). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
+Request input. Response: [SubscriptionServiceLocationInputAddress](../models/SubscriptionServiceLocationInputAddress.md#subscriptionservicelocationinputaddress).
+
+The `address` variant of `SubscriptionServiceLocationInput`.
+
+
+
+
+
+Fields, types, descriptions and enum values: [SubscriptionDeliveryDestinationInputAddressInput](../models/SubscriptionDeliveryDestinationInputAddressInput.md#subscriptiondeliverydestinationinputaddressinput).
 

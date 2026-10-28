@@ -2,14 +2,14 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read OrderDeliveryDestinationAddressRequestInput|array<array-key, mixed>|\stdClass $address
+ * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $address
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionDeliveryDestinationInputAddressInput extends Model {
-    /** @param array{'address': OrderDeliveryDestinationAddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
+    /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryDestinationInputAddressInput')); }
-    /** Shape $ (Value): {@see OrderDeliveryDestinationAddressRequestInput}. The delivery address you supply on an order. Postal code and state are required for US addresses.
-     * @return OrderDeliveryDestinationAddressRequestInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+     * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }

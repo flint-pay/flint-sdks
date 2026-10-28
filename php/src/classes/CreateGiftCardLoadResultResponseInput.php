@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateGiftCardLoadResultResponseInput extends Model {
-    /** @param array{'data': CreateGiftCardLoadResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': CreateGiftCardLoadResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateGiftCardLoadResultResponseInput')); }
     /** Shape $ (Value): {@see CreateGiftCardLoadResultInput}. The result of loading a gift card: the updated gift card, the gift card load, and the transactions it created.
      * @return CreateGiftCardLoadResultInput|array<array-key, mixed>|\stdClass

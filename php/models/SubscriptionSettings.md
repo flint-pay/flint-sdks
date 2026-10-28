@@ -6,5 +6,5 @@ Subscription settings: the default billing schedule owner, dunning retry days an
 
 Response model.
 
-Fields, types, descriptions and enum values: [SubscriptionSettingsInput](../models/SubscriptionSettingsInput.md#subscriptionsettingsinput).
+Fields, types, descriptions and enum values: [SubscriptionSettingsRequestRequestInput](../models/SubscriptionSettingsRequestRequestInput.md#subscriptionsettingsrequestrequestinput).
 

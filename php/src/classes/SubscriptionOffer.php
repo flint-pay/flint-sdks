@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionOffer extends Model {
-    /** @param array{'billing_interval_options': list<mixed>, 'created_at': string, 'external_reference_id'?: string, 'metadata': \stdClass, 'name': string, 'product_ids': list<string>, 'promotion_id': string|null, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_offer_id': string, 'updated_at': string, 'variant_ids': list<string>, 'version': string, ...}|object $values */
+    /** @param array{'billing_interval_options': list<mixed>, 'created_at': string, 'external_reference_id'?: string, 'metadata': mixed, 'name': string, 'product_ids': list<string>, 'promotion_id': string|null, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_offer_id': string, 'updated_at': string, 'variant_ids': list<string>, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOffer')); }
     /** Shape $ (Value): Array of {@see SubscriptionIntervalOption}. minItems: 1. maxItems: 12. uniqueItems: true. Shape $[] (Value): {@see SubscriptionIntervalOption}. A billing interval, such as every 2 months, offered by a subscription plan.
      * @return list<SubscriptionIntervalOption>
@@ -34,7 +34,7 @@ final class SubscriptionOffer extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }

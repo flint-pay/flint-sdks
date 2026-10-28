@@ -1,3 +1,56 @@
+# SDK 7.0.0
+
+This guide covers upgrading from `6.0.0`. The API date stays `2026-09-07`. Version 7.0.0 pins the Flint API contract on `main` at `0f83faf0` and generator `9f000b7` (one PHP validation fix after `808a1241`). Use it with an API build that serves this contract: the moved methods below call the renamed paths, which an older API build answers with `404 ROUTE_NOT_FOUND`. Flint keeps the old paths working only until its clients adopt the new ones, so 6.x methods that call moved paths stop working when Flint removes them. Retries, idempotency keys and webhook verification work as in 6.0.0.
+
+## Moved paths
+
+These methods keep their names and call the canonical paths:
+
+| Methods | Path |
+| --- | --- |
+| `developer.getAuthContext` | `/v1/auth-context` |
+| `developer.listSandboxes`, `createSandbox`, `getSandbox`, `deleteSandbox`, `resetSandbox`, `createSandboxAPIKey` | `/v1/sandboxes` |
+| `developer.listCurrentAPIKeyRequestLogs`, `getCurrentAPIKeyRequestLog` | `/v1/api-request-logs` |
+| `developer.getResourceTimeline` | `/v1/resource-timelines` |
+| `developer.listPartnerApps`, `createPartnerApp`, `getPartnerApp`, `updatePartnerApp`, `deletePartnerApp`, `rotatePartnerAppSecret`, `listPartnerAppInstalls`, `getPartnerAppInstall`, `revokePartnerAppInstall`, `revokePartnerEnvironmentGrant` | `/v1/partner-apps` |
+| `me.createFlintWalletStoreSetup` | `/v1/me/flint-wallet/cards/{flint_wallet_card_id}/store-setups` |
+| `me.createInvoiceCheckoutSession`, `me.createReturnResolutionCheckoutSession` | `.../checkout-sessions` |
+| `demoSessions.reset`, which now takes `demo_session_id` as its first argument | `/v1/demo-sessions/{demo_session_id}/reset` |
+
+## Renamed and removed methods
+
+| 6.x method | 7.0.0 |
+| --- | --- |
+| `me.listFlintWalletPaymentMethods` | `me.listFlintWalletCards` (`/v1/me/flint-wallet/cards`). The old name is a deprecated alias. |
+| `me.listPayments`, `me.getPayment` | `me.listPaymentIntents`, `me.getPaymentIntent` (`/v1/me/payment-intents`). The old names are deprecated aliases. |
+| `invoices.getOrCreateCheckoutSession`, `returnResolutions.getOrCreateCheckoutSession` | `createCheckoutSession` on the same resource, posting to `.../checkout-sessions`. The old names are deprecated aliases. |
+| `checkoutSessions.getDeliverySelectionHistory` | `checkoutSessions.getDeliverySelection`. The old name is a deprecated alias. |
+| `developer.listPartnerInstalls` | Removed. Use `partnerAppInstalls.list` (`/v1/partner-app-installs`), which onboarding sessions can't call. |
+| `customers.setDefaultAddress`, `me.setDefaultAddress` | Removed. Use `updateAddress` with `is_default_shipping` or `is_default_billing`. |
+| `subscriptions.changePaymentMethod`, `subscriptions.reactivate`, `subscriptions.updateBillingSchedule` | Removed. Use `subscriptions.update` with `payment_method_id`, `cancel_at_period_end: false` or `billing_schedule`. |
+| `me.changeSubscriptionPaymentMethod`, `changeSubscriptionBillingInterval`, `changeSubscriptionDelivery`, `changeSubscriptionQuantity`, `reactivateSubscription` | Removed. Use `me.updateSubscription` with the matching field, or `cancel_at_period_end: false`. |
+
+Aliases call the same operation as the new name. Move to the new names before the next major release.
+
+New methods: `developer.listPartnerAppCredentials`, `createPartnerAppCredential`, `getPartnerAppCredential` and `deletePartnerAppCredential`; `checkoutSessions.listDeliverySelections`; `deliveryRevocations.list`; `disputes.accept`; and `taxConnection.get`, `connect`, `disconnect`, `listRegistrations`, `createRegistration`, `getRegistration`, `updateRegistration` and `deleteRegistration`.
+
+## Requests
+
+- Request bodies with alternatives require the field that selects one. For example, `invoices.create` takes `type`, payment link line items take `type`, `paymentIntents.confirm` and `orders.pay` payment intent selections take `credential_type`, `products.create` takes `variant_mode`, `shipments.create` takes `direction`, `riskPreviews.create` takes `mode`, and order charges take `calculation_type`. `apiKeys.create`, `developer.createSandbox` and `developer.createSandboxAPIKey` take `access` instead of `scope_preset`. The SDK rejects a request without its tag before sending it.
+- Request objects are closed: undeclared fields fail validation before sending. Build payment link line item writes from the input fields, not from a fetched line item; `resolved_name`, `resolved_unit_price_money`, `resolved_price_range`, `is_catalog_item_unavailable` and `product_id` are read-only.
+- Addresses (`AddressInput`) require `line1`, `city` and `country`. `state` and `postal_code` are required only for US addresses; send them as `null` or leave them out elsewhere. 6.x rejected such addresses before sending them.
+- Customer create and update no longer take `billing_address` or `shipping_address`; manage saved addresses with the customer address methods.
+- Metadata writes follow the published limits: up to 50 keys of 1 to 256 characters, values of 1 to 4096 characters, and no keys starting with `flint_`.
+- Buyer return previews (`me.createReturnPreview`) accept `resolution_type: "store_credit"`.
+- Webhook endpoints and delivery rate callbacks accept `signing_methods`.
+- The `clientRequestId` request option (PHP `client_request_id`) sends your own request ID in `X-Request-Id`, which Flint stores as `client_request_id` on the request log. Flint's own request ID stays in the response's `X-Request-Id`.
+
+## Responses
+
+- Success envelopes and error objects require `request_id`. Flint already sends it; a mock or proxy that drops it gets a `protocol` error.
+- Flint wallet cards return `flint_wallet_card_id` with nested `card` details (`brand`, `last4`, `exp_month`, `exp_year`) instead of a flat card with `id`.
+- Inventory levels, movements and counts report physical versions, claim versions and observation sequences as int64 strings.
+
 # SDK 6.0.0
 
 This major release changes retries and idempotency keys and adds webhook JWT verification. The API contract pinned in [`sdk.lock.json`](sdk.lock.json) and the API date `2026-09-07` are unchanged from `5.1.0`.
@@ -11,6 +64,8 @@ Breaking changes:
 ## Webhook JWT verification
 
 Flint can sign each webhook delivery with a short-lived ES256 JWT in `Authorization: Bearer`. The new verifiers check it against your webhook endpoint IDs (`whep_...`), not event IDs, using keys from the trusted API origin's `/.well-known/jwks.json`. The issuer comes from the base URL you configure, never from the token. Pass the original request bytes.
+
+JWT verification applies only once Flint sends JWT-signed deliveries, and Flint production doesn't send them yet. Until then, deliveries carry only the standard-webhooks HMAC headers. Pass your signing `secrets` to the new verifiers and they keep verifying those deliveries, with or without endpoint IDs.
 
 ```js
 import { verifyWebhookAsync } from "@flintpay/node/webhooks";

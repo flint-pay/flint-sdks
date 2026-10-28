@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class Category extends Model {
-    /** @param array{'assigned_bundle_count': string, 'assigned_product_count': string, 'category_id': string, 'created_at': string, 'description'?: string, 'external_reference_id'?: string, 'handle': string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'status': string, 'targeting_reference_count': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'assigned_bundle_count': string, 'assigned_product_count': string, 'category_id': string, 'created_at': string, 'description'?: string, 'external_reference_id'?: string, 'handle': string, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'status': string, 'targeting_reference_count': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Category')); }
     /** Shape $ (Value): integer string. Number of bundles currently assigned to the category. Use an integer string (decimal digits), not a floating-point number. Format: int64.
      * @return string
@@ -60,7 +60,7 @@ final class Category extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata stored on this resource. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

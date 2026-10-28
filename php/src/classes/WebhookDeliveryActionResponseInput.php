@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookDeliveryActionResponseInput extends Model {
-    /** @param array{'data': WebhookDeliveryActionInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': WebhookDeliveryActionInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveryActionResponseInput')); }
     /** Shape $ (Value): {@see WebhookDeliveryActionInput}. The result of a webhook delivery action, such as a resend: the delivery, attempt, status, and any error details.
      * @return WebhookDeliveryActionInput|array<array-key, mixed>|\stdClass

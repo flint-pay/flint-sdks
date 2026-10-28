@@ -54,7 +54,7 @@ $result = $client->balanceTransactions->get('example', [], new RequestOptions())
 
 ### balanceTransactions.list
 
-Returns a paginated ledger of balance-affecting transactions, including availability timing and related public resources.
+Returns a paginated ledger of balance-affecting transactions, including availability timing and related public resources. Default order: created_at descending, then balance_transaction_id descending.
 
 `GET /v1/balance-transactions`
 

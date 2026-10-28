@@ -11,10 +11,10 @@ import type {
 } from '../declarations/types-3.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateCategoryRequestInput } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateCategoryRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateCategoryRequestInput } from '../declarations/types-50.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,8 +29,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateCategoryRequestInput, CreateCategoryRequest } from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateCategoryRequestInput } from '../declarations/types-5.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     Category,
     CategoryResponse,
@@ -41,16 +41,19 @@ export type {
     CategoriesListInput,
     CategoriesUpdateInput
 } from '../declarations/types-3.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateCategoryRequestInput } from '../declarations/types-47.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateCategoryRequestInput } from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-4.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateCategoryRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateCategoryRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateCategoryRequest } from '../declarations/types-66.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateCategoryRequest } from '../declarations/types-77.js';
 export interface CategoriesResource {
     /**
  * Creates a reusable category. If handle is omitted, Flint derives it from the name and never
@@ -106,7 +109,7 @@ export interface CategoriesResource {
      */
     getWithResponse(category_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CategoryResponse>>;
     /**
- * List categories.
+ * List categories. Default order: handle ascending; this key uniquely orders the results.
  * @see reference/categories.md#categorieslist
  * GET /v1/categories
  * @example

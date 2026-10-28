@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BalanceListResponseInput extends Model {
-    /** @param array{'data': list<BalanceInput|array<array-key, mixed>|\stdClass>, 'meta'?: MoneyMovementListMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<BalanceInput|array<array-key, mixed>|\stdClass>, 'meta'?: MoneyMovementListMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BalanceListResponseInput')); }
     /** Shape $ (Value): Array of {@see BalanceInput}. Shape $[] (Value): {@see BalanceInput}. Current balances for one currency at observed_at. Available and pending amounts are separate buckets and can be negative. Reserve and held amounts are excluded from available_money.
      * @return list<BalanceInput|array<array-key, mixed>|\stdClass>

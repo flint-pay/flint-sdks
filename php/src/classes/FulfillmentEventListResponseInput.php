@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentEventListResponseInput extends Model {
-    /** @param array{'data': list<FulfillmentEventInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<FulfillmentEventInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentEventListResponseInput')); }
     /** Shape $ (Value): Array of {@see FulfillmentEventInput}. Shape $[] (Value): {@see FulfillmentEventInput}. An action recorded during an order's fulfillment.
      * @return list<FulfillmentEventInput|array<array-key, mixed>|\stdClass>

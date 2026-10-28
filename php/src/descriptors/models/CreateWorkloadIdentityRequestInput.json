@@ -1,1 +1,1 @@
-{"shared":"CreateWorkloadIdentityRequest","dependencies":["CreateWorkloadIdentityRequest","SharedCodec1","SharedCodec239","WorkloadIdentityClaimConditionRequest"]}
+{"shared":"CreateWorkloadIdentityRequest","dependencies":["CreateWorkloadIdentityRequest","SharedCodec2","SharedCodec3","WorkloadIdentityClaimConditionRequest"]}

@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read ?list<string> $installed_merchant_modes
  * @property-read ?string $partner_app_id
  * @property-read ?string $previous_secret_expires_at
+ * @property-read list<string> $signing_methods
  * @property-read string $status
  * @property-read ?string $updated_at
  * @property-read string $url
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read ?string $secret
  * Presence-aware response; omitted optional fields return null. */
 final class WebhookEndpointWithSecret extends Model {
-    /** @param array{'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'created_at'?: string, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'previous_secret_expires_at'?: string, 'status': string, 'updated_at'?: string, 'url': string, 'version': string, 'webhook_endpoint_id': string, 'secret'?: string, ...}|object $values */
+    /** @param array{'api_version': string, 'api_version_changed_at'?: string, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string, 'created_at'?: string, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'previous_secret_expires_at'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at'?: string, 'url': string, 'version': string, 'webhook_endpoint_id': string, 'secret'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointWithSecret')); }
     /** Shape $ (Value): string. A dated API version pins this endpoint. The value default follows the endpoint owner's merchant default at delivery time, including retries. Deliveries never use a newer version than the event's recorded version.
      * @return string
@@ -78,6 +79,11 @@ final class WebhookEndpointWithSecret extends Model {
      */
     public function getPreviousSecretExpiresAt(): ?string { return $this->get('previous_secret_expires_at'); }
     public function hasPreviousSecretExpiresAt(): bool { return $this->has('previous_secret_expires_at'); }
+    /** Shape $ (Value): Array of string. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". Shape $[] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+     * @return list<string>
+     */
+    public function getSigningMethods(): array { return $this->get('signing_methods'); }
+    public function hasSigningMethods(): bool { return $this->has('signing_methods'); }
     /** Shape $ (Value): string. Availability of this endpoint. Deleted is returned only by DELETE. Value enum: "active", "inactive", "deleted".
      * @return string
      */
@@ -103,7 +109,7 @@ final class WebhookEndpointWithSecret extends Model {
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** Shape $ (Value): string. One-time signing secret. Present on create and rotation; omitted on an idempotent replay after the secret retention period.
+    /** Shape $ (Value): string. One-time signing secret. Present on create only when hmac is enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
      * @return ?string
      */
     public function getSecret(): ?string { return $this->get('secret'); }

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionListResponseInput extends Model {
-    /** @param array{'data': list<CheckoutSessionInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<CheckoutSessionInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionListResponseInput')); }
     /** Shape $ (Value): Array of {@see CheckoutSessionInput}. Shape $[] (Value): {@see CheckoutSessionInput}. A session in which a buyer completes an order's payment.
      * @return list<CheckoutSessionInput|array<array-key, mixed>|\stdClass>

@@ -20,6 +20,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->orders->addLineItems('example', [
   'line_items' => [
     (object) [
+      'type' => 'variant',
       'variant_id' => 'example',
     ],
   ],

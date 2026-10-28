@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerRefundListResponseInput extends Model {
-    /** @param array{'data': list<BuyerRefundInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<BuyerRefundInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerRefundListResponseInput')); }
     /** Shape $ (Value): Array of {@see BuyerRefundInput}. Shape $[] (Value): {@see BuyerRefundInput}. Money returned against a collected payment.
      * @return list<BuyerRefundInput|array<array-key, mixed>|\stdClass>

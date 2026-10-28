@@ -10,11 +10,12 @@ namespace Flint;
  * @property-read string $expected_version
  * @property-read list<string> $installed_merchant_modes
  * @property-read string $partner_app_id
+ * @property-read list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass> $signing_methods
  * @property-read string $status
  * @property-read string $url
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateWebhookEndpointRequestInput extends Model {
-    /** @param array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: string, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'status'?: string, 'url'?: string, ...}|object $values */
+    /** @param array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: string, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'signing_methods'?: list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass>, 'status'?: string, 'url'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateWebhookEndpointRequestInput')); }
     /** Shape $ (Value): string. Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this endpoint. Omit to leave unchanged. Null is not accepted. Switching between a pin and default clears the rollback offer. minLength: 1.
      * @return string
@@ -46,7 +47,7 @@ final class UpdateWebhookEndpointRequestInput extends Model {
      */
     public function getExpectedApiVersion(): string { return $this->get('expected_api_version'); }
     public function hasExpectedApiVersion(): bool { return $this->has('expected_api_version'); }
-    /** Shape $ (Value): integer string. Resource version last read by the caller. Required when enabled_events, event_sources, or installed_merchant_modes is present, including an empty array. Optional for scalar updates. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+    /** Shape $ (Value): integer string. Resource version last read by the caller. Required when enabled_events, event_sources, installed_merchant_modes, or signing_methods is present, including an empty array. Optional for scalar updates. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -64,6 +65,12 @@ final class UpdateWebhookEndpointRequestInput extends Model {
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
+    /** Shape $ (Value): Array of {@see WebhookSigningMethodInput}. Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". Shape $[] (Value): {@see WebhookSigningMethodInput}. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+     * @return list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When signing_methods is omitted; use hasSigningMethods() or valueOrDefault().
+     */
+    public function getSigningMethods(): array { return $this->get('signing_methods'); }
+    public function hasSigningMethods(): bool { return $this->has('signing_methods'); }
     /** Shape $ (Value): string.  Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

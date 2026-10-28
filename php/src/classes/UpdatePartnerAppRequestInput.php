@@ -3,11 +3,12 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $api_version
+ * @property-read bool $client_secret_enabled
  * @property-read list<string> $default_requested_permissions
  * @property-read string $expected_api_version
  * @property-read string $expected_version
  * @property-read string $name
- * @property-read list<PartnerAppPermissionManifestEntryInput|array<array-key, mixed>|\stdClass> $permission_manifest
+ * @property-read list<PartnerAppPermissionManifestEntryRequestRequestInput|array<array-key, mixed>|\stdClass> $permission_manifest
  * @property-read list<string> $redirect_uris
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePartnerAppRequestInput extends Model {
@@ -19,6 +20,12 @@ final class UpdatePartnerAppRequestInput extends Model {
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
+    /** Shape $ (Value): boolean.
+     * @return bool
+     * @throws SdkError When client_secret_enabled is omitted; use hasClientSecretEnabled() or valueOrDefault().
+     */
+    public function getClientSecretEnabled(): bool { return $this->get('client_secret_enabled'); }
+    public function hasClientSecretEnabled(): bool { return $this->has('client_secret_enabled'); }
     /** Shape $ (Value): Array of string. Replaces the default requested permission IDs. Each ID must exist in the manifest. Shape $[] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When default_requested_permissions is omitted; use hasDefaultRequestedPermissions() or valueOrDefault().
@@ -43,8 +50,8 @@ final class UpdatePartnerAppRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): Array of {@see PartnerAppPermissionManifestEntryInput}. Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. Shape $[] (Value): {@see PartnerAppPermissionManifestEntryInput}. One permission a partner app can request, with a title, a description, and the Flint scopes it grants.
-     * @return list<PartnerAppPermissionManifestEntryInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): Array of {@see PartnerAppPermissionManifestEntryRequestRequestInput}. Replaces the whole manifest. Existing permissions can drop scopes but cannot gain them; existing grants narrow immediately. Requires expected_version. Shape $[] (Value): {@see PartnerAppPermissionManifestEntryRequestRequestInput}. One permission a partner app can request, with a title, a description, and the Flint scopes it grants.
+     * @return list<PartnerAppPermissionManifestEntryRequestRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When permission_manifest is omitted; use hasPermissionManifest() or valueOrDefault().
      */
     public function getPermissionManifest(): array { return $this->get('permission_manifest'); }

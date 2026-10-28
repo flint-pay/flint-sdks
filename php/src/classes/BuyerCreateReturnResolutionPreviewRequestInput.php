@@ -22,7 +22,7 @@ final class BuyerCreateReturnResolutionPreviewRequestInput extends Model {
      */
     public function getReplacementLineItems(): array { return $this->get('replacement_line_items'); }
     public function hasReplacementLineItems(): bool { return $this->has('replacement_line_items'); }
-    /** Shape $ (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action".
+    /** Shape $ (Value): string. The proposed resolution type. For store_credit, send a nonempty line_items list and omit replacement_line_items. Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return string
      * @throws SdkError When resolution_type is omitted; use hasResolutionType() or valueOrDefault().
      */

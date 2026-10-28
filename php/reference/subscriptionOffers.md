@@ -21,7 +21,7 @@ Body model: [CreateSubscriptionOfferRequestInput](../models/CreateSubscriptionOf
 
 #### subscriptionOffers.create body fields
 
-Field definitions: [shared fields](../models/CreateSubscriptionOfferRequestInput.md#createsubscriptionofferrequestinput). Models: [SubscriptionIntervalOptionInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput).
+Field definitions: [shared fields](../models/CreateSubscriptionOfferRequestInput.md#createsubscriptionofferrequestinput). Models: [SubscriptionIntervalOptionInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput), [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput).
 
 #### Response
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -125,7 +125,7 @@ $result = $client->subscriptionOffers->get('example', [], new RequestOptions());
 
 ### subscriptionOffers.list
 
-List subscription offers. Offer changes affect new signups only. Existing subscriptions keep their terms.
+List subscription offers. Offer changes affect new signups only. Existing subscriptions keep their terms. Default order: created_at descending, then subscription_offer_id descending.
 
 `GET /v1/subscription-offers`
 
@@ -227,7 +227,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -262,7 +262,7 @@ Body model: [UpdateSubscriptionOfferRequestInput](../models/UpdateSubscriptionOf
 
 #### subscriptionOffers.update body fields
 
-Field definitions: [shared fields](../models/UpdateSubscriptionOfferRequestInput.md#updatesubscriptionofferrequestinput). Models: [SubscriptionIntervalOptionInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput).
+Field definitions: [shared fields](../models/UpdateSubscriptionOfferRequestInput.md#updatesubscriptionofferrequestinput). Models: [SubscriptionIntervalOptionInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
@@ -292,7 +292,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

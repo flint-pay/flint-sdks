@@ -19,7 +19,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->developer->createSandboxAPIKey('example', [
   'name' => 'example',
-  'scopes' => [],
+  'access' => 'full',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

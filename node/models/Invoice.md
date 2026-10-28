@@ -31,7 +31,7 @@ A bill issued to a customer.
 | `late_fees` | Required | Array of [InvoiceLateFee](../models/InvoiceLateFee.md#invoicelatefee) | Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. late_fee_money is their assessed total minus waivers. |
 | `memo` | Required | string or null | Message to the customer, printed on the invoice and PDF. It cannot change after issue. null when unset. |
 | `merchant_id` | Required | string | Merchant that owns this invoice. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/DeliveryLocationSet.md#deliverylocationsetmetadata). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | Summary of the backing order. Returned only with expand=order. |
 | `order_id` | Required | string | The order this invoice bills. Every invoice has one; quick pay creates it. |
 | `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What is still owed: total_money + late_fee_money - paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and void invoices; equal to total_money on a draft. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `outstanding_money`: [field definitions](../models/IncomingWebhook155e0b06aa8fPayload.md#incomingwebhook155e0b06aa8fpayloaddataobjectoutstanding_money). |
@@ -47,7 +47,7 @@ A bill issued to a customer.
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money refunded to the buyer after collection. Refunds don't reopen the balance; refund_status summarizes them. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `refunded_money`: [field definitions](../models/BuyerInvoice.md#buyerinvoicerefunded_money). |
 | `reminders_paused` | Required | boolean | Whether automatic reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it. |
 | `reminders_paused_at` | Optional | string | When automatic reminders were paused. Absent while reminders are active. Format: `date-time`. |
-| `remit_to_address` | Optional | [Address](../models/Address.md#address) | Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. `remit_to_address`: [field definitions](../models/BuyerInvoice.md#buyerinvoiceremit_to_address). |
+| `remit_to_address` | Optional | [Address](../models/Address.md#address) | Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `schedule_entries` | Required | Array of [InvoiceScheduleEntry](../models/InvoiceScheduleEntry.md#invoicescheduleentry) | The payment schedule, in schedule order. Always [] when the invoice has no schedule and is collected in one balance. |
 | `scheduled_issue_at` | Required | string or null | When Flint will issue and deliver this draft. null when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. Format: `date-time`. |
 | `service_date` | Required | string or null | The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. null when unset. Format: `date`. |
@@ -75,6 +75,10 @@ Field definitions: [BuyerInvoice.currently_due_money](../models/BuyerInvoice.md#
 
 Field definitions: [BuyerInvoice.late_fee_money](../models/BuyerInvoice.md#buyerinvoicelate_fee_money).
 
+### Invoice.metadata
+
+Field definitions: [DeliveryLocationSet.metadata](../models/DeliveryLocationSet.md#deliverylocationsetmetadata).
+
 ### Invoice.outstanding_money
 
 Field definitions: [IncomingWebhook155e0b06aa8fPayload.data.object.outstanding_money](../models/IncomingWebhook155e0b06aa8fPayload.md#incomingwebhook155e0b06aa8fpayloaddataobjectoutstanding_money).
@@ -86,10 +90,6 @@ Field definitions: [BuyerInvoice.paid_money](../models/BuyerInvoice.md#buyerinvo
 ### Invoice.refunded_money
 
 Field definitions: [BuyerInvoice.refunded_money](../models/BuyerInvoice.md#buyerinvoicerefunded_money).
-
-### Invoice.remit_to_address
-
-Field definitions: [BuyerInvoice.remit_to_address](../models/BuyerInvoice.md#buyerinvoiceremit_to_address).
 
 ### Invoice.total_money
 

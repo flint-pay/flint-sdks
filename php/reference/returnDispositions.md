@@ -52,7 +52,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -120,7 +120,7 @@ $result = $client->returnDispositions->get('example', [], new RequestOptions());
 
 ### returnDispositions.list
 
-List merchandise dispositions. Omitting return_id lists dispositions across every Return for the merchant. Newest first: created_at descending, with return_disposition_id descending as the tiebreak.
+List merchandise dispositions. Omitting return_id lists dispositions across every Return for the merchant. Newest first: created_at descending, with return_disposition_id descending as the tiebreak. Default order: created_at descending, then return_disposition_id descending.
 
 `GET /v1/return-dispositions`
 
@@ -237,7 +237,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `retryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

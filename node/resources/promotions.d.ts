@@ -1,13 +1,15 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreatePromotionCodeRequestInput, CreatePromotionRequestInput } from '../declarations/types-8.js';
-import type { Promotion } from '../declarations/types-37.js';
+import type { CreatePromotionCodeRequestInput, CreatePromotionRequestInput } from '../declarations/types-9.js';
 import type {
+    Promotion,
     PromotionCode,
     PromotionCodeListResponse,
     PromotionCodeResponse,
     PromotionListResponse,
-    PromotionResponse,
+    PromotionResponse
+} from '../declarations/types-40.js';
+import type {
     PromotionsCreateCodeInput,
     PromotionsCreateInput,
     PromotionsDeleteCodeInput,
@@ -18,11 +20,11 @@ import type {
     PromotionsRemoveInput,
     PromotionsUpdateCodeInput,
     PromotionsUpdateInput
-} from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-41.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,24 +39,48 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreatePromotionRequestInput, CreatePromotionCodeRequestInput } from '../declarations/types-8.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreatePromotionRequestInput, CreatePromotionCodeRequestInput } from '../declarations/types-9.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     Promotion,
-    PromotionApplicationMethodRequestInput,
-    PromotionAmountOffMethodRequestInput,
-    PromotionApplicationMethod,
-    PromotionAmountOffMethod,
-    PromotionBuyXGetYMethod,
-    PromotionApplicationMethodPatchInput
-} from '../declarations/types-37.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type {
     PromotionResponse,
     PromotionCode,
     PromotionCodeResponse,
     PromotionCodeListResponse,
     PromotionListResponse,
+    PromotionApplicationMethodRequestInput,
+    PromotionPercentOffMethodRequestInput,
+    PromotionRecurrenceInput,
+    PromotionRecurrenceOnceInput,
+    PromotionRecurrenceRepeatingInput,
+    PromotionRecurrenceForeverInput,
+    PromotionAmountOffMethodRequestInput,
+    PromotionBuyXGetYMethodRequestInput,
+    PromotionCombinesWithRequestInput,
+    PromotionExclusivityRequestInput,
+    PromotionApplicationMethod,
+    PromotionPercentOffMethod,
+    PromotionRule,
+    PromotionRecurrence,
+    PromotionRecurrenceOnce,
+    PromotionRecurrenceRepeating,
+    PromotionRecurrenceForever,
+    PromotionAmountOffMethod,
+    PromotionBuyXGetYMethod,
+    PromotionCodesSummary,
+    PromotionCombinesWith,
+    PromotionExclusivity,
+    PromotionApplicationMethodPatchInput,
+    PromotionCombinesWithPatchInput,
+    PromotionExclusivityPatchInput,
+    PromotionCombinesWithPatch,
+    PromotionExclusivityRequest,
+    PromotionExclusivityPatch
+} from '../declarations/types-40.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdatePromotionRequestInput, UpdatePromotionCodeRequestInput } from '../declarations/types-52.js';
+export type {
     PromotionsCreateInput,
     PromotionsCreateCodeInput,
     PromotionsRemoveInput,
@@ -65,45 +91,24 @@ export type {
     PromotionsListInput,
     PromotionsUpdateInput,
     PromotionsUpdateCodeInput,
-    PromotionPercentOffMethodRequestInput,
     PromotionRuleGroupRequestInput,
     PromotionRuleRequestInput,
     PromotionRuleValueRequestInput,
-    PromotionRecurrenceInput,
-    PromotionRecurrenceOnceInput,
-    PromotionRecurrenceRepeatingInput,
-    PromotionRecurrenceForeverInput,
-    PromotionBuyXGetYMethodRequestInput,
-    PromotionCombinesWithRequestInput,
-    PromotionExclusivityRequestInput,
-    PromotionScheduleInput,
-    PromotionPercentOffMethod,
+    PromotionScheduleRequestRequestInput,
     PromotionRuleGroup,
-    PromotionRule,
     PromotionRuleValue,
-    PromotionRecurrence,
-    PromotionRecurrenceOnce,
-    PromotionRecurrenceRepeating,
-    PromotionRecurrenceForever,
-    PromotionCodesSummary,
-    PromotionCombinesWith,
-    PromotionExclusivity,
     PromotionSchedule,
-    PromotionCombinesWithPatchInput,
-    PromotionExclusivityPatchInput,
-    PromotionSchedulePatchInput,
-    PromotionCombinesWithPatch,
-    PromotionExclusivityRequest,
-    PromotionExclusivityPatch
-} from '../declarations/types-38.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdatePromotionRequestInput, UpdatePromotionCodeRequestInput } from '../declarations/types-49.js';
+    PromotionSchedulePatchInput
+} from '../declarations/types-41.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export { makeCreatePromotionCodeRequest, makeCreatePromotionRequest } from '../declarations/types-64.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeCreatePromotionCodeRequest, makeCreatePromotionRequest } from '../declarations/types-68.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export {
     makePromotionAmountOffMethodRequest,
     makePromotionApplicationMethodPatch,
@@ -121,10 +126,10 @@ export {
     makePromotionRuleGroupRequest,
     makePromotionRuleRequest,
     makePromotionRuleValueRequest,
-    makePromotionSchedule,
-    makePromotionSchedulePatch
-} from '../declarations/types-70.js';
-export { makeUpdatePromotionCodeRequest, makeUpdatePromotionRequest } from '../declarations/types-73.js';
+    makePromotionSchedulePatch,
+    makePromotionScheduleRequestRequest
+} from '../declarations/types-74.js';
+export { makeUpdatePromotionCodeRequest, makeUpdatePromotionRequest } from '../declarations/types-77.js';
 export interface PromotionsResource {
     /**
  * Creates a promotion for the authenticated merchant.
@@ -238,7 +243,8 @@ export interface PromotionsResource {
     getCodeWithResponse(promotion_id: InputValue<string>, promotion_code_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PromotionCodeResponse>>;
     /**
  * Returns a paginated list of promotion codes in every status, ordered by created_at descending,
- * then promotion_code_id descending. Archived codes are excluded unless status=archived.
+ * then promotion_code_id descending. Archived codes are excluded unless status=archived. Default
+ * order: created_at descending, then promotion_code_id descending.
  * @see reference/promotions.md#promotionslistcodes
  * GET /v1/promotion-codes
  * @example
@@ -332,7 +338,8 @@ export interface PromotionsResource {
         "expand"?: InputValue<Array<"promotion">>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PromotionCode>;
     /**
- * Returns a paginated list of promotions for the authenticated merchant.
+ * Returns a paginated list of promotions for the authenticated merchant. Default order: created_at
+ * descending, then promotion_id descending.
  * @see reference/promotions.md#promotionslist
  * GET /v1/promotions
  * @example

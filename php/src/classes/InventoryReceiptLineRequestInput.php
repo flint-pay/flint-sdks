@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string $receiving_location_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReceiptLineRequestInput extends Model {
-    /** @param array{'disposition': string, 'inventory_item_id': string, 'inventory_reservation_id': string, 'inventory_reservation_line_id': string, 'quantity': string, 'receiving_location_id': string, ...}|object $values */
+    /** @param array{'disposition': string, 'inventory_item_id': string, 'inventory_reservation_id': string, 'inventory_reservation_line_id': string, 'quantity': string, 'receiving_location_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReceiptLineRequestInput')); }
     /** Shape $ (Value): string. sellable adds on-hand stock available for sale. quality_control, damaged, and quarantined add on-hand stock to the matching condition bucket. lost records returned units that were lost and changes no stock quantity. Value enum: "sellable", "quality_control", "damaged", "quarantined", "lost".
      * @return string

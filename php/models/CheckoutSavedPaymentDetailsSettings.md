@@ -6,5 +6,5 @@ Saved payment details settings for hosted checkout. On update, an omitted field 
 
 Response model.
 
-Fields, types, descriptions and enum values: [CheckoutSavedPaymentDetailsSettingsInput](../models/CheckoutSavedPaymentDetailsSettingsInput.md#checkoutsavedpaymentdetailssettingsinput).
+Fields, types, descriptions and enum values: [CheckoutSavedPaymentDetailsSettingsRequestRequestInput](../models/CheckoutSavedPaymentDetailsSettingsRequestRequestInput.md#checkoutsavedpaymentdetailssettingsrequestrequestinput).
 

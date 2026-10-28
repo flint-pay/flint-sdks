@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string|null $phone
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateMeRequestInput extends Model {
-    /** @param array{'default_payment_method_id'?: string|null, 'expected_version'?: string, 'name'?: string|null, 'phone'?: string|null, ...}|object $values */
+    /** @param array{'default_payment_method_id'?: string|null, 'expected_version'?: string, 'name'?: string|null, 'phone'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateMeRequestInput')); }
     /** Shape $ (Value): string or null. The active off_session payment method to use by default. Omit to leave unchanged; null clears it. minLength: 1.
      * @return string|null

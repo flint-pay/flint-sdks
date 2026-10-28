@@ -19,12 +19,14 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->locations->create([
   'address' => (object) [
-    'city' => 'example',
+    'city' => 'Springfield',
     'country' => 'US',
-    'line1' => 'example',
+    'line1' => '100 Example Street',
+    'postal_code' => '62701',
+    'state' => 'IL',
   ],
-  'name' => 'example',
-  'timezone' => 'example',
+  'name' => 'Main Street',
+  'timezone' => 'America/Chicago',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->location_id . PHP_EOL;
 echo $result->status . PHP_EOL;

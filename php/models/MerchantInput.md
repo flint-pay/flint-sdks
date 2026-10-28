@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [AddressInput](../models/AddressInput.md#addressinput) | A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. |
+| `address` | Optional | [AddressInput](../models/AddressInput.md#addressinput) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `api_version` | Optional | string | Default API version for requests without a Flint-Version header. Shared across live and test environments. |
 | `api_version_changed_at` | Optional | string | When the merchant's default API version last changed. Format: `date-time`. |
 | `api_version_pinned_at` | Optional | string | When the merchant's default API version was first set. Format: `date-time`. |
@@ -21,7 +21,7 @@ Request input.
 | `icon` | Optional | [ImageAttachmentInput](../models/ImageAttachmentInput.md#imageattachmentinput) | A square image, at least 128 by 128 pixels, shown where the store needs a small mark: browser tabs and compact headers. An image attached to a resource, with its display properties and attachment metadata. |
 | `logo` | Optional | [ImageAttachmentInput](../models/ImageAttachmentInput.md#imageattachmentinput) | An image attached to a resource, with its display properties and attachment metadata. |
 | `merchant_id` | Required | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `organization` | Optional | [ExpandedOrganizationSummaryInput](../models/ExpandedOrganizationSummaryInput.md#expandedorganizationsummaryinput) or null |  |
 | `organization_id` | Required | string | The organization this merchant belongs to. Flint creates it with the merchant, and it can't be changed through the API. |
 | `phone` | Optional | string |  |

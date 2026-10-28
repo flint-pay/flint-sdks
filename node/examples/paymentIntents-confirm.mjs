@@ -11,6 +11,10 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.paymentIntents.confirm(
   {
     payment_intent_id: "example",
+    body: {
+      credential_type: "token",
+      payment_source_token: "example",
+    },
   },
   { idempotencyKey: idempotencyKey },
 );

@@ -1,1 +1,1 @@
-{"shared":"DeliveryAddressRequest","dependencies":["DeliveryAddressRequest"]}
+{"shared":"DeliveryAddressRequest","dependencies":["DeliveryAddressRequest","SharedCodec275"]}

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read BuyerCreateReturnResolutionPreviewRequestInput|array<array-key, mixed>|\stdClass $resolution
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCreateReturnPreviewRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'eligibility': CreateReturnEligibilityPreviewRequestInput|array<array-key, mixed>|\stdClass, 'mode': string, 'resolution'?: BuyerCreateReturnResolutionPreviewRequestInput|array<array-key, mixed>|\stdClass}|object|array{'eligibility'?: CreateReturnEligibilityPreviewRequestInput|array<array-key, mixed>|\stdClass, 'mode': string, 'resolution': BuyerCreateReturnResolutionPreviewRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreateReturnPreviewRequestInput')); }
     /** Shape $ (Value): {@see CreateReturnEligibilityPreviewRequestInput}. A request to preview which items of an order can be returned, given an order and a selection.
      * @return CreateReturnEligibilityPreviewRequestInput|array<array-key, mixed>|\stdClass

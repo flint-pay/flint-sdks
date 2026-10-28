@@ -1,9 +1,8 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateGiftCardRequestInput, CreateGiftCardResult, CreateGiftCardResultResponse } from '../declarations/types-6.js';
-import type { GiftCard } from '../declarations/types-18.js';
+import type { CreateGiftCardRequestInput, CreateGiftCardResult, CreateGiftCardResultResponse } from '../declarations/types-7.js';
+import type { GiftCard, GiftCardListResponse } from '../declarations/types-20.js';
 import type {
-    GiftCardListResponse,
     GiftCardResponse,
     GiftCardsCreateInput,
     GiftCardsGetInput,
@@ -12,14 +11,18 @@ import type {
     GiftCardsRotateCodeInput,
     GiftCardsTransitionInput,
     GiftCardsUpdateInput
-} from '../declarations/types-19.js';
-import type { LookupGiftCardRequestInput } from '../declarations/types-29.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { RotateGiftCardCodeRequestInput, RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse } from '../declarations/types-43.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { TransitionGiftCardRequestInput } from '../declarations/types-47.js';
-import type { UpdateGiftCardRequestInput } from '../declarations/types-48.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-21.js';
+import type { LookupGiftCardRequestInput } from '../declarations/types-31.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type {
+    RotateGiftCardCodeRequestInput,
+    RotateGiftCardCodeResult,
+    RotateGiftCardCodeResultResponse,
+    SdkResponse
+} from '../declarations/types-46.js';
+import type { TransitionGiftCardRequestInput } from '../declarations/types-50.js';
+import type { UpdateGiftCardRequestInput } from '../declarations/types-51.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -34,12 +37,18 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateGiftCardRequestInput, CreateGiftCardResult, CreateGiftCardResultResponse } from '../declarations/types-6.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+export type { CreateGiftCardRequestInput, CreateGiftCardResult, CreateGiftCardResultResponse } from '../declarations/types-7.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta } from '../declarations/types-42.js';
+export type {
+    SdkResponse,
+    RotateGiftCardCodeRequestInput,
+    RotateGiftCardCodeResult,
+    RotateGiftCardCodeResultResponse
+} from '../declarations/types-46.js';
 export type {
     GiftCard,
+    GiftCardListResponse,
     GiftCardFundingSourceInput,
     GiftCardFundingSourceExternalPaymentInput,
     GiftCardFundingSourceFlintPaymentInput,
@@ -49,6 +58,8 @@ export type {
     GiftCardFundingSourceGiftCardRefundInput,
     GiftCardFundingSourceGiftCardPurchaseRefundRecoveryInput,
     GiftCardFundingSourceStoreCreditInput,
+    GiftCardNotificationRecipientInput,
+    GiftCardLoad,
     GiftCardFundingDispute,
     GiftCardFundingLossResolution,
     GiftCardFundingSource,
@@ -59,11 +70,14 @@ export type {
     GiftCardFundingSourceAdjustment,
     GiftCardFundingSourceGiftCardRefund,
     GiftCardFundingSourceGiftCardPurchaseRefundRecovery,
-    GiftCardFundingSourceStoreCredit
-} from '../declarations/types-18.js';
+    GiftCardFundingSourceStoreCredit,
+    GiftCardNotification,
+    GiftCardNotificationDelivery,
+    GiftCardNotificationDeliveryAttempt,
+    GiftCardNotificationDeliveryEvent
+} from '../declarations/types-20.js';
 export type {
     GiftCardResponse,
-    GiftCardListResponse,
     GiftCardsCreateInput,
     GiftCardsGetInput,
     GiftCardsListInput,
@@ -71,8 +85,6 @@ export type {
     GiftCardsRotateCodeInput,
     GiftCardsTransitionInput,
     GiftCardsUpdateInput,
-    GiftCardNotificationRecipientInput,
-    GiftCardLoad,
     GiftCardPurchaseRefundValueHold,
     GiftCardPurchaseRefundAllocation,
     GiftCardPurchaseRefundRecovery,
@@ -80,28 +92,24 @@ export type {
     GiftCardPurchaseRefundValueAllocation,
     GiftCardPurchaseRestoration,
     GiftCardRefundProvenance,
-    GiftCardNotification,
-    GiftCardNotificationDelivery,
-    GiftCardNotificationDeliveryAttempt,
-    GiftCardNotificationDeliveryEvent,
     GiftCardPurchaseRecipient,
     GiftCardTransaction,
     GiftCardRestriction
-} from '../declarations/types-19.js';
-export type { LookupGiftCardRequestInput, LookupGiftCardRequest } from '../declarations/types-29.js';
-export type { RotateGiftCardCodeRequestInput, RotateGiftCardCodeResult, RotateGiftCardCodeResultResponse } from '../declarations/types-43.js';
+} from '../declarations/types-21.js';
+export type { LookupGiftCardRequestInput, LookupGiftCardRequest } from '../declarations/types-31.js';
 export type {
     TransitionGiftCardRequestInput,
     TransitionGiftCardRequestFreezeInput,
     TransitionGiftCardRequestWithoutReasonInput
-} from '../declarations/types-47.js';
-export type { UpdateGiftCardRequestInput } from '../declarations/types-48.js';
+} from '../declarations/types-50.js';
+export type { UpdateGiftCardRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { InitialGiftCardFundingInput } from '../declarations/types-23.js';
-export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { InitialGiftCardFundingInput } from '../declarations/types-25.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export { makeCreateGiftCardRequest } from '../declarations/types-64.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeCreateGiftCardRequest } from '../declarations/types-67.js';
 export {
     makeGiftCardFundingSource,
     makeGiftCardFundingSourceAdjustment,
@@ -114,15 +122,16 @@ export {
     makeGiftCardFundingSourceStoreCredit,
     makeGiftCardNotificationRecipient,
     makeInitialGiftCardFunding
-} from '../declarations/types-67.js';
-export { makeLookupGiftCardRequest, makeMoneyValue } from '../declarations/types-68.js';
-export { makeRotateGiftCardCodeRequest } from '../declarations/types-71.js';
+} from '../declarations/types-71.js';
+export { makeLookupGiftCardRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeRotateGiftCardCodeRequest } from '../declarations/types-76.js';
 export {
     makeTransitionGiftCardRequest,
     makeTransitionGiftCardRequestFreeze,
     makeTransitionGiftCardRequestWithoutReason,
     makeUpdateGiftCardRequest
-} from '../declarations/types-72.js';
+} from '../declarations/types-77.js';
 export interface GiftCardsResource {
     /**
  * Creates a merchant-issued USD gift card with optional paid funding or imported opening value.
@@ -162,7 +171,8 @@ export interface GiftCardsResource {
     /**
  * Lists gift cards in descending ID order within the authenticated merchant and environment. Reads
  * include masked codes, posted balance, reserved value and available value. Purchased cards have
- * no expiry or service fees.
+ * no expiry or service fees. Default order: gift_card_id descending; this key uniquely orders the
+ * results.
  * @see reference/giftCards.md#giftcardslist
  * GET /v1/gift-cards
  * @example

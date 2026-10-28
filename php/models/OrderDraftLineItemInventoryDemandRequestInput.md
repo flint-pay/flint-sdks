@@ -6,8 +6,5 @@ The quantity of one inventory item that each unit of a draft order line item use
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `inventory_item_id` | Required | string | minLength: `1`. |
-| `quantity_per_line_item_unit` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `9999`. |
+Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantInventoryDemandsItem.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantinventorydemandsitem).
 

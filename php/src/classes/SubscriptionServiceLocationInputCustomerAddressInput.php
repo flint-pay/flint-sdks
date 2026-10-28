@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $customer_address_id
- * @property-read string $source
+ * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionServiceLocationInputCustomerAddressInput extends Model {
-    /** @param array{'customer_address_id': string, 'source': string}|object $values */
+    /** @param array{'customer_address_id': string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionServiceLocationInputCustomerAddressInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string
@@ -16,8 +16,8 @@ final class SubscriptionServiceLocationInputCustomerAddressInput extends Model {
     public function hasCustomerAddressId(): bool { return $this->has('customer_address_id'); }
     /** Shape $ (Value): string.  Value enum: "customer_address".
      * @return string
-     * @throws SdkError When source is omitted; use hasSource() or valueOrDefault().
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
-    public function getSource(): string { return $this->get('source'); }
-    public function hasSource(): bool { return $this->has('source'); }
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
 }

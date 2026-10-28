@@ -32,7 +32,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class WebhookEventPayoutCanceledDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': mixed, 'initiated_by': string, 'merchant_id': string, 'metadata'?: \stdClass, 'method': string, 'net_money': mixed, 'original_payout'?: mixed, 'original_payout_id'?: string, 'payout_destination'?: mixed, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: mixed, 'updated_at': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': mixed, 'initiated_by': string, 'merchant_id': string, 'metadata'?: mixed, 'method': string, 'net_money': mixed, 'original_payout'?: mixed, 'original_payout_id'?: string, 'payout_destination'?: mixed, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: mixed, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: mixed, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventPayoutCanceledDataObject')); }
     /** Shape $ (Value): {@see MoneyValue}. Amount sent to your bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -99,7 +99,7 @@ final class WebhookEventPayoutCanceledDataObject extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -119,7 +119,7 @@ final class WebhookEventPayoutCanceledDataObject extends Model {
      */
     public function getOriginalPayout(): ExpandedPayoutSummary|null { return $this->get('original_payout'); }
     public function hasOriginalPayout(): bool { return $this->has('original_payout'); }
-    /** Shape $ (Value): string. On a payout that reverses another payout, the payout it reverses. A payout has at most one of original_payout_id and reversed_by_payout_id.
+    /** Shape $ (Value): string. On a payout that reverses another payout, the payout it reverses. Present only when Flint has the matching original payout. A payout has at most one of original_payout_id and reversed_by_payout_id.
      * @return ?string
      */
     public function getOriginalPayoutId(): ?string { return $this->get('original_payout_id'); }
@@ -139,17 +139,17 @@ final class WebhookEventPayoutCanceledDataObject extends Model {
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Shape $ (Value): string. Whether Flint has pulled a paid payout back from your bank: none, reversing while a reversal is in progress, or reversed once it completes and a payout_reversal balance transaction returns the money. status stays paid throughout. Value enum: "none", "reversing", "reversed".
+    /** Shape $ (Value): string. Whether Flint has pulled a paid payout back from your bank: none until the reversal completes, then reversed. A payout_reversal balance transaction returns the money, and status stays paid. Value enum: "none", "reversed".
      * @return string
      */
     public function getReversalStatus(): string { return $this->get('reversal_status'); }
     public function hasReversalStatus(): bool { return $this->has('reversal_status'); }
-    /** Shape $ (Value): {@see ExpandedPayoutSummary} or null. The payout that reversed this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Shape $.anyOf[1] (Value): {@see ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
+    /** Shape $ (Value): {@see ExpandedPayoutSummary} or null. The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Shape $.anyOf[1] (Value): {@see ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
      * @return ExpandedPayoutSummary|null
      */
     public function getReversedByPayout(): ExpandedPayoutSummary|null { return $this->get('reversed_by_payout'); }
     public function hasReversedByPayout(): bool { return $this->has('reversed_by_payout'); }
-    /** Shape $ (Value): string. On a reversed payout, the separate payout that reversed it, when there is one. A payout has at most one of original_payout_id and reversed_by_payout_id.
+    /** Shape $ (Value): string. The separate payout reversing this one, when Flint has the matching payout. Its presence does not mean the reversal has completed; read reversal_status. A payout has at most one of original_payout_id and reversed_by_payout_id.
      * @return ?string
      */
     public function getReversedByPayoutId(): ?string { return $this->get('reversed_by_payout_id'); }

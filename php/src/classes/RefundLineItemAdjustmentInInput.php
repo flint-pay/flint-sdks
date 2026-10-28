@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read RefundAdjustmentReasonRequestInput|array<array-key, mixed>|\stdClass $reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefundLineItemAdjustmentInInput extends Model {
-    /** @param array{'adjustment_type': string, 'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'applies_to': string, 'reason'?: RefundAdjustmentReasonRequestInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'adjustment_type': string, 'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'applies_to': string, 'reason'?: RefundAdjustmentReasonRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemAdjustmentInInput')); }
     /** Shape $ (Value): string.  Value enum: "restocking_fee", "withheld_amount", "refund_adjustment", "tax_adjustment".
      * @return string

@@ -1,1 +1,1 @@
-{"shared":"InventoryReceiptResult","dependencies":["InventoryItem","InventoryLevel","InventoryReceipt","InventoryReceiptLine","InventoryReceiptResult","InventorySourceSystem","SharedCodec150","SharedCodec836","SharedCodec837","SharedCodec838","SharedCodec839"]}
+{"shared":"InventoryReceiptResult","dependencies":["InventoryItem","InventoryLevel","InventoryReceipt","InventoryReceiptLine","InventoryReceiptResult","InventorySourceSystem","MetadataMap","SharedCodec169","SharedCodec874","SharedCodec875","SharedCodec876","SharedCodec877"]}

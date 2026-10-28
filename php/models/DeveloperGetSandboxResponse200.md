@@ -2,7 +2,7 @@
 
 ## DeveloperGetSandboxResponse200
 
-A response containing `DeveloperSandbox` data.
+A response containing `Sandbox` data.
 
 Response model.
 

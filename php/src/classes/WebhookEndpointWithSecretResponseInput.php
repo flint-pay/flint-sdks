@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointWithSecretResponseInput extends Model {
-    /** @param array{'data': WebhookEndpointWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': WebhookEndpointWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointWithSecretResponseInput')); }
     /** Shape $ (Value): {@see WebhookEndpointWithSecretInput}. A webhook endpoint with its one-time signing secret, returned when the endpoint is created or its secret is rotated. A merchant webhook endpoint belongs to the live mode or sandbox of the credential that created it and receives only that environment's events. Partner endpoints select sources with event_sources and installed_merchant_modes.
      * @return WebhookEndpointWithSecretInput|array<array-key, mixed>|\stdClass

@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class PromotionCode extends Model {
-    /** @param array{'available': bool, 'code': string, 'created_at'?: string, 'expires_at'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'promotion'?: mixed, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': string, 'version': string, ...}|object $values */
+    /** @param array{'available': bool, 'code': string, 'created_at'?: string, 'expires_at'?: string, 'max_uses'?: string, 'merchant_id'?: string, 'metadata'?: mixed, 'promotion'?: mixed, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCode')); }
     /** Shape $ (Value): boolean. Whether a buyer can redeem the code right now: the code is active, not expired, and under its max_uses, and its promotion is available.
      * @return bool
@@ -52,7 +52,7 @@ final class PromotionCode extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Key-value data you attach to the promotion code. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Key-value data you attach to the promotion code. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

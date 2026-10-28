@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentLinks.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/paymentLinks.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createPaymentLink"]:r0,["getPaymentLink"]:r0,["getPaymentLinkPublic"]:r0,["listPaymentLinks"]:r0,["resolvePaymentLink"]:r0,["updatePaymentLink"]:r0});
 export class Client {
@@ -142,21 +142,23 @@ this.paymentLinks = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
-export { makeCheckoutBuyerFields } from '../models/CheckoutBuyerFields.js';
-export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
+export { makeCheckoutBuyerFieldsRequestRequest } from '../models/CheckoutBuyerFieldsRequestRequest.js';
+export { makeCheckoutPromotionConfigRequestRequest } from '../models/CheckoutPromotionConfigRequestRequest.js';
 export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
-export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
-export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
+export { makeCheckoutTaxConfigRequestRequest } from '../models/CheckoutTaxConfigRequestRequest.js';
+export { makeCheckoutTipConfigRequestRequest } from '../models/CheckoutTipConfigRequestRequest.js';
 export { makeCreatePaymentLinkRequest } from '../models/CreatePaymentLinkRequest.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
 export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
+export { makeImageInputFile } from '../models/ImageInputFile.js';
+export { makeImageInputSourceURL } from '../models/ImageInputSourceURL.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
 export { makeInventoryRoutingSourceInputFixedLocation } from '../models/InventoryRoutingSourceInputFixedLocation.js';
 export { makeInventoryRoutingSourceInputPolicy } from '../models/InventoryRoutingSourceInputPolicy.js';
 export { makeInventoryRoutingSourceInputPolicyRevision } from '../models/InventoryRoutingSourceInputPolicyRevision.js';
 export { makeInventoryRoutingSourceRequest } from '../models/InventoryRoutingSourceRequest.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makePaymentLinkCustomFieldPatchRequest } from '../models/PaymentLinkCustomFieldPatchRequest.js';
@@ -167,6 +169,14 @@ export { makePaymentLinkEventConfigPatchRequest } from '../models/PaymentLinkEve
 export { makePaymentLinkEventConfigRequest } from '../models/PaymentLinkEventConfigRequest.js';
 export { makePaymentLinkLegalConfig } from '../models/PaymentLinkLegalConfig.js';
 export { makePaymentLinkLegalPatchRequest } from '../models/PaymentLinkLegalPatchRequest.js';
+export { makePaymentLinkLineItemInputBundle } from '../models/PaymentLinkLineItemInputBundle.js';
+export { makePaymentLinkLineItemInputCustomFixed } from '../models/PaymentLinkLineItemInputCustomFixed.js';
+export { makePaymentLinkLineItemInputCustomVariable } from '../models/PaymentLinkLineItemInputCustomVariable.js';
+export { makePaymentLinkLineItemInputVariant } from '../models/PaymentLinkLineItemInputVariant.js';
+export { makePaymentLinkLineItemPatchInputBundle } from '../models/PaymentLinkLineItemPatchInputBundle.js';
+export { makePaymentLinkLineItemPatchInputCustomFixed } from '../models/PaymentLinkLineItemPatchInputCustomFixed.js';
+export { makePaymentLinkLineItemPatchInputCustomVariable } from '../models/PaymentLinkLineItemPatchInputCustomVariable.js';
+export { makePaymentLinkLineItemPatchInputVariant } from '../models/PaymentLinkLineItemPatchInputVariant.js';
 export { makePaymentLinkLineItemPatchRequest } from '../models/PaymentLinkLineItemPatchRequest.js';
 export { makePaymentLinkLineItemRequest } from '../models/PaymentLinkLineItemRequest.js';
 export { makePaymentLinkPaymentConfig } from '../models/PaymentLinkPaymentConfig.js';

@@ -8,4 +8,4 @@ const client = new Client({
 const result = await client.returns.listActivities(
   "example"
 );
-console.log(result);
+console.log(result.request_id);

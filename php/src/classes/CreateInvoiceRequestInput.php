@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $footer
  * @property-read CreateInvoiceIssueRequestInput|array<array-key, mixed>|\stdClass $issue
  * @property-read string $memo
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $order_id
  * @property-read InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass $payment_due
  * @property-read string $po_number
@@ -19,9 +19,10 @@ namespace Flint;
  * @property-read list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass> $schedule_entries
  * @property-read string|\DateTimeInterface|null $scheduled_issue_at
  * @property-read string $service_date
+ * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateInvoiceRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'footer'?: string, 'issue'?: CreateInvoiceIssueRequestInput|array<array-key, mixed>|\stdClass, 'memo'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string, 'quick_pay'?: CreateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass, 'recipient_email'?: string, 'reference'?: string, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string, 'type': string}|object|array{'cc_emails'?: list<string>, 'collection'?: InvoiceCollectionRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'footer'?: string, 'issue'?: CreateInvoiceIssueRequestInput|array<array-key, mixed>|\stdClass, 'memo'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'payment_due'?: InvoicePaymentDueRequestInput|array<array-key, mixed>|\stdClass, 'po_number'?: string, 'quick_pay': CreateInvoiceQuickPayRequestInput|array<array-key, mixed>|\stdClass, 'recipient_email'?: string, 'reference'?: string, 'remit_to_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'schedule_entries'?: list<InvoiceScheduleEntryWriteInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at'?: string|\DateTimeInterface|null, 'service_date'?: string, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInvoiceRequestInput')); }
     /** Shape $ (Value): Array of string. Additional addresses copied on the invoice email and every reminder. Shape $[] (Value): string. minLength: 1.
      * @return list<string>
@@ -59,11 +60,11 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getMemo(): string { return $this->get('memo'); }
     public function hasMemo(): bool { return $this->has('memo'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. The open order to bill. It must have no payments, refunds, or other active invoice. Send exactly one of order_id or quick_pay. minLength: 1.
      * @return string
@@ -101,7 +102,7 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getReference(): string { return $this->get('reference'); }
     public function hasReference(): bool { return $this->has('reference'); }
-    /** Shape $ (Value): {@see AddressRequestInput}. Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice settings remit-to address. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
+    /** Shape $ (Value): {@see AddressRequestInput}. Where the buyer sends offline payments, printed on the invoice. Omit it to use the invoice settings remit-to address. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When remit_to_address is omitted; use hasRemitToAddress() or valueOrDefault().
      */
@@ -125,4 +126,10 @@ final class CreateInvoiceRequestInput extends Model {
      */
     public function getServiceDate(): string { return $this->get('service_date'); }
     public function hasServiceDate(): bool { return $this->has('service_date'); }
+    /** Shape $ (Value): string. Selects the type branch. Value enum: "order", "quick_pay".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
 }

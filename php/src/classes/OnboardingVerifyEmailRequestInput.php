@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $verification_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingVerifyEmailRequestInput extends Model {
-    /** @param array{'merchant_id'?: string, 'verification_code': string, 'verification_token': string, ...}|object $values */
+    /** @param array{'merchant_id'?: string, 'verification_code': string, 'verification_token': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingVerifyEmailRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

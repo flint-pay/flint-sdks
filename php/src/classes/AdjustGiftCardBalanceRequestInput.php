@@ -2,15 +2,15 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read SignedMoneyInput|array<array-key, mixed>|\stdClass $amount_money
+ * @property-read SignedMoneyRequestRequestInput|array<array-key, mixed>|\stdClass $amount_money
  * @property-read string $expected_version
  * @property-read string $reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class AdjustGiftCardBalanceRequestInput extends Model {
-    /** @param array{'amount_money': SignedMoneyInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'reason': string}|object $values */
+    /** @param array{'amount_money': SignedMoneyRequestRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'reason': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AdjustGiftCardBalanceRequestInput')); }
-    /** Shape $ (Value): {@see SignedMoneyInput}. Nonzero USD amount to change the card's value by: positive adds value and negative removes it. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return SignedMoneyInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see SignedMoneyRequestRequestInput}. Nonzero USD amount to change the card's value by: positive adds value and negative removes it. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return SignedMoneyRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }

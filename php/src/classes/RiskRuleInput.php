@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $description
  * @property-read list<RiskRuleIssueInput|array<array-key, mixed>|\stdClass> $issues
  * @property-read string $origin
- * @property-read array{'all': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'not': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass}|object|array{'attribute': string, 'operator': string, 'value': string|int|bool}|object|array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'attribute': string, 'operator': string}|object|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|object|array{'attribute': string, 'list_alias': string, 'operator': string}|object|array{'attribute': string, 'operator': string}|object $predicate
+ * @property-read RiskPredicateNodeInput|array<array-key, mixed>|\stdClass $predicate
  * @property-read string $risk_rule_id
  * @property-read string $stage
  * @property-read string $status
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class RiskRuleInput extends Model {
-    /** @param array{'action': string, 'applicability': string, 'archived_at': string|\DateTimeInterface|null, 'attributes_used': list<string>, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null, 'description': string, 'issues': list<RiskRuleIssueInput|array<array-key, mixed>|\stdClass>, 'origin': string, 'predicate': array{'all': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'not': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass}|object|array{'attribute': string, 'operator': string, 'value': string|int|bool}|object|array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'attribute': string, 'operator': string}|object|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|object|array{'attribute': string, 'list_alias': string, 'operator': string}|object|array{'attribute': string, 'operator': string}|object, 'risk_rule_id': string, 'stage': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'action': string, 'applicability': string, 'archived_at': string|\DateTimeInterface|null, 'attributes_used': list<string>, 'created_at': string|\DateTimeInterface, 'created_by': array{'resource_id': string, 'resource_type': ResourceTypeInput|array<array-key, mixed>|\stdClass}|object|null, 'description': string, 'issues': list<RiskRuleIssueInput|array<array-key, mixed>|\stdClass>, 'origin': string, 'predicate': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass, 'risk_rule_id': string, 'stage': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskRuleInput')); }
     /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds".
      * @return string
@@ -76,7 +76,7 @@ final class RiskRuleInput extends Model {
     public function getOrigin(): string { return $this->get('origin'); }
     public function hasOrigin(): bool { return $this->has('origin'); }
     /** Shape $ (Value): {@see RiskPredicateNodeInput}. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     * @return array{'all': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'not': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass}|object|array{'attribute': string, 'operator': string, 'value': string|int|bool}|object|array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'attribute': string, 'operator': string}|object|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|object|array{'attribute': string, 'list_alias': string, 'operator': string}|object|array{'attribute': string, 'operator': string}|object
+     * @return RiskPredicateNodeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When predicate is omitted; use hasPredicate() or valueOrDefault().
      */
     public function getPredicate(): mixed { return $this->get('predicate'); }

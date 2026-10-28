@@ -23,18 +23,16 @@ Body model: [CreateCustomerRequestInput](../models/CreateCustomerRequest.md#crea
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
 | `default_invoice_payment_term_id` | Optional | string | minLength: `1`. |
 | `email` | Optional | string | Format: `email`. minLength: `1`. maxLength: `320`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `internal_note` | Optional | string | minLength: `1`. |
 | `is_merchant_verified` | Optional | boolean | Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `name` | Optional | string | minLength: `1`. |
 | `on_email_conflict` | Optional | string | What to do when an active customer in this environment already has `email`. `error` returns `409 ALREADY_EXISTS` naming that customer. `return_existing` returns that customer unchanged with `200` instead of creating one; it requires `email`. Emails match case-insensitively. Default: `"error"`. Values: `"error"`, `"return_existing"`. |
 | `phone` | Optional | string | minLength: `1`. |
 | `segment` | Optional | string | Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. minLength: `1`. |
-| `shipping_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
 | `tax_exempt` | Optional | boolean |  |
 | `tax_identity` | Optional | [TaxIdentityRequestInput](../models/TaxIdentityRequestInput.md#taxidentityrequestinput) | Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. |
 
@@ -65,7 +63,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -134,7 +132,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createAccessLinkWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -151,7 +149,7 @@ const result = await client.customers.createAccessLink("example", undefined, { i
 
 ### customers.createAddress
 
-Creates a stable saved address. The address becomes a default only when the request sets is_default_billing or is_default_shipping, or later through set-default, including the customer's first address. A saved default becomes the customer's effective address for the corresponding role.
+Creates a stable saved address. The address becomes a default only when the request sets is_default_billing or is_default_shipping, or later by setting those flags with PATCH, including the customer's first address. A saved default becomes the customer's effective address for the corresponding role.
 
 `POST /v1/customers/{customer_id}/addresses`
 
@@ -201,7 +199,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -211,7 +209,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.createAddress("example", {address: {city: "example", country: "US", line1: "example", postal_code: "example", state: "example"}, recipient_name: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.createAddress("cus_example", {address: {city: "Springfield", country: "US", line1: "100 Example Street", postal_code: "62701", state: "IL"}, recipient_name: "Jordan Example"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-createAddress.mjs)
@@ -274,7 +272,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createDeletionRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -291,7 +289,7 @@ const result = await client.customers.createDeletionRequest({customer_id: "examp
 
 ### customers.deleteAddress
 
-Deletes a saved address and moves any default designation to the newest remaining address.
+Deletes a saved address. Deleting the billing or shipping default leaves the customer with none; Flint doesn't pick another address.
 
 `DELETE /v1/customers/{customer_id}/addresses/{customer_address_id}`
 
@@ -342,7 +340,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `deleteAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -589,7 +587,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `linkGuestPurchasesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -606,7 +604,7 @@ const result = await client.customers.linkGuestPurchases("example", {customer_ve
 
 ### customers.list
 
-Returns a paginated list of customers for the authenticated merchant. Without a status filter, returns active and deletion_processing customers; deleted customers appear only when the filter names deleted.
+Returns a paginated list of customers for the authenticated merchant. Without a status filter, returns active and deletion_processing customers; deleted customers appear only when the filter names deleted. Default order: created_at descending, then customer_id descending.
 
 `GET /v1/customers`
 
@@ -693,7 +691,7 @@ const result = await client.customers.list({}, {  });
 
 ### customers.listAddresses
 
-Lists the customer's saved addresses with billing and shipping default flags.
+Lists the customer's saved addresses with billing and shipping default flags. Default order: created_at descending, then customer_address_id descending.
 
 `GET /v1/customers/{customer_id}/addresses`
 
@@ -794,7 +792,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `revokeSessionsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -809,78 +807,9 @@ const result = await client.customers.revokeSessions("example", {}, { idempotenc
 
 [Complete runnable example](../examples/customers-revokeSessions.mjs)
 
-### customers.setDefaultAddress
-
-Sets the address as the billing default, shipping default, or both and makes it the customer's effective address for each selected role.
-
-`POST /v1/customers/{customer_id}/addresses/{customer_address_id}/set-default`
-
-Signature:
-
-```typescript
-setDefaultAddress(customer_id: InputValue<string>,
- customer_address_id: InputValue<string>,
- params: (InputValue<SetDefaultCustomerAddressRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_id` | Required | string |  |
-| `customer_address_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [SetDefaultCustomerAddressRequestInput](../models/SetDefaultCustomerAddressRequest.md#setdefaultcustomeraddressrequest) | The request body for: Set a default address for the current buyer; Set a default customer address. |
-
-#### Response
-
-Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `setDefaultAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.customers.setDefaultAddress("example", "example", {default_for: "billing"}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/customers-setDefaultAddress.mjs)
-
 ### customers.update
 
-Applies a sparse update to a customer. Writing billing_address or shipping_address clears the corresponding saved-address default, so that field remains effective until another saved default is selected. Changing email requires customer_account.mode to be merchant_hosted; otherwise Flint returns 409 CUSTOMER_EMAIL_BUYER_MANAGED. If Flint cannot read the account settings, it returns a retryable 503 SERVICE_UNAVAILABLE without changing the customer.
+Applies a sparse update to a customer. Changing email requires customer_account.mode to be merchant_hosted; otherwise Flint returns 409 CUSTOMER_EMAIL_BUYER_MANAGED. If Flint cannot read the account settings, it returns a retryable 503 SERVICE_UNAVAILABLE without changing the customer.
 
 `PATCH /v1/customers/{customer_id}`
 
@@ -908,7 +837,6 @@ Body model: [UpdateCustomerRequestInput](../models/UpdateCustomerRequest.md#upda
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) or null | Billing address. Omit to leave unchanged; null clears it. Writing or clearing it also clears the saved billing-address default. |
 | `default_invoice_payment_term_id` | Optional | string or null | Default payment term for this customer's invoices. Send null to clear it. minLength: `1`. |
 | `default_payment_method_id` | Optional | string or null | The active off_session payment method to use by default. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: `1`. |
 | `email` | Optional | string or null | The customer's email. Omit to leave unchanged; null clears it. Changing it is allowed only when your store hosts its own customer accounts (`customer_account.mode` is `merchant_hosted`). Format: `email`. minLength: `1`. maxLength: `320`. |
@@ -916,11 +844,10 @@ Body model: [UpdateCustomerRequestInput](../models/UpdateCustomerRequest.md#upda
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Omit to leave unchanged; null clears it. minLength: `1`. maxLength: `255`. |
 | `internal_note` | Optional | string or null | Internal note about this customer. Omit to leave unchanged; null clears it. minLength: `1`. |
 | `is_merchant_verified` | Optional | boolean | Flag you set on the customer, for example after checking ID in store. Promotion and delivery rules can match it. Flint does not set it; it is unrelated to customer verifications, which prove a buyer controls an email address. |
-| `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `name` | Optional | string or null | Customer name. Omit to leave unchanged; null clears it. minLength: `1`. |
 | `phone` | Optional | string or null | Customer phone number. Omit to leave unchanged; null clears it. minLength: `1`. |
 | `segment` | Optional | string or null | Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. Omit to leave unchanged; null clears it. minLength: `1`. |
-| `shipping_address` | Optional | [AddressRequestInput](../models/AddressRequest.md#addressrequest) or null | Shipping address. Omit to leave unchanged; null clears it. Writing or clearing it also clears the saved shipping-address default. |
 | `tax_exempt` | Optional | boolean |  |
 | `tax_identity` | Optional | [TaxIdentityPatchInput](../models/TaxIdentityRequestInput.md#taxidentityrequestinput) or null |  |
 
@@ -952,7 +879,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -969,7 +896,7 @@ const result = await client.customers.update("example", {}, { idempotencyKey: id
 
 ### customers.updateAddress
 
-Applies a sparse update to a saved address. Updating a default address also updates the customer's effective address for that role.
+Applies a sparse update to a saved address. Set is_default_billing or is_default_shipping to true to make this address the default, or false to clear a default it holds. Updating a default address also updates the customer's effective address for that role.
 
 `PATCH /v1/customers/{customer_id}/addresses/{customer_address_id}`
 
@@ -1021,7 +948,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1031,7 +958,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.customers.updateAddress("example", "example", {address: {city: "example", country: "US", line1: "example", postal_code: "example", state: "example"}}, { idempotencyKey: idempotencyKey });
+const result = await client.customers.updateAddress("cus_example", "caddr_example", {label: "Home"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/customers-updateAddress.mjs)

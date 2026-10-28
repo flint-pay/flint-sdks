@@ -10,7 +10,7 @@ How a delivery method works: its origin, pricing, eligibility, timing estimate, 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. `buyer_instructions`: [field definitions](../models/DeliveryMethodConfiguration.md#deliverymethodconfigurationbuyer_instructions). |
 | `charge_tax_category` | Required | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 | `estimate` | Required | [DeliveryEstimateRule](../models/DeliveryEstimateRule.md#deliveryestimaterule) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. How a delivery method estimates timing, chosen by `type`: no estimate, a transit time, or a schedule window. `estimate`: [field definitions](../models/DeliveryMethodConfiguration.md#deliverymethodconfigurationestimate). |
@@ -23,6 +23,12 @@ How a delivery method works: its origin, pricing, eligibility, timing estimate, 
 | `selection_guarantee_seconds` | Required | integer string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
 | `taxable` | Required | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
 
+### DeliveryMethodConfiguration.buyer_instructions
+
+Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
+
+Field definitions: [shared fields](BuyerInstructionsConfig.md#buyerinstructionsconfig).
+
 ### DeliveryMethodConfiguration.estimate
 
 The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. How a delivery method estimates timing, chosen by `type`: no estimate, a transit time, or a schedule window.
@@ -30,12 +36,16 @@ The buyer-visible delivery or pickup estimate. Use type none when the merchant m
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `schedule_window` | Optional | [DeliveryScheduleWindowRule](../models/DeliveryScheduleWindowRule.md#deliveryschedulewindowrule) | Estimate rule for a scheduled-window delivery method, defined by its `availability` schedule. `schedule_window`: [field definitions](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1schedule_window). |
-| `transit_time` | Optional | [DeliveryTransitTimeRule](../models/DeliveryTransitTimeRule.md#deliverytransittimerule) | Estimate rule giving a delivery method's handling time and transit time as ranges of business days. |
+| `transit_time` | Optional | [DeliveryTransitTimeRule](../models/DeliveryTransitTimeRule.md#deliverytransittimerule) | Estimate rule giving a delivery method's handling time and transit time as ranges of business days. `transit_time`: [field definitions](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1transit_time). |
 | `type` | Required | string | Values: `"none"`, `"transit_time"`, `"schedule_window"`. |
 
 ### DeliveryMethodConfiguration.estimate.schedule_window
 
 Field definitions: [DeliveryEstimateRule variant 1.schedule_window](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1schedule_window).
+
+### DeliveryMethodConfiguration.estimate.transit_time
+
+Field definitions: [DeliveryEstimateRule variant 1.transit_time](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1transit_time).
 
 ### DeliveryMethodConfiguration.public_details
 

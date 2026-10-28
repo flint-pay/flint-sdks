@@ -11,26 +11,12 @@ Merchant-provided legal identity displayed on invoices and credit notes. Does no
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `legal_name` | Required | string or null | minLength: `1`. maxLength: `255`. |
-| `registered_address` | Required | [Address](../models/Address.md#address) or null | Replaced as a whole: send every field you want to keep. `registered_address`: [declared alternatives](../models/TaxIdentity.md#taxidentityregistered_address). |
-| `tax_ids` | Required | Array of [DocumentTaxID](../models/DocumentTaxID.md#documenttaxid) | maxItems: `20`. |
+| `registered_address` | Required | [Address](../models/Address.md#address) or null | Replaced as a whole: send every field you want to keep. |
+| `tax_ids` | Required | Array of [DocumentTaxID](../models/DocumentTaxID.md#documenttaxid) | maxItems: `20`. `tax_ids[]`: [field definitions](../models/TaxIdentity.md#taxidentitytax_ids). |
 
-### TaxIdentity.registered_address
+### TaxIdentity.tax_ids[]
 
-Replaced as a whole: send every field you want to keep.
+A tax identifier printed on documents, with its country, optional region, identifier type, and value. Flint does not verify the value.
 
-Field definitions: [shared fields](SubscriptionDeliveryDestination.md#subscriptiondeliverydestinationaddress).
-
-### TaxIdentity.registered_address variant 1
-
-anyOf variant 1: A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients..
-
-- Required: `city`, `country`, `line1`, `postal_code`, `state`.
-- Optional: `line2`.
-
-### TaxIdentity.registered_address variant 2
-
-anyOf variant 2.
-
-- Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
-- Value shape: null. Replaced as a whole: send every field you want to keep. 
+Field definitions: [shared fields](DocumentTaxID.md#documenttaxid).
 

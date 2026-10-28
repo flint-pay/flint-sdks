@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/promotions.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/promotions.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createPromotion"]:r0,["createPromotionCode"]:r0,["deletePromotion"]:r0,["deletePromotionCode"]:r0,["getPromotion"]:r0,["getPromotionCode"]:r0,["listPromotionCodes"]:r0,["listPromotions"]:r0,["updatePromotion"]:r0,["updatePromotionCode"]:r0});
 export class Client {
@@ -275,6 +275,8 @@ close() { return this.#runtime.close(); }
 }
 export { makeCreatePromotionCodeRequest } from '../models/CreatePromotionCodeRequest.js';
 export { makeCreatePromotionRequest } from '../models/CreatePromotionRequest.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makePromotionAmountOffMethodRequest } from '../models/PromotionAmountOffMethodRequest.js';
 export { makePromotionApplicationMethodPatch } from '../models/PromotionApplicationMethodPatch.js';
@@ -292,7 +294,7 @@ export { makePromotionRecurrenceRepeating } from '../models/PromotionRecurrenceR
 export { makePromotionRuleGroupRequest } from '../models/PromotionRuleGroupRequest.js';
 export { makePromotionRuleRequest } from '../models/PromotionRuleRequest.js';
 export { makePromotionRuleValueRequest } from '../models/PromotionRuleValueRequest.js';
-export { makePromotionSchedule } from '../models/PromotionSchedule.js';
 export { makePromotionSchedulePatch } from '../models/PromotionSchedulePatch.js';
+export { makePromotionScheduleRequestRequest } from '../models/PromotionScheduleRequestRequest.js';
 export { makeUpdatePromotionCodeRequest } from '../models/UpdatePromotionCodeRequest.js';
 export { makeUpdatePromotionRequest } from '../models/UpdatePromotionRequest.js';

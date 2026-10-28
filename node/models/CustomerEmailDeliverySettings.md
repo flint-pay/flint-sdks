@@ -2,7 +2,7 @@
 
 ## CustomerEmailDeliverySettings
 
-For each kind of customer email, whether Flint sends it or the merchant sends it.
+
 
 
 
@@ -16,4 +16,16 @@ For each kind of customer email, whether Flint sends it or the merchant sends it
 | `order_receipts` | Optional | string | Values: `"flint_sends"`, `"merchant_sends"`. |
 | `returns` | Optional | string | Values: `"flint_sends"`, `"merchant_sends"`. |
 | `subscription_lifecycle` | Optional | string | Values: `"flint_sends"`, `"merchant_sends"`. |
+
+### CustomerEmailDeliverySettings variant 1
+
+anyOf variant 1: Declared schema CustomerEmailDeliverySettings. For each kind of customer email, whether Flint sends it or the merchant sends it..
+
+No additional constraints.
+
+### CustomerEmailDeliverySettings variant 2
+
+anyOf variant 2: Declared schema CustomerEmailDeliverySettingsRequestRequest. For each kind of customer email, whether Flint sends it or the merchant sends it..
+
+No additional constraints.
 

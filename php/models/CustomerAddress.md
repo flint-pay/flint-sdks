@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Required | [PostalAddress](../models/PostalAddress.md#postaladdress) | A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country. `address`: [field definitions](../models/CustomerAddress.md#customeraddressaddress). |
+| `address` | Required | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress). |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `customer_address_id` | Required | string |  |
 | `customer_id` | Required | string |  |
@@ -22,7 +22,5 @@ Response model.
 
 ### CustomerAddress.address
 
-A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country.
-
-Field definitions: [shared fields](PostalAddressInput.md#postaladdressinput).
+Field definitions: [DeliveryPreviewsCreateResponse200.data variant 1.buyer_location.address](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress).
 

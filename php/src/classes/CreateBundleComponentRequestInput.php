@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateBundleComponentRequestInput extends Model {
-    /** @param array{'delivery_profile_id'?: string|null, 'position'?: int, 'quantity'?: int, 'variant_id': string, ...}|object $values */
+    /** @param array{'delivery_profile_id'?: string|null, 'position'?: int, 'quantity'?: int, 'variant_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateBundleComponentRequestInput')); }
     /** Shape $ (Value): string or null. Component delivery profile override. Omit to inherit the variant's profile. Send null to clear it. minLength: 1.
      * @return string|null

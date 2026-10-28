@@ -28,17 +28,20 @@ Body model: [CreateProductRequestInput](../models/CreateProductRequest.md#create
 | `description` | Optional | string | Description of the product shown to buyers. minLength: `1`. maxLength: `2048`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequest.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
 | `name` | Required | string | Product name shown to buyers. minLength: `1`. maxLength: `255`. |
 | `options` | Optional | Array of [CreateProductOptionRequestInput](../models/CreateProductOptionRequest.md#createproductoptionrequest) | Options and values that distinguish this product's variants. Send with variants instead of default_variant. minItems: `1`. |
 | `product_type` | Required | string | Kind of goods or service this product represents. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Whether the product is active or inactive. An inactive product's variants cannot be sold. Default: `"active"`. Values: `"active"`, `"inactive"`. |
+| `variant_mode` | Required | string | Selects the variant mode branch. Values: `"simple"`, `"optioned"`. |
 | `variants` | Optional | Array of [ProductVariantRequestInput](../models/ProductVariantRequest.md#productvariantrequest) | Independent variants to create with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`. minItems: `1`. maxItems: `100`. |
 
 #### products.create body oneOf variant 1
 
+The `simple` variant of `CreateProductRequest`.
 
+Body model: [CreateProductRequestSimpleInput](../models/CreateProductRequestSimple.md#createproductrequestsimple).
 
 #### products.create body oneOf variant 1 fields
 
@@ -49,17 +52,20 @@ Body model: [CreateProductRequestInput](../models/CreateProductRequest.md#create
 | `description` | Optional | string | Description of the product shown to buyers. minLength: `1`. maxLength: `2048`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequest.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
 | `name` | Required | string | Product name shown to buyers. minLength: `1`. maxLength: `255`. |
 | `options` | Optional | Array of [CreateProductOptionRequestInput](../models/CreateProductOptionRequest.md#createproductoptionrequest) | Options and values that distinguish this product's variants. Send with variants instead of default_variant. minItems: `1`. |
 | `product_type` | Required | string | Kind of goods or service this product represents. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Whether the product is active or inactive. An inactive product's variants cannot be sold. Default: `"active"`. Values: `"active"`, `"inactive"`. |
+| `variant_mode` | Required | string | Selects the variant mode branch. Values: `"simple"`. |
 | `variants` | Optional | Array of [ProductVariantRequestInput](../models/ProductVariantRequest.md#productvariantrequest) | Independent variants to create with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`. minItems: `1`. maxItems: `100`. |
 
 #### products.create body oneOf variant 2
 
+The `optioned` variant of `CreateProductRequest`.
 
+Body model: [CreateProductRequestOptionedInput](../models/CreateProductRequestOptioned.md#createproductrequestoptioned).
 
 #### products.create body oneOf variant 2 fields
 
@@ -70,12 +76,13 @@ Body model: [CreateProductRequestInput](../models/CreateProductRequest.md#create
 | `description` | Optional | string | Description of the product shown to buyers. minLength: `1`. maxLength: `2048`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequest.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
 | `name` | Required | string | Product name shown to buyers. minLength: `1`. maxLength: `255`. |
 | `options` | Required | Array of [CreateProductOptionRequestInput](../models/CreateProductOptionRequest.md#createproductoptionrequest) | Options and values that distinguish this product's variants. Send with variants instead of default_variant. minItems: `1`. |
 | `product_type` | Required | string | Kind of goods or service this product represents. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`. |
 | `status` | Optional | string | Whether the product is active or inactive. An inactive product's variants cannot be sold. Default: `"active"`. Values: `"active"`, `"inactive"`. |
+| `variant_mode` | Required | string | Selects the variant mode branch. Values: `"optioned"`. |
 | `variants` | Required | Array of [ProductVariantRequestInput](../models/ProductVariantRequest.md#productvariantrequest) | Independent variants to create with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`. minItems: `1`. maxItems: `100`. |
 
 #### Response
@@ -108,7 +115,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -118,7 +125,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.products.create({default_variant: {unit_price_money: {amount: "100", currency: "USD"}}, name: "example", product_type: "physical"}, { idempotencyKey: idempotencyKey });
+const result = await client.products.create({default_variant: {unit_price_money: {amount: "100", currency: "USD"}}, name: "example", product_type: "physical", variant_mode: "simple"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/products-create.mjs)
@@ -156,12 +163,12 @@ Body model: [ProductVariantRequestInput](../models/ProductVariantRequest.md#prod
 | `barcode` | Optional | string | Barcode assigned to this sellable item. minLength: `1`. maxLength: `100`. |
 | `delivery_profile_id` | Optional | string | Identifier of the delivery profile to assign to this variant. minLength: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `gift_card_configuration` | Optional | [GiftCardProductConfigurationInput](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration) | Only valid for product_type gift_card. Omission creates a fixed denomination at unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode discounted. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts. |
+| `gift_card_configuration` | Optional | [GiftCardProductConfigurationRequestRequestInput](../models/GiftCardProductConfigurationRequestRequestInput.md#giftcardproductconfigurationrequestrequestinput) | Only valid for product_type gift_card. Omission creates a fixed denomination at unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode discounted. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequest.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequestInput](../models/InventoryItemCreateRequest.md#inventoryitemcreaterequest) | New inventory item to create and track for this variant. Send either inventory_item or inventory_item_id. Inventory item details you supply when creating an inventory item for a product variant: `name`, `sku`, `barcode`, and metadata. |
 | `inventory_item_id` | Optional | string | Identifier of an existing inventory item to track for this variant. Send either inventory_item_id or inventory_item. minLength: `1`. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#productscreatevariant-body-line_item_tax_category-values). |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
 | `name` | Optional | string | Variant name that distinguishes it from the product's other variants. minLength: `1`. maxLength: `255`. |
 | `position` | Optional | integer | Display order among the product's variants, starting at zero. Format: `int32`. |
@@ -218,7 +225,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createVariantWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -286,7 +293,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `deleteVariantWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -479,7 +486,7 @@ const result = await client.products.getVariant("example", "example", {}, {  });
 
 ### products.list
 
-Returns a paginated list of products for the authenticated merchant.
+Returns a paginated list of products for the authenticated merchant. Default order: created_at descending, then product_id descending.
 
 `GET /v1/products`
 
@@ -574,7 +581,7 @@ const result = await client.products.list({}, {  });
 
 ### products.listOptions
 
-List product options.
+List product options. Default order: position ascending, then option_id ascending.
 
 `GET /v1/products/{product_id}/options`
 
@@ -638,7 +645,7 @@ const result = await client.products.listOptions("example", {}, {  });
 
 ### products.listVariants
 
-List product variants.
+List product variants. Default order: position ascending, then variant_id ascending.
 
 `GET /v1/products/{product_id}/variants`
 
@@ -779,7 +786,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -830,7 +837,7 @@ Body model: [UpdateProductRequestInput](../models/UpdateProductRequest.md#update
 | `expected_version` | Optional | integer string | Resource version last read by the caller. Required when options or images is present. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequest.md#imagerequest) | The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: `0`. maxItems: `8`. |
-| `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
 | `name` | Optional | string | Product name shown to buyers. minLength: `1`. maxLength: `255`. |
 | `options` | Optional | Array of [UpdateProductOptionRequestInput](../models/UpdateProductOptionRequest.md#updateproductoptionrequest) | Replaces all product options and values atomically. Include existing option_id and option_value_id values to retain members. Omitted members are archived. Null is not accepted. |
@@ -867,7 +874,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -918,12 +925,12 @@ Body model: [UpdateProductVariantRequestInput](../models/UpdateProductVariantReq
 | `delivery_profile_id` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `expected_version` | Optional | integer string | Resource version last read by the caller. Required when images is present. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `gift_card_configuration` | Optional | [GiftCardProductConfigurationInput](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration) | Replaces the complete gift card configuration. Omission preserves it. Null is not accepted. Include expected_version to reject a concurrent variant change. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts. |
+| `gift_card_configuration` | Optional | [GiftCardProductConfigurationRequestRequestInput](../models/GiftCardProductConfigurationRequestRequestInput.md#giftcardproductconfigurationrequestrequestinput) | Replaces the complete gift card configuration. Omission preserves it. Null is not accepted. Include expected_version to reject a concurrent variant change. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts. |
 | `images` | Optional | Array of [ImageRequestInput](../models/ImageRequest.md#imagerequest) | Replaces the authored variant gallery atomically. Send [] to clear it and resume product-image inheritance. minItems: `0`. maxItems: `8`. |
 | `inventory_item` | Optional | [InventoryItemCreateRequestInput](../models/InventoryItemCreateRequest.md#inventoryitemcreaterequest) | New inventory item to create and track for this variant. Send either inventory_item or inventory_item_id. Inventory item details you supply when creating an inventory item for a product variant: `name`, `sku`, `barcode`, and metadata. |
 | `inventory_item_id` | Optional | string or null | Inventory item tracked by this variant. Send null to stop tracking inventory. minLength: `1`. |
 | `line_item_tax_category` | Optional | string or null | Flint line-item tax category. Send null to clear it. Values: [13 declared values](#productsupdatevariant-body-line_item_tax_category-values). |
-| `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `modifier_set_id` | Optional | string or null | Attached modifier set. Send null on update to remove it. minLength: `1`. |
 | `name` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `position` | Optional | integer | Display order among the product's variants, starting at zero. Format: `int32`. |
@@ -981,7 +988,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateVariantWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -16,7 +16,7 @@ Response model.
 | `method` | Required | string | Payout method. instant can appear on imported payouts; unmapped methods are returned as other. Values: `"standard"`, `"instant"`, `"other"`. |
 | `payout_destination_id` | Optional | string |  |
 | `payout_id` | Required | string |  |
-| `reversal_status` | Required | string | Values: `"none"`, `"reversing"`, `"reversed"`. |
+| `reversal_status` | Required | string | Values: `"none"`, `"reversed"`. |
 | `status` | Required | string | Values: `"pending"`, `"in_transit"`, `"paid"`, `"failed"`, `"canceled"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 

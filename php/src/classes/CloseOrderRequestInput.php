@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $reason_message
  * Presence-aware input; omitted fields throw when accessed. */
 final class CloseOrderRequestInput extends Model {
-    /** @param array{'collected_money_behavior'?: string, 'expected_version'?: string, 'reason_message'?: string, ...}|object $values */
+    /** @param array{'collected_money_behavior'?: string, 'expected_version'?: string, 'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CloseOrderRequestInput')); }
     /** Shape $ (Value): string. Send keep to close while keeping collected money. Required when collected money remains refundable to its original tenders, after pending refunds. Closing does not refund money, and the order remains refundable. Accepted when nothing was collected. Value enum: "keep".
      * @return string

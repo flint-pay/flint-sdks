@@ -33,6 +33,10 @@ Funds sent from a merchant balance to a payout destination.
 
 Field definitions: [shared fields](PayoutsCancelResponse200.md#payoutscancelresponse200data).
 
+### WebhookEventPayoutCanceled.data fields 1.object.metadata
+
+Field definitions: [PayoutsCancelResponse200.data.metadata](../models/PayoutsCancelResponse200.md#payoutscancelresponse200datametadata).
+
 ### WebhookEventPayoutCanceled.data fields 1.object.original_payout
 
 Declared alternatives: [PayoutsCancelResponse200.data.original_payout](../models/PayoutsCancelResponse200.md#payoutscancelresponse200dataoriginal_payout).

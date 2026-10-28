@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryLevelListResponseInput extends Model {
-    /** @param array{'data': list<InventoryLevelInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<InventoryLevelInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryLevelListResponseInput')); }
     /** Shape $ (Value): Array of {@see InventoryLevelInput}. Shape $[] (Value): {@see InventoryLevelInput}. The quantity state of one inventory item at one Location.
      * @return list<InventoryLevelInput|array<array-key, mixed>|\stdClass>

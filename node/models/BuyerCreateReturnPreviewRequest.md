@@ -16,7 +16,7 @@ The request body for: Preview Return eligibility or resolution amounts for the c
 
 ### BuyerCreateReturnPreviewRequest variant 1: `mode` = `"eligibility"`
 
-oneOf variant 1.
+oneOf variant 1: The `eligibility` variant of `BuyerCreateReturnPreviewRequest`..
 
 - Condition: not (present(`resolution`)).
 - Required: `eligibility`.
@@ -25,7 +25,7 @@ oneOf variant 1.
 
 ### BuyerCreateReturnPreviewRequest variant 2: `mode` = `"resolution"`
 
-oneOf variant 2.
+oneOf variant 2: The `resolution` variant of `BuyerCreateReturnPreviewRequest`..
 
 - Condition: not (present(`eligibility`)).
 - Required: `resolution`.

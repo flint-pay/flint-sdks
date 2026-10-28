@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $refresh_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefreshCustomerSessionRequestInput extends Model {
-    /** @param array{'refresh_token': string, ...}|object $values */
+    /** @param array{'refresh_token': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefreshCustomerSessionRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

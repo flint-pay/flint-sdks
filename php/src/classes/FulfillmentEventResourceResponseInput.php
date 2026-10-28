@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentEventResourceResponseInput extends Model {
-    /** @param array{'data': FulfillmentEventInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': FulfillmentEventInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentEventResourceResponseInput')); }
     /** Shape $ (Value): {@see FulfillmentEventInput}. An action recorded during an order's fulfillment.
      * @return FulfillmentEventInput|array<array-key, mixed>|\stdClass

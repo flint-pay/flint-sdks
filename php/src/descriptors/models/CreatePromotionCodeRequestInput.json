@@ -1,1 +1,1 @@
-{"shared":"CreatePromotionCodeRequest","dependencies":["CreatePromotionCodeRequest"]}
+{"shared":"CreatePromotionCodeRequest","dependencies":["CreatePromotionCodeRequest","MetadataRequest"]}

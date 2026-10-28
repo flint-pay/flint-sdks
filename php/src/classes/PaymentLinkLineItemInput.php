@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read bool $allow_quantity_adjustment
  * @property-read bool $allow_unit_price_adjustment
  * @property-read string $bundle_id
+ * @property-read string $default_variant_id
  * @property-read string $description
  * @property-read bool $is_catalog_item_unavailable
  * @property-read string $key
@@ -14,13 +15,17 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $min_unit_price_money
  * @property-read string $name
  * @property-read string $payment_link_line_item_id
+ * @property-read string $product_id
  * @property-read int $quantity
  * @property-read string $resolved_name
+ * @property-read ProductPriceRangeInput|array<array-key, mixed>|\stdClass $resolved_price_range
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $resolved_unit_price_money
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $suggested_unit_price_money_options
  * @property-read OrderLineItemTaxInput|array<array-key, mixed>|\stdClass $tax
+ * @property-read string $type
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
+ * @property-read list<string> $variant_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkLineItemInput extends Model {
     /** @param mixed $values */
@@ -43,13 +48,19 @@ final class PaymentLinkLineItemInput extends Model {
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
+    /** Shape $ (Value): string. Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string
+     * @throws SdkError When default_variant_id is omitted; use hasDefaultVariantId() or valueOrDefault().
+     */
+    public function getDefaultVariantId(): string { return $this->get('default_variant_id'); }
+    public function hasDefaultVariantId(): bool { return $this->has('default_variant_id'); }
     /** Shape $ (Value): string.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Shape $ (Value): boolean. True when this line item references a variant or bundle that is missing, deleted, or inactive, so it cannot be sold right now. Always false on ad-hoc line items.
+    /** Shape $ (Value): boolean. True when the referenced variant or bundle cannot be sold, or no listed variant in variant_ids can be sold in the line currency. Always false on ad hoc line items.
      * @return bool
      * @throws SdkError When is_catalog_item_unavailable is omitted; use hasIsCatalogItemUnavailable() or valueOrDefault().
      */
@@ -97,19 +108,31 @@ final class PaymentLinkLineItemInput extends Model {
      */
     public function getPaymentLinkLineItemId(): string { return $this->get('payment_link_line_item_id'); }
     public function hasPaymentLinkLineItemId(): bool { return $this->has('payment_link_line_item_id'); }
+    /** Shape $ (Value): string. Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input.
+     * @return string
+     * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
+     */
+    public function getProductId(): string { return $this->get('product_id'); }
+    public function hasProductId(): bool { return $this->has('product_id'); }
     /** Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported. Format: int32.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Shape $ (Value): string. Current catalog name of the referenced variant or bundle. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists.
+    /** Shape $ (Value): string. Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists.
      * @return string
      * @throws SdkError When resolved_name is omitted; use hasResolvedName() or valueOrDefault().
      */
     public function getResolvedName(): string { return $this->get('resolved_name'); }
     public function hasResolvedName(): bool { return $this->has('resolved_name'); }
-    /** Shape $ (Value): {@see MoneyValueInput}. Current catalog unit price of the referenced variant or bundle. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items and when the catalog object no longer exists. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Shape $ (Value): {@see ProductPriceRangeInput}. Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold. The lowest and highest unit prices across a product's variants.
+     * @return ProductPriceRangeInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When resolved_price_range is omitted; use hasResolvedPriceRange() or valueOrDefault().
+     */
+    public function getResolvedPriceRange(): mixed { return $this->get('resolved_price_range'); }
+    public function hasResolvedPriceRange(): bool { return $this->has('resolved_price_range'); }
+    /** Shape $ (Value): {@see MoneyValueInput}. Current catalog unit price of the referenced variant or bundle. This is the catalog value at read time, not a stored snapshot: checkout resolves the price again when a buyer opens the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids lines, and when the catalog object no longer exists. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When resolved_unit_price_money is omitted; use hasResolvedUnitPriceMoney() or valueOrDefault().
      */
@@ -127,6 +150,12 @@ final class PaymentLinkLineItemInput extends Model {
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
+    /** Shape $ (Value): string.  Value enum: "variant", "bundle", "custom_fixed", "custom_variable".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
@@ -139,4 +168,10 @@ final class PaymentLinkLineItemInput extends Model {
      */
     public function getVariantId(): string { return $this->get('variant_id'); }
     public function hasVariantId(): bool { return $this->has('variant_id'); }
+    /** Shape $ (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return list<string>
+     * @throws SdkError When variant_ids is omitted; use hasVariantIds() or valueOrDefault().
+     */
+    public function getVariantIds(): array { return $this->get('variant_ids'); }
+    public function hasVariantIds(): bool { return $this->has('variant_ids'); }
 }

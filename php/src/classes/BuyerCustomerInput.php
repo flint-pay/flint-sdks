@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read AddressInput|array<array-key, mixed>|\stdClass $billing_address
+ * @property-read array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null $billing_address
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $customer_id
  * @property-read string|null $default_payment_method_id
@@ -10,17 +10,17 @@ namespace Flint;
  * @property-read string $merchant_id
  * @property-read string|null $name
  * @property-read string|null $phone
- * @property-read AddressInput|array<array-key, mixed>|\stdClass $shipping_address
+ * @property-read array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null $shipping_address
  * @property-read string $status
  * @property-read null $tax_identity
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCustomerInput extends Model {
-    /** @param array{'billing_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'default_payment_method_id': string|null, 'email': string|null, 'merchant_id'?: string, 'name': string|null, 'phone': string|null, 'shipping_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'status': string, 'tax_identity': null, 'updated_at'?: string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'billing_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'default_payment_method_id': string|null, 'email': string|null, 'merchant_id'?: string, 'name': string|null, 'phone': string|null, 'shipping_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'status': string, 'tax_identity': null, 'updated_at'?: string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCustomerInput')); }
-    /** Shape $ (Value): {@see AddressInput}. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
-     * @return AddressInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressInput} or null. The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. Null when no saved address is the billing default. Shape $.anyOf[1] (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+     * @return array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null
      * @throws SdkError When billing_address is omitted; use hasBillingAddress() or valueOrDefault().
      */
     public function getBillingAddress(): mixed { return $this->get('billing_address'); }
@@ -67,8 +67,8 @@ final class BuyerCustomerInput extends Model {
      */
     public function getPhone(): string|null { return $this->get('phone'); }
     public function hasPhone(): bool { return $this->has('phone'); }
-    /** Shape $ (Value): {@see AddressInput}. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
-     * @return AddressInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressInput} or null. The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. Null when no saved address is the shipping default. Shape $.anyOf[1] (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+     * @return array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null
      * @throws SdkError When shipping_address is omitted; use hasShippingAddress() or valueOrDefault().
      */
     public function getShippingAddress(): mixed { return $this->get('shipping_address'); }

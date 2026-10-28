@@ -6,5 +6,5 @@ One permission a partner app can request, with a title, a description, and the F
 
 Response model.
 
-Fields, types, descriptions and enum values: [PartnerAppPermissionManifestEntryInput](../models/PartnerAppPermissionManifestEntryInput.md#partnerapppermissionmanifestentryinput).
+Fields, types, descriptions and enum values: [PartnerAppPermissionManifestEntryRequestRequestInput](../models/PartnerAppPermissionManifestEntryRequestRequestInput.md#partnerapppermissionmanifestentryrequestrequestinput).
 

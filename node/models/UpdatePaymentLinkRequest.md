@@ -10,7 +10,7 @@ The request body for: Update payment link.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_fields` | Optional | [CheckoutBuyerFields](../models/CheckoutBuyerFields.md#checkoutbuyerfields) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
+| `buyer_fields` | Optional | [CheckoutBuyerFields](../models/CheckoutBuyerFields.md#checkoutbuyerfields) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. `buyer_fields`: [field definitions](../models/CreateCheckoutSessionOrder.md#createcheckoutsessionorderbuyer_fields). |
 | `checkout_session_expires_in_seconds` | Optional | integer string | Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `custom_fields` | Optional | Array of [PaymentLinkCustomFieldPatchRequest](../models/PaymentLinkCustomFieldPatchRequest.md#paymentlinkcustomfieldpatchrequest) | Replaces all custom fields atomically. Include an existing payment_link_custom_field_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Send an empty array to clear all custom fields, omit custom_fields to leave it unchanged, and do not send null. maxItems: `20`. |
 | `custom_text` | Optional | [PaymentLinkCustomTextPatchRequest](../models/PaymentLinkCustomTextPatchRequest.md#paymentlinkcustomtextpatchrequest) | Changes to a payment link's custom checkout text. Send null to clear a field. |
@@ -28,16 +28,20 @@ The request body for: Update payment link.
 | `legal` | Optional | [LegalSettingsRequest](../models/LegalSettingsRequest.md#legalsettingsrequest) | Changes to a payment link's legal links and terms setting. Send null on a URL to clear it. `legal`: [field definitions](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequestlegal). |
 | `line_items` | Optional | Array of [PaymentLinkLineItemPatchRequest](../models/PaymentLinkLineItemPatchRequest.md#paymentlinklineitempatchrequest) | Replaces all line items atomically. Include an existing payment_link_line_item_id to retain that member, omit the ID to create a member, and omit a previous member to remove it. Omit line_items to leave it unchanged. Null is not accepted. minItems: `1`. |
 | `max_completions` | Optional | integer or null | Send null to clear. Format: `int32`. |
-| `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequest](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `name` | Optional | string | minLength: `1`. maxLength: `255`. |
 | `payments` | Optional | [PaymentLinkPaymentPatchRequest](../models/PaymentLinkPaymentPatchRequest.md#paymentlinkpaymentpatchrequest) | Changes to a payment link's payment settings. Send null on the payment note to clear it. |
-| `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
+| `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. `promotion_config`: [field definitions](../models/CreateCheckoutSessionOrder.md#createcheckoutsessionorderpromotion_config). |
 | `redirects` | Optional | [PaymentLinkRedirectsPatchRequest](../models/PaymentLinkRedirectsPatchRequest.md#paymentlinkredirectspatchrequest) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Changes to a payment link's hosted checkout destinations. Omit a URL to leave it unchanged, or send null to clear it. |
 | `sales_end_at` | Optional | string or null | RFC3339 timestamp after which the link stops starting checkouts and resolve returns PAYMENT_LINK_SALES_ENDED. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Send null to clear it. Format: `date-time`. minLength: `1`. |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 | `tax` | Optional | [CheckoutTaxConfig](../models/CheckoutTaxConfig.md#checkouttaxconfig) | Whether tax is collected for a checkout session or payment link. `tax`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequesttax). |
 | `theme` | Optional | [PaymentLinkThemePatchRequest](../models/PaymentLinkThemePatchRequest.md#paymentlinkthemepatchrequest) | Changes to a payment link's checkout theme. Send null on a field to clear it. |
-| `tip` | Optional | [CheckoutTipConfig](../models/CheckoutTipConfig.md#checkouttipconfig) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. |
+| `tip` | Optional | [CheckoutTipConfig](../models/CheckoutTipConfig.md#checkouttipconfig) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. `tip`: [field definitions](../models/CreateCheckoutSessionOrder.md#createcheckoutsessionordertip). |
+
+### UpdatePaymentLinkRequest.buyer_fields
+
+Field definitions: [CreateCheckoutSessionOrder.buyer_fields](../models/CreateCheckoutSessionOrder.md#createcheckoutsessionorderbuyer_fields).
 
 ### UpdatePaymentLinkRequest.donation_max_amount_money
 
@@ -87,7 +91,15 @@ Changes to a payment link's legal links and terms setting. Send null on a URL to
 
 Field definitions: [shared fields](PaymentLinkLegalPatchRequestInput.md#paymentlinklegalpatchrequestinput).
 
+### UpdatePaymentLinkRequest.promotion_config
+
+Field definitions: [CreateCheckoutSessionOrder.promotion_config](../models/CreateCheckoutSessionOrder.md#createcheckoutsessionorderpromotion_config).
+
 ### UpdatePaymentLinkRequest.tax
 
 Field definitions: [CreatePaymentLinkRequest.tax](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequesttax).
+
+### UpdatePaymentLinkRequest.tip
+
+Field definitions: [CreateCheckoutSessionOrder.tip](../models/CreateCheckoutSessionOrder.md#createcheckoutsessionordertip).
 

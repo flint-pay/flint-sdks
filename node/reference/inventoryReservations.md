@@ -63,7 +63,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -129,7 +129,7 @@ const result = await client.inventoryReservations.get("example", {}, {  });
 
 ### inventoryReservations.list
 
-List inventory reservations in ascending inventory_reservation_id order. Omit owner_type to include merchant and order owners. owner_key matches merchant owners only.
+List inventory reservations in ascending inventory_reservation_id order. Omit owner_type to include merchant and order owners. owner_key matches merchant owners only. Default order: inventory_reservation_id ascending; this key uniquely orders the results.
 
 `GET /v1/inventory-reservations`
 
@@ -246,7 +246,7 @@ Body model: [InventoryReservationTransitionRequestCommitInput](../models/Invento
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string | Values: `"commit"`. |
-| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `lines` | Required | Array of object | minItems: `1`. maxItems: `100`. |
 
 #### inventoryReservations.transition body oneOf variant 2
@@ -260,7 +260,7 @@ Body model: [InventoryReservationTransitionRequestConsumeInput](../models/Invent
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string | Values: `"consume"`. |
-| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `lines` | Required | Array of object | minItems: `1`. maxItems: `100`. |
 | `provenance` | Optional | [InventoryProvenanceRequestInput](../models/InventoryProvenanceRequest.md#inventoryprovenancerequest) | When and where the physical handoff happened. When omitted, occurred_at is the command receipt time and source_system is null. Where and when an inventory event happened: the source system, external actor, and time. |
 
@@ -275,7 +275,7 @@ Body model: [InventoryReservationTransitionRequestReleaseInput](../models/Invent
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string | Values: `"release"`. |
-| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `lines` | Required | Array of (object and Alternative shapes (see declared variants)) | minItems: `1`. maxItems: `100`. |
 
 #### Response
@@ -306,7 +306,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `transitionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -379,7 +379,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

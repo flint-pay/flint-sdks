@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SandboxWithAPIKeyResponseInput extends Model {
-    /** @param array{'data': CreateDeveloperSandboxResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': CreateDeveloperSandboxResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SandboxWithAPIKeyResponseInput')); }
     /** Shape $ (Value): {@see CreateDeveloperSandboxResultInput}. The created sandbox is the primary resource, with the API key and one-time secret_key when issue_test_key is true.
      * @return CreateDeveloperSandboxResultInput|array<array-key, mixed>|\stdClass

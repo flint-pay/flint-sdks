@@ -1,1 +1,1 @@
-{"shared":"Webhook_inventory_transfer_received_merchant","dependencies":["InventoryTransfer","InventoryTransferLine","MerchantWebhookEnvelope","SharedCodec373","SharedCodec374","SharedCodec658","Webhook_inventory_transfer_received_merchant"]}
+{"shared":"Webhook_inventory_transfer_received_merchant","dependencies":["InventoryTransfer","InventoryTransferLine","MerchantWebhookEnvelope","SharedCodec413","SharedCodec414","SharedCodec695","Webhook_inventory_transfer_received_merchant"]}

@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass> $billing_interval_options
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $external_reference_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read list<string> $product_ids
  * @property-read string|null $promotion_id
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionOfferInput extends Model {
-    /** @param array{'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'product_ids': list<string>, 'promotion_id': string|null, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_offer_id': string, 'updated_at': string|\DateTimeInterface, 'variant_ids': list<string>, 'version': string}|object $values */
+    /** @param array{'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'product_ids': list<string>, 'promotion_id': string|null, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_offer_id': string, 'updated_at': string|\DateTimeInterface, 'variant_ids': list<string>, 'version': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOfferInput')); }
     /** Shape $ (Value): Array of {@see SubscriptionIntervalOptionInput}. minItems: 1. maxItems: 12. uniqueItems: true. Shape $[] (Value): {@see SubscriptionIntervalOptionInput}. A billing interval, such as every 2 months, offered by a subscription plan.
      * @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
@@ -37,11 +37,11 @@ final class SubscriptionOfferInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string

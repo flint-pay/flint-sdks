@@ -53,7 +53,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelReturnWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -121,7 +121,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -135,291 +135,6 @@ const result = await client.me.cancelSubscription("example", {}, { idempotencyKe
 ```
 
 [Complete runnable example](../examples/me-cancelSubscription.mjs)
-
-### me.changeSubscriptionBillingInterval
-
-Changes future renewals to an interval currently offered by the subscription plan or frozen offer. Requires a full buyer session, billing_interval, and billing_interval_count. Send expected_version to reject concurrent changes.
-
-`POST /v1/me/subscriptions/{subscription_id}/billing-interval`
-
-Signature:
-
-```typescript
-changeSubscriptionBillingInterval(subscription_id: InputValue<string>,
- params: (InputValue<ChangeMeSubscriptionBillingIntervalRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"customer">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [ChangeMeSubscriptionBillingIntervalRequestInput](../models/ChangeMeSubscriptionBillingIntervalRequest.md#changemesubscriptionbillingintervalrequest) | The request body for: Change subscription billing interval. |
-
-Body model: [ChangeMeSubscriptionBillingIntervalRequestInput](../models/ChangeMeSubscriptionBillingIntervalRequest.md#changemesubscriptionbillingintervalrequest).
-
-#### me.changeSubscriptionBillingInterval body fields
-
-Field definitions: [shared fields](../models/ChangeMeSubscriptionBillingIntervalRequest.md#changemesubscriptionbillingintervalrequest).
-
-#### Response
-
-Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `changeSubscriptionBillingIntervalWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.me.changeSubscriptionBillingInterval("example", {billing_interval: "daily", billing_interval_count: 1}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/me-changeSubscriptionBillingInterval.mjs)
-
-### me.changeSubscriptionDelivery
-
-Saves an offered delivery method and destination for future renewals when buyer delivery changes are enabled. Requires a full buyer session. Send expected_version to reject concurrent changes. A paid shipment already in progress keeps its destination.
-
-`POST /v1/me/subscriptions/{subscription_id}/delivery`
-
-Signature:
-
-```typescript
-changeSubscriptionDelivery(subscription_id: InputValue<string>,
- params: (InputValue<ChangeMeSubscriptionDeliveryRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"customer">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [ChangeMeSubscriptionDeliveryRequestInput](../models/ChangeMeSubscriptionDeliveryRequest.md#changemesubscriptiondeliveryrequest) | The request body for: Update subscription delivery. |
-
-Body model: [ChangeMeSubscriptionDeliveryRequestInput](../models/ChangeMeSubscriptionDeliveryRequest.md#changemesubscriptiondeliveryrequest).
-
-#### me.changeSubscriptionDelivery body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `delivery` | Required | [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequest.md#subscriptiondeliveryrequest) | The delivery preference to set on a subscription: delivery method, type, destination, and recipient. |
-| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-
-#### Response
-
-Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `changeSubscriptionDeliveryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.me.changeSubscriptionDelivery("example", {delivery: {delivery_method_id: "dmet_00000000000000000000000000", destination: {customer_address_id: "caddr_00000000000000000000000000", type: "customer_address"}, type: "shipment"}}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/me-changeSubscriptionDelivery.mjs)
-
-### me.changeSubscriptionPaymentMethod
-
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the subscription to an active payment method owned by the same customer. The payment method's usage must be off_session. Send expected_version to reject a concurrent change. A card whose setup hasn't finished returns 409 PAYMENT_METHOD_NOT_READY. Retry the same request with the same Idempotency-Key once setup finishes.
-
-`POST /v1/me/subscriptions/{subscription_id}/payment-method`
-
-Signature:
-
-```typescript
-changeSubscriptionPaymentMethod(subscription_id: InputValue<string>,
- params: (InputValue<ChangeSubscriptionPaymentMethodRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"customer">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [ChangeSubscriptionPaymentMethodRequestInput](../models/ChangeSubscriptionPaymentMethodRequest.md#changesubscriptionpaymentmethodrequest) | The request body for: Change a subscription payment method; Change the payment method for one of the current buyer's subscriptions. |
-
-#### Response
-
-Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `changeSubscriptionPaymentMethodWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.me.changeSubscriptionPaymentMethod("example", {payment_method_id: "example"}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/me-changeSubscriptionPaymentMethod.mjs)
-
-### me.changeSubscriptionQuantity
-
-Changes future renewals to a quantity currently offered by the subscription plan or frozen offer. Requires a full buyer session. Send expected_version to reject concurrent changes. Delivery eligibility is checked for the new quantity.
-
-`POST /v1/me/subscriptions/{subscription_id}/quantity`
-
-Signature:
-
-```typescript
-changeSubscriptionQuantity(subscription_id: InputValue<string>,
- params: (InputValue<ChangeMeSubscriptionQuantityRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"customer">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [ChangeMeSubscriptionQuantityRequestInput](../models/ChangeMeSubscriptionQuantityRequest.md#changemesubscriptionquantityrequest) | The request body for: Change subscription quantity. |
-
-Body model: [ChangeMeSubscriptionQuantityRequestInput](../models/ChangeMeSubscriptionQuantityRequest.md#changemesubscriptionquantityrequest).
-
-#### me.changeSubscriptionQuantity body fields
-
-Field definitions: [shared fields](../models/ChangeMeSubscriptionQuantityRequest.md#changemesubscriptionquantityrequest).
-
-#### Response
-
-Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `changeSubscriptionQuantityWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.me.changeSubscriptionQuantity("example", {quantity: 1}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/me-changeSubscriptionQuantity.mjs)
 
 ### me.confirmEmailChangeRequest
 
@@ -482,7 +197,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `confirmEmailChangeRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -499,7 +214,7 @@ const result = await client.me.confirmEmailChangeRequest("example", {new_email_c
 
 ### me.createAddress
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Saves an address for the buyer. The address becomes a default only when the request sets is_default_billing or is_default_shipping, or later through set-default, including the buyer's first address. A default address is also the billing or shipping address on the buyer's customer profile.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Saves an address for the buyer. The address becomes a default only when the request sets is_default_billing or is_default_shipping, or later by setting those flags with PATCH, including the buyer's first address. A default address is also the billing or shipping address on the buyer's customer profile.
 
 `POST /v1/me/addresses`
 
@@ -547,7 +262,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -557,7 +272,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.me.createAddress({address: {city: "example", country: "US", line1: "example", postal_code: "example", state: "example"}, recipient_name: "example"}, { idempotencyKey: idempotencyKey });
+const result = await client.me.createAddress({address: {city: "Springfield", country: "US", line1: "100 Example Street", postal_code: "62701", state: "IL"}, recipient_name: "Jordan Example"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/me-createAddress.mjs)
@@ -603,7 +318,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createDeletionRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -676,7 +391,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createEmailChangeRequestWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -693,14 +408,14 @@ const result = await client.me.createEmailChangeRequest({new_email: "example@exa
 
 ### me.createFlintWalletStoreSetup
 
-Records the buyer's consent to save an independent store copy for off-session payments, including subscriptions. Call only after the buyer agrees. Requires a live email-code buyer login and an enabled Flint wallet at a Flint-hosted store account. Supply an id from listMeFlintWalletPaymentMethods. Confirm client_setup with Stripe.js confirmSetup, then poll GET /v1/me/payment-methods/{payment_method_id} until active before changing a subscription through /v1/me/subscriptions/{subscription_id}/payment-method. Setup may request authentication. Removing the platform card or revoking store consent blocks the copy immediately. Idempotency-Key is optional and scoped to the store, customer, card handle, and key. Responses are retained for 24 hours. After a copy is revoked, retries with any key bound to that copy are refused. Get new consent and use a new key to create another copy. Retry a lost response with the same key. Concurrent requests for the same card at this store share one copy and setup. A failed off-session charge can still require the buyer to return through the existing card-update link. Accept an empty body or {}.
+Records the buyer's consent to save an independent store copy for off-session payments, including subscriptions. Call only after the buyer agrees. Requires a live email-code buyer login and an enabled Flint wallet at a Flint-hosted store account. Supply a flint_wallet_card_id from listMeFlintWalletCards. Confirm client_setup with Stripe.js confirmSetup, then poll GET /v1/me/payment-methods/{payment_method_id} until active before changing a subscription through PATCH /v1/me/subscriptions/{subscription_id} with payment_method_id. Setup may request authentication. Removing the platform card or revoking store consent blocks the copy immediately. Idempotency-Key is optional and scoped to the store, customer, card handle, and key. Responses are retained for 24 hours. After a copy is revoked, retries with any key bound to that copy are refused. Get new consent and use a new key to create another copy. Retry a lost response with the same key. Concurrent requests for the same card at this store share one copy and setup. A failed off-session charge can still require the buyer to return through the existing card-update link. Accept an empty body or {}.
 
-`POST /v1/me/flint-wallet/payment-methods/{id}/store-setups`
+`POST /v1/me/flint-wallet/cards/{flint_wallet_card_id}/store-setups`
 
 Signature:
 
 ```typescript
-createFlintWalletStoreSetup(id: InputValue<string>,
+createFlintWalletStoreSetup(flint_wallet_card_id: InputValue<string>,
  params?: {
   "Idempotency-Key"?: InputValue<string>
 },
@@ -711,12 +426,12 @@ createFlintWalletStoreSetup(id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `id` | Required | string |  |
+| `flint_wallet_card_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 
 #### Response
 
-Returned payload: [MeFlintWalletStoreSetup](../models/MeFlintWalletStoreSetup.md#meflintwalletstoresetup).
+Returned payload: [BuyerFlintWalletStoreSetup](../models/BuyerFlintWalletStoreSetup.md#buyerflintwalletstoresetup).
 
 #### Errors
 
@@ -741,7 +456,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createFlintWalletStoreSetupWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -760,7 +475,7 @@ const result = await client.me.createFlintWalletStoreSetup("example", {}, { idem
 
 Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with a validation error when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
 
-`POST /v1/me/invoices/{invoice_id}/checkout-session`
+`POST /v1/me/invoices/{invoice_id}/checkout-sessions`
 
 Signature:
 
@@ -782,7 +497,7 @@ createInvoiceCheckoutSession(invoice_id: InputValue<string>,
 
 #### Request fields
 
-Field definitions: [shared fields](invoices.md#request-fields-6). Models: [InvoiceCheckoutSessionRequestInput](../models/InvoiceCheckoutSessionRequest.md#invoicecheckoutsessionrequest).
+Field definitions: [shared fields](invoices.md#request-fields-4). Models: [InvoiceCheckoutSessionRequestInput](../models/InvoiceCheckoutSessionRequest.md#invoicecheckoutsessionrequest).
 
 #### Response
 
@@ -813,7 +528,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createInvoiceCheckoutSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -830,7 +545,7 @@ const result = await client.me.createInvoiceCheckoutSession("example", undefined
 
 ### me.createReturn
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Requests a Return for one of the buyer's orders. An active return policy must cover each line and leave the requested quantity eligible, or the request fails with 409 RETURN_SELF_SERVICE_NOT_ALLOWED. Check can_buyer_request with POST /v1/me/return-previews first. The buyer's reason must be active and apply to the line, and a policy that sends the request to review leaves the Return waiting for the store's decision.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Requests a Return for one of the buyer's orders. An active return policy must cover each line and leave the requested quantity eligible, or the request fails with 409 ACTION_NOT_ALLOWED with reason not_offered. Check can_buyer_request with POST /v1/me/return-previews first. The buyer's reason must be active and apply to the line, and a policy that sends the request to review leaves the Return waiting for the store's decision.
 
 `POST /v1/me/returns`
 
@@ -886,7 +601,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createReturnWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -932,7 +647,9 @@ Body model: [BuyerCreateReturnPreviewRequestInput](../models/BuyerCreateReturnPr
 
 #### me.createReturnPreview body oneOf variant 1
 
+The `eligibility` variant of `BuyerCreateReturnPreviewRequest`.
 
+Body model: [BuyerCreateReturnPreviewRequestEligibilityInput](../models/BuyerCreateReturnPreviewRequestEligibility.md#buyercreatereturnpreviewrequesteligibility).
 
 #### me.createReturnPreview body oneOf variant 1 fields
 
@@ -944,7 +661,9 @@ Body model: [BuyerCreateReturnPreviewRequestInput](../models/BuyerCreateReturnPr
 
 #### me.createReturnPreview body oneOf variant 2
 
+The `resolution` variant of `BuyerCreateReturnPreviewRequest`.
 
+Body model: [BuyerCreateReturnPreviewRequestResolutionInput](../models/BuyerCreateReturnPreviewRequestResolution.md#buyercreatereturnpreviewrequestresolution).
 
 #### me.createReturnPreview body oneOf variant 2 fields
 
@@ -995,7 +714,7 @@ const result = await client.me.createReturnPreview({mode: "eligibility", eligibi
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement order linked to this return resolution. Returns 200 when reusing an existing session and 201 when creating one. Omit surface to use hosted. The same surface reuses the open session; changing surface replaces an idle session and is refused while a payment is in progress. Use redirects to set where the buyer goes after paying or canceling. The return_url field is an alias for redirects.success_url on hosted checkout or payment_return_url on embedded checkout and must be an address of the merchant's customer account. A reused session takes a new success destination only until a payment starts, then keeps its existing destination.
 
-`POST /v1/me/return-resolutions/{return_resolution_id}/checkout-session`
+`POST /v1/me/return-resolutions/{return_resolution_id}/checkout-sessions`
 
 Signature:
 
@@ -1050,7 +769,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createReturnResolutionCheckoutSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1067,7 +786,7 @@ const result = await client.me.createReturnResolutionCheckoutSession("example", 
 
 ### me.createSubscriptionPaymentRetry
 
-Uses the customer identity fixed by the customer session. Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome. While cancellation is scheduled, a new buyer retry returns 409 ACTION_NOT_ALLOWED with reason cancellation_scheduled and current_status past_due. First use POST /v1/me/subscriptions/{subscription_id}/reactivate to keep the subscription; retry_payment becomes available again if the other retry conditions allow it. Only one retry may be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created for the current billing period, counting the store's retries too. subscription_card_update email-link sessions can start retries.
+Uses the customer identity fixed by the customer session. Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome. While cancellation is scheduled, a new buyer retry returns 409 ACTION_NOT_ALLOWED with reason cancellation_scheduled and current_status past_due. First use PATCH /v1/me/subscriptions/{subscription_id} with cancel_at_period_end false to keep the subscription; retry_payment becomes available again if the other retry conditions allow it. Only one retry may be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created for the current billing period, counting the store's retries too. subscription_card_update email-link sessions can start retries.
 
 `POST /v1/me/subscriptions/{subscription_id}/payment-retries`
 
@@ -1121,7 +840,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createSubscriptionPaymentRetryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1154,19 +873,19 @@ Body model: [CreateMeSubscriptionPreviewRequestInput](../models/CreateMeSubscrip
 
 #### me.createSubscriptionPreview body oneOf variant 1
 
+The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`.
 
+Body model: [CreateMeSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput).
 
 #### me.createSubscriptionPreview body oneOf variant 1 fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `destination` | Required | [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequest.md#subscriptiondeliverydestinationrequest) | Where to deliver a subscription: a saved customer address by ID, or a new address. |
-| `mode` | Required | string | Values: `"delivery_options"`. |
-| `subscription_id` | Required | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
+Field definitions: [shared fields](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput). Models: [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequestInput.md#subscriptiondeliverydestinationrequestinput).
 
 #### me.createSubscriptionPreview body oneOf variant 2
 
+The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`.
 
+Body model: [CreateMeSubscriptionPreviewRequestNextRenewalInput](../models/CreateSubscriptionPreviewRequestNextRenewal.md#createsubscriptionpreviewrequestnextrenewal).
 
 #### me.createSubscriptionPreview body oneOf variant 2 fields
 
@@ -1188,7 +907,7 @@ Available subscription delivery methods shown to the buyer.
 | `address_verification` | Optional | [SubscriptionAddressVerification](../models/SubscriptionAddressVerification.md#subscriptionaddressverification) | The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `delivery_methods` | Optional | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Present in delivery_options mode ([] when no method applies); absent in create mode. |
-| `destination_address` | Optional | [Address](../models/Address.md#address) | A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. |
+| `destination_address` | Optional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `mode` | Required | string | Always delivery_options for buyer previews. Values: `"delivery_options"`. |
 | `subscription_id` | Optional | string |  |
 
@@ -1234,7 +953,7 @@ const result = await client.me.createSubscriptionPreview({body: {mode: "next_ren
 
 ### me.deleteAddress
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes one of the buyer's saved addresses. A default it held moves to the newest remaining address.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes one of the buyer's saved addresses. Deleting the billing or shipping default leaves the customer with none; Flint doesn't pick another address.
 
 `DELETE /v1/me/addresses/{customer_address_id}`
 
@@ -1284,7 +1003,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `deleteAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1915,13 +1634,13 @@ const result = await client.me.getPackage("example", {}, {  });
 
 [Complete runnable example](../examples/me-getPackage.mjs)
 
-### me.getPayment
+### me.getPaymentIntent
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns one of the buyer's payments.
 
-`GET /v1/me/payments/{payment_intent_id}`
+`GET /v1/me/payment-intents/{payment_intent_id}`
 
-Signature: `getPayment(payment_intent_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Signature: `getPaymentIntent(payment_intent_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 #### Request fields
 
@@ -1952,17 +1671,19 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `getPaymentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: `getPaymentIntentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+Deprecated aliases: getPayment.
 
 #### Example
 
 ```typescript
-const result = await client.me.getPayment("example", {}, {  });
+const result = await client.me.getPaymentIntent("example", {}, {  });
 ```
 
-[Complete runnable example](../examples/me-getPayment.mjs)
+[Complete runnable example](../examples/me-getPaymentIntent.mjs)
 
 ### me.getPaymentMethod
 
@@ -2322,7 +2043,7 @@ const result = await client.me.getSubscriptionPaymentRetry("example", "example",
 
 ### me.listAddresses
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's saved addresses with their billing and shipping default flags.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's saved addresses with their billing and shipping default flags. Default order: created_at descending, then customer_address_id descending.
 
 `GET /v1/me/addresses`
 
@@ -2383,7 +2104,7 @@ const result = await client.me.listAddresses({}, {  });
 
 ### me.listCreditNotes
 
-Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Lists the credit notes issued against this invoice, newest first.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Lists the credit notes issued against this invoice, newest first. Default order: issued_at descending, then credit_note_id descending.
 
 `GET /v1/me/invoices/{invoice_id}/credit-notes`
 
@@ -2446,7 +2167,7 @@ const result = await client.me.listCreditNotes("example", {}, {  });
 
 ### me.listDeletionRequests
 
-Uses the customer identity fixed by the customer session. Lists the current buyer's deletion requests in the selected merchant environment, newest first by requested_at.
+Uses the customer identity fixed by the customer session. Lists the current buyer's deletion requests in the selected merchant environment, newest first by requested_at. Default order: requested_at descending, then customer_deletion_request_id descending.
 
 `GET /v1/me/deletion-requests`
 
@@ -2507,13 +2228,13 @@ const result = await client.me.listDeletionRequests({}, {  });
 
 [Complete runnable example](../examples/me-listDeletionRequests.mjs)
 
-### me.listFlintWalletPaymentMethods
+### me.listFlintWalletCards
 
-Returns the current buyer's usable wallet cards in newest-first order. Each id is an opaque per-store handle. store_payment_method_id is null until this store holds a copy. Requires a customer session minted from a live email-code buyer login at a Flint-hosted store account, including a login narrowed to a custom domain. Email links, checkout sessions, grants, merchant-created sessions, and API keys receive 404. Live and sandbox wallets are isolated. The full card collection is returned in one page. Flint wallet support must be enabled.
+Returns the current buyer's usable wallet cards in newest-first order. Each flint_wallet_card_id is an opaque per-store handle. store_payment_method_id is null until this store holds a copy. Requires a customer session minted from a live email-code buyer login at a Flint-hosted store account, including a login narrowed to a custom domain. Email links, checkout sessions, grants, merchant-created sessions, and API keys receive 404. Live and sandbox wallets are isolated. The full card collection is returned in one page. Flint wallet support must be enabled. Default order: most recently added card first.
 
-`GET /v1/me/flint-wallet/payment-methods`
+`GET /v1/me/flint-wallet/cards`
 
-Signature: `listFlintWalletPaymentMethods(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+Signature: `listFlintWalletCards(params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
 
 #### Request fields
 
@@ -2521,7 +2242,7 @@ No request fields.
 
 #### Response
 
-Returned payload: [MeFlintWalletCardListResponse](../models/MeFlintWalletCardListResponse.md#meflintwalletcardlistresponse).
+Returned payload: [BuyerFlintWalletCardListResponse](../models/BuyerFlintWalletCardListResponse.md#buyerflintwalletcardlistresponse).
 
 #### Errors
 
@@ -2542,21 +2263,23 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listFlintWalletPaymentMethodsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: `listFlintWalletCardsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+Deprecated aliases: listFlintWalletPaymentMethods.
 
 #### Example
 
 ```typescript
-const result = await client.me.listFlintWalletPaymentMethods({}, {  });
+const result = await client.me.listFlintWalletCards({}, {  });
 ```
 
-[Complete runnable example](../examples/me-listFlintWalletPaymentMethods.mjs)
+[Complete runnable example](../examples/me-listFlintWalletCards.mjs)
 
 ### me.listFulfillmentEvents
 
-Lists fulfillment events for an order owned by the current buyer, ordered by occurred_at descending. Internal merchant fields are omitted. order_id is required.
+Lists fulfillment events for an order owned by the current buyer, ordered by occurred_at descending. Internal merchant fields are omitted. order_id is required. Default order: occurred_at descending, then fulfillment_event_id descending.
 
 `GET /v1/me/fulfillment-events`
 
@@ -2625,7 +2348,7 @@ const result = await client.me.listFulfillmentEvents({order_id: "example"}, {  }
 
 ### me.listFulfillments
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists fulfillments for the buyer's orders, newest created first.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists fulfillments for the buyer's orders, newest created first. Default order: created_at descending, then fulfillment_id descending.
 
 `GET /v1/me/fulfillments`
 
@@ -2730,7 +2453,7 @@ const result = await client.me.listFulfillments({}, {  });
 
 ### me.listGiftCards
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Lists valid saved cards by saved time then card ID, descending.
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Lists valid saved cards by saved time then card ID, descending. Default order: time the buyer saved the card (descending), then gift_card_id descending.
 
 `GET /v1/me/gift-cards`
 
@@ -2790,7 +2513,7 @@ const result = await client.me.listGiftCards({}, {  });
 
 ### me.listGiftCardTransactions
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Lists the full anonymous balance-change history by per-card sequence, descending. Other holders' identities and order references are omitted.
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Lists the full anonymous balance-change history by per-card sequence, descending. Other holders' identities and order references are omitted. Default order: sequence descending; this key uniquely orders the results.
 
 `GET /v1/me/gift-cards/{gift_card_id}/transactions`
 
@@ -2852,7 +2575,7 @@ const result = await client.me.listGiftCardTransactions("example", {}, {  });
 
 ### me.listInvoices
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's invoices. Draft invoices are never returned.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's invoices. Draft invoices are never returned. Default order: created_at descending, then invoice_id descending.
 
 `GET /v1/me/invoices`
 
@@ -2942,7 +2665,7 @@ const result = await client.me.listInvoices({}, {  });
 
 ### me.listOrderActivities
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a read-only, human-readable history log for an order. Use it to render timelines and debug what happened, not as a source of truth, ledger, or webhook replacement. Read the owning resource for authoritative state: the order for balances and status, the payment for payment state, the refund for refund outcomes, and the checkout session for checkout state. Do not sum balance_delta_money to compute an order balance. Informational rows such as payment_failed, refund_failed, and checkout_session_expired have a zero balance delta. The default order is newest first. Use sort_direction=asc for chronological timeline rendering. A typical chronological log might show created, payment_failed, payment, refund, then refund_failed; each row gives one reference to click through for the authoritative resource.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Returns a read-only, human-readable history log for an order. Use it to render timelines and debug what happened, not as a source of truth, ledger, or webhook replacement. Read the owning resource for authoritative state: the order for balances and status, the payment for payment state, the refund for refund outcomes, and the checkout session for checkout state. Do not sum balance_delta_money to compute an order balance. Informational rows such as payment_failed, refund_failed, and checkout_session_expired have a zero balance delta. The default order is newest first. Use sort_direction=asc for chronological timeline rendering. A typical chronological log might show created, payment_failed, payment, refund, then refund_failed; each row gives one reference to click through for the authoritative resource. Default order: created_at descending, then order_activity_id descending.
 
 `GET /v1/me/orders/{order_id}/activities`
 
@@ -3035,7 +2758,7 @@ const result = await client.me.listOrderActivities("example", {}, {  });
 
 ### me.listOrders
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's orders.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's orders. Default order: created_at descending, then order_id descending.
 
 `GET /v1/me/orders`
 
@@ -3152,7 +2875,7 @@ const result = await client.me.listOrders({}, {  });
 
 ### me.listPackages
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists packages in the buyer's shipments, newest created first.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists packages in the buyer's shipments, newest created first. Default order: created_at descending, then package_id descending.
 
 `GET /v1/me/packages`
 
@@ -3221,87 +2944,16 @@ const result = await client.me.listPackages({}, {  });
 
 [Complete runnable example](../examples/me-listPackages.mjs)
 
-### me.listPaymentMethods
+### me.listPaymentIntents
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists payment methods in every status except archived, newest first. Filter by status=active for the cards you can charge. Filter by usage off_session to list the payment methods a subscription, automatic invoice, or default payment method can use.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's payments. Default order: created_at descending, then payment_intent_id descending.
 
-`GET /v1/me/payment-methods`
-
-Signature:
-
-```typescript
-listPaymentMethods(params?: {
-  "page_size"?: InputValue<number>;
-  "page_token"?: InputValue<string>;
-  "type"?: InputValue<Array<"card">>;
-  "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
-  "usage"?: InputValue<Array<"on_session" | "off_session">>;
-  "created_after"?: InputValue<string | globalThis.Date>;
-  "created_before"?: InputValue<string | globalThis.Date>
-},
- options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
-| `page_token` | Optional | string |  |
-| `type` | Optional | Array of string | minItems: `1`. Items values: `"card"`. |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. |
-| `usage` | Optional | Array of string | minItems: `1`. Items values: `"on_session"`, `"off_session"`. |
-| `created_after` | Optional | string | Format: `date-time`. |
-| `created_before` | Optional | string | Format: `date-time`. |
-
-#### Response
-
-Returned payload: [BuyerPaymentMethodListResponse](../models/BuyerPaymentMethodListResponse.md#buyerpaymentmethodlistresponse).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `listPaymentMethodsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-Pagination: `listPaymentMethodsItems`, `listPaymentMethodsPages`, `listPaymentMethodsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
-
-#### Example
-
-```typescript
-const result = await client.me.listPaymentMethods({}, {  });
-```
-
-[Complete runnable example](../examples/me-listPaymentMethods.mjs)
-
-### me.listPayments
-
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's payments.
-
-`GET /v1/me/payments`
+`GET /v1/me/payment-intents`
 
 Signature:
 
 ```typescript
-listPayments(params?: {
+listPaymentIntents(params?: {
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>;
   "order_id"?: InputValue<string>;
@@ -3380,23 +3032,96 @@ Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
 Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
 
-Complete body and metadata: `listPaymentsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+Complete body and metadata: `listPaymentIntentsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
-Pagination: `listPaymentsItems`, `listPaymentsPages`, `listPaymentsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+Pagination: `listPaymentIntentsItems`, `listPaymentIntentsPages`, `listPaymentIntentsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+Deprecated aliases: listPayments.
 
 #### Example
 
 ```typescript
-const result = await client.me.listPayments({}, {  });
+const result = await client.me.listPaymentIntents({}, {  });
 ```
 
-[Complete runnable example](../examples/me-listPayments.mjs)
+[Complete runnable example](../examples/me-listPaymentIntents.mjs)
+
+### me.listPaymentMethods
+
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists payment methods in every status except archived, newest first. Filter by status=active for the cards you can charge. Filter by usage off_session to list the payment methods a subscription, automatic invoice, or default payment method can use. Default order: created_at descending, then payment_method_id descending.
+
+`GET /v1/me/payment-methods`
+
+Signature:
+
+```typescript
+listPaymentMethods(params?: {
+  "page_size"?: InputValue<number>;
+  "page_token"?: InputValue<string>;
+  "type"?: InputValue<Array<"card">>;
+  "status"?: InputValue<Array<"active" | "pending" | "expired" | "archived" | "failed">>;
+  "usage"?: InputValue<Array<"on_session" | "off_session">>;
+  "created_after"?: InputValue<string | globalThis.Date>;
+  "created_before"?: InputValue<string | globalThis.Date>
+},
+ options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string |  |
+| `type` | Optional | Array of string | minItems: `1`. Items values: `"card"`. |
+| `status` | Optional | Array of string | minItems: `1`. Items values: `"active"`, `"pending"`, `"expired"`, `"archived"`, `"failed"`. |
+| `usage` | Optional | Array of string | minItems: `1`. Items values: `"on_session"`, `"off_session"`. |
+| `created_after` | Optional | string | Format: `date-time`. |
+| `created_before` | Optional | string | Format: `date-time`. |
+
+#### Response
+
+Returned payload: [BuyerPaymentMethodListResponse](../models/BuyerPaymentMethodListResponse.md#buyerpaymentmethodlistresponse).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 403 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
+| 410 | ApiError | api |
+| 413 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `listPaymentMethodsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listPaymentMethodsItems`, `listPaymentMethodsPages`, `listPaymentMethodsPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```typescript
+const result = await client.me.listPaymentMethods({}, {  });
+```
+
+[Complete runnable example](../examples/me-listPaymentMethods.mjs)
 
 ### me.listRefunds
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's refunds.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's refunds. Default order: created_at descending, then refund_id descending.
 
 `GET /v1/me/refunds`
 
@@ -3481,7 +3206,7 @@ const result = await client.me.listRefunds({}, {  });
 
 ### me.listReturns
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's Returns. Filter by order, return number, reason, status, decision, merchandise, resolution, or creation and update time. Newest first: created_at descending, with return_id descending as the tiebreak. Use sort_direction to reverse the order.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's Returns. Filter by order, return number, reason, status, decision, merchandise, resolution, or creation and update time. Newest first: created_at descending, with return_id descending as the tiebreak. Default order: created_at descending, then return_id descending.
 
 `GET /v1/me/returns`
 
@@ -3592,7 +3317,7 @@ const result = await client.me.listReturns({}, {  });
 
 ### me.listShipments
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists shipments for the buyer's orders and Returns, newest created first.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists shipments for the buyer's orders and Returns, newest created first. Default order: created_at descending, then shipment_id descending.
 
 `GET /v1/me/shipments`
 
@@ -3667,7 +3392,7 @@ const result = await client.me.listShipments({}, {  });
 
 ### me.listSubscriptionPaymentRetries
 
-Returns a subscription's manual payment retries, newest first.
+Returns a subscription's manual payment retries, newest first. Default order: created_at descending, then subscription_payment_retry_id descending.
 
 `GET /v1/me/subscriptions/{subscription_id}/payment-retries`
 
@@ -3731,7 +3456,7 @@ const result = await client.me.listSubscriptionPaymentRetries("example", {}, {  
 
 ### me.listSubscriptions
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's subscriptions. Subscriptions without a next_billing_at never match next_billing_after or next_billing_before, and sort last with sort_by=next_billing_at in either direction. subscription_plan is always included without expand: the plan's current summary, or null when the subscription has no plan.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's subscriptions. Subscriptions without a next_billing_at never match next_billing_after or next_billing_before, and sort last with sort_by=next_billing_at in either direction. subscription_plan is always included without expand: the plan's current summary, or null when the subscription has no plan. Default order: created_at descending, then subscription_id descending.
 
 `GET /v1/me/subscriptions`
 
@@ -3881,7 +3606,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `pauseSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -3895,75 +3620,6 @@ const result = await client.me.pauseSubscription("example", {}, { idempotencyKey
 ```
 
 [Complete runnable example](../examples/me-pauseSubscription.mjs)
-
-### me.reactivateSubscription
-
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Clears a pending cancellation without changing the current billing period. Alternatively, PATCH the subscription with cancel_at_period_end set to false. Send expected_version to reject a concurrent change.
-
-`POST /v1/me/subscriptions/{subscription_id}/reactivate`
-
-Signature:
-
-```typescript
-reactivateSubscription(subscription_id: InputValue<string>,
- params?: (InputValue<ResourceVersionRequestInput> |
-  {
-  "expected_version"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"customer">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Reactivate a subscription; Reactivate one of the current buyer's subscriptions; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
-
-#### Response
-
-Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `reactivateSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.me.reactivateSubscription("example", undefined, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/me-reactivateSubscription.mjs)
 
 ### me.removeGiftCard
 
@@ -4006,7 +3662,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeGiftCardWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4073,7 +3729,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removePaymentMethodWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4142,7 +3798,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `renewSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4159,7 +3815,7 @@ const result = await client.me.renewSubscription("example", {}, { idempotencyKey
 
 ### me.resumeSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Asks Flint to resume a paused subscription. Returns 202 while the subscription is still paused, with resume_requested_at set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, use reactivate.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Asks Flint to resume a paused subscription. Returns 202 while the subscription is still paused, with resume_requested_at set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, PATCH the subscription with cancel_at_period_end set to false.
 
 `POST /v1/me/subscriptions/{subscription_id}/resume`
 
@@ -4178,7 +3834,11 @@ resumeSubscription(subscription_id: InputValue<string>,
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-58). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+| `body` | Optional | [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput) | The request body for: Mark invoice uncollectible; Regenerate invoice public link; Resume one of the current buyer's subscriptions; Resume subscription; Reverse credit note allocation; Void credit note; Void invoice. |
 
 #### Response
 
@@ -4198,6 +3858,7 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 | 504 | ServerError | server |
 
@@ -4209,7 +3870,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `resumeSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4263,7 +3924,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `revokeSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4358,7 +4019,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `saveGiftCardWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4433,7 +4094,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `savePaymentMethodWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4490,7 +4151,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `sendOrderReceiptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4504,73 +4165,6 @@ const result = await client.me.sendOrderReceipt("example", {}, { idempotencyKey:
 ```
 
 [Complete runnable example](../examples/me-sendOrderReceipt.mjs)
-
-### me.setDefaultAddress
-
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Makes one of the buyer's saved addresses the billing default, the shipping default, or both, and the matching address on the buyer's customer profile.
-
-`POST /v1/me/addresses/{customer_address_id}/set-default`
-
-Signature:
-
-```typescript
-setDefaultAddress(customer_address_id: InputValue<string>,
- params: (InputValue<SetDefaultCustomerAddressRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"customer">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `customer_address_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [SetDefaultCustomerAddressRequestInput](../models/SetDefaultCustomerAddressRequest.md#setdefaultcustomeraddressrequest) | The request body for: Set a default address for the current buyer; Set a default customer address. |
-
-#### Response
-
-Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `setDefaultAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.me.setDefaultAddress("example", {default_for: "billing"}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/me-setDefaultAddress.mjs)
 
 ### me.skipSubscriptionCycle
 
@@ -4632,7 +4226,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `skipSubscriptionCycleWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4696,7 +4290,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4713,7 +4307,7 @@ const result = await client.me.update({default_payment_method_id: "example"}, { 
 
 ### me.updateAddress
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the fields you send on one of the buyer's saved addresses. The address field replaces the whole postal address. Send null for phone or label to remove it. Changing a default address also changes the matching address on the buyer's customer profile.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the fields you send on one of the buyer's saved addresses. The address field replaces the whole postal address. Send null for phone or label to remove it. Set is_default_billing or is_default_shipping to true to make this address the default, or false to clear a default it holds. Changing a default address also changes the matching address on the buyer's customer profile.
 
 `PATCH /v1/me/addresses/{customer_address_id}`
 
@@ -4763,7 +4357,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateAddressWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4773,7 +4367,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.me.updateAddress("example", {address: {city: "example", country: "US", line1: "example", postal_code: "example", state: "example"}}, { idempotencyKey: idempotencyKey });
+const result = await client.me.updateAddress("caddr_example", {label: "Home"}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/me-updateAddress.mjs)
@@ -4834,7 +4428,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateEmailPreferencesWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4851,7 +4445,7 @@ const result = await client.me.updateEmailPreferences({checkout_reminders: true}
 
 ### me.updateSubscription
 
-Updates payment_method_id, cancel_at_period_end: false, delivery, billing interval and quantity when the matching buyer action is available. Send billing_interval and billing_interval_count together. Mixed changes commit atomically. A scoped card-update session may send only payment_method_id and expected_version. Send expected_version to reject concurrent changes.
+Updates payment_method_id, cancel_at_period_end: false, delivery, billing interval and quantity when the matching buyer action is available. Send billing_interval and billing_interval_count together. Mixed changes commit atomically. A scoped card-update session may send only payment_method_id and expected_version. Send expected_version to reject concurrent changes. A card whose setup hasn't finished returns 409 ACTION_NOT_ALLOWED with reason status_not_reached. Once setup finishes, send a new request with a new Idempotency-Key.
 
 `PATCH /v1/me/subscriptions/{subscription_id}`
 
@@ -4904,6 +4498,7 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -4914,7 +4509,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateSubscriptionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -4979,6 +4574,7 @@ Returned payload: [BuyerSubscription](../models/BuyerSubscription.md#buyersubscr
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -4989,7 +4585,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateSubscriptionLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
 

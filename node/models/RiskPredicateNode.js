@@ -1,11 +1,10 @@
-import { d3013 as c0 } from '../descriptors/data/116.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d5034 as c1 } from '../descriptors/data/230.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d5036 as c2, d5037 as c3, d5038 as c4, d5039 as c5, d5040 as c6, d5041 as c7, d5042 as c8, d5043 as c9, d5044 as c10, d5045 as c11, d5046 as c12, d5047 as c13, d5048 as c14, d5049 as c15 } from '../descriptors/data/231.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d5034 as d5034 } from '../descriptors/data/230.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3168 as c0 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5326 as c1, d5327 as c2, d5328 as c3, d5329 as c4, d5330 as c5, d5331 as c6, d5332 as c7, d5333 as c8, d5335 as c9, d5336 as c10 } from '../descriptors/data/251.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5326 as d5326 } from '../descriptors/data/251.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5034;
+const read = d5326;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["RiskPredicateNode"]:c1(),["SharedCodec1130"]:c2(),["SharedCodec1131"]:c3(),["SharedCodec1132"]:c4(),["SharedCodec1133"]:c5(),["SharedCodec213"]:c6(),["SharedCodec214"]:c7(),["SharedCodec215"]:c8(),["SharedCodec216"]:c9(),["SharedCodec217"]:c10(),["SharedCodec218"]:c11(),["SharedCodec219"]:c12(),["SharedCodec220"]:c13(),["SharedCodec221"]:c14(),["SharedCodec222"]:c15()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["RiskPredicateNode"]:c1(),["RiskPredicateNodeAll"]:c2(),["RiskPredicateNodeAny"]:c3(),["RiskPredicateNodeComparison"]:c4(),["RiskPredicateNodeIn"]:c5(),["RiskPredicateNodeInList"]:c6(),["RiskPredicateNodeIsMissing"]:c7(),["RiskPredicateNodeMoneyComparison"]:c8(),["SharedCodec1203"]:c9(),["SharedCodec1204"]:c10()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeRiskPredicateNode(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $user_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class GrantOrganizationMembershipRequestInput extends Model {
-    /** @param array{'role': string, 'user_id': string, ...}|object $values */
+    /** @param array{'role': string, 'user_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GrantOrganizationMembershipRequestInput')); }
     /** Shape $ (Value): string.  Value enum: "admin", "operator", "viewer".
      * @return string

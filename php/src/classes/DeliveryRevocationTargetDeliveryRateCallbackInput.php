@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read string $target_type
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRevocationTargetDeliveryRateCallbackInput extends Model {
-    /** @param array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'expected_version': string, 'location_geography_version'?: string, 'location_id'?: string, 'target_type': string, ...}|object $values */
+    /** @param array{'delivery_method_id'?: string, 'delivery_method_revision_id'?: string, 'delivery_rate_callback_id': string, 'delivery_rate_callback_revision_id'?: string, 'delivery_rate_callback_signing_key_id'?: string, 'expected_version'?: string, 'location_geography_version'?: string, 'location_id'?: string, 'target_type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRevocationTargetDeliveryRateCallbackInput')); }
     /** Shape $ (Value): string.
      * @return string

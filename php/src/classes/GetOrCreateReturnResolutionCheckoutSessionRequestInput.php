@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string $surface
  * Presence-aware input; omitted fields throw when accessed. */
 final class GetOrCreateReturnResolutionCheckoutSessionRequestInput extends Model {
-    /** @param array{'page_origin'?: string, 'payment_return_url'?: string, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'return_url'?: string, 'surface'?: string, ...}|object $values */
+    /** @param array{'page_origin'?: string, 'payment_return_url'?: string, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'return_url'?: string, 'surface'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GetOrCreateReturnResolutionCheckoutSessionRequestInput')); }
     /** Shape $ (Value): string. Origin of the page where you render this embedded checkout, such as https://shop.example.com. Only this origin can show the checkout's gift card challenge and receive its result. It does not let the browser call the Flint API. Accepted only when surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query, fragment, or default port. In test mode, localhost, names ending in .localhost, and 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
      * @return string

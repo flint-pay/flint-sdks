@@ -1,8 +1,8 @@
 import type { InputValue } from '../runtime.js';
 import type { AddRiskListItemsRequestInput, AddRiskListItemsResponse, AddRiskListItemsResult } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateRiskListRequestInput } from '../declarations/types-9.js';
-import type { RequestOptions } from '../declarations/types-40.js';
+import type { CreateRiskListRequestInput } from '../declarations/types-10.js';
+import type { RequestOptions } from '../declarations/types-42.js';
 import type {
     RiskList,
     RiskListItem,
@@ -11,18 +11,20 @@ import type {
     RiskListListResponse,
     RiskListResourceResponse,
     RiskListsAddItemsInput,
-    RiskListsCreateInput,
+    RiskListsCreateInput
+} from '../declarations/types-45.js';
+import type {
     RiskListsDeleteItemInput,
     RiskListsGetInput,
     RiskListsGetItemInput,
     RiskListsListInput,
     RiskListsListRiskListItemsInput,
     RiskListsRemoveInput,
-    RiskListsUpdateInput
-} from '../declarations/types-43.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateRiskListRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    RiskListsUpdateInput,
+    SdkResponse
+} from '../declarations/types-46.js';
+import type { UpdateRiskListRequestInput } from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,8 +39,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateRiskListRequestInput, Credentials } from '../declarations/types-9.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateRiskListRequestInput } from '../declarations/types-10.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta } from '../declarations/types-42.js';
 export type {
     RiskList,
     RiskListResourceResponse,
@@ -48,16 +50,18 @@ export type {
     RiskListListResponse,
     RiskListsCreateInput,
     RiskListsAddItemsInput,
+    RiskListItemAddition
+} from '../declarations/types-45.js';
+export type {
+    SdkResponse,
     RiskListsRemoveInput,
     RiskListsDeleteItemInput,
     RiskListsGetInput,
     RiskListsGetItemInput,
     RiskListsListRiskListItemsInput,
     RiskListsListInput,
-    RiskListsUpdateInput,
-    RiskListItemAddition
-} from '../declarations/types-43.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+    RiskListsUpdateInput
+} from '../declarations/types-46.js';
 export type {
     AddRiskListItemsRequestInput,
     AddRiskListItemsResult,
@@ -65,14 +69,16 @@ export type {
     AuthMode,
     AddRiskListItemsRequest
 } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateRiskListRequestInput } from '../declarations/types-49.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateRiskListRequestInput } from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeAddRiskListItemsRequest } from '../declarations/types-62.js';
-export { makeCreateRiskListRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateRiskListRequest } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeAddRiskListItemsRequest } from '../declarations/types-65.js';
+export { makeCreateRiskListRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateRiskListRequest } from '../declarations/types-78.js';
 export interface RiskListsResource {
     /**
  * Creates an empty list. Rules refer to it by alias, which can't be changed or reused, even after
@@ -118,7 +124,9 @@ export interface RiskListsResource {
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<AddRiskListItemsResponse>>;
     /**
  * Archives a list you created. Fails with 409 RESOURCE_IN_USE while an active rule names it.
- * Archived lists can't be used by rules or edited.
+ * Flint-managed lists return 409 ACTION_NOT_ALLOWED with reason managed_externally. Archived lists
+ * can't be used by rules or edited. Items can still be added to and removed from active
+ * Flint-managed lists.
  * @see reference/riskLists.md#risklistsremove
  * DELETE /v1/risk-lists/{risk_list_id}
  * @example
@@ -180,7 +188,8 @@ export interface RiskListsResource {
      */
     getItemWithResponse(risk_list_id: InputValue<string>, risk_list_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<RiskListItemResponse>>;
     /**
- * Lists a list's values, newest first.
+ * Lists a list's values, newest first. Default order: created_at descending, then
+ * risk_list_item_id descending.
  * @see reference/riskLists.md#risklistslistrisklistitems
  * GET /v1/risk-lists/{risk_list_id}/items
  * @example
@@ -225,7 +234,8 @@ export interface RiskListsResource {
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RiskListItem>;
     /**
  * Lists risk lists, newest first, including Flint's default block lists. Archived lists appear
- * only when status includes archived.
+ * only when status includes archived. Default order: created_at descending, then risk_list_id
+ * descending.
  * @see reference/riskLists.md#risklistslist
  * GET /v1/risk-lists
  * @example
@@ -274,7 +284,8 @@ export interface RiskListsResource {
         "page_token"?: InputValue<string>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<RiskList>;
     /**
- * Renames a list you created. Flint's default lists can't be renamed.
+ * Renames a list you created. Flint-managed lists return 409 ACTION_NOT_ALLOWED with reason
+ * managed_externally. Items can still be added to and removed from active Flint-managed lists.
  * @see reference/riskLists.md#risklistsupdate
  * PATCH /v1/risk-lists/{risk_list_id}
  * @example

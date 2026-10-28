@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Postal address where the recipient receives the items. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
+| `address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Postal address where the recipient receives the items. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `email` | Optional | string | Recipient's contact email address. minLength: `1`. |
 | `instructions` | Optional | string | Instructions for handling the recipient's order. For a pickup that checkout creates, this is the note the buyer left for the store, such as the car to look for. minLength: `1`. |
 | `name` | Optional | string | Recipient's name for delivery or pickup. minLength: `1`. |

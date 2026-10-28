@@ -1,1 +1,1 @@
-{"shared":"Device","dependencies":["Device"]}
+{"shared":"Device","dependencies":["Device","MetadataMap"]}

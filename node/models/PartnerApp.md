@@ -15,11 +15,13 @@ An application that merchants can authorize to access their accounts.
 | `api_version_changed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `api_version_previous` | Optional | string |  |
 | `client_id` | Required | string |  |
+| `client_secret_enabled` | Required | boolean |  |
+| `client_secret_last_used_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `default_requested_permissions` | Required | Array of string |  |
 | `name` | Required | string |  |
 | `partner_app_id` | Required | string |  |
-| `permission_manifest` | Required | Array of [PartnerAppPermissionManifestEntry](../models/PartnerAppPermissionManifestEntry.md#partnerapppermissionmanifestentry) | `permission_manifest[]`: [field definitions](../models/CreatePartnerAppRequest.md#createpartnerapprequestpermission_manifest). |
+| `permission_manifest` | Required | Array of [PartnerAppPermissionManifestEntry](../models/PartnerAppPermissionManifestEntry.md#partnerapppermissionmanifestentry) | `permission_manifest[]`: [field definitions](../models/IncomingWebhook078273f39700Payload.md#incomingwebhook078273f39700payloaddataobjectgranted_permissions). |
 | `previous_secret_expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `redirect_uris` | Required | Array of string |  |
 | `status` | Required | string | Values: `"active"`, `"archived"`. |
@@ -28,5 +30,5 @@ An application that merchants can authorize to access their accounts.
 
 ### PartnerApp.permission_manifest[]
 
-Field definitions: [CreatePartnerAppRequest.permission_manifest[]](../models/CreatePartnerAppRequest.md#createpartnerapprequestpermission_manifest).
+Field definitions: [IncomingWebhook078273f39700Payload.data.object.granted_permissions[]](../models/IncomingWebhook078273f39700Payload.md#incomingwebhook078273f39700payloaddataobjectgranted_permissions).
 

@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $token
  * Presence-aware input; omitted fields throw when accessed. */
 final class EmailPreferenceLinkRequestInput extends Model {
-    /** @param array{'token': string, ...}|object $values */
+    /** @param array{'token': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailPreferenceLinkRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

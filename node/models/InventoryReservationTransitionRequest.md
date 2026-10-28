@@ -11,7 +11,7 @@ The request body for: Transition inventory reservation.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string |  |
-| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `lines` | Required | Varies by condition | minItems: `1`. maxItems: `100`. `lines[]`: [field definitions](../models/InventoryReservationTransitionRequest.md#inventoryreservationtransitionrequest-variant-1lines), [field definitions](../models/InventoryReservationTransitionRequest.md#inventoryreservationtransitionrequest-variant-2lines), [declared alternatives](../models/InventoryReservationTransitionRequest.md#inventoryreservationtransitionrequest-variant-3lines). |
 | `provenance` | Conditional | [InventoryProvenanceRequest](../models/InventoryProvenanceRequest.md#inventoryprovenancerequest) | When and where the physical handoff happened. When omitted, occurred_at is the command receipt time and source_system is null. Where and when an inventory event happened: the source system, external actor, and time. |
 

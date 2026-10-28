@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/deliveryPreviews.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createDeliveryPreview"]:r0});
 export class Client {
@@ -22,10 +22,12 @@ this.deliveryPreviews = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
 export { makeCreateDeliveryOptionsPreviewRequest } from '../models/CreateDeliveryOptionsPreviewRequest.js';
 export { makeCreateDeliveryPickupLocationsPreviewRequest } from '../models/CreateDeliveryPickupLocationsPreviewRequest.js';
 export { makeCreateDeliveryPreviewRequest } from '../models/CreateDeliveryPreviewRequest.js';
+export { makeCreateOrderLineItemInputBundle } from '../models/CreateOrderLineItemInputBundle.js';
+export { makeCreateOrderLineItemInputCustom } from '../models/CreateOrderLineItemInputCustom.js';
+export { makeCreateOrderLineItemInputVariant } from '../models/CreateOrderLineItemInputVariant.js';
 export { makeCreateOrderLineItemRequest } from '../models/CreateOrderLineItemRequest.js';
 export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
 export { makeDeliveryBuyerLocationInputAddress } from '../models/DeliveryBuyerLocationInputAddress.js';
@@ -42,7 +44,7 @@ export { makeGiftCardPurchaseRecipientRequest } from '../models/GiftCardPurchase
 export { makeImageReferenceRequest } from '../models/ImageReferenceRequest.js';
 export { makeLineItemFulfillmentOriginRequest } from '../models/LineItemFulfillmentOriginRequest.js';
 export { makeLineItemFulfillmentRequest } from '../models/LineItemFulfillmentRequest.js';
-export { makeLocationCoordinate } from '../models/LocationCoordinate.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
@@ -50,6 +52,8 @@ export { makeOrderDraftLineItemTaxCalculationRequest } from '../models/OrderDraf
 export { makeOrderDraftLineItemTaxRequest } from '../models/OrderDraftLineItemTaxRequest.js';
 export { makeOrderDraftTaxComponentRequest } from '../models/OrderDraftTaxComponentRequest.js';
 export { makeOrderDraftTaxJurisdictionRequest } from '../models/OrderDraftTaxJurisdictionRequest.js';
+export { makeOrderLineItemModifierInputCatalog } from '../models/OrderLineItemModifierInputCatalog.js';
+export { makeOrderLineItemModifierInputText } from '../models/OrderLineItemModifierInputText.js';
 export { makeOrderLineItemModifierRequest } from '../models/OrderLineItemModifierRequest.js';
 export { makeSubscribedLineRequest } from '../models/SubscribedLineRequest.js';
 export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';

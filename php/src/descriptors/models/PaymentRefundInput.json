@@ -1,1 +1,1 @@
-{"shared":"PaymentRefund","dependencies":["ExpandedPaymentIntentSummary","MoneyValue","PaymentRefund","PaymentSourceAchDebitSummary","PaymentSourceCardSummary","PaymentSourceSummary","SharedCodec28"]}
+{"shared":"PaymentRefund","dependencies":["ExpandedPaymentIntentSummary","MoneyValue","PaymentRefund","PaymentSourceAchDebitSummary","PaymentSourceCardSummary","PaymentSourceSummary","SharedCodec37"]}

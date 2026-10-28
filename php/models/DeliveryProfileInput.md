@@ -14,7 +14,7 @@ Request input.
 | `delivery_profile_id` | Required | string | Stable delivery profile ID. |
 | `diagnostics` | Optional | [DeliveryProfileDiagnosticsInput](../models/DeliveryProfileDiagnosticsInput.md#deliveryprofilediagnosticsinput) | Read-only catalog and delivery-method compatibility diagnostics. Read-only coverage checks for a delivery profile, such as how many active Locations have no compatible delivery method and how many countries its zones name. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `name` | Required | string | Merchant-facing profile name. |
 | `status` | Required | string | Current profile lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the profile last changed. Format: `date-time`. |

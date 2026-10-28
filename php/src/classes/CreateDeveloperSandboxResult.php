@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read ?APIKey $api_key
- * @property-read DeveloperSandbox $sandbox
+ * @property-read Sandbox $sandbox
  * @property-read ?string $secret_key
  * Presence-aware response; omitted optional fields return null. */
 final class CreateDeveloperSandboxResult extends Model {
@@ -14,10 +14,10 @@ final class CreateDeveloperSandboxResult extends Model {
      */
     public function getApiKey(): ?APIKey { return $this->get('api_key'); }
     public function hasApiKey(): bool { return $this->has('api_key'); }
-    /** Shape $ (Value): {@see DeveloperSandbox}. An isolated environment for testing an integration.
-     * @return DeveloperSandbox
+    /** Shape $ (Value): {@see Sandbox}. An isolated environment for testing an integration.
+     * @return Sandbox
      */
-    public function getSandbox(): DeveloperSandbox { return $this->get('sandbox'); }
+    public function getSandbox(): Sandbox { return $this->get('sandbox'); }
     public function hasSandbox(): bool { return $this->has('sandbox'); }
     /** Shape $ (Value): string. The one-time secret for api_key. Present exactly when issue_test_key is true.
      * @return ?string

@@ -16,7 +16,7 @@ The request body for: Apply discount.
 
 ### ApplyDiscountRequest variant 1
 
-oneOf variant 1.
+oneOf variant 1: The `Promotion` variant of `ApplyDiscountRequest`..
 
 - Condition: not (at least one(present(`manual`))).
 - Required: `promotion`.
@@ -24,7 +24,7 @@ oneOf variant 1.
 
 ### ApplyDiscountRequest variant 2
 
-oneOf variant 2.
+oneOf variant 2: The `Manual` variant of `ApplyDiscountRequest`..
 
 - Condition: not (at least one(present(`promotion`))).
 - Required: `manual`.

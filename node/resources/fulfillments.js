@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fulfillments.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/fulfillments.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createFulfillmentEvent"]:r0,["createShipment"]:r0,["getFulfillment"]:r0,["listFulfillments"]:r0,["transitionFulfillment"]:r0,["updateFulfillment"]:r0});
 export class Client {
@@ -151,7 +151,11 @@ close() { return this.#runtime.close(); }
 }
 export { makeAddressRequest } from '../models/AddressRequest.js';
 export { makeCreateFulfillmentEventRequest } from '../models/CreateFulfillmentEventRequest.js';
+export { makeCreatePackageItemRequest } from '../models/CreatePackageItemRequest.js';
 export { makeCreateShipmentRequest } from '../models/CreateShipmentRequest.js';
+export { makeCreateShipmentRequestOutbound } from '../models/CreateShipmentRequestOutbound.js';
+export { makeCreateShipmentRequestReturn } from '../models/CreateShipmentRequestReturn.js';
+export { makeDimensions } from '../models/Dimensions.js';
 export { makeFulfillmentRecipientRequest } from '../models/FulfillmentRecipientRequest.js';
 export { makeFulfillmentTransitionRequest } from '../models/FulfillmentTransitionRequest.js';
 export { makeFulfillmentTransitionRequestAccept } from '../models/FulfillmentTransitionRequestAccept.js';
@@ -168,12 +172,18 @@ export { makeFulfillmentTransitionRequestMarkReady } from '../models/Fulfillment
 export { makeFulfillmentTransitionRequestReleaseHold } from '../models/FulfillmentTransitionRequestReleaseHold.js';
 export { makeFulfillmentTransitionRequestSchedule } from '../models/FulfillmentTransitionRequestSchedule.js';
 export { makeFulfillmentTransitionRequestStart } from '../models/FulfillmentTransitionRequestStart.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makePackageCreateInputCreated } from '../models/PackageCreateInputCreated.js';
+export { makePackageCreateInputShipped } from '../models/PackageCreateInputShipped.js';
+export { makePackageCreateRequest } from '../models/PackageCreateRequest.js';
 export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
-export { makeReturnShipmentLineItemAllocation } from '../models/ReturnShipmentLineItemAllocation.js';
+export { makeReturnShipmentLineItemAllocationRequestRequest } from '../models/ReturnShipmentLineItemAllocationRequestRequest.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeUpdateDeliveryFulfillmentDetails } from '../models/UpdateDeliveryFulfillmentDetails.js';
 export { makeUpdateDigitalFulfillmentDetails } from '../models/UpdateDigitalFulfillmentDetails.js';
 export { makeUpdateFulfillmentRequest } from '../models/UpdateFulfillmentRequest.js';
 export { makeUpdatePickupFulfillmentDetails } from '../models/UpdatePickupFulfillmentDetails.js';
 export { makeUpdateServiceFulfillmentDetails } from '../models/UpdateServiceFulfillmentDetails.js';
+export { makeWeight } from '../models/Weight.js';

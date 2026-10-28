@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $name
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateRiskListRequestInput extends Model {
-    /** @param array{'alias': string, 'item_type': string, 'name': string, ...}|object $values */
+    /** @param array{'alias': string, 'item_type': string, 'name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateRiskListRequestInput')); }
     /** Shape $ (Value): string. minLength: 1. pattern: ^[a-z][a-z0-9_]{0,127}$.
      * @return string

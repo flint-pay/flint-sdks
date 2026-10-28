@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read list<string> $order_discount_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class RemoveDiscountsRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'order_discount_ids': list<string>, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'order_discount_ids': list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RemoveDiscountsRequestInput')); }
     /** Shape $ (Value): integer string. Optional order version from the last order read. The mutation fails if the order changed. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
      * @return string

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class GiftCardTransactionsResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Lists immutable financial entries across the merchant in ascending merchant_sequence order. Per-card sequences and balance snapshots support reconciliation. Reservations and code replacement never create financial debits.
+    /** Lists immutable financial entries across the merchant in ascending merchant_sequence order. Per-card sequences and balance snapshots support reconciliation. Reservations and code replacement never create financial debits. Default order: merchant_sequence ascending; this key uniquely orders the results.
      * @param array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return GiftCardTransactionsListResponse200
      */

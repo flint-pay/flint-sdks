@@ -88,7 +88,7 @@ final class MerchantBillingInvoiceInput extends Model {
      */
     public function getPeriodStartAt(): string|\DateTimeInterface { return $this->get('period_start_at'); }
     public function hasPeriodStartAt(): bool { return $this->has('period_start_at'); }
-    /** Shape $ (Value): string. Collection state of the invoice. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. Value enum: "draft", "open", "collecting", "paid", "delinquent", "void", "written_off".
+    /** Shape $ (Value): string. Collection state of the invoice: open, paid, or written_off. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. Value enum: "open", "paid", "written_off".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

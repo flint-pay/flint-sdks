@@ -2,5 +2,13 @@
 
 ## CreateDemoSessionRequestInput
 
-Request input. Response: [CreateDemoSessionRequest](../models/CreateDemoSessionRequest.md#createdemosessionrequest). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
+Request input. Response: [ResetDemoSessionRequest](../models/ResetDemoSessionRequest.md#resetdemosessionrequest).
+
+The request body for: Create demo session.
+
+
+
+
+
+Fields, types, descriptions and enum values: [ResetDemoSessionRequest](../models/ResetDemoSessionRequest.md#resetdemosessionrequest).
 

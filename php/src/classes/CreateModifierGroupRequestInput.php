@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $max_quantity
  * @property-read int $max_selected
  * @property-read string $max_total_quantity
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $min_quantity
  * @property-read int $min_selected
  * @property-read string $modifier_group_type
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read TextModifierConfigRequestInput|array<array-key, mixed>|\stdClass $text
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateModifierGroupRequestInput extends Model {
-    /** @param array{'allow_quantities'?: bool, 'external_reference_id'?: string, 'max_quantity'?: string, 'max_selected'?: int, 'max_total_quantity'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'min_quantity'?: string, 'min_selected'?: int, 'modifier_group_type'?: string, 'modifiers'?: list<CreateModifierRequestInput|array<array-key, mixed>|\stdClass>, 'name': string, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'text'?: TextModifierConfigRequestInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'allow_quantities'?: bool, 'external_reference_id'?: string, 'max_quantity'?: string, 'max_selected'?: int, 'max_total_quantity'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'min_quantity'?: string, 'min_selected'?: int, 'modifier_group_type'?: string, 'modifiers'?: list<CreateModifierRequestInput|array<array-key, mixed>|\stdClass>, 'name': string, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'text'?: TextModifierConfigRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateModifierGroupRequestInput')); }
     /** Shape $ (Value): boolean. Whether buyers can select more than one unit of a list modifier. Default: false.
      * @return bool
@@ -51,11 +51,11 @@ final class CreateModifierGroupRequestInput extends Model {
      */
     public function getMaxTotalQuantity(): string { return $this->get('max_total_quantity'); }
     public function hasMaxTotalQuantity(): bool { return $this->has('max_total_quantity'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): integer string. Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64.
      * @return string

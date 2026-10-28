@@ -2,7 +2,7 @@
 
 ## OrderTaxLocationInputFullAddress
 
-A full-address tax location with an explicit address type of tax, billing, or shipping address.
+The `billing_address` variant of `OrderTaxLocationInput`. The `shipping_address` variant of `OrderTaxLocationInput`. The `tax_address` variant of `OrderTaxLocationInput`.
 
 
 

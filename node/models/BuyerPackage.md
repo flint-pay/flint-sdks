@@ -47,5 +47,5 @@ A package within a shipment.
 
 A return line and the quantity placed in a return shipment or package.
 
-Field definitions: [shared fields](ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput).
+Field definitions: [shared fields](ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput).
 

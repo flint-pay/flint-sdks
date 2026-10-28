@@ -1,1 +1,1 @@
-{"shared":"ModifierSetGroupInline","dependencies":["Modifier","ModifierGroup","ModifierOverride","ModifierSetGroupInline","MoneyValue","SharedCodec165","TextModifierConfig"]}
+{"shared":"ModifierSetGroupInline","dependencies":["MetadataMap","Modifier","ModifierGroup","ModifierOverride","ModifierSetGroupInline","MoneyValue","SharedCodec185","TextModifierConfig"]}

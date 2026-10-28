@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderListResponseInput extends Model {
-    /** @param array{'data': list<OrderInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<OrderInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderListResponseInput')); }
     /** Shape $ (Value): Array of {@see OrderInput}. Shape $[] (Value): {@see OrderInput}. A customer's purchase and its payment and fulfillment progress.
      * @return list<OrderInput|array<array-key, mixed>|\stdClass>

@@ -4,7 +4,7 @@
 
 ### webhookEventTypes.list
 
-Returns every webhook event type you can use in enabled_events and event filters, with the event sources each type is valid for.
+Returns every webhook event type you can use in enabled_events and event filters, with the event sources each type is valid for. Default order: event_type ascending; this key uniquely orders the results.
 
 `GET /v1/webhook-event-types`
 

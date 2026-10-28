@@ -20,5 +20,5 @@ $client = new Client(new ClientOptions(
 $result = $client->me->listFulfillmentEvents([
   'order_id' => 'example',
 ]);
-echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
+echo $result->request_id . PHP_EOL;
 $client->close();

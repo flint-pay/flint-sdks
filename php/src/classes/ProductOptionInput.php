@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|\DateTimeInterface $created_at
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $option_id
  * @property-read int $position
@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read list<ProductOptionValueInput|array<array-key, mixed>|\stdClass> $values
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductOptionInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'option_id': string, 'position': int, 'product_id': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'values'?: list<ProductOptionValueInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'created_at'?: string|\DateTimeInterface, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'option_id': string, 'position': int, 'product_id': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'values'?: list<ProductOptionValueInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductOptionInput')); }
     /** Shape $ (Value): string. When this resource was created, as an RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
@@ -21,11 +21,11 @@ final class ProductOptionInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata stored on this resource. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Option name, such as Size or Color.
      * @return string

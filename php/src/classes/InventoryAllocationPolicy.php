@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryAllocationPolicy extends Model {
-    /** @param array{'configuration': object{'location_groups': list<mixed>, 'maximum_locations_per_assignment': int, 'splitting_behavior': string, 'within_group_order': string}, 'created_at': string, 'current_inventory_allocation_policy_revision_id': string, 'external_reference_id'?: string, 'inventory_allocation_policy_id': string, 'metadata': \stdClass, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'configuration': object{'location_groups': list<mixed>, 'maximum_locations_per_assignment': int, 'splitting_behavior': string, 'within_group_order': string}, 'created_at': string, 'current_inventory_allocation_policy_revision_id': string, 'external_reference_id'?: string, 'inventory_allocation_policy_id': string, 'metadata': mixed, 'name': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAllocationPolicy')); }
     /** Shape $ (Value): {@see InventoryAllocationPolicyConfiguration}.
      * @return InventoryAllocationPolicyConfiguration
@@ -41,7 +41,7 @@ final class InventoryAllocationPolicy extends Model {
      */
     public function getInventoryAllocationPolicyId(): string { return $this->get('inventory_allocation_policy_id'); }
     public function hasInventoryAllocationPolicyId(): bool { return $this->has('inventory_allocation_policy_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
@@ -61,7 +61,7 @@ final class InventoryAllocationPolicy extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string
      */
     public function getVersion(): string { return $this->get('version'); }

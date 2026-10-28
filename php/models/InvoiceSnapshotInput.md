@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_address` | Optional | [AddressInput](../models/AddressInput.md#addressinput) | Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. |
+| `billing_address` | Optional | [AddressInput](../models/AddressInput.md#addressinput) | Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `buyer_note` | Optional | string | The backing order's buyer note, captured on the invoice. |
 | `buyer_tax_identity` | Required | [TaxIdentityInput](../models/TaxIdentityInput.md#taxidentityinput) or null | Buyer tax identity captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. |
 | `charges` | Optional | Array of [OrderChargeInput](../models/OrderChargeInput.md#orderchargeinput) | The backing order's service charges, frozen at issue. |

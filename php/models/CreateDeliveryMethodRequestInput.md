@@ -12,7 +12,7 @@ Request input.
 | `description` | Optional | string | minLength: `1`. |
 | `display_position` | Optional | integer | Format: `int32`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `name` | Required | string | minLength: `1`. |
 | `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
@@ -42,7 +42,7 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | [BuyerInstructionsConfigInput](../models/BuyerInstructionsConfigInput.md#buyerinstructionsconfiginput) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfigRequestRequestInput](../models/BuyerInstructionsConfigRequestRequestInput.md#buyerinstructionsconfigrequestrequestinput) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
 | `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpressionInput](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninput) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 | `estimate` | Optional | [DeliveryEstimateRuleRequestInput](../models/DeliveryEstimateRuleRequestInput.md#deliveryestimaterulerequestinput) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none, a transit time, or a schedule window. |
@@ -89,7 +89,7 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | [BuyerInstructionsConfigInput](../models/BuyerInstructionsConfigInput.md#buyerinstructionsconfiginput) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfigRequestRequestInput](../models/BuyerInstructionsConfigRequestRequestInput.md#buyerinstructionsconfigrequestrequestinput) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
 | `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpressionInput](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninput) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 | `estimate` | Optional | [DeliveryEstimateRuleRequestInput](../models/DeliveryEstimateRuleRequestInput.md#deliveryestimaterulerequestinput) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none, a transit time, or a schedule window. |
@@ -118,7 +118,7 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | [BuyerInstructionsConfigInput](../models/BuyerInstructionsConfigInput.md#buyerinstructionsconfiginput) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfigRequestRequestInput](../models/BuyerInstructionsConfigRequestRequestInput.md#buyerinstructionsconfigrequestrequestinput) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
 | `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpressionInput](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninput) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 | `estimate` | Optional | [DeliveryEstimateRuleRequestInput](../models/DeliveryEstimateRuleRequestInput.md#deliveryestimaterulerequestinput) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none, a transit time, or a schedule window. |
@@ -139,17 +139,19 @@ Field definitions: [shared fields](DeliveryMethodOriginSelectorInputPickupLocati
 
 ### CreateDeliveryMethodRequestInput variant 3.configuration.origin variant 1: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1.
+oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1: The Delivery location set selector for a pickup_location_collection delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`location_ids`))).
 - Required: `delivery_location_set_id`.
 - Optional: `location_ids`.
 
 ### CreateDeliveryMethodRequestInput variant 3.configuration.origin variant 2: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2.
+oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2: The Locations selector for a pickup_location_collection delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`delivery_location_set_id`))).
 - Required: `location_ids`.
 - Optional: `delivery_location_set_id`.
 

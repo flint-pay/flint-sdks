@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionCodeListResponseInput extends Model {
-    /** @param array{'data': list<PromotionCodeInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<PromotionCodeInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodeListResponseInput')); }
     /** Shape $ (Value): Array of {@see PromotionCodeInput}. Promotion codes returned in the requested sort order. Shape $[] (Value): {@see PromotionCodeInput}. A code a buyer enters to claim a promotion.
      * @return list<PromotionCodeInput|array<array-key, mixed>|\stdClass>

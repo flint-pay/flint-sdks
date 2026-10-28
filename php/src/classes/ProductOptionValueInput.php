@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|\DateTimeInterface $created_at
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $option_value_id
  * @property-read int $position
  * @property-read string $status
@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $value
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductOptionValueInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'metadata'?: array<array-key, string>|\stdClass, 'option_value_id': string, 'position': int, 'status'?: string, 'updated_at'?: string|\DateTimeInterface, 'value': string, ...}|object $values */
+    /** @param array{'created_at'?: string|\DateTimeInterface, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'option_value_id': string, 'position': int, 'status'?: string, 'updated_at'?: string|\DateTimeInterface, 'value': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductOptionValueInput')); }
     /** Shape $ (Value): string. When this resource was created, as an RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
@@ -19,11 +19,11 @@ final class ProductOptionValueInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata stored on this resource. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Stable identifier of the option value.
      * @return string

@@ -21,11 +21,11 @@ Body model: [CreateDeviceRequestInput](../models/CreateDeviceRequestInput.md#cre
 
 #### devices.create body fields
 
-Field definitions: [shared fields](../models/CreateDeviceRequestInput.md#createdevicerequestinput).
+Field definitions: [shared fields](../models/CreateDeviceRequestInput.md#createdevicerequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput).
 
 #### Response
 
-Returned payload: [Device](../models/DeviceInput.md#deviceinput).
+Returned payload: [Device](../models/Device.md#device).
 
 #### Errors
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -84,7 +84,7 @@ Signature: `get(string|Model $device_id, array|Model|null $params = null, ?Reque
 
 #### Response
 
-Returned payload: [Device](../models/DeviceInput.md#deviceinput).
+Returned payload: [Device](../models/Device.md#device).
 
 #### Errors
 
@@ -119,7 +119,7 @@ $result = $client->devices->get('example', [], new RequestOptions());
 
 ### devices.list
 
-Returns a paginated list of devices for the authenticated merchant.
+Returns a paginated list of devices for the authenticated merchant. Default order: created_at descending, then device_id descending.
 
 `GET /v1/devices`
 
@@ -191,7 +191,7 @@ Signature: `remove(string|Model $device_id, array|Model|null $params = null, ?Re
 
 #### Response
 
-Returned payload: [Device](../models/DeviceInput.md#deviceinput).
+Returned payload: [Device](../models/Device.md#device).
 
 #### Errors
 
@@ -215,7 +215,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -232,7 +232,7 @@ $result = $client->devices->remove('example', [], new RequestOptions(idempotency
 
 ### devices.update
 
-Applies a sparse update to a device. Send null to clear location_id or all metadata. The name field cannot be null. Archived devices return DEVICE_ARCHIVED with current_status archived.
+Applies a sparse update to a device. Send null to clear location_id or all metadata. The name field cannot be null. Archived devices return ACTION_NOT_ALLOWED with reason archived and current_status archived.
 
 `PATCH /v1/devices/{device_id}`
 
@@ -250,11 +250,11 @@ Body model: [UpdateDeviceRequestInput](../models/UpdateDeviceRequestInput.md#upd
 
 #### devices.update body fields
 
-Field definitions: [shared fields](../models/UpdateDeviceRequestInput.md#updatedevicerequestinput).
+Field definitions: [shared fields](../models/UpdateDeviceRequestInput.md#updatedevicerequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
-Returned payload: [Device](../models/DeviceInput.md#deviceinput).
+Returned payload: [Device](../models/Device.md#device).
 
 #### Errors
 
@@ -280,7 +280,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Required | [OrderDeliveryDestinationAddressRequestInput](../models/OrderDeliveryDestinationAddressRequestInput.md#orderdeliverydestinationaddressrequestinput) | The delivery address you supply on an order. Postal code and state are required for US addresses. |
+| `address` | Required | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `recipient` | Optional | [OrderDeliveryDestinationRecipientRequestInput](../models/OrderDeliveryDestinationRecipientRequestInput.md#orderdeliverydestinationrecipientrequestinput) | The recipient name and phone you supply for an order delivery. Send null to clear a field. minProperties: `1`. |
 

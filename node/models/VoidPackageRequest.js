@@ -1,7 +1,7 @@
-import { d2505 as c0, d2506 as c1 } from '../descriptors/data/102.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d2505 as d2505 } from '../descriptors/data/102.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d2656 as c0, d2657 as c1 } from '../descriptors/data/113.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d2656 as d2656 } from '../descriptors/data/113.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2505;
+const read = d2656;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["VoidPackageRequest"]:c0(),["VoidShipmentRequest"]:c1()}); }
 export { codec as _validate };

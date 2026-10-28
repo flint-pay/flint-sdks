@@ -1,1 +1,1 @@
-{"shared":"CreateWebhookEndpointRequest","dependencies":["CreateWebhookEndpointRequest","SharedCodec236","SharedCodec237"]}
+{"shared":"CreateWebhookEndpointRequest","dependencies":["CreateWebhookEndpointRequest","SharedCodec266","SharedCodec267","WebhookSigningMethod"]}

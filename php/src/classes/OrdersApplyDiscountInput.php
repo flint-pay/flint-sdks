@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $order_id
- * @property-read mixed $body
+ * @property-read array{'expected_version'?: string, 'manual'?: mixed, 'promotion': mixed}|object|array{'expected_version'?: string, 'manual': mixed, 'promotion'?: mixed}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersApplyDiscountInput extends Model {
-    /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'body': mixed}|object $values */
+    /** @param array{'order_id': string, 'Idempotency-Key'?: string, 'body': array{'expected_version'?: string, 'manual'?: mixed, 'promotion': mixed}|object|array{'expected_version'?: string, 'manual': mixed, 'promotion'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersApplyDiscountInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -21,7 +21,7 @@ final class OrdersApplyDiscountInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): object and Alternative shapes (see declared variants). The request body for: Apply discount.
-     * @return mixed
+     * @return array{'expected_version'?: string, 'manual'?: mixed, 'promotion': mixed}|object|array{'expected_version'?: string, 'manual': mixed, 'promotion'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): mixed { return $this->get('body'); }

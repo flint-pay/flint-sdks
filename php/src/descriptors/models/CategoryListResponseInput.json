@@ -1,1 +1,1 @@
-{"shared":"CategoryListResponse","dependencies":["Category","CategoryListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}
+{"shared":"CategoryListResponse","dependencies":["Category","CategoryListResponse","MetadataMap","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}

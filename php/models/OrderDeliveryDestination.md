@@ -8,15 +8,13 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Required | [OrderDeliveryDestinationAddress](../models/OrderDeliveryDestinationAddress.md#orderdeliverydestinationaddress) | The delivery address on an order. `address`: [field definitions](../models/OrderDeliveryDestination.md#orderdeliverydestinationaddress-fields-1). |
+| `address` | Required | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress). |
 | `delivery_selection_id` | Optional | string | Delivery selection that controls this destination, when checkout collected it. |
 | `frozen_at` | Optional | string | Time payment froze this destination. Format: `date-time`. |
 | `recipient` | Optional | [OrderDeliveryDestinationRecipient](../models/OrderDeliveryDestinationRecipient.md#orderdeliverydestinationrecipient) | The name and phone number of the person receiving an order delivery. |
 | `source` | Required | string | Values: `"delivery_selection"`, `"api"`, `"dashboard"`. |
 
-### OrderDeliveryDestination.address fields 1
+### OrderDeliveryDestination.address
 
-The delivery address on an order.
-
-Field definitions: [shared fields](OrderDeliveryDestinationAddressInput.md#orderdeliverydestinationaddressinput).
+Field definitions: [DeliveryPreviewsCreateResponse200.data variant 1.buyer_location.address](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress).
 

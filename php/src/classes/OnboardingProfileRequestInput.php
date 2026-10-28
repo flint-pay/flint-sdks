@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string|null $website_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingProfileRequestInput extends Model {
-    /** @param array{'email'?: string|null, 'support_email'?: string|null, 'support_phone'?: string|null, 'support_url'?: string|null, 'website_url'?: string|null, ...}|object $values */
+    /** @param array{'email'?: string|null, 'support_email'?: string|null, 'support_phone'?: string|null, 'support_url'?: string|null, 'website_url'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingProfileRequestInput')); }
     /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
      * @return string|null

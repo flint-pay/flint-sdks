@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $invoice_line_item_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNoteLineItemRequestInput extends Model {
-    /** @param array{'correction': CreditNoteCorrectionRequestInput|array<array-key, mixed>|\stdClass, 'credit_note_line_item_id'?: string, 'invoice_line_item_id': string, ...}|object $values */
+    /** @param array{'correction': CreditNoteCorrectionRequestInput|array<array-key, mixed>|\stdClass, 'credit_note_line_item_id'?: string, 'invoice_line_item_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteLineItemRequestInput')); }
     /** Shape $ (Value): {@see CreditNoteCorrectionRequestInput}. How much of the invoice line to credit, by quantity or by amount. How much of an invoice line item a credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.
      * @return CreditNoteCorrectionRequestInput|array<array-key, mixed>|\stdClass

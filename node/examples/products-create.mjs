@@ -18,6 +18,7 @@ const result = await client.products.create(
     },
     name: "example",
     product_type: "physical",
+    variant_mode: "simple",
   },
   { idempotencyKey: idempotencyKey },
 );

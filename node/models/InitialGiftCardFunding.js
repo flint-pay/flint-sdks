@@ -1,14 +1,14 @@
-import { d3900 as c0 } from '../descriptors/data/164.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3968 as c1 } from '../descriptors/data/168.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3013 as c2 } from '../descriptors/data/116.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3942 as c3, d3943 as c4, d3944 as c5, d3941 as c23, d3945 as c24, d3946 as c25, d3947 as c26 } from '../descriptors/data/167.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3909 as c6, d3910 as c7, d3911 as c8, d3912 as c9, d3913 as c10, d3914 as c11, d3915 as c12, d3916 as c13 } from '../descriptors/data/165.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3917 as c14, d3918 as c15, d3919 as c16, d3920 as c17, d3921 as c18, d3922 as c19, d3923 as c20, d3924 as c21, d3925 as c22 } from '../descriptors/data/166.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3968 as d3968 } from '../descriptors/data/168.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d4147 as c0 } from '../descriptors/data/181.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4215 as c1 } from '../descriptors/data/185.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3168 as c2 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4189 as c3, d4190 as c4, d4191 as c5, d4167 as c17, d4168 as c18, d4169 as c19, d4170 as c20, d4171 as c21, d4172 as c22, d4188 as c23 } from '../descriptors/data/183.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4156 as c6, d4157 as c7, d4158 as c8, d4159 as c9, d4160 as c10, d4161 as c11, d4162 as c12, d4163 as c13, d4164 as c14, d4165 as c15, d4166 as c16 } from '../descriptors/data/182.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4192 as c24, d4193 as c25, d4194 as c26 } from '../descriptors/data/184.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4215 as d4215 } from '../descriptors/data/185.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d3968;
+const read = d4215;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingSource"]:c0(),["InitialGiftCardFunding"]:c1(),["MoneyValue"]:c2(),["SharedCodec119"]:c3(),["SharedCodec120"]:c4(),["SharedCodec121"]:c5(),["SharedCodec122"]:c6(),["SharedCodec123"]:c7(),["SharedCodec124"]:c8(),["SharedCodec125"]:c9(),["SharedCodec126"]:c10(),["SharedCodec127"]:c11(),["SharedCodec128"]:c12(),["SharedCodec129"]:c13(),["SharedCodec130"]:c14(),["SharedCodec131"]:c15(),["SharedCodec132"]:c16(),["SharedCodec133"]:c17(),["SharedCodec134"]:c18(),["SharedCodec135"]:c19(),["SharedCodec136"]:c20(),["SharedCodec137"]:c21(),["SharedCodec138"]:c22(),["SharedCodec139"]:c23(),["SharedCodec140"]:c24(),["SharedCodec141"]:c25(),["SharedCodec142"]:c26()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["GiftCardFundingSource"]:c0(),["InitialGiftCardFunding"]:c1(),["MoneyValue"]:c2(),["SharedCodec138"]:c3(),["SharedCodec139"]:c4(),["SharedCodec140"]:c5(),["SharedCodec141"]:c6(),["SharedCodec142"]:c7(),["SharedCodec143"]:c8(),["SharedCodec144"]:c9(),["SharedCodec145"]:c10(),["SharedCodec146"]:c11(),["SharedCodec147"]:c12(),["SharedCodec148"]:c13(),["SharedCodec149"]:c14(),["SharedCodec150"]:c15(),["SharedCodec151"]:c16(),["SharedCodec152"]:c17(),["SharedCodec153"]:c18(),["SharedCodec154"]:c19(),["SharedCodec155"]:c20(),["SharedCodec156"]:c21(),["SharedCodec157"]:c22(),["SharedCodec158"]:c23(),["SharedCodec159"]:c24(),["SharedCodec160"]:c25(),["SharedCodec161"]:c26()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInitialGiftCardFunding(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

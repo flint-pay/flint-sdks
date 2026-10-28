@@ -14,7 +14,7 @@ Request input.
 
 ### ApplyDiscountRequestInput variant 1
 
-oneOf variant 1.
+oneOf variant 1: The `Promotion` variant of `ApplyDiscountRequest`..
 
 - Condition: not (at least one(present(`manual`))).
 - Required: `promotion`.
@@ -22,7 +22,7 @@ oneOf variant 1.
 
 ### ApplyDiscountRequestInput variant 2
 
-oneOf variant 2.
+oneOf variant 2: The `Manual` variant of `ApplyDiscountRequest`..
 
 - Condition: not (at least one(present(`promotion`))).
 - Required: `manual`.

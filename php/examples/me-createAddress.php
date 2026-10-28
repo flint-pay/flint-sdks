@@ -22,13 +22,13 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->me->createAddress([
   'address' => (object) [
-    'city' => 'example',
+    'city' => 'Springfield',
     'country' => 'US',
-    'line1' => 'example',
-    'postal_code' => 'example',
-    'state' => 'example',
+    'line1' => '100 Example Street',
+    'postal_code' => '62701',
+    'state' => 'IL',
   ],
-  'recipient_name' => 'example',
+  'recipient_name' => 'Jordan Example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_address_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;

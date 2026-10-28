@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryAdjustmentResponseInput extends Model {
-    /** @param array{'data': InventoryAdjustmentInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': InventoryAdjustmentInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryAdjustmentResponseInput')); }
     /** Shape $ (Value): {@see InventoryAdjustmentInput}. A recorded stock change with its reason and the quantity changes Flint computed.
      * @return InventoryAdjustmentInput|array<array-key, mixed>|\stdClass

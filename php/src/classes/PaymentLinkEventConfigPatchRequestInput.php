@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string|null $venue
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkEventConfigPatchRequestInput extends Model {
-    /** @param array{'event_at'?: string|\DateTimeInterface, 'max_total_quantity'?: int|null, 'send_ticket_emails'?: bool, 'ticket_prefix'?: string|null, 'timezone'?: string, 'venue'?: string|null, ...}|object $values */
+    /** @param array{'event_at'?: string|\DateTimeInterface, 'max_total_quantity'?: int|null, 'send_ticket_emails'?: bool, 'ticket_prefix'?: string|null, 'timezone'?: string, 'venue'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkEventConfigPatchRequestInput')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1.
      * @return string|\DateTimeInterface

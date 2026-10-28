@@ -4,7 +4,7 @@
 
 ### balances.list
 
-Returns the current balance snapshot grouped by currency for the authenticated merchant in the standard list envelope. All balances fit on one page, so next_page_token is omitted.
+Returns the current balance snapshot grouped by currency for the authenticated merchant in the standard list envelope. All balances fit on one page, so next_page_token is omitted. Default order: currency ascending; this key uniquely orders the results.
 
 `GET /v1/balances`
 

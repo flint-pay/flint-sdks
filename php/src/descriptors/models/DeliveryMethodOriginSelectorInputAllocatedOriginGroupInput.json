@@ -1,1 +1,1 @@
-{"shared":"DeliveryMethodOriginSelectorInputAllocatedOriginGroup","dependencies":["DeliveryMethodOriginSelectorInputAllocatedOriginGroup","SharedCodec103"]}
+{"shared":"DeliveryMethodOriginSelectorInputAllocatedOriginGroup","dependencies":["DeliveryMethodOriginSelectorInputAllocatedOriginGroup","DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet","DeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations","SharedCodec122","SharedCodec123","SharedCodec124"]}

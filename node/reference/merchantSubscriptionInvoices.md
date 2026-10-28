@@ -54,7 +54,7 @@ const result = await client.merchantSubscriptionInvoices.get("example", {}, {  }
 
 ### merchantSubscriptionInvoices.list
 
-Returns invoices issued by Flint for the authenticated merchant environment.
+Returns invoices issued by Flint for the authenticated merchant environment. Default order: merchant_billing_invoice_id descending; this key uniquely orders the results.
 
 `GET /v1/merchant-billing-invoices`
 
@@ -62,13 +62,7 @@ Signature:
 
 ```typescript
 list(params?: {
-  "status"?: InputValue<Array<"draft" |
-    "open" |
-    "collecting" |
-    "paid" |
-    "delinquent" |
-    "void" |
-    "written_off">>;
+  "status"?: InputValue<Array<"open" | "paid" | "written_off">>;
   "page_size"?: InputValue<number>;
   "page_token"?: InputValue<string>
 },
@@ -79,7 +73,7 @@ list(params?: {
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `status` | Optional | Array of string | minItems: `1`. Items values: `"draft"`, `"open"`, `"collecting"`, `"paid"`, `"delinquent"`, `"void"`, `"written_off"`. |
+| `status` | Optional | Array of string | minItems: `1`. Items values: `"open"`, `"paid"`, `"written_off"`. |
 | `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string |  |
 

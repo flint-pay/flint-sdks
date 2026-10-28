@@ -4,7 +4,7 @@
 
 ### webhookEndpoints.create
 
-Creates a webhook endpoint and returns the signing secret once.
+Creates a webhook endpoint. signing_methods defaults to ["jwt"]. A shared secret is issued and returned once only when hmac is included.
 
 `POST /v1/webhook-endpoints`
 
@@ -21,7 +21,7 @@ Body model: [CreateWebhookEndpointRequestInput](../models/CreateWebhookEndpointR
 
 #### webhookEndpoints.create body fields
 
-Field definitions: [shared fields](../models/CreateWebhookEndpointRequestInput.md#createwebhookendpointrequestinput).
+Field definitions: [shared fields](../models/CreateWebhookEndpointRequestInput.md#createwebhookendpointrequestinput). Models: [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput).
 
 #### Response
 
@@ -50,7 +50,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -92,7 +92,7 @@ Body model: [CreateWebhookTestEventRequestInput](../models/CreateWebhookTestEven
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [245 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [246 declared values](../models/CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 
 #### Response
 
@@ -123,7 +123,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWebhookTestEventWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -191,7 +191,7 @@ $result = $client->webhookEndpoints->get('example', [], new RequestOptions());
 
 ### webhookEndpoints.list
 
-Returns a page of webhook endpoints for the authenticated merchant.
+Returns a page of webhook endpoints for the authenticated merchant. Default order: created_at descending, then webhook_endpoint_id descending.
 
 `GET /v1/webhook-endpoints`
 
@@ -284,7 +284,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -301,7 +301,7 @@ $result = $client->webhookEndpoints->remove('example', [], new RequestOptions(id
 
 ### webhookEndpoints.rotateWebhookSecret
 
-Issues a new signing secret, returned once. The replaced secret keeps signing deliveries until previous_secret_expires_at: 24 hours by default, or expire_previous_secret_at, up to 7 days. Send a time at or before now to stop the replaced secret immediately, for example when it leaked. Rotating again during an overlap ends the older secret at once.
+Issues a first shared secret and adds hmac, or rotates an existing shared secret. The secret is returned once. The replaced secret keeps signing deliveries until previous_secret_expires_at: 24 hours by default, or expire_previous_secret_at, up to 7 days. Send a time at or before now to stop the replaced secret immediately, for example when it leaked. Rotating again during an overlap ends the older secret at once.
 
 `POST /v1/webhook-endpoints/{webhook_endpoint_id}/rotate-secret`
 
@@ -349,7 +349,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `rotateWebhookSecretWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -384,7 +384,7 @@ Body model: [UpdateWebhookEndpointRequestInput](../models/UpdateWebhookEndpointR
 
 #### webhookEndpoints.update body fields
 
-Field definitions: [shared fields](../models/UpdateWebhookEndpointRequestInput.md#updatewebhookendpointrequestinput).
+Field definitions: [shared fields](../models/UpdateWebhookEndpointRequestInput.md#updatewebhookendpointrequestinput). Models: [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput).
 
 #### Response
 
@@ -414,7 +414,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

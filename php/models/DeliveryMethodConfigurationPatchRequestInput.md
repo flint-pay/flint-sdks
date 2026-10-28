@@ -12,7 +12,7 @@ Request input.
 | --- | --- | --- | --- |
 | `buyer_instructions` | Optional | object or null | Controls whether checkout collects buyer instructions for this method. Null disables instruction collection. `buyer_instructions`: [field definitions](../models/DeliveryMethodConfigurationPatchRequestInput.md#deliverymethodconfigurationpatchrequestinputbuyer_instructions). |
 | `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment, delivery for local_delivery, or service_fee for pickup. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
-| `eligibility` | Optional | (object or null) and Alternative shapes (see declared variants) | Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. `eligibility`: [declared alternatives](../models/DeliveryMethodConfigurationPatchRequestInput.md#deliverymethodconfigurationpatchrequestinputeligibility). |
+| `eligibility` | Optional | [DeliveryEligibilityExpressionInput](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninput) or null | Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. `eligibility`: [declared alternatives](../models/DeliveryMethodConfigurationPatchRequestInput.md#deliverymethodconfigurationpatchrequestinputeligibility). |
 | `estimate` | Optional | object or null | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it. `estimate`: [field definitions](../models/DeliveryMethodConfigurationPatchRequestInput.md#deliverymethodconfigurationpatchrequestinputestimate). |
 | `minimum_option_lifetime_seconds` | Optional | integer string or null | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table pricing. It is invalid for calculated, callback, or caller_supplied pricing. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. maximum: `899`. |
 | `origin` | Optional | [DeliveryMethodOriginSelectorRequestInput](../models/DeliveryMethodOriginSelectorRequestInput.md#deliverymethodoriginselectorrequestinput) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. Null is invalid. The origin you supply for a delivery method, chosen by `type`: a fixed location, or locations from a delivery location set or an inline list. |
@@ -33,123 +33,112 @@ Field definitions: [shared fields](DeliveryQuoteChoiceGroupResourceCandidateOutc
 
 Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves.
 
-Field definitions: [shared fields](DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninput).
+Field definitions: [shared fields](DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninputall).
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 1
 
-oneOf variant 1.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 1.
 
 - Required: `all`.
 - Optional: `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 2
 
-oneOf variant 2.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 2.
 
 - Required: `any`.
 - Optional: `all`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 3
 
-oneOf variant 3.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 3.
 
 - Required: `not`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 4
 
-oneOf variant 4.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 4.
 
 - Required: `zone`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 5
 
-oneOf variant 5.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 5.
 
 - Required: `country`.
 - Optional: `all`, `any`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 6
 
-oneOf variant 6.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 6.
 
 - Required: `state`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 7
 
-oneOf variant 7.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 7.
 
 - Required: `postal_code`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 8
 
-oneOf variant 8.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 8.
 
 - Required: `radius`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 9
 
-oneOf variant 9.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 9.
 
 - Required: `window_time`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 10
 
-oneOf variant 10.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 10.
 
 - Required: `customer_segment`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 11
 
-oneOf variant 11.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 11.
 
 - Required: `customer_merchant_verified`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 12
 
-oneOf variant 12.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 12.
 
 - Required: `customer_has_email`.
 - Optional: `all`, `any`, `country`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 13
 
-oneOf variant 13.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 13.
 
 - Required: `customer_has_phone`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 14
 
-oneOf variant 14.
+anyOf variant 1: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes.; oneOf variant 14.
 
 - Required: `subscription_purchase`.
 - Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `window_time`, `zone`.
 
 ### DeliveryMethodConfigurationPatchRequestInput.eligibility variant 15
 
-oneOf variant 15.
+anyOf variant 2.
 
-- Optional: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
-
-### DeliveryMethodConfigurationPatchRequestInput.eligibility.all[]
-
-Declared alternatives: [DeliveryEligibilityExpressionInput.all[]](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninputall).
-
-### DeliveryMethodConfigurationPatchRequestInput.eligibility.any[]
-
-Declared alternatives: [DeliveryEligibilityExpressionInput.all[]](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninputall).
-
-### DeliveryMethodConfigurationPatchRequestInput.eligibility.not
-
-Declared alternatives: [DeliveryEligibilityExpressionInput.all[]](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninputall).
+- Undeclared: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
+- Value shape: null. Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. 
 
 ### DeliveryMethodConfigurationPatchRequestInput.estimate
 

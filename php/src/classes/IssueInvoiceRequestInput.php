@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $expected_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class IssueInvoiceRequestInput extends Model {
-    /** @param array{'delivery_mode'?: string, 'expected_version'?: string, ...}|object $values */
+    /** @param array{'delivery_mode'?: string, 'expected_version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('IssueInvoiceRequestInput')); }
     /** Shape $ (Value): string. How the invoice reaches its recipient. Omit it to use merchant_default. Default: "merchant_default". Value enum: "merchant_default", "email", "caller_managed".
      * @return string

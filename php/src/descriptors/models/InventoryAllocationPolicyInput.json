@@ -1,1 +1,1 @@
-{"shared":"InventoryAllocationPolicy","dependencies":["InventoryAllocationPolicy","InventoryAllocationPolicyLocation","SharedCodec845"]}
+{"shared":"InventoryAllocationPolicy","dependencies":["InventoryAllocationPolicy","InventoryAllocationPolicyLocation","MetadataMap","SharedCodec883"]}

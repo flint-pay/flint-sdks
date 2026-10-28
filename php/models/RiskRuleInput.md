@@ -17,14 +17,10 @@ Request input.
 | `description` | Required | string |  |
 | `issues` | Required | Array of [RiskRuleIssueInput](../models/RiskRuleIssueInput.md#riskruleissueinput) | Problems that stop Flint from evaluating this rule. Empty when the rule can run. An active rule with issues is skipped on every payment and protects nothing until you fix it. An inactive rule with issues can't be activated until you fix it. |
 | `origin` | Required | string | Values: `"system_default"`, `"merchant"`. |
-| `predicate` | Required | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `predicate`: [declared alternatives](../models/CreateRiskPreviewRequestInput.md#createriskpreviewrequestinputpredicate). |
+| `predicate` | Required | [RiskPredicateNodeInput](../models/RiskPredicateNodeInput.md#riskpredicatenodeinput) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
 | `risk_rule_id` | Required | string |  |
 | `stage` | Required | string | Values: `"pre_authorization"`, `"post_authorization"`. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-
-### RiskRuleInput.predicate
-
-Declared alternatives: [CreateRiskPreviewRequestInput.predicate](../models/CreateRiskPreviewRequestInput.md#createriskpreviewrequestinputpredicate).
 

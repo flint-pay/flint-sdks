@@ -10,11 +10,11 @@ import type {
     InventoryItemsListInput,
     InventoryItemsRemoveInput,
     InventoryItemsUpdateInput
-} from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateInventoryItemRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateInventoryItemRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,7 +30,7 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateInventoryItemRequestInput } from '../declarations/types-7.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     InventoryItem,
     InventoryItemResponse,
@@ -40,17 +40,20 @@ export type {
     InventoryItemsGetInput,
     InventoryItemsListInput,
     InventoryItemsUpdateInput
-} from '../declarations/types-24.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateInventoryItemRequestInput } from '../declarations/types-48.js';
+} from '../declarations/types-26.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateInventoryItemRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateInventoryItemRequest } from '../declarations/types-64.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateInventoryItemRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateInventoryItemRequest } from '../declarations/types-67.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateInventoryItemRequest } from '../declarations/types-77.js';
 export interface InventoryItemsResource {
     /**
  * Create an inventory item. SKU and barcode are searchable attributes, not identity: they are not
@@ -86,14 +89,14 @@ export interface InventoryItemsResource {
  * client.inventoryItems.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(inventory_item_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<number>;
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<InventoryItem>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/inventoryItems.md#inventoryitemsremove
      */
     removeWithResponse(inventory_item_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<number>;
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<InventoryItemResponse>>;
     /**
@@ -109,7 +112,8 @@ export interface InventoryItemsResource {
      */
     getWithResponse(inventory_item_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryItemResponse>>;
     /**
- * List inventory items. Archived items are excluded unless you filter by status archived.
+ * List inventory items. Archived items are excluded unless you filter by status archived. Default
+ * order: inventory_item_id ascending; this key uniquely orders the results.
  * @see reference/inventoryItems.md#inventoryitemslist
  * GET /v1/inventory-items
  * @example

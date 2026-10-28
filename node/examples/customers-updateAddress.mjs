@@ -9,16 +9,10 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customers.updateAddress(
-  "example",
-  "example",
+  "cus_example",
+  "caddr_example",
   {
-    address: {
-      city: "example",
-      country: "US",
-      line1: "example",
-      postal_code: "example",
-      state: "example",
-    },
+    label: "Home",
   },
   { idempotencyKey: idempotencyKey },
 );

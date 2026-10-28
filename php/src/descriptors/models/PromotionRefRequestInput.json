@@ -1,1 +1,1 @@
-{"shared":"PromotionRefRequest","dependencies":["PromotionRefRequest","SharedCodec1038","SharedCodec1039"]}
+{"shared":"PromotionRefRequest","dependencies":["PromotionRefInputPromotionCode","PromotionRefInputPromotionID","PromotionRefRequest"]}

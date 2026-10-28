@@ -39,7 +39,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class OrderLineItem extends Model {
-    /** @param array{'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'metadata'?: \stdClass, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'purchased_gift_cards': list<mixed>, 'quantity': string, 'refunded_money': mixed, 'refunded_quantity': string, 'selected_options': list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'base_subtotal_money': mixed, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'categories': list<mixed>, 'description'?: string, 'discount_money': mixed, 'fulfillment_quantities'?: list<mixed>, 'fulfillment_requirements'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_snapshot': mixed, 'metadata'?: mixed, 'modifier_total_money': mixed, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'purchased_gift_cards': list<mixed>, 'quantity': string, 'refunded_money': mixed, 'refunded_quantity': string, 'selected_options': list<mixed>, 'sku'?: string, 'source_type'?: string, 'subscription'?: mixed, 'subscription_id'?: string, 'subscription_offer'?: mixed, 'subtotal_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItem')); }
     /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -96,7 +96,7 @@ final class OrderLineItem extends Model {
      */
     public function getInventorySnapshot(): LineItemInventorySnapshot|null { return $this->get('inventory_snapshot'); }
     public function hasInventorySnapshot(): bool { return $this->has('inventory_snapshot'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

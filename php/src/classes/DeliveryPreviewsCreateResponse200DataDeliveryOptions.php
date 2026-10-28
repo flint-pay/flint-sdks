@@ -6,12 +6,12 @@ namespace Flint;
  * @property-read list<DeliveryPreviewChoiceGroupResource> $choice_groups
  * @property-read string $currency
  * @property-read list<string> $delivery_method_ids
- * @property-read ?DeliveryAddressResource $destination_address
+ * @property-read ?Address $destination_address
  * @property-read string $evaluated_at
  * @property-read string $evaluation_status
  * @property-read string $expires_at
  * @property-read list<DeliveryInputRequirement> $input_requirements
- * @property-read list<\stdClass> $line_items
+ * @property-read list<DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariant|DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemBundle|DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemCustom|\stdClass> $line_items
  * @property-read ?list<DeliveryMerchantDiagnostic> $merchant_diagnostics
  * @property-read string $mode
  * @property-read ?string $pickup_location_id
@@ -39,10 +39,10 @@ final class DeliveryPreviewsCreateResponse200DataDeliveryOptions extends Model {
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** Shape $ (Value): {@see DeliveryAddressResource}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations.
-     * @return ?DeliveryAddressResource
+    /** Shape $ (Value): {@see Address}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return ?Address
      */
-    public function getDestinationAddress(): ?DeliveryAddressResource { return $this->get('destination_address'); }
+    public function getDestinationAddress(): ?Address { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return string
@@ -65,7 +65,7 @@ final class DeliveryPreviewsCreateResponse200DataDeliveryOptions extends Model {
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
     /** Shape $ (Value): Array of {@see CreateOrderLineItem}. Shape $[] (Value): {@see CreateOrderLineItem}. A line item in a delivery preview: a catalog variant, a bundle, or a custom item with a name and unit price.
-     * @return list<\stdClass>
+     * @return list<DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariant|DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemBundle|DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemCustom|\stdClass>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }

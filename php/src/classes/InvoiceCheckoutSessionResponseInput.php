@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceCheckoutSessionResponseInput extends Model {
-    /** @param array{'data': InvoiceCheckoutSessionResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': InvoiceCheckoutSessionResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceCheckoutSessionResponseInput')); }
     /** Shape $ (Value): {@see InvoiceCheckoutSessionResultInput}. The invoice is the primary resource, with its checkout session, credential, and any invoice payment attempt.
      * @return InvoiceCheckoutSessionResultInput|array<array-key, mixed>|\stdClass

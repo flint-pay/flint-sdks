@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass $buyer_instructions
+ * @property-read BuyerInstructionsConfigRequestRequestInput|array<array-key, mixed>|\stdClass $buyer_instructions
  * @property-read string|null $charge_tax_category
  * @property-read DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass $eligibility
  * @property-read DeliveryEstimateRuleRequestInput|array<array-key, mixed>|\stdClass $estimate
@@ -16,10 +16,10 @@ namespace Flint;
  * @property-read bool|null $taxable
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodConfigurationRequestInput extends Model {
-    /** @param array{'buyer_instructions'?: BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass, 'charge_tax_category'?: string|null, 'eligibility'?: DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass, 'estimate'?: DeliveryEstimateRuleRequestInput|array<array-key, mixed>|\stdClass, 'minimum_option_lifetime_seconds'?: string, 'origin': DeliveryMethodOriginSelectorRequestInput|array<array-key, mixed>|\stdClass, 'pricing': DeliveryPricingStrategyRequestInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds'?: string, 'taxable'?: bool|null}|object $values */
+    /** @param array{'buyer_instructions'?: BuyerInstructionsConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'charge_tax_category'?: string|null, 'eligibility'?: DeliveryEligibilityExpressionInput|array<array-key, mixed>|\stdClass, 'estimate'?: DeliveryEstimateRuleRequestInput|array<array-key, mixed>|\stdClass, 'minimum_option_lifetime_seconds'?: string, 'origin': DeliveryMethodOriginSelectorRequestInput|array<array-key, mixed>|\stdClass, 'pricing': DeliveryPricingStrategyRequestInput|array<array-key, mixed>|\stdClass, 'public_details'?: array{'instructions'?: string, 'pickup_mode'?: string, 'service_level'?: string}|object, 'quote_input_fields'?: list<string>, 'recipient_requirements'?: list<DeliveryRecipientRequirementInput|array<array-key, mixed>|\stdClass>, 'selection_guarantee_seconds'?: string, 'taxable'?: bool|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationRequestInput')); }
-    /** Shape $ (Value): {@see BuyerInstructionsConfigInput}. Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
-     * @return BuyerInstructionsConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see BuyerInstructionsConfigRequestRequestInput}. Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
+     * @return BuyerInstructionsConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_instructions is omitted; use hasBuyerInstructions() or valueOrDefault().
      */
     public function getBuyerInstructions(): mixed { return $this->get('buyer_instructions'); }

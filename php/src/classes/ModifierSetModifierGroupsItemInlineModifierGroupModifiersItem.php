@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ModifierSetModifierGroupsItemInlineModifierGroupModifiersItem extends Model {
-    /** @param array{'created_at'?: string, 'default_quantity'?: string, 'line_item_tax_category'?: string, 'metadata'?: \stdClass, 'modifier_group_id'?: string, 'modifier_id': string, 'name': string, 'position': int, 'selected_by_default': bool, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'status': string, 'taxable'?: bool, 'unit_price_delta_money'?: mixed, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'created_at'?: string, 'default_quantity'?: string, 'line_item_tax_category'?: string, 'metadata'?: mixed, 'modifier_group_id'?: string, 'modifier_id': string, 'name': string, 'position': int, 'selected_by_default': bool, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'status': string, 'taxable'?: bool, 'unit_price_delta_money'?: mixed, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSetModifierGroupsItemInlineModifierGroupModifiersItem')); }
     /** Shape $ (Value): string. When the modifier was created, as an RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -36,7 +36,7 @@ final class ModifierSetModifierGroupsItemInlineModifierGroupModifiersItem extend
      */
     public function getLineItemTaxCategory(): ?string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Shape $.* (Value): string. maxLength: 4096.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

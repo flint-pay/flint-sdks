@@ -1,1 +1,1 @@
-{"shared":"InvoiceCollection","dependencies":["InvoiceCollection","InvoicePaymentOptionLimit","InvoicePaymentPolicy","MoneyValue","SharedCodec886","SharedCodec887","SharedCodec888","SharedCodec889","SharedCodec890","SharedCodec891","SharedCodec892"]}
+{"shared":"InvoiceCollection","dependencies":["InvoiceCollection","InvoicePaymentOptionLimit","InvoicePaymentPolicy","MoneyValue","SharedCodec923","SharedCodec924","SharedCodec925","SharedCodec926","SharedCodec927","SharedCodec928","SharedCodec929"]}

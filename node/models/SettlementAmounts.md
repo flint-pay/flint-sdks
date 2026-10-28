@@ -23,7 +23,7 @@ How much of an order has been paid, refunded, credited, written off, and settled
 
 outstanding_money minus credit_money. Negative when the order holds money beyond its total that has not been returned. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
 
 ### SettlementAmounts.credit_money
 

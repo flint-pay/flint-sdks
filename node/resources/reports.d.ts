@@ -1,10 +1,17 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateReportRequestInput } from '../declarations/types-8.js';
-import type { Report, ReportListResponse, ReportResponse } from '../declarations/types-39.js';
-import type { ReportsCreateInput, ReportsGetInput, ReportsListInput, RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { CreateReportRequestInput } from '../declarations/types-9.js';
+import type {
+    Report,
+    ReportListResponse,
+    ReportResponse,
+    ReportsCreateInput,
+    ReportsGetInput,
+    ReportsListInput,
+    RequestOptions
+} from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -19,26 +26,30 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateReportRequestInput } from '../declarations/types-8.js';
+export type { CreateReportRequestInput } from '../declarations/types-9.js';
 export type {
     RequestOptions,
+    Report,
+    ReportResponse,
+    ReportListResponse,
     ReportsCreateInput,
     ReportsGetInput,
     ReportsListInput,
+    ReportPending,
     ReportSucceeded,
-    ResponseMeta,
-    ResponseWarning
-} from '../declarations/types-40.js';
-export type { Report, ReportResponse, ReportListResponse, ReportPending, ReportFailed } from '../declarations/types-39.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    ReportFailed,
+    ResponseMeta
+} from '../declarations/types-42.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { PublicDownload } from '../declarations/types-38.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateReportRequest } from '../declarations/types-64.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { PublicDownload } from '../declarations/types-41.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateReportRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface ReportsResource {
     /**
  * Creates an idempotent asynchronous CSV report. interval_end_at may be at most the same local
@@ -84,7 +95,7 @@ export interface ReportsResource {
     getWaitWithResponse(report_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ReportResponse>>;
     /**
  * Lists reports newest first by created_at, with report_id descending as the tiebreak, using
- * opaque pagination.
+ * opaque pagination. Default order: created_at descending, then report_id descending.
  * @see reference/reports.md#reportslist
  * GET /v1/reports
  * @example

@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read list<FulfillmentLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $local_delivery_details
  * @property-read string $location_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $pickup_details
  * @property-read FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass $recipient
  * @property-read CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $service_details
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateFulfillmentRequestInput extends Model {
-    /** @param array{'customer_id'?: string, 'device_id'?: string, 'digital_details'?: CreateDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'pickup_details'?: CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass, 'service_details'?: CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment'?: FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
+    /** @param array{'customer_id'?: string, 'device_id'?: string, 'digital_details'?: CreateDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pickup_details'?: CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass, 'service_details'?: CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment'?: FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateFulfillmentRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string
@@ -61,11 +61,11 @@ final class CreateFulfillmentRequestInput extends Model {
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): {@see CreatePickupFulfillmentDetailsInput}. Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details.
      * @return CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
@@ -85,7 +85,7 @@ final class CreateFulfillmentRequestInput extends Model {
      */
     public function getServiceDetails(): mixed { return $this->get('service_details'); }
     public function hasServiceDetails(): bool { return $this->has('service_details'); }
-    /** Shape $ (Value): {@see FulfillmentPackagingRequestInput}. Creates one outbound shipment and one package atomically with the fulfillment. packaging must be single_package. The package receives the full quantities of only the submitted line_items. Requires type shipment. Omission creates no shipment or package. Set package.status to shipped to report handoff in the same call. Creates one outbound shipment and one package with a shipment fulfillment. Requires `packaging: single_package` and `package`; external reference and metadata are optional.
+    /** Shape $ (Value): {@see FulfillmentPackagingRequestInput}. Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional.
      * @return FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When shipment is omitted; use hasShipment() or valueOrDefault().
      */

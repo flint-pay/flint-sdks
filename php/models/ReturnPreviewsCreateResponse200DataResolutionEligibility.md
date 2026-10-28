@@ -12,7 +12,7 @@ Response model.
 | `line_items` | Required | Array of ([ReturnPreviewsCreateResponse200DataResolutionEligibilityLineItemsItem](../models/ReturnPreviewsCreateResponse200DataResolutionEligibilityLineItemsItem.md#returnpreviewscreateresponse200dataresolutioneligibilitylineitemsitem) and object) |  |
 | `order_id` | Required | string |  |
 | `policy_evaluation` | Required | [ReturnPreviewsCreateResponse200DataResolutionEligibilityPolicyEvaluation](../models/ReturnPreviewsCreateResponse200DataResolutionEligibilityPolicyEvaluation.md#returnpreviewscreateresponse200dataresolutioneligibilitypolicyevaluation) | How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. `policy_evaluation`: [field definitions](../models/ReturnPreviewsCreateResponse200DataResolutionEligibility.md#returnpreviewscreateresponse200dataresolutioneligibilitypolicy_evaluation). |
-| `selection` | Required | object and Alternative shapes (see declared variants) | Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. `selection`: [declared alternatives](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibility.md#returnpreviewscreateresponse200dataeligibilityeligibilityselection). |
+| `selection` | Required | object and Alternative shapes (see declared variants) | Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. `selection`: [declared alternatives](../models/MeCreateReturnPreviewResponse200DataEligibilityEligibility.md#mecreatereturnpreviewresponse200dataeligibilityeligibilityselection). |
 | `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 ### ReturnPreviewsCreateResponse200DataResolutionEligibility.policy_evaluation
@@ -44,5 +44,5 @@ How a return policy evaluated a return request: overall status and reason, the p
 
 ### ReturnPreviewsCreateResponse200DataResolutionEligibility.selection
 
-Declared alternatives: [ReturnPreviewsCreateResponse200DataEligibilityEligibility.selection](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibility.md#returnpreviewscreateresponse200dataeligibilityeligibilityselection).
+Declared alternatives: [MeCreateReturnPreviewResponse200DataEligibilityEligibility.selection](../models/MeCreateReturnPreviewResponse200DataEligibilityEligibility.md#mecreatereturnpreviewresponse200dataeligibilityeligibilityselection).
 

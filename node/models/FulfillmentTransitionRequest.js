@@ -1,11 +1,12 @@
-import { d372 as c0 } from '../descriptors/data/20.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3870 as c1, d3871 as c2, d3872 as c3, d3873 as c4, d3874 as c5, d3875 as c6, d3876 as c7, d3877 as c8, d3878 as c9, d3879 as c10, d3880 as c11, d3881 as c13, d3882 as c14 } from '../descriptors/data/163.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3890 as c12 } from '../descriptors/data/164.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d372 as d372 } from '../descriptors/data/20.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d423 as c0 } from '../descriptors/data/25.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4111 as c1, d4112 as c2, d4113 as c3, d4114 as c4, d4115 as c5, d4116 as c6, d4117 as c7, d4118 as c8, d4119 as c9, d4120 as c10, d4121 as c11, d4122 as c13 } from '../descriptors/data/179.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4136 as c12 } from '../descriptors/data/181.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4123 as c14 } from '../descriptors/data/180.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d423 as d423 } from '../descriptors/data/25.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d372;
+const read = d423;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["FulfillmentTransitionRequest"]:c0(),["SharedCodec355"]:c1(),["SharedCodec356"]:c2(),["SharedCodec357"]:c3(),["SharedCodec358"]:c4(),["SharedCodec359"]:c5(),["SharedCodec360"]:c6(),["SharedCodec361"]:c7(),["SharedCodec362"]:c8(),["SharedCodec363"]:c9(),["SharedCodec364"]:c10(),["SharedCodec365"]:c11(),["SharedCodec366"]:c12(),["SharedCodec367"]:c13(),["SharedCodec368"]:c14()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["FulfillmentTransitionRequest"]:c0(),["SharedCodec395"]:c1(),["SharedCodec396"]:c2(),["SharedCodec397"]:c3(),["SharedCodec398"]:c4(),["SharedCodec399"]:c5(),["SharedCodec400"]:c6(),["SharedCodec401"]:c7(),["SharedCodec402"]:c8(),["SharedCodec403"]:c9(),["SharedCodec404"]:c10(),["SharedCodec405"]:c11(),["SharedCodec406"]:c12(),["SharedCodec407"]:c13(),["SharedCodec408"]:c14()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeFulfillmentTransitionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

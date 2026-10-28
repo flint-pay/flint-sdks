@@ -8,10 +8,11 @@ namespace Flint;
  * @property-read list<string> $buyer_reasons
  * @property-read ?string $checkout_session_id
  * @property-read list<DeliveryQuoteChoiceGroupResource> $choice_groups
- * @property-read ?string $consumed_by_delivery_selection_id
+ * @property-read string $created_at
  * @property-read string $delivery_quote_id
  * @property-read ?string $delivery_quote_version
- * @property-read ?DeliveryAddressResource $destination_address
+ * @property-read string|null $delivery_revocation_id
+ * @property-read ?Address $destination_address
  * @property-read ?string $eligibility_context_version
  * @property-read string $evaluated_at
  * @property-read string $evaluation_status
@@ -26,9 +27,10 @@ namespace Flint;
  * @property-read bool $selection_required
  * @property-read ?string $stale_reason
  * @property-read string $status
+ * @property-read ?string $superseded_by_delivery_quote_id
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryQuote extends Model {
-    /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: mixed, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<mixed>, 'consumed_by_delivery_selection_id'?: string, 'delivery_quote_id': string, 'delivery_quote_version'?: string, 'destination_address'?: mixed, 'eligibility_context_version'?: string, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'merchant_diagnostics'?: list<mixed>, 'methods'?: list<mixed>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<mixed>, 'revocation_reason'?: string, 'revoked_at'?: string, 'selection_required': bool, 'stale_reason'?: string, 'status': string, ...}|object $values */
+    /** @param array{'basis_delivery_quote_id'?: string, 'basis_delivery_selection_id'?: string, 'buyer_location'?: mixed, 'buyer_reasons': list<string>, 'checkout_session_id'?: string, 'choice_groups': list<mixed>, 'created_at': string, 'delivery_quote_id': string, 'delivery_quote_version'?: string, 'delivery_revocation_id': string|null, 'destination_address'?: mixed, 'eligibility_context_version'?: string, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'merchant_diagnostics'?: list<mixed>, 'methods'?: list<mixed>, 'order_id'?: string, 'pending_caller_rate_requests'?: list<mixed>, 'revocation_reason'?: string, 'revoked_at'?: string, 'selection_required': bool, 'stale_reason'?: string, 'status': string, 'superseded_by_delivery_quote_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuote')); }
     /** Shape $ (Value): string.
      * @return ?string
@@ -60,11 +62,11 @@ final class DeliveryQuote extends Model {
      */
     public function getChoiceGroups(): array { return $this->get('choice_groups'); }
     public function hasChoiceGroups(): bool { return $this->has('choice_groups'); }
-    /** Shape $ (Value): string.
-     * @return ?string
+    /** Shape $ (Value): string. When Flint created this quote. Format: date-time.
+     * @return string
      */
-    public function getConsumedByDeliverySelectionId(): ?string { return $this->get('consumed_by_delivery_selection_id'); }
-    public function hasConsumedByDeliverySelectionId(): bool { return $this->has('consumed_by_delivery_selection_id'); }
+    public function getCreatedAt(): string { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
     /** Shape $ (Value): string.
      * @return string
      */
@@ -75,10 +77,15 @@ final class DeliveryQuote extends Model {
      */
     public function getDeliveryQuoteVersion(): ?string { return $this->get('delivery_quote_version'); }
     public function hasDeliveryQuoteVersion(): bool { return $this->has('delivery_quote_version'); }
-    /** Shape $ (Value): {@see DeliveryAddressResource}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations.
-     * @return ?DeliveryAddressResource
+    /** Shape $ (Value): string or null. The delivery revocation that revoked this quote, or null when no revocation applies.
+     * @return string|null
      */
-    public function getDestinationAddress(): ?DeliveryAddressResource { return $this->get('destination_address'); }
+    public function getDeliveryRevocationId(): string|null { return $this->get('delivery_revocation_id'); }
+    public function hasDeliveryRevocationId(): bool { return $this->has('delivery_revocation_id'); }
+    /** Shape $ (Value): {@see Address}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return ?Address
+     */
+    public function getDestinationAddress(): ?Address { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
     /** Shape $ (Value): integer string. Version of the checkout eligibility context evaluated by this quote. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
      * @return ?string
@@ -140,14 +147,19 @@ final class DeliveryQuote extends Model {
      */
     public function getSelectionRequired(): bool { return $this->get('selection_required'); }
     public function hasSelectionRequired(): bool { return $this->has('selection_required'); }
-    /** Shape $ (Value): string.  Value enum: "checkout_changed", "selection_changed", "eligibility_changed", "inventory_changed", "authority_changed", "consumed_by_priced_quote".
+    /** Shape $ (Value): string.  Value enum: "checkout_changed", "selection_changed", "eligibility_changed", "inventory_changed", "authority_changed", "superseded_by_priced_quote".
      * @return ?string
      */
     public function getStaleReason(): ?string { return $this->get('stale_reason'); }
     public function hasStaleReason(): bool { return $this->has('stale_reason'); }
-    /** Shape $ (Value): string.  Value enum: "active", "consumed", "stale", "expired", "revoked".
+    /** Shape $ (Value): string. Whether the quote can be selected now, derived from the current checkout or renewal order on every read. Value enum: "active", "consumed", "stale", "expired", "revoked".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Shape $ (Value): string. The priced delivery quote that replaced this quote. Its basis_delivery_quote_id names this quote.
+     * @return ?string
+     */
+    public function getSupersededByDeliveryQuoteId(): ?string { return $this->get('superseded_by_delivery_quote_id'); }
+    public function hasSupersededByDeliveryQuoteId(): bool { return $this->has('superseded_by_delivery_quote_id'); }
 }

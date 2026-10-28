@@ -21,12 +21,13 @@
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
+| `source` | Conditional | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
 
 ### IncomingWebhook155e0b06aa8fPayload variant 1: `event_type` = `"invoice.paid"`
 
 oneOf variant 1: The `invoice.paid` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"invoice.paid"`.
@@ -35,6 +36,7 @@ oneOf variant 1: The `invoice.paid` webhook payload for the `merchant` event sou
 
 oneOf variant 2: The `invoice.paid` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"invoice.paid"`.
@@ -63,6 +65,10 @@ Field definitions: [BuyerInvoice.currently_due_money](../models/BuyerInvoice.md#
 
 Field definitions: [BuyerInvoice.late_fee_money](../models/BuyerInvoice.md#buyerinvoicelate_fee_money).
 
+### IncomingWebhook155e0b06aa8fPayload.data.object.metadata
+
+Field definitions: [DeliveryLocationSet.metadata](../models/DeliveryLocationSet.md#deliverylocationsetmetadata).
+
 ### IncomingWebhook155e0b06aa8fPayload.data.object.outstanding_money
 
 What is still owed: total_money + late_fee_money - paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and void invoices; equal to total_money on a draft. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
@@ -76,10 +82,6 @@ Field definitions: [BuyerInvoice.paid_money](../models/BuyerInvoice.md#buyerinvo
 ### IncomingWebhook155e0b06aa8fPayload.data.object.refunded_money
 
 Field definitions: [BuyerInvoice.refunded_money](../models/BuyerInvoice.md#buyerinvoicerefunded_money).
-
-### IncomingWebhook155e0b06aa8fPayload.data.object.remit_to_address
-
-Field definitions: [BuyerInvoice.remit_to_address](../models/BuyerInvoice.md#buyerinvoiceremit_to_address).
 
 ### IncomingWebhook155e0b06aa8fPayload.data.object.total_money
 

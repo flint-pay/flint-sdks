@@ -1,10 +1,10 @@
-import { d3339 as c0 } from '../descriptors/data/134.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3345 as c1, d3346 as c2, d3347 as c3, d3348 as c4, d3349 as c5, d3350 as c6, d3351 as c7, d3352 as c8, d3353 as c9, d3354 as c10, d3355 as c11 } from '../descriptors/data/135.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3339 as d3339 } from '../descriptors/data/134.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3529 as c0, d3535 as c1, d3536 as c2 } from '../descriptors/data/147.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3537 as c3, d3538 as c4, d3539 as c5, d3540 as c6, d3541 as c7, d3542 as c8, d3543 as c9, d3544 as c10, d3545 as c11 } from '../descriptors/data/148.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3529 as d3529 } from '../descriptors/data/147.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d3339;
+const read = d3529;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentTermCalculation"]:c0(),["SharedCodec916"]:c1(),["SharedCodec917"]:c2(),["SharedCodec918"]:c3(),["SharedCodec919"]:c4(),["SharedCodec920"]:c5(),["SharedCodec921"]:c6(),["SharedCodec922"]:c7(),["SharedCodec923"]:c8(),["SharedCodec924"]:c9(),["SharedCodec925"]:c10(),["SharedCodec926"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentTermCalculation"]:c0(),["SharedCodec953"]:c1(),["SharedCodec954"]:c2(),["SharedCodec955"]:c3(),["SharedCodec956"]:c4(),["SharedCodec957"]:c5(),["SharedCodec958"]:c6(),["SharedCodec959"]:c7(),["SharedCodec960"]:c8(),["SharedCodec961"]:c9(),["SharedCodec962"]:c10(),["SharedCodec963"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoicePaymentTermCalculation(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

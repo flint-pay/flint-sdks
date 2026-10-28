@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @property-read ReturnInspection $data
  * @property-read ?ResponseMeta $meta
- * @property-read ?string $request_id
+ * @property-read string $request_id
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnInspectionsDecideLineItemResponse200 extends Model {
-    /** @param array{'data': mixed, 'meta'?: mixed, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionsDecideLineItemResponse200')); }
     /** Shape $ (Value): {@see ReturnInspection}. An assessment of the condition of returned items.
      * @return ReturnInspection
@@ -20,8 +20,8 @@ final class ReturnInspectionsDecideLineItemResponse200 extends Model {
     public function getMeta(): ?ResponseMeta { return $this->get('meta'); }
     public function hasMeta(): bool { return $this->has('meta'); }
     /** Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
-     * @return ?string
+     * @return string
      */
-    public function getRequestId(): ?string { return $this->get('request_id'); }
+    public function getRequestId(): string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
 }

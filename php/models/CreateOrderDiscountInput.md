@@ -13,7 +13,7 @@ Request input.
 
 ### CreateOrderDiscountInput variant 1
 
-oneOf variant 1.
+oneOf variant 1: The `Promotion` variant of `CreateOrderDiscount`..
 
 - Condition: not (at least one(present(`manual`))).
 - Required: `promotion`.
@@ -21,7 +21,7 @@ oneOf variant 1.
 
 ### CreateOrderDiscountInput variant 2
 
-oneOf variant 2.
+oneOf variant 2: The `Manual` variant of `CreateOrderDiscount`..
 
 - Condition: not (at least one(present(`promotion`))).
 - Required: `manual`.

@@ -52,7 +52,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `addItemsWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -120,7 +120,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -181,7 +181,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `deleteItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -297,7 +297,7 @@ $result = $client->riskLists->getItem('example', 'example', [], new RequestOptio
 
 ### riskLists.list
 
-Lists risk lists, newest first, including Flint's default block lists. Archived lists appear only when status includes archived.
+Lists risk lists, newest first, including Flint's default block lists. Archived lists appear only when status includes archived. Default order: created_at descending, then risk_list_id descending.
 
 `GET /v1/risk-lists`
 
@@ -351,7 +351,7 @@ $result = $client->riskLists->list([], new RequestOptions());
 
 ### riskLists.listRiskListItems
 
-Lists a list's values, newest first.
+Lists a list's values, newest first. Default order: created_at descending, then risk_list_item_id descending.
 
 `GET /v1/risk-lists/{risk_list_id}/items`
 
@@ -405,7 +405,7 @@ $result = $client->riskLists->listRiskListItems('example', [], new RequestOption
 
 ### riskLists.remove
 
-Archives a list you created. Fails with 409 RESOURCE_IN_USE while an active rule names it. Archived lists can't be used by rules or edited.
+Archives a list you created. Fails with 409 RESOURCE_IN_USE while an active rule names it. Flint-managed lists return 409 ACTION_NOT_ALLOWED with reason managed_externally. Archived lists can't be used by rules or edited. Items can still be added to and removed from active Flint-managed lists.
 
 `DELETE /v1/risk-lists/{risk_list_id}`
 
@@ -445,7 +445,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -462,7 +462,7 @@ $result = $client->riskLists->remove('example', [], new RequestOptions(idempoten
 
 ### riskLists.update
 
-Renames a list you created. Flint's default lists can't be renamed.
+Renames a list you created. Flint-managed lists return 409 ACTION_NOT_ALLOWED with reason managed_externally. Items can still be added to and removed from active Flint-managed lists.
 
 `PATCH /v1/risk-lists/{risk_list_id}`
 
@@ -510,7 +510,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

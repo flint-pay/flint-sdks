@@ -1,18 +1,20 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateWorkloadIdentityRequestInput } from '../declarations/types-9.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-50.js';
+import type { CreateWorkloadIdentityRequestInput } from '../declarations/types-11.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-53.js';
 import type {
     WorkloadIdentitiesCreateInput,
     WorkloadIdentitiesGetInput,
     WorkloadIdentitiesListInput,
     WorkloadIdentitiesRemoveInput,
     WorkloadIdentitiesUpdateInput,
-    WorkloadIdentity
-} from '../declarations/types-61.js';
-import type { WorkloadIdentityListResponse, WorkloadIdentityResponse, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    WorkloadIdentity,
+    WorkloadIdentityListResponse,
+    WorkloadIdentityResponse,
+    _SdkWithoutIdempotency
+} from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,31 +29,30 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateWorkloadIdentityRequestInput, Credentials } from '../declarations/types-9.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateWorkloadIdentityRequestInput, Credentials } from '../declarations/types-11.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta } from '../declarations/types-42.js';
 export type {
     WorkloadIdentity,
+    WorkloadIdentityResponse,
+    _SdkWithoutIdempotency,
+    WorkloadIdentityListResponse,
     WorkloadIdentitiesCreateInput,
     WorkloadIdentitiesRemoveInput,
     WorkloadIdentitiesGetInput,
     WorkloadIdentitiesListInput,
-    WorkloadIdentitiesUpdateInput
-} from '../declarations/types-61.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type {
-    WorkloadIdentityResponse,
-    _SdkWithoutIdempotency,
-    WorkloadIdentityListResponse,
+    WorkloadIdentitiesUpdateInput,
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityClaimCondition
-} from '../declarations/types-62.js';
-export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-50.js';
+} from '../declarations/types-65.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-53.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateWorkloadIdentityRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-73.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateWorkloadIdentityRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateWorkloadIdentityRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-78.js';
 export interface WorkloadIdentitiesResource {
     /**
  * Creates an active identity in the authenticated environment and validates issuer discovery.
@@ -63,7 +64,7 @@ export interface WorkloadIdentitiesResource {
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.workloadIdentities.create({name: "example", issuer: "example", subject: "example",
- * scopes: ["accounts.api_keys.read"]}, { idempotencyKey: idempotencyKey })
+ * scopes: []}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<CreateWorkloadIdentityRequestInput>)
         & {
@@ -113,7 +114,7 @@ export interface WorkloadIdentitiesResource {
     /**
  * Returns identities in the authenticated environment, ordered by created_at descending and
  * workload_identity_id descending by default. Archived identities are excluded unless status
- * includes archived.
+ * includes archived. Default order: created_at descending, then workload_identity_id descending.
  * @see reference/workloadIdentities.md#workloadidentitieslist
  * GET /v1/workload-identities
  * @example

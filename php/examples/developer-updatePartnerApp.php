@@ -19,7 +19,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->developer->updatePartnerApp('example', [
   'api_version' => 'example',
-  'name' => 'example',
+  'client_secret_enabled' => true,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->client_id . PHP_EOL;
 echo $result->partner_app_id . PHP_EOL;

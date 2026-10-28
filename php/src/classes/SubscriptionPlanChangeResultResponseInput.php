@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlanChangeResultResponseInput extends Model {
-    /** @param array{'data': SubscriptionPlanChangeResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': SubscriptionPlanChangeResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlanChangeResultResponseInput')); }
     /** Shape $ (Value): {@see SubscriptionPlanChangeResultInput}. The result of changing a subscription plan, including the subscription and any order and payment attempt created for immediate billing.
      * @return SubscriptionPlanChangeResultInput|array<array-key, mixed>|\stdClass

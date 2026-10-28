@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $promotion_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PromotionRefRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'promotion_code'?: string, 'promotion_id': string}|object|array{'promotion_code': string, 'promotion_id'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionRefRequestInput')); }
     /** Shape $ (Value): string. Human-entered promotion code. Use this when redeeming a campaign code. minLength: 1.
      * @return string

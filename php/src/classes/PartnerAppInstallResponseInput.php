@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppInstallResponseInput extends Model {
-    /** @param array{'data': PartnerAppInstallInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': PartnerAppInstallInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstallResponseInput')); }
     /** Shape $ (Value): {@see PartnerAppInstallInput}. A merchant's authorization of a partner application.
      * @return PartnerAppInstallInput|array<array-key, mixed>|\stdClass

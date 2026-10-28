@@ -6,7 +6,5 @@ Merchant fulfillment settings, including whether fulfillments require approval (
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `approval_required` | Optional | boolean |  |
+Fields, types, descriptions and enum values: [FulfillmentSettingsRequestRequestInput](../models/FulfillmentSettingsRequestRequestInput.md#fulfillmentsettingsrequestrequestinput).
 

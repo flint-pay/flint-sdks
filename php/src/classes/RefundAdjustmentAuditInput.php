@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $source
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefundAdjustmentAuditInput extends Model {
-    /** @param array{'actor_id': string, 'actor_type': string, 'source': string, ...}|object $values */
+    /** @param array{'actor_id': string, 'actor_type': string, 'source': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundAdjustmentAuditInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

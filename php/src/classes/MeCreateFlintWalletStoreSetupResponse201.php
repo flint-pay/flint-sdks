@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read MeFlintWalletStoreSetup $data
+ * @property-read BuyerFlintWalletStoreSetup $data
  * @property-read ?ResponseMeta $meta
  * @property-read string $request_id
  * Presence-aware response; omitted optional fields return null. */
 final class MeCreateFlintWalletStoreSetupResponse201 extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeCreateFlintWalletStoreSetupResponse201')); }
-    /** Shape $ (Value): {@see MeFlintWalletStoreSetup}. The state of a request to save a payment method in the signed-in buyer's Flint wallet, with the client setup data needed to finish it.
-     * @return MeFlintWalletStoreSetup
+    /** Shape $ (Value): {@see BuyerFlintWalletStoreSetup}. The state of a request to save a payment method in the signed-in buyer's Flint wallet, with the client setup data needed to finish it.
+     * @return BuyerFlintWalletStoreSetup
      */
-    public function getData(): MeFlintWalletStoreSetup { return $this->get('data'); }
+    public function getData(): BuyerFlintWalletStoreSetup { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
     /** Shape $ (Value): {@see ResponseMeta}. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta

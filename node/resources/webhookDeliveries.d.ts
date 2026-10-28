@@ -1,8 +1,8 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateWebhookDeliveryRequestInput } from '../declarations/types-9.js';
-import type { RequestOptions, ResendWebhookDeliveryRequestInput } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
+import type { CreateWebhookDeliveryRequestInput } from '../declarations/types-10.js';
+import type { RequestOptions, ResendWebhookDeliveryRequestInput } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
 import type {
     WebhookDeliveriesCreateInput,
     WebhookDeliveriesGetInput,
@@ -14,8 +14,8 @@ import type {
     WebhookDeliveryAttempt,
     WebhookDeliveryAttemptListResponse,
     WebhookDeliveryResponse
-} from '../declarations/types-50.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,14 +30,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateWebhookDeliveryRequestInput, Credentials, CreateWebhookDeliveryRequest } from '../declarations/types-9.js';
-export type {
-    RequestOptions,
-    ResendWebhookDeliveryRequestInput,
-    ResponseMeta,
-    ResponseWarning,
-    ResendWebhookDeliveryRequest
-} from '../declarations/types-40.js';
+export type { CreateWebhookDeliveryRequestInput, CreateWebhookDeliveryRequest } from '../declarations/types-10.js';
+export type { RequestOptions, ResendWebhookDeliveryRequestInput, ResponseMeta, ResendWebhookDeliveryRequest } from '../declarations/types-42.js';
 export type {
     WebhookDelivery,
     WebhookDeliveryResponse,
@@ -49,15 +43,17 @@ export type {
     WebhookDeliveriesGetInput,
     WebhookDeliveriesListAttemptsInput,
     WebhookDeliveriesResendInput
-} from '../declarations/types-50.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-53.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateWebhookDeliveryRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeResendWebhookDeliveryRequest } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateWebhookDeliveryRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeResendWebhookDeliveryRequest } from '../declarations/types-75.js';
 export interface WebhookDeliveriesResource {
     /**
  * Creates a delivery for a retained event and an endpoint that currently subscribes to it, then
@@ -95,7 +91,8 @@ export interface WebhookDeliveriesResource {
      */
     getWithResponse(webhook_delivery_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookDeliveryResponse>>;
     /**
- * Returns the attempts recorded for a specific webhook delivery.
+ * Returns the attempts recorded for a specific webhook delivery. Default order: attempt_number
+ * ascending; this key uniquely orders the results.
  * @see reference/webhookDeliveries.md#webhookdeliverieslistattempts
  * GET /v1/webhook-deliveries/{webhook_delivery_id}/attempts
  * @example

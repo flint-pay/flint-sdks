@@ -57,7 +57,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -125,7 +125,7 @@ const result = await client.reports.get("example", {}, {  });
 
 ### reports.list
 
-Lists reports newest first by created_at, with report_id descending as the tiebreak, using opaque pagination.
+Lists reports newest first by created_at, with report_id descending as the tiebreak, using opaque pagination. Default order: created_at descending, then report_id descending.
 
 `GET /v1/reports`
 

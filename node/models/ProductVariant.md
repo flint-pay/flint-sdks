@@ -18,14 +18,14 @@ A specific purchasable version of a product.
 | `delivery_profile_id` | Optional | string | Identifier of the delivery profile assigned to this variant. |
 | `effective_images` | Required | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) | Images shown for the variant: its own gallery when nonempty, otherwise the product's gallery. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `gift_card_configuration` | Optional | [GiftCardProductConfiguration](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration) | Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts. |
+| `gift_card_configuration` | Optional | [GiftCardProductConfiguration](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration) | Gift card issuance terms. face_value_money is the reference denomination; unit_price_money is its price. Custom amounts use that price-to-value ratio, rounded to the nearest cent with ties up. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts. `gift_card_configuration`: [field definitions](../models/IncomingWebhook19afc192a8b9Payload.md#incomingwebhook19afc192a8b9payloaddataobjectgift_card_configuration). |
 | `images` | Required | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) | The variant's own images in display order. An empty gallery inherits the product's images. |
 | `images_inherited` | Required | boolean | Whether effective_images comes from the product's gallery because this variant's gallery is empty. |
 | `inventory_item_id` | Optional | string | The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item. |
 | `inventory_tracking` | Required | string | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#productvariant-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
-| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/Bundle.md#bundlemetadata). |
 | `modifier_set` | Optional | [ModifierSet](../models/ModifierSet.md#modifierset) or null | Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. |
 | `modifier_set_id` | Required | string or null | Attached modifier set. Send null on update to remove it. |
 | `name` | Optional | string | Variant name that distinguishes it from the product's other variants. |
@@ -56,6 +56,14 @@ A specific purchasable version of a product.
 - `"clothing"`
 - `"medical_goods"`
 - `"admission"`
+
+### ProductVariant.gift_card_configuration
+
+Field definitions: [IncomingWebhook19afc192a8b9Payload.data.object.gift_card_configuration](../models/IncomingWebhook19afc192a8b9Payload.md#incomingwebhook19afc192a8b9payloaddataobjectgift_card_configuration).
+
+### ProductVariant.metadata
+
+Field definitions: [Bundle.metadata](../models/Bundle.md#bundlemetadata).
 
 ### ProductVariant.unit_price_money
 

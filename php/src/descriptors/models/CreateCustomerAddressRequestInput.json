@@ -1,1 +1,1 @@
-{"shared":"CreateCustomerAddressRequest","dependencies":["CreateCustomerAddressRequest","PostalAddress"]}
+{"shared":"CreateCustomerAddressRequest","dependencies":["AddressRequest","CreateCustomerAddressRequest","SharedCodec0","SharedCodec1"]}

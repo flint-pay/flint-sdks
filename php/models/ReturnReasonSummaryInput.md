@@ -6,5 +6,5 @@ A return reason a buyer can pick for a line, with its `handle` and whether a not
 
 Request input.
 
-Fields, types, descriptions and enum values: [ReturnPreviewsCreateResponse200DataEligibilityEligibilityLineItemsItemSuggestedReturnReasonsItem](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibilityLineItemsItemSuggestedReturnReasonsItem.md#returnpreviewscreateresponse200dataeligibilityeligibilitylineitemsitemsuggestedreturnreasonsitem).
+Fields, types, descriptions and enum values: [MeCreateReturnPreviewResponse200DataEligibilityEligibilityLineItemsItemSuggestedReturnReasonsItem](../models/MeCreateReturnPreviewResponse200DataEligibilityEligibilityLineItemsItemSuggestedReturnReasonsItem.md#mecreatereturnpreviewresponse200dataeligibilityeligibilitylineitemsitemsuggestedreturnreasonsitem).
 

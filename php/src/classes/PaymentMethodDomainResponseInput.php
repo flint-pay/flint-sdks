@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentMethodDomainResponseInput extends Model {
-    /** @param array{'data': PaymentMethodDomainInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': PaymentMethodDomainInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodDomainResponseInput')); }
     /** Shape $ (Value): {@see PaymentMethodDomainInput}. A domain registered for browser payment methods.
      * @return PaymentMethodDomainInput|array<array-key, mixed>|\stdClass

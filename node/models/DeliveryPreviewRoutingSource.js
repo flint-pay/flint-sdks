@@ -1,9 +1,10 @@
-import { d3618 as c0 } from '../descriptors/data/149.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3618 as d3618 } from '../descriptors/data/149.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3818 as c0 } from '../descriptors/data/162.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4454 as c1 } from '../descriptors/data/196.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3818 as d3818 } from '../descriptors/data/162.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d3618;
+const read = d3818;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryPreviewRoutingSource"]:c0()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryPreviewRoutingSource"]:c0(),["OrderInventoryRoutingSourceRequest"]:c1()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDeliveryPreviewRoutingSource(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

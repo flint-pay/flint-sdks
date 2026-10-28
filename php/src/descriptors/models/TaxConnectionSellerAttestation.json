@@ -1,0 +1,1 @@
+{"shared":"TaxConnectionSellerAttestation","phpRepresentation":{"kind":"record","fields":{"attested_at":{"kind":"value","type":"string"},"disclosure_version":{"kind":"value","type":"string"}}},"dependencies":["TaxConnectionSellerAttestation"]}

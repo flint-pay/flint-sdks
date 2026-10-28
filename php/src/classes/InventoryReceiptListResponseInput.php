@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReceiptListResponseInput extends Model {
-    /** @param array{'data': list<InventoryReceiptInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<InventoryReceiptInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReceiptListResponseInput')); }
     /** Shape $ (Value): Array of {@see InventoryReceiptInput}. Shape $[] (Value): {@see InventoryReceiptInput}. Returned units received into Inventory, from a Return disposition or against the reservation line that consumed them.
      * @return list<InventoryReceiptInput|array<array-key, mixed>|\stdClass>

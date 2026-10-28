@@ -1,1 +1,1 @@
-{"shared":"CreateDeviceRequest","dependencies":["CreateDeviceRequest"]}
+{"shared":"CreateDeviceRequest","dependencies":["CreateDeviceRequest","MetadataRequest"]}

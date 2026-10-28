@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class OrderCharge extends Model {
-    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at'?: string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: \stdClass, 'name': string, 'order_charge_id': string, 'percent'?: float, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'applied_money': mixed, 'calculation_basis'?: string, 'created_at'?: string, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: mixed, 'name': string, 'order_charge_id': string, 'percent'?: float, 'refunded_money': mixed, 'tax'?: mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderCharge')); }
     /** Shape $ (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
@@ -52,7 +52,7 @@ final class OrderCharge extends Model {
      */
     public function getFulfillmentId(): ?string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

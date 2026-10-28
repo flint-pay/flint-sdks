@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingVerifyEmailResponseInput extends Model {
-    /** @param array{'data': OnboardingVerifyEmailResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': OnboardingVerifyEmailResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingVerifyEmailResponseInput')); }
     /** Shape $ (Value): {@see OnboardingVerifyEmailResultInput}. The result of verifying an onboarding email: the merchant and user, an onboarding session token, and the next step.
      * @return OnboardingVerifyEmailResultInput|array<array-key, mixed>|\stdClass

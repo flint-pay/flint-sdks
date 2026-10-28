@@ -44,7 +44,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `approveWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -110,7 +110,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `declineWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -177,7 +177,7 @@ $result = $client->reviews->get('example', [], new RequestOptions());
 
 ### reviews.list
 
-Lists payment reviews, most recently opened first. A review opens when a `review` rule matches a payment the bank approved. Every status is included unless you filter by `status`.
+Lists payment reviews, most recently opened first. A review opens when a `review` rule matches a payment the bank approved. Every status is included unless you filter by `status`. Default order: opened_at descending, then payment_review_id descending.
 
 `GET /v1/payment-reviews`
 

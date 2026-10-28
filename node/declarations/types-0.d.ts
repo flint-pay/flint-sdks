@@ -1,22 +1,31 @@
-import type { ResourceReference, ResponseMeta, ResourceType } from './types-40.js';
-import type { CreateOrderLineItem, CreateOrderLineItemRequestInput } from './types-7.js';
-import type { OrderChargeRequest, OrderChargeRequestInput } from './types-32.js';
-import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-41.js';
-import type { RiskListItemAddition } from './types-43.js';
-import type { MoneyValue, MoneyMovementListMeta, ModifierSet } from './types-31.js';
-import type { SignedMoneyInput, SelectedProductOption } from './types-44.js';
-import type { GiftCard } from './types-18.js';
-import type { GiftCardLoad, GiftCardTransaction, ImageAttachment } from './types-19.js';
+import type { ResourceReference, ResponseMeta, ResourceType } from './types-42.js';
+import type { CreateOrderLineItem, CreateOrderLineItemRequestInput } from './types-8.js';
+import type { OrderChargeRequest, OrderChargeRequestInput } from './types-34.js';
+import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-43.js';
+import type { RiskListItemAddition } from './types-45.js';
+import type { MoneyValue, MoneyMovementListMeta, ModifierSet } from './types-33.js';
+import type { SignedMoneyRequestRequestInput } from './types-47.js';
+import type { GiftCard, GiftCardLoad } from './types-20.js';
+import type { GiftCardTransaction, ImageAttachment } from './types-21.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateAPIKeyRequestInput, ConfigurationVersionRequestInput, CreateBundleRequestInput } from './types-5.js';
-import type { UpdateAPIKeyRequestInput } from './types-47.js';
-import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-29.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-38.js';
-import type { Credentials } from './types-9.js';
-import type { ExpandedOrderSummary } from './types-16.js';
+import type { CreateAPIKeyRequestInput, ConfigurationVersionRequestInput } from './types-5.js';
+import type { UpdateAPIKeyRequestInput } from './types-50.js';
+import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-31.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-40.js';
+import type { Credentials } from './types-11.js';
+import type { ExpandedOrderSummary } from './types-18.js';
+import type { BundleComponent } from './types-1.js';
 import type { CategoryReference } from './types-3.js';
+import type { MetadataMap } from './types-32.js';
 /** Shape $ (Value): {@link APIKey}. A credential used to authenticate API requests. */
 export type APIKey = {
+    /**
+     * Shape $ (Value): string. Key access. Full and read_only resolve from the current scope
+     * catalog for the key's mode; restricted holds only its listed scopes. Granting full or
+     * read_only requires a freshly verified authorized user session or a full-access API key.
+     * Value enum: "full", "read_only", "restricted".
+     */
+    "access": "full" | "read_only" | "restricted" | (string & {});
     /** Shape $ (Value): string. */
     "api_key_id": string;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
@@ -47,7 +56,8 @@ export type APIKey = {
     /** Shape $ (Value): string. */
     "sandbox_id"?: string;
     /**
-     * Shape $ (Value): Array of string. [] enum: "accounts.api_keys.read",
+     * Shape $ (Value): Array of string. The scopes the key holds now. For full and read_only keys
+     * this list grows when Flint adds scopes. [] enum: "accounts.api_keys.read",
      * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
      * "accounts.organizations.read", "accounts.organizations.write",
      * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
@@ -57,14 +67,15 @@ export type APIKey = {
      * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
      * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
      * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
      * "commerce.returns.resolutions.write", "commerce.returns.write",
      * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
      * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
@@ -72,17 +83,17 @@ export type APIKey = {
      * "developer.feedback_reports.write", "developer.partner_apps.read",
      * "developer.partner_apps.write", "developer.request_logs.read",
      * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
+     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
+     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
+     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
+     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
      * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
      * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
      * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
@@ -94,14 +105,15 @@ export type APIKey = {
      * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
      * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
      * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
      * "commerce.returns.resolutions.write", "commerce.returns.write",
      * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
      * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
@@ -109,17 +121,17 @@ export type APIKey = {
      * "developer.feedback_reports.write", "developer.partner_apps.read",
      * "developer.partner_apps.write", "developer.request_logs.read",
      * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
+     * "developer.sandboxes.read", "developer.sandboxes.write", "developer.test_clocks.read",
+     * "developer.test_clocks.write", "merchant_billing.read", "merchants.account_sessions.write",
+     * "merchants.locations.read", "merchants.locations.write", "merchants.onboarding.read",
+     * "merchants.onboarding.write", "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
+     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
+     * "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
      * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
      * "webhooks.write".
      */
@@ -149,10 +161,10 @@ export type APIKey = {
         | "commerce.gift_cards.redemptions.write"
         | "commerce.gift_cards.secrets.write"
         | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
         | "commerce.inventory.read"
         | "commerce.inventory.write"
-        | "commerce.inventory_locations.write"
-        | "commerce.inventory_policies.write"
         | "commerce.invoices.read"
         | "commerce.invoices.write"
         | "commerce.orders.read"
@@ -164,10 +176,10 @@ export type APIKey = {
         | "commerce.refunds.read"
         | "commerce.refunds.tax_overrides.write"
         | "commerce.refunds.write"
-        | "commerce.return_policies.write"
-        | "commerce.return_reasons.write"
         | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
         | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
         | "commerce.returns.resolutions.write"
         | "commerce.returns.write"
         | "commerce.subscription_plans.read"
@@ -186,6 +198,8 @@ export type APIKey = {
         | "developer.resource_timelines.read"
         | "developer.sandboxes.read"
         | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
         | "merchant_billing.read"
         | "merchants.account_sessions.write"
         | "merchants.locations.read"
@@ -208,7 +222,6 @@ export type APIKey = {
         | "payments.payment_method_domains.write"
         | "payments.payment_methods.read"
         | "payments.payment_methods.write"
-        | "payments.payment_options.read"
         | "reports.read"
         | "reports.write"
         | "risk.controls.write"
@@ -251,7 +264,7 @@ export type APIKeyListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /** Shape $ (Value): {@link APIKeyResponse}. A response containing `APIKey` data. */
 export type APIKeyResponse = {
@@ -266,7 +279,7 @@ export type APIKeyResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link APIKeyWithSecret}. An API key including its `secret_key`, returned by
@@ -363,11 +376,11 @@ export type APIRequestLog = {
      * "customer_deletion_request", "customer_email_preferences", "customer_session",
      * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
      * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
-     * "delivery_selection", "delivery_zone", "device", "discount", "dispute",
+     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
      * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
      * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
      * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
-     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
      * "inventory_adjustment", "inventory_allocation_policy",
      * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
      * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
@@ -377,18 +390,19 @@ export type APIRequestLog = {
      * "merchant", "merchant_billing_balance", "merchant_billing_entry",
      * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
      * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
-     * "organization", "package", "package_item", "partner_app", "partner_app_install",
-     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
-     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
-     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
+     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
+     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
+     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
+     * "payout", "payout_destination", "payout_settings", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
+     * "report", "report_download", "return", "return_activity", "return_disposition",
+     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
+     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
+     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_connection", "tax_registration", "user",
      * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
      */
     "resource_type"?: ResourceType;
@@ -525,11 +539,11 @@ export type APIRequestLogDetail = {
      * "customer_deletion_request", "customer_email_preferences", "customer_session",
      * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
      * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
-     * "delivery_selection", "delivery_zone", "device", "discount", "dispute",
+     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
      * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
      * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
      * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
-     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
      * "inventory_adjustment", "inventory_allocation_policy",
      * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
      * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
@@ -539,18 +553,19 @@ export type APIRequestLogDetail = {
      * "merchant", "merchant_billing_balance", "merchant_billing_entry",
      * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
      * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
-     * "organization", "package", "package_item", "partner_app", "partner_app_install",
-     * "payment_intent", "payment_link", "payment_link_custom_field", "payment_link_line_item",
-     * "payment_method", "payment_method_domain", "payment_review", "payout", "payout_destination",
-     * "payout_settings", "product", "product_option", "product_option_value", "product_variant",
-     * "promotion", "promotion_code", "purchase_refund_allocation", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
-     * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
-     * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
-     * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
-     * "subscription_delivery_migration", "subscription_line_item", "subscription_offer",
-     * "subscription_payment_retry", "subscription_plan", "subscription_plan_line_item", "user",
+     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
+     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
+     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
+     * "payout", "payout_destination", "payout_settings", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
+     * "report", "report_download", "return", "return_activity", "return_disposition",
+     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
+     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
+     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_connection", "tax_registration", "user",
      * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
      */
     "resource_type"?: ResourceType;
@@ -603,7 +618,7 @@ export type APIRequestLogDetailResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /** Shape $ (Value): {@link APIRequestLogListResponse}. A page of `APIRequestLog` objects. */
 export type APIRequestLogListResponse = {
@@ -623,7 +638,7 @@ export type APIRequestLogListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link APIRequestLogQueryParam}. A query string parameter from a logged API
@@ -722,7 +737,7 @@ export type AccessLinkResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /** Shape $ (Value): {@link AddLineItemsRequest}. The request body for: Add line items. */
 export type AddLineItemsRequest = {
@@ -872,7 +887,7 @@ export type AddRiskListItemsResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link AddRiskListItemsResult}. Risk list item additions, one per request value
@@ -887,51 +902,75 @@ export type AddRiskListItemsResult = {
     "additions": Array<RiskListItemAddition>;
 };
 /**
- * Shape $ (Value): {@link Address}. A postal address, as returned on customers, invoices, tax
- * locations, and fulfillment recipients.
+ * Shape $ (Value): {@link Address}. A postal address. Every address has country. Addresses Flint
+ * checked as complete (customer and saved addresses, merchant, location, invoice, order delivery
+ * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
+ * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
+ * locations and postal-code tax locations hold only what was provided, such as postal_code and
+ * country.
  */
 export type Address = {
     /** Shape $ (Value): string. City or locality of the address. */
-    "city": string;
+    "city"?: string;
     /**
      * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
      * pattern: ^[A-Z]{2}$. Example: "US".
      */
     "country": string;
     /** Shape $ (Value): string. Street address, including the building number. */
-    "line1": string;
+    "line1"?: string;
     /** Shape $ (Value): string. Apartment, suite, floor, or other address details. */
     "line2"?: string;
     /** Shape $ (Value): string. Postal or ZIP code of the address. */
-    "postal_code": string;
+    "postal_code"?: string;
     /** Shape $ (Value): string. State, province, or region of the address. */
-    "state": string;
+    "state"?: string;
 };
 /**
- * Shape $ (Value): {@link AddressRequest}. A postal address you supply when creating or updating a
- * customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
+ * Shape $ (Value): {@link AddressRequest}. A complete postal address. State and postal_code are
+ * required for US addresses and optional for other countries. Send null or omit line2, state, and
+ * postal_code when the address has none.
  */
-export type AddressRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
+export type AddressRequest = ({
+    /**
+     * Shape $ (Value): string. Nonempty after surrounding whitespace is trimmed. Limits count
+     * Unicode code points after trimming. minLength: 1. maxLength: 100. pattern: \S.
+     */
     "city": string;
     /**
-     * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
-     * pattern: ^[A-Z]{2}$. Example: "US".
+     * Shape $ (Value): string. A real ISO 3166-1 alpha-2 country code. Lowercase codes and
+     * surrounding whitespace are rejected. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
+     * Example: "US".
      */
     "country": string;
-    /** Shape $ (Value): string. minLength: 1. */
+    /**
+     * Shape $ (Value): string. Nonempty after surrounding whitespace is trimmed. Limits count
+     * Unicode code points after trimming. minLength: 1. maxLength: 255. pattern: \S.
+     */
     "line1": string;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
+    /**
+     * Shape $ (Value): string or null. Nonempty after surrounding whitespace is trimmed. Limits
+     * count Unicode code points after trimming. Send null or omit it when the address has none.
+     * minLength: 1. maxLength: 255. pattern: \S.
+     */
     "line2"?: string | null;
-    /** Shape $ (Value): string. */
-    "postal_code": string;
-    /** Shape $ (Value): string. */
-    "state": string;
-};
+    /**
+     * Shape $ (Value): string or null. Nonempty after surrounding whitespace is trimmed. Limits
+     * count Unicode code points after trimming. Send null or omit it when the address has none.
+     * Required for US addresses. minLength: 1. maxLength: 20. pattern: \S.
+     */
+    "postal_code"?: string | null;
+    /**
+     * Shape $ (Value): string or null. Nonempty after surrounding whitespace is trimmed. Limits
+     * count Unicode code points after trimming. Send null or omit it when the address has none.
+     * Required for US addresses. minLength: 1. maxLength: 100. pattern: \S.
+     */
+    "state"?: string | null;
+});
 /**
- * Shape $ (Value): {@link AddressRequestInput}. A postal address you supply when creating or
- * updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear
- * it.
+ * Shape $ (Value): {@link AddressRequestInput}. A complete postal address. State and postal_code
+ * are required for US addresses and optional for other countries. Send null or omit line2, state,
+ * and postal_code when the address has none.
  */
 export type AddressRequestInput = AddressRequest;
 /**
@@ -971,11 +1010,11 @@ export type AdjustGiftCardBalanceRequest = {
  */
 export type AdjustGiftCardBalanceRequestInput = {
     /**
-     * Shape $ (Value): {@link SignedMoneyInput}. Nonzero USD amount to change the card's value by:
-     * positive adds value and negative removes it. Signed monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link SignedMoneyRequestRequestInput}. Nonzero USD amount to change the
+     * card's value by: positive adds value and negative removes it. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "amount_money": SignedMoneyInput;
+    "amount_money": SignedMoneyRequestRequestInput;
     /**
      * Shape $ (Value): integer string. The gift card version last read. The command changes this
      * card only when its current version matches. Use an integer string (decimal digits), not a
@@ -1042,7 +1081,7 @@ export type AdjustGiftCardBalanceResultResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 export type AnalyticsGetOverviewInput = {
     /** Shape $ (Value): string. Inclusive period start. Format: date-time. */
@@ -1162,7 +1201,7 @@ export type AnalyticsOverviewResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 export type ApiKeysCreateInput = {
     /** Shape $ (Value): string. maxLength: 255. */
@@ -1242,20 +1281,8 @@ export type ApplyDiscountRequest = ({
      */
     "promotion"?: PromotionRefRequest;
 })
-    & ((({
-    /**
-     * Shape $ (Value): {@link PromotionRefRequest}. Identifies the promotion to apply, by
-     * promotion code or by promotion ID.
-     */
-    "promotion": PromotionRefRequest;
-}))
-    | (({
-    /**
-     * Shape $ (Value): {@link ManualDiscountRequest}. A discount you apply by hand to an order,
-     * with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual": ManualDiscountRequest;
-}))
+    & ((Exclude<ApplyDiscountRequestPromotion & object, readonly unknown[]>)
+    | (Exclude<ApplyDiscountRequestManual & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /** Shape $ (Value): {@link ApplyDiscountRequestInput}. The request body for: Apply discount. */
 export type ApplyDiscountRequestInput = ({
@@ -1276,7 +1303,93 @@ export type ApplyDiscountRequestInput = ({
      */
     "promotion"?: PromotionRefRequestInput;
 })
-    & ((({
+    & ((Exclude<ApplyDiscountRequestPromotionInput & object, readonly unknown[]>)
+    | (Exclude<ApplyDiscountRequestManualInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link ApplyDiscountRequestManual}. The `Manual` variant of
+ * `ApplyDiscountRequest`.
+ */
+export type ApplyDiscountRequestManual = ({
+    /**
+     * Shape $ (Value): integer string. Optional order version from the last order read. The
+     * mutation fails if the order changed. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): {@link ManualDiscountRequest}. A discount you apply by hand to an order,
+     * with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual": ManualDiscountRequest;
+    /**
+     * Shape $ (Value): {@link PromotionRefRequest}. Identifies the promotion to apply, by
+     * promotion code or by promotion ID.
+     */
+    "promotion"?: PromotionRefRequest;
+});
+/**
+ * Shape $ (Value): {@link ApplyDiscountRequestManualInput}. The `Manual` variant of
+ * `ApplyDiscountRequest`.
+ */
+export type ApplyDiscountRequestManualInput = ({
+    /**
+     * Shape $ (Value): integer string. Optional order version from the last order read. The
+     * mutation fails if the order changed. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): {@link ManualDiscountRequestInput}. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual": ManualDiscountRequestInput;
+    /**
+     * Shape $ (Value): {@link PromotionRefRequestInput}. Identifies the promotion to apply, by
+     * promotion code or by promotion ID.
+     */
+    "promotion"?: PromotionRefRequestInput;
+})
+    & (({
+    "promotion"?: never;
+}));
+/**
+ * Shape $ (Value): {@link ApplyDiscountRequestPromotion}. The `Promotion` variant of
+ * `ApplyDiscountRequest`.
+ */
+export type ApplyDiscountRequestPromotion = ({
+    /**
+     * Shape $ (Value): integer string. Optional order version from the last order read. The
+     * mutation fails if the order changed. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): {@link ManualDiscountRequest}. A discount you apply by hand to an order,
+     * with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequest;
+    /**
+     * Shape $ (Value): {@link PromotionRefRequest}. Identifies the promotion to apply, by
+     * promotion code or by promotion ID.
+     */
+    "promotion": PromotionRefRequest;
+});
+/**
+ * Shape $ (Value): {@link ApplyDiscountRequestPromotionInput}. The `Promotion` variant of
+ * `ApplyDiscountRequest`.
+ */
+export type ApplyDiscountRequestPromotionInput = ({
+    /**
+     * Shape $ (Value): integer string. Optional order version from the last order read. The
+     * mutation fails if the order changed. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): {@link ManualDiscountRequestInput}. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequestInput;
     /**
      * Shape $ (Value): {@link PromotionRefRequestInput}. Identifies the promotion to apply, by
      * promotion code or by promotion ID.
@@ -1285,17 +1398,7 @@ export type ApplyDiscountRequestInput = ({
 })
     & (({
     "manual"?: never;
-})))
-    | (({
-    /**
-     * Shape $ (Value): {@link ManualDiscountRequestInput}. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual": ManualDiscountRequestInput;
-})
-    & (({
-    "promotion"?: never;
-}))));
+}));
 /**
  * Shape $ (Value): {@link ApplyOrderGiftCardRequestInput}. The request body for: Apply a gift card
  * to an order.
@@ -1333,6 +1436,57 @@ export type AssignToUnconfiguredDeliveryProfileRequestInput = {
      * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      */
     "expected_version"?: `${bigint}` | bigint;
+};
+/**
+ * Shape $ (Value): {@link AuthContext}. Identity and access of the current developer credential:
+ * whether it is an API key or OAuth, its merchant, environment, sandbox, and scopes.
+ */
+export type AuthContext = ({
+    /** Shape $ (Value): string. */
+    "api_key_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "api_key", "oauth", "workload_identity". */
+    "auth_type": "api_key" | "oauth" | "workload_identity" | (string & {});
+    /** Shape $ (Value): string. */
+    "context_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "sandbox", "live". */
+    "environment": "sandbox" | "live" | (string & {});
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "expires_at"?: string;
+    /** Shape $ (Value): string. */
+    "merchant_id": string;
+    /** Shape $ (Value): string. */
+    "name"?: string;
+    /** Shape $ (Value): string. */
+    "oauth_grant_id"?: string;
+    /** Shape $ (Value): string. */
+    "oauth_session_id"?: string;
+    /** Shape $ (Value): string. */
+    "organization_id"?: string;
+    /** Shape $ (Value): string. */
+    "sandbox_id"?: string;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    "scopes": Array<string>;
+    /** Shape $ (Value): string. */
+    "workload_identity_id"?: string;
+});
+/** Shape $ (Value): {@link AuthContextResponse}. A response containing `AuthContext` data. */
+export type AuthContextResponse = {
+    /**
+     * Shape $ (Value): {@link AuthContext}. Identity and access of the current developer
+     * credential: whether it is an API key or OAuth, its merchant, environment, sandbox, and
+     * scopes.
+     */
+    "data": AuthContext;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
 export type AuthMode = keyof Credentials;
 /**
@@ -1425,7 +1579,7 @@ export type BalanceListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /** Shape $ (Value): {@link BalanceTransaction}. A change to the merchant's balance. */
 export type BalanceTransaction = {
@@ -1558,7 +1712,7 @@ export type BalanceTransactionListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BalanceTransactionResponse}. A response containing `BalanceTransaction`
@@ -1576,7 +1730,7 @@ export type BalanceTransactionResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 export type BalanceTransactionsGetInput = {
     /** Shape $ (Value): string. */
@@ -1798,10 +1952,12 @@ export type Bundle = {
     /** Shape $ (Value): string. Identifier of the merchant that owns this resource. */
     "merchant_id"?: string;
     /**
-     * Shape $ (Value): Map of string. Caller-owned metadata stored on this resource. Shape $.*
-     * (Value): string.
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata stored on this resource.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
      */
-    "metadata"?: Record<string, string>;
+    "metadata"?: MetadataMap;
     /**
      * Shape $ (Value): {@link ModifierSet} or null. Attached modifier set, included when
      * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
@@ -1838,139 +1994,4 @@ export type Bundle = {
      * floating-point number. Format: uint64. minimum: 0.
      */
     "version": `${bigint}`;
-};
-/** Shape $ (Value): {@link BundleComponent}. An item included in a bundle. */
-export type BundleComponent = {
-    /** Shape $ (Value): string. Stable identifier of this component within its bundle. */
-    "bundle_component_id": string;
-    /**
-     * Shape $ (Value): string. Reason the component's delivery configuration needs attention.
-     * Value enum: "delivery_profile_missing", "delivery_profile_inactive".
-     */
-    "delivery_configuration_reason"?: "delivery_profile_missing" | "delivery_profile_inactive" | (string & {});
-    /**
-     * Shape $ (Value): string. Whether the component's delivery configuration is ready, needs
-     * attention, or does not apply. Value enum: "configured", "action_required", "not_applicable".
-     */
-    "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-    /**
-     * Shape $ (Value): string. Delivery profile used for this component, including any component
-     * override.
-     */
-    "delivery_profile_id"?: string;
-    /**
-     * Shape $ (Value): integer. Display order among the bundle's components, starting at zero.
-     * Format: int32.
-     */
-    "position": number;
-    /** Shape $ (Value): string. Identifier of the product the component's variant belongs to. */
-    "product_id"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): {@link BundleComponentVariantSummary}. Summary of the component's variant
-     * and its selected options. A summary of the variant that fills a bundle component: its names,
-     * SKU, selected options, and whether it is available for sale.
-     */
-    "variant"?: BundleComponentVariantSummary;
-    /** Shape $ (Value): string. Identifier of the product variant included in the bundle. */
-    "variant_id": string;
-};
-/** Shape $ (Value): {@link BundleComponentListResponse}. A page of `BundleComponent` objects. */
-export type BundleComponentListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link BundleComponent}. The requested bundle component data.
-     * Shape $[] (Value): {@link BundleComponent}. An item included in a bundle.
-     */
-    "data": Array<BundleComponent>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Additional information about this response. Metadata
-     * returned with a response: the `api_version`, `trace_id`, whether an idempotent request was
-     * replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. Identifier of this API request, useful when contacting support.
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BundleComponentVariantSummary}. A summary of the variant that fills a
- * bundle component: its names, SKU, selected options, and whether it is available for sale.
- */
-export type BundleComponentVariantSummary = {
-    /**
-     * Shape $ (Value): boolean. Whether the component's variant and its product are both active.
-     */
-    "available_for_sale": boolean;
-    /** Shape $ (Value): string. Name of the component's variant, when set. */
-    "name"?: string;
-    /** Shape $ (Value): string. Name of the product the variant belongs to. */
-    "product_name"?: string;
-    /**
-     * Shape $ (Value): Array of {@link SelectedProductOption}. Option names and values selected by
-     * the component's variant. Shape $[] (Value): {@link SelectedProductOption}. An option and
-     * value chosen for a product variant, such as size Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    /**
-     * Shape $ (Value): string. Stock keeping unit assigned to the component's variant, when set.
-     */
-    "sku"?: string;
-    /** Shape $ (Value): string. Identifier of the product variant included in the component. */
-    "variant_id": string;
-};
-/** Shape $ (Value): {@link BundleListResponse}. A page of `Bundle` objects. */
-export type BundleListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link Bundle}. The requested bundle data. Shape $[] (Value):
-     * {@link Bundle}. A group of items sold together.
-     */
-    "data": Array<Bundle>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Additional information about this response. Metadata
-     * returned with a response: the `api_version`, `trace_id`, whether an idempotent request was
-     * replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. Identifier of this API request, useful when contacting support.
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link BundleResponse}. A response containing `Bundle` data. */
-export type BundleResponse = {
-    /**
-     * Shape $ (Value): {@link Bundle}. The requested bundle data. A group of items sold together.
-     */
-    "data": Bundle;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Additional information about this response. Metadata
-     * returned with a response: the `api_version`, `trace_id`, whether an idempotent request was
-     * replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. Identifier of this API request, useful when contacting support.
-     * maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-export type BundlesCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link CreateBundleRequestInput}. The request body for: Create bundle. */
-    "body": InputValue<CreateBundleRequestInput>;
 };

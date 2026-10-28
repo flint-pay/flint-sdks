@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class SavePaymentMethodRequestInput extends Model {
-    /** @param array{'customer_id': string, 'type'?: string, ...}|object $values */
+    /** @param array{'customer_id': string, 'type'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SavePaymentMethodRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

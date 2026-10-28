@@ -14,14 +14,14 @@ Request input.
 
 ### CreateMeSubscriptionPreviewRequestInput variant 1: `mode` = `"delivery_options"`
 
-oneOf variant 1.
+oneOf variant 1: The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`..
 
 - Required: `destination`.
 - Constraints for `mode`: Values: `"delivery_options"`.
 
 ### CreateMeSubscriptionPreviewRequestInput variant 2: `mode` = `"next_renewal"`
 
-oneOf variant 2.
+oneOf variant 2: The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`..
 
 - Undeclared: `destination`.
 - Constraints for `mode`: Values: `"next_renewal"`.

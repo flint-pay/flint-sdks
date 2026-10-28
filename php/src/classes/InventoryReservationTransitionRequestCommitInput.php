@@ -15,7 +15,7 @@ final class InventoryReservationTransitionRequestCommitInput extends Model {
      */
     public function getAction(): string { return $this->get('action'); }
     public function hasAction(): bool { return $this->has('action'); }
-    /** Shape $ (Value): integer string. Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+    /** Shape $ (Value): integer string. Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

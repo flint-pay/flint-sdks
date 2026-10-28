@@ -96,7 +96,7 @@ final class InventoryMovementInput extends Model {
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Shape $ (Value): integer string. Claim version of the inventory level after this movement. Advances when held or committed quantities change. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Claim version of the inventory level after this movement. Advances when held or committed quantities change. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      * @return string
      * @throws SdkError When inventory_level_claim_version is omitted; use hasInventoryLevelClaimVersion() or valueOrDefault().
      */
@@ -108,13 +108,13 @@ final class InventoryMovementInput extends Model {
      */
     public function getInventoryLevelId(): string { return $this->get('inventory_level_id'); }
     public function hasInventoryLevelId(): bool { return $this->has('inventory_level_id'); }
-    /** Shape $ (Value): integer string. Physical version of the inventory level after this movement. Advances when on-hand or condition quantities change. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Physical version of the inventory level after this movement. Advances when on-hand or condition quantities change. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      * @return string
      * @throws SdkError When inventory_level_physical_version is omitted; use hasInventoryLevelPhysicalVersion() or valueOrDefault().
      */
     public function getInventoryLevelPhysicalVersion(): string { return $this->get('inventory_level_physical_version'); }
     public function hasInventoryLevelPhysicalVersion(): bool { return $this->has('inventory_level_physical_version'); }
-    /** Shape $ (Value): integer string. Version of the inventory level after this movement. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Version of the inventory level after this movement. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
      * @return string
      * @throws SdkError When inventory_level_version is omitted; use hasInventoryLevelVersion() or valueOrDefault().
      */
@@ -192,7 +192,7 @@ final class InventoryMovementInput extends Model {
      */
     public function getSafetyStockQuantityDelta(): string { return $this->get('safety_stock_quantity_delta'); }
     public function hasSafetyStockQuantityDelta(): bool { return $this->has('safety_stock_quantity_delta'); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      * @return string
      * @throws SdkError When source_observation_sequence is omitted; use hasSourceObservationSequence() or valueOrDefault().
      */

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read CreditNoteRefundRequestInput|array<array-key, mixed>|\stdClass $refund
  * Presence-aware input; omitted fields throw when accessed. */
 final class IssueCreditNoteRequestInput extends Model {
-    /** @param array{'allocation'?: CreditNoteIssueAllocationRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'refund'?: CreditNoteRefundRequestInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'allocation'?: CreditNoteIssueAllocationRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'refund'?: CreditNoteRefundRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('IssueCreditNoteRequestInput')); }
     /** Shape $ (Value): {@see CreditNoteIssueAllocationRequestInput}. Issue the credit note and apply credit to its invoice atomically. If the allocation fails, the note stays a draft. Omit amount_money to apply the smaller of the credit available after issue and the invoice's outstanding balance. Cannot be combined with refund. Credit to apply to the invoice when issuing a credit note.
      * @return CreditNoteIssueAllocationRequestInput|array<array-key, mixed>|\stdClass

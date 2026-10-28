@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $expected_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class AddOrderChargeRequestInput extends Model {
-    /** @param array{'charge': OrderChargeRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, ...}|object $values */
+    /** @param array{'charge': OrderChargeRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AddOrderChargeRequestInput')); }
     /** Shape $ (Value): {@see OrderChargeRequestInput}. A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a percentage with its tax settings.
      * @return OrderChargeRequestInput|array<array-key, mixed>|\stdClass

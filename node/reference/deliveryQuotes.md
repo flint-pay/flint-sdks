@@ -54,7 +54,7 @@ const result = await client.deliveryQuotes.get("example", {}, {  });
 
 ### deliveryQuotes.list
 
-Returns persisted delivery quote diagnostics in stable creation order.
+Returns delivery quote diagnostics with status derived identically to individual and checkout quote reads. Quotes are ordered by created_at and delivery_quote_id ascending. Each page scans at most 500 rows and may contain fewer than page_size items while next_page_token is present. Default order: created_at ascending, then delivery_quote_id ascending.
 
 `GET /v1/delivery-quotes`
 

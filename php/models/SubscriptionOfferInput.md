@@ -11,7 +11,7 @@ Request input.
 | `billing_interval_options` | Required | Array of [SubscriptionIntervalOptionInput](../models/SubscriptionIntervalOptionInput.md#subscriptionintervaloptioninput) | minItems: `1`. maxItems: `12`. uniqueItems: `true`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `metadata` | Required | Map of string |  |
+| `metadata` | Required | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `name` | Required | string | minLength: `1`. maxLength: `255`. |
 | `product_ids` | Required | Array of string | Catalog targets for new signups. At least one product or variant is required. maxItems: `100`. uniqueItems: `true`. |
 | `promotion_id` | Required | string or null | An active promotion with forever recurrence. On PATCH, null removes the discount for new signups; omission keeps it. |

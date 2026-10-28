@@ -7,7 +7,7 @@ namespace Flint;
 final class BuyerPayBalanceActionOptionsInput extends Model {
     /** @param array{'return_resolution_ids': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPayBalanceActionOptionsInput')); }
-    /** Shape $ (Value): Array of string. Payable resolutions in creation order. Read each amount with GET /v1/me/return-resolutions/{return_resolution_id}, then create its checkout session with POST /v1/me/return-resolutions/{return_resolution_id}/checkout-session. minItems: 1. Shape $[] (Value): string.
+    /** Shape $ (Value): Array of string. Payable resolutions in creation order. Read each amount with GET /v1/me/return-resolutions/{return_resolution_id}, then create its checkout session with POST /v1/me/return-resolutions/{return_resolution_id}/checkout-sessions. minItems: 1. Shape $[] (Value): string.
      * @return list<string>
      * @throws SdkError When return_resolution_ids is omitted; use hasReturnResolutionIds() or valueOrDefault().
      */

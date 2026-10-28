@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read list<string> $digital_wallets
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderPaymentSourceCardSelectionInput extends Model {
-    /** @param array{'digital_wallets'?: list<string>, ...}|object $values */
+    /** @param array{'digital_wallets'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderPaymentSourceCardSelectionInput')); }
     /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
      * @return list<string>

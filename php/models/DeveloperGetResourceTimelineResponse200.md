@@ -11,5 +11,5 @@ Response model.
 | `data` | Required | [ResourceTimeline](../models/ResourceTimeline.md#resourcetimeline) | The activity timeline for one resource, such as API requests, webhook events and deliveries, and image changes. |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
 | `next_page_token` | Optional | string |  |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 

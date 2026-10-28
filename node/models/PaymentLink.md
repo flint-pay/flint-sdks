@@ -10,7 +10,7 @@ A reusable link that opens checkout.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_fields` | Optional | [CheckoutBuyerFields](../models/CheckoutBuyerFields.md#checkoutbuyerfields) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. |
+| `buyer_fields` | Optional | [CheckoutBuyerFields](../models/CheckoutBuyerFields.md#checkoutbuyerfields) | What checkout asks the buyer for. Each field you leave out uses your checkout settings. `buyer_fields`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessionbuyer_fields). |
 | `checkout_session_expires_in_seconds` | Optional | integer string | Seconds each checkout session the link starts stays open, from 60 to 86,400. Omit it to use your checkout settings, or 24 hours. It doesn't end the link; use sales_end_at for that. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `60`. maximum: `86400`. |
 | `completed_count` | Required | integer | Format: `int32`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -30,25 +30,29 @@ A reusable link that opens checkout.
 | `line_items` | Optional | Array of [PaymentLinkLineItem](../models/PaymentLinkLineItem.md#paymentlinklineitem) |  |
 | `max_completions` | Optional | integer | Format: `int32`. |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BuyerRefund.md#buyerrefundmetadata). |
 | `name` | Required | string |  |
 | `payment_link_id` | Required | string |  |
 | `payment_link_type` | Optional | string | Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](../models/CheckoutPaymentConfig.md#checkoutpaymentconfig) | Payment settings for a checkout: the enabled payment options and a note shown with payment. `payments`: [field definitions](../models/IncomingWebhookbd61ef55b477Payload.md#incomingwebhookbd61ef55b477payloaddataobjectpayments). |
-| `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
+| `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. `promotion_config`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessionpromotion_config). |
 | `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url. `redirects`: [field definitions](../models/IncomingWebhookbd61ef55b477Payload.md#incomingwebhookbd61ef55b477payloaddataobjectredirects). |
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve returns PAYMENT_LINK_SALES_ENDED. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. |
 | `sales_summary` | Optional | [PaymentLinkSalesSummary](../models/PaymentLinkSalesSummary.md#paymentlinksalessummary) | Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. Paid-order sales totals for a payment link, computed on request. Paid means the order's collection has completed. Fully and partially refunded orders still count, and paid_totals reports the amount collected before refunds. Each order counts once even if it has multiple checkout sessions. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`. |
 | `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummary](../models/ExpandedSubscriptionPlanSummary.md#expandedsubscriptionplansummary) or null |  |
 | `subscription_plan_id` | Optional | string |  |
-| `tax` | Optional | [CheckoutTaxConfig](../models/CheckoutTaxConfig.md#checkouttaxconfig) | Whether tax is collected for a checkout session or payment link. `tax`: [field definitions](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequesttax). |
+| `tax` | Optional | [CheckoutTaxConfig](../models/CheckoutTaxConfig.md#checkouttaxconfig) | Whether tax is collected for a checkout session or payment link. `tax`: [field definitions](../models/IncomingWebhookbd61ef55b477Payload.md#incomingwebhookbd61ef55b477payloaddataobjecttax). |
 | `theme` | Optional | [ThemeConfig](../models/ThemeConfig.md#themeconfig) | Colors and title applied to a payment link's checkout page. `theme`: [field definitions](../models/IncomingWebhookbd61ef55b477Payload.md#incomingwebhookbd61ef55b477payloaddataobjecttheme). |
-| `tip` | Optional | [CheckoutTipConfig](../models/CheckoutTipConfig.md#checkouttipconfig) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. |
+| `tip` | Optional | [CheckoutTipConfig](../models/CheckoutTipConfig.md#checkouttipconfig) | Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips. `tip`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontip). |
 | `total_quantity_sold` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `url` | Required | string |  |
 | `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+
+### PaymentLink.buyer_fields
+
+Field definitions: [BuyerCheckoutSession.buyer_fields](../models/BuyerCheckoutSession.md#buyercheckoutsessionbuyer_fields).
 
 ### PaymentLink.custom_text
 
@@ -78,9 +82,17 @@ Field definitions: [IncomingWebhook0452cf0e91f7Payload.data.object.inventory_rou
 
 Field definitions: [BuyerCheckoutSession.legal](../models/BuyerCheckoutSession.md#buyercheckoutsessionlegal).
 
+### PaymentLink.metadata
+
+Field definitions: [BuyerRefund.metadata](../models/BuyerRefund.md#buyerrefundmetadata).
+
 ### PaymentLink.payments
 
 Field definitions: [IncomingWebhookbd61ef55b477Payload.data.object.payments](../models/IncomingWebhookbd61ef55b477Payload.md#incomingwebhookbd61ef55b477payloaddataobjectpayments).
+
+### PaymentLink.promotion_config
+
+Field definitions: [BuyerCheckoutSession.promotion_config](../models/BuyerCheckoutSession.md#buyercheckoutsessionpromotion_config).
 
 ### PaymentLink.redirects
 
@@ -88,9 +100,13 @@ Field definitions: [IncomingWebhookbd61ef55b477Payload.data.object.redirects](..
 
 ### PaymentLink.tax
 
-Field definitions: [CreatePaymentLinkRequest.tax](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequesttax).
+Field definitions: [IncomingWebhookbd61ef55b477Payload.data.object.tax](../models/IncomingWebhookbd61ef55b477Payload.md#incomingwebhookbd61ef55b477payloaddataobjecttax).
 
 ### PaymentLink.theme
 
 Field definitions: [IncomingWebhookbd61ef55b477Payload.data.object.theme](../models/IncomingWebhookbd61ef55b477Payload.md#incomingwebhookbd61ef55b477payloaddataobjecttheme).
+
+### PaymentLink.tip
+
+Field definitions: [BuyerCheckoutSession.tip](../models/BuyerCheckoutSession.md#buyercheckoutsessiontip).
 

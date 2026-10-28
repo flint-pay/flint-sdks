@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-6.js';
+import type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-7.js';
 import type {
     GiftCardFundingDisposition,
     GiftCardFundingDispositionListResponse,
@@ -8,10 +8,10 @@ import type {
     GiftCardFundingDispositionsCreateInput,
     GiftCardFundingDispositionsGetInput,
     GiftCardFundingDispositionsListInput
-} from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-20.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -26,9 +26,9 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-6.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateGiftCardFundingDispositionRequestInput } from '../declarations/types-7.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     GiftCardFundingDisposition,
     GiftCardFundingDispositionResponse,
@@ -36,14 +36,15 @@ export type {
     GiftCardFundingDispositionsCreateInput,
     GiftCardFundingDispositionsGetInput,
     GiftCardFundingDispositionsListInput
-} from '../declarations/types-18.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+} from '../declarations/types-20.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export { makeCreateGiftCardFundingDispositionRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeCreateGiftCardFundingDispositionRequest } from '../declarations/types-67.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface GiftCardFundingDispositionsResource {
     /**
  * Accepts a confirmed funding dispute loss and honors all gift card value funded by that payment,
@@ -84,7 +85,8 @@ export interface GiftCardFundingDispositionsResource {
     getWithResponse(gift_card_funding_disposition_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardFundingDispositionResponse>>;
     /**
  * Lists funding dispositions in descending ID order within the authenticated merchant and
- * environment. Filter by idempotency_key to recover a committed command.
+ * environment. Filter by idempotency_key to recover a committed command. Default order:
+ * gift_card_funding_disposition_id descending; this key uniquely orders the results.
  * @see reference/giftCardFundingDispositions.md#giftcardfundingdispositionslist
  * GET /v1/gift-card-funding-dispositions
  * @example

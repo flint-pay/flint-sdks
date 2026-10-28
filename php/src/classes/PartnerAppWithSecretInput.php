@@ -7,6 +7,8 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $api_version_changed_at
  * @property-read string $api_version_previous
  * @property-read string $client_id
+ * @property-read bool $client_secret_enabled
+ * @property-read string|\DateTimeInterface|null $client_secret_last_used_at
  * @property-read string|\DateTimeInterface $created_at
  * @property-read list<string> $default_requested_permissions
  * @property-read string $name
@@ -17,10 +19,10 @@ namespace Flint;
  * @property-read string $status
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $version
- * @property-read string $client_secret
+ * @property-read string|null $client_secret
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppWithSecretInput extends Model {
-    /** @param array{'allowed_scopes': list<string>, 'api_version': string, 'api_version_changed_at'?: string|\DateTimeInterface, 'api_version_previous'?: string, 'client_id': string, 'created_at'?: string|\DateTimeInterface, 'default_requested_permissions': list<string>, 'name': string, 'partner_app_id': string, 'permission_manifest': list<PartnerAppPermissionManifestEntryInput|array<array-key, mixed>|\stdClass>, 'previous_secret_expires_at'?: string|\DateTimeInterface, 'redirect_uris': list<string>, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': string, 'client_secret': string, ...}|object $values */
+    /** @param array{'allowed_scopes': list<string>, 'api_version': string, 'api_version_changed_at'?: string|\DateTimeInterface, 'api_version_previous'?: string, 'client_id': string, 'client_secret_enabled': bool, 'client_secret_last_used_at': string|\DateTimeInterface|null, 'created_at'?: string|\DateTimeInterface, 'default_requested_permissions': list<string>, 'name': string, 'partner_app_id': string, 'permission_manifest': list<PartnerAppPermissionManifestEntryInput|array<array-key, mixed>|\stdClass>, 'previous_secret_expires_at'?: string|\DateTimeInterface, 'redirect_uris': list<string>, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': string, 'client_secret': string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppWithSecretInput')); }
     /** Shape $ (Value): Array of string. Shape $[] (Value): string.
      * @return list<string>
@@ -52,6 +54,18 @@ final class PartnerAppWithSecretInput extends Model {
      */
     public function getClientId(): string { return $this->get('client_id'); }
     public function hasClientId(): bool { return $this->has('client_id'); }
+    /** Shape $ (Value): boolean.
+     * @return bool
+     * @throws SdkError When client_secret_enabled is omitted; use hasClientSecretEnabled() or valueOrDefault().
+     */
+    public function getClientSecretEnabled(): bool { return $this->get('client_secret_enabled'); }
+    public function hasClientSecretEnabled(): bool { return $this->has('client_secret_enabled'); }
+    /** Shape $ (Value): string or null. RFC3339 timestamp. Format: date-time.
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When client_secret_last_used_at is omitted; use hasClientSecretLastUsedAt() or valueOrDefault().
+     */
+    public function getClientSecretLastUsedAt(): string|\DateTimeInterface|null { return $this->get('client_secret_last_used_at'); }
+    public function hasClientSecretLastUsedAt(): bool { return $this->has('client_secret_last_used_at'); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -112,10 +126,10 @@ final class PartnerAppWithSecretInput extends Model {
      */
     public function getVersion(): string { return $this->get('version'); }
     public function hasVersion(): bool { return $this->has('version'); }
-    /** Shape $ (Value): string. One-time client secret returned when the partner app is created or its secret is rotated.
-     * @return string
+    /** Shape $ (Value): string or null. One-time client secret returned when enabled at creation. Null when client_secret_enabled is false.
+     * @return string|null
      * @throws SdkError When client_secret is omitted; use hasClientSecret() or valueOrDefault().
      */
-    public function getClientSecret(): string { return $this->get('client_secret'); }
+    public function getClientSecret(): string|null { return $this->get('client_secret'); }
     public function hasClientSecret(): bool { return $this->has('client_secret'); }
 }

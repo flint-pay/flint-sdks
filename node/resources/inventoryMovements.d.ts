@@ -6,10 +6,10 @@ import type {
     InventoryMovementResponse,
     InventoryMovementsGetInput,
     InventoryMovementsListInput
-} from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -24,23 +24,26 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta } from '../declarations/types-42.js';
 export type {
     InventoryMovement,
     InventoryMovementResponse,
     InventoryMovementListResponse,
     InventoryMovementsGetInput,
     InventoryMovementsListInput,
-    InventorySourceSystem
-} from '../declarations/types-25.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+    InventoryItem,
+    InventoryLevel
+} from '../declarations/types-26.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { InventoryItem, InventoryLevel } from '../declarations/types-24.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { MetadataMap } from '../declarations/types-32.js';
+export type { InventorySourceSystem } from '../declarations/types-27.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface InventoryMovementsResource {
     /**
  * Retrieve an inventory movement and its stock changes by ID.
@@ -62,7 +65,8 @@ export interface InventoryMovementsResource {
  * List inventory movements, oldest recorded first. Send expand=inventory_item to render each
  * movement's inventory item inline, so a history table needs no read per row. Filter by
  * idempotency_key to recover the movements a command produced. Send sort_direction=desc to read
- * the newest movements first.
+ * the newest movements first. Default order: created_at ascending, then inventory_movement_id
+ * ascending.
  * @see reference/inventoryMovements.md#inventorymovementslist
  * GET /v1/inventory-movements
  * @example

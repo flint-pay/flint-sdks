@@ -8,13 +8,13 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [24 declared values](#nextactioninput-action_type-values). |
+| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [25 declared values](#nextactioninput-action_type-values). |
 | `expires_at` | Optional | string | When this suggested action expires, in RFC3339 format. Format: `date-time`. |
 | `merchant_account_session` | Optional | [NextActionMerchantAccountSessionInput](../models/NextActionMerchantAccountSessionInput.md#nextactionmerchantaccountsessioninput) | Request body fields to send to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. Recommended request body fields for creating a merchant account session when a next action is `create_merchant_account_session`. |
 | `reason_code` | Optional | string | Machine-readable reason this action is suggested. |
 | `reason_message` | Optional | string | Explanation of why this action is suggested. |
 | `required_fields` | Optional | Array of string | Field names that must be supplied to perform this action. |
-| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [95 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
+| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [96 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
 | `requires_human_confirmation` | Optional | boolean | Whether a person must approve the action before it is performed. |
 | `suggested_delay_milliseconds` | Optional | integer | Suggested wait before performing the action, in milliseconds. Format: `int32`. |
 | `url` | Optional | string | Public endpoint or launch URL for this remediation action, when applicable. |
@@ -37,6 +37,7 @@ Request input.
 - `"get_refund"`
 - `"get_dispute"`
 - `"review_onboarding_state"`
+- `"create_dispute_response_session"`
 - `"review_merchant_readiness"`
 - `"recreate_delivery_quote"`
 - `"create_merchant_account_session"`

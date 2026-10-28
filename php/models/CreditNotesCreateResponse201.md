@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [CreditNote](../models/CreditNote.md#creditnote) | A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected. `data`: [field definitions](../models/CreditNotesCreateResponse201.md#creditnotescreateresponse201data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### CreditNotesCreateResponse201.data
 
@@ -80,10 +80,10 @@ Replaced as a whole: send every field you want to keep.
 
 ### CreditNotesCreateResponse201.data.buyer_tax_identity variant 1.registered_address variant 1
 
-anyOf variant 1: A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients..
+anyOf variant 1: A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country..
 
-- Required: `city`, `country`, `line1`, `postal_code`, `state`.
-- Optional: `line2`.
+- Required: `country`.
+- Optional: `city`, `line1`, `line2`, `postal_code`, `state`.
 
 ### CreditNotesCreateResponse201.data.buyer_tax_identity variant 1.registered_address variant 2
 
@@ -96,7 +96,7 @@ anyOf variant 2.
 
 A tax identifier printed on documents, with its country, optional region, identifier type, and value. Flint does not verify the value.
 
-Field definitions: [shared fields](DocumentTaxIDInput.md#documenttaxidinput).
+Field definitions: [shared fields](DocumentTaxIDRequestRequestInput.md#documenttaxidrequestrequestinput).
 
 ### CreditNotesCreateResponse201.data.seller_tax_identity
 

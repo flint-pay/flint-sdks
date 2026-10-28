@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read bool $shipping_updates
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateCustomerEmailPreferencesRequestInput extends Model {
-    /** @param array{'checkout_reminders'?: bool, 'expected_version'?: string, 'shipping_updates'?: bool, ...}|object $values */
+    /** @param array{'checkout_reminders'?: bool, 'expected_version'?: string, 'shipping_updates'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateCustomerEmailPreferencesRequestInput')); }
     /** Shape $ (Value): boolean. A reminder after leaving checkout without paying.
      * @return bool

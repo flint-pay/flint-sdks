@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read list<string> $requested_capabilities
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingAdvanceRequestInput extends Model {
-    /** @param array{'country'?: string, 'profile'?: OnboardingProfileRequestInput|array<array-key, mixed>|\stdClass, 'requested_capabilities'?: list<string>, ...}|object $values */
+    /** @param array{'country'?: string, 'profile'?: OnboardingProfileRequestInput|array<array-key, mixed>|\stdClass, 'requested_capabilities'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingAdvanceRequestInput')); }
     /** Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US".
      * @return string

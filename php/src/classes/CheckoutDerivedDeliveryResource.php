@@ -5,13 +5,14 @@ namespace Flint;
  * @property-read list<string> $buyer_reasons
  * @property-read list<DeliveryQuoteChoiceGroupResource> $choice_groups
  * @property-read ?string $delivery_quote_id
+ * @property-read string|null $delivery_selection_id
  * @property-read string $evaluation_status
  * @property-read ?string $expires_at
  * @property-read list<DeliveryInputRequirement> $input_requirements
  * @property-read ?list<DeliveryMerchantDiagnostic> $merchant_diagnostics
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutDerivedDeliveryResource extends Model {
-    /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<mixed>, 'delivery_quote_id'?: string, 'evaluation_status': string, 'expires_at'?: string, 'input_requirements': list<mixed>, 'merchant_diagnostics'?: list<mixed>, ...}|object $values */
+    /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<mixed>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string, 'input_requirements': list<mixed>, 'merchant_diagnostics'?: list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResource')); }
     /** Shape $ (Value): Array of string. Shape $[] (Value): string.
      * @return list<string>
@@ -28,6 +29,11 @@ final class CheckoutDerivedDeliveryResource extends Model {
      */
     public function getDeliveryQuoteId(): ?string { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
+    /** Shape $ (Value): string or null. Current delivery selection ID after reconciliation, or null when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes.
+     * @return string|null
+     */
+    public function getDeliverySelectionId(): string|null { return $this->get('delivery_selection_id'); }
+    public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
     /** Shape $ (Value): string.  Value enum: "complete", "incomplete", "degraded", "requires_explicit_quote".
      * @return string
      */

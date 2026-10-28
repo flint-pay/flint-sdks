@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $description
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $effective_amount_money
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $order_tip_id
  * @property-read list<TipPaymentIntentAllocationInput|array<array-key, mixed>|\stdClass> $payment_intent_allocations
@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass> $value_settlement_allocations
  * Presence-aware input; omitted fields throw when accessed. */
 final class TipInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'effective_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'metadata'?: array<array-key, string>|\stdClass, 'name'?: string, 'order_tip_id': string, 'payment_intent_allocations': list<TipPaymentIntentAllocationInput|array<array-key, mixed>|\stdClass>, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'settled_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'value_settlement_allocations': list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'effective_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'order_tip_id': string, 'payment_intent_allocations': list<TipPaymentIntentAllocationInput|array<array-key, mixed>|\stdClass>, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'settled_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'value_settlement_allocations': list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TipInput')); }
     /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -44,11 +44,11 @@ final class TipInput extends Model {
      */
     public function getEffectiveAmountMoney(): mixed { return $this->get('effective_amount_money'); }
     public function hasEffectiveAmountMoney(): bool { return $this->has('effective_amount_money'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string.
      * @return string

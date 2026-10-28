@@ -2,6 +2,62 @@
 
 # disputes
 
+### disputes.accept
+
+Accepts a chargeback: you won't contest it, and the disputed amount stays with the buyer. The dispute becomes `lost`, and Flint sends `dispute.lost`. You can accept while `status` is `needs_response` and `is_action_required` is `true`. An inquiry can't be accepted; refund the payment or respond with evidence instead. Accepting can't be undone. Requires `payments.disputes.write`. Send no body or `{}`. If you don't receive a response, retry with the same `Idempotency-Key`, or read the dispute: `status: lost` means it was accepted.
+
+`POST /v1/disputes/{dispute_id}/accept`
+
+Signature: `accept(dispute_id: InputValue<string>, params?: { "Idempotency-Key"?: InputValue<string> }, options?: RequestOptions<"merchant">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `dispute_id` | Required | string |  |
+| `Idempotency-Key` | Optional | string | maxLength: `255`. |
+
+#### Response
+
+Returned payload: [Dispute](../models/Dispute.md#dispute).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 403 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
+| 409 | ConflictError | conflict |
+| 410 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `acceptWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.disputes.accept("example", {}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/disputes-accept.mjs)
+
 ### disputes.createResponseSession
 
 Creates a browser session for responding to or viewing a dispute with Stripe Connect. Requires payments.disputes.write. Allowed for closed disputes; bank returns cannot be contested. Pass the returned payment to setPayment or the React payment prop. Each completed retry creates a fresh single-use client secret. Keep your API key on your server.
@@ -52,7 +108,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createResponseSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -128,7 +184,7 @@ const result = await client.disputes.get("example", {}, {  });
 
 ### disputes.list
 
-Returns a paginated list of disputes for the authenticated merchant with optional payment, customer, status, reason, case type, action required, and timing filters. Defaults to created_at descending. The amount sort compares amount_money.amount in minor units. The evidence_due_at sort places disputes without deadlines last in either direction.
+Returns a paginated list of disputes for the authenticated merchant with optional payment, customer, status, reason, case type, action required, and timing filters. Defaults to created_at descending. The amount sort compares amount_money.amount in minor units. The evidence_due_at sort places disputes without deadlines last in either direction. Default order: created_at descending, then dispute_id descending.
 
 `GET /v1/disputes`
 

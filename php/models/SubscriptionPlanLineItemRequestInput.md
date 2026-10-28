@@ -15,32 +15,36 @@ Request input.
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. Default: `1`. |
 | `swap_variant_ids` | Optional | Array of string | maxItems: `25`. uniqueItems: `true`. Items: minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `tax` | Optional | [OrderLineItemTaxInput](../models/OrderLineItemTaxInput.md#orderlineitemtaxinput) | A line item's tax category and whether it is taxable. |
+| `type` | Required | string | Values: `"variant"`, `"bundle"`, `"custom"`. |
 | `unit_price_money` | Conditional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Conditional | string | minLength: `1`. |
 
-### SubscriptionPlanLineItemRequestInput variant 1
+### SubscriptionPlanLineItemRequestInput variant 1: `type` = `"variant"`
 
-oneOf variant 1.
+oneOf variant 1: The `variant` variant of `SubscriptionPlanLineItemInput`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`))).
 - Required: `variant_id`.
 - Optional: `bundle_id`, `name`, `unit_price_money`.
+- Constraints for `type`: Values: `"variant"`.
 
-### SubscriptionPlanLineItemRequestInput variant 2
+### SubscriptionPlanLineItemRequestInput variant 2: `type` = `"bundle"`
 
-oneOf variant 2.
+oneOf variant 2: The `bundle` variant of `SubscriptionPlanLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`))).
 - Required: `bundle_id`.
 - Optional: `name`, `unit_price_money`, `variant_id`.
+- Constraints for `type`: Values: `"bundle"`.
 
-### SubscriptionPlanLineItemRequestInput variant 3
+### SubscriptionPlanLineItemRequestInput variant 3: `type` = `"custom"`
 
-oneOf variant 3.
+oneOf variant 3: The `custom` variant of `SubscriptionPlanLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`, `unit_price_money`.
 - Optional: `bundle_id`, `variant_id`.
+- Constraints for `type`: Values: `"custom"`.
 
 ### SubscriptionPlanLineItemRequestInput.modifiers[]
 

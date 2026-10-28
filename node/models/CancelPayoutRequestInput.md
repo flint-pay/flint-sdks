@@ -2,5 +2,13 @@
 
 ## CancelPayoutRequestInput
 
-Request input. Response: [CancelPayoutRequest](../models/CancelPayoutRequest.md#cancelpayoutrequest). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
+Request input. Response: [CancelPayoutRequest](../models/CancelPayoutRequest.md#cancelpayoutrequest).
+
+The request body for: Cancel a payout.
+
+
+
+
+
+Value shape: object. The request body for: Cancel a payout. 
 

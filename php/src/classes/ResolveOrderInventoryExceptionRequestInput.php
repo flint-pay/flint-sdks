@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $reason_message
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResolveOrderInventoryExceptionRequestInput extends Model {
-    /** @param array{'reason_message'?: string, ...}|object $values */
+    /** @param array{'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolveOrderInventoryExceptionRequestInput')); }
     /** Shape $ (Value): string. Your note explaining this action. minLength: 1.
      * @return string

@@ -7,9 +7,10 @@ namespace Flint;
  * @property-read array<array-key, int>|\stdClass $quantity_overrides
  * @property-read string $resolution_context
  * @property-read array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass $unit_price_overrides
+ * @property-read array<array-key, string>|\stdClass $variant_selections
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResolvePaymentLinkRequestInput extends Model {
-    /** @param array{'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, ResolvePaymentLinkLineItemModifiersInput|array<array-key, mixed>|\stdClass>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'unit_price_overrides'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, ...}|object $values */
+    /** @param array{'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, ResolvePaymentLinkLineItemModifiersInput|array<array-key, mixed>|\stdClass>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'unit_price_overrides'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'variant_selections'?: array<array-key, string>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolvePaymentLinkRequestInput')); }
     /** Shape $ (Value): Map of string. Buyer answers keyed by custom field key. Checkbox answers must be exactly true or false as strings. A required checkbox must be true. Shape $.* (Value): string. minLength: 1.
      * @return array<array-key, string>|\stdClass
@@ -41,4 +42,10 @@ final class ResolvePaymentLinkRequestInput extends Model {
      */
     public function getUnitPriceOverrides(): array|object { return $this->get('unit_price_overrides'); }
     public function hasUnitPriceOverrides(): bool { return $this->has('unit_price_overrides'); }
+    /** Shape $ (Value): Map of string. Variant IDs keyed by line item key (line_items[].key), for lines with variant_ids. Each selection must be offered by that line and priced in its current currency. Omit a key to use default_variant_id; a line without a default requires a selection. Null is not accepted. Shape $.* (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return array<array-key, string>|\stdClass
+     * @throws SdkError When variant_selections is omitted; use hasVariantSelections() or valueOrDefault().
+     */
+    public function getVariantSelections(): array|object { return $this->get('variant_selections'); }
+    public function hasVariantSelections(): bool { return $this->has('variant_selections'); }
 }

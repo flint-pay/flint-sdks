@@ -1,8 +1,7 @@
 import type { Result, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { ReportDownloadsGetInput, ReportDownloadsGetResponse } from '../declarations/types-39.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { ReportDownloadsGetInput, ReportDownloadsGetResponse, RequestOptions } from '../declarations/types-42.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -17,12 +16,11 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions } from '../declarations/types-40.js';
-export type { ReportDownloadsGetResponse, ReportDownloadsGetInput } from '../declarations/types-39.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ReportDownloadsGetResponse, ReportDownloadsGetInput } from '../declarations/types-42.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
+export type { Credentials } from '../declarations/types-11.js';
 export interface ReportDownloadsResource {
     /**
  * Authorizes the stable Flint download URL and redirects to a short-lived private file URL.

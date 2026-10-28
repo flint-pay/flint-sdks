@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateGiftCardRedemptionRequestInput } from '../declarations/types-6.js';
+import type { CreateGiftCardRedemptionRequestInput } from '../declarations/types-7.js';
 import type {
     GiftCardRedemption,
     GiftCardRedemptionListResponse,
@@ -13,10 +13,10 @@ import type {
     GiftCardRedemptionsGetInput,
     GiftCardRedemptionsListInput,
     GiftCardVersionRequestInput
-} from '../declarations/types-19.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-21.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -45,27 +45,28 @@ export type {
     GiftCardRedemptionsListInput,
     GiftCardRestriction,
     GiftCardTransaction
-} from '../declarations/types-19.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+} from '../declarations/types-21.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta } from '../declarations/types-42.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type {
     CreateGiftCardRedemptionRequestInput,
     CreateGiftCardRedemptionRequestAutomaticInput,
     CreateGiftCardRedemptionRequestManualInput
-} from '../declarations/types-6.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-7.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { GiftCard } from '../declarations/types-18.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-31.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { GiftCard } from '../declarations/types-20.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-33.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
 export {
     makeCreateGiftCardRedemptionRequest,
     makeCreateGiftCardRedemptionRequestAutomatic,
     makeCreateGiftCardRedemptionRequestManual
-} from '../declarations/types-64.js';
-export { makeGiftCardVersionRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+} from '../declarations/types-67.js';
+export { makeGiftCardVersionRequest } from '../declarations/types-71.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface GiftCardRedemptionsResource {
     /**
  * Releases an uncaptured standalone reservation without posting a debit or refund. Flint order
@@ -160,7 +161,8 @@ export interface GiftCardRedemptionsResource {
     getWithResponse(gift_card_redemption_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardRedemptionResponse>>;
     /**
  * Lists reservations and captured redemptions in descending ID order. Retrieve by idempotency_key
- * to recover an operation after a lost response.
+ * to recover an operation after a lost response. Default order: gift_card_redemption_id
+ * descending; this key uniquely orders the results.
  * @see reference/giftCardRedemptions.md#giftcardredemptionslist
  * GET /v1/gift-card-redemptions
  * @example

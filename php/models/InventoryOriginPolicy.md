@@ -6,5 +6,5 @@ How Flint handles inventory failures for one order source: the action after a po
 
 Response model.
 
-Fields, types, descriptions and enum values: [InventoryOriginPolicyInput](../models/InventoryOriginPolicyInput.md#inventoryoriginpolicyinput).
+Fields, types, descriptions and enum values: [InventoryOriginPolicyRequestRequestInput](../models/InventoryOriginPolicyRequestRequestInput.md#inventoryoriginpolicyrequestrequestinput).
 

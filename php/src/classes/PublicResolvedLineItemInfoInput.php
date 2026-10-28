@@ -3,13 +3,16 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass> $available_modifiers
+ * @property-read list<PaymentLinkAvailableVariantInput|array<array-key, mixed>|\stdClass> $available_variants
  * @property-read list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass> $bundle_components
  * @property-read string $bundle_id
  * @property-read string $catalog_object_type
  * @property-read ImageInput|array<array-key, mixed>|\stdClass $image
  * @property-read bool $is_inventory_tracked
+ * @property-read bool $is_sold_out
  * @property-read string $key
  * @property-read string $product_id
+ * @property-read list<PaymentLinkProductOptionInput|array<array-key, mixed>|\stdClass> $product_options
  * @property-read string $resolved_description
  * @property-read string $resolved_name
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $resolved_unit_price_money
@@ -17,7 +20,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PublicResolvedLineItemInfoInput extends Model {
-    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'bundle_components'?: list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_inventory_tracked'?: bool, 'key': string, 'product_id'?: string, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'available_modifiers'?: list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>, 'available_variants'?: list<PaymentLinkAvailableVariantInput|array<array-key, mixed>|\stdClass>, 'bundle_components'?: list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'catalog_object_type'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'is_inventory_tracked'?: bool, 'is_sold_out': bool, 'key': string, 'product_id'?: string, 'product_options'?: list<PaymentLinkProductOptionInput|array<array-key, mixed>|\stdClass>, 'resolved_description'?: string, 'resolved_name'?: string, 'resolved_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedLineItemInfoInput')); }
     /** Shape $ (Value): Array of {@see PublicResolvedModifierGroupInput}. Shape $[] (Value): {@see PublicResolvedModifierGroupInput}. A modifier group as resolved for a payment link line item, with its selection limits, display flags, and options or text settings.
      * @return list<PublicResolvedModifierGroupInput|array<array-key, mixed>|\stdClass>
@@ -25,6 +28,12 @@ final class PublicResolvedLineItemInfoInput extends Model {
      */
     public function getAvailableModifiers(): array { return $this->get('available_modifiers'); }
     public function hasAvailableModifiers(): bool { return $this->has('available_modifiers'); }
+    /** Shape $ (Value): Array of {@see PaymentLinkAvailableVariantInput}. Listed variants that can currently be sold in the line currency, in variant_ids order. Inactive, archived, unsellable, and other-currency variants are omitted. Each variant includes its advisory sold-out state and its own modifiers. Present only on variant_ids lines. Shape $[] (Value): {@see PaymentLinkAvailableVariantInput}. A listed payment link variant that can be sold in the line currency, with its current price, options, image, modifiers, and advisory stock state.
+     * @return list<PaymentLinkAvailableVariantInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When available_variants is omitted; use hasAvailableVariants() or valueOrDefault().
+     */
+    public function getAvailableVariants(): array { return $this->get('available_variants'); }
+    public function hasAvailableVariants(): bool { return $this->has('available_variants'); }
     /** Shape $ (Value): Array of {@see PublicResolvedBundleComponentInput}. Shape $[] (Value): {@see PublicResolvedBundleComponentInput}. One component of a bundle on a resolved payment link line item, with its variant and quantity.
      * @return list<PublicResolvedBundleComponentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When bundle_components is omitted; use hasBundleComponents() or valueOrDefault().
@@ -55,6 +64,12 @@ final class PublicResolvedLineItemInfoInput extends Model {
      */
     public function getIsInventoryTracked(): bool { return $this->get('is_inventory_tracked'); }
     public function hasIsInventoryTracked(): bool { return $this->has('is_inventory_tracked'); }
+    /** Shape $ (Value): boolean. True when the fixed variant or bundle components cannot be bought at the line minimum quantity from the link inventory_routing_source. The minimum is min_quantity when quantity adjustment is enabled, otherwise quantity. For variant choice lines, true only when every available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes no stock counts and reserves no stock.
+     * @return bool
+     * @throws SdkError When is_sold_out is omitted; use hasIsSoldOut() or valueOrDefault().
+     */
+    public function getIsSoldOut(): bool { return $this->get('is_sold_out'); }
+    public function hasIsSoldOut(): bool { return $this->has('is_sold_out'); }
     /** Shape $ (Value): string.
      * @return string
      * @throws SdkError When key is omitted; use hasKey() or valueOrDefault().
@@ -67,6 +82,12 @@ final class PublicResolvedLineItemInfoInput extends Model {
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
+    /** Shape $ (Value): Array of {@see PaymentLinkProductOptionInput}. Active product options for a variant_ids line, in option position order. Values include only those used by available_variants and retain value position order. Empty when the product has no options; omitted on fixed variant and bundle lines. Shape $[] (Value): {@see PaymentLinkProductOptionInput}. An active product option offered on a payment link, with values used by its available variants.
+     * @return list<PaymentLinkProductOptionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When product_options is omitted; use hasProductOptions() or valueOrDefault().
+     */
+    public function getProductOptions(): array { return $this->get('product_options'); }
+    public function hasProductOptions(): bool { return $this->has('product_options'); }
     /** Shape $ (Value): string.
      * @return string
      * @throws SdkError When resolved_description is omitted; use hasResolvedDescription() or valueOrDefault().

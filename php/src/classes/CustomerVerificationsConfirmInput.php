@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $customer_verification_id
- * @property-read array{'code': string, ...}|object $body
+ * @property-read array{'code': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerVerificationsConfirmInput extends Model {
-    /** @param array{'customer_verification_id': string, 'Idempotency-Key'?: string, 'body': array{'code': string, ...}|object}|object $values */
+    /** @param array{'customer_verification_id': string, 'Idempotency-Key'?: string, 'body': array{'code': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerVerificationsConfirmInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -21,7 +21,7 @@ final class CustomerVerificationsConfirmInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): object. The request body for: Confirm a customer email verification.
-     * @return array{'code': string, ...}|object
+     * @return array{'code': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

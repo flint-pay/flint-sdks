@@ -1,10 +1,10 @@
 import type { InputValue } from '../runtime.js';
 import type { CashOutGiftCardRequestInput, CashOutGiftCardResult, CashOutGiftCardResultResponse } from '../declarations/types-3.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { GiftCardCashOutsCreateInput } from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
+import type { GiftCardCashOutsCreateInput } from '../declarations/types-20.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -20,17 +20,18 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CashOutGiftCardRequestInput, CashOutGiftCardResult, CashOutGiftCardResultResponse } from '../declarations/types-3.js';
-export type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { GiftCardCashOutsCreateInput, GiftCard } from '../declarations/types-18.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta } from '../declarations/types-42.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { GiftCardCashOutsCreateInput, GiftCard } from '../declarations/types-20.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { GiftCardRestriction, GiftCardTransaction } from '../declarations/types-19.js';
-export { makeCashOutGiftCardRequest } from '../declarations/types-62.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { GiftCardRestriction, GiftCardTransaction } from '../declarations/types-21.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeCashOutGiftCardRequest } from '../declarations/types-66.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface GiftCardCashOutsResource {
     /**
  * Records cash that the merchant attests it paid to the cardholder. Flint does not send cash. The

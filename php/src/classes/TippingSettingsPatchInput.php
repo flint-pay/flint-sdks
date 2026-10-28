@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read list<int|float> $tip_percent_options
  * Presence-aware input; omitted fields throw when accessed. */
 final class TippingSettingsPatchInput extends Model {
-    /** @param array{'custom_tip_enabled'?: bool, 'default_enabled'?: bool, 'default_smart_tip_money'?: array{'amount': string, 'currency': string}|object|null, 'default_tip_percent'?: int|float|null, 'smart_tip_money_options'?: list<array{'amount': string, 'currency': string}|object>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>, ...}|object $values */
+    /** @param array{'custom_tip_enabled'?: bool, 'default_enabled'?: bool, 'default_smart_tip_money'?: array{'amount': string, 'currency': string}|object|null, 'default_tip_percent'?: int|float|null, 'smart_tip_money_options'?: list<array{'amount': string, 'currency': string}|object>, 'smart_tips_enabled'?: bool, 'tip_percent_options'?: list<int|float>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TippingSettingsPatchInput')); }
     /** Shape $ (Value): boolean. Whether buyers can enter a custom tip amount.
      * @return bool

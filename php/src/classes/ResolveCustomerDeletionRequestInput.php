@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $decision
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResolveCustomerDeletionRequestInput extends Model {
-    /** @param array{'decision': string, ...}|object $values */
+    /** @param array{'decision': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolveCustomerDeletionRequestInput')); }
     /** Shape $ (Value): string.  Value enum: "approve", "reject".
      * @return string

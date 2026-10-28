@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read bool $required
  * Presence-aware input; omitted fields throw when accessed. */
 final class TextModifierConfigRequestInput extends Model {
-    /** @param array{'max_length'?: int, 'min_length'?: int, 'multiline'?: bool, 'required'?: bool, ...}|object $values */
+    /** @param array{'max_length'?: int, 'min_length'?: int, 'multiline'?: bool, 'required'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TextModifierConfigRequestInput')); }
     /** Shape $ (Value): integer. Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace. Format: int32.
      * @return int

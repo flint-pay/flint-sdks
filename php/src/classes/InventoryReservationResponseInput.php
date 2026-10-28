@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReservationResponseInput extends Model {
-    /** @param array{'data': InventoryReservationInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': InventoryReservationInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationResponseInput')); }
     /** Shape $ (Value): {@see InventoryReservationInput}. A claim on stock. Quantity moves from held to committed to consumed, and can be released or reallocated.
      * @return InventoryReservationInput|array<array-key, mixed>|\stdClass

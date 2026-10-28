@@ -17,7 +17,7 @@ Stripe Elements collection guidance. Follow next_step in the browser, then submi
 | `payment_method_creation` | Required | string | Stripe Elements payment method creation mode. Follow next_step: standalone PaymentIntents and checkout-authenticated order collection create a ConfirmationToken, while merchant-authenticated order collection and setup collection create a PaymentMethod. Values: `"manual"`. |
 | `payment_method_options` | Optional | object | Payment method settings passed to the payment form. |
 | `payment_method_types` | Required | Array of string | Payment method types that the payment form can offer. |
-| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](../models/SelectableOrderPaymentIntent.md#selectableorderpaymentintent) | Order payment intents that the buyer can select for collection. |
+| `selectable_payment_intents` | Optional | Array of [SelectableOrderPaymentIntent](../models/SelectableOrderPaymentIntent.md#selectableorderpaymentintent) | Order payment intents that the buyer can select for collection. Items: A payment intent on an order the caller can pick, with its amount, status, and last payment error. |
 | `submit_to` | Required | string | Flint operation that accepts the result of next_step. Values: `"pay_order"`, `"confirm_payment_intent"`. |
 
 ### PaymentCollectionStripeElements.amount_money

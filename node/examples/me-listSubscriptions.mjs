@@ -9,4 +9,4 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.listSubscriptions();
-console.log(result);
+console.log(result.request_id);

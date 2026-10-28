@@ -1,10 +1,12 @@
-import { d4232 as c0, d4233 as c1, d4234 as c2, d4235 as c3, d4236 as c4, d4237 as c5 } from '../descriptors/data/180.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d2454 as c6 } from '../descriptors/data/98.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d2454 as d2454 } from '../descriptors/data/98.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3345 as c0, d3346 as c3, d3347 as c4, d3348 as c5 } from '../descriptors/data/137.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4475 as c1, d4476 as c6, d4477 as c7, d4478 as c8 } from '../descriptors/data/197.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3251 as c2 } from '../descriptors/data/131.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d2604 as c9 } from '../descriptors/data/109.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d2604 as d2604 } from '../descriptors/data/109.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2454;
+const read = d2604;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["LocationAddressRequest"]:c0(),["LocationCoordinate"]:c1(),["SharedCodec1201"]:c2(),["SharedCodec1202"]:c3(),["SharedCodec1203"]:c4(),["SharedCodec1204"]:c5(),["UpdateLocationRequest"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["LocationCoordinateRequestRequest"]:c1(),["MetadataPatchRequest"]:c2(),["SharedCodec0"]:c3(),["SharedCodec1"]:c4(),["SharedCodec1256"]:c5(),["SharedCodec1285"]:c6(),["SharedCodec1286"]:c7(),["SharedCodec1287"]:c8(),["UpdateLocationRequest"]:c9()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateLocationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

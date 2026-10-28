@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNoteResponseInput extends Model {
-    /** @param array{'data': CreditNoteInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': CreditNoteInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteResponseInput')); }
     /** Shape $ (Value): {@see CreditNoteInput}. A correction against an issued invoice. Credit notes reduce what is owed; refunds return what was already collected.
      * @return CreditNoteInput|array<array-key, mixed>|\stdClass
