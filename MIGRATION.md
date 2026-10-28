@@ -1,6 +1,12 @@
-# Unreleased
+# SDK 6.0.0
 
-These changes are on `main` and not yet published. The API contract and date `2026-09-07` are unchanged.
+This major release changes retries and idempotency keys and adds webhook JWT verification. The API contract pinned in [`sdk.lock.json`](sdk.lock.json) and the API date `2026-09-07` are unchanged from `5.1.0`.
+
+Breaking changes:
+
+- The 33 writes that require an idempotency key now require it in the method signature. TypeScript calls such as `refunds.create(params)` and `orders.pay(input)` no longer compile without `{ idempotencyKey }`; PHP throws a validation `SdkError` with `outcome` `not_sent` before sending. Pass a key you saved with the action before the first attempt, and reuse it to retry.
+- Reads and keyed writes now retry on their own, up to 3 attempts in total. Set `maxAttempts: 1` to keep single-attempt behavior. If your code wraps SDK calls in its own retry loop, remove it or lower `maxAttempts` so attempts don't multiply.
+- Node's generated `webhook-inbox` example `receiveWebhook` is now `async`.
 
 ## Webhook JWT verification
 
@@ -31,7 +37,13 @@ PHP needs `ext-openssl`. Under PHP-FPM, pass a PSR-16 `cache` or enable APCu so 
 
 ## Retries and idempotency
 
-Retries and idempotency keys follow each operation's idempotency class. GETs and keyed writes make up to 3 attempts; other writes are sent once. Writes with an optional key get an SDK-generated `flint-sdk-` key reused across retries, and writes that require a key still need your saved key.
+Retries and idempotency keys follow each operation's idempotency class:
+
+- Writes with an optional key (298 operations) get an SDK-generated `flint-sdk-` key when you pass none. The key is created once per call and reused on every retry of that call.
+- Writes that require a key (33 operations) never get a generated key. Pass yours.
+- Writes that take no key (9 operations, such as previews and lookups) are sent once.
+
+GETs and keyed writes make up to 3 attempts. They retry when no response arrived, when the error's `remediation.retry` is `same_request`, or on 429, 500, 502, 503 and 504 responses without a Flint error body. They wait for `Retry-After` when present, otherwise back off with jitter from 500 ms up to 5 s, and never wait past the call's `deadlineMs`. When the next wait would cross the deadline, the last error is returned unchanged. Errors and `WithResponse` metadata expose the key that was sent as `idempotencyKey`, including `not_sent` failures.
 
 # SDK 5.1.0
 

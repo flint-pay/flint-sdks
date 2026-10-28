@@ -1,4 +1,4 @@
-<!-- Package 5.1.0; API 2026-09-07 -->
+<!-- Package 6.0.0; API 2026-09-07 -->
 
 # Default credentials
 

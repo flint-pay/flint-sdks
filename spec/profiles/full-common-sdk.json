@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/808a124136135dd1bffdf3a1c2a266dba970b130/sdk-config.schema.json",
-  "version": "5.1.0",
+  "version": "6.0.0",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
