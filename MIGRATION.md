@@ -27,7 +27,7 @@ $verified = Webhooks::verifyDelivery($rawBody, $headers, [
 
 `client.verifyWebhookAsync` and `$client->verifyWebhookDelivery` default the base URL from the client. Results add `signingMethod` (PHP `signing_method`), `"jwt"` or `"hmac"`. A bearer token with endpoint IDs is verified as a JWT only; during migration, also pass `secrets` to accept HMAC deliveries. `verifyWebhook` and `Webhooks::verify` remain HMAC-only. Answer 5xx for `webhook_jwks_unavailable` so Flint retries.
 
-PHP needs `ext-openssl`. Under PHP-FPM, pass a PSR-16 `cache` or enable APCu so workers share keys and refresh limits, and treat that cache as a trust store. Apache needs `CGIPassAuth On` to pass `Authorization` to PHP. See the [Node](node/RUNTIME.md#jwt-delivery-verification) and [PHP](php/RUNTIME.md#jwt-delivery-verification) runtime guides. The generated `webhook-inbox` examples now take verification options instead of secrets.
+PHP needs `ext-openssl`. Under PHP-FPM, pass a PSR-16 `cache` or enable APCu so workers share keys and refresh limits, and treat that cache as a trust store. Apache needs `CGIPassAuth On` to pass `Authorization` to PHP. See the [Node](node/RUNTIME.md#jwt-delivery-verification) and [PHP](php/RUNTIME.md#jwt-delivery-verification) runtime guides. The generated `webhook-inbox` examples now take verification options instead of secrets, and Node's `receiveWebhook(client, db, rawBody, headers, options, eventId)` is now `async`, so `await` it.
 
 ## Retries and idempotency
 
