@@ -1,9 +1,29 @@
+import type { MerchantWebhookEnvelope } from './types-31.js';
 import type { Order } from './types-32.js';
 import type { PartnerWebhookEnvelope, PaymentIntent, PaymentLink } from './types-35.js';
-import type { MerchantWebhookEnvelope } from './types-31.js';
 import type { Package, PartnerAppInstall } from './types-34.js';
 import type { PaymentMethod, PaymentReview, Payout, PayoutDestination } from './types-36.js';
-import type { PayoutSettings } from './types-37.js';
+/**
+ * Shape $ (Value): {@link Webhook_order_inventory_exception_resolved_merchant}. The
+ * `order.inventory_exception_resolved` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type Webhook_order_inventory_exception_resolved_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
+     * its payment and fulfillment progress.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
+         * progress.
+         */
+        "object": Order;
+    };
+    /** Shape $ (Value): string.  Value enum: "order.inventory_exception_resolved". */
+    "event_type"?: "order.inventory_exception_resolved" | (string & {});
+});
 /**
  * Shape $ (Value): {@link Webhook_order_paid_installed_merchants}. The `order.paid` webhook
  * payload for the `installed_merchants` event source. Fields shared by partner webhook payloads.
@@ -1962,23 +1982,4 @@ export type Webhook_payout_reversed_merchant = (Exclude<MerchantWebhookEnvelope 
     };
     /** Shape $ (Value): string.  Value enum: "payout.reversed". */
     "event_type"?: "payout.reversed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_payout_settings_updated_merchant}. The `payout_settings.updated`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_payout_settings_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link PayoutSettings}. The merchant's
-     * payout schedule and preferences.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link PayoutSettings}. The merchant's payout schedule and preferences.
-         */
-        "object": PayoutSettings;
-    };
-    /** Shape $ (Value): string.  Value enum: "payout_settings.updated". */
-    "event_type"?: "payout_settings.updated" | (string & {});
 });

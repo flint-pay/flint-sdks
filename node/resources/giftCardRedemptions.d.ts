@@ -59,8 +59,11 @@ export type { AuthMode } from '../declarations/types-0.js';
 export type { Credentials } from '../declarations/types-9.js';
 export type { GiftCard } from '../declarations/types-18.js';
 export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-31.js';
-export { makeCreateGiftCardRedemptionRequest } from '../declarations/types-63.js';
-export { makeCreateGiftCardRedemptionRequestAutomatic, makeCreateGiftCardRedemptionRequestManual } from '../declarations/types-64.js';
+export {
+    makeCreateGiftCardRedemptionRequest,
+    makeCreateGiftCardRedemptionRequestAutomatic,
+    makeCreateGiftCardRedemptionRequestManual
+} from '../declarations/types-64.js';
 export { makeGiftCardVersionRequest } from '../declarations/types-67.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
 export interface GiftCardRedemptionsResource {

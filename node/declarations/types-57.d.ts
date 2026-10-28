@@ -1,10 +1,50 @@
 import type { GiftCardNotification, GiftCardRedemption, GiftCardTransaction } from './types-19.js';
-import type { MerchantWebhookEnvelope } from './types-31.js';
 import type { PartnerWebhookEnvelope } from './types-35.js';
+import type { MerchantWebhookEnvelope } from './types-31.js';
 import type { GiftCard } from './types-18.js';
 import type { InventoryCount, InventoryLevel } from './types-24.js';
 import type { InventoryReceipt, InventoryReservation, InventoryTransfer } from './types-25.js';
 import type { Invoice, InvoiceDeliveryAttempt } from './types-26.js';
+/**
+ * Shape $ (Value): {@link Webhook_gift_card_notification_updated_installed_merchants}. The
+ * `gift_card_notification.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_gift_card_notification_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardNotification}. A message
+     * sent to a gift card recipient.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link GiftCardNotification}. A message sent to a gift card recipient.
+         */
+        "object": GiftCardNotification;
+    };
+    /** Shape $ (Value): string.  Value enum: "gift_card_notification.updated". */
+    "event_type"?: "gift_card_notification.updated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
 /**
  * Shape $ (Value): {@link Webhook_gift_card_notification_updated_merchant}. The
  * `gift_card_notification.updated` webhook payload for the `merchant` event source. Fields shared
@@ -1920,42 +1960,4 @@ export type Webhook_invoice_late_fee_assessed_merchant = (Exclude<MerchantWebhoo
     };
     /** Shape $ (Value): string.  Value enum: "invoice.late_fee_assessed". */
     "event_type"?: "invoice.late_fee_assessed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_late_fee_due_installed_merchants}. The
- * `invoice.late_fee_due` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type Webhook_invoice_late_fee_due_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.late_fee_due". */
-    "event_type"?: "invoice.late_fee_due" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
 });

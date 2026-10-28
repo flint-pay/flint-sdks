@@ -35,6 +35,7 @@ import type {
     Webhook_credit_note_created_merchant,
     Webhook_customer_deletion_request_rejected_installed_merchants,
     Webhook_customer_deletion_request_rejected_merchant,
+    Webhook_checkout_session_closed_merchant,
     Webhook_delivery_method_activated_installed_merchants,
     Webhook_delivery_method_activated_merchant,
     Webhook_customer_updated_installed_merchants,
@@ -43,7 +44,6 @@ import type {
 import type {
     Webhook_payout_destination_updated_merchant,
     Webhook_payout_destination_disabled_merchant,
-    Webhook_payout_settings_updated_merchant,
     Webhook_order_partially_refunded_installed_merchants,
     Webhook_order_partially_refunded_merchant,
     Webhook_payment_method_failed_installed_merchants,
@@ -54,27 +54,6 @@ import type {
 } from './types-59.js';
 import type {
     Webhook_gift_card_notification_updated_installed_merchants,
-    Webhook_dispute_created_merchant,
-    Webhook_delivery_profile_created_installed_merchants,
-    Webhook_delivery_profile_created_merchant,
-    Webhook_gift_card_created_installed_merchants,
-    Webhook_gift_card_created_merchant,
-    Webhook_gift_card_load_updated_installed_merchants,
-    Webhook_gift_card_load_updated_merchant,
-    Webhook_fulfillment_event_created_installed_merchants,
-    Webhook_fulfillment_event_created_merchant,
-    Webhook_fulfillment_completed_installed_merchants,
-    Webhook_fulfillment_completed_merchant,
-    Webhook_delivery_rate_callback_deactivated_installed_merchants,
-    Webhook_delivery_rate_callback_deactivated_merchant,
-    Webhook_delivery_rate_callback_updated_installed_merchants,
-    Webhook_delivery_rate_callback_updated_merchant,
-    Webhook_delivery_profile_deactivated_installed_merchants,
-    Webhook_delivery_profile_deactivated_merchant,
-    Webhook_delivery_rate_callback_activated_installed_merchants,
-    Webhook_delivery_rate_callback_activated_merchant
-} from './types-56.js';
-import type {
     Webhook_gift_card_notification_updated_merchant,
     Webhook_inventory_reservation_created_installed_merchants,
     Webhook_inventory_reservation_created_merchant,
@@ -115,8 +94,30 @@ import type {
     Webhook_modifier_group_created_merchant
 } from './types-58.js';
 import type {
+    Webhook_dispute_created_merchant,
+    Webhook_delivery_profile_created_installed_merchants,
+    Webhook_delivery_profile_created_merchant,
+    Webhook_gift_card_created_installed_merchants,
+    Webhook_gift_card_created_merchant,
+    Webhook_gift_card_load_updated_installed_merchants,
+    Webhook_gift_card_load_updated_merchant,
+    Webhook_fulfillment_event_created_installed_merchants,
+    Webhook_fulfillment_event_created_merchant,
+    Webhook_fulfillment_completed_installed_merchants,
+    Webhook_fulfillment_completed_merchant,
+    Webhook_delivery_rate_callback_deactivated_installed_merchants,
+    Webhook_delivery_rate_callback_deactivated_merchant,
+    Webhook_delivery_rate_callback_updated_installed_merchants,
+    Webhook_delivery_rate_callback_updated_merchant,
+    Webhook_delivery_profile_deactivated_installed_merchants,
+    Webhook_delivery_profile_deactivated_merchant,
+    Webhook_delivery_rate_callback_activated_installed_merchants,
+    Webhook_delivery_rate_callback_activated_merchant
+} from './types-56.js';
+import type {
     Webhook_product_variant_updated_installed_merchants,
     Webhook_product_variant_updated_merchant,
+    Webhook_payout_settings_updated_merchant,
     Webhook_return_created_installed_merchants,
     Webhook_return_created_merchant,
     Webhook_promotion_code_archived_installed_merchants,
@@ -130,7 +131,6 @@ import type {
 } from './types-60.js';
 import type {
     Webhook_checkout_session_closed_installed_merchants,
-    Webhook_checkout_session_closed_merchant,
     Webhook_category_updated_installed_merchants,
     Webhook_category_updated_merchant
 } from './types-54.js';

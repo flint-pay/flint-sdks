@@ -6,6 +6,7 @@ import type {
     WorkloadIdentityOptions
 } from '../runtime.js';
 import type {
+    UpdateMeSubscriptionLineItemRequestInput,
     UpdateMeSubscriptionRequestInput,
     UpdateMerchantRequestInput,
     UpdateModifierGroupRequestInput,
@@ -68,6 +69,8 @@ import type {
 } from './types-50.js';
 import type { WeightInput } from './types-61.js';
 import type { WorkloadIdentityClaimConditionRequestInput } from './types-62.js';
+import type { WebhookVerificationOptions } from './types-54.js';
+export declare function makeUpdateMeSubscriptionLineItemRequest(value: InputValue<UpdateMeSubscriptionLineItemRequestInput>): Model<UpdateMeSubscriptionLineItemRequestInput>;
 export declare function makeUpdateMeSubscriptionRequest(value: InputValue<UpdateMeSubscriptionRequestInput>): Model<UpdateMeSubscriptionRequestInput>;
 export declare function makeUpdateMerchantRequest(value: InputValue<UpdateMerchantRequestInput>): Model<UpdateMerchantRequestInput>;
 export declare function makeUpdateModifierGroupRequest(value: InputValue<UpdateModifierGroupRequestInput>): Model<UpdateModifierGroupRequestInput>;
@@ -126,4 +129,7 @@ export declare function makeWaiveReturnLineInspectionRequest(value: InputValue<W
 export declare function makeWeight(value: InputValue<WeightInput>): Model<WeightInput>;
 export declare function makeWorkloadIdentityClaimConditionRequest(value: InputValue<WorkloadIdentityClaimConditionRequestInput>): Model<WorkloadIdentityClaimConditionRequestInput>;
 export declare function verifyWebhook(rawBody: Uint8Array | ArrayBuffer, headers: _SdkWebhookHeaders, secrets: string | readonly string[], nowSeconds?: number): VerifiedWebhook;
+export declare function verifyWebhookAsync(rawBody: Uint8Array | ArrayBuffer, headers: _SdkWebhookHeaders, options: WebhookVerificationOptions): Promise<VerifiedWebhook & {
+    signingMethod: 'jwt' | 'hmac';
+}>;
 export declare function workloadIdentityCredentials(options: WorkloadIdentityOptions): CredentialProvider;

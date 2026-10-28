@@ -1,5 +1,6 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    FulfillmentTransitionRequestCancelInput,
     FulfillmentTransitionRequestCompleteInput,
     FulfillmentTransitionRequestDispatchInput,
     FulfillmentTransitionRequestFailInput,
@@ -70,9 +71,9 @@ import type {
     InventoryTransferLineRequestInput,
     InventoryTransferTransitionRequestInput,
     InventoryTransferTransitionRequestCancelInput,
-    InventoryTransferTransitionRequestDepartInput,
-    InventoryTransferTransitionRequestReceiveInput
+    InventoryTransferTransitionRequestDepartInput
 } from './types-26.js';
+export declare function makeFulfillmentTransitionRequestCancel(value: InputValue<FulfillmentTransitionRequestCancelInput>): Model<FulfillmentTransitionRequestCancelInput>;
 export declare function makeFulfillmentTransitionRequestComplete(value: InputValue<FulfillmentTransitionRequestCompleteInput>): Model<FulfillmentTransitionRequestCompleteInput>;
 export declare function makeFulfillmentTransitionRequestDispatch(value: InputValue<FulfillmentTransitionRequestDispatchInput>): Model<FulfillmentTransitionRequestDispatchInput>;
 export declare function makeFulfillmentTransitionRequestFail(value: InputValue<FulfillmentTransitionRequestFailInput>): Model<FulfillmentTransitionRequestFailInput>;
@@ -140,4 +141,3 @@ export declare function makeInventoryTransferTransitionRequest(value: InputValue
 export declare function makeInventoryTransferTransitionRequest(value: InputValue<InventoryTransferTransitionRequestInput>): Model<InventoryTransferTransitionRequestInput>;
 export declare function makeInventoryTransferTransitionRequestCancel(value: InputValue<InventoryTransferTransitionRequestCancelInput>): Model<InventoryTransferTransitionRequestCancelInput>;
 export declare function makeInventoryTransferTransitionRequestDepart(value: InputValue<InventoryTransferTransitionRequestDepartInput>): Model<InventoryTransferTransitionRequestDepartInput>;
-export declare function makeInventoryTransferTransitionRequestReceive(value: InputValue<InventoryTransferTransitionRequestReceiveInput>): Model<InventoryTransferTransitionRequestReceiveInput>;

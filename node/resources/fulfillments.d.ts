@@ -102,10 +102,10 @@ export { makeCreateShipmentRequest } from '../declarations/types-65.js';
 export {
     makeFulfillmentRecipientRequest,
     makeFulfillmentTransitionRequest,
-    makeFulfillmentTransitionRequestAccept,
-    makeFulfillmentTransitionRequestCancel
+    makeFulfillmentTransitionRequestAccept
 } from '../declarations/types-66.js';
 export {
+    makeFulfillmentTransitionRequestCancel,
     makeFulfillmentTransitionRequestComplete,
     makeFulfillmentTransitionRequestDispatch,
     makeFulfillmentTransitionRequestFail,

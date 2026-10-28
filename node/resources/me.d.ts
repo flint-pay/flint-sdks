@@ -884,10 +884,10 @@ export {
     makeRenewSubscriptionRequest,
     makeResourceVersionRequest,
     makeReturnEligibilityLineItemRequest,
-    makeReturnEligibilitySelection,
-    makeReturnEligibilitySelectionAllRemainingFulfilled
+    makeReturnEligibilitySelection
 } from '../declarations/types-70.js';
 export {
+    makeReturnEligibilitySelectionAllRemainingFulfilled,
     makeReturnEligibilitySelectionLineItems,
     makeReturnLineItemRequest,
     makeReturnResolutionLineItemRequest,
@@ -910,10 +910,14 @@ export {
     makeTextModifierRequest,
     makeUpdateCustomerAddressRequest,
     makeUpdateCustomerEmailPreferencesRequest,
-    makeUpdateMeRequest,
-    makeUpdateMeSubscriptionLineItemRequest
+    makeUpdateMeRequest
 } from '../declarations/types-72.js';
-export { makeUpdateMerchantRequest, makeUpdateMeSubscriptionRequest, makeWeight } from '../declarations/types-73.js';
+export {
+    makeUpdateMerchantRequest,
+    makeUpdateMeSubscriptionLineItemRequest,
+    makeUpdateMeSubscriptionRequest,
+    makeWeight
+} from '../declarations/types-73.js';
 export interface MeResource {
     /**
  * Uses the customer identity fixed by the customer session. The request cannot select a

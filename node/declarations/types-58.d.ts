@@ -1,9 +1,47 @@
 import type { Invoice, InvoiceManualPayment } from './types-26.js';
-import type { MerchantWebhookEnvelope, MerchantBillingInvoice, ModifierGroup, ModifierSet } from './types-31.js';
 import type { PartnerWebhookEnvelope } from './types-35.js';
+import type { MerchantWebhookEnvelope, MerchantBillingInvoice, ModifierGroup, ModifierSet } from './types-31.js';
 import type { InvoicePaymentAttempt } from './types-27.js';
 import type { MerchantBillingBalance, Merchant } from './types-30.js';
 import type { Order } from './types-32.js';
+/**
+ * Shape $ (Value): {@link Webhook_invoice_late_fee_due_installed_merchants}. The
+ * `invoice.late_fee_due` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type Webhook_invoice_late_fee_due_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
+     * customer.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
+        "object": Invoice;
+    };
+    /** Shape $ (Value): string.  Value enum: "invoice.late_fee_due". */
+    "event_type"?: "invoice.late_fee_due" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
 /**
  * Shape $ (Value): {@link Webhook_invoice_late_fee_due_merchant}. The `invoice.late_fee_due`
  * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
@@ -1781,25 +1819,4 @@ export type Webhook_order_inventory_exception_resolved_installed_merchants = (Ex
         /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
-});
-/**
- * Shape $ (Value): {@link Webhook_order_inventory_exception_resolved_merchant}. The
- * `order.inventory_exception_resolved` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_order_inventory_exception_resolved_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
-     * its payment and fulfillment progress.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-         * progress.
-         */
-        "object": Order;
-    };
-    /** Shape $ (Value): string.  Value enum: "order.inventory_exception_resolved". */
-    "event_type"?: "order.inventory_exception_resolved" | (string & {});
 });

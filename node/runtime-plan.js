@@ -34,6 +34,56 @@ export function isDefaultBaseUrl(value) {
         return false;
     }
 }
+/** One owner for configuration diagnostics and restored Node descriptor validation. */
+export function webhookJwtIssue(value) {
+    const issue = (field, message) => ({ field, message });
+    if (!value || typeof value !== 'object' || Array.isArray(value))
+        return issue('', 'expected a JWT signing object');
+    const j = Object.fromEntries(Object.entries(value));
+    const fields = [
+        'header',
+        'scheme',
+        'algorithm',
+        'typ',
+        'issuer',
+        'jwksPath',
+        'bodyHashClaim',
+        'bodyHashEncoding',
+        'lifetimeSeconds',
+        'leewaySeconds',
+    ];
+    for (const key of Object.keys(j))
+        if (!fields.includes(key))
+            return issue(key, 'unknown JWT setting');
+    if (typeof j.header !== 'string' || !/^[!#$%&'*+.^_`|~0-9A-Za-z-]+$/.test(j.header))
+        return issue('header', 'expected an HTTP header name');
+    if (j.algorithm !== 'ES256')
+        return issue('algorithm', 'unsupported JWT algorithm ' + String(j.algorithm) + '; expected ES256');
+    if (j.scheme !== 'Bearer')
+        return issue('scheme', 'expected Bearer');
+    for (const name of ['typ', 'bodyHashClaim'])
+        if (typeof j[name] !== 'string' || !j[name] || /[\s\x00-\x1f\x7f]/.test(j[name]))
+            return issue(name, 'expected a nonempty token');
+    if (j.issuer !== 'baseUrl' && (!isDefaultBaseUrl(j.issuer) || !/^https:/i.test(j.issuer)))
+        return issue('issuer', 'expected baseUrl or a literal HTTPS URL without credentials, query or fragment');
+    if (typeof j.jwksPath !== 'string' ||
+        !/^\/(?!\/)[A-Za-z0-9/._~-]+$/.test(j.jwksPath) ||
+        j.jwksPath.split('/').some((part) => part === '.' || part === '..'))
+        return issue('jwksPath', 'expected an absolute path on the trusted issuer');
+    if (j.bodyHashEncoding !== 'base64url')
+        return issue('bodyHashEncoding', 'expected base64url');
+    if (typeof j.lifetimeSeconds !== 'number' ||
+        !Number.isInteger(j.lifetimeSeconds) ||
+        j.lifetimeSeconds < 1 ||
+        j.lifetimeSeconds > 3600)
+        return issue('lifetimeSeconds', 'expected an integer from 1 to 3600');
+    if (typeof j.leewaySeconds !== 'number' ||
+        !Number.isInteger(j.leewaySeconds) ||
+        j.leewaySeconds < 0 ||
+        j.leewaySeconds > 60)
+        return issue('leewaySeconds', 'expected an integer from 0 to 60');
+    return undefined;
+}
 import { compileCodec, assertCodecPlan, CODEC_FORMAT, CODEC_SEMANTICS, } from './codec-plan.js';
 /** Declared success statuses; default remains a runtime fallback, never an implicit redirect. */
 export function successStatus(status) {
@@ -469,6 +519,12 @@ export function assertRuntimePlan(value, historical = false) {
     if (plan.definitions !== undefined)
         for (const [name, codec] of Object.entries(record(plan.definitions, 'definitions')))
             assertCodecPlan(codec, 'definitions.' + name);
+    if (plan.webhook !== undefined) {
+        const jwt = record(plan.webhook, 'webhook').jwt;
+        const issue = jwt === undefined ? undefined : webhookJwtIssue(jwt);
+        if (issue)
+            throw new Error('webhook.jwt.' + issue.field + ': ' + issue.message);
+    }
     if (plan.webhook !== undefined && record(plan.webhook, 'webhook').certificate !== undefined)
         assertTypeCertificate(record(plan.webhook, 'webhook').certificate);
     if (plan.webhook !== undefined)

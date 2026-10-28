@@ -1,12 +1,16 @@
 import type { Result, InputValue, WebhookHeaders as _SdkWebhookHeaders } from '../runtime.js';
 import type { ClientOptions } from './types-4.js';
 import type { VerifiedWebhook } from './types-50.js';
-import type { verifyWebhook } from './types-73.js';
+import type { WebhookVerificationOptions } from './types-54.js';
+import type { verifyWebhook, verifyWebhookAsync } from './types-73.js';
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {
     constructor(options?: ClientOptions);
     close(): Promise<void>;
     verifyWebhook(rawBody: Uint8Array | ArrayBuffer, headers: _SdkWebhookHeaders, secrets: string | readonly string[], nowSeconds?: number): VerifiedWebhook;
+    verifyWebhookAsync(rawBody: Uint8Array | ArrayBuffer, headers: _SdkWebhookHeaders, options: WebhookVerificationOptions): Promise<VerifiedWebhook & {
+        signingMethod: 'jwt' | 'hmac';
+    }>;
     readonly analytics: import('../resources/analytics.js').AnalyticsResource;
     readonly apiKeys: import('../resources/apiKeys.js').ApiKeysResource;
     readonly balanceTransactions: import('../resources/balanceTransactions.js').BalanceTransactionsResource;

@@ -65,9 +65,23 @@ import type {
     CheckoutRedirectsRequestInput,
     CheckoutSavedPaymentDetailsSettingsInput,
     CheckoutSettingsInput,
-    CheckoutSubscriptionTermsRequestInput,
-    CheckoutTaxConfigInput
+    CheckoutSubscriptionTermsRequestInput
 } from './types-4.js';
+/**
+ * Shape $ (Value): {@link WorkloadIdentityClaimCondition}. A condition matching one top-level
+ * scalar claim in the workload's identity token.
+ */
+export type WorkloadIdentityClaimCondition = {
+    /**
+     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
+     * reserved.
+     */
+    "claim": string;
+    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
+    "match": "exact" | "glob" | (string & {});
+    /** Shape $ (Value): string. */
+    "value": string;
+};
 /**
  * Shape $ (Value): {@link WorkloadIdentityClaimConditionRequest}. A condition to match one
  * top-level scalar claim in the workload's identity token. Omitted match defaults to exact.
@@ -203,4 +217,3 @@ export declare function makeCheckoutRedirectsRequest(value: InputValue<CheckoutR
 export declare function makeCheckoutSavedPaymentDetailsSettings(value: InputValue<CheckoutSavedPaymentDetailsSettingsInput>): Model<CheckoutSavedPaymentDetailsSettingsInput>;
 export declare function makeCheckoutSettings(value: InputValue<CheckoutSettingsInput>): Model<CheckoutSettingsInput>;
 export declare function makeCheckoutSubscriptionTermsRequest(value: InputValue<CheckoutSubscriptionTermsRequestInput>): Model<CheckoutSubscriptionTermsRequestInput>;
-export declare function makeCheckoutTaxConfig(value: InputValue<CheckoutTaxConfigInput>): Model<CheckoutTaxConfigInput>;

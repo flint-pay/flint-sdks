@@ -116,9 +116,9 @@ export {
     makeBuyerSkipCapability,
     makeCheckoutRecoveryEmailSettings,
     makeCheckoutSavedPaymentDetailsSettings,
-    makeCheckoutSettings,
-    makeCheckoutTaxConfig
+    makeCheckoutSettings
 } from '../declarations/types-62.js';
+export { makeCheckoutTaxConfig } from '../declarations/types-63.js';
 export {
     makeCustomerAccountPresentation,
     makeCustomerAccountRouteTemplates,

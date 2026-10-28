@@ -1,5 +1,6 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    PaymentLinkLineItemRequestInput,
     PaymentLinkPaymentConfigInput,
     PaymentLinkPaymentPatchRequestInput,
     PaymentLinkRedirectsPatchRequestInput,
@@ -70,9 +71,9 @@ import type {
     RetryReturnDispositionRequestInput,
     RetryReturnResolutionRequestInput,
     ReturnEligibilityLineItemRequestInput,
-    ReturnEligibilitySelectionInput,
-    ReturnEligibilitySelectionAllRemainingFulfilledInput
+    ReturnEligibilitySelectionInput
 } from './types-40.js';
+export declare function makePaymentLinkLineItemRequest(value: InputValue<PaymentLinkLineItemRequestInput>): Model<PaymentLinkLineItemRequestInput>;
 export declare function makePaymentLinkPaymentConfig(value: InputValue<PaymentLinkPaymentConfigInput>): Model<PaymentLinkPaymentConfigInput>;
 export declare function makePaymentLinkPaymentPatchRequest(value: InputValue<PaymentLinkPaymentPatchRequestInput>): Model<PaymentLinkPaymentPatchRequestInput>;
 export declare function makePaymentLinkRedirectsPatchRequest(value: InputValue<PaymentLinkRedirectsPatchRequestInput>): Model<PaymentLinkRedirectsPatchRequestInput>;
@@ -140,4 +141,3 @@ export declare function makeRetryReturnDispositionRequest(value: InputValue<Retr
 export declare function makeRetryReturnResolutionRequest(value: InputValue<RetryReturnResolutionRequestInput>): Model<RetryReturnResolutionRequestInput>;
 export declare function makeReturnEligibilityLineItemRequest(value: InputValue<ReturnEligibilityLineItemRequestInput>): Model<ReturnEligibilityLineItemRequestInput>;
 export declare function makeReturnEligibilitySelection(value: InputValue<ReturnEligibilitySelectionInput>): Model<ReturnEligibilitySelectionInput>;
-export declare function makeReturnEligibilitySelectionAllRemainingFulfilled(value: InputValue<ReturnEligibilitySelectionAllRemainingFulfilledInput>): Model<ReturnEligibilitySelectionAllRemainingFulfilledInput>;

@@ -8,6 +8,8 @@ Selected operations use positional arguments; signatures list their order. Reque
 
 ## verifyWebhook
 
+verifyWebhookAsync(rawBody, headers, options) verifies JWT or HMAC deliveries asynchronously, returning VerifiedWebhook plus signingMethod. Supply receiving endpoint IDs for JWT; synchronous verifyWebhook remains HMAC-only. See the runtime guide for options and selection.
+
 Verify original request bytes with signing headers and one secret or a rotation array. Returns { known, event }; only matched declared envelopes are known. When known is false, reason is unknown_event for undeclared names or unmatched_envelope for declared names with no matching payload. Known deliveries have no reason. The return type is `VerifiedWebhook`: checking `known` exposes `KnownWebhookEvent`, the union of the `WebhookEvent<EventName>` types exported by the root and `webhooks` subpath. Unknown events remain `unknown`; check `reason` when `known` is false. See [signatures, framework examples, and errors](RUNTIME.md#webhooks-and-recovery).
 
 ## Resources

@@ -17,10 +17,10 @@ function receiveWebhook(
     \PDO $db,
     string $rawBody,
     array $headers,
-    string|array $secrets,
+    array $options,
     \Closure $eventId,
 ): array {
-    $verified = $client->verifyWebhook($rawBody, $headers, $secrets);
+    $verified = $client->verifyWebhookDelivery($rawBody, $headers, $options);
     $id = $eventId($verified['event']);
     if (!is_string($id) || $id === '') {
         throw new \InvalidArgumentException('A provider event identity is required');

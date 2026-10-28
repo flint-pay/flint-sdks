@@ -263,6 +263,29 @@ Use Cancellation for cooperative cancellation. Synchronous transports must honor
 
 ## Webhooks and recovery
 
+### JWT delivery verification
+
+Use Webhooks::verifyDelivery or Client::verifyWebhookDelivery with the original raw body and your receiving endpoint IDs. The result adds signing_method: 'jwt' | 'hmac' to the existing verified result.
+
+This package expects authorization: Bearer with algorithm ES256, exact typ flint-webhook+jwt, issuer from the configured API base URL origin without a trailing slash, and a matching endpoint audience. It checks iat/exp with a maximum 300-second lifetime and 60-second leeway, requires a jti that is not blank, and compares body_sha256 to the SHA-256 of the exact body in constant time before JSON parsing. The protected header must contain only alg, kid and typ, so token-supplied keys and key URLs (jku, x5u, jwk, x5c) and crit headers are rejected. Duplicate JSON members, a sub claim, a non-string aud and non-integer iat or exp are rejected; other claims are ignored.
+
+```php
+// $cache is your application's PSR-16 cache.
+use Flint\Webhooks;
+$verified = Webhooks::verifyDelivery($rawBody, $headers, [
+    'endpoint_ids' => ['whep_example'],
+    'base_url' => 'https://api.example.com',
+    'cache' => $cache,
+]);
+// Persist the delivery and durable work before acknowledging it.
+```
+
+Options: endpoint_ids (string or list), secrets (string or list), jwks (keys array), base_url, now_seconds, cache (optional PSR-16), http_client (optional PSR-18), request_factory (PSR-17, required with http_client). PHP requires ext-openssl; PSR packages are optional Composer suggestions, checked only when supplied. Without http_client, verification uses the SDK transport. The client defaults base_url. At least one of endpoint IDs or secrets is required. Standalone calls with issuer baseUrl require base_url. Time overrides use Unix seconds and are intended for tests.
+
+A bearer token plus endpoint IDs always selects JWT, with no HMAC fallback on failure. Otherwise, secrets and complete HMAC headers select HMAC. Missing signing headers produce webhook_missing_header. The synchronous Webhooks::verify remains HMAC-only.
+
+Trusted keys come from the issuer plus /.well-known/jwks.json. Keys whose kid differs from the token's are ignored, whatever their type; the selected key must be an EC P-256 key with alg absent or ES256 and use absent or sig, else the token fails with webhook_invalid_token. A malformed fetched set or a repeated kid produces webhook_jwks_unavailable. Explicit jwks bypasses fetching entirely. The key cache shares in-flight requests per URL. Cache-Control max-age is clamped to 300..86400 seconds (900 when absent). Unknown kid refreshes are limited to once per minute per URL; failures can use the last successful set for up to 24 hours after fetching, retrying at most once a minute. Fetches have a 5-second timeout and a 256 KiB response cap. The key cache uses the cache option, else APCu when enabled, else a per-process static cache. Under PHP-FPM, pass cache or enable APCu so workers share keys, refresh limits and stale-key reuse. The cache is a trust store: anyone who can write to it can inject keys. APCu is shared by every pool under one PHP-FPM master, so hosts running mutually untrusted applications should pass their own cache. Single-flight is per process. PSR-18 has no portable timeout or redirect controls: configure injected clients for at most five seconds and no redirects. Fiber schedulers must resume waiting callers, which yield a monotonic deadline in milliseconds. Apache needs CGIPassAuth On, or an equivalent rewrite, to pass the Authorization header to PHP. Respond with 5xx for webhook_jwks_unavailable so the provider retries.
+
 Use Flint\Webhooks::verify($rawBody, $headers, $secrets, $nowSeconds = null) to verify without client options, a base URL or API credentials. Client::verifyWebhook delegates to the same verifier. The static method keeps mixed arguments so invalid inputs produce SDK error subclasses. Call verifyWebhook($rawBody, $headers, $secrets, $nowSeconds = null) with original request bytes and `webhook-signature`, `webhook-timestamp`, `webhook-id`. This package uses standard-webhooks HMAC-SHA256 signing and a 300-second timestamp tolerance. Secrets must use the whsec_ prefix and canonical base64 encoding of exactly 32 key bytes. Pass one secret string or an array of active secrets during rotation. nowSeconds is an optional Unix time override in seconds for deterministic tests; normally omit it. Millisecond-scale values raise an input error explaining the conversion. PHP emits event classes for supported single object envelopes. Multi-variant or ambiguous event schemas verify and validate normally but return stdClass values (with arrays for JSON lists), even when known is true. Check the event name and payload fields before using these values; known does not guarantee a generated PHP class. 
 
 ### PSR-7
@@ -304,6 +327,12 @@ SdkError uses errorCode for these stable reasons:
 | authentication | webhook_invalid_timestamp | Supply one integer timestamp in seconds. |
 | authentication | webhook_timestamp_out_of_tolerance | Check the clock and delivery age. |
 | authentication | webhook_invalid_signature | Check the secret and original bytes. |
+| authentication | webhook_invalid_token | Reject malformed JWTs, wrong algorithm/type/issuer, signatures, or a kid naming an unusable key. |
+| authentication | webhook_invalid_audience | Check receiving endpoint IDs. |
+| authentication | webhook_token_expired | Check token timestamps, lifetime, leeway and the server clock. |
+| authentication | webhook_body_mismatch | Preserve the exact original bytes. |
+| authentication | webhook_unknown_key | The trusted set has no matching key. |
+| transport | webhook_jwks_unavailable | Keys could not be fetched, or the fetched set is malformed or repeats the token's kid. Answer 5xx so the provider retries. |
 | protocol | webhook_invalid_json | The authenticated body is not valid UTF-8 JSON. |
 
 ```php
@@ -317,7 +346,7 @@ try {
 }
 ```
 
-Never verify json_encode($parsedBody): verification authenticates the original bytes, including whitespace and numeric spelling. A mismatch cannot distinguish a wrong secret from altered bytes. Repeated signature values are supported; timestamp and ID headers must each contain a single value.
+Never verify json_encode($parsedBody): verification authenticates the original bytes, including whitespace and numeric spelling. Preserve raw request bytes before parsing. For HMAC, repeated signature values are supported; timestamp and ID headers must each contain a single value.
 
 known is true only for a registered event name whose payload matches a declared envelope. Authenticated unknown names return known: false with reason: unknown_event; declared names with unmatched envelopes use reason: unmatched_envelope. Known deliveries have no reason; nested response types retain their documented uncertainty. Malformed declared payloads produce a protocol error.
 

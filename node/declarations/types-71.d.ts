@@ -1,5 +1,9 @@
 import type { InputValue, Model } from '../runtime.js';
-import type { ReturnEligibilitySelectionLineItemsInput, ReturnInspectionLineItemRequestInput } from './types-40.js';
+import type {
+    ReturnEligibilitySelectionAllRemainingFulfilledInput,
+    ReturnEligibilitySelectionLineItemsInput,
+    ReturnInspectionLineItemRequestInput
+} from './types-40.js';
 import type {
     ReturnLineDecisionInput,
     ReturnLineItemRequestInput,
@@ -69,9 +73,9 @@ import type {
     SubscriptionBillingScheduleInputExternalInput,
     SubscriptionBillingScheduleInputFlintInput,
     SubscriptionBillingScheduleRequestInput,
-    SubscriptionBillingScheduleUpdateInputExternalInput,
-    SubscriptionBillingScheduleUpdateInputFlintInput
+    SubscriptionBillingScheduleUpdateInputExternalInput
 } from './types-45.js';
+export declare function makeReturnEligibilitySelectionAllRemainingFulfilled(value: InputValue<ReturnEligibilitySelectionAllRemainingFulfilledInput>): Model<ReturnEligibilitySelectionAllRemainingFulfilledInput>;
 export declare function makeReturnEligibilitySelectionLineItems(value: InputValue<ReturnEligibilitySelectionLineItemsInput>): Model<ReturnEligibilitySelectionLineItemsInput>;
 export declare function makeReturnInspectionLineItemRequest(value: InputValue<ReturnInspectionLineItemRequestInput>): Model<ReturnInspectionLineItemRequestInput>;
 export declare function makeReturnLineDecision(value: InputValue<ReturnLineDecisionInput>): Model<ReturnLineDecisionInput>;
@@ -136,4 +140,3 @@ export declare function makeSubscriptionBillingScheduleInputExternal(value: Inpu
 export declare function makeSubscriptionBillingScheduleInputFlint(value: InputValue<SubscriptionBillingScheduleInputFlintInput>): Model<SubscriptionBillingScheduleInputFlintInput>;
 export declare function makeSubscriptionBillingScheduleRequest(value: InputValue<SubscriptionBillingScheduleRequestInput>): Model<SubscriptionBillingScheduleRequestInput>;
 export declare function makeSubscriptionBillingScheduleUpdateInputExternal(value: InputValue<SubscriptionBillingScheduleUpdateInputExternalInput>): Model<SubscriptionBillingScheduleUpdateInputExternalInput>;
-export declare function makeSubscriptionBillingScheduleUpdateInputFlint(value: InputValue<SubscriptionBillingScheduleUpdateInputFlintInput>): Model<SubscriptionBillingScheduleUpdateInputFlintInput>;

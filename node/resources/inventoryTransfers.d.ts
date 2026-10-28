@@ -68,10 +68,10 @@ export {
     makeInventoryTransferLineRequest,
     makeInventoryTransferTransitionRequest,
     makeInventoryTransferTransitionRequestCancel,
-    makeInventoryTransferTransitionRequestDepart,
-    makeInventoryTransferTransitionRequestReceive
+    makeInventoryTransferTransitionRequestDepart
 } from '../declarations/types-67.js';
 export {
+    makeInventoryTransferTransitionRequestReceive,
     makeInventoryTransferTransitionRequestReportLoss,
     makeInventoryTransferTransitionRequestReturnToOrigin,
     makeMoneyValue

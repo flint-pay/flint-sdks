@@ -111,7 +111,7 @@ List operations such as `apiKeys.list` also have `listItems` and `listPages` met
 
 ## Webhooks
 
-Verify each delivery with `$client->verifyWebhook($rawBody, $headers, $secrets)` on the original request bytes, never re-encoded JSON. Standalone `Webhooks::verify` needs no client configuration. See [verifyWebhook examples and errors](RUNTIME.md#webhooks-and-recovery).
+Verify each delivery with `$client->verifyWebhookDelivery($rawBody, $headers, ['endpoint_ids' => $endpointIds, 'cache' => $cache])` on the original request bytes, never re-encoded JSON. Pass a PSR-16 `cache`, or enable APCu, so PHP-FPM workers share JWKS keys and refresh limits. Standalone verification accepts a trusted base URL and endpoint IDs; see the runtime guide. See [verifyWebhook examples and errors](RUNTIME.md#webhooks-and-recovery).
 
 ## Documentation
 

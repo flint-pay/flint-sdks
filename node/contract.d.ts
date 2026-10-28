@@ -162,7 +162,19 @@ export interface AuthenticationMode {
     })[];
     operations?: string[];
 }
-export interface Webhook {
+export interface WebhookJwt {
+    header: string;
+    scheme: 'Bearer';
+    algorithm: 'ES256';
+    typ: string;
+    issuer: string;
+    jwksPath: string;
+    bodyHashClaim: string;
+    bodyHashEncoding: 'base64url';
+    lifetimeSeconds: number;
+    leewaySeconds: number;
+}
+export interface WebhookHmac {
     algorithm: 'hmac-sha256';
     format?: 'hex' | 'standard-webhooks' | 'timestamped-hex';
     idHeader?: string;
@@ -170,9 +182,19 @@ export interface Webhook {
     timestampHeader?: string;
     separator: string;
     toleranceSeconds: number;
+}
+export type WebhookSigning = (WebhookHmac & {
+    jwt?: WebhookJwt;
+})
+    | ({
+    jwt: WebhookJwt;
+} & {
+    [K in keyof WebhookHmac]?: never;
+});
+export type Webhook = WebhookSigning & {
     events: Record<string, Schema>;
     typeField: string;
-}
+};
 type DefaultCapability = 'idempotency' | 'retry' | 'pagination';
 export type CapabilityOverride = Omit<Capability, DefaultCapability>
     & {

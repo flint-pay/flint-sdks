@@ -8,6 +8,7 @@ import type {
     Webhook_dispute_updated_merchant,
     Webhook_delivery_zone_archived_installed_merchants,
     Webhook_delivery_zone_archived_merchant,
+    Webhook_delivery_profile_archived_merchant,
     Webhook_delivery_zone_created_installed_merchants,
     Webhook_delivery_zone_created_merchant,
     Webhook_dispute_needs_response_merchant,
@@ -24,7 +25,6 @@ import type {
     Webhook_customer_deletion_request_failed_installed_merchants,
     Webhook_customer_deletion_request_failed_merchant,
     Webhook_delivery_profile_archived_installed_merchants,
-    Webhook_delivery_profile_archived_merchant,
     Webhook_customer_deletion_request_processing_installed_merchants,
     Webhook_customer_deletion_request_processing_merchant,
     Webhook_checkout_session_expired_installed_merchants,
@@ -65,6 +65,7 @@ import type {
 import type {
     Webhook_invoice_refunded_installed_merchants,
     Webhook_invoice_refunded_merchant,
+    Webhook_invoice_late_fee_due_installed_merchants,
     Webhook_invoice_late_fee_due_merchant,
     Webhook_invoice_manual_payment_reversed_installed_merchants,
     Webhook_invoice_manual_payment_reversed_merchant,
@@ -86,15 +87,6 @@ import type {
     Webhook_bundle_archived_installed_merchants,
     Webhook_bundle_archived_merchant
 } from './types-54.js';
-import type {
-    Webhook_invoice_late_fee_due_installed_merchants,
-    Webhook_inventory_reservation_closed_installed_merchants,
-    Webhook_inventory_reservation_closed_merchant,
-    Webhook_inventory_reservation_hold_expired_installed_merchants,
-    Webhook_inventory_reservation_hold_expired_merchant,
-    Webhook_invoice_delivery_attempt_failed_installed_merchants,
-    Webhook_invoice_delivery_attempt_failed_merchant
-} from './types-57.js';
 import type {
     Webhook_payment_review_opened_installed_merchants,
     Webhook_payment_review_opened_merchant,
@@ -122,6 +114,14 @@ import type {
     Webhook_subscription_paused_installed_merchants,
     Webhook_subscription_paused_merchant
 } from './types-61.js';
+import type {
+    Webhook_inventory_reservation_closed_installed_merchants,
+    Webhook_inventory_reservation_closed_merchant,
+    Webhook_inventory_reservation_hold_expired_installed_merchants,
+    Webhook_inventory_reservation_hold_expired_merchant,
+    Webhook_invoice_delivery_attempt_failed_installed_merchants,
+    Webhook_invoice_delivery_attempt_failed_merchant
+} from './types-57.js';
 import type { GiftCardFundingSource, GiftCardFundingSourceInput } from './types-18.js';
 import type { MoneyValue, MoneyValueInput, ModifierRequest, ModifierRequestInput } from './types-31.js';
 import type { TextModifierConfigRequest, TextModifierConfigRequestInput } from './types-47.js';

@@ -115,7 +115,7 @@ List operations such as `apiKeys.list` also have `listItems` and `listPages` met
 
 ## Webhooks
 
-Verify each delivery with `client.verifyWebhook(rawBody, headers, secrets)` on the original request bytes, never re-encoded JSON. Standalone `verifyWebhook` needs no client configuration. See [verifyWebhook examples and errors](RUNTIME.md#webhooks-and-recovery).
+Verify each delivery with `await client.verifyWebhookAsync(rawBody, headers, { endpointIds })` on the original request bytes, never re-encoded JSON. Standalone verification accepts a trusted base URL and endpoint IDs; see the runtime guide. See [verifyWebhook examples and errors](RUNTIME.md#webhooks-and-recovery).
 
 ## Documentation
 
