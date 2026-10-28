@@ -131,4 +131,4 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `node examples/RESOURCE-METHOD.mjs`; examples are checked with TypeScript checkJs.
 
-Package 5.1.0, generated for API 2026-09-07.
+Package 6.0.0, generated for API 2026-09-07.

@@ -8,7 +8,7 @@ This repository contains generated SDK distributions. **We do not accept pull re
 
 ## Packages
 
-Unreleased changes on `main` add Flint webhook JWT verification. In Node, `await verifyWebhookAsync(rawBody, headers, { endpointIds, baseUrl })` from `@flintpay/node` or `@flintpay/node/webhooks`, or `client.verifyWebhookAsync`, verifies ES256 JWT deliveries against your webhook endpoint IDs and keys from the API origin's `/.well-known/jwks.json`. In PHP, use `Webhooks::verifyDelivery` or `$client->verifyWebhookDelivery` with `endpoint_ids`. Under PHP-FPM, pass a PSR-16 `cache` or enable APCu so workers share keys. Both also accept HMAC `secrets` during migration; `verifyWebhook` and `Webhooks::verify` remain HMAC-only. Retries and idempotency keys now follow each operation's idempotency class. The API contract and date are unchanged. See [the unreleased notes](MIGRATION.md#unreleased).
+Version `6.0.0` makes retries and idempotency keys follow each operation's idempotency class and adds Flint webhook JWT verification. Reads and keyed writes make up to 3 attempts. Writes with an optional key get an SDK-generated `flint-sdk-` key reused across retries, the 33 writes that require a key need yours (TypeScript won't compile without `idempotencyKey`), and writes that take no key are sent once. Install with `npm install @flintpay/node` or `composer require flintpay/flint:^6.0`. In Node, `await verifyWebhookAsync(rawBody, headers, { endpointIds, baseUrl })` from `@flintpay/node` or `@flintpay/node/webhooks`, or `client.verifyWebhookAsync`, verifies ES256 JWT deliveries against your webhook endpoint IDs and keys from the API origin's `/.well-known/jwks.json`. In PHP, use `Webhooks::verifyDelivery` or `$client->verifyWebhookDelivery` with `endpoint_ids`. Under PHP-FPM, pass a PSR-16 `cache` or enable APCu so workers share keys. Both also accept HMAC `secrets` during migration; `verifyWebhook` and `Webhooks::verify` remain HMAC-only. The API contract and date `2026-09-07` are unchanged. Review [the 6.0.0 migration guide](MIGRATION.md#sdk-600) before upgrading.
 
 Version `5.1.0` enables default merchant credentials in both SDKs. Clients accept `FLINT_API_KEY`, `FLINT_ACCESS_TOKEN`, or workload identity from a token, token file, or GitHub Actions. In GitHub Actions, grant `permissions: id-token: write` and set `FLINT_WORKLOAD_IDENTITY_ID`; the SDK requests and exchanges the subject token automatically. Use `new Client()` in Node or `new \Flint\Client(new \Flint\ClientOptions())` in PHP for the default production URL. Pass `baseUrl` explicitly for staging. API date `2026-09-07` and the API contract are unchanged. See the [default credentials guide](node/guides/default-credentials.md) and [migration notes](MIGRATION.md#sdk-510).
 
@@ -87,6 +87,7 @@ Each package guide includes its own requirements, installation command and examp
 
 | SDK version (Node and PHP)  | API version  |
 | --------------------------- | ------------ |
+| `6.0.0`                     | `2026-09-07` |
 | `5.1.0`                     | `2026-09-07` |
 | `5.0.0`                     | `2026-09-07` |
 | `4.0.0`                     | `2026-09-07` |

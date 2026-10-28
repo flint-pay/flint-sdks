@@ -1,6 +1,6 @@
 # Flint Public API reference
 
-Package 5.1.0; API 2026-09-07.
+Package 6.0.0; API 2026-09-07.
 
 [Models](MODELS.md) · [Runtime guide](RUNTIME.md)
 
