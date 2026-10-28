@@ -91,9 +91,9 @@ export {
     makeMoneyValue,
     makeOnboardingAdvanceRequest,
     makeOnboardingProfileRequest,
-    makeOnboardingStartRequest,
-    makeOnboardingVerifyEmailRequest
+    makeOnboardingStartRequest
 } from '../declarations/types-68.js';
+export { makeOnboardingVerifyEmailRequest } from '../declarations/types-69.js';
 export interface OnboardingResource {
     /**
  * Submits whatever the caller currently knows, re-evaluates onboarding, reconciles onboarding

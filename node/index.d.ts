@@ -70,7 +70,7 @@ export {
     makeCheckoutSavedPaymentDetailsSettings,
     makeCheckoutSettings,
     makeCheckoutSubscriptionTermsRequest,
-    makeCheckoutTaxConfig,
+    WorkloadIdentityClaimCondition,
     WorkloadIdentityClaimConditionRequest,
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityListResponse,
@@ -79,6 +79,7 @@ export {
 export {
     workloadIdentityCredentials,
     makeUpdateMerchantRequest,
+    makeUpdateMeSubscriptionLineItemRequest,
     makeUpdateMeSubscriptionRequest,
     makeUpdateModifierGroupRequest,
     makeUpdateModifierSetRequest,
@@ -134,6 +135,7 @@ export {
     makeWaiveReturnLineInspectionRequest,
     makeWeight,
     makeWorkloadIdentityClaimConditionRequest,
+    verifyWebhookAsync,
     verifyWebhook
 } from './declarations/types-73.js';
 export type {
@@ -390,7 +392,8 @@ export type {
     WebhookEventSubscriptionRenewalUpcoming,
     WebhookEventSubscriptionResumed,
     WebhookEventSubscriptionTrialEnding,
-    WebhookEventSubscriptionUpdated
+    WebhookEventSubscriptionUpdated,
+    WebhookVerificationOptions
 } from './declarations/types-54.js';
 export type { KnownWebhookEvent } from './declarations/types-28.js';
 export {
@@ -922,6 +925,7 @@ export {
     CategoriesUpdateInput
 } from './declarations/types-3.js';
 export {
+    makeCheckoutTaxConfig,
     makeCheckoutTipConfig,
     makeCloseCheckoutSessionRequest,
     makeCloseOrderRequest,
@@ -984,8 +988,7 @@ export {
     makeCreateFulfillmentRequestShipment,
     makeCreateGiftCardFundingDispositionRequest,
     makeCreateGiftCardLoadRequest,
-    makeCreateGiftCardNotificationRequest,
-    makeCreateGiftCardRedemptionRequest
+    makeCreateGiftCardNotificationRequest
 } from './declarations/types-63.js';
 export {
     ConfigurationVersionRequestInput,
@@ -1120,6 +1123,7 @@ export {
     CreateInlineModifierGroupRequestInput
 } from './declarations/types-6.js';
 export {
+    makeCreateGiftCardRedemptionRequest,
     makeCreateGiftCardRedemptionRequestAutomatic,
     makeCreateGiftCardRedemptionRequestManual,
     makeCreateGiftCardRequest,
@@ -1182,8 +1186,7 @@ export {
     makeCreateReturnReceiptRequest,
     makeCreateReturnRequest,
     makeCreateReturnResolutionPreviewRequest,
-    makeCreateReturnResolutionPreviewRequestCorrection,
-    makeCreateReturnResolutionPreviewRequestStandard
+    makeCreateReturnResolutionPreviewRequestCorrection
 } from './declarations/types-64.js';
 export {
     CreateInventoryAdjustmentConditionChangeRequest,
@@ -1318,6 +1321,7 @@ export {
     CreateReturnResolutionRequestCorrection
 } from './declarations/types-8.js';
 export {
+    makeCreateReturnResolutionPreviewRequestStandard,
     makeCreateReturnResolutionRequest,
     makeCreateReturnResolutionRequestCorrection,
     makeCreateReturnResolutionRequestStandard,
@@ -1380,8 +1384,7 @@ export {
     makeDeliveryInventoryAssignmentRequest,
     makeDeliveryLocationSetConfiguration,
     makeDeliveryMethodConfigurationCreateRequest,
-    makeDeliveryMethodConfigurationPatchRequest,
-    makeDeliveryMethodConfigurationRequest
+    makeDeliveryMethodConfigurationPatchRequest
 } from './declarations/types-65.js';
 export {
     CreditNoteCorrectionRequestQuantityInput,
@@ -1582,6 +1585,7 @@ export {
     DeliveryMethodsUpdateInput
 } from './declarations/types-12.js';
 export {
+    makeDeliveryMethodConfigurationRequest,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
     makeDeliveryMethodOriginSelectorInputFixedLocation,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollection,
@@ -1644,8 +1648,7 @@ export {
     makeFulfillmentRecipientRequest,
     makeFulfillmentSettings,
     makeFulfillmentTransitionRequest,
-    makeFulfillmentTransitionRequestAccept,
-    makeFulfillmentTransitionRequestCancel
+    makeFulfillmentTransitionRequestAccept
 } from './declarations/types-66.js';
 export {
     DeliveryPostalCodeValue,
@@ -2044,6 +2047,7 @@ export {
     FulfillmentsUpdateInput
 } from './declarations/types-18.js';
 export {
+    makeFulfillmentTransitionRequestCancel,
     makeFulfillmentTransitionRequestComplete,
     makeFulfillmentTransitionRequestDispatch,
     makeFulfillmentTransitionRequestFail,
@@ -2106,8 +2110,7 @@ export {
     makeInventoryTransferLineRequest,
     makeInventoryTransferTransitionRequest,
     makeInventoryTransferTransitionRequestCancel,
-    makeInventoryTransferTransitionRequestDepart,
-    makeInventoryTransferTransitionRequestReceive
+    makeInventoryTransferTransitionRequestDepart
 } from './declarations/types-67.js';
 export {
     GiftCardListResponse,
@@ -2638,6 +2641,7 @@ export {
     InventoryTransfersUpdateInput
 } from './declarations/types-26.js';
 export {
+    makeInventoryTransferTransitionRequestReceive,
     makeInventoryTransferTransitionRequestReportLoss,
     makeInventoryTransferTransitionRequestReturnToOrigin,
     makeInvoiceAutopayRetryPolicy,
@@ -2700,8 +2704,7 @@ export {
     makeMoneyValue,
     makeOnboardingAdvanceRequest,
     makeOnboardingProfileRequest,
-    makeOnboardingStartRequest,
-    makeOnboardingVerifyEmailRequest
+    makeOnboardingStartRequest
 } from './declarations/types-68.js';
 export {
     InvoiceManualPaymentListResponse,
@@ -3099,6 +3102,7 @@ export {
     OnboardingVerifyEmailCodeInput
 } from './declarations/types-32.js';
 export {
+    makeOnboardingVerifyEmailRequest,
     makeOrderCalculatedChargeTax,
     makeOrderCalculatedLineItemTax,
     makeOrderChargeRequest,
@@ -3157,7 +3161,6 @@ export {
     makePaymentLinkLegalConfig,
     makePaymentLinkLegalPatchRequest,
     makePaymentLinkLineItemPatchRequest,
-    makePaymentLinkLineItemRequest,
     makePayOrderRequest,
     makePayOrderRequestConfirmPaymentIntents,
     makePayOrderRequestPay,
@@ -3429,6 +3432,7 @@ export {
     PaymentMethodDomainsUpdateInput
 } from './declarations/types-36.js';
 export {
+    makePaymentLinkLineItemRequest,
     makePaymentLinkPaymentConfig,
     makePaymentLinkPaymentPatchRequest,
     makePaymentLinkRedirectsPatchRequest,
@@ -3491,8 +3495,7 @@ export {
     makeRetryReturnDispositionRequest,
     makeRetryReturnResolutionRequest,
     makeReturnEligibilityLineItemRequest,
-    makeReturnEligibilitySelection,
-    makeReturnEligibilitySelectionAllRemainingFulfilled
+    makeReturnEligibilitySelection
 } from './declarations/types-70.js';
 export {
     PayoutResponse,
@@ -3693,6 +3696,7 @@ export {
     RefundsUpdateInput
 } from './declarations/types-39.js';
 export {
+    makeReturnEligibilitySelectionAllRemainingFulfilled,
     makeReturnEligibilitySelectionLineItems,
     makeReturnInspectionLineItemRequest,
     makeReturnLineDecision,
@@ -3755,8 +3759,7 @@ export {
     makeSubscriptionBillingScheduleInputExternal,
     makeSubscriptionBillingScheduleInputFlint,
     makeSubscriptionBillingScheduleRequest,
-    makeSubscriptionBillingScheduleUpdateInputExternal,
-    makeSubscriptionBillingScheduleUpdateInputFlint
+    makeSubscriptionBillingScheduleUpdateInputExternal
 } from './declarations/types-71.js';
 export {
     ReturnLineDecision,
@@ -4023,6 +4026,7 @@ export {
     SubscriptionOffersUpdateInput
 } from './declarations/types-45.js';
 export {
+    makeSubscriptionBillingScheduleUpdateInputFlint,
     makeSubscriptionBillingScheduleUpdateRequest,
     makeSubscriptionBillingStartInputImmediate,
     makeSubscriptionBillingStartInputImported,
@@ -4085,8 +4089,7 @@ export {
     makeUpdateInvoiceRequest,
     makeUpdateLineItemRequest,
     makeUpdateLocationRequest,
-    makeUpdateMeRequest,
-    makeUpdateMeSubscriptionLineItemRequest
+    makeUpdateMeRequest
 } from './declarations/types-72.js';
 export {
     SubscriptionPaymentRetryListResponse,
@@ -4414,7 +4417,6 @@ export {
     Webhook_category_updated_installed_merchants,
     Webhook_category_updated_merchant,
     Webhook_checkout_session_closed_installed_merchants,
-    Webhook_checkout_session_closed_merchant,
     WebhookEventType,
     WebhookEventTypeListResponse,
     WebhookStreamDisconnect,
@@ -4429,6 +4431,7 @@ export {
     WebhookEventsStreamResponse
 } from './declarations/types-54.js';
 export {
+    Webhook_checkout_session_closed_merchant,
     Webhook_checkout_session_created_installed_merchants,
     Webhook_checkout_session_created_merchant,
     Webhook_checkout_session_expired_installed_merchants,
@@ -4491,10 +4494,10 @@ export {
     Webhook_delivery_method_updated_merchant,
     Webhook_delivery_profile_activated_installed_merchants,
     Webhook_delivery_profile_activated_merchant,
-    Webhook_delivery_profile_archived_installed_merchants,
-    Webhook_delivery_profile_archived_merchant
+    Webhook_delivery_profile_archived_installed_merchants
 } from './declarations/types-55.js';
 export {
+    Webhook_delivery_profile_archived_merchant,
     Webhook_delivery_profile_created_installed_merchants,
     Webhook_delivery_profile_created_merchant,
     Webhook_delivery_profile_deactivated_installed_merchants,
@@ -4557,10 +4560,10 @@ export {
     Webhook_gift_card_load_updated_installed_merchants,
     Webhook_gift_card_load_updated_merchant,
     Webhook_gift_card_notification_created_installed_merchants,
-    Webhook_gift_card_notification_created_merchant,
-    Webhook_gift_card_notification_updated_installed_merchants
+    Webhook_gift_card_notification_created_merchant
 } from './declarations/types-56.js';
 export {
+    Webhook_gift_card_notification_updated_installed_merchants,
     Webhook_gift_card_notification_updated_merchant,
     Webhook_gift_card_redemption_created_installed_merchants,
     Webhook_gift_card_redemption_created_merchant,
@@ -4623,10 +4626,10 @@ export {
     Webhook_invoice_issued_installed_merchants,
     Webhook_invoice_issued_merchant,
     Webhook_invoice_late_fee_assessed_installed_merchants,
-    Webhook_invoice_late_fee_assessed_merchant,
-    Webhook_invoice_late_fee_due_installed_merchants
+    Webhook_invoice_late_fee_assessed_merchant
 } from './declarations/types-57.js';
 export {
+    Webhook_invoice_late_fee_due_installed_merchants,
     Webhook_invoice_late_fee_due_merchant,
     Webhook_invoice_late_fee_waived_installed_merchants,
     Webhook_invoice_late_fee_waived_merchant,
@@ -4689,10 +4692,10 @@ export {
     Webhook_order_created_merchant,
     Webhook_order_inventory_exception_created_installed_merchants,
     Webhook_order_inventory_exception_created_merchant,
-    Webhook_order_inventory_exception_resolved_installed_merchants,
-    Webhook_order_inventory_exception_resolved_merchant
+    Webhook_order_inventory_exception_resolved_installed_merchants
 } from './declarations/types-58.js';
 export {
+    Webhook_order_inventory_exception_resolved_merchant,
     Webhook_order_paid_installed_merchants,
     Webhook_order_paid_merchant,
     Webhook_order_partially_paid_installed_merchants,
@@ -4755,10 +4758,10 @@ export {
     Webhook_payout_destination_updated_merchant,
     Webhook_payout_failed_merchant,
     Webhook_payout_paid_merchant,
-    Webhook_payout_reversed_merchant,
-    Webhook_payout_settings_updated_merchant
+    Webhook_payout_reversed_merchant
 } from './declarations/types-59.js';
 export {
+    Webhook_payout_settings_updated_merchant,
     Webhook_payout_updated_merchant,
     Webhook_product_archived_installed_merchants,
     Webhook_product_archived_merchant,
@@ -4821,10 +4824,10 @@ export {
     Webhook_return_receipt_superseded_installed_merchants,
     Webhook_return_receipt_superseded_merchant,
     Webhook_return_receipt_verified_installed_merchants,
-    Webhook_return_receipt_verified_merchant,
-    Webhook_return_reopened_installed_merchants
+    Webhook_return_receipt_verified_merchant
 } from './declarations/types-60.js';
 export {
+    Webhook_return_reopened_installed_merchants,
     Webhook_return_reopened_merchant,
     Webhook_return_resolution_created_installed_merchants,
     Webhook_return_resolution_created_merchant,
@@ -4883,7 +4886,6 @@ export {
     Weight,
     WeightInput,
     WorkloadIdentity,
-    WorkloadIdentityClaimCondition,
     WorkloadIdentitiesCreateInput,
     WorkloadIdentitiesRemoveInput,
     WorkloadIdentitiesGetInput,

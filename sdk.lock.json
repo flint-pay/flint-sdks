@@ -1,7 +1,7 @@
 {
   "generator": {
     "repository": "https://github.com/flint-pay/sdk-generator.git",
-    "revision": "541f767ff5578faa98a3f55479c0736321810b27"
+    "revision": "808a124136135dd1bffdf3a1c2a266dba970b130"
   },
   "api": {
     "repository": "https://github.com/flint-pay/flint",

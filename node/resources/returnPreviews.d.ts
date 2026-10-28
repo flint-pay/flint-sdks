@@ -84,16 +84,13 @@ export {
     makeCreateReturnPreviewRequestEligibility,
     makeCreateReturnPreviewRequestResolution,
     makeCreateReturnResolutionPreviewRequest,
-    makeCreateReturnResolutionPreviewRequestCorrection,
-    makeCreateReturnResolutionPreviewRequestStandard
+    makeCreateReturnResolutionPreviewRequestCorrection
 } from '../declarations/types-64.js';
+export { makeCreateReturnResolutionPreviewRequestStandard } from '../declarations/types-65.js';
 export { makeMoneyValue } from '../declarations/types-68.js';
+export { makeReturnEligibilityLineItemRequest, makeReturnEligibilitySelection } from '../declarations/types-70.js';
 export {
-    makeReturnEligibilityLineItemRequest,
-    makeReturnEligibilitySelection,
-    makeReturnEligibilitySelectionAllRemainingFulfilled
-} from '../declarations/types-70.js';
-export {
+    makeReturnEligibilitySelectionAllRemainingFulfilled,
     makeReturnEligibilitySelectionLineItems,
     makeReturnReplacementLineItemInputBundle,
     makeReturnReplacementLineItemInputCustom,

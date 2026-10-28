@@ -7,12 +7,18 @@ export declare function isAuthShortcutName(name: string): boolean;
 export declare function isBaseUrlSyntax(value: unknown): value is string;
 /** Static server defaults must be usable without an input-document origin or variables. */
 export declare function isDefaultBaseUrl(value: unknown): value is string;
+/** One owner for configuration diagnostics and restored Node descriptor validation. */
+export declare function webhookJwtIssue(value: unknown): {
+    field: string;
+    message: string;
+} | undefined;
 import type {
     Operation,
     Retry,
     Schema,
     Auth,
     Webhook,
+    WebhookSigning,
     Config,
     IncomingWebhook,
     AuthenticationMode,
@@ -109,8 +115,9 @@ export interface CompiledRuntimePlan extends Omit<RuntimeContract, 'operations' 
         codec: CodecPlan;
     })[];
     definitions?: Record<string, CodecPlan>;
-    webhook?: Omit<Webhook, 'events'>
+    webhook?: WebhookSigning
         & {
+        typeField: string;
         certificate?: TypeCertificate;
         events: Record<string, CodecPlan>;
         eventModels?: Record<string, string>;

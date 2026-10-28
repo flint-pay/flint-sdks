@@ -1,4 +1,5 @@
 import type { InputValue, Model } from '../runtime.js';
+import type { CreateReturnResolutionPreviewRequestStandardInput } from './types-8.js';
 import type {
     CreateReturnResolutionRequestInput,
     CreateReturnResolutionRequestCorrectionInput,
@@ -68,9 +69,9 @@ import type {
     DeliveryInventoryAssignmentRequestInput,
     DeliveryLocationSetConfigurationInput,
     DeliveryMethodConfigurationCreateRequestInput,
-    DeliveryMethodConfigurationPatchRequestInput,
-    DeliveryMethodConfigurationRequestInput
+    DeliveryMethodConfigurationPatchRequestInput
 } from './types-12.js';
+export declare function makeCreateReturnResolutionPreviewRequestStandard(value: InputValue<CreateReturnResolutionPreviewRequestStandardInput>): Model<CreateReturnResolutionPreviewRequestStandardInput>;
 export declare function makeCreateReturnResolutionRequest(value: InputValue<CreateReturnResolutionRequestInput>): Model<CreateReturnResolutionRequestInput>;
 export declare function makeCreateReturnResolutionRequestCorrection(value: InputValue<CreateReturnResolutionRequestCorrectionInput>): Model<CreateReturnResolutionRequestCorrectionInput>;
 export declare function makeCreateReturnResolutionRequestStandard(value: InputValue<CreateReturnResolutionRequestStandardInput>): Model<CreateReturnResolutionRequestStandardInput>;
@@ -135,4 +136,3 @@ export declare function makeDeliveryInventoryAssignmentRequest(value: InputValue
 export declare function makeDeliveryLocationSetConfiguration(value: InputValue<DeliveryLocationSetConfigurationInput>): Model<DeliveryLocationSetConfigurationInput>;
 export declare function makeDeliveryMethodConfigurationCreateRequest(value: InputValue<DeliveryMethodConfigurationCreateRequestInput>): Model<DeliveryMethodConfigurationCreateRequestInput>;
 export declare function makeDeliveryMethodConfigurationPatchRequest(value: InputValue<DeliveryMethodConfigurationPatchRequestInput>): Model<DeliveryMethodConfigurationPatchRequestInput>;
-export declare function makeDeliveryMethodConfigurationRequest(value: InputValue<DeliveryMethodConfigurationRequestInput>): Model<DeliveryMethodConfigurationRequestInput>;

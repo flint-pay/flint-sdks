@@ -337,10 +337,10 @@ export {
     makeCheckoutPromotionConfig,
     makeCheckoutQuickPayItemRequest,
     makeCheckoutRedirectsRequest,
-    makeCheckoutSubscriptionTermsRequest,
-    makeCheckoutTaxConfig
+    makeCheckoutSubscriptionTermsRequest
 } from '../declarations/types-62.js';
 export {
+    makeCheckoutTaxConfig,
     makeCheckoutTipConfig,
     makeCloseCheckoutSessionRequest,
     makeConfirmCheckoutSessionCustomerVerificationRequest,

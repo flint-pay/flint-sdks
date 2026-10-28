@@ -1,12 +1,51 @@
-import type { MerchantWebhookEnvelope } from './types-31.js';
-import type { ReturnResource, ReturnResolution } from './types-42.js';
 import type { PartnerWebhookEnvelope } from './types-35.js';
+import type { ReturnResource, ReturnResolution } from './types-42.js';
+import type { MerchantWebhookEnvelope } from './types-31.js';
 import type { Shipment, Subscription } from './types-44.js';
 import type { SubscriptionDeliveryMigration, SubscriptionPaymentRetry } from './types-45.js';
 import type { InputValue } from '../runtime.js';
 import type { CreateWorkloadIdentityRequestInput } from './types-9.js';
 import type { UpdateWorkloadIdentityRequestInput } from './types-50.js';
 import type { ResourceReference } from './types-40.js';
+import type { WorkloadIdentityClaimCondition } from './types-62.js';
+/**
+ * Shape $ (Value): {@link Webhook_return_reopened_installed_merchants}. The `return.reopened`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_return_reopened_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link ReturnResource}. A request to
+     * send purchased items back.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link ReturnResource}. A request to send purchased items back. */
+        "object": ReturnResource;
+    };
+    /** Shape $ (Value): string.  Value enum: "return.reopened". */
+    "event_type"?: "return.reopened" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
 /**
  * Shape $ (Value): {@link Webhook_return_reopened_merchant}. The `return.reopened` webhook payload
  * for the `merchant` event source. Fields shared by merchant webhook payloads.
@@ -1731,19 +1770,4 @@ export type WorkloadIdentity = {
     "version": `${bigint}`;
     /** Shape $ (Value): string. */
     "workload_identity_id": string;
-};
-/**
- * Shape $ (Value): {@link WorkloadIdentityClaimCondition}. A condition matching one top-level
- * scalar claim in the workload's identity token.
- */
-export type WorkloadIdentityClaimCondition = {
-    /**
-     * Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are
-     * reserved.
-     */
-    "claim": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "match": "exact" | "glob" | (string & {});
-    /** Shape $ (Value): string. */
-    "value": string;
 };

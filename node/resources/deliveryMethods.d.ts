@@ -182,10 +182,10 @@ export {
     makeDeliveryEstimateRuleRequest,
     makeDeliveryFixedPricingStrategyRequest,
     makeDeliveryMethodConfigurationCreateRequest,
-    makeDeliveryMethodConfigurationPatchRequest,
-    makeDeliveryMethodConfigurationRequest
+    makeDeliveryMethodConfigurationPatchRequest
 } from '../declarations/types-65.js';
 export {
+    makeDeliveryMethodConfigurationRequest,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
     makeDeliveryMethodOriginSelectorInputFixedLocation,
     makeDeliveryMethodOriginSelectorInputPickupLocationCollection,

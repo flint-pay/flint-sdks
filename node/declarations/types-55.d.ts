@@ -1,10 +1,30 @@
 import type { CheckoutSession } from './types-4.js';
-import type { PartnerWebhookEnvelope } from './types-35.js';
 import type { MerchantWebhookEnvelope } from './types-31.js';
+import type { PartnerWebhookEnvelope } from './types-35.js';
 import type { CreditNoteAllocation, CreditNote } from './types-9.js';
 import type { CustomDomain, Customer, CustomerDeletionRequest } from './types-10.js';
 import type { DeliveryLocationSet, DeliveryMethod } from './types-12.js';
 import type { DeliveryProfile } from './types-13.js';
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_closed_merchant}. The `checkout_session.closed`
+ * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_checkout_session_closed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.closed". */
+    "event_type"?: "checkout_session.closed" | (string & {});
+});
 /**
  * Shape $ (Value): {@link Webhook_checkout_session_created_installed_merchants}. The
  * `checkout_session.created` webhook payload for the `installed_merchants` event source. Fields
@@ -1929,25 +1949,4 @@ export type Webhook_delivery_profile_archived_installed_merchants = (Exclude<Par
         /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
-});
-/**
- * Shape $ (Value): {@link Webhook_delivery_profile_archived_merchant}. The
- * `delivery_profile.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_delivery_profile_archived_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryProfile}. Reusable
-     * delivery rules assigned to catalog items.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
-         * items.
-         */
-        "object": DeliveryProfile;
-    };
-    /** Shape $ (Value): string.  Value enum: "delivery_profile.archived". */
-    "event_type"?: "delivery_profile.archived" | (string & {});
 });

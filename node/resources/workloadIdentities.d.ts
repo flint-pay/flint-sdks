@@ -35,15 +35,15 @@ export type {
     WorkloadIdentitiesRemoveInput,
     WorkloadIdentitiesGetInput,
     WorkloadIdentitiesListInput,
-    WorkloadIdentitiesUpdateInput,
-    WorkloadIdentityClaimCondition
+    WorkloadIdentitiesUpdateInput
 } from '../declarations/types-61.js';
 export type { SdkResponse } from '../declarations/types-44.js';
 export type {
     WorkloadIdentityResponse,
     _SdkWithoutIdempotency,
     WorkloadIdentityListResponse,
-    WorkloadIdentityClaimConditionRequestInput
+    WorkloadIdentityClaimConditionRequestInput,
+    WorkloadIdentityClaimCondition
 } from '../declarations/types-62.js';
 export type { UpdateWorkloadIdentityRequestInput } from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-4.js';

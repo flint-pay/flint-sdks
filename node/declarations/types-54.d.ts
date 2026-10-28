@@ -5,7 +5,7 @@ import type { ReturnReceipt } from './types-41.js';
 import type { ReturnResource, ReturnResolution } from './types-42.js';
 import type { Shipment, Subscription } from './types-44.js';
 import type { SubscriptionDeliveryMigration, SubscriptionPaymentRetry } from './types-45.js';
-import type { InputValue, EventStream } from '../runtime.js';
+import type { InputValue, EventStream, WebhookVerificationOptions as _SdkWebhookVerificationOptions } from '../runtime.js';
 import type { BalanceTransaction, Balance, Bundle } from './types-0.js';
 import type { Category } from './types-3.js';
 import type { CheckoutSession } from './types-4.js';
@@ -2730,6 +2730,7 @@ export type WebhookStreamWithheld = {
     /** Shape $ (Value): string. */
     "webhook_event_id": string;
 };
+export type WebhookVerificationOptions = _SdkWebhookVerificationOptions;
 /**
  * Shape $ (Value): {@link Webhook_balance_transaction_created_merchant}. The
  * `balance_transaction.created` webhook payload for the `merchant` event source. Fields shared by
@@ -3158,24 +3159,4 @@ export type Webhook_checkout_session_closed_installed_merchants = (Exclude<Partn
         /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
-});
-/**
- * Shape $ (Value): {@link Webhook_checkout_session_closed_merchant}. The `checkout_session.closed`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_checkout_session_closed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
-     * which a buyer completes an order's payment.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
-         * order's payment.
-         */
-        "object": CheckoutSession;
-    };
-    /** Shape $ (Value): string.  Value enum: "checkout_session.closed". */
-    "event_type"?: "checkout_session.closed" | (string & {});
 });

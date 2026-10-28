@@ -47,6 +47,12 @@
     "ext-json": "*",
     "php": ">=8.2"
   },
+  "suggest": {
+    "ext-openssl": "Required for ES256 webhook verification",
+    "psr/http-client": "Optional PSR-18 JWKS HTTP client",
+    "psr/http-factory": "Optional PSR-17 request factory for the JWKS HTTP client",
+    "psr/simple-cache": "Optional PSR-16 JWKS cache"
+  },
   "type": "library",
   "homepage": "https://developers.withflintpay.com",
   "support": {

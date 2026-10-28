@@ -216,10 +216,9 @@ export {
     makeBuyerInstructionsConfig,
     makeCheckoutBuyerFields,
     makeCheckoutPromotionConfig,
-    makeCheckoutRedirectsRequest,
-    makeCheckoutTaxConfig
+    makeCheckoutRedirectsRequest
 } from '../declarations/types-62.js';
-export { makeCheckoutTipConfig } from '../declarations/types-63.js';
+export { makeCheckoutTaxConfig, makeCheckoutTipConfig } from '../declarations/types-63.js';
 export { makeCreatePaymentLinkRequest } from '../declarations/types-64.js';
 export { makeDeliveryAddressRequest } from '../declarations/types-65.js';
 export { makeDeliveryRecipientRequirement, makeDeliveryWindowRequest } from '../declarations/types-66.js';
@@ -241,10 +240,10 @@ export {
     makePaymentLinkEventConfigRequest,
     makePaymentLinkLegalConfig,
     makePaymentLinkLegalPatchRequest,
-    makePaymentLinkLineItemPatchRequest,
-    makePaymentLinkLineItemRequest
+    makePaymentLinkLineItemPatchRequest
 } from '../declarations/types-69.js';
 export {
+    makePaymentLinkLineItemRequest,
     makePaymentLinkPaymentConfig,
     makePaymentLinkPaymentPatchRequest,
     makePaymentLinkRedirectsPatchRequest,

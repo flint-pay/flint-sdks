@@ -334,10 +334,10 @@ export {
     makeSubscriptionBillingScheduleInputExternal,
     makeSubscriptionBillingScheduleInputFlint,
     makeSubscriptionBillingScheduleRequest,
-    makeSubscriptionBillingScheduleUpdateInputExternal,
-    makeSubscriptionBillingScheduleUpdateInputFlint
+    makeSubscriptionBillingScheduleUpdateInputExternal
 } from '../declarations/types-71.js';
 export {
+    makeSubscriptionBillingScheduleUpdateInputFlint,
     makeSubscriptionBillingScheduleUpdateRequest,
     makeSubscriptionBillingStartInputImmediate,
     makeSubscriptionBillingStartInputImported,

@@ -309,6 +309,20 @@ export type WebhookVerification = {
     event: unknown;
     reason: 'unknown_event' | 'unmatched_envelope';
 };
+export interface WebhookVerificationOptions {
+    endpointIds?: string | string[];
+    secrets?: string | string[];
+    jwks?: {
+        keys: object[];
+    };
+    baseUrl?: string;
+    fetch?: typeof fetch;
+    nowSeconds?: number;
+}
+/** JWT takes precedence whenever the caller supplies endpoint IDs and a bearer token. */
+export declare function verifyWebhookAsyncFromPlan(source: DescriptorSource | CompiledRuntimePlan, rawBody: Uint8Array | ArrayBuffer, headers: WebhookHeaders, options: WebhookVerificationOptions, redactFields?: string[]): Promise<WebhookVerification & {
+    signingMethod: 'jwt' | 'hmac';
+}>;
 /** Verify compiled webhook descriptors without constructing an HTTP runtime. */
 export declare function verifyWebhookFromPlan(source: DescriptorSource | CompiledRuntimePlan, rawBody: Uint8Array | ArrayBuffer, headers: WebhookHeaders, secrets: string | readonly string[], nowSeconds?: number, redactFields?: string[]): WebhookVerification;
 declare class CompiledRuntime {
@@ -339,6 +353,9 @@ declare class CompiledRuntime {
     items<T = unknown>(id: string, input?: Record<string, unknown>, options?: RequestOptions): AsyncGenerator<T>;
     wait<T = unknown>(id: string, input: Record<string, unknown>, options?: RequestOptions): Promise<Result<T>>;
     verifyWebhook(rawBody: Uint8Array | ArrayBuffer, headers: WebhookHeaders, secrets: string | readonly string[], nowSeconds?: number): WebhookVerification;
+    verifyWebhookAsync(rawBody: Uint8Array | ArrayBuffer, headers: WebhookHeaders, options: WebhookVerificationOptions): Promise<WebhookVerification & {
+        signingMethod: 'jwt' | 'hmac';
+    }>;
     money(currency: string, major: string): {
         currency: string;
         amount: string;

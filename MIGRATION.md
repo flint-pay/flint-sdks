@@ -1,3 +1,38 @@
+# Unreleased
+
+These changes are on `main` and not yet published. The API contract and date `2026-09-07` are unchanged.
+
+## Webhook JWT verification
+
+Flint can sign each webhook delivery with a short-lived ES256 JWT in `Authorization: Bearer`. The new verifiers check it against your webhook endpoint IDs (`whep_...`), not event IDs, using keys from the trusted API origin's `/.well-known/jwks.json`. The issuer comes from the base URL you configure, never from the token. Pass the original request bytes.
+
+```js
+import { verifyWebhookAsync } from "@flintpay/node/webhooks";
+
+const verified = await verifyWebhookAsync(rawBody, headers, {
+  endpointIds: ["whep_example"],
+  baseUrl: "https://api.withflintpay.com",
+});
+```
+
+```php
+use Flint\Webhooks;
+
+$verified = Webhooks::verifyDelivery($rawBody, $headers, [
+    'endpoint_ids' => ['whep_example'],
+    'base_url' => 'https://api.withflintpay.com',
+    'cache' => $cache, // PSR-16
+]);
+```
+
+`client.verifyWebhookAsync` and `$client->verifyWebhookDelivery` default the base URL from the client. Results add `signingMethod` (PHP `signing_method`), `"jwt"` or `"hmac"`. A bearer token with endpoint IDs is verified as a JWT only; during migration, also pass `secrets` to accept HMAC deliveries. `verifyWebhook` and `Webhooks::verify` remain HMAC-only. Answer 5xx for `webhook_jwks_unavailable` so Flint retries.
+
+PHP needs `ext-openssl`. Under PHP-FPM, pass a PSR-16 `cache` or enable APCu so workers share keys and refresh limits, and treat that cache as a trust store. Apache needs `CGIPassAuth On` to pass `Authorization` to PHP. See the [Node](node/RUNTIME.md#jwt-delivery-verification) and [PHP](php/RUNTIME.md#jwt-delivery-verification) runtime guides. The generated `webhook-inbox` examples now take verification options instead of secrets, and Node's `receiveWebhook(client, db, rawBody, headers, options, eventId)` is now `async`, so `await` it.
+
+## Retries and idempotency
+
+Retries and idempotency keys follow each operation's idempotency class. GETs and keyed writes make up to 3 attempts; other writes are sent once. Writes with an optional key get an SDK-generated `flint-sdk-` key reused across retries, and writes that require a key still need your saved key.
+
 # SDK 5.1.0
 
 This compatible minor release enables default credential discovery for merchant operations. Explicit credentials continue to take precedence. With no explicit credentials, the SDK reads `FLINT_API_KEY` or `FLINT_ACCESS_TOKEN`, then workload identity configured by `FLINT_WORKLOAD_IDENTITY_ID`. Setting both credential variables raises `ambiguous_credentials`.

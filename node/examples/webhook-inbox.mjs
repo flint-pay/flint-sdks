@@ -8,8 +8,8 @@ export function openInbox(path) {
   );
   return db;
 }
-export function receiveWebhook(client, db, rawBody, headers, secrets, eventId) {
-  const verified = client.verifyWebhook(rawBody, headers, secrets);
+export async function receiveWebhook(client, db, rawBody, headers, options, eventId) {
+  const verified = await client.verifyWebhookAsync(rawBody, headers, options);
   // Supply an extractor for the provider's documented globally unique event identity.
   const id = eventId(verified.event);
   if (typeof id !== 'string' || !id) throw new Error('A provider event identity is required');

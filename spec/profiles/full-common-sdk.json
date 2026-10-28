@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/541f767ff5578faa98a3f55479c0736321810b27/sdk-config.schema.json",
+  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/808a124136135dd1bffdf3a1c2a266dba970b130/sdk-config.schema.json",
   "version": "5.1.0",
   "npm": {
     "name": "@flintpay/node",
@@ -203,7 +203,19 @@
     "separator": ".",
     "toleranceSeconds": 300,
     "typeField": "event_type",
-    "events": {}
+    "events": {},
+    "jwt": {
+      "header": "authorization",
+      "scheme": "Bearer",
+      "algorithm": "ES256",
+      "typ": "flint-webhook+jwt",
+      "issuer": "baseUrl",
+      "jwksPath": "/.well-known/jwks.json",
+      "bodyHashClaim": "body_sha256",
+      "bodyHashEncoding": "base64url",
+      "lifetimeSeconds": 300,
+      "leewaySeconds": 60
+    }
   },
   "apiVersion": {
     "header": "Flint-Version",

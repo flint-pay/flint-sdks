@@ -1,12 +1,33 @@
 import type { DeliveryProfile } from './types-13.js';
-import type { PartnerWebhookEnvelope, PartnerEnvironmentGrant } from './types-35.js';
 import type { MerchantWebhookEnvelope } from './types-31.js';
+import type { PartnerWebhookEnvelope, PartnerEnvironmentGrant } from './types-35.js';
 import type { DeliveryRateCallback, DeliveryRevocation } from './types-14.js';
 import type { DeliverySelection, DeliveryZone } from './types-15.js';
 import type { Dispute } from './types-16.js';
 import type { FraudWarning, Fulfillment, FulfillmentEvent } from './types-17.js';
 import type { GiftCard } from './types-18.js';
 import type { GiftCardLoad, GiftCardNotification } from './types-19.js';
+/**
+ * Shape $ (Value): {@link Webhook_delivery_profile_archived_merchant}. The
+ * `delivery_profile.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type Webhook_delivery_profile_archived_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryProfile}. Reusable
+     * delivery rules assigned to catalog items.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link DeliveryProfile}. Reusable delivery rules assigned to catalog
+         * items.
+         */
+        "object": DeliveryProfile;
+    };
+    /** Shape $ (Value): string.  Value enum: "delivery_profile.archived". */
+    "event_type"?: "delivery_profile.archived" | (string & {});
+});
 /**
  * Shape $ (Value): {@link Webhook_delivery_profile_created_installed_merchants}. The
  * `delivery_profile.created` webhook payload for the `installed_merchants` event source. Fields
@@ -1793,44 +1814,4 @@ export type Webhook_gift_card_notification_created_merchant = (Exclude<MerchantW
     };
     /** Shape $ (Value): string.  Value enum: "gift_card_notification.created". */
     "event_type"?: "gift_card_notification.created" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_gift_card_notification_updated_installed_merchants}. The
- * `gift_card_notification.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_gift_card_notification_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardNotification}. A message
-     * sent to a gift card recipient.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardNotification}. A message sent to a gift card recipient.
-         */
-        "object": GiftCardNotification;
-    };
-    /** Shape $ (Value): string.  Value enum: "gift_card_notification.updated". */
-    "event_type"?: "gift_card_notification.updated" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
 });

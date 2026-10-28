@@ -83,6 +83,7 @@ import type {
 import type {
     Webhook_subscription_canceled_installed_merchants,
     Webhook_subscription_canceled_merchant,
+    Webhook_return_reopened_installed_merchants,
     Webhook_return_reopened_merchant,
     Webhook_subscription_trial_ending_installed_merchants,
     Webhook_subscription_trial_ending_merchant,
@@ -106,7 +107,6 @@ import type {
     Webhook_refund_partially_succeeded_merchant,
     Webhook_return_canceled_installed_merchants,
     Webhook_return_canceled_merchant,
-    Webhook_return_reopened_installed_merchants,
     Webhook_promotion_created_installed_merchants,
     Webhook_promotion_created_merchant,
     Webhook_refund_updated_installed_merchants,
