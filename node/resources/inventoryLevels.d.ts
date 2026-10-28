@@ -1,11 +1,17 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { InventoryLevel, InventoryLevelListResponse, InventoryLevelResponse, InventoryLevelsGetInput } from '../declarations/types-24.js';
-import type { InventoryLevelsListInput, InventoryLevelsUpdateInput } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateInventoryLevelRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type {
+    InventoryLevel,
+    InventoryLevelListResponse,
+    InventoryLevelResponse,
+    InventoryLevelsGetInput,
+    InventoryLevelsListInput,
+    InventoryLevelsUpdateInput
+} from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateInventoryLevelRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -20,24 +26,27 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     InventoryLevel,
     InventoryLevelResponse,
     InventoryLevelListResponse,
     InventoryLevelsGetInput,
+    InventoryLevelsListInput,
+    InventoryLevelsUpdateInput,
     InventoryItem
-} from '../declarations/types-24.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { UpdateInventoryLevelRequestInput } from '../declarations/types-48.js';
-export type { InventoryLevelsListInput, InventoryLevelsUpdateInput } from '../declarations/types-25.js';
+} from '../declarations/types-26.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { UpdateInventoryLevelRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateInventoryLevelRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { MetadataMap } from '../declarations/types-32.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateInventoryLevelRequest } from '../declarations/types-77.js';
 export interface InventoryLevelsResource {
     /**
  * Retrieve an inventory level's current quantities and version by ID.
@@ -59,7 +68,8 @@ export interface InventoryLevelsResource {
  * List inventory levels. Send expand=inventory_item to render each level's inventory item inline,
  * so a stock table needs no read per row. Filter by inventory_item_status to see only the levels
  * behind items that can be sold. Levels are strongly consistent individually, but pages may
- * reflect different committed instants.
+ * reflect different committed instants. Default order: inventory_level_id ascending; this key
+ * uniquely orders the results.
  * @see reference/inventoryLevels.md#inventorylevelslist
  * GET /v1/inventory-levels
  * @example

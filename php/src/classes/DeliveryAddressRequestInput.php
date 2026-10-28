@@ -12,7 +12,7 @@ namespace Flint;
 final class DeliveryAddressRequestInput extends Model {
     /** @param array{'city'?: string, 'country'?: string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryAddressRequestInput')); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** Shape $ (Value): string. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When city is omitted; use hasCity() or valueOrDefault().
      */
@@ -24,25 +24,25 @@ final class DeliveryAddressRequestInput extends Model {
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When line1 is omitted; use hasLine1() or valueOrDefault().
      */
     public function getLine1(): string { return $this->get('line1'); }
     public function hasLine1(): bool { return $this->has('line1'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When line2 is omitted; use hasLine2() or valueOrDefault().
      */
     public function getLine2(): string { return $this->get('line2'); }
     public function hasLine2(): bool { return $this->has('line2'); }
-    /** Shape $ (Value): string. minLength: 1.
+    /** Shape $ (Value): string. minLength: 1. maxLength: 20.
      * @return string
      * @throws SdkError When postal_code is omitted; use hasPostalCode() or valueOrDefault().
      */
     public function getPostalCode(): string { return $this->get('postal_code'); }
     public function hasPostalCode(): bool { return $this->has('postal_code'); }
-    /** Shape $ (Value): string. State, province, or region. State conditions read it as a subdivision of the address's country: send its code with or without the country prefix, such as NY or US-NY. In the US and Canada, the English name, such as New York, also matches. US addresses also accept the USPS military codes AA, AE, and AP. If the address country is listed by a state condition but state names no subdivision of that country, the condition cannot be decided: the method or rate is left out as cannot_calculate (invalid_buyer_input). minLength: 1.
+    /** Shape $ (Value): string. State, province, or region. State conditions read it as a subdivision of the address's country: send its code with or without the country prefix, such as NY or US-NY. In the US and Canada, the English name, such as New York, also matches. US addresses also accept the USPS military codes AA, AE, and AP. If the address country is listed by a state condition but state names no subdivision of that country, the condition cannot be decided: the method or rate is left out as cannot_calculate (invalid_buyer_input). minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When state is omitted; use hasState() or valueOrDefault().
      */

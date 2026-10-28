@@ -35,7 +35,7 @@ Body model: [CreateModifierGroupRequestInput](../models/CreateInlineModifierGrou
 | `max_quantity` | Optional | integer string | Maximum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `max_selected` | Optional | integer | Maximum number of distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set can override this value. Format: `int32`. |
 | `max_total_quantity` | Optional | integer string | Maximum combined whole-number quantity across selected list modifiers; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `min_quantity` | Optional | integer string | Minimum whole-number quantity for each selected list modifier when allow_quantities is true; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `min_selected` | Optional | integer | Minimum number of distinct modifiers buyers must select from a list group. Omit it to require no selections. A modifier set can override this value. Format: `int32`. |
 | `modifier_group_type` | Optional | string | Whether buyers choose from a list of modifiers or enter text. On create, inferred as text when text configuration is supplied, otherwise list. Values: `"list"`, `"text"`. |
@@ -74,7 +74,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -140,7 +140,7 @@ const result = await client.modifierGroups.get("example", {}, {  });
 
 ### modifierGroups.list
 
-List modifier groups.
+List modifier groups. Default order: created_at descending, then modifier_group_id descending.
 
 `GET /v1/modifier-groups`
 
@@ -268,7 +268,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -319,7 +319,7 @@ Body model: [UpdateModifierGroupRequestInput](../models/UpdateModifierGroupReque
 | `max_quantity` | Optional | integer string or null | Maximum whole-number quantity for each selected list modifier. Omit it to keep the current value; send null to clear it. Fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `max_selected` | Optional | integer or null | Maximum number of distinct list modifiers buyers can select. Omit it to keep the current value; send null to remove the limit. Format: `int32`. |
 | `max_total_quantity` | Optional | integer string or null | Maximum combined whole-number quantity across selected list modifiers. Omit it to keep the current value; send null to clear it. Fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `metadata` | Optional | Map of (string or null) or null | Omitted metadata is unchanged. Objects merge by key, null values delete keys, an empty object is a no-op, and null clears all metadata. The merged map can contain at most 50 keys. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Omitted metadata is unchanged. Objects merge by key, null values delete keys, an empty object is a no-op, and null clears all metadata. The merged map can contain at most 50 keys. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `min_quantity` | Optional | integer string or null | Minimum whole-number quantity for each selected list modifier. Omit it to keep the current value; send null to clear it. Fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `min_selected` | Optional | integer or null | Minimum number of distinct list modifiers buyers must select. Omit it to keep the current value; send null to remove the minimum. Format: `int32`. |
 | `modifiers` | Optional | Array of [ModifierRequestInput](../models/ModifierRequest.md#modifierrequest) | Replaces all modifiers atomically. Include modifier_id to retain an existing modifier, omit the ID to create one, and omit a previous modifier to archive it. Omit the array to leave modifiers unchanged. An empty array clears modifiers when the group rules permit it. Null is not accepted. |
@@ -357,7 +357,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/808a124136135dd1bffdf3a1c2a266dba970b130/sdk-config.schema.json",
-  "version": "6.0.0",
+  "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/9f000b7dadd7eaaaee17157a304866986e25dde0/sdk-config.schema.json",
+  "version": "7.0.0",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -10,6 +10,281 @@
     "namespace": "Flint"
   },
   "validation": "schema",
+  "overrides": {
+    "/components/schemas/DeliveryEligibilityExpression/oneOf": [
+      {
+        "required": [
+          "all"
+        ]
+      },
+      {
+        "required": [
+          "any"
+        ]
+      },
+      {
+        "required": [
+          "not"
+        ]
+      },
+      {
+        "required": [
+          "zone"
+        ]
+      },
+      {
+        "required": [
+          "country"
+        ]
+      },
+      {
+        "required": [
+          "state"
+        ]
+      },
+      {
+        "required": [
+          "postal_code"
+        ]
+      },
+      {
+        "required": [
+          "radius"
+        ]
+      },
+      {
+        "required": [
+          "window_time"
+        ]
+      },
+      {
+        "required": [
+          "customer_segment"
+        ]
+      },
+      {
+        "required": [
+          "customer_merchant_verified"
+        ]
+      },
+      {
+        "required": [
+          "customer_has_email"
+        ]
+      },
+      {
+        "required": [
+          "customer_has_phone"
+        ]
+      },
+      {
+        "required": [
+          "subscription_purchase"
+        ]
+      }
+    ],
+    "/components/schemas/DeliveryZoneConfiguration/oneOf": [
+      {
+        "required": [
+          "all"
+        ]
+      },
+      {
+        "required": [
+          "any"
+        ]
+      },
+      {
+        "required": [
+          "not"
+        ]
+      },
+      {
+        "required": [
+          "country"
+        ]
+      },
+      {
+        "required": [
+          "state"
+        ]
+      },
+      {
+        "required": [
+          "postal_code"
+        ]
+      },
+      {
+        "required": [
+          "radius"
+        ]
+      }
+    ],
+    "/components/schemas/ErrorDetail/properties/captured_physical_version": {
+      "description": "Physical basis submitted with the observation, or saved on the count line when apply refuses it. Read the current level and physically recount this item before replacing the basis.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/ErrorDetail/properties/current_physical_version": {
+      "description": "Current physical version of the inventory level. This is a physical-value assertion, not the resource version in current_version.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryAdjustmentSetLineInput/properties/expected_physical_version": {
+      "description": "Refuse the line unless the level's `physical_version` still equals this value. A level that doesn't exist yet has physical version 0. Holds and commitments do not change it.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryAdjustmentSetLineInput/properties/source_observation_sequence": {
+      "description": "Monotonic sequence of this observation in the source system. Flint refuses a value that is not greater than the last accepted one for the same source, item, and Location.",
+      "format": "int64",
+      "minimum": 1,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryCountLine/properties/captured_physical_version": {
+      "description": "Physical version accepted with the latest saved observation. Meaningful once counted_on_hand_quantity is present. Applying the count requires the same physical version.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryCountLine/properties/source_observation_sequence": {
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryCountObservationInput/properties/expected_physical_version": {
+      "description": "Physical version read before counting this item. Zero is valid for a missing level. Recount after physical stock changes, even when the count is unchanged; never refresh only the token.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryCountObservationInput/properties/source_observation_sequence": {
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryLevel/properties/claim_version": {
+      "description": "Advances only when held or committed quantities change.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryLevel/properties/physical_version": {
+      "description": "Advances only when on-hand or condition quantities change.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryLevel/properties/version": {
+      "description": "Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. A level that a counted adjustment creates without a quantity change starts at version 0.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryMovement/properties/inventory_level_claim_version": {
+      "description": "Claim version of the inventory level after this movement. Advances when held or committed quantities change.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryMovement/properties/inventory_level_physical_version": {
+      "description": "Physical version of the inventory level after this movement. Advances when on-hand or condition quantities change.",
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryMovement/properties/inventory_level_version": {
+      "description": "Version of the inventory level after this movement.",
+      "format": "int64",
+      "minimum": 1,
+      "type": "integer"
+    },
+    "/components/schemas/InventoryMovement/properties/source_observation_sequence": {
+      "format": "int64",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "/components/schemas/MetadataInput/propertyNames": {
+      "maxLength": 256,
+      "minLength": 1,
+      "pattern": "^(?:$|[^f]|f(?:$|[^l])|fl(?:$|[^i])|fli(?:$|[^n])|flin(?:$|[^t])|flint(?:$|[^_]))",
+      "type": "string"
+    },
+    "/components/schemas/MetadataPatchInput/propertyNames": {
+      "pattern": "^(?:$|[^f]|f(?:$|[^l])|fl(?:$|[^i])|fli(?:$|[^n])|flin(?:$|[^t])|flint(?:$|[^_]))"
+    },
+    "/components/schemas/PartnerAppCredential/allOf/0/then": {
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "jwks_url"
+            ]
+          },
+          {
+            "required": [
+              "workload_identity"
+            ]
+          }
+        ]
+      },
+      "required": [
+        "public_key"
+      ]
+    },
+    "/components/schemas/PartnerAppCredential/allOf/1/then": {
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "public_key"
+            ]
+          },
+          {
+            "required": [
+              "workload_identity"
+            ]
+          }
+        ]
+      },
+      "required": [
+        "jwks_url"
+      ]
+    },
+    "/components/schemas/PartnerAppCredential/allOf/2/then": {
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "jwks_url"
+            ]
+          },
+          {
+            "required": [
+              "public_key"
+            ]
+          }
+        ]
+      },
+      "required": [
+        "workload_identity"
+      ]
+    },
+    "/components/schemas/UpdateInventoryLevelRequest/properties/expected_version": {
+      "format": "int64",
+      "minimum": 1,
+      "type": "integer"
+    },
+    "/components/schemas/UpdateProductOptionInput/properties/metadata/propertyNames": {
+      "pattern": "^(?:$|[^f]|f(?:$|[^l])|fl(?:$|[^i])|fli(?:$|[^n])|flin(?:$|[^t])|flint(?:$|[^_]))"
+    },
+    "/components/schemas/UpdateProductOptionValueInput/properties/metadata/propertyNames": {
+      "pattern": "^(?:$|[^f]|f(?:$|[^l])|fl(?:$|[^i])|fli(?:$|[^n])|flin(?:$|[^t])|flint(?:$|[^_]))"
+    }
+  },
   "models": {
     "Money": "MoneyValue",
     "Return": "ReturnResource",
@@ -38,7 +313,6 @@
     "ModifierSetGroupInput": "ModifierSetGroupRequest",
     "OnboardingProfileInput": "OnboardingProfileRequest",
     "OrderChargeInput": "OrderChargeRequest",
-    "OrderDeliveryDestinationAddressInput": "OrderDeliveryDestinationAddressRequest",
     "OrderDeliveryDestinationInput": "OrderDeliveryDestinationRequest",
     "OrderDeliveryDestinationRecipientInput": "OrderDeliveryDestinationRecipientRequest",
     "OrderLineItemModifierInput": "OrderLineItemModifierRequest",
@@ -108,7 +382,6 @@
     "LegalSettingsInput": "LegalSettingsRequest",
     "LineItemFulfillmentInput": "LineItemFulfillmentRequest",
     "LineItemFulfillmentOriginInput": "LineItemFulfillmentOriginRequest",
-    "LocationAddressInput": "LocationAddressRequest",
     "ManualDiscountInput": "ManualDiscountRequest",
     "OrderDraftLineItemInventoryDemandInput": "OrderDraftLineItemInventoryDemandRequest",
     "OrderDraftLineItemTaxCalculationInput": "OrderDraftLineItemTaxCalculationRequest",
@@ -180,7 +453,8 @@
     "UpdateReturnResolutionLineItemInput": "UpdateReturnResolutionLineItemRequest",
     "UpdateSubscriptionPlanLineItemInput": "UpdateSubscriptionPlanLineItemRequest",
     "WorkloadIdentityClaimConditionInput": "WorkloadIdentityClaimConditionRequest",
-    "InventoryAllocationPolicyConfiguration": "InventoryAllocationConfigurationValue"
+    "InventoryAllocationPolicyConfiguration": "InventoryAllocationConfigurationValue",
+    "Metadata": "MetadataMap"
   },
   "errors": {
     "codePath": "error.code",
@@ -355,6 +629,12 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "example": {
+        "api_key_id": "key_example",
+        "body": {
+          "name": "Reporting key"
+        }
       }
     },
     "revokeAPIKey": {
@@ -677,14 +957,17 @@
         "maxAttempts": 3
       }
     },
-    "getCheckoutSessionDeliverySelectionHistory": {
+    "getCheckoutSessionDeliverySelection": {
       "resource": "checkoutSessions",
-      "method": "getDeliverySelectionHistory",
+      "method": "getDeliverySelection",
       "idempotency": false,
       "pagination": false,
       "retry": {
         "maxAttempts": 3
-      }
+      },
+      "aliases": [
+        "getDeliverySelectionHistory"
+      ]
     },
     "listCreditNotes": {
       "resource": "creditNotes",
@@ -1085,6 +1368,19 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "example": {
+        "customer_id": "cus_example",
+        "body": {
+          "recipient_name": "Jordan Example",
+          "address": {
+            "line1": "100 Example Street",
+            "city": "Springfield",
+            "state": "IL",
+            "postal_code": "62701",
+            "country": "US"
+          }
+        }
       }
     },
     "deleteCustomerAddress": {
@@ -1118,18 +1414,13 @@
       },
       "retry": {
         "maxAttempts": 3
-      }
-    },
-    "setDefaultCustomerAddress": {
-      "resource": "customers",
-      "method": "setDefaultAddress",
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
       },
-      "retry": {
-        "maxAttempts": 3
+      "example": {
+        "customer_id": "cus_example",
+        "customer_address_id": "caddr_example",
+        "body": {
+          "label": "Home"
+        }
       }
     },
     "linkCustomerGuestPurchases": {
@@ -1598,7 +1889,7 @@
         "maxAttempts": 3
       }
     },
-    "getDeveloperAuthContext": {
+    "getAuthContext": {
       "resource": "developer",
       "method": "getAuthContext",
       "idempotency": false,
@@ -1607,7 +1898,7 @@
         "maxAttempts": 3
       }
     },
-    "listDeveloperPartnerApps": {
+    "listPartnerApps": {
       "resource": "developer",
       "method": "listPartnerApps",
       "response": {
@@ -1618,7 +1909,7 @@
         "maxAttempts": 3
       }
     },
-    "createDeveloperPartnerApp": {
+    "createPartnerApp": {
       "resource": "developer",
       "method": "createPartnerApp",
       "pagination": false,
@@ -1630,7 +1921,7 @@
         "maxAttempts": 3
       }
     },
-    "deleteDeveloperPartnerApp": {
+    "deletePartnerApp": {
       "resource": "developer",
       "method": "deletePartnerApp",
       "pagination": false,
@@ -1642,7 +1933,7 @@
         "maxAttempts": 3
       }
     },
-    "getDeveloperPartnerApp": {
+    "getPartnerApp": {
       "resource": "developer",
       "method": "getPartnerApp",
       "idempotency": false,
@@ -1651,7 +1942,7 @@
         "maxAttempts": 3
       }
     },
-    "updateDeveloperPartnerApp": {
+    "updatePartnerApp": {
       "resource": "developer",
       "method": "updatePartnerApp",
       "pagination": false,
@@ -1663,7 +1954,7 @@
         "maxAttempts": 3
       }
     },
-    "listDeveloperPartnerAppInstalls": {
+    "listPartnerAppInstalls": {
       "resource": "developer",
       "method": "listPartnerAppInstalls",
       "response": {
@@ -1674,7 +1965,7 @@
         "maxAttempts": 3
       }
     },
-    "getDeveloperPartnerAppInstall": {
+    "getPartnerAppInstall": {
       "resource": "developer",
       "method": "getPartnerAppInstall",
       "idempotency": false,
@@ -1683,7 +1974,7 @@
         "maxAttempts": 3
       }
     },
-    "revokeDeveloperPartnerEnvironmentGrant": {
+    "revokePartnerAppEnvironmentGrant": {
       "resource": "developer",
       "method": "revokePartnerEnvironmentGrant",
       "pagination": false,
@@ -1695,7 +1986,7 @@
         "maxAttempts": 3
       }
     },
-    "revokeDeveloperPartnerAppInstall": {
+    "revokePartnerAppInstall": {
       "resource": "developer",
       "method": "revokePartnerAppInstall",
       "pagination": false,
@@ -1707,24 +1998,13 @@
         "maxAttempts": 3
       }
     },
-    "rotateDeveloperPartnerAppSecret": {
+    "rotatePartnerAppSecret": {
       "resource": "developer",
       "method": "rotatePartnerAppSecret",
       "pagination": false,
       "idempotency": {
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "listDeveloperPartnerInstalls": {
-      "resource": "developer",
-      "method": "listPartnerInstalls",
-      "idempotency": false,
-      "response": {
-        "payloadPath": null
       },
       "retry": {
         "maxAttempts": 3
@@ -1759,7 +2039,7 @@
         "maxAttempts": 3
       }
     },
-    "listDeveloperSandboxes": {
+    "listSandboxes": {
       "resource": "developer",
       "method": "listSandboxes",
       "response": {
@@ -1770,7 +2050,7 @@
         "maxAttempts": 3
       }
     },
-    "createDeveloperSandbox": {
+    "createSandbox": {
       "resource": "developer",
       "method": "createSandbox",
       "pagination": false,
@@ -1782,7 +2062,7 @@
         "maxAttempts": 3
       }
     },
-    "deleteDeveloperSandbox": {
+    "deleteSandbox": {
       "resource": "developer",
       "method": "deleteSandbox",
       "pagination": false,
@@ -1794,7 +2074,7 @@
         "maxAttempts": 3
       }
     },
-    "getDeveloperSandbox": {
+    "getSandbox": {
       "resource": "developer",
       "method": "getSandbox",
       "pagination": false,
@@ -1803,7 +2083,7 @@
         "maxAttempts": 3
       }
     },
-    "resetDeveloperSandbox": {
+    "resetSandbox": {
       "resource": "developer",
       "method": "resetSandbox",
       "pagination": false,
@@ -3025,9 +3305,9 @@
         "maxAttempts": 3
       }
     },
-    "getOrCreateInvoiceCheckoutSession": {
+    "createInvoiceCheckoutSession": {
       "resource": "invoices",
-      "method": "getOrCreateCheckoutSession",
+      "method": "createCheckoutSession",
       "pagination": false,
       "idempotency": {
         "auto": true,
@@ -3035,7 +3315,10 @@
       },
       "retry": {
         "maxAttempts": 3
-      }
+      },
+      "aliases": [
+        "getOrCreateCheckoutSession"
+      ]
     },
     "collectInvoice": {
       "resource": "invoices",
@@ -3262,6 +3545,19 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "example": {
+        "body": {
+          "name": "Main Street",
+          "timezone": "America/Chicago",
+          "address": {
+            "line1": "100 Example Street",
+            "city": "Springfield",
+            "state": "IL",
+            "postal_code": "62701",
+            "country": "US"
+          }
+        }
       }
     },
     "deleteLocation": {
@@ -3343,6 +3639,18 @@
       },
       "retry": {
         "maxAttempts": 3
+      },
+      "example": {
+        "body": {
+          "recipient_name": "Jordan Example",
+          "address": {
+            "line1": "100 Example Street",
+            "city": "Springfield",
+            "state": "IL",
+            "postal_code": "62701",
+            "country": "US"
+          }
+        }
       }
     },
     "deleteMeAddress": {
@@ -3376,18 +3684,12 @@
       },
       "retry": {
         "maxAttempts": 3
-      }
-    },
-    "setDefaultMeAddress": {
-      "resource": "me",
-      "method": "setDefaultAddress",
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
       },
-      "retry": {
-        "maxAttempts": 3
+      "example": {
+        "customer_address_id": "caddr_example",
+        "body": {
+          "label": "Home"
+        }
       }
     },
     "listMeDeletionRequests": {
@@ -3473,9 +3775,9 @@
         "maxAttempts": 3
       }
     },
-    "listMeFlintWalletPaymentMethods": {
+    "listMeFlintWalletCards": {
       "resource": "me",
-      "method": "listFlintWalletPaymentMethods",
+      "method": "listFlintWalletCards",
       "idempotency": false,
       "response": {
         "payloadPath": null
@@ -3483,7 +3785,10 @@
       "pagination": false,
       "retry": {
         "maxAttempts": 3
-      }
+      },
+      "aliases": [
+        "listFlintWalletPaymentMethods"
+      ]
     },
     "createMeFlintWalletStoreSetup": {
       "resource": "me",
@@ -3766,25 +4071,31 @@
         "maxAttempts": 3
       }
     },
-    "listMePayments": {
+    "listMePaymentIntents": {
       "resource": "me",
-      "method": "listPayments",
+      "method": "listPaymentIntents",
       "response": {
         "payloadPath": null
       },
       "idempotency": false,
       "retry": {
         "maxAttempts": 3
-      }
+      },
+      "aliases": [
+        "listPayments"
+      ]
     },
-    "getMePayment": {
+    "getMePaymentIntent": {
       "resource": "me",
-      "method": "getPayment",
+      "method": "getPaymentIntent",
       "idempotency": false,
       "pagination": false,
       "retry": {
         "maxAttempts": 3
-      }
+      },
+      "aliases": [
+        "getPayment"
+      ]
     },
     "listMeRefunds": {
       "resource": "me",
@@ -3966,47 +4277,10 @@
         "maxAttempts": 3
       }
     },
-    "changeMeSubscriptionBillingInterval": {
-      "resource": "me",
-      "method": "changeSubscriptionBillingInterval",
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "cancelMeSubscription": {
       "resource": "me",
       "method": "cancelSubscription",
       "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "changeMeSubscriptionDelivery": {
-      "resource": "me",
-      "method": "changeSubscriptionDelivery",
-      "pagination": false,
-      "example": {
-        "subscription_id": "example",
-        "body": {
-          "delivery": {
-            "delivery_method_id": "dmet_00000000000000000000000000",
-            "destination": {
-              "type": "customer_address",
-              "customer_address_id": "caddr_00000000000000000000000000"
-            },
-            "type": "shipment"
-          }
-        }
-      },
       "idempotency": {
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
@@ -4046,18 +4320,6 @@
         "maxAttempts": 3
       }
     },
-    "changeMeSubscriptionPaymentMethod": {
-      "resource": "me",
-      "method": "changeSubscriptionPaymentMethod",
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "createMeSubscriptionPaymentRetry": {
       "resource": "me",
       "method": "createSubscriptionPaymentRetry",
@@ -4075,30 +4337,6 @@
       "method": "getSubscriptionPaymentRetry",
       "idempotency": false,
       "pagination": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "changeMeSubscriptionQuantity": {
-      "resource": "me",
-      "method": "changeSubscriptionQuantity",
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "reactivateMeSubscription": {
-      "resource": "me",
-      "method": "reactivateSubscription",
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
       "retry": {
         "maxAttempts": 3
       }
@@ -4513,6 +4751,7 @@
         "order_id": "example",
         "body": {
           "charge": {
+            "calculation_type": "amount",
             "name": "example",
             "type": "service_fee",
             "amount_money": {
@@ -5449,6 +5688,7 @@
       "pagination": false,
       "example": {
         "body": {
+          "variant_mode": "simple",
           "name": "example",
           "product_type": "physical",
           "default_variant": {
@@ -6111,9 +6351,9 @@
         "maxAttempts": 3
       }
     },
-    "getOrCreateReturnResolutionCheckoutSession": {
+    "createReturnResolutionCheckoutSession": {
       "resource": "returnResolutions",
-      "method": "getOrCreateCheckoutSession",
+      "method": "createCheckoutSession",
       "pagination": false,
       "idempotency": {
         "auto": true,
@@ -6121,7 +6361,10 @@
       },
       "retry": {
         "maxAttempts": 3
-      }
+      },
+      "aliases": [
+        "getOrCreateCheckoutSession"
+      ]
     },
     "confirmReturnResolution": {
       "resource": "returnResolutions",
@@ -6553,6 +6796,7 @@
       "pagination": false,
       "example": {
         "body": {
+          "mode": "stored_rule",
           "risk_rule_id": "rr_example"
         }
       },
@@ -6955,21 +7199,6 @@
         "maxAttempts": 3
       }
     },
-    "updateSubscriptionBillingSchedule": {
-      "resource": "subscriptions",
-      "method": "updateBillingSchedule",
-      "pagination": false,
-      "request": {
-        "style": "object"
-      },
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "cancelSubscription": {
       "resource": "subscriptions",
       "method": "cancel",
@@ -7057,18 +7286,6 @@
         "maxAttempts": 3
       }
     },
-    "changeSubscriptionPaymentMethod": {
-      "resource": "subscriptions",
-      "method": "changePaymentMethod",
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "listSubscriptionPaymentRetries": {
       "resource": "subscriptions",
       "method": "listPaymentRetries",
@@ -7097,18 +7314,6 @@
       "method": "getPaymentRetry",
       "idempotency": false,
       "pagination": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "reactivateSubscription": {
-      "resource": "subscriptions",
-      "method": "reactivate",
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
       "retry": {
         "maxAttempts": 3
       }
@@ -7411,6 +7616,176 @@
         "payloadPath": null
       },
       "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listPartnerAppCredentials": {
+      "resource": "developer",
+      "method": "listPartnerAppCredentials",
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createPartnerAppCredential": {
+      "resource": "developer",
+      "method": "createPartnerAppCredential",
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "request": {
+        "style": "object"
+      }
+    },
+    "getPartnerAppCredential": {
+      "resource": "developer",
+      "method": "getPartnerAppCredential",
+      "idempotency": false,
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "deletePartnerAppCredential": {
+      "resource": "developer",
+      "method": "deletePartnerAppCredential",
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listCheckoutSessionDeliverySelections": {
+      "resource": "checkoutSessions",
+      "method": "listDeliverySelections",
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listDeliveryRevocations": {
+      "resource": "deliveryRevocations",
+      "method": "list",
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "acceptDispute": {
+      "resource": "disputes",
+      "method": "accept",
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "getTaxConnection": {
+      "resource": "taxConnection",
+      "method": "get",
+      "idempotency": false,
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "connectTaxConnection": {
+      "resource": "taxConnection",
+      "method": "connect",
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "disconnectTaxConnection": {
+      "resource": "taxConnection",
+      "method": "disconnect",
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listTaxRegistrations": {
+      "resource": "taxConnection",
+      "method": "listRegistrations",
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "createTaxRegistration": {
+      "resource": "taxConnection",
+      "method": "createRegistration",
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "getTaxRegistration": {
+      "resource": "taxConnection",
+      "method": "getRegistration",
+      "idempotency": false,
+      "pagination": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "updateTaxRegistration": {
+      "resource": "taxConnection",
+      "method": "updateRegistration",
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "deleteTaxRegistration": {
+      "resource": "taxConnection",
+      "method": "deleteRegistration",
+      "pagination": false,
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
       "retry": {
         "maxAttempts": 3
       }

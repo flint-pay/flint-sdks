@@ -53,7 +53,7 @@ const result = await client.webhookEvents.get("example", {}, {  });
 
 ### webhookEvents.list
 
-Returns recent canonical webhook events for the authenticated merchant.
+Returns recent canonical webhook events for the authenticated merchant. Default order: created_at descending, then webhook_event_id descending.
 
 `GET /v1/webhook-events`
 
@@ -311,7 +311,8 @@ list(params?: {
     "subscription_delivery_migration.completed" |
     "subscription_payment_retry.created" |
     "subscription_payment_retry.failed" |
-    "subscription_payment_retry.succeeded">>;
+    "subscription_payment_retry.succeeded" |
+    "tax_connection.updated">>;
   "resource_type"?: InputValue<Array<"balance" |
     "balance_transaction" |
     "bundle" |
@@ -377,7 +378,8 @@ list(params?: {
     "shipment" |
     "subscription" |
     "subscription_delivery_migration" |
-    "subscription_payment_retry">>;
+    "subscription_payment_retry" |
+    "tax_connection">>;
   "resource_id"?: InputValue<string>;
   "api_request_log_id"?: InputValue<string>;
   "request_id"?: InputValue<string>;
@@ -398,8 +400,8 @@ list(params?: {
 | `delivery_status` | Optional | Array of string | minItems: `1`. Items values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
 | `event_source` | Optional | Array of string | minItems: `1`. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
 | `partner_app_id` | Optional | string |  |
-| `event_type` | Optional | Array of string | minItems: `1`. Items values: [245 declared values](../models/CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
-| `resource_type` | Optional | Array of string | minItems: `1`. Items values: [66 declared values](#webhookeventslist-input-resource_type--values). |
+| `event_type` | Optional | Array of string | minItems: `1`. Items values: [246 declared values](../models/CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
+| `resource_type` | Optional | Array of string | minItems: `1`. Items values: [67 declared values](#webhookeventslist-input-resource_type--values). |
 | `resource_id` | Optional | string |  |
 | `api_request_log_id` | Optional | string |  |
 | `request_id` | Optional | string |  |
@@ -475,6 +477,7 @@ list(params?: {
 - `"subscription"`
 - `"subscription_delivery_migration"`
 - `"subscription_payment_retry"`
+- `"tax_connection"`
 
 #### Response
 
@@ -514,7 +517,7 @@ const result = await client.webhookEvents.list({}, {  });
 
 ### webhookEvents.listWebhookDeliveries
 
-Returns webhook deliveries, newest first (`created_at` descending, then `webhook_delivery_id`). Includes deliveries of synthetic test events.
+Returns webhook deliveries, newest first (`created_at` descending, then `webhook_delivery_id`). Includes deliveries of synthetic test events. Default order: created_at descending, then webhook_delivery_id descending.
 
 `GET /v1/webhook-deliveries`
 
@@ -830,7 +833,8 @@ stream(params?: {
     "subscription_delivery_migration.completed" |
     "subscription_payment_retry.created" |
     "subscription_payment_retry.failed" |
-    "subscription_payment_retry.succeeded">>;
+    "subscription_payment_retry.succeeded" |
+    "tax_connection.updated">>;
   "after_event_id"?: InputValue<string>;
   "Last-Event-ID"?: InputValue<string>
 },
@@ -841,7 +845,7 @@ stream(params?: {
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Optional | Array of string | minItems: `1`. Items values: [239 declared values](#webhookeventsstream-input-event_type--values). |
+| `event_type` | Optional | Array of string | minItems: `1`. Items values: [240 declared values](#webhookeventsstream-input-event_type--values). |
 | `after_event_id` | Optional | string |  |
 | `Last-Event-ID` | Optional | string |  |
 
@@ -1086,6 +1090,7 @@ stream(params?: {
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
+- `"tax_connection.updated"`
 
 #### Response
 

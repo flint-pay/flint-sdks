@@ -1,0 +1,1 @@
+{"shared":"BuyerFlintWalletCard","phpRepresentation":{"kind":"record","fields":{"card":{"kind":"entity","name":"CardDetails"},"flint_wallet_card_id":{"kind":"value","type":"string"},"store_payment_method_id":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["BuyerFlintWalletCard","CardDetails"]}

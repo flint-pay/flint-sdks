@@ -15,10 +15,11 @@ Request input.
 | `external_system` | Optional | string | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. |
 | `fulfillment_id` | Required | string | Fulfillment associated with this shipment. |
 | `handed_off_at` | Optional | string | Carrier handoff timestamp for outbound and return shipments, using the recorded shipped_at when no separate handoff timestamp exists. For return shipments, this can satisfy an after_handoff execution gate for the declared return_line_items. Format: `date-time`. |
-| `metadata` | Optional | Map of string | Caller-owned key-value metadata associated with the shipment. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null | Order summary returned when the order relationship is expanded. |
 | `order_id` | Required | string | Order whose items are transported by the shipment. |
 | `package_count` | Required | integer | Total number of packages attached to the shipment, including voided packages. Format: `int32`. minimum: `0`. |
+| `packages` | Optional | Array of [ExpandedPackageSummaryInput](../models/ExpandedPackageSummaryInput.md#expandedpackagesummaryinput) | Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. |
 | `return_id` | Optional | string | Return associated with this shipment, when its direction is return. |
 | `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationInput](../models/ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput) | Return lines and quantities allocated to this return shipment. |
 | `shipment_id` | Required | string | Stable identifier of the shipment. |

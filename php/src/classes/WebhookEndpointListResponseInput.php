@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointListResponseInput extends Model {
-    /** @param array{'data': list<WebhookEndpointInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<WebhookEndpointInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointListResponseInput')); }
     /** Shape $ (Value): Array of {@see WebhookEndpointInput}. Shape $[] (Value): {@see WebhookEndpointInput}. A merchant webhook endpoint belongs to the live mode or sandbox of the credential that created it and receives only that environment's events. Partner endpoints select sources with event_sources and installed_merchant_modes.
      * @return list<WebhookEndpointInput|array<array-key, mixed>|\stdClass>

@@ -1,1016 +1,1648 @@
-import type { InvoiceManualPayment, Invoice, InvoiceLateFeePolicy } from './types-26.js';
-import type { ResponseMeta } from './types-40.js';
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { PaymentErrorSummary } from './types-35.js';
+import type {
+    InventoryReceipt,
+    InventoryLevel,
+    InventoryProvenanceRequest,
+    InventoryProvenanceRequestInput,
+    InventoryOriginPolicy,
+    InventoryOriginPolicyRequestRequestInput
+} from './types-26.js';
+import type { ResponseMeta, ResourceType } from './types-42.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateInvoicePaymentTermRequestInput } from './types-7.js';
-import type { UpdateInvoicePaymentTermRequestInput } from './types-48.js';
-import type { InvoiceScheduleDueWriteAtIssue, InvoiceScheduleDueWriteInvoiceDueDate } from './types-28.js';
+import type { CreateInventoryReceiptRequestInput, CreateInventoryReservationRequestInput } from './types-7.js';
+import type { InventoryActionRequired } from './types-25.js';
+import type { UpdateInventoryReservationRequestInput } from './types-51.js';
+import type { ErrorDetail, ErrorObject } from './types-18.js';
+import type {
+    InventoryTransferTransitionRequestReportLoss,
+    InventoryTransferTransitionRequestReturnToOrigin,
+    InventoryTransferTransitionRequestReceiveInput,
+    InventoryTransferTransitionRequestReportLossInput,
+    InventoryTransferTransitionRequestReturnToOriginInput
+} from './types-28.js';
 /**
- * Shape $ (Value): {@link InvoiceManualPaymentListResponse}. A page of `InvoiceManualPayment`
- * objects.
+ * Shape $ (Value): {@link InventoryReceiptResponse}. A response containing `InventoryReceipt`
+ * data.
  */
-export type InvoiceManualPaymentListResponse = {
+export type InventoryReceiptResponse = {
     /**
-     * Shape $ (Value): Array of {@link InvoiceManualPayment}. Shape $[] (Value): {@link
-     * InvoiceManualPayment}. A recorded offline payment against an invoice. Its amount contributes
-     * to invoice paid_money while recorded; reversing it returns its full amount to
-     * outstanding_money. A payment can cover principal and late fees. Manual payments are separate
-     * from online payment attempts.
+     * Shape $ (Value): {@link InventoryReceipt}. Returned units received into Inventory, from a
+     * Return disposition or against the reservation line that consumed them.
      */
-    "data": Array<InvoiceManualPayment>;
+    "data": InventoryReceipt;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
     "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryReceiptResult}. Inventory receipt and the levels it changed.
+ * inventory_receipt is the primary resource and expected_version target.
+ */
+export type InventoryReceiptResult = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryLevel}. Post-commit state of every level this
+     * command touched, one entry per level. A replay returns the levels the original command
+     * produced. Empty when no levels changed. Shape $[] (Value): {@link InventoryLevel}. The
+     * quantity state of one inventory item at one Location.
+     */
+    "inventory_levels": Array<InventoryLevel>;
+    /**
+     * Shape $ (Value): {@link InventoryReceipt}. Returned units received into Inventory, from a
+     * Return disposition or against the reservation line that consumed them.
+     */
+    "inventory_receipt": InventoryReceipt;
+};
+/**
+ * Shape $ (Value): {@link InventoryReceiptResultResponse}. A response containing
+ * `InventoryReceiptResult` data.
+ */
+export type InventoryReceiptResultResponse = {
+    /**
+     * Shape $ (Value): {@link InventoryReceiptResult}. Inventory receipt and the levels it
+     * changed. inventory_receipt is the primary resource and expected_version target.
+     */
+    "data": InventoryReceiptResult;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InventoryReceiptsCreateInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateInventoryReceiptRequestInput}. The request body for: Create
+     * inventory receipt.
+     */
+    "body": InputValue<CreateInventoryReceiptRequestInput>;
+};
+export type InventoryReceiptsGetInput = {
     /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
+    "inventory_receipt_id": InputValue<string>;
 };
-/**
- * Shape $ (Value): {@link InvoiceManualPaymentResponse}. A response containing
- * `InvoiceManualPayment` data.
- */
-export type InvoiceManualPaymentResponse = {
-    /**
-     * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
-     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
-     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
-     * payments are separate from online payment attempts.
-     */
-    "data": InvoiceManualPayment;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InvoiceManualPaymentResult}. The recorded or reversed payment and the
- * updated invoice. expected_version on either write fences the invoice; use the returned invoice
- * version for the next write.
- */
-export type InvoiceManualPaymentResult = {
-    /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-    "invoice": Invoice;
-    /**
-     * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
-     * invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns
-     * its full amount to outstanding_money. A payment can cover principal and late fees. Manual
-     * payments are separate from online payment attempts.
-     */
-    "invoice_manual_payment": InvoiceManualPayment;
-};
-/**
- * Shape $ (Value): {@link InvoiceManualPaymentResultResponse}. A response containing
- * `InvoiceManualPaymentResult` data.
- */
-export type InvoiceManualPaymentResultResponse = {
-    /**
-     * Shape $ (Value): {@link InvoiceManualPaymentResult}. The recorded or reversed payment and
-     * the updated invoice. expected_version on either write fences the invoice; use the returned
-     * invoice version for the next write.
-     */
-    "data": InvoiceManualPaymentResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an invoice. */
-export type InvoicePaymentAttempt = {
-    /**
-     * Shape $ (Value): string. When the attempt was canceled. An attempt canceled with its
-     * checkout session before payment started may not have it. Format: date-time.
-     */
-    "canceled_at"?: string;
-    /**
-     * Shape $ (Value): string. When cancellation of this attempt was last requested. It stays set
-     * when the payment processor refuses the cancellation or the payment settles first, so read
-     * status and canceled_at for the outcome. Format: date-time.
-     */
-    "cancellation_requested_at"?: string;
-    /**
-     * Shape $ (Value): string. The hosted or embedded checkout session the buyer pays through.
-     * Absent for automatic charges.
-     */
-    "checkout_session_id"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount this attempt collects: the outstanding
-     * balance, or the targeted schedule entry's outstanding amount. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "expected_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. When a checkout attempt expires, matching its checkout session.
-     * Absent for automatic charges. Format: date-time.
-     */
-    "expires_at"?: string;
-    /** Shape $ (Value): string. The invoice this attempt collects. */
-    "invoice_id": string;
-    /** Shape $ (Value): string. Flint invoice payment attempt ID. */
-    "invoice_payment_attempt_id": string;
-    /**
-     * Shape $ (Value): string. The schedule entry this attempt collects. Absent when the attempt
-     * collects the invoice balance.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Shape $ (Value): {@link PaymentErrorSummary}. Why the payment failed. Present only when
-     * status is failed. A summary of why a payment attempt failed, with a normalized error code, a
-     * message, the failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * Shape $ (Value): string. The payment intent behind this attempt. Absent until payment
-     * starts, such as a hosted attempt the buyer hasn't paid yet.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. How the attempt collects: card, including Apple Pay, Google Pay,
-     * and Affirm, or ACH debit. Value enum: "card", "ach_debit".
-     */
-    "rail": "card" | "ach_debit" | (string & {});
-    /**
-     * Shape $ (Value): string. When this attempt first settled successfully. Duplicate payment
-     * notifications preserve this timestamp. Format: date-time.
-     */
-    "settled_at"?: string;
-    /** Shape $ (Value): string. When the attempt was created. Format: date-time. */
-    "started_at"?: string;
-    /**
-     * Shape $ (Value): string. Current payment attempt status. settled means this attempt
-     * completed successfully, even if the invoice still has an outstanding balance.
-     * invoice_payment_attempt.settled reports that completion. Value enum: "open", "settled",
-     * "failed", "canceled", "expired", "processing".
-     */
-    "status": "open" | "settled" | "failed" | "canceled" | "expired" | "processing" | (string & {});
-    /**
-     * Shape $ (Value): string. When this attempt last changed. Duplicate payment notifications
-     * preserve this timestamp. Format: date-time.
-     */
-    "updated_at"?: string;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentAttemptListResponse}. A page of `InvoicePaymentAttempt`
- * objects.
- */
-export type InvoicePaymentAttemptListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InvoicePaymentAttempt}. Shape $[] (Value): {@link
-     * InvoicePaymentAttempt}. An attempt to collect payment for an invoice.
-     */
-    "data": Array<InvoicePaymentAttempt>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
+export type InventoryReceiptsListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
-    "next_page_token"?: string;
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "inventory_item_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "receiving_location_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "inventory_reservation_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "return_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "return_disposition_id"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp",
+     * "flint", "other". Shape $[] (Value): string. Value enum: "manual", "pos", "wms", "erp",
+     * "flint", "other".
      */
-    "request_id"?: string;
+    "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
+    /** Shape $ (Value): string. */
+    "external_source_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "external_actor_id"?: InputValue<string>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
 };
 /**
- * Shape $ (Value): {@link InvoicePaymentAttemptResponse}. A response containing
- * `InvoicePaymentAttempt` data.
+ * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from held to
+ * committed to consumed, and can be released or reallocated.
  */
-export type InvoicePaymentAttemptResponse = {
+export type InventoryReservation = {
     /**
-     * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-     * invoice.
+     * Shape $ (Value): string or null. How the reservation ended. mixed when more than one
+     * terminal outcome applied. Value enum: "consumed", "released", "expired", "reallocated",
+     * "mixed", null.
      */
-    "data": InvoicePaymentAttempt;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentDue}. The invoice due-date policy resolved at write time.
- * The object can be sent back when updating a draft.
- */
-export type InvoicePaymentDue = ({
-    /**
-     * Shape $ (Value): string. The due date set with type date. Present only with date. The
-     * top-level due_at is the effective due date for every type. Format: date-time.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
-     * Present only with payment_terms.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date was set. Value enum: "none", "date",
-     * "payment_terms".
-     */
-    "type": "none" | "date" | "payment_terms" | (string & {});
-})
-    & ((Exclude<InvoicePaymentDueNone & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueDate & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDuePaymentTerms & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** Shape $ (Value): {@link InvoicePaymentDueDate}. The `date` variant of `InvoicePaymentDue`. */
-export type InvoicePaymentDueDate = ({
-    /**
-     * Shape $ (Value): string. The due date set with type date. Present only with date. The
-     * top-level due_at is the effective due date for every type. Format: date-time.
-     */
-    "due_at": string;
-    /**
-     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
-     * Present only with payment_terms.
-     */
-    "invoice_payment_term_id"?: string;
-    /** Shape $ (Value): string. How the due date was set. Value enum: "date". */
-    "type": "date" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "date". */
-    "type"?: "date" | (string & {});
-    /**
-     * Shape $ (Value): string. The due date set with type date. Present only with date. The
-     * top-level due_at is the effective due date for every type. Format: date-time.
-     */
-    "due_at": string;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueInputCustomerDefault}. The `customer_default` variant
- * of `InvoicePaymentDueInput`.
- */
-export type InvoicePaymentDueInputCustomerDefault = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "customer_default".
-     */
-    "type": "customer_default" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "customer_default". */
-    "type"?: "customer_default" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueInputCustomerDefaultInput}. The `customer_default`
- * variant of `InvoicePaymentDueInput`.
- */
-export type InvoicePaymentDueInputCustomerDefaultInput = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "customer_default".
-     */
-    "type": "customer_default";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "customer_default". */
-    "type"?: "customer_default";
-})
-    & (({
-    "due_at"?: never;
-}) & ({
-    "invoice_payment_term_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueInputDateInput}. The `date` variant of
- * `InvoicePaymentDueInput`.
- */
-export type InvoicePaymentDueInputDateInput = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at": string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "date".
-     */
-    "type": "date";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "date". */
-    "type"?: "date";
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at": string | globalThis.Date;
-})
-    & ({
-    "invoice_payment_term_id"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueInputMerchantDefault}. The `merchant_default` variant
- * of `InvoicePaymentDueInput`.
- */
-export type InvoicePaymentDueInputMerchantDefault = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "merchant_default".
-     */
-    "type": "merchant_default" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "merchant_default". */
-    "type"?: "merchant_default" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueInputMerchantDefaultInput}. The `merchant_default`
- * variant of `InvoicePaymentDueInput`.
- */
-export type InvoicePaymentDueInputMerchantDefaultInput = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "merchant_default".
-     */
-    "type": "merchant_default";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "merchant_default". */
-    "type"?: "merchant_default";
-})
-    & (({
-    "due_at"?: never;
-}) & ({
-    "invoice_payment_term_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueInputNoneInput}. The `none` variant of
- * `InvoicePaymentDueInput`.
- */
-export type InvoicePaymentDueInputNoneInput = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "none".
-     */
-    "type": "none";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "none". */
-    "type"?: "none";
-})
-    & (({
-    "due_at"?: never;
-}) & ({
-    "invoice_payment_term_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueInputPaymentTermsInput}. The `payment_terms` variant of
- * `InvoicePaymentDueInput`.
- */
-export type InvoicePaymentDueInputPaymentTermsInput = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id": string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "payment_terms".
-     */
-    "type": "payment_terms";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "payment_terms". */
-    "type"?: "payment_terms";
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id": string;
-})
-    & ({
-    "due_at"?: never;
-}));
-/** Shape $ (Value): {@link InvoicePaymentDueNone}. The `none` variant of `InvoicePaymentDue`. */
-export type InvoicePaymentDueNone = ({
-    /**
-     * Shape $ (Value): string. The due date set with type date. Present only with date. The
-     * top-level due_at is the effective due date for every type. Format: date-time.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
-     * Present only with payment_terms.
-     */
-    "invoice_payment_term_id"?: string;
-    /** Shape $ (Value): string. How the due date was set. Value enum: "none". */
-    "type": "none" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "none". */
-    "type"?: "none" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentDuePaymentTerms}. The `payment_terms` variant of
- * `InvoicePaymentDue`.
- */
-export type InvoicePaymentDuePaymentTerms = ({
-    /**
-     * Shape $ (Value): string. The due date set with type date. Present only with date. The
-     * top-level due_at is the effective due date for every type. Format: date-time.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
-     * Present only with payment_terms.
-     */
-    "invoice_payment_term_id": string;
-    /** Shape $ (Value): string. How the due date was set. Value enum: "payment_terms". */
-    "type": "payment_terms" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "payment_terms". */
-    "type"?: "payment_terms" | (string & {});
-    /**
-     * Shape $ (Value): string. The payment term applied, captured in payment_terms_snapshot.
-     * Present only with payment_terms.
-     */
-    "invoice_payment_term_id": string;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueRequest}. When an invoice is due, used when creating or
- * updating an invoice: no due date, a fixed time, payment terms, or a default.
- */
-export type InvoicePaymentDueRequest = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "none", "date",
-     * "payment_terms", "customer_default", "merchant_default".
-     */
-    "type": "none" | "date" | "payment_terms" | "customer_default" | "merchant_default" | (string & {});
-})
-    & ((Exclude<InvoicePaymentDueNone & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueDate & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDuePaymentTerms & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputCustomerDefault & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputMerchantDefault & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoicePaymentDueRequestInput}. When an invoice is due, used when
- * creating or updating an invoice: no due date, a fixed time, payment terms, or a default.
- */
-export type InvoicePaymentDueRequestInput = ({
-    /**
-     * Shape $ (Value): string. When payment is due, as an RFC 3339 timestamp. Required with date
-     * and not accepted with any other type. Format: date-time. minLength: 1.
-     */
-    "due_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. The active payment term to apply. Required with payment_terms and
-     * not accepted with any other type. minLength: 1.
-     */
-    "invoice_payment_term_id"?: string;
-    /**
-     * Shape $ (Value): string. How the due date is set. customer_default and merchant_default
-     * resolve when the draft is written, and reads return the resolved type. Sending payment_terms
-     * on a draft captures the term's current revision again. Value enum: "none", "date",
-     * "payment_terms", "customer_default", "merchant_default".
-     */
-    "type": "none" | "date" | "payment_terms" | "customer_default" | "merchant_default";
-})
-    & ((Exclude<InvoicePaymentDueInputNoneInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputDateInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputPaymentTermsInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputCustomerDefaultInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentDueInputMerchantDefaultInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoicePaymentOptionCostComparison}. Compares two payment options on an
- * invoice and shows the estimated savings from the lower-cost option.
- */
-export type InvoicePaymentOptionCostComparison = {
-    /**
-     * Shape $ (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit".
-     */
-    "compared_with_payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Estimated savings for the merchant, as a positive
-     * amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "estimated_savings_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
-     * "ach_debit".
-     */
-    "lower_cost_payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentOptionLimit}. The largest invoice total allowed for a
- * payment option.
- */
-export type InvoicePaymentOptionLimit = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The largest invoice total, in this currency, for which
-     * Flint offers the option. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "max_total_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. The payment option this cap applies to. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {});
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentOptionLimitInput}. The largest invoice total allowed for a
- * payment option.
- */
-export type InvoicePaymentOptionLimitInput = {
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. The largest invoice total, in this currency, for
-     * which Flint offers the option. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "max_total_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): string. The payment option this cap applies to. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "payment_option": "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit";
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentPolicy}. Which payment options an invoice accepts, any
- * per-option total limits, and whether to show a cost comparison.
- */
-export type InvoicePaymentPolicy = {
-    /**
-     * Shape $ (Value): Array of string. The payment options the buyer can use on the hosted
-     * invoice page. Send at least one. maxItems: 5. uniqueItems: true. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string. Value enum:
-     * "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /**
-     * Shape $ (Value): Array of {@link InvoicePaymentOptionLimit}. Caps by payment option and
-     * currency. Flint doesn't offer an option when the invoice total in that currency is above its
-     * max_total_money. maxItems: 100. Shape $[] (Value): {@link InvoicePaymentOptionLimit}. The
-     * largest invoice total allowed for a payment option.
-     */
-    "payment_option_limits"?: Array<InvoicePaymentOptionLimit>;
-    /**
-     * Shape $ (Value): boolean. Whether the buyer's invoice shows the estimated savings of a
-     * lower-cost payment option. Requires ach_debit and at least one of card, apple_pay, or
-     * google_pay.
-     */
-    "show_cost_comparison"?: boolean;
-};
-/**
- * Shape $ (Value): {@link InvoicePaymentPolicyInput}. Which payment options an invoice accepts,
- * any per-option total limits, and whether to show a cost comparison.
- */
-export type InvoicePaymentPolicyInput = {
-    /**
-     * Shape $ (Value): Array of string. The payment options the buyer can use on the hosted
-     * invoice page. Send at least one. maxItems: 5. uniqueItems: true. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string. Value enum:
-     * "card", "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "enabled_payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
-    /**
-     * Shape $ (Value): Array of {@link InvoicePaymentOptionLimitInput}. Caps by payment option and
-     * currency. Flint doesn't offer an option when the invoice total in that currency is above its
-     * max_total_money. maxItems: 100. Shape $[] (Value): {@link InvoicePaymentOptionLimitInput}.
-     * The largest invoice total allowed for a payment option.
-     */
-    "payment_option_limits"?: Array<InvoicePaymentOptionLimitInput>;
-    /**
-     * Shape $ (Value): boolean. Whether the buyer's invoice shows the estimated savings of a
-     * lower-cost payment option. Requires ach_debit and at least one of card, apple_pay, or
-     * google_pay.
-     */
-    "show_cost_comparison"?: boolean;
-};
-/** Shape $ (Value): {@link InvoicePaymentTerm}. The payment timing agreed for an invoice. */
-export type InvoicePaymentTerm = {
-    /**
-     * Shape $ (Value): {@link InvoicePaymentTermCalculation}. How an invoice due date is
-     * calculated from payment terms, such as on receipt, net days, or a day of the month.
-     */
-    "calculation": InvoicePaymentTermCalculation;
+    "closed_reason"?: "consumed" | "released" | "expired" | "reallocated" | "mixed" | null | (string & {}) | null;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "created_at": string;
+    /**
+     * Shape $ (Value): string or null. When held quantity is released if it isn't committed first.
+     * null once no line holds quantity. Committed and consumed quantity never expire. Format:
+     * date-time.
+     */
+    "expires_at": string | null;
+    /**
+     * Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
+     */
+    "idempotency_key"?: string;
+    /**
+     * Shape $ (Value): {@link InventoryActionRequired}. Present when the claim needs a merchant
+     * action before commerce can continue. Says that an inventory reservation needs action, with
+     * the `reason` and the reservation lines affected.
+     */
+    "inventory_action_required"?: InventoryActionRequired;
+    /** Shape $ (Value): string. */
+    "inventory_reservation_id": string;
+    /**
+     * Shape $ (Value): {@link InventoryRoutingSource}. Where an order, payment link, or
+     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
+     * policy revision.
+     */
+    "inventory_routing_source": InventoryRoutingSource;
+    /**
+     * Shape $ (Value): Array of {@link InventoryReservationLine}. Shape $[] (Value): {@link
+     * InventoryReservationLine}. One item's location allocation within a reservation.
+     */
+    "lines": Array<InventoryReservationLine>;
+    /**
+     * Shape $ (Value): {@link InventoryReservationOwner}. Who holds an inventory reservation:
+     * either a merchant claim identified by your `key`, or an order.
+     */
+    "owner": InventoryReservationOwner;
+    /**
+     * Shape $ (Value): string. Set on a reservation whose claim Flint moved when it rerouted an
+     * order: the replacement reservation that now holds the quantity named in this reservation's
+     * reallocated_quantity.
+     */
+    "replacement_inventory_reservation_id"?: string;
+    /**
+     * Shape $ (Value): string. Set on a replacement reservation: the reservation whose claim Flint
+     * moved here when it rerouted an order. This reservation holds the quantity that reservation
+     * reports as reallocated_quantity.
+     */
+    "source_inventory_reservation_id"?: string;
+    /**
+     * Shape $ (Value): string. active while any held or committed quantity remains; closed once
+     * none does. Value enum: "active", "closed".
+     */
+    "status": "active" | "closed" | (string & {});
+    /**
+     * Shape $ (Value): Array of string. Actions that can change this reservation now. Empty for a
+     * closed reservation and for one Flint holds for an order. Resending targets already applied
+     * succeeds in any status. Computed when Flint produced this response or event, so replays and
+     * webhooks keep their original value. [] enum: "commit", "consume", "release". Shape $[]
+     * (Value): string. Value enum: "commit", "consume", "release".
+     */
+    "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
+    /**
+     * Shape $ (Value): integer string. The reservation version. Send it as expected_version to
+     * reject a write if the reservation changed. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationLine}. One item's location allocation within a
+ * reservation.
+ */
+export type InventoryReservationLine = {
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "allocated_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "at_risk_committed_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "at_risk_held_quantity": `${bigint}`;
+    /** Shape $ (Value): string. */
+    "bundle_component_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "committed_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "consumed_quantity": `${bigint}`;
+    /** Shape $ (Value): string. */
+    "demand_key": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "held_quantity": `${bigint}`;
+    /** Shape $ (Value): string. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_reservation_line_id": string;
+    /** Shape $ (Value): string. */
+    "location_id": string;
+    /** Shape $ (Value): string. */
+    "order_line_item_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "reallocated_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "released_from_committed_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "released_from_held_quantity": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationListResponse}. A page of `InventoryReservation`
+ * objects.
+ */
+export type InventoryReservationListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryReservation}. Shape $[] (Value): {@link
+     * InventoryReservation}. A claim on stock. Quantity moves from held to committed to consumed,
+     * and can be released or reallocated.
+     */
+    "data": Array<InventoryReservation>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationOwner}. Who holds an inventory reservation: either a
+ * merchant claim identified by your `key`, or an order.
+ */
+export type InventoryReservationOwner = ((InventoryReservationOwnerMerchant) | (InventoryReservationOwnerOrder) | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link InventoryReservationOwnerMerchant}. The `merchant` variant of
+ * `InventoryReservationOwner`.
+ */
+export type InventoryReservationOwnerMerchant = {
+    /** Shape $ (Value): string. */
+    "key": string;
+    /** Shape $ (Value): string.  Value enum: "merchant". */
+    "type": "merchant" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationOwnerOrder}. The `order` variant of
+ * `InventoryReservationOwner`.
+ */
+export type InventoryReservationOwnerOrder = {
+    /**
+     * Shape $ (Value): string. The order Flint holds the stock for. Absent only on a closed
+     * reservation whose order Flint can no longer identify.
+     */
+    "order_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "order". */
+    "type": "order" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationOwnerRequest}. The owner of a merchant inventory
+ * reservation you create: your `key` for what holds the stock.
+ */
+export type InventoryReservationOwnerRequest = {
+    /**
+     * Shape $ (Value): string. Your stable identifier for what holds the stock, such as a cart ID.
+     * One active reservation per key. minLength: 1.
+     */
+    "key": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationOwnerRequestInput}. The owner of a merchant
+ * inventory reservation you create: your `key` for what holds the stock.
+ */
+export type InventoryReservationOwnerRequestInput = InventoryReservationOwnerRequest;
+/**
+ * Shape $ (Value): {@link InventoryReservationResponse}. A response containing
+ * `InventoryReservation` data.
+ */
+export type InventoryReservationResponse = {
+    /**
+     * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from held to
+     * committed to consumed, and can be released or reallocated.
+     */
+    "data": InventoryReservation;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationResult}. inventory_reservation is the primary
+ * resource and expected_version target. Stock-moving transitions return this result instead of a
+ * resource alone.
+ */
+export type InventoryReservationResult = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryLevel}. Post-commit state of every level this
+     * command touched, so no follow-up read is needed. A replay returns the levels the original
+     * command produced. Shape $[] (Value): {@link InventoryLevel}. The quantity state of one
+     * inventory item at one Location.
+     */
+    "inventory_levels": Array<InventoryLevel>;
+    /**
+     * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from held to
+     * committed to consumed, and can be released or reallocated.
+     */
+    "inventory_reservation": InventoryReservation;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationResultResponse}. A response containing
+ * `InventoryReservationResult` data.
+ */
+export type InventoryReservationResultResponse = {
+    /**
+     * Shape $ (Value): {@link InventoryReservationResult}. inventory_reservation is the primary
+     * resource and expected_version target. Stock-moving transitions return this result instead of
+     * a resource alone.
+     */
+    "data": InventoryReservationResult;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationTransitionRequest}. The request body for: Transition
+ * inventory reservation.
+ */
+export type InventoryReservationTransitionRequest = ((InventoryReservationTransitionRequestCommit)
+    | (InventoryReservationTransitionRequestConsume)
+    | (InventoryReservationTransitionRequestRelease)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link InventoryReservationTransitionRequestCommit}. The `commit` variant of
+ * `InventoryReservationTransitionRequest`.
+ */
+export type InventoryReservationTransitionRequestCommit = {
+    /** Shape $ (Value): string.  Value enum: "commit". */
+    "action": "commit" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_reservation_line_id (Required): string. Line being transitioned.
+     * minLength: 1. Shape $[].target_committed_quantity (Required): integer string. Cumulative
+     * whole-number quantity that should have reached this target. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /** Shape $ (Value): string. Line being transitioned. minLength: 1. */
+        "inventory_reservation_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_committed_quantity": `${bigint}`;
+    }>;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationTransitionRequestCommitInput}. The `commit` variant
+ * of `InventoryReservationTransitionRequest`.
+ */
+export type InventoryReservationTransitionRequestCommitInput = {
+    /** Shape $ (Value): string.  Value enum: "commit". */
+    "action": "commit";
+    /**
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_reservation_line_id (Required): string. Line being transitioned.
+     * minLength: 1. Shape $[].target_committed_quantity (Required): integer string. Cumulative
+     * whole-number quantity that should have reached this target. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /** Shape $ (Value): string. Line being transitioned. minLength: 1. */
+        "inventory_reservation_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_committed_quantity": `${bigint}` | bigint;
+    }>;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationTransitionRequestConsume}. The `consume` variant of
+ * `InventoryReservationTransitionRequest`.
+ */
+export type InventoryReservationTransitionRequestConsume = {
+    /** Shape $ (Value): string.  Value enum: "consume". */
+    "action": "consume" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_reservation_line_id (Required): string. Line being transitioned.
+     * minLength: 1. Shape $[].target_consumed_quantity (Required): integer string. Cumulative
+     * whole-number quantity that should have reached this target. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /** Shape $ (Value): string. Line being transitioned. minLength: 1. */
+        "inventory_reservation_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_consumed_quantity": `${bigint}`;
+    }>;
+    /**
+     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the physical handoff
+     * happened. When omitted, occurred_at is the command receipt time and source_system is null.
+     * Where and when an inventory event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequest;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationTransitionRequestConsumeInput}. The `consume`
+ * variant of `InventoryReservationTransitionRequest`.
+ */
+export type InventoryReservationTransitionRequestConsumeInput = {
+    /** Shape $ (Value): string.  Value enum: "consume". */
+    "action": "consume";
+    /**
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_reservation_line_id (Required): string. Line being transitioned.
+     * minLength: 1. Shape $[].target_consumed_quantity (Required): integer string. Cumulative
+     * whole-number quantity that should have reached this target. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /** Shape $ (Value): string. Line being transitioned. minLength: 1. */
+        "inventory_reservation_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_consumed_quantity": `${bigint}` | bigint;
+    }>;
+    /**
+     * Shape $ (Value): {@link InventoryProvenanceRequestInput}. When and where the physical
+     * handoff happened. When omitted, occurred_at is the command receipt time and source_system is
+     * null. Where and when an inventory event happened: the source system, external actor, and
+     * time.
+     */
+    "provenance"?: InventoryProvenanceRequestInput;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationTransitionRequestInput}. The request body for:
+ * Transition inventory reservation.
+ */
+export type InventoryReservationTransitionRequestInput = ((InventoryReservationTransitionRequestCommitInput)
+    | (InventoryReservationTransitionRequestConsumeInput)
+    | (InventoryReservationTransitionRequestReleaseInput));
+/**
+ * Shape $ (Value): {@link InventoryReservationTransitionRequestRelease}. The `release` variant of
+ * `InventoryReservationTransitionRequest`.
+ */
+export type InventoryReservationTransitionRequestRelease = {
+    /** Shape $ (Value): string.  Value enum: "release". */
+    "action": "release" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): Array of (object and Alternative shapes (see declared variants)). minItems:
+     * 1. maxItems: 100. Shape $[] (Value): object and Alternative shapes (see declared variants).
+     * Shape $[].inventory_reservation_line_id (Required): string. Line being transitioned.
+     * minLength: 1. Shape $[].target_released_from_committed_quantity (Optional): integer string.
+     * Cumulative whole-number quantity that should have reached this target. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape
+     * $[].target_released_from_held_quantity (Optional): integer string. Cumulative whole-number
+     * quantity that should have reached this target. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. Shape $[].anyOf[1] (Value): any. Shape
+     * $[].anyOf[2] (Value): any.
+     */
+    "lines": Array<({
+        /** Shape $ (Value): string. Line being transitioned. minLength: 1. */
+        "inventory_reservation_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_released_from_committed_quantity"?: `${bigint}`;
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_released_from_held_quantity"?: `${bigint}`;
+    })
+        & (({
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_released_from_held_quantity": `${bigint}`;
+    })
+        | ({
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_released_from_committed_quantity": `${bigint}`;
+    })
+        | (Record<string, unknown>))>;
+};
+/**
+ * Shape $ (Value): {@link InventoryReservationTransitionRequestReleaseInput}. The `release`
+ * variant of `InventoryReservationTransitionRequest`.
+ */
+export type InventoryReservationTransitionRequestReleaseInput = {
+    /** Shape $ (Value): string.  Value enum: "release". */
+    "action": "release";
+    /**
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): Array of (object and Alternative shapes (see declared variants)). minItems:
+     * 1. maxItems: 100. Shape $[] (Value): object and Alternative shapes (see declared variants).
+     * Shape $[].inventory_reservation_line_id (Required): string. Line being transitioned.
+     * minLength: 1. Shape $[].target_released_from_committed_quantity (Optional): integer string.
+     * Cumulative whole-number quantity that should have reached this target. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape
+     * $[].target_released_from_held_quantity (Optional): integer string. Cumulative whole-number
+     * quantity that should have reached this target. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. Shape $[].anyOf[1] (Value): any. Shape
+     * $[].anyOf[2] (Value): any.
+     */
+    "lines": Array<({
+        /** Shape $ (Value): string. Line being transitioned. minLength: 1. */
+        "inventory_reservation_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_released_from_committed_quantity"?: `${bigint}` | bigint;
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_released_from_held_quantity"?: `${bigint}` | bigint;
+    })
+        & (({
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_released_from_held_quantity": `${bigint}` | bigint;
+    })
+        | ({
+        /**
+         * Shape $ (Value): integer string. Cumulative whole-number quantity that should have
+         * reached this target. Use an integer string (decimal digits), not a floating-point
+         * number. Format: int64. minimum: 0.
+         */
+        "target_released_from_committed_quantity": `${bigint}` | bigint;
+    }))>;
+};
+export type InventoryReservationsCreateInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateInventoryReservationRequestInput}. The request body for:
+     * Create inventory reservation.
+     */
+    "body": InputValue<CreateInventoryReservationRequestInput>;
+};
+export type InventoryReservationsGetInput = {
+    /** Shape $ (Value): string. */
+    "inventory_reservation_id": InputValue<string>;
+};
+export type InventoryReservationsListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "inventory_item_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "location_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "order_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "closed". Shape $[]
+     * (Value): string. Value enum: "active", "closed".
+     */
+    "status"?: InputValue<Array<"active" | "closed">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "merchant", "order". Shape $[]
+     * (Value): string. Value enum: "merchant", "order".
+     */
+    "owner_type"?: InputValue<Array<"merchant" | "order">>;
+    /** Shape $ (Value): string. */
+    "owner_key"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
+    /** Shape $ (Value): boolean. */
+    "has_at_risk_quantity"?: InputValue<boolean>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "consumed", "released", "expired",
+     * "reallocated", "mixed". Shape $[] (Value): string. Value enum: "consumed", "released",
+     * "expired", "reallocated", "mixed".
+     */
+    "closed_reason"?: InputValue<Array<"consumed" | "released" | "expired" | "reallocated" | "mixed">>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "expires_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "expires_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+};
+export type InventoryReservationsTransitionInput = {
+    /** Shape $ (Value): string. */
+    "inventory_reservation_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link InventoryReservationTransitionRequestInput}. The request body for:
+     * Transition inventory reservation.
+     */
+    "body": InputValue<InventoryReservationTransitionRequestInput>;
+};
+export type InventoryReservationsUpdateInput = {
+    /** Shape $ (Value): string. */
+    "inventory_reservation_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link UpdateInventoryReservationRequestInput}. The request body for:
+     * Update inventory reservation.
+     */
+    "body": InputValue<UpdateInventoryReservationRequestInput>;
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingDemand}. Stock you ask to reserve for one item: the item
+ * and quantity, plus optional Location limits and splitting behavior.
+ */
+export type InventoryRoutingDemand = {
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "allowed_location_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. Your identifier for this demand. Defaults to inventory_item_id.
+     * Required on every demand when an inventory_item_id occurs more than once. minLength: 1.
+     */
+    "demand_key"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "forced_location_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. Optional demand constraint intersected with the routing source
+     * rule. Omission uses split_when_required and leaves the routing source rule in control. Value
+     * enum: "single_location", "split_when_required".
+     */
+    "splitting_behavior"?: "single_location" | "split_when_required" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingDemandInput}. Stock you ask to reserve for one item: the
+ * item and quantity, plus optional Location limits and splitting behavior.
+ */
+export type InventoryRoutingDemandInput = {
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "allowed_location_ids"?: Array<string>;
+    /**
+     * Shape $ (Value): string. Your identifier for this demand. Defaults to inventory_item_id.
+     * Required on every demand when an inventory_item_id occurs more than once. minLength: 1.
+     */
+    "demand_key"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "forced_location_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. Optional demand constraint intersected with the routing source
+     * rule. Omission uses split_when_required and leaves the routing source rule in control. Value
+     * enum: "single_location", "split_when_required".
+     */
+    "splitting_behavior"?: "single_location" | "split_when_required";
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingSource}. Where an order, payment link, or reservation
+ * routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
+ */
+export type InventoryRoutingSource = {
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_id"?: string;
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_revision_id"?: string;
+    /** Shape $ (Value): string. */
+    "location_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "fixed_location", "policy", "policy_revision". */
+    "type": "fixed_location" | "policy" | "policy_revision" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingSourceInputFixedLocation}. The `fixed_location` variant
+ * of `InventoryRoutingSourceInput`.
+ */
+export type InventoryRoutingSourceInputFixedLocation = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id": string;
+    /** Shape $ (Value): string.  Value enum: "fixed_location". */
+    "type": "fixed_location" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingSourceInputFixedLocationInput}. The `fixed_location`
+ * variant of `InventoryRoutingSourceInput`.
+ */
+export type InventoryRoutingSourceInputFixedLocationInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id": string;
+    /** Shape $ (Value): string.  Value enum: "fixed_location". */
+    "type": "fixed_location";
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingSourceInputPolicy}. The `policy` variant of
+ * `InventoryRoutingSourceInput`.
+ */
+export type InventoryRoutingSourceInputPolicy = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_allocation_policy_id": string;
+    /** Shape $ (Value): string.  Value enum: "policy". */
+    "type": "policy" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingSourceInputPolicyInput}. The `policy` variant of
+ * `InventoryRoutingSourceInput`.
+ */
+export type InventoryRoutingSourceInputPolicyInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_allocation_policy_id": string;
+    /** Shape $ (Value): string.  Value enum: "policy". */
+    "type": "policy";
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingSourceInputPolicyRevision}. The `policy_revision`
+ * variant of `InventoryRoutingSourceInput`.
+ */
+export type InventoryRoutingSourceInputPolicyRevision = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_allocation_policy_revision_id": string;
+    /** Shape $ (Value): string.  Value enum: "policy_revision". */
+    "type": "policy_revision" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingSourceInputPolicyRevisionInput}. The `policy_revision`
+ * variant of `InventoryRoutingSourceInput`.
+ */
+export type InventoryRoutingSourceInputPolicyRevisionInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_allocation_policy_revision_id": string;
+    /** Shape $ (Value): string.  Value enum: "policy_revision". */
+    "type": "policy_revision";
+};
+/**
+ * Shape $ (Value): {@link InventoryRoutingSourceRequest}. Where you want inventory routed from: a
+ * fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
+ */
+export type InventoryRoutingSourceRequest = ((InventoryRoutingSourceInputFixedLocation)
+    | (InventoryRoutingSourceInputPolicy)
+    | (InventoryRoutingSourceInputPolicyRevision)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link InventoryRoutingSourceRequestInput}. Where you want inventory routed
+ * from: a fixed Location, an inventory allocation policy, or one policy revision, selected by
+ * `type`.
+ */
+export type InventoryRoutingSourceRequestInput = ((InventoryRoutingSourceInputFixedLocationInput)
+    | (InventoryRoutingSourceInputPolicyInput)
+    | (InventoryRoutingSourceInputPolicyRevisionInput));
+/**
+ * Shape $ (Value): {@link InventorySettings}. Inventory settings: the `low_stock_threshold` and
+ * how inventory failures are handled for each order source.
+ */
+export type InventorySettings = {
+    /** Shape $ (Value): integer. Format: int32. */
+    "low_stock_threshold"?: number;
+    /**
+     * Shape $ (Value): Map of {@link InventoryOriginPolicy}. Map replaced as a whole: the keys you
+     * send become the full map. Inventory failure handling keyed by order source: checkout,
+     * payment_link, api, subscription, virtual_terminal, or default. The source-specific entry
+     * wins; default applies to the rest. Shape $.* (Value): {@link InventoryOriginPolicy}. How
+     * Flint handles inventory failures for one order source: the action after a post-payment
+     * inventory failure and for a blocked subscription.
+     */
+    "origin_policies"?: Record<string, InventoryOriginPolicy>;
+};
+/**
+ * Shape $ (Value): {@link InventorySettingsRequestRequestInput}. Inventory settings: the
+ * `low_stock_threshold` and how inventory failures are handled for each order source.
+ */
+export type InventorySettingsRequestRequestInput = {
+    /** Shape $ (Value): integer. Format: int32. */
+    "low_stock_threshold"?: number;
+    /**
+     * Shape $ (Value): Map of {@link InventoryOriginPolicyRequestRequestInput}. Map replaced as a
+     * whole: the keys you send become the full map. Inventory failure handling keyed by order
+     * source: checkout, payment_link, api, subscription, virtual_terminal, or default. The
+     * source-specific entry wins; default applies to the rest. Shape $.* (Value): {@link
+     * InventoryOriginPolicyRequestRequestInput}. How Flint handles inventory failures for one
+     * order source: the action after a post-payment inventory failure and for a blocked
+     * subscription.
+     */
+    "origin_policies"?: Record<string, InventoryOriginPolicyRequestRequestInput>;
+};
+/**
+ * Shape $ (Value): {@link InventorySourceSystem}. The system an inventory event came from, such as
+ * manual entry, a point of sale, a warehouse system, or Flint, with your source identifier when it
+ * applies.
+ */
+export type InventorySourceSystem = ({
+    /**
+     * Shape $ (Value): string. Your source system's identifier. Required when type is pos, wms,
+     * erp, or other; not allowed when type is manual. Don't put secrets in this field. maxLength:
+     * 255.
+     */
+    "external_source_id"?: string;
+    /**
+     * Shape $ (Value): string. Source of the event: manual for a manual entry, pos for a point of
+     * sale, wms for a warehouse management system, erp for an enterprise resource planning system,
+     * or other for another external system. Flint-authored events use flint in responses. Value
+     * enum: "manual", "pos", "wms", "erp", "flint", "other".
+     */
+    "type": "manual" | "pos" | "wms" | "erp" | "flint" | "other" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link InventorySourceSystemRequest}. The source system you report for an
+ * inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies.
+ */
+export type InventorySourceSystemRequest = ({
+    /**
+     * Shape $ (Value): string. Your source system's identifier. Required when type is pos, wms,
+     * erp, or other; not allowed when type is manual. Don't put secrets in this field. minLength:
+     * 1. maxLength: 255.
+     */
+    "external_source_id"?: string;
+    /**
+     * Shape $ (Value): string. Source of the event: manual for a manual entry, pos for a point of
+     * sale, wms for a warehouse management system, erp for an enterprise resource planning system,
+     * or other for another external system. Flint-authored events use flint in responses. Value
+     * enum: "manual", "pos", "wms", "erp", "other".
+     */
+    "type": "manual" | "pos" | "wms" | "erp" | "other" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link InventorySourceSystemRequestInput}. The source system you report for an
+ * inventory event, such as manual, pos, wms, erp, or other, with your identifier when it applies.
+ */
+export type InventorySourceSystemRequestInput = ({
+    /**
+     * Shape $ (Value): string. Your source system's identifier. Required when type is pos, wms,
+     * erp, or other; not allowed when type is manual. Don't put secrets in this field. minLength:
+     * 1. maxLength: 255.
+     */
+    "external_source_id"?: string;
+    /**
+     * Shape $ (Value): string. Source of the event: manual for a manual entry, pos for a point of
+     * sale, wms for a warehouse management system, erp for an enterprise resource planning system,
+     * or other for another external system. Flint-authored events use flint in responses. Value
+     * enum: "manual", "pos", "wms", "erp", "other".
+     */
+    "type": "manual" | "pos" | "wms" | "erp" | "other";
+});
+/** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
+export type InventoryTransfer = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "closed_at"?: string;
+    /**
+     * Shape $ (Value): string or null. Value enum: "received", "canceled",
+     * "received_with_cancellation", "returned", "lost", "mixed", null.
+     */
+    "closed_reason"?: "received"
+        | "canceled"
+        | "received_with_cancellation"
+        | "returned"
+        | "lost"
+        | "mixed"
+        | null
+        | (string & {})
+        | null;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "departed_at"?: string;
+    /** Shape $ (Value): string. */
+    "destination_location_id": string;
     /**
      * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
      * maxLength: 255.
      */
     "external_reference_id"?: string;
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": string;
     /**
-     * Shape $ (Value): {@link InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed
-     * amount or a percentage, a grace period in days, and whether Flint applies it automatically.
+     * Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
      */
-    "late_fee_policy"?: InvoiceLateFeePolicy;
+    "idempotency_key"?: string;
     /** Shape $ (Value): string. */
-    "merchant_id": string;
+    "inventory_transfer_id": string;
+    /**
+     * Shape $ (Value): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
+     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection. Shape $[]
+     * (Value): {@link InventoryTransferLine}. One line of an inventory transfer, with the
+     * requested quantity and how much has departed, been received by condition, canceled, lost, or
+     * returned.
+     */
+    "lines": Array<InventoryTransferLine>;
     /** Shape $ (Value): string. */
-    "name": string;
-    /** Shape $ (Value): string.  Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
+    "note"?: string;
+    /** Shape $ (Value): string. */
+    "origin_location_id": string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "received_at"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "draft", "in_transit", "partially_resolved", "closed".
+     */
+    "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
+    /**
+     * Shape $ (Value): Array of string. [] enum: "depart", "receive", "return_to_origin",
+     * "report_loss", "cancel". Shape $[] (Value): string. Value enum: "depart", "receive",
+     * "return_to_origin", "report_loss", "cancel".
+     */
+    "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
     "updated_at": string;
-    /** Shape $ (Value): integer. Format: int32. */
-    "version": number;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
- * Shape $ (Value): {@link InvoicePaymentTermCalculation}. How an invoice due date is calculated
- * from payment terms, such as on receipt, net days, or a day of the month.
+ * Shape $ (Value): {@link InventoryTransferActionConflictErrorDetail}. The inventory transfer
+ * state, version, and supported actions for a refused action. One specific failure within an
+ * error, with a `code` and `message` plus fields that depend on the code, such as the `param`,
+ * resource, quantity, or amount involved.
  */
-export type InvoicePaymentTermCalculation = ({
+export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & object, readonly unknown[]>)
+    & ({
+    /** Shape $ (Value): string.  Value enum: "ACTION_NOT_ALLOWED". */
+    "code": "ACTION_NOT_ALLOWED" | (string & {});
     /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
+     * Shape $ (Value): string. Current transfer status. Value enum: "draft", "in_transit",
+     * "partially_resolved", "closed".
      */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
+    "current_status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
     /**
-     * Shape $ (Value): string. Value enum: "on_receipt", "net_days", "day_of_month",
-     * "day_of_next_month", "days_after_month_end".
+     * Shape $ (Value): integer string. Current transfer version. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
      */
-    "type": "on_receipt"
-        | "net_days"
-        | "day_of_month"
-        | "day_of_next_month"
-        | "days_after_month_end"
+    "current_version": `${bigint}`;
+    /** Shape $ (Value): string. */
+    "message": string;
+    /** Shape $ (Value): string.  Value enum: "action". */
+    "param": "action" | (string & {});
+    /** Shape $ (Value): string. */
+    "resource_id"?: string;
+    /**
+     * Shape $ (Value): {@link ResourceType}. Public resource type: the resource's ID field name
+     * without `_id`. Clients must accept values added in future releases. Value enum: "api_key",
+     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
+     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
+     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
+     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
+     * "payout", "payout_destination", "payout_settings", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
+     * "report", "report_download", "return", "return_activity", "return_disposition",
+     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
+     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
+     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_connection", "tax_registration", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type"?: ResourceType;
+    /**
+     * Shape $ (Value): Array of string. Transfer actions accepted in the current state. A closed
+     * transfer returns an empty array. [] enum: "depart", "receive", "return_to_origin",
+     * "report_loss", "cancel". Shape $[] (Value): string. Value enum: "depart", "receive",
+     * "return_to_origin", "report_loss", "cancel".
+     */
+    "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
+    /**
+     * Shape $ (Value): string. Stable Flint reason associated with this error. When code is
+     * ACTION_NOT_ALLOWED, one of: already_applied, archived, authorization_expired,
+     * bank_return_not_contestable, cancellation_scheduled, configuration_required,
+     * credit_exceeds_charge, credit_note_tax_reconciliation_required,
+     * customer_account_mode_conflict, delivery_hold, delivery_requirement_changes,
+     * derived_from_packages, destination_not_served, disclosure_changed,
+     * dispute_payment_unavailable, existing_order_checkout, external_billing_schedule,
+     * field_locked, image_ingestion_restart_required, in_progress, initial_payment_pending,
+     * inventory_wait, invoice_finalized, managed_by_owner, managed_externally,
+     * merchant_hosted_customer_accounts, merchant_managed_receipts, method_unavailable,
+     * not_itemized, not_offered, not_paused, offer_subscription, on_hold, order_owned,
+     * payment_collected, payment_disputed, payment_required, payout_defaults_managed_externally,
+     * payout_delay, payout_frequency, period_end_unavailable, reconciliation_required,
+     * refund_created, refund_unavailable, return_checkout, return_tax_mismatch, secret_not_issued,
+     * status_not_reached, store_credit_unavailable, subscription_terms_locked, terminal_status,
+     * test_event, trial_in_progress, unsupported_state, verification_required. When code is
+     * ALREADY_EXISTS, one of: hardware_fingerprint_already_exists. When code is
+     * CONCURRENT_MODIFICATION, one of: credit_note_creditable_value_changed,
+     * credit_note_refund_retry_exhausted. When code is DELIVERY_REQUOTE_REQUIRED, one of:
+     * calculation_expired, caller_rates_required, destination_changed, option_expired,
+     * quote_expired, quote_revoked, quote_stale, selection_changed, selection_expired,
+     * window_expired. When code is EXTERNAL_SERVICE_ERROR, one of:
+     * image_ingestion_restart_required, outcome_unknown, rate_unavailable. When code is FORBIDDEN,
+     * one of: checkout_launch_token_restricted, checkout_recovery_attempt_mismatch,
+     * checkout_recovery_restricted, checkout_session_order_mismatch,
+     * checkout_session_payment_required, demo_session_route_not_allowed, direct_owner_required,
+     * environment_mismatch, expansion_not_permitted, full_access_required, live_mode_required,
+     * merchant_access_required, merchant_credential_required, merchant_role_insufficient,
+     * not_checkout_session, not_permitted, oauth_context_mismatch,
+     * organization_live_mode_required, organization_membership_required,
+     * organization_role_insufficient, owner_workflow_required,
+     * partner_app_management_requires_live_key, request_blocked, role_not_assignable,
+     * sandbox_management_requires_live_key, sandbox_not_accessible, sandbox_selection_forbidden,
+     * self_role_edit_forbidden, test_mode_required. When code is GIFT_CARD_CHALLENGE_REQUIRED, one
+     * of: page_origin_required, proof_rejected, proof_required. When code is INTERNAL_ERROR, one
+     * of: image_ingestion_restart_required, repair_required. When code is INVALID_CREDENTIAL, one
+     * of: expired, malformed, mode_mismatch, revoked, session_ended, unknown,
+     * wrong_credential_type. When code is INVALID_REQUEST, one of:
+     * image_ingestion_restart_required. When code is INVENTORY_INSUFFICIENT, one of:
+     * location_ineligible, location_limit. When code is LIMIT_EXCEEDED, one of: buyer_daily,
+     * card_balance, card_daily, merchant_adjustments_daily, merchant_imports_daily. When code is
+     * LIMIT_REACHED, one of: checkout_tax_calculations, consecutive_skips,
+     * daily_gift_card_purchases, delivery_selection_replacements, enabled_risk_rules,
+     * external_paid_orders, image_storage, monthly_tax_calculations, partner_app_credentials,
+     * payment_intents_per_order, payment_link_completions, payment_retries_per_period,
+     * receipt_recipients, saved_card_codes, verification_attempts, verification_codes,
+     * workload_identities. When code is MERCHANT_NOT_READY, one of: account_sessions_unavailable,
+     * account_setup_repair_required, account_setup_unavailable, billing_suspended,
+     * capability_blocked, capability_not_requested, capability_pending, capability_unavailable,
+     * default_environment_required, disabled_by_merchant_settings, disabled_by_platform_policy,
+     * merchant_account_action_required, merchant_payments_disabled, onboarding_required,
+     * payment_account_context_invalid, payment_account_setup_incomplete,
+     * payment_option_access_not_provisioned, payment_option_activation_pending,
+     * payment_option_not_available, payment_option_not_in_plan, platform_funding_unavailable,
+     * pricing_not_authorized, processing_not_enabled, processing_restricted,
+     * processor_not_configured, requirements_due, tax_category_required, under_review. When code
+     * is OPERATION_IN_PROGRESS, one of: delivery_selection_materializing. When code is
+     * PAYMENT_OPTION_UNAVAILABLE, one of: action_window_too_short, amount_out_of_range,
+     * capability_blocked, capability_pending, disabled_by_merchant_settings,
+     * disabled_by_platform_policy, merchant_account_action_required, merchant_payments_disabled,
+     * payment_account_context_invalid, payment_account_setup_incomplete,
+     * payment_option_access_not_provisioned, payment_option_activation_pending,
+     * payment_option_not_available, payment_option_not_in_plan, platform_funding_unavailable,
+     * requirements_due, risk_action_unsupported, transaction_purpose_unresolved. When code is
+     * PAYMENT_PROCESSING_UNAVAILABLE, one of: capability_blocked, capability_pending,
+     * disabled_by_merchant_settings, disabled_by_platform_policy,
+     * merchant_account_action_required, merchant_payments_disabled,
+     * payment_account_context_invalid, payment_account_setup_incomplete,
+     * payment_option_access_not_provisioned, payment_option_activation_pending,
+     * payment_option_not_available, payment_option_not_in_plan, platform_funding_unavailable,
+     * requirements_due. When code is PROMOTION_DECLINED, one of: already_applied,
+     * automatic_disabled, buy_item_missing, code_invalid, code_required, codes_disabled,
+     * currency_mismatch, exhausted, expired, inactive, max_promotions_reached, minimum_not_met,
+     * no_discountable_balance, not_combinable, not_eligible, not_yet_started, superseded,
+     * superseded_by_better_offer, superseded_by_higher_priority, unknown_type. When code is
+     * REQUEST_TIMEOUT, one of: image_ingestion_restart_required. When code is RESOURCE_IN_USE, one
+     * of: selected_by_active_variants. When code is SERVICE_UNAVAILABLE, one of:
+     * image_ingestion_restart_required, outcome_unknown, processor_unavailable, repair_required.
+     * Additional reasons may be added. Value enum: "account_sessions_unavailable",
+     * "account_setup_repair_required", "account_setup_unavailable", "action_window_too_short",
+     * "already_applied", "amount_out_of_range", "archived", "authorization_expired",
+     * "automatic_disabled", "bank_return_not_contestable", "billing_suspended",
+     * "buy_item_missing", "buyer_daily", "calculation_expired", "caller_rates_required",
+     * "cancellation_scheduled", "capability_blocked", "capability_not_requested",
+     * "capability_pending", "capability_unavailable", "card_balance", "card_daily",
+     * "checkout_launch_token_restricted", "checkout_recovery_attempt_mismatch",
+     * "checkout_recovery_restricted", "checkout_session_order_mismatch",
+     * "checkout_session_payment_required", "checkout_tax_calculations", "code_invalid",
+     * "code_required", "codes_disabled", "configuration_required", "consecutive_skips",
+     * "credit_exceeds_charge", "credit_note_creditable_value_changed",
+     * "credit_note_refund_retry_exhausted", "credit_note_tax_reconciliation_required",
+     * "currency_mismatch", "customer_account_mode_conflict", "daily_gift_card_purchases",
+     * "default_environment_required", "delivery_hold", "delivery_requirement_changes",
+     * "delivery_selection_materializing", "delivery_selection_replacements",
+     * "demo_session_route_not_allowed", "derived_from_packages", "destination_changed",
+     * "destination_not_served", "direct_owner_required", "disabled_by_merchant_settings",
+     * "disabled_by_platform_policy", "disclosure_changed", "dispute_payment_unavailable",
+     * "enabled_risk_rules", "environment_mismatch", "exhausted", "existing_order_checkout",
+     * "expansion_not_permitted", "expired", "external_billing_schedule", "external_paid_orders",
+     * "field_locked", "full_access_required", "hardware_fingerprint_already_exists",
+     * "image_ingestion_restart_required", "image_storage", "in_progress", "inactive",
+     * "initial_payment_pending", "inventory_wait", "invoice_finalized", "live_mode_required",
+     * "location_ineligible", "location_limit", "malformed", "managed_by_owner",
+     * "managed_externally", "max_promotions_reached", "merchant_access_required",
+     * "merchant_account_action_required", "merchant_adjustments_daily",
+     * "merchant_credential_required", "merchant_hosted_customer_accounts",
+     * "merchant_imports_daily", "merchant_managed_receipts", "merchant_payments_disabled",
+     * "merchant_role_insufficient", "method_unavailable", "minimum_not_met", "mode_mismatch",
+     * "monthly_tax_calculations", "no_discountable_balance", "not_checkout_session",
+     * "not_combinable", "not_eligible", "not_itemized", "not_offered", "not_paused",
+     * "not_permitted", "not_yet_started", "oauth_context_mismatch", "offer_subscription",
+     * "on_hold", "onboarding_required", "option_expired", "order_owned",
+     * "organization_live_mode_required", "organization_membership_required",
+     * "organization_role_insufficient", "outcome_unknown", "owner_workflow_required",
+     * "page_origin_required", "partner_app_credentials",
+     * "partner_app_management_requires_live_key", "payment_account_context_invalid",
+     * "payment_account_setup_incomplete", "payment_collected", "payment_disputed",
+     * "payment_intents_per_order", "payment_link_completions",
+     * "payment_option_access_not_provisioned", "payment_option_activation_pending",
+     * "payment_option_not_available", "payment_option_not_in_plan", "payment_required",
+     * "payment_retries_per_period", "payout_defaults_managed_externally", "payout_delay",
+     * "payout_frequency", "period_end_unavailable", "platform_funding_unavailable",
+     * "pricing_not_authorized", "processing_not_enabled", "processing_restricted",
+     * "processor_not_configured", "processor_unavailable", "proof_rejected", "proof_required",
+     * "quote_expired", "quote_revoked", "quote_stale", "rate_unavailable", "receipt_recipients",
+     * "reconciliation_required", "refund_created", "refund_unavailable", "repair_required",
+     * "request_blocked", "requirements_due", "return_checkout", "return_tax_mismatch", "revoked",
+     * "risk_action_unsupported", "role_not_assignable", "sandbox_management_requires_live_key",
+     * "sandbox_not_accessible", "sandbox_selection_forbidden", "saved_card_codes",
+     * "secret_not_issued", "selected_by_active_variants", "selection_changed",
+     * "selection_expired", "self_role_edit_forbidden", "session_ended", "status_not_reached",
+     * "store_credit_unavailable", "subscription_terms_locked", "superseded",
+     * "superseded_by_better_offer", "superseded_by_higher_priority", "tax_category_required",
+     * "terminal_status", "test_event", "test_mode_required", "transaction_purpose_unresolved",
+     * "trial_in_progress", "under_review", "unknown", "unknown_type", "unsupported_state",
+     * "verification_attempts", "verification_codes", "verification_required", "window_expired",
+     * "workload_identities", "wrong_credential_type".
+     */
+    "reason": "account_sessions_unavailable"
+        | "account_setup_repair_required"
+        | "account_setup_unavailable"
+        | "action_window_too_short"
+        | "already_applied"
+        | "amount_out_of_range"
+        | "archived"
+        | "authorization_expired"
+        | "automatic_disabled"
+        | "bank_return_not_contestable"
+        | "billing_suspended"
+        | "buy_item_missing"
+        | "buyer_daily"
+        | "calculation_expired"
+        | "caller_rates_required"
+        | "cancellation_scheduled"
+        | "capability_blocked"
+        | "capability_not_requested"
+        | "capability_pending"
+        | "capability_unavailable"
+        | "card_balance"
+        | "card_daily"
+        | "checkout_launch_token_restricted"
+        | "checkout_recovery_attempt_mismatch"
+        | "checkout_recovery_restricted"
+        | "checkout_session_order_mismatch"
+        | "checkout_session_payment_required"
+        | "checkout_tax_calculations"
+        | "code_invalid"
+        | "code_required"
+        | "codes_disabled"
+        | "configuration_required"
+        | "consecutive_skips"
+        | "credit_exceeds_charge"
+        | "credit_note_creditable_value_changed"
+        | "credit_note_refund_retry_exhausted"
+        | "credit_note_tax_reconciliation_required"
+        | "currency_mismatch"
+        | "customer_account_mode_conflict"
+        | "daily_gift_card_purchases"
+        | "default_environment_required"
+        | "delivery_hold"
+        | "delivery_requirement_changes"
+        | "delivery_selection_materializing"
+        | "delivery_selection_replacements"
+        | "demo_session_route_not_allowed"
+        | "derived_from_packages"
+        | "destination_changed"
+        | "destination_not_served"
+        | "direct_owner_required"
+        | "disabled_by_merchant_settings"
+        | "disabled_by_platform_policy"
+        | "disclosure_changed"
+        | "dispute_payment_unavailable"
+        | "enabled_risk_rules"
+        | "environment_mismatch"
+        | "exhausted"
+        | "existing_order_checkout"
+        | "expansion_not_permitted"
+        | "expired"
+        | "external_billing_schedule"
+        | "external_paid_orders"
+        | "field_locked"
+        | "full_access_required"
+        | "hardware_fingerprint_already_exists"
+        | "image_ingestion_restart_required"
+        | "image_storage"
+        | "in_progress"
+        | "inactive"
+        | "initial_payment_pending"
+        | "inventory_wait"
+        | "invoice_finalized"
+        | "live_mode_required"
+        | "location_ineligible"
+        | "location_limit"
+        | "malformed"
+        | "managed_by_owner"
+        | "managed_externally"
+        | "max_promotions_reached"
+        | "merchant_access_required"
+        | "merchant_account_action_required"
+        | "merchant_adjustments_daily"
+        | "merchant_credential_required"
+        | "merchant_hosted_customer_accounts"
+        | "merchant_imports_daily"
+        | "merchant_managed_receipts"
+        | "merchant_payments_disabled"
+        | "merchant_role_insufficient"
+        | "method_unavailable"
+        | "minimum_not_met"
+        | "mode_mismatch"
+        | "monthly_tax_calculations"
+        | "no_discountable_balance"
+        | "not_checkout_session"
+        | "not_combinable"
+        | "not_eligible"
+        | "not_itemized"
+        | "not_offered"
+        | "not_paused"
+        | "not_permitted"
+        | "not_yet_started"
+        | "oauth_context_mismatch"
+        | "offer_subscription"
+        | "on_hold"
+        | "onboarding_required"
+        | "option_expired"
+        | "order_owned"
+        | "organization_live_mode_required"
+        | "organization_membership_required"
+        | "organization_role_insufficient"
+        | "outcome_unknown"
+        | "owner_workflow_required"
+        | "page_origin_required"
+        | "partner_app_credentials"
+        | "partner_app_management_requires_live_key"
+        | "payment_account_context_invalid"
+        | "payment_account_setup_incomplete"
+        | "payment_collected"
+        | "payment_disputed"
+        | "payment_intents_per_order"
+        | "payment_link_completions"
+        | "payment_option_access_not_provisioned"
+        | "payment_option_activation_pending"
+        | "payment_option_not_available"
+        | "payment_option_not_in_plan"
+        | "payment_required"
+        | "payment_retries_per_period"
+        | "payout_defaults_managed_externally"
+        | "payout_delay"
+        | "payout_frequency"
+        | "period_end_unavailable"
+        | "platform_funding_unavailable"
+        | "pricing_not_authorized"
+        | "processing_not_enabled"
+        | "processing_restricted"
+        | "processor_not_configured"
+        | "processor_unavailable"
+        | "proof_rejected"
+        | "proof_required"
+        | "quote_expired"
+        | "quote_revoked"
+        | "quote_stale"
+        | "rate_unavailable"
+        | "receipt_recipients"
+        | "reconciliation_required"
+        | "refund_created"
+        | "refund_unavailable"
+        | "repair_required"
+        | "request_blocked"
+        | "requirements_due"
+        | "return_checkout"
+        | "return_tax_mismatch"
+        | "revoked"
+        | "risk_action_unsupported"
+        | "role_not_assignable"
+        | "sandbox_management_requires_live_key"
+        | "sandbox_not_accessible"
+        | "sandbox_selection_forbidden"
+        | "saved_card_codes"
+        | "secret_not_issued"
+        | "selected_by_active_variants"
+        | "selection_changed"
+        | "selection_expired"
+        | "self_role_edit_forbidden"
+        | "session_ended"
+        | "status_not_reached"
+        | "store_credit_unavailable"
+        | "subscription_terms_locked"
+        | "superseded"
+        | "superseded_by_better_offer"
+        | "superseded_by_higher_priority"
+        | "tax_category_required"
+        | "terminal_status"
+        | "test_event"
+        | "test_mode_required"
+        | "transaction_purpose_unresolved"
+        | "trial_in_progress"
+        | "under_review"
+        | "unknown"
+        | "unknown_type"
+        | "unsupported_state"
+        | "verification_attempts"
+        | "verification_codes"
+        | "verification_required"
+        | "window_expired"
+        | "workload_identities"
+        | "wrong_credential_type"
         | (string & {});
-})
-    & ((Exclude<InvoicePaymentTermCalculationOnReceipt & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationNetDays & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEnd & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfMonth & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonth & object, readonly unknown[]>)
-    | (Record<string, unknown>));
+});
 /**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDayOfMonth}. The `day_of_month` variant of
- * `InvoicePaymentTermCalculation`.
+ * Shape $ (Value): {@link InventoryTransferActionConflictErrorEnvelope}. An inventory transfer
+ * action refusal with the current state and supported actions.
  */
-export type InvoicePaymentTermCalculationDayOfMonth = ({
+export type InventoryTransferActionConflictErrorEnvelope = {
     /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
+     * Shape $ (Value): {@link InventoryTransferActionConflictErrorObject}. An action-not-allowed
+     * error for the inventory transfer current state. The error returned for a failed request:
+     * `type`, `code`, `message`, `remediation`, `request_id`, and a list of `details` for
+     * individual failures.
      */
-    "day": number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "day_of_month". */
-    "type": "day_of_month" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "day_of_month". */
-    "type": "day_of_month" | (string & {});
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-}));
+    "error": InventoryTransferActionConflictErrorObject;
+};
 /**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDayOfMonthInput}. The `day_of_month`
- * variant of `InvoicePaymentTermCalculation`.
+ * Shape $ (Value): {@link InventoryTransferActionConflictErrorObject}. An action-not-allowed error
+ * for the inventory transfer current state. The error returned for a failed request: `type`,
+ * `code`, `message`, `remediation`, `request_id`, and a list of `details` for individual failures.
  */
-export type InvoicePaymentTermCalculationDayOfMonthInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "day_of_month". */
-    "type": "day_of_month";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "day_of_month". */
-    "type": "day_of_month";
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day": number;
-})
+export type InventoryTransferActionConflictErrorObject = (Exclude<ErrorObject & object, readonly unknown[]>)
     & ({
-    "days"?: never;
-}));
+    /** Shape $ (Value): string.  Value enum: "ACTION_NOT_ALLOWED". */
+    "code": "ACTION_NOT_ALLOWED" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link InventoryTransferActionConflictErrorDetail}. minItems: 1.
+     * Shape $[] (Value): {@link InventoryTransferActionConflictErrorDetail}. The inventory
+     * transfer state, version, and supported actions for a refused action. One specific failure
+     * within an error, with a `code` and `message` plus fields that depend on the code, such as
+     * the `param`, resource, quantity, or amount involved.
+     */
+    "details": Array<InventoryTransferActionConflictErrorDetail>;
+    /** Shape $ (Value): string.  Value enum: "action". */
+    "param": "action" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "conflict_error". */
+    "type": "conflict_error" | (string & {});
+    /**
+     * Shape $ (Value): string. Human-readable explanation for your logs. The wording can change,
+     * so branch on code, and do not show it to buyers as is.
+     */
+    "message": string;
+    /**
+     * Shape $ (Value): string. Error reference at https://developers.withflintpay.com/docs/errors#
+     * followed by the lowercase error code.
+     */
+    "doc_url": string;
+    /**
+     * Shape $ (Value): string. System boundary responsible for correcting the failure. Value enum:
+     * "merchant", "integration", "flint".
+     */
+    "error_source": "merchant" | "integration" | "flint" | (string & {});
+});
 /**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDayOfNextMonth}. The `day_of_next_month`
- * variant of `InvoicePaymentTermCalculation`.
+ * Shape $ (Value): {@link InventoryTransferLine}. One line of an inventory transfer, with the
+ * requested quantity and how much has departed, been received by condition, canceled, lost, or
+ * returned.
  */
-export type InvoicePaymentTermCalculationDayOfNextMonth = ({
+export type InventoryTransferLine = {
     /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
      */
-    "day": number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "day_of_next_month". */
-    "type": "day_of_next_month" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "day_of_next_month". */
-    "type": "day_of_next_month" | (string & {});
+    "canceled_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
+     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined".
      */
-    "day": number;
-}));
+    "condition": "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "departed_quantity": `${bigint}`;
+    /** Shape $ (Value): string. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_transfer_line_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "lost_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_damaged_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_quality_control_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_quarantined_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "received_sellable_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "requested_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "returned_quantity": `${bigint}`;
+};
 /**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDayOfNextMonthInput}. The
- * `day_of_next_month` variant of `InvoicePaymentTermCalculation`.
+ * Shape $ (Value): {@link InventoryTransferLineRequest}. One line of an inventory transfer you
+ * create: an item and the requested quantity.
  */
-export type InvoicePaymentTermCalculationDayOfNextMonthInput = ({
+export type InventoryTransferLineRequest = {
     /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
+     * Shape $ (Value): string. Default: "sellable". Value enum: "sellable", "quality_control",
+     * "damaged", "quarantined".
      */
-    "day": number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "day_of_next_month". */
-    "type": "day_of_next_month";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "day_of_next_month". */
-    "type": "day_of_next_month";
+    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
     /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1.
      */
-    "day": number;
-})
-    & ({
-    "days"?: never;
-}));
+    "requested_quantity": `${bigint}`;
+};
 /**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDaysAfterMonthEnd}. The
- * `days_after_month_end` variant of `InvoicePaymentTermCalculation`.
+ * Shape $ (Value): {@link InventoryTransferLineRequestInput}. One line of an inventory transfer
+ * you create: an item and the requested quantity.
  */
-export type InvoicePaymentTermCalculationDaysAfterMonthEnd = ({
+export type InventoryTransferLineRequestInput = {
     /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
+     * Shape $ (Value): string. Default: "sellable". Value enum: "sellable", "quality_control",
+     * "damaged", "quarantined".
      */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Shape $ (Value): string.  Value enum: "days_after_month_end". */
-    "type": "days_after_month_end" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "days_after_month_end". */
-    "type": "days_after_month_end" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-}));
+    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1.
+     */
+    "requested_quantity": `${bigint}` | bigint;
+};
 /**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationDaysAfterMonthEndInput}. The
- * `days_after_month_end` variant of `InvoicePaymentTermCalculation`.
+ * Shape $ (Value): {@link InventoryTransferListResponse}. A page of `InventoryTransfer` objects.
  */
-export type InvoicePaymentTermCalculationDaysAfterMonthEndInput = ({
+export type InventoryTransferListResponse = {
     /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
+     * Shape $ (Value): Array of {@link InventoryTransfer}. Shape $[] (Value): {@link
+     * InventoryTransfer}. Stock moving between locations.
      */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Shape $ (Value): string.  Value enum: "days_after_month_end". */
-    "type": "days_after_month_end";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "days_after_month_end". */
-    "type": "days_after_month_end";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-})
-    & ({
-    "day"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationInput}. How an invoice due date is
- * calculated from payment terms, such as on receipt, net days, or a day of the month.
- */
-export type InvoicePaymentTermCalculationInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /**
-     * Shape $ (Value): string. Value enum: "on_receipt", "net_days", "day_of_month",
-     * "day_of_next_month", "days_after_month_end".
-     */
-    "type": "on_receipt" | "net_days" | "day_of_month" | "day_of_next_month" | "days_after_month_end";
-})
-    & ((Exclude<InvoicePaymentTermCalculationOnReceiptInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationNetDaysInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDaysAfterMonthEndInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfMonthInput & object, readonly unknown[]>)
-    | (Exclude<InvoicePaymentTermCalculationDayOfNextMonthInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationNetDays}. The `net_days` variant of
- * `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationNetDays = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Shape $ (Value): string.  Value enum: "net_days". */
-    "type": "net_days" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "net_days". */
-    "type": "net_days" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationNetDaysInput}. The `net_days` variant of
- * `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationNetDaysInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-    /** Shape $ (Value): string.  Value enum: "net_days". */
-    "type": "net_days";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "net_days". */
-    "type": "net_days";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days": number;
-})
-    & ({
-    "day"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationOnReceipt}. The `on_receipt` variant of
- * `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationOnReceipt = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "on_receipt". */
-    "type": "on_receipt" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "on_receipt". */
-    "type": "on_receipt" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermCalculationOnReceiptInput}. The `on_receipt` variant
- * of `InvoicePaymentTermCalculation`.
- */
-export type InvoicePaymentTermCalculationOnReceiptInput = ({
-    /**
-     * Shape $ (Value): integer. Day of the month. Later days clamp to the last day of the month.
-     * Format: int32. minimum: 1. maximum: 31.
-     */
-    "day"?: number;
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "days"?: number;
-    /** Shape $ (Value): string.  Value enum: "on_receipt". */
-    "type": "on_receipt";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "on_receipt". */
-    "type": "on_receipt";
-})
-    & (({
-    "days"?: never;
-}) & ({
-    "day"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoicePaymentTermListResponse}. A page of `InvoicePaymentTerm` objects.
- */
-export type InvoicePaymentTermListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InvoicePaymentTerm}. Shape $[] (Value): {@link
-     * InvoicePaymentTerm}. The payment timing agreed for an invoice.
-     */
-    "data": Array<InvoicePaymentTerm>;
+    "data": Array<InventoryTransfer>;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1022,15 +1654,15 @@ export type InvoicePaymentTermListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link InvoicePaymentTermResponse}. A response containing `InvoicePaymentTerm`
+ * Shape $ (Value): {@link InventoryTransferResponse}. A response containing `InventoryTransfer`
  * data.
  */
-export type InvoicePaymentTermResponse = {
-    /** Shape $ (Value): {@link InvoicePaymentTerm}. The payment timing agreed for an invoice. */
-    "data": InvoicePaymentTerm;
+export type InventoryTransferResponse = {
+    /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
+    "data": InventoryTransfer;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1040,125 +1672,35 @@ export type InvoicePaymentTermResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
-};
-export type InvoicePaymentTermsCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateInvoicePaymentTermRequestInput}. The request body for: Create
-     * invoice payment term.
-     */
-    "body": InputValue<CreateInvoicePaymentTermRequestInput>;
-};
-export type InvoicePaymentTermsGetInput = {
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": InputValue<string>;
-};
-export type InvoicePaymentTermsListInput = {
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "archived". Shape $[]
-     * (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<Array<"active" | "archived">>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
-};
-export type InvoicePaymentTermsRemoveInput = {
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": InputValue<string>;
-    /** Shape $ (Value): integer. Format: uint32. minimum: 1. */
-    "expected_version"?: InputValue<number>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link InvoicePaymentTermsSnapshot}. The payment terms saved on an invoice: the
- * term's name, version, due date calculation, and late fee policy.
+ * Shape $ (Value): {@link InventoryTransferResult}. inventory_transfer is the primary resource and
+ * expected_version target. Stock-moving transitions return this result instead of a resource
+ * alone.
  */
-export type InvoicePaymentTermsSnapshot = {
+export type InventoryTransferResult = {
     /**
-     * Shape $ (Value): {@link InvoicePaymentTermCalculation}. How an invoice due date is
-     * calculated from payment terms, such as on receipt, net days, or a day of the month.
+     * Shape $ (Value): Array of {@link InventoryLevel}. Post-commit state of every level this
+     * command touched, one entry per level. A replay returns the levels the original command
+     * produced. Empty when no levels changed. Shape $[] (Value): {@link InventoryLevel}. The
+     * quantity state of one inventory item at one Location.
      */
-    "calculation": InvoicePaymentTermCalculation;
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": string;
-    /**
-     * Shape $ (Value): {@link InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed
-     * amount or a percentage, a grace period in days, and whether Flint applies it automatically.
-     */
-    "late_fee_policy"?: InvoiceLateFeePolicy;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): integer. Version of the invoice payment term captured in this snapshot.
-     * Format: int32.
-     */
-    "version": number;
-};
-export type InvoicePaymentTermsUpdateInput = {
-    /** Shape $ (Value): string. */
-    "invoice_payment_term_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateInvoicePaymentTermRequestInput}. The request body for: Update
-     * invoice payment term. minProperties: 1.
-     */
-    "body": InputValue<UpdateInvoicePaymentTermRequestInput>;
+    "inventory_levels": Array<InventoryLevel>;
+    /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
+    "inventory_transfer": InventoryTransfer;
 };
 /**
- * Shape $ (Value): {@link InvoiceReminderPolicy}. Rules for automatic invoice reminders, each sent
- * a set number of days before or after the due date.
+ * Shape $ (Value): {@link InventoryTransferResultResponse}. A response containing
+ * `InventoryTransferResult` data.
  */
-export type InvoiceReminderPolicy = {
+export type InventoryTransferResultResponse = {
     /**
-     * Shape $ (Value): Array of {@link InvoiceReminderRule}. maxItems: 20. Shape $[] (Value):
-     * {@link InvoiceReminderRule}. One reminder in an invoice reminder policy. `days_from_due`
-     * sets when it is sent: negative values are days before the due date, positive values days
-     * after.
+     * Shape $ (Value): {@link InventoryTransferResult}. inventory_transfer is the primary resource
+     * and expected_version target. Stock-moving transitions return this result instead of a
+     * resource alone.
      */
-    "rules": Array<InvoiceReminderRule>;
-};
-/**
- * Shape $ (Value): {@link InvoiceReminderPolicyInput}. Rules for automatic invoice reminders, each
- * sent a set number of days before or after the due date.
- */
-export type InvoiceReminderPolicyInput = {
-    /**
-     * Shape $ (Value): Array of {@link InvoiceReminderRuleInput}. maxItems: 20. Shape $[] (Value):
-     * {@link InvoiceReminderRuleInput}. One reminder in an invoice reminder policy.
-     * `days_from_due` sets when it is sent: negative values are days before the due date, positive
-     * values days after.
-     */
-    "rules": Array<InvoiceReminderRuleInput>;
-};
-/**
- * Shape $ (Value): {@link InvoiceReminderRule}. One reminder in an invoice reminder policy.
- * `days_from_due` sets when it is sent: negative values are days before the due date, positive
- * values days after.
- */
-export type InvoiceReminderRule = {
-    /** Shape $ (Value): integer. Format: int32. minimum: -90. maximum: 365. */
-    "days_from_due": number;
-};
-/**
- * Shape $ (Value): {@link InvoiceReminderRuleInput}. One reminder in an invoice reminder policy.
- * `days_from_due` sets when it is sent: negative values are days before the due date, positive
- * values days after.
- */
-export type InvoiceReminderRuleInput = InvoiceReminderRule;
-/** Shape $ (Value): {@link InvoiceResponse}. A response containing `Invoice` data. */
-export type InvoiceResponse = {
-    /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-    "data": Invoice;
+    "data": InventoryTransferResult;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1168,337 +1710,252 @@ export type InvoiceResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecification}. How much a payment schedule entry
- * collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
+ * Shape $ (Value): {@link InventoryTransferTransitionRequest}. The request body for: Transition
+ * inventory transfer.
  */
-export type InvoiceScheduleAmountSpecification = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /**
-     * Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed", "percentage",
-     * "remaining_balance".
-     */
-    "type": "fixed" | "percentage" | "remaining_balance" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleAmountSpecificationFixed & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleAmountSpecificationPercentage & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleAmountSpecificationRemainingBalance & object, readonly unknown[]>)
+export type InventoryTransferTransitionRequest = ((InventoryTransferTransitionRequestDepart)
+    | (InventoryTransferTransitionRequestReceive)
+    | (InventoryTransferTransitionRequestReturnToOrigin)
+    | (InventoryTransferTransitionRequestReportLoss)
+    | (InventoryTransferTransitionRequestCancel)
     | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationFixed}. The `fixed` variant of
- * `InvoiceScheduleAmountSpecification`.
+ * Shape $ (Value): {@link InventoryTransferTransitionRequestCancel}. The `cancel` variant of
+ * `InventoryTransferTransitionRequest`.
  */
-export type InvoiceScheduleAmountSpecificationFixed = ({
+export type InventoryTransferTransitionRequestCancel = {
+    /** Shape $ (Value): string.  Value enum: "cancel". */
+    "action": "cancel" | (string & {});
     /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      */
-    "amount_money": MoneyValue;
+    "expected_version"?: `${bigint}`;
     /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
+     * minLength: 1. Shape $[].target_canceled_quantity (Required): integer string. Cumulative
+     * quantity that should be canceled before departure. Whole-number quantity; fractional
+     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 0.
      */
-    "percent"?: number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed". */
-    "type": "fixed" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "fixed". */
-    "type": "fixed" | (string & {});
+    "lines": Array<{
+        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
+        "inventory_transfer_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative quantity that should be canceled before
+         * departure. Whole-number quantity; fractional quantities are not supported. Use an
+         * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_canceled_quantity": `${bigint}`;
+    }>;
     /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the stock moved.
+     * Optional; when omitted, the movements record the time Flint received the command as
+     * occurred_at and a null source_system. Where and when an inventory event happened: the source
+     * system, external actor, and time.
      */
-    "amount_money": MoneyValue;
-}));
+    "provenance"?: InventoryProvenanceRequest;
+};
 /**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationFixedInput}. The `fixed` variant of
- * `InvoiceScheduleAmountSpecification`.
+ * Shape $ (Value): {@link InventoryTransferTransitionRequestCancelInput}. The `cancel` variant of
+ * `InventoryTransferTransitionRequest`.
  */
-export type InvoiceScheduleAmountSpecificationFixedInput = ({
+export type InventoryTransferTransitionRequestCancelInput = {
+    /** Shape $ (Value): string.  Value enum: "cancel". */
+    "action": "cancel";
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      */
-    "amount_money": MoneyValueInput;
+    "expected_version"?: `${bigint}` | bigint;
     /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
+     * minLength: 1. Shape $[].target_canceled_quantity (Required): integer string. Cumulative
+     * quantity that should be canceled before departure. Whole-number quantity; fractional
+     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 0.
      */
-    "percent"?: number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed". */
-    "type": "fixed";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "fixed". */
-    "type": "fixed";
+    "lines": Array<{
+        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
+        "inventory_transfer_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative quantity that should be canceled before
+         * departure. Whole-number quantity; fractional quantities are not supported. Use an
+         * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_canceled_quantity": `${bigint}` | bigint;
+    }>;
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link InventoryProvenanceRequestInput}. When and where the stock moved.
+     * Optional; when omitted, the movements record the time Flint received the command as
+     * occurred_at and a null source_system. Where and when an inventory event happened: the source
+     * system, external actor, and time.
      */
-    "amount_money": MoneyValueInput;
-})
-    & ({
-    "percent"?: never;
-}));
+    "provenance"?: InventoryProvenanceRequestInput;
+};
 /**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationInput}. How much a payment schedule
- * entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
+ * Shape $ (Value): {@link InventoryTransferTransitionRequestDepart}. The `depart` variant of
+ * `InventoryTransferTransitionRequest`.
  */
-export type InvoiceScheduleAmountSpecificationInput = ({
+export type InventoryTransferTransitionRequestDepart = {
+    /** Shape $ (Value): string.  Value enum: "depart". */
+    "action": "depart" | (string & {});
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      */
-    "amount_money"?: MoneyValueInput;
+    "expected_version"?: `${bigint}`;
     /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
+     * minLength: 1. Shape $[].target_departed_quantity (Required): integer string. Cumulative
+     * quantity that should have departed the origin. Whole-number quantity; fractional quantities
+     * are not supported. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0.
      */
-    "percent"?: number;
+    "lines": Array<{
+        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
+        "inventory_transfer_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative quantity that should have departed the
+         * origin. Whole-number quantity; fractional quantities are not supported. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_departed_quantity": `${bigint}`;
+    }>;
     /**
-     * Shape $ (Value): string. How the entry's amount is set. Value enum: "fixed", "percentage",
-     * "remaining_balance".
+     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the stock moved.
+     * Optional; when omitted, the movements record the time Flint received the command as
+     * occurred_at and a null source_system. Where and when an inventory event happened: the source
+     * system, external actor, and time.
      */
-    "type": "fixed" | "percentage" | "remaining_balance";
-})
-    & ((Exclude<InvoiceScheduleAmountSpecificationFixedInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleAmountSpecificationPercentageInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleAmountSpecificationRemainingBalanceInput & object, readonly unknown[]>));
+    "provenance"?: InventoryProvenanceRequest;
+};
 /**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationPercentage}. The `percentage` variant
- * of `InvoiceScheduleAmountSpecification`.
+ * Shape $ (Value): {@link InventoryTransferTransitionRequestDepartInput}. The `depart` variant of
+ * `InventoryTransferTransitionRequest`.
  */
-export type InvoiceScheduleAmountSpecificationPercentage = ({
+export type InventoryTransferTransitionRequestDepartInput = {
+    /** Shape $ (Value): string.  Value enum: "depart". */
+    "action": "depart";
     /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      */
-    "amount_money"?: MoneyValue;
+    "expected_version"?: `${bigint}` | bigint;
     /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
+     * minLength: 1. Shape $[].target_departed_quantity (Required): integer string. Cumulative
+     * quantity that should have departed the origin. Whole-number quantity; fractional quantities
+     * are not supported. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0.
      */
-    "percent": number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "percentage". */
-    "type": "percentage" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "percentage". */
-    "type": "percentage" | (string & {});
+    "lines": Array<{
+        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
+        "inventory_transfer_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative quantity that should have departed the
+         * origin. Whole-number quantity; fractional quantities are not supported. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_departed_quantity": `${bigint}` | bigint;
+    }>;
     /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
+     * Shape $ (Value): {@link InventoryProvenanceRequestInput}. When and where the stock moved.
+     * Optional; when omitted, the movements record the time Flint received the command as
+     * occurred_at and a null source_system. Where and when an inventory event happened: the source
+     * system, external actor, and time.
      */
-    "percent": number;
-}));
+    "provenance"?: InventoryProvenanceRequestInput;
+};
 /**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationPercentageInput}. The `percentage`
- * variant of `InvoiceScheduleAmountSpecification`.
+ * Shape $ (Value): {@link InventoryTransferTransitionRequestInput}. The request body for:
+ * Transition inventory transfer.
  */
-export type InvoiceScheduleAmountSpecificationPercentageInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent": number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "percentage". */
-    "type": "percentage";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "percentage". */
-    "type": "percentage";
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent": number;
-})
-    & ({
-    "amount_money"?: never;
-}));
+export type InventoryTransferTransitionRequestInput = ((InventoryTransferTransitionRequestDepartInput)
+    | (InventoryTransferTransitionRequestReceiveInput)
+    | (InventoryTransferTransitionRequestReturnToOriginInput)
+    | (InventoryTransferTransitionRequestReportLossInput)
+    | (InventoryTransferTransitionRequestCancelInput));
 /**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationRemainingBalance}. The
- * `remaining_balance` variant of `InvoiceScheduleAmountSpecification`.
+ * Shape $ (Value): {@link InventoryTransferTransitionRequestReceive}. The `receive` variant of
+ * `InventoryTransferTransitionRequest`.
  */
-export type InvoiceScheduleAmountSpecificationRemainingBalance = ({
+export type InventoryTransferTransitionRequestReceive = {
+    /** Shape $ (Value): string.  Value enum: "receive". */
+    "action": "receive" | (string & {});
     /**
-     * Shape $ (Value): {@link MoneyValue}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
+     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      */
-    "amount_money"?: MoneyValue;
+    "expected_version"?: `${bigint}`;
     /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
+     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
+     * minLength: 1. Shape $[].target_received_damaged_quantity (Optional): integer string.
+     * Cumulative received quantity classified as damaged. Whole-number quantity; fractional
+     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 0. Shape $[].target_received_quality_control_quantity
+     * (Optional): integer string. Cumulative received quantity classified for quality control.
+     * Whole-number quantity; fractional quantities are not supported. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape
+     * $[].target_received_quantity (Required): integer string. Cumulative quantity that should
+     * have been received at the destination. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 0. Shape $[].target_received_quarantined_quantity (Optional): integer
+     * string. Cumulative received quantity classified as quarantined. Whole-number quantity;
+     * fractional quantities are not supported. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. Shape
+     * $[].target_received_sellable_quantity (Optional): integer string. Cumulative received
+     * quantity classified as sellable. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 0.
      */
-    "percent"?: number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "remaining_balance". */
-    "type": "remaining_balance" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "remaining_balance". */
-    "type": "remaining_balance" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceScheduleAmountSpecificationRemainingBalanceInput}. The
- * `remaining_balance` variant of `InvoiceScheduleAmountSpecification`.
- */
-export type InvoiceScheduleAmountSpecificationRemainingBalanceInput = ({
+    "lines": Array<({
+        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
+        "inventory_transfer_line_id": string;
+        /**
+         * Shape $ (Value): integer string. Cumulative received quantity classified as damaged.
+         * Whole-number quantity; fractional quantities are not supported. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_received_damaged_quantity"?: `${bigint}`;
+        /**
+         * Shape $ (Value): integer string. Cumulative received quantity classified for quality
+         * control. Whole-number quantity; fractional quantities are not supported. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_received_quality_control_quantity"?: `${bigint}`;
+        /**
+         * Shape $ (Value): integer string. Cumulative quantity that should have been received at
+         * the destination. Whole-number quantity; fractional quantities are not supported. Use an
+         * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_received_quantity": `${bigint}`;
+        /**
+         * Shape $ (Value): integer string. Cumulative received quantity classified as quarantined.
+         * Whole-number quantity; fractional quantities are not supported. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_received_quarantined_quantity"?: `${bigint}`;
+        /**
+         * Shape $ (Value): integer string. Cumulative received quantity classified as sellable.
+         * Whole-number quantity; fractional quantities are not supported. Use an integer string
+         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+         */
+        "target_received_sellable_quantity"?: `${bigint}`;
+    })>;
     /**
-     * Shape $ (Value): {@link MoneyValueInput}. The amount to collect, in the invoice currency.
-     * Required with fixed and not accepted with any other type. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the stock moved.
+     * Optional; when omitted, the movements record the time Flint received the command as
+     * occurred_at and a null source_system. Where and when an inventory event happened: the source
+     * system, external actor, and time.
      */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): number. Percentage of snapshot.pricing_amounts.total_money to collect,
-     * greater than 0 and at most 100, with up to four decimal places. Required with percentage and
-     * not accepted with any other type. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string. How the entry's amount is set. Value enum: "remaining_balance". */
-    "type": "remaining_balance";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "remaining_balance". */
-    "type": "remaining_balance";
-})
-    & (({
-    "amount_money"?: never;
-}) & ({
-    "percent"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDue}. When a payment schedule entry on an invoice is due:
- * at issue, on a set date, or on the invoice due date.
- */
-export type InvoiceScheduleDue = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date",
-     * "invoice_due_date".
-     */
-    "type": "at_issue" | "date" | "invoice_due_date" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleDueAtIssue & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueDate & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueInvoiceDueDate & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueAtIssue}. The `at_issue` variant of
- * `InvoiceScheduleDue`.
- */
-export type InvoiceScheduleDueAtIssue = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
-     */
-    "due_at"?: string;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
-})
-    & ({
-    /** Shape $ (Value): string.  Value enum: "at_issue". */
-    "type": "at_issue" | (string & {});
-});
-/** Shape $ (Value): {@link InvoiceScheduleDueDate}. The `date` variant of `InvoiceScheduleDue`. */
-export type InvoiceScheduleDueDate = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
-     */
-    "due_at": string;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "date". */
-    "type": "date" | (string & {});
-})
-    & ({
-    /** Shape $ (Value): string.  Value enum: "date". */
-    "type": "date" | (string & {});
-    /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
-     */
-    "due_at": string;
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueInvoiceDueDate}. The `invoice_due_date` variant of
- * `InvoiceScheduleDue`.
- */
-export type InvoiceScheduleDueInvoiceDueDate = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Always set for `date`. For `at_issue` and
-     * `invoice_due_date`, absent on a draft and set when the invoice is issued: the issue time for
-     * `at_issue` and the invoice's `due_at` for `invoice_due_date`. Format: date-time.
-     */
-    "due_at"?: string;
-    /** Shape $ (Value): string. How the entry's due time is set. Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-})
-    & ({
-    /** Shape $ (Value): string.  Value enum: "invoice_due_date". */
-    "type": "invoice_due_date" | (string & {});
-});
-/**
- * Shape $ (Value): {@link InvoiceScheduleDueWrite}. When a payment schedule entry is due, as
- * supplied when creating or updating an invoice: at issue, on a set date, or on the invoice due
- * date.
- */
-export type InvoiceScheduleDueWrite = ({
-    /**
-     * Shape $ (Value): string. When this entry is due. Required for `date`. Not accepted for
-     * `at_issue` or `invoice_due_date`, which Flint resolves when the invoice is issued. Format:
-     * date-time. minLength: 1.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string. How the entry's due time is set. Value enum: "at_issue", "date",
-     * "invoice_due_date".
-     */
-    "type": "at_issue" | "date" | "invoice_due_date" | (string & {});
-})
-    & ((Exclude<InvoiceScheduleDueWriteAtIssue & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueDate & object, readonly unknown[]>)
-    | (Exclude<InvoiceScheduleDueWriteInvoiceDueDate & object, readonly unknown[]>)
-    | (Record<string, unknown>));
+    "provenance"?: InventoryProvenanceRequest;
+};

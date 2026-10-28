@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [SubscriptionPlanChangeResult](../models/SubscriptionPlanChangeResult.md#subscriptionplanchangeresult) | The result of changing a subscription plan, including the subscription and any order and payment attempt created for immediate billing. `data`: [field definitions](../models/SubscriptionsChangePlanResponse200.md#subscriptionschangeplanresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### SubscriptionsChangePlanResponse200.data
 
@@ -50,7 +50,7 @@ The new period's order when billing_starts is now, including a canceled order wh
 | `gift_card_settlements` | Conditional | Array of [OrderGiftCardSettlement](../models/OrderGiftCardSettlement.md#ordergiftcardsettlement) |  |
 | `gift_card_tender_enabled` | Conditional | boolean |  |
 | `gift_cards` | Conditional | Array of [OrderGiftCardSelection](../models/OrderGiftCardSelection.md#ordergiftcardselection) |  |
-| `governing_delivery_selection_id` | Conditional | string | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Read with GET /v1/orders/{order_id}; other order responses may omit this field. While present, change the destination through the delivery selection. Omitted when no selection governs the order. |
+| `governing_delivery_selection_id` | Conditional | string or null | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection. |
 | `internal_note` | Conditional | string |  |
 | `inventory_exception_reason` | Conditional | string | Why inventory could not be committed after payment. The cause remains after resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values may be added. Values: `"inventory_deduction_failed"`, `"inventory_handoff_failed"`, `"auto_refund_required"`, `"auto_refund_failed"`, `"policy_resolution_failed"`, `"other"`. |
 | `inventory_exception_resolution_message` | Conditional | string | The merchant note supplied when resolving the inventory exception. It is not shown to the buyer. |
@@ -59,7 +59,7 @@ The new period's order when billing_starts is now, including a canceled order wh
 | `inventory_routing_source` | Conditional | [InventoryRoutingSource](../models/InventoryRoutingSource.md#inventoryroutingsource) | Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. |
 | `line_items` | Conditional | Array of [OrderLineItem](../models/OrderLineItem.md#orderlineitem) |  |
 | `merchant_id` | Conditional | string |  |
-| `metadata` | Conditional | Map of string |  |
+| `metadata` | Conditional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200datametadata). |
 | `order_id` | Conditional | string |  |
 | `order_number` | Conditional | string |  |
 | `origin` | Conditional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
@@ -92,8 +92,8 @@ The new period's order when billing_starts is now, including a canceled order wh
 
 anyOf variant 1: A customer's purchase and its payment and fulfillment progress..
 
-- Required: `buyer_actions`, `charges`, `checkout_session_ids`, `discounts`, `fulfillments`, `gift_card_settlements`, `gift_card_tender_enabled`, `gift_cards`, `line_items`, `order_id`, `payment_intent_ids`, `payment_status`, `pricing_amounts`, `refund_ids`, `refund_status`, `return_credit_settlements`, `settlement_amounts`, `status`, `tax`, `tips`, `version`.
-- Optional: `active_payment_attempt`, `authorization_amounts`, `buyer_contact`, `buyer_note`, `closed_at`, `closed_reason`, `closed_reason_message`, `created_at`, `customer`, `customer_id`, `delivery_destination`, `external_reference_id`, `fulfillment_status`, `gift_card_estimate`, `governing_delivery_selection_id`, `internal_note`, `inventory_exception_reason`, `inventory_exception_resolution_message`, `inventory_exception_status`, `inventory_reservation_id`, `inventory_routing_source`, `merchant_id`, `metadata`, `order_number`, `origin`, `payment_collection`, `payment_intents`, `payment_link_id`, `return_resolution_id`, `setup_collection`, `subscription`, `subscription_cycle`, `subscription_delivery_changed_at`, `subscription_id`, `subscription_plan`, `subscription_plan_id`, `ticketed_event`, `updated_at`.
+- Required: `buyer_actions`, `charges`, `checkout_session_ids`, `discounts`, `fulfillments`, `gift_card_settlements`, `gift_card_tender_enabled`, `gift_cards`, `governing_delivery_selection_id`, `line_items`, `order_id`, `payment_intent_ids`, `payment_status`, `pricing_amounts`, `refund_ids`, `refund_status`, `return_credit_settlements`, `settlement_amounts`, `status`, `tax`, `tips`, `version`.
+- Optional: `active_payment_attempt`, `authorization_amounts`, `buyer_contact`, `buyer_note`, `closed_at`, `closed_reason`, `closed_reason_message`, `created_at`, `customer`, `customer_id`, `delivery_destination`, `external_reference_id`, `fulfillment_status`, `gift_card_estimate`, `internal_note`, `inventory_exception_reason`, `inventory_exception_resolution_message`, `inventory_exception_status`, `inventory_reservation_id`, `inventory_routing_source`, `merchant_id`, `metadata`, `order_number`, `origin`, `payment_collection`, `payment_intents`, `payment_link_id`, `return_resolution_id`, `setup_collection`, `subscription`, `subscription_cycle`, `subscription_delivery_changed_at`, `subscription_id`, `subscription_plan`, `subscription_plan_id`, `ticketed_event`, `updated_at`.
 
 ### SubscriptionsChangePlanResponse200.data.order variant 2
 
@@ -101,6 +101,10 @@ anyOf variant 2.
 
 - Undeclared: `active_payment_attempt`, `authorization_amounts`, `buyer_actions`, `buyer_contact`, `buyer_note`, `charges`, `checkout_session_ids`, `closed_at`, `closed_reason`, `closed_reason_message`, `created_at`, `customer`, `customer_id`, `delivery_destination`, `discounts`, `external_reference_id`, `fulfillment_status`, `fulfillments`, `gift_card_estimate`, `gift_card_settlements`, `gift_card_tender_enabled`, `gift_cards`, `governing_delivery_selection_id`, `internal_note`, `inventory_exception_reason`, `inventory_exception_resolution_message`, `inventory_exception_status`, `inventory_reservation_id`, `inventory_routing_source`, `line_items`, `merchant_id`, `metadata`, `order_id`, `order_number`, `origin`, `payment_collection`, `payment_intent_ids`, `payment_intents`, `payment_link_id`, `payment_status`, `pricing_amounts`, `refund_ids`, `refund_status`, `return_credit_settlements`, `return_resolution_id`, `settlement_amounts`, `setup_collection`, `status`, `subscription`, `subscription_cycle`, `subscription_delivery_changed_at`, `subscription_id`, `subscription_plan`, `subscription_plan_id`, `tax`, `ticketed_event`, `tips`, `updated_at`, `version`.
 - Value shape: null. The new period's order when billing_starts is now, including a canceled order when payment fails. Null for next_renewal. 
+
+### SubscriptionsChangePlanResponse200.data.order variant 1.metadata
+
+Field definitions: [OrdersApplyDiscountResponse200.data.metadata](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200datametadata).
 
 ### SubscriptionsChangePlanResponse200.data.order variant 1.subscription_plan
 

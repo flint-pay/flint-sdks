@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tax_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefundTaxBreakdownRefundInInput extends Model {
-    /** @param array{'tax_breakdown_id': string, 'tax_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'tax_breakdown_id': string, 'tax_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundTaxBreakdownRefundInInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

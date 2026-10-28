@@ -1,7 +1,8 @@
-import { d4216 as c0, d4217 as c1 } from '../descriptors/data/179.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4217 as d4217 } from '../descriptors/data/179.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d4458 as c0 } from '../descriptors/data/196.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d870 as c1 } from '../descriptors/data/40.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d870 as d870 } from '../descriptors/data/40.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d4217;
+const read = d870;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["OrderTaxLocationFullAddressRequest"]:c0(),["OrderTaxLocationInputFullAddress"]:c1()}); }
 export { codec as _validate };

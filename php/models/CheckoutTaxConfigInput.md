@@ -6,7 +6,5 @@ Whether tax is collected for a checkout session or payment link.
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `enabled` | Optional | boolean |  |
+Fields, types, descriptions and enum values: [CheckoutTaxConfigRequestRequestInput](../models/CheckoutTaxConfigRequestRequestInput.md#checkouttaxconfigrequestrequestinput).
 

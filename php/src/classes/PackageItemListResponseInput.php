@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackageItemListResponseInput extends Model {
-    /** @param array{'data': list<PackageItemInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<PackageItemInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageItemListResponseInput')); }
     /** Shape $ (Value): Array of {@see PackageItemInput}. Shape $[] (Value): {@see PackageItemInput}. An order item assigned to a package.
      * @return list<PackageItemInput|array<array-key, mixed>|\stdClass>

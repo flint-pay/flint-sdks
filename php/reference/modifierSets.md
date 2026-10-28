@@ -21,7 +21,7 @@ Body model: [CreateModifierSetRequestInput](../models/CreateModifierSetRequestIn
 
 #### modifierSets.create body fields
 
-Field definitions: [shared fields](../models/CreateModifierSetRequestInput.md#createmodifiersetrequestinput). Models: [CreateModifierSetGroupRequestInput](../models/CreateModifierSetGroupRequestInput.md#createmodifiersetgrouprequestinput).
+Field definitions: [shared fields](../models/CreateModifierSetRequestInput.md#createmodifiersetrequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [CreateModifierSetGroupRequestInput](../models/CreateModifierSetGroupRequestInput.md#createmodifiersetgrouprequestinput).
 
 #### Response
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -119,7 +119,7 @@ $result = $client->modifierSets->get('example', [], new RequestOptions());
 
 ### modifierSets.list
 
-List modifier sets.
+List modifier sets. Default order: created_at descending, then modifier_set_id descending.
 
 `GET /v1/modifier-sets`
 
@@ -219,7 +219,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -254,7 +254,7 @@ Body model: [UpdateModifierSetRequestInput](../models/UpdateModifierSetRequestIn
 
 #### modifierSets.update body fields
 
-Field definitions: [shared fields](../models/UpdateModifierSetRequestInput.md#updatemodifiersetrequestinput). Models: [ModifierSetGroupRequestInput](../models/ModifierSetGroupRequestInput.md#modifiersetgrouprequestinput).
+Field definitions: [shared fields](../models/UpdateModifierSetRequestInput.md#updatemodifiersetrequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput), [ModifierSetGroupRequestInput](../models/ModifierSetGroupRequestInput.md#modifiersetgrouprequestinput).
 
 #### Response
 
@@ -284,7 +284,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

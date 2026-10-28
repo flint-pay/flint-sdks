@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [ReturnInspection](../models/ReturnInspection.md#returninspection) | An assessment of the condition of returned items. `data`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datareturn_inspections). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### ReturnsCreateInspectionResponse201.data
 

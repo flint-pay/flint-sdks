@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class GuestPurchaseLinkResponseInput extends Model {
-    /** @param array{'data': GuestPurchaseLinkInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': GuestPurchaseLinkInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GuestPurchaseLinkResponseInput')); }
     /** Shape $ (Value): {@see GuestPurchaseLinkInput}. Result of linking a guest's purchases to a customer, with the customer, the email, and the number of orders linked.
      * @return GuestPurchaseLinkInput|array<array-key, mixed>|\stdClass

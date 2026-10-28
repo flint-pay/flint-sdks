@@ -6,5 +6,5 @@ How a customer account is presented: its account name and custom domain. Send nu
 
 Response model.
 
-Fields, types, descriptions and enum values: [CustomerAccountPresentationInput](../models/CustomerAccountPresentationInput.md#customeraccountpresentationinput).
+Fields, types, descriptions and enum values: [CustomerAccountPresentationRequestRequestInput](../models/CustomerAccountPresentationRequestRequestInput.md#customeraccountpresentationrequestrequestinput).
 

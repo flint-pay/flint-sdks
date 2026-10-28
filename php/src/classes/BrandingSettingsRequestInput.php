@@ -10,7 +10,7 @@ namespace Flint;
  * @property-read string|null $text_color
  * Presence-aware input; omitted fields throw when accessed. */
 final class BrandingSettingsRequestInput extends Model {
-    /** @param array{'accent_color'?: string|null, 'background_color'?: string|null, 'corner_radius'?: int, 'font_family'?: string|null, 'primary_color'?: string|null, 'text_color'?: string|null, ...}|object $values */
+    /** @param array{'accent_color'?: string|null, 'background_color'?: string|null, 'corner_radius'?: int, 'font_family'?: string|null, 'primary_color'?: string|null, 'text_color'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BrandingSettingsRequestInput')); }
     /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
      * @return string|null

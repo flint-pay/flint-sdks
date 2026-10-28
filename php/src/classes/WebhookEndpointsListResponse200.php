@@ -5,10 +5,10 @@ namespace Flint;
  * @property-read list<WebhookEndpoint> $data
  * @property-read ?ResponseMeta $meta
  * @property-read ?string $next_page_token
- * @property-read ?string $request_id
+ * @property-read string $request_id
  * Presence-aware response; omitted optional fields return null. */
 final class WebhookEndpointsListResponse200 extends Model {
-    /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointsListResponse200')); }
     /** Shape $ (Value): Array of {@see WebhookEndpoint}. Shape $[] (Value): {@see WebhookEndpoint}. A merchant webhook endpoint belongs to the live mode or sandbox of the credential that created it and receives only that environment's events. Partner endpoints select sources with event_sources and installed_merchant_modes.
      * @return list<WebhookEndpoint>
@@ -26,8 +26,8 @@ final class WebhookEndpointsListResponse200 extends Model {
     public function getNextPageToken(): ?string { return $this->get('next_page_token'); }
     public function hasNextPageToken(): bool { return $this->has('next_page_token'); }
     /** Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$.
-     * @return ?string
+     * @return string
      */
-    public function getRequestId(): ?string { return $this->get('request_id'); }
+    public function getRequestId(): string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
 }

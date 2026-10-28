@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceManualPaymentResponseInput extends Model {
-    /** @param array{'data': InvoiceManualPaymentInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': InvoiceManualPaymentInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentResponseInput')); }
     /** Shape $ (Value): {@see InvoiceManualPaymentInput}. A recorded offline payment against an invoice. Its amount contributes to invoice paid_money while recorded; reversing it returns its full amount to outstanding_money. A payment can cover principal and late fees. Manual payments are separate from online payment attempts.
      * @return InvoiceManualPaymentInput|array<array-key, mixed>|\stdClass

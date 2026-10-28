@@ -13,7 +13,7 @@ Fields shared by merchant webhook payloads.
 | `api_version` | Required | string | Format: `date`. |
 | `created_at` | Required | string | Format: `date-time`. |
 | `data` | Required | object | `data`: [field definitions](../models/MerchantWebhookEnvelope.md#merchantwebhookenvelopedata). |
-| `event_type` | Required | string | Values: [239 declared values](#merchantwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | Values: [240 declared values](#merchantwebhookenvelope-event_type-values). |
 | `merchant_id` | Required | string |  |
 | `mode` | Required | string | Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
@@ -23,6 +23,7 @@ Fields shared by merchant webhook payloads.
 
 #### MerchantWebhookEnvelope event_type values
 
+- `"tax_connection.updated"`
 - `"customer_deletion_request.processing"`
 - `"customer_deletion_request.failed"`
 - `"invoice_delivery_attempt.sent"`

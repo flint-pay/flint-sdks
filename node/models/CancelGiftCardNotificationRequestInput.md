@@ -2,5 +2,13 @@
 
 ## CancelGiftCardNotificationRequestInput
 
-Request input. Response: [CancelGiftCardNotificationRequest](../models/CancelGiftCardNotificationRequest.md#cancelgiftcardnotificationrequest). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
+Request input. Response: [CancelPayoutRequest](../models/CancelPayoutRequest.md#cancelpayoutrequest).
+
+The request body for: Cancel a gift card notification.
+
+
+
+
+
+Value shape: object. The request body for: Cancel a gift card notification. 
 

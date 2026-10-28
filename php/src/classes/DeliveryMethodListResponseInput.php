@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodListResponseInput extends Model {
-    /** @param array{'data': list<DeliveryMethodInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<DeliveryMethodInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodListResponseInput')); }
     /** Shape $ (Value): Array of {@see DeliveryMethodInput}. Shape $[] (Value): {@see DeliveryMethodInput}. A configured shipping, pickup, local delivery, or service option.
      * @return list<DeliveryMethodInput|array<array-key, mixed>|\stdClass>

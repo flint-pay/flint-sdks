@@ -1,862 +1,85 @@
-import type { Invoice, InvoiceManualPayment } from './types-26.js';
-import type { PartnerWebhookEnvelope } from './types-35.js';
-import type { MerchantWebhookEnvelope, MerchantBillingInvoice, ModifierGroup, ModifierSet } from './types-31.js';
-import type { InvoicePaymentAttempt } from './types-27.js';
-import type { MerchantBillingBalance, Merchant } from './types-30.js';
-import type { Order } from './types-32.js';
+import type { BalanceTransaction, Balance, Bundle } from './types-0.js';
+import type { MerchantWebhookEnvelope } from './types-32.js';
+import type { PartnerWebhookEnvelope } from './types-37.js';
+import type { Category } from './types-3.js';
+import type { CheckoutSession } from './types-4.js';
+import type { CreditNoteAllocation, CreditNote, CustomDomain, Customer, CustomerDeletionRequest } from './types-11.js';
+import type { DeliveryLocationSet } from './types-13.js';
 /**
- * Shape $ (Value): {@link Webhook_invoice_late_fee_due_installed_merchants}. The
- * `invoice.late_fee_due` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type Webhook_invoice_late_fee_due_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.late_fee_due". */
-    "event_type"?: "invoice.late_fee_due" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_late_fee_due_merchant}. The `invoice.late_fee_due`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_late_fee_due_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.late_fee_due". */
-    "event_type"?: "invoice.late_fee_due" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_late_fee_waived_installed_merchants}. The
- * `invoice.late_fee_waived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_invoice_late_fee_waived_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.late_fee_waived". */
-    "event_type"?: "invoice.late_fee_waived" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_late_fee_waived_merchant}. The `invoice.late_fee_waived`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_late_fee_waived_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.late_fee_waived". */
-    "event_type"?: "invoice.late_fee_waived" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_manual_payment_created_installed_merchants}. The
- * `invoice_manual_payment.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_manual_payment_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceManualPayment}. A recorded
-     * offline payment against an invoice. Its amount contributes to invoice paid_money while
-     * recorded; reversing it returns its full amount to outstanding_money. A payment can cover
-     * principal and late fees. Manual payments are separate from online payment attempts.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
-         * invoice. Its amount contributes to invoice paid_money while recorded; reversing it
-         * returns its full amount to outstanding_money. A payment can cover principal and late
-         * fees. Manual payments are separate from online payment attempts.
-         */
-        "object": InvoiceManualPayment;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_manual_payment.created". */
-    "event_type"?: "invoice_manual_payment.created" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_manual_payment_created_merchant}. The
- * `invoice_manual_payment.created` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_invoice_manual_payment_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceManualPayment}. A recorded
-     * offline payment against an invoice. Its amount contributes to invoice paid_money while
-     * recorded; reversing it returns its full amount to outstanding_money. A payment can cover
-     * principal and late fees. Manual payments are separate from online payment attempts.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
-         * invoice. Its amount contributes to invoice paid_money while recorded; reversing it
-         * returns its full amount to outstanding_money. A payment can cover principal and late
-         * fees. Manual payments are separate from online payment attempts.
-         */
-        "object": InvoiceManualPayment;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_manual_payment.created". */
-    "event_type"?: "invoice_manual_payment.created" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_manual_payment_reversed_installed_merchants}. The
- * `invoice_manual_payment.reversed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_manual_payment_reversed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceManualPayment}. A recorded
-     * offline payment against an invoice. Its amount contributes to invoice paid_money while
-     * recorded; reversing it returns its full amount to outstanding_money. A payment can cover
-     * principal and late fees. Manual payments are separate from online payment attempts.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
-         * invoice. Its amount contributes to invoice paid_money while recorded; reversing it
-         * returns its full amount to outstanding_money. A payment can cover principal and late
-         * fees. Manual payments are separate from online payment attempts.
-         */
-        "object": InvoiceManualPayment;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_manual_payment.reversed". */
-    "event_type"?: "invoice_manual_payment.reversed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_manual_payment_reversed_merchant}. The
- * `invoice_manual_payment.reversed` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_invoice_manual_payment_reversed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceManualPayment}. A recorded
-     * offline payment against an invoice. Its amount contributes to invoice paid_money while
-     * recorded; reversing it returns its full amount to outstanding_money. A payment can cover
-     * principal and late fees. Manual payments are separate from online payment attempts.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an
-         * invoice. Its amount contributes to invoice paid_money while recorded; reversing it
-         * returns its full amount to outstanding_money. A payment can cover principal and late
-         * fees. Manual payments are separate from online payment attempts.
-         */
-        "object": InvoiceManualPayment;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_manual_payment.reversed". */
-    "event_type"?: "invoice_manual_payment.reversed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_marked_uncollectible_installed_merchants}. The
- * `invoice.marked_uncollectible` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_marked_uncollectible_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.marked_uncollectible". */
-    "event_type"?: "invoice.marked_uncollectible" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_marked_uncollectible_merchant}. The
- * `invoice.marked_uncollectible` webhook payload for the `merchant` event source. Fields shared by
+ * Shape $ (Value): {@link Webhook_balance_transaction_created_merchant}. The
+ * `balance_transaction.created` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
  */
-export type Webhook_invoice_marked_uncollectible_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_balance_transaction_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
+     * Shape $ (Value): object. Shape $.object (Required): {@link BalanceTransaction}. A change to
+     * the merchant's balance.
      */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        /** Shape $ (Value): {@link BalanceTransaction}. A change to the merchant's balance. */
+        "object": BalanceTransaction;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.marked_uncollectible". */
-    "event_type"?: "invoice.marked_uncollectible" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "balance_transaction.created". */
+    "event_type"?: "balance_transaction.created" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_invoice_overdue_installed_merchants}. The `invoice.overdue`
- * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
- * payloads.
- */
-export type Webhook_invoice_overdue_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.overdue". */
-    "event_type"?: "invoice.overdue" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_overdue_merchant}. The `invoice.overdue` webhook payload
- * for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_overdue_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.overdue". */
-    "event_type"?: "invoice.overdue" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_paid_installed_merchants}. The `invoice.paid` webhook
- * payload for the `installed_merchants` event source. Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_paid_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.paid". */
-    "event_type"?: "invoice.paid" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_paid_merchant}. The `invoice.paid` webhook payload for
- * the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_paid_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.paid". */
-    "event_type"?: "invoice.paid" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_partially_paid_installed_merchants}. The
- * `invoice.partially_paid` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_invoice_partially_paid_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.partially_paid". */
-    "event_type"?: "invoice.partially_paid" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_partially_paid_merchant}. The `invoice.partially_paid`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_partially_paid_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.partially_paid". */
-    "event_type"?: "invoice.partially_paid" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_partially_refunded_installed_merchants}. The
- * `invoice.partially_refunded` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_invoice_partially_refunded_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.partially_refunded". */
-    "event_type"?: "invoice.partially_refunded" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_partially_refunded_merchant}. The
- * `invoice.partially_refunded` webhook payload for the `merchant` event source. Fields shared by
+ * Shape $ (Value): {@link Webhook_balance_transaction_updated_merchant}. The
+ * `balance_transaction.updated` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
  */
-export type Webhook_invoice_partially_refunded_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_balance_transaction_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
+     * Shape $ (Value): object. Shape $.object (Required): {@link BalanceTransaction}. A change to
+     * the merchant's balance.
      */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        /** Shape $ (Value): {@link BalanceTransaction}. A change to the merchant's balance. */
+        "object": BalanceTransaction;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.partially_refunded". */
-    "event_type"?: "invoice.partially_refunded" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "balance_transaction.updated". */
+    "event_type"?: "balance_transaction.updated" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_canceled_installed_merchants}. The
- * `invoice_payment_attempt.canceled` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
+ * Shape $ (Value): {@link Webhook_balance_updated_merchant}. The `balance.updated` webhook payload
+ * for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
-export type Webhook_invoice_payment_attempt_canceled_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_balance_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
+     * Shape $ (Value): object. Shape $.object (Required): {@link Balance}. Current balances for
+     * one currency at observed_at. Available and pending amounts are separate buckets and can be
+     * negative. Reserve and held amounts are excluded from available_money.
      */
     "data"?: {
         /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
+         * Shape $ (Value): {@link Balance}. Current balances for one currency at observed_at.
+         * Available and pending amounts are separate buckets and can be negative. Reserve and held
+         * amounts are excluded from available_money.
          */
-        "object": InvoicePaymentAttempt;
+        "object": Balance;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.canceled". */
-    "event_type"?: "invoice_payment_attempt.canceled" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
+    /** Shape $ (Value): string.  Value enum: "balance.updated". */
+    "event_type"?: "balance.updated" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_canceled_merchant}. The
- * `invoice_payment_attempt.canceled` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_canceled_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.canceled". */
-    "event_type"?: "invoice_payment_attempt.canceled" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_expired_installed_merchants}. The
- * `invoice_payment_attempt.expired` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_expired_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.expired". */
-    "event_type"?: "invoice_payment_attempt.expired" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_expired_merchant}. The
- * `invoice_payment_attempt.expired` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_expired_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.expired". */
-    "event_type"?: "invoice_payment_attempt.expired" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_failed_installed_merchants}. The
- * `invoice_payment_attempt.failed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_failed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.failed". */
-    "event_type"?: "invoice_payment_attempt.failed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_failed_merchant}. The
- * `invoice_payment_attempt.failed` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_failed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.failed". */
-    "event_type"?: "invoice_payment_attempt.failed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_processing_installed_merchants}. The
- * `invoice_payment_attempt.processing` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_processing_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.processing". */
-    "event_type"?: "invoice_payment_attempt.processing" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_processing_merchant}. The
- * `invoice_payment_attempt.processing` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_processing_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.processing". */
-    "event_type"?: "invoice_payment_attempt.processing" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_settled_installed_merchants}. The
- * `invoice_payment_attempt.settled` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_settled_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.settled". */
-    "event_type"?: "invoice_payment_attempt.settled" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_payment_attempt_settled_merchant}. The
- * `invoice_payment_attempt.settled` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_invoice_payment_attempt_settled_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoicePaymentAttempt}. An
-     * attempt to collect payment for an invoice.
-     */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-         * invoice.
-         */
-        "object": InvoicePaymentAttempt;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice_payment_attempt.settled". */
-    "event_type"?: "invoice_payment_attempt.settled" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_refunded_installed_merchants}. The `invoice.refunded`
+ * Shape $ (Value): {@link Webhook_bundle_archived_installed_merchants}. The `bundle.archived`
  * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
  * payloads.
  */
-export type Webhook_invoice_refunded_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_bundle_archived_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
+     * Shape $ (Value): object. Shape $.object (Required): {@link Bundle}. A group of items sold
+     * together.
      */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        /** Shape $ (Value): {@link Bundle}. A group of items sold together. */
+        "object": Bundle;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.refunded". */
-    "event_type"?: "invoice.refunded" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "bundle.archived". */
+    "event_type"?: "bundle.archived" | (string & {});
     /**
      * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
      * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
@@ -879,39 +102,204 @@ export type Webhook_invoice_refunded_installed_merchants = (Exclude<PartnerWebho
     });
 });
 /**
- * Shape $ (Value): {@link Webhook_invoice_refunded_merchant}. The `invoice.refunded` webhook
+ * Shape $ (Value): {@link Webhook_bundle_archived_merchant}. The `bundle.archived` webhook payload
+ * for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_bundle_archived_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Bundle}. A group of items sold
+     * together.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Bundle}. A group of items sold together. */
+        "object": Bundle;
+    };
+    /** Shape $ (Value): string.  Value enum: "bundle.archived". */
+    "event_type"?: "bundle.archived" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_bundle_created_installed_merchants}. The `bundle.created`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_bundle_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Bundle}. A group of items sold
+     * together.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Bundle}. A group of items sold together. */
+        "object": Bundle;
+    };
+    /** Shape $ (Value): string.  Value enum: "bundle.created". */
+    "event_type"?: "bundle.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_bundle_created_merchant}. The `bundle.created` webhook payload
+ * for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_bundle_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Bundle}. A group of items sold
+     * together.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Bundle}. A group of items sold together. */
+        "object": Bundle;
+    };
+    /** Shape $ (Value): string.  Value enum: "bundle.created". */
+    "event_type"?: "bundle.created" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_bundle_updated_installed_merchants}. The `bundle.updated`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_bundle_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Bundle}. A group of items sold
+     * together.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Bundle}. A group of items sold together. */
+        "object": Bundle;
+    };
+    /** Shape $ (Value): string.  Value enum: "bundle.updated". */
+    "event_type"?: "bundle.updated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_bundle_updated_merchant}. The `bundle.updated` webhook payload
+ * for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_bundle_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Bundle}. A group of items sold
+     * together.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Bundle}. A group of items sold together. */
+        "object": Bundle;
+    };
+    /** Shape $ (Value): string.  Value enum: "bundle.updated". */
+    "event_type"?: "bundle.updated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_category_created_installed_merchants}. The `category.created`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_category_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Category}. A catalog grouping
+     * used to organize items.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Category}. A catalog grouping used to organize items. */
+        "object": Category;
+    };
+    /** Shape $ (Value): string.  Value enum: "category.created". */
+    "event_type"?: "category.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_category_created_merchant}. The `category.created` webhook
  * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
-export type Webhook_invoice_refunded_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_category_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
+     * Shape $ (Value): object. Shape $.object (Required): {@link Category}. A catalog grouping
+     * used to organize items.
      */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        /** Shape $ (Value): {@link Category}. A catalog grouping used to organize items. */
+        "object": Category;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.refunded". */
-    "event_type"?: "invoice.refunded" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "category.created". */
+    "event_type"?: "category.created" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_invoice_reminder_due_installed_merchants}. The
- * `invoice.reminder_due` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
+ * Shape $ (Value): {@link Webhook_category_deleted_installed_merchants}. The `category.deleted`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
  */
-export type Webhook_invoice_reminder_due_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_category_deleted_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
+     * Shape $ (Value): object. Shape $.object (Required): {@link Category}. A catalog grouping
+     * used to organize items.
      */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        /** Shape $ (Value): {@link Category}. A catalog grouping used to organize items. */
+        "object": Category;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.reminder_due". */
-    "event_type"?: "invoice.reminder_due" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "category.deleted". */
+    "event_type"?: "category.deleted" | (string & {});
     /**
      * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
      * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
@@ -934,576 +322,659 @@ export type Webhook_invoice_reminder_due_installed_merchants = (Exclude<PartnerW
     });
 });
 /**
- * Shape $ (Value): {@link Webhook_invoice_reminder_due_merchant}. The `invoice.reminder_due`
+ * Shape $ (Value): {@link Webhook_category_deleted_merchant}. The `category.deleted` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_category_deleted_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Category}. A catalog grouping
+     * used to organize items.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Category}. A catalog grouping used to organize items. */
+        "object": Category;
+    };
+    /** Shape $ (Value): string.  Value enum: "category.deleted". */
+    "event_type"?: "category.deleted" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_category_updated_installed_merchants}. The `category.updated`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_category_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Category}. A catalog grouping
+     * used to organize items.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Category}. A catalog grouping used to organize items. */
+        "object": Category;
+    };
+    /** Shape $ (Value): string.  Value enum: "category.updated". */
+    "event_type"?: "category.updated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_category_updated_merchant}. The `category.updated` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_category_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Category}. A catalog grouping
+     * used to organize items.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Category}. A catalog grouping used to organize items. */
+        "object": Category;
+    };
+    /** Shape $ (Value): string.  Value enum: "category.updated". */
+    "event_type"?: "category.updated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_closed_installed_merchants}. The
+ * `checkout_session.closed` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type Webhook_checkout_session_closed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.closed". */
+    "event_type"?: "checkout_session.closed" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_closed_merchant}. The `checkout_session.closed`
  * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
-export type Webhook_invoice_reminder_due_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_checkout_session_closed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.reminder_due". */
-    "event_type"?: "invoice.reminder_due" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_reopened_installed_merchants}. The `invoice.reopened`
- * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
- * payloads.
- */
-export type Webhook_invoice_reopened_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.reopened". */
-    "event_type"?: "invoice.reopened" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_reopened_merchant}. The `invoice.reopened` webhook
- * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_reopened_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.reopened". */
-    "event_type"?: "invoice.reopened" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_sent_installed_merchants}. The `invoice.sent` webhook
- * payload for the `installed_merchants` event source. Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_sent_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.sent". */
-    "event_type"?: "invoice.sent" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_sent_merchant}. The `invoice.sent` webhook payload for
- * the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_sent_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.sent". */
-    "event_type"?: "invoice.sent" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_updated_installed_merchants}. The `invoice.updated`
- * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
- * payloads.
- */
-export type Webhook_invoice_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.updated". */
-    "event_type"?: "invoice.updated" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_updated_merchant}. The `invoice.updated` webhook payload
- * for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.updated". */
-    "event_type"?: "invoice.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_voided_installed_merchants}. The `invoice.voided`
- * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
- * payloads.
- */
-export type Webhook_invoice_voided_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.voided". */
-    "event_type"?: "invoice.voided" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_voided_merchant}. The `invoice.voided` webhook payload
- * for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_voided_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.voided". */
-    "event_type"?: "invoice.voided" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_merchant_billing_balance_updated_merchant}. The
- * `merchant_billing_balance.updated` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_merchant_billing_balance_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link MerchantBillingBalance}. Current
-     * Flint merchant billing balance for one billing account and currency.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
      */
     "data"?: {
         /**
-         * Shape $ (Value): {@link MerchantBillingBalance}. Current Flint merchant billing balance
-         * for one billing account and currency.
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
          */
-        "object": MerchantBillingBalance;
+        "object": CheckoutSession;
     };
-    /** Shape $ (Value): string.  Value enum: "merchant_billing_balance.updated". */
-    "event_type"?: "merchant_billing_balance.updated" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "checkout_session.closed". */
+    "event_type"?: "checkout_session.closed" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_merchant_billing_invoice_issued_merchant}. The
- * `merchant_billing_invoice.issued` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
+ * Shape $ (Value): {@link Webhook_checkout_session_created_installed_merchants}. The
+ * `checkout_session.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
  */
-export type Webhook_merchant_billing_invoice_issued_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_checkout_session_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link MerchantBillingInvoice}. A Flint
-     * invoice for the merchant's Flint subscription.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
      */
     "data"?: {
         /**
-         * Shape $ (Value): {@link MerchantBillingInvoice}. A Flint invoice for the merchant's
-         * Flint subscription.
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
          */
-        "object": MerchantBillingInvoice;
+        "object": CheckoutSession;
     };
-    /** Shape $ (Value): string.  Value enum: "merchant_billing_invoice.issued". */
-    "event_type"?: "merchant_billing_invoice.issued" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_merchant_billing_invoice_updated_merchant}. The
- * `merchant_billing_invoice.updated` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_merchant_billing_invoice_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+    /** Shape $ (Value): string.  Value enum: "checkout_session.created". */
+    "event_type"?: "checkout_session.created" | (string & {});
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link MerchantBillingInvoice}. A Flint
-     * invoice for the merchant's Flint subscription.
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
      */
-    "data"?: {
-        /**
-         * Shape $ (Value): {@link MerchantBillingInvoice}. A Flint invoice for the merchant's
-         * Flint subscription.
-         */
-        "object": MerchantBillingInvoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "merchant_billing_invoice.updated". */
-    "event_type"?: "merchant_billing_invoice.updated" | (string & {});
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
 });
 /**
- * Shape $ (Value): {@link Webhook_merchant_readiness_updated_merchant}. The
- * `merchant.readiness_updated` webhook payload for the `merchant` event source. Fields shared by
+ * Shape $ (Value): {@link Webhook_checkout_session_created_merchant}. The
+ * `checkout_session.created` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
  */
-export type Webhook_merchant_readiness_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_checkout_session_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Merchant}. The business accepting
-     * payments.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
      */
     "data"?: {
-        /** Shape $ (Value): {@link Merchant}. The business accepting payments. */
-        "object": Merchant;
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
     };
-    /** Shape $ (Value): string.  Value enum: "merchant.readiness_updated". */
-    "event_type"?: "merchant.readiness_updated" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "checkout_session.created". */
+    "event_type"?: "checkout_session.created" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_merchant_updated_merchant}. The `merchant.updated` webhook
+ * Shape $ (Value): {@link Webhook_checkout_session_expired_installed_merchants}. The
+ * `checkout_session.expired` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type Webhook_checkout_session_expired_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.expired". */
+    "event_type"?: "checkout_session.expired" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_expired_merchant}. The
+ * `checkout_session.expired` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type Webhook_checkout_session_expired_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.expired". */
+    "event_type"?: "checkout_session.expired" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_invalidated_installed_merchants}. The
+ * `checkout_session.invalidated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_checkout_session_invalidated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.invalidated". */
+    "event_type"?: "checkout_session.invalidated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_invalidated_merchant}. The
+ * `checkout_session.invalidated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type Webhook_checkout_session_invalidated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.invalidated". */
+    "event_type"?: "checkout_session.invalidated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_paid_installed_merchants}. The
+ * `checkout_session.paid` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type Webhook_checkout_session_paid_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.paid". */
+    "event_type"?: "checkout_session.paid" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_paid_merchant}. The `checkout_session.paid`
+ * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_checkout_session_paid_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.paid". */
+    "event_type"?: "checkout_session.paid" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_partially_paid_installed_merchants}. The
+ * `checkout_session.partially_paid` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_checkout_session_partially_paid_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.partially_paid". */
+    "event_type"?: "checkout_session.partially_paid" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_checkout_session_partially_paid_merchant}. The
+ * `checkout_session.partially_paid` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type Webhook_checkout_session_partially_paid_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CheckoutSession}. A session in
+     * which a buyer completes an order's payment.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an
+         * order's payment.
+         */
+        "object": CheckoutSession;
+    };
+    /** Shape $ (Value): string.  Value enum: "checkout_session.partially_paid". */
+    "event_type"?: "checkout_session.partially_paid" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_credit_note_allocation_created_installed_merchants}. The
+ * `credit_note_allocation.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_credit_note_allocation_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNoteAllocation}. One
+     * application of credit to the invoice. Allocations are append-only: a reversal sets
+     * reversed_at rather than removing the row.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CreditNoteAllocation}. One application of credit to the invoice.
+         * Allocations are append-only: a reversal sets reversed_at rather than removing the row.
+         */
+        "object": CreditNoteAllocation;
+    };
+    /** Shape $ (Value): string.  Value enum: "credit_note_allocation.created". */
+    "event_type"?: "credit_note_allocation.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_credit_note_allocation_created_merchant}. The
+ * `credit_note_allocation.created` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type Webhook_credit_note_allocation_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNoteAllocation}. One
+     * application of credit to the invoice. Allocations are append-only: a reversal sets
+     * reversed_at rather than removing the row.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CreditNoteAllocation}. One application of credit to the invoice.
+         * Allocations are append-only: a reversal sets reversed_at rather than removing the row.
+         */
+        "object": CreditNoteAllocation;
+    };
+    /** Shape $ (Value): string.  Value enum: "credit_note_allocation.created". */
+    "event_type"?: "credit_note_allocation.created" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_credit_note_allocation_reversed_installed_merchants}. The
+ * `credit_note_allocation.reversed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_credit_note_allocation_reversed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNoteAllocation}. One
+     * application of credit to the invoice. Allocations are append-only: a reversal sets
+     * reversed_at rather than removing the row.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CreditNoteAllocation}. One application of credit to the invoice.
+         * Allocations are append-only: a reversal sets reversed_at rather than removing the row.
+         */
+        "object": CreditNoteAllocation;
+    };
+    /** Shape $ (Value): string.  Value enum: "credit_note_allocation.reversed". */
+    "event_type"?: "credit_note_allocation.reversed" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_credit_note_allocation_reversed_merchant}. The
+ * `credit_note_allocation.reversed` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type Webhook_credit_note_allocation_reversed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNoteAllocation}. One
+     * application of credit to the invoice. Allocations are append-only: a reversal sets
+     * reversed_at rather than removing the row.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CreditNoteAllocation}. One application of credit to the invoice.
+         * Allocations are append-only: a reversal sets reversed_at rather than removing the row.
+         */
+        "object": CreditNoteAllocation;
+    };
+    /** Shape $ (Value): string.  Value enum: "credit_note_allocation.reversed". */
+    "event_type"?: "credit_note_allocation.reversed" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_credit_note_created_installed_merchants}. The
+ * `credit_note.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type Webhook_credit_note_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNote}. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit
+         * notes reduce what is owed; refunds return what was already collected.
+         */
+        "object": CreditNote;
+    };
+    /** Shape $ (Value): string.  Value enum: "credit_note.created". */
+    "event_type"?: "credit_note.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_credit_note_created_merchant}. The `credit_note.created` webhook
  * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
-export type Webhook_merchant_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_credit_note_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Merchant}. The business accepting
-     * payments.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNote}. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
      */
     "data"?: {
-        /** Shape $ (Value): {@link Merchant}. The business accepting payments. */
-        "object": Merchant;
+        /**
+         * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit
+         * notes reduce what is owed; refunds return what was already collected.
+         */
+        "object": CreditNote;
     };
-    /** Shape $ (Value): string.  Value enum: "merchant.updated". */
-    "event_type"?: "merchant.updated" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "credit_note.created". */
+    "event_type"?: "credit_note.created" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_modifier_group_archived_installed_merchants}. The
- * `modifier_group.archived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_modifier_group_archived_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierGroup}. A group of
-     * choices that customize an item.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierGroup}. A group of choices that customize an item. */
-        "object": ModifierGroup;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_group.archived". */
-    "event_type"?: "modifier_group.archived" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_modifier_group_archived_merchant}. The `modifier_group.archived`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_modifier_group_archived_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierGroup}. A group of
-     * choices that customize an item.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierGroup}. A group of choices that customize an item. */
-        "object": ModifierGroup;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_group.archived". */
-    "event_type"?: "modifier_group.archived" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_modifier_group_created_installed_merchants}. The
- * `modifier_group.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_modifier_group_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierGroup}. A group of
-     * choices that customize an item.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierGroup}. A group of choices that customize an item. */
-        "object": ModifierGroup;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_group.created". */
-    "event_type"?: "modifier_group.created" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_modifier_group_created_merchant}. The `modifier_group.created`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_modifier_group_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierGroup}. A group of
-     * choices that customize an item.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierGroup}. A group of choices that customize an item. */
-        "object": ModifierGroup;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_group.created". */
-    "event_type"?: "modifier_group.created" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_modifier_group_updated_installed_merchants}. The
- * `modifier_group.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_modifier_group_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierGroup}. A group of
-     * choices that customize an item.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierGroup}. A group of choices that customize an item. */
-        "object": ModifierGroup;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_group.updated". */
-    "event_type"?: "modifier_group.updated" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_modifier_group_updated_merchant}. The `modifier_group.updated`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_modifier_group_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierGroup}. A group of
-     * choices that customize an item.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierGroup}. A group of choices that customize an item. */
-        "object": ModifierGroup;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_group.updated". */
-    "event_type"?: "modifier_group.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_modifier_set_archived_installed_merchants}. The
- * `modifier_set.archived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_modifier_set_archived_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierSet}. A reusable
-     * collection of customization groups.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierSet}. A reusable collection of customization groups. */
-        "object": ModifierSet;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_set.archived". */
-    "event_type"?: "modifier_set.archived" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
-    "source"?: ({
-        /** Shape $ (Value): string. */
-        "environment_grant_id": string;
-        /** Shape $ (Value): string. */
-        "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
-        "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
-        "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
-        "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
-        "type": "installed_merchants" | (string & {});
-    });
-});
-/**
- * Shape $ (Value): {@link Webhook_modifier_set_archived_merchant}. The `modifier_set.archived`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_modifier_set_archived_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierSet}. A reusable
-     * collection of customization groups.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierSet}. A reusable collection of customization groups. */
-        "object": ModifierSet;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_set.archived". */
-    "event_type"?: "modifier_set.archived" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_modifier_set_created_installed_merchants}. The
- * `modifier_set.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * Shape $ (Value): {@link Webhook_credit_note_issued_installed_merchants}. The
+ * `credit_note.issued` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
  */
-export type Webhook_modifier_set_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_credit_note_issued_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierSet}. A reusable
-     * collection of customization groups.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNote}. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
      */
     "data"?: {
-        /** Shape $ (Value): {@link ModifierSet}. A reusable collection of customization groups. */
-        "object": ModifierSet;
+        /**
+         * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit
+         * notes reduce what is owed; refunds return what was already collected.
+         */
+        "object": CreditNote;
     };
-    /** Shape $ (Value): string.  Value enum: "modifier_set.created". */
-    "event_type"?: "modifier_set.created" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "credit_note.issued". */
+    "event_type"?: "credit_note.issued" | (string & {});
     /**
      * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
      * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
@@ -1526,39 +997,47 @@ export type Webhook_modifier_set_created_installed_merchants = (Exclude<PartnerW
     });
 });
 /**
- * Shape $ (Value): {@link Webhook_modifier_set_created_merchant}. The `modifier_set.created`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ * Shape $ (Value): {@link Webhook_credit_note_issued_merchant}. The `credit_note.issued` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
-export type Webhook_modifier_set_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_credit_note_issued_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierSet}. A reusable
-     * collection of customization groups.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNote}. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
      */
     "data"?: {
-        /** Shape $ (Value): {@link ModifierSet}. A reusable collection of customization groups. */
-        "object": ModifierSet;
+        /**
+         * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit
+         * notes reduce what is owed; refunds return what was already collected.
+         */
+        "object": CreditNote;
     };
-    /** Shape $ (Value): string.  Value enum: "modifier_set.created". */
-    "event_type"?: "modifier_set.created" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "credit_note.issued". */
+    "event_type"?: "credit_note.issued" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_modifier_set_updated_installed_merchants}. The
- * `modifier_set.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * Shape $ (Value): {@link Webhook_credit_note_updated_installed_merchants}. The
+ * `credit_note.updated` webhook payload for the `installed_merchants` event source. Fields shared
  * by partner webhook payloads.
  */
-export type Webhook_modifier_set_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_credit_note_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierSet}. A reusable
-     * collection of customization groups.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNote}. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
      */
     "data"?: {
-        /** Shape $ (Value): {@link ModifierSet}. A reusable collection of customization groups. */
-        "object": ModifierSet;
+        /**
+         * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit
+         * notes reduce what is owed; refunds return what was already collected.
+         */
+        "object": CreditNote;
     };
-    /** Shape $ (Value): string.  Value enum: "modifier_set.updated". */
-    "event_type"?: "modifier_set.updated" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "credit_note.updated". */
+    "event_type"?: "credit_note.updated" | (string & {});
     /**
      * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
      * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
@@ -1581,41 +1060,146 @@ export type Webhook_modifier_set_updated_installed_merchants = (Exclude<PartnerW
     });
 });
 /**
- * Shape $ (Value): {@link Webhook_modifier_set_updated_merchant}. The `modifier_set.updated`
+ * Shape $ (Value): {@link Webhook_credit_note_updated_merchant}. The `credit_note.updated` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_credit_note_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNote}. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit
+         * notes reduce what is owed; refunds return what was already collected.
+         */
+        "object": CreditNote;
+    };
+    /** Shape $ (Value): string.  Value enum: "credit_note.updated". */
+    "event_type"?: "credit_note.updated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_credit_note_voided_installed_merchants}. The
+ * `credit_note.voided` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type Webhook_credit_note_voided_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNote}. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit
+         * notes reduce what is owed; refunds return what was already collected.
+         */
+        "object": CreditNote;
+    };
+    /** Shape $ (Value): string.  Value enum: "credit_note.voided". */
+    "event_type"?: "credit_note.voided" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_credit_note_voided_merchant}. The `credit_note.voided` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_credit_note_voided_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CreditNote}. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit
+         * notes reduce what is owed; refunds return what was already collected.
+         */
+        "object": CreditNote;
+    };
+    /** Shape $ (Value): string.  Value enum: "credit_note.voided". */
+    "event_type"?: "credit_note.voided" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_custom_domain_archived_merchant}. The `custom_domain.archived`
  * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
-export type Webhook_modifier_set_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_custom_domain_archived_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link ModifierSet}. A reusable
-     * collection of customization groups.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link ModifierSet}. A reusable collection of customization groups. */
-        "object": ModifierSet;
-    };
-    /** Shape $ (Value): string.  Value enum: "modifier_set.updated". */
-    "event_type"?: "modifier_set.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_order_closed_installed_merchants}. The `order.closed` webhook
- * payload for the `installed_merchants` event source. Fields shared by partner webhook payloads.
- */
-export type Webhook_order_closed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
-     * its payment and fulfillment progress.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomDomain}. A merchant
+     * hostname for hosted checkout or customer account pages.
      */
     "data"?: {
         /**
-         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-         * progress.
+         * Shape $ (Value): {@link CustomDomain}. A merchant hostname for hosted checkout or
+         * customer account pages.
          */
-        "object": Order;
+        "object": CustomDomain;
     };
-    /** Shape $ (Value): string.  Value enum: "order.closed". */
-    "event_type"?: "order.closed" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "custom_domain.archived". */
+    "event_type"?: "custom_domain.archived" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_custom_domain_updated_merchant}. The `custom_domain.updated`
+ * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_custom_domain_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomDomain}. A merchant
+     * hostname for hosted checkout or customer account pages.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CustomDomain}. A merchant hostname for hosted checkout or
+         * customer account pages.
+         */
+        "object": CustomDomain;
+    };
+    /** Shape $ (Value): string.  Value enum: "custom_domain.updated". */
+    "event_type"?: "custom_domain.updated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_created_installed_merchants}. The `customer.created`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_customer_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Customer}. A merchant's customer
+     * profile.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Customer}. A merchant's customer profile. */
+        "object": Customer;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer.created". */
+    "event_type"?: "customer.created" | (string & {});
     /**
      * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
      * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
@@ -1638,44 +1222,39 @@ export type Webhook_order_closed_installed_merchants = (Exclude<PartnerWebhookEn
     });
 });
 /**
- * Shape $ (Value): {@link Webhook_order_closed_merchant}. The `order.closed` webhook payload for
- * the `merchant` event source. Fields shared by merchant webhook payloads.
+ * Shape $ (Value): {@link Webhook_customer_created_merchant}. The `customer.created` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
-export type Webhook_order_closed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_customer_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
-     * its payment and fulfillment progress.
+     * Shape $ (Value): object. Shape $.object (Required): {@link Customer}. A merchant's customer
+     * profile.
      */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-         * progress.
-         */
-        "object": Order;
+        /** Shape $ (Value): {@link Customer}. A merchant's customer profile. */
+        "object": Customer;
     };
-    /** Shape $ (Value): string.  Value enum: "order.closed". */
-    "event_type"?: "order.closed" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "customer.created". */
+    "event_type"?: "customer.created" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_order_created_installed_merchants}. The `order.created` webhook
- * payload for the `installed_merchants` event source. Fields shared by partner webhook payloads.
+ * Shape $ (Value): {@link Webhook_customer_deleted_installed_merchants}. The `customer.deleted`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
  */
-export type Webhook_order_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_customer_deleted_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
-     * its payment and fulfillment progress.
+     * Shape $ (Value): object. Shape $.object (Required): {@link Customer}. A merchant's customer
+     * profile.
      */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-         * progress.
-         */
-        "object": Order;
+        /** Shape $ (Value): {@link Customer}. A merchant's customer profile. */
+        "object": Customer;
     };
-    /** Shape $ (Value): string.  Value enum: "order.created". */
-    "event_type"?: "order.created" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "customer.deleted". */
+    "event_type"?: "customer.deleted" | (string & {});
     /**
      * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
      * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
@@ -1698,45 +1277,42 @@ export type Webhook_order_created_installed_merchants = (Exclude<PartnerWebhookE
     });
 });
 /**
- * Shape $ (Value): {@link Webhook_order_created_merchant}. The `order.created` webhook payload for
- * the `merchant` event source. Fields shared by merchant webhook payloads.
+ * Shape $ (Value): {@link Webhook_customer_deleted_merchant}. The `customer.deleted` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
  */
-export type Webhook_order_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_customer_deleted_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
-     * its payment and fulfillment progress.
+     * Shape $ (Value): object. Shape $.object (Required): {@link Customer}. A merchant's customer
+     * profile.
      */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-         * progress.
-         */
-        "object": Order;
+        /** Shape $ (Value): {@link Customer}. A merchant's customer profile. */
+        "object": Customer;
     };
-    /** Shape $ (Value): string.  Value enum: "order.created". */
-    "event_type"?: "order.created" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "customer.deleted". */
+    "event_type"?: "customer.deleted" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_order_inventory_exception_created_installed_merchants}. The
- * `order.inventory_exception_created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_completed_installed_merchants}. The
+ * `customer_deletion_request.completed` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
  */
-export type Webhook_order_inventory_exception_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_customer_deletion_request_completed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
-     * its payment and fulfillment progress.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
      */
     "data"?: {
         /**
-         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-         * progress.
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
          */
-        "object": Order;
+        "object": CustomerDeletionRequest;
     };
-    /** Shape $ (Value): string.  Value enum: "order.inventory_exception_created". */
-    "event_type"?: "order.inventory_exception_created" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.completed". */
+    "event_type"?: "customer_deletion_request.completed" | (string & {});
     /**
      * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
      * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
@@ -1759,46 +1335,535 @@ export type Webhook_order_inventory_exception_created_installed_merchants = (Exc
     });
 });
 /**
- * Shape $ (Value): {@link Webhook_order_inventory_exception_created_merchant}. The
- * `order.inventory_exception_created` webhook payload for the `merchant` event source. Fields
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_completed_merchant}. The
+ * `customer_deletion_request.completed` webhook payload for the `merchant` event source. Fields
  * shared by merchant webhook payloads.
  */
-export type Webhook_order_inventory_exception_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_customer_deletion_request_completed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
-     * its payment and fulfillment progress.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
      */
     "data"?: {
         /**
-         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-         * progress.
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
          */
-        "object": Order;
+        "object": CustomerDeletionRequest;
     };
-    /** Shape $ (Value): string.  Value enum: "order.inventory_exception_created". */
-    "event_type"?: "order.inventory_exception_created" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.completed". */
+    "event_type"?: "customer_deletion_request.completed" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_order_inventory_exception_resolved_installed_merchants}. The
- * `order.inventory_exception_resolved` webhook payload for the `installed_merchants` event source.
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_created_installed_merchants}. The
+ * `customer_deletion_request.created` webhook payload for the `installed_merchants` event source.
  * Fields shared by partner webhook payloads.
  */
-export type Webhook_order_inventory_exception_resolved_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type Webhook_customer_deletion_request_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Order}. A customer's purchase and
-     * its payment and fulfillment progress.
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
      */
     "data"?: {
         /**
-         * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
-         * progress.
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
          */
-        "object": Order;
+        "object": CustomerDeletionRequest;
     };
-    /** Shape $ (Value): string.  Value enum: "order.inventory_exception_resolved". */
-    "event_type"?: "order.inventory_exception_resolved" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.created". */
+    "event_type"?: "customer_deletion_request.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_created_merchant}. The
+ * `customer_deletion_request.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type Webhook_customer_deletion_request_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
+         */
+        "object": CustomerDeletionRequest;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.created". */
+    "event_type"?: "customer_deletion_request.created" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_failed_installed_merchants}. The
+ * `customer_deletion_request.failed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_customer_deletion_request_failed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
+         */
+        "object": CustomerDeletionRequest;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.failed". */
+    "event_type"?: "customer_deletion_request.failed" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_failed_merchant}. The
+ * `customer_deletion_request.failed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type Webhook_customer_deletion_request_failed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
+         */
+        "object": CustomerDeletionRequest;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.failed". */
+    "event_type"?: "customer_deletion_request.failed" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_processing_installed_merchants}. The
+ * `customer_deletion_request.processing` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type Webhook_customer_deletion_request_processing_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
+         */
+        "object": CustomerDeletionRequest;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.processing". */
+    "event_type"?: "customer_deletion_request.processing" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_processing_merchant}. The
+ * `customer_deletion_request.processing` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type Webhook_customer_deletion_request_processing_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
+         */
+        "object": CustomerDeletionRequest;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.processing". */
+    "event_type"?: "customer_deletion_request.processing" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_rejected_installed_merchants}. The
+ * `customer_deletion_request.rejected` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_customer_deletion_request_rejected_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
+         */
+        "object": CustomerDeletionRequest;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.rejected". */
+    "event_type"?: "customer_deletion_request.rejected" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_deletion_request_rejected_merchant}. The
+ * `customer_deletion_request.rejected` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type Webhook_customer_deletion_request_rejected_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link CustomerDeletionRequest}. A
+     * request to delete a customer's personal information.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link CustomerDeletionRequest}. A request to delete a customer's
+         * personal information.
+         */
+        "object": CustomerDeletionRequest;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer_deletion_request.rejected". */
+    "event_type"?: "customer_deletion_request.rejected" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_updated_installed_merchants}. The `customer.updated`
+ * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
+ * payloads.
+ */
+export type Webhook_customer_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Customer}. A merchant's customer
+     * profile.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Customer}. A merchant's customer profile. */
+        "object": Customer;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer.updated". */
+    "event_type"?: "customer.updated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_customer_updated_merchant}. The `customer.updated` webhook
+ * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
+ */
+export type Webhook_customer_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link Customer}. A merchant's customer
+     * profile.
+     */
+    "data"?: {
+        /** Shape $ (Value): {@link Customer}. A merchant's customer profile. */
+        "object": Customer;
+    };
+    /** Shape $ (Value): string.  Value enum: "customer.updated". */
+    "event_type"?: "customer.updated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_delivery_location_set_activated_installed_merchants}. The
+ * `delivery_location_set.activated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_delivery_location_set_activated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryLocationSet}. The
+     * locations available to a delivery method.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link DeliveryLocationSet}. The locations available to a delivery
+         * method.
+         */
+        "object": DeliveryLocationSet;
+    };
+    /** Shape $ (Value): string.  Value enum: "delivery_location_set.activated". */
+    "event_type"?: "delivery_location_set.activated" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_delivery_location_set_activated_merchant}. The
+ * `delivery_location_set.activated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type Webhook_delivery_location_set_activated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryLocationSet}. The
+     * locations available to a delivery method.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link DeliveryLocationSet}. The locations available to a delivery
+         * method.
+         */
+        "object": DeliveryLocationSet;
+    };
+    /** Shape $ (Value): string.  Value enum: "delivery_location_set.activated". */
+    "event_type"?: "delivery_location_set.activated" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_delivery_location_set_archived_installed_merchants}. The
+ * `delivery_location_set.archived` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_delivery_location_set_archived_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryLocationSet}. The
+     * locations available to a delivery method.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link DeliveryLocationSet}. The locations available to a delivery
+         * method.
+         */
+        "object": DeliveryLocationSet;
+    };
+    /** Shape $ (Value): string.  Value enum: "delivery_location_set.archived". */
+    "event_type"?: "delivery_location_set.archived" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_delivery_location_set_archived_merchant}. The
+ * `delivery_location_set.archived` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type Webhook_delivery_location_set_archived_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryLocationSet}. The
+     * locations available to a delivery method.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link DeliveryLocationSet}. The locations available to a delivery
+         * method.
+         */
+        "object": DeliveryLocationSet;
+    };
+    /** Shape $ (Value): string.  Value enum: "delivery_location_set.archived". */
+    "event_type"?: "delivery_location_set.archived" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_delivery_location_set_created_installed_merchants}. The
+ * `delivery_location_set.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_delivery_location_set_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryLocationSet}. The
+     * locations available to a delivery method.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link DeliveryLocationSet}. The locations available to a delivery
+         * method.
+         */
+        "object": DeliveryLocationSet;
+    };
+    /** Shape $ (Value): string.  Value enum: "delivery_location_set.created". */
+    "event_type"?: "delivery_location_set.created" | (string & {});
+    /**
+     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
+     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
+     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
+     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
+     */
+    "source"?: ({
+        /** Shape $ (Value): string. */
+        "environment_grant_id": string;
+        /** Shape $ (Value): string. */
+        "merchant_id": string;
+        /** Shape $ (Value): string.  Value enum: "test", "live". */
+        "mode": "test" | "live" | (string & {});
+        /** Shape $ (Value): string. */
+        "partner_app_install_id": string;
+        /** Shape $ (Value): string. */
+        "sandbox_id"?: string;
+        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+        "type": "installed_merchants" | (string & {});
+    });
+});
+/**
+ * Shape $ (Value): {@link Webhook_delivery_location_set_created_merchant}. The
+ * `delivery_location_set.created` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type Webhook_delivery_location_set_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryLocationSet}. The
+     * locations available to a delivery method.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link DeliveryLocationSet}. The locations available to a delivery
+         * method.
+         */
+        "object": DeliveryLocationSet;
+    };
+    /** Shape $ (Value): string.  Value enum: "delivery_location_set.created". */
+    "event_type"?: "delivery_location_set.created" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link Webhook_delivery_location_set_deactivated_installed_merchants}. The
+ * `delivery_location_set.deactivated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type Webhook_delivery_location_set_deactivated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): object. Shape $.object (Required): {@link DeliveryLocationSet}. The
+     * locations available to a delivery method.
+     */
+    "data"?: {
+        /**
+         * Shape $ (Value): {@link DeliveryLocationSet}. The locations available to a delivery
+         * method.
+         */
+        "object": DeliveryLocationSet;
+    };
+    /** Shape $ (Value): string.  Value enum: "delivery_location_set.deactivated". */
+    "event_type"?: "delivery_location_set.deactivated" | (string & {});
     /**
      * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
      * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",

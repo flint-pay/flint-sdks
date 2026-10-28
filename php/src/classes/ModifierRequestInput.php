@@ -4,7 +4,7 @@ namespace Flint;
 /**
  * @property-read string $default_quantity
  * @property-read string $line_item_tax_category
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $modifier_id
  * @property-read string $name
  * @property-read int $position
@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_delta_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierRequestInput extends Model {
-    /** @param array{'default_quantity'?: string, 'line_item_tax_category'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'modifier_id'?: string, 'name': string, 'position'?: int, 'selected_by_default'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'default_quantity'?: string, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'name': string, 'position'?: int, 'selected_by_default'?: bool, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierRequestInput')); }
     /** Shape $ (Value): integer string. Whole-number quantity selected by default. Used only when the choice is available and selected_by_default is true. A modifier set can override this value; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64.
      * @return string
@@ -30,11 +30,11 @@ final class ModifierRequestInput extends Model {
      */
     public function getLineItemTaxCategory(): string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Stable identifier of the modifier. In a replacement request, include it to retain a modifier or omit it to create one. minLength: 1.
      * @return string

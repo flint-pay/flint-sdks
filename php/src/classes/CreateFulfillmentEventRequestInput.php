@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $shipment_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateFulfillmentEventRequestInput extends Model {
-    /** @param array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string, ...}|object $values */
+    /** @param array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateFulfillmentEventRequestInput')); }
     /** Shape $ (Value): Map of string. Shape $.* (Value): string. minLength: 1.
      * @return array<array-key, string>|\stdClass

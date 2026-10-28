@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class PartnerAppInstallsResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Lists partner app installs on the authenticated merchant, across live and test mode. Requires a live API key.
+    /** Lists partner app installs on the authenticated merchant, across live and test mode. Requires a live API key. Default order: partner_app_install_id ascending; this key uniquely orders the results.
      * @param array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return PartnerAppInstallsListResponse200
      */

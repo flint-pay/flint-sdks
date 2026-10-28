@@ -12,7 +12,7 @@ A modifier to create in a modifier group, with its name, price change, tax categ
 | --- | --- | --- | --- |
 | `default_quantity` | Optional | integer string | Whole-number quantity selected by default. Used only when the choice is available and selected_by_default is true. A modifier set can override this value; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#createmodifierrequest-line_item_tax_category-values). |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
 | `name` | Required | string | Name of the choice shown to buyers. minLength: `1`. maxLength: `255`. |
 | `position` | Optional | integer | Display position of the choice within its group; lower values appear first. Format: `int32`. |
 | `selected_by_default` | Optional | boolean | Whether this choice is selected when the buyer has not supplied selections for the group. A modifier set can override this value; unavailable choices are never selected by default. Default: `false`. |
@@ -36,6 +36,10 @@ A modifier to create in a modifier group, with its name, price change, tax categ
 - `"clothing"`
 - `"medical_goods"`
 - `"admission"`
+
+### CreateModifierRequest.metadata
+
+Field definitions: [AddLineItemsRequest.line_items[].metadata](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata).
 
 ### CreateModifierRequest.unit_price_delta_money
 

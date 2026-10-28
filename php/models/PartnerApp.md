@@ -13,6 +13,8 @@ Response model.
 | `api_version_changed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `api_version_previous` | Optional | string |  |
 | `client_id` | Required | string |  |
+| `client_secret_enabled` | Required | boolean |  |
+| `client_secret_last_used_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `default_requested_permissions` | Required | Array of string |  |
 | `name` | Required | string |  |

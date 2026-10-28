@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/customers.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/customers.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAccessLink"]:r0,["createCustomerAddress"]:r0,["createCustomerDeletionRequest"]:r0,["deleteCustomerAddress"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerDeletionRequest"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["revokeCustomerSessions"]:r0,["setDefaultCustomerAddress"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAccessLink"]:r0,["createCustomerAddress"]:r0,["createCustomerDeletionRequest"]:r0,["deleteCustomerAddress"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerDeletionRequest"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["revokeCustomerSessions"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -225,18 +225,6 @@ this.customers = Object.freeze({
 ], [customer_id], [
   "Idempotency-Key"
 ], false, false, params), options).then(_sdkResponse),
-      setDefaultAddress: async (customer_id, customer_address_id, params, options) => this.#runtime.request("setDefaultCustomerAddress", _sdkRequestInput([
-  "customer_id",
-  "customer_address_id"
-], [customer_id, customer_address_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("setDefaultCustomerAddress", result, path))),
-      setDefaultAddressWithResponse: async (customer_id, customer_address_id, params, options) => this.#runtime.request("setDefaultCustomerAddress", _sdkRequestInput([
-  "customer_id",
-  "customer_address_id"
-], [customer_id, customer_address_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
       update: async (customer_id, params, options) => this.#runtime.request("updateCustomer", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
@@ -268,11 +256,11 @@ export { makeAddressRequest } from '../models/AddressRequest.js';
 export { makeCreateCustomerAddressRequest } from '../models/CreateCustomerAddressRequest.js';
 export { makeCreateCustomerDeletionRequest } from '../models/CreateCustomerDeletionRequest.js';
 export { makeCreateCustomerRequest } from '../models/CreateCustomerRequest.js';
-export { makeDocumentTaxID } from '../models/DocumentTaxID.js';
+export { makeDocumentTaxIDRequestRequest } from '../models/DocumentTaxIDRequestRequest.js';
 export { makeLinkCustomerGuestPurchasesRequest } from '../models/LinkCustomerGuestPurchasesRequest.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makePostalAddress } from '../models/PostalAddress.js';
-export { makeSetDefaultCustomerAddressRequest } from '../models/SetDefaultCustomerAddressRequest.js';
 export { makeTaxIdentityPatch } from '../models/TaxIdentityPatch.js';
 export { makeTaxIdentityRequest } from '../models/TaxIdentityRequest.js';
 export { makeUpdateCustomerAddressRequest } from '../models/UpdateCustomerAddressRequest.js';

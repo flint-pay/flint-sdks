@@ -1,9 +1,8 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-9.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { RotateWebhookSecretRequestInput } from '../declarations/types-43.js';
-import type { SdkResponse } from '../declarations/types-44.js';
+import type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-10.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { RotateWebhookSecretRequestInput, SdkResponse } from '../declarations/types-46.js';
 import type {
     UpdateWebhookEndpointRequestInput,
     WebhookDeliveryAction,
@@ -20,8 +19,8 @@ import type {
     WebhookEndpointsRemoveInput,
     WebhookEndpointsRotateWebhookSecretInput,
     WebhookEndpointsUpdateInput
-} from '../declarations/types-50.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,8 +35,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput, Credentials } from '../declarations/types-9.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateWebhookEndpointRequestInput, CreateWebhookTestEventRequestInput } from '../declarations/types-10.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     WebhookEndpointWithSecret,
     WebhookEndpointWithSecretResponse,
@@ -54,20 +53,23 @@ export type {
     WebhookEndpointsListInput,
     WebhookEndpointsRotateWebhookSecretInput,
     WebhookEndpointsUpdateInput
-} from '../declarations/types-50.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RotateWebhookSecretRequestInput } from '../declarations/types-43.js';
+} from '../declarations/types-53.js';
+export type { SdkResponse, RotateWebhookSecretRequestInput } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
+export type { WebhookSigningMethodInput } from '../declarations/types-57.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeRotateWebhookSecretRequest } from '../declarations/types-71.js';
-export { makeUpdateWebhookEndpointRequest } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateWebhookEndpointRequest, makeCreateWebhookTestEventRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeRotateWebhookSecretRequest } from '../declarations/types-76.js';
+export { makeUpdateWebhookEndpointRequest, makeWebhookSigningMethod } from '../declarations/types-78.js';
 export interface WebhookEndpointsResource {
     /**
- * Creates a webhook endpoint and returns the signing secret once.
+ * Creates a webhook endpoint. signing_methods defaults to ["jwt"]. A shared secret is issued and
+ * returned once only when hmac is included.
  * @see reference/webhookEndpoints.md#webhookendpointscreate
  * POST /v1/webhook-endpoints
  * @example
@@ -144,7 +146,8 @@ export interface WebhookEndpointsResource {
      */
     getWithResponse(webhook_endpoint_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookEndpointResponse>>;
     /**
- * Returns a page of webhook endpoints for the authenticated merchant.
+ * Returns a page of webhook endpoints for the authenticated merchant. Default order: created_at
+ * descending, then webhook_endpoint_id descending.
  * @see reference/webhookEndpoints.md#webhookendpointslist
  * GET /v1/webhook-endpoints
  * @example
@@ -193,10 +196,11 @@ export interface WebhookEndpointsResource {
         "partner_app_id"?: InputValue<string>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookEndpoint>;
     /**
- * Issues a new signing secret, returned once. The replaced secret keeps signing deliveries until
- * previous_secret_expires_at: 24 hours by default, or expire_previous_secret_at, up to 7 days.
- * Send a time at or before now to stop the replaced secret immediately, for example when it
- * leaked. Rotating again during an overlap ends the older secret at once.
+ * Issues a first shared secret and adds hmac, or rotates an existing shared secret. The secret is
+ * returned once. The replaced secret keeps signing deliveries until previous_secret_expires_at: 24
+ * hours by default, or expire_previous_secret_at, up to 7 days. Send a time at or before now to
+ * stop the replaced secret immediately, for example when it leaked. Rotating again during an
+ * overlap ends the older secret at once.
  * @see reference/webhookEndpoints.md#webhookendpointsrotatewebhooksecret
  * POST /v1/webhook-endpoints/{webhook_endpoint_id}/rotate-secret
  * @example

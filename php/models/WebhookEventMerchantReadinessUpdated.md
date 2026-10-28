@@ -35,5 +35,9 @@ Field definitions: [shared fields](Merchant.md#merchant).
 
 ### WebhookEventMerchantReadinessUpdated.data fields 1.object.address
 
-Field definitions: [CustomersCreateResponse200.data.billing_address](../models/CustomersCreateResponse200.md#customerscreateresponse200databilling_address).
+Field definitions: [DeliveryPreviewsCreateResponse200.data variant 1.buyer_location.address](../models/DeliveryPreviewsCreateResponse200.md#deliverypreviewscreateresponse200data-variant-1buyer_locationaddress).
+
+### WebhookEventMerchantReadinessUpdated.data fields 1.object.metadata
+
+Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
 

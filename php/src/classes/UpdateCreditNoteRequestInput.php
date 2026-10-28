@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string $reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateCreditNoteRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'external_reference_id'?: string|null, 'line_items'?: list<CreditNoteLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'memo'?: string|null, 'reason'?: string, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'external_reference_id'?: string|null, 'line_items'?: list<CreditNoteLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'memo'?: string|null, 'reason'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateCreditNoteRequestInput')); }
     /** Shape $ (Value): integer string. Credit note version last read. Required when line_items is present. Required when any of these fields is present: line_items. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
      * @return string

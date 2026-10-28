@@ -63,7 +63,7 @@ const result = await client.paymentMethods.get("example", {}, {  });
 
 ### paymentMethods.list
 
-Lists payment methods in every status except archived, newest first. Filter by status=active for the cards you can charge. Optionally filter to a customer. Filter by usage off_session to list the payment methods a subscription, automatic invoice, or default payment method can use.
+Lists payment methods in every status except archived, newest first. Filter by status=active for the cards you can charge. Optionally filter to a customer. Filter by usage off_session to list the payment methods a subscription, automatic invoice, or default payment method can use. Default order: created_at descending, then payment_method_id descending.
 
 `GET /v1/payment-methods`
 
@@ -178,7 +178,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -246,7 +246,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `saveWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read array<array-key, string>|\stdClass $pricing_context
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateDeliveryOptionsPreviewRequestInput extends Model {
-    /** @param array{'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass, 'inventory_routing_source'?: DeliveryPreviewRoutingSourceInput|array<array-key, mixed>|\stdClass, 'line_items': list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'pickup_location_id'?: string, 'pricing_context'?: array<array-key, string>|\stdClass}|object $values */
+    /** @param array{'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'currency': string, 'delivery_method_ids'?: list<string>, 'destination_address'?: DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass, 'inventory_routing_source'?: DeliveryPreviewRoutingSourceInput|array<array-key, mixed>|\stdClass, 'line_items': list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'pickup_location_id'?: string, 'pricing_context'?: array<array-key, string>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDeliveryOptionsPreviewRequestInput')); }
     /** Shape $ (Value): {@see DeliveryBuyerLocationRequestInput}. The buyer's location for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
      * @return DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass
@@ -27,13 +27,13 @@ final class CreateDeliveryOptionsPreviewRequestInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1.
+    /** Shape $ (Value): Array of string. Delivery methods to evaluate. When omitted, uses settings.checkout.default_delivery_method_ids, or no methods when that setting is empty. Shape $[] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When delivery_method_ids is omitted; use hasDeliveryMethodIds() or valueOrDefault().
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** Shape $ (Value): {@see DeliveryAddressRequestInput}. An address you supply for delivery quotes, previews, and selections.
+    /** Shape $ (Value): {@see DeliveryAddressRequestInput}. A partial address for delivery quotes, previews, and buyer locations. Country is required when any member is present.
      * @return DeliveryAddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */

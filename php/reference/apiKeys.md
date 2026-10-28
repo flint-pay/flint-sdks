@@ -23,36 +23,55 @@ Body model: [CreateAPIKeyRequestInput](../models/CreateAPIKeyRequestInput.md#cre
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scope_preset` | Optional | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.create body oneOf variant 1
 
+The `full` variant of `CreateAPIKeyRequest`.
 
+Body model: [CreateAPIKeyRequestFullInput](../models/CreateAPIKeyRequestFullInput.md#createapikeyrequestfullinput).
 
 #### apiKeys.create body oneOf variant 1 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scope_preset` | Optional | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
-| `scopes` | Required | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### apiKeys.create body oneOf variant 2
 
+The `read_only` variant of `CreateAPIKeyRequest`.
 
+Body model: [CreateAPIKeyRequestReadOnlyInput](../models/CreateAPIKeyRequestReadOnlyInput.md#createapikeyrequestreadonlyinput).
 
 #### apiKeys.create body oneOf variant 2 fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"read_only"`. |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
 | `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scope_preset` | Required | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
-| `scopes` | Optional | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+
+#### apiKeys.create body oneOf variant 3
+
+The `restricted` variant of `CreateAPIKeyRequest`.
+
+Body model: [CreateAPIKeyRequestRestrictedInput](../models/CreateAPIKeyRequestRestrictedInput.md#createapikeyrequestrestrictedinput).
+
+#### apiKeys.create body oneOf variant 3 fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"restricted"`. |
+| `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
+| `name` | Required | string | minLength: `1`. maxLength: `100`. |
+| `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 
 #### Response
 
@@ -81,7 +100,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -93,7 +112,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->apiKeys->create([
   'name' => 'example',
-  'scopes' => [],
+  'access' => 'full',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -150,7 +169,7 @@ $result = $client->apiKeys->get('example', [], new RequestOptions());
 
 ### apiKeys.list
 
-Returns merchant-bound external API key metadata. Internal keys, demo-session keys, and secrets are never returned.
+Returns merchant-bound external API key metadata. Internal keys, demo-session keys, and secrets are never returned. Default order: created_at descending, then api_key_id descending.
 
 `GET /v1/api-keys`
 
@@ -258,7 +277,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `revokeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -275,7 +294,7 @@ $result = $client->apiKeys->revoke('example', null, new RequestOptions(idempoten
 
 ### apiKeys.update
 
-Updates an API key's name, scopes, or expires_at. Expired keys can be updated, and a future expires_at reactivates one. A revoked key can't be updated. An API key caller may grant only scopes it holds and can manage only keys whose scopes it holds.
+Updates an API key's name, access, scopes, or expires_at. Expired keys can be updated, and a future expires_at reactivates one. A revoked key can't be updated. An API key caller may grant only scopes it holds and can manage only keys whose scopes it holds.
 
 `PATCH /v1/api-keys/{api_key_id}`
 
@@ -295,10 +314,61 @@ Body model: [UpdateAPIKeyRequestInput](../models/UpdateAPIKeyRequestInput.md#upd
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer string | Resource version last read by the caller. Required when scopes is present, including an empty array. Optional for scalar updates. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
+| `expected_version` | Optional | integer string | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | Items values: [95 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+
+#### apiKeys.update body oneOf variant 1
+
+
+
+#### apiKeys.update body oneOf variant 1 fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`. |
+| `expected_version` | Optional | integer string | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
+| `name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+
+#### apiKeys.update body oneOf variant 2
+
+
+
+#### apiKeys.update body oneOf variant 2 fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"read_only"`. |
+| `expected_version` | Optional | integer string | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
+| `name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+
+#### apiKeys.update body oneOf variant 3
+
+
+
+#### apiKeys.update body oneOf variant 3 fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"restricted"`. |
+| `expected_version` | Optional | integer string | Resource version last read by the caller. Required when access or scopes is present. Optional for scalar updates. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `expires_at` | Optional | string or null | Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format: `date-time`. minLength: `1`. |
+| `name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
+
+#### apiKeys.update body oneOf variant 4
+
+
+
+#### apiKeys.update body oneOf variant 4 fields
+
+Field definitions: [shared fields](#apikeysupdate-body-fields).
 
 #### Response
 
@@ -328,7 +398,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -338,7 +408,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->apiKeys->update('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->apiKeys->update('key_example', [
+  'name' => 'Reporting key',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/apiKeys-update.php)

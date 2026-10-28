@@ -4,12 +4,11 @@ namespace Flint;
 /**
  * @property-read DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass $buyer_location
  * @property-read string $checkout_session_id
- * @property-read string|null $expected_delivery_selection_id
  * @property-read DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass $maximum_distance
  * @property-read string $mode
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateDeliveryPickupLocationsPreviewRequestInput extends Model {
-    /** @param array{'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_id': string, 'expected_delivery_selection_id'?: string|null, 'maximum_distance'?: DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass, 'mode': string}|object $values */
+    /** @param array{'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_id': string, 'maximum_distance'?: DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass, 'mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDeliveryPickupLocationsPreviewRequestInput')); }
     /** Shape $ (Value): {@see DeliveryBuyerLocationRequestInput}. The buyer's location for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
      * @return DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass
@@ -23,12 +22,6 @@ final class CreateDeliveryPickupLocationsPreviewRequestInput extends Model {
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** Shape $ (Value): string or null. ID of the checkout's current delivery selection, as GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/current returns it, or null when there is none. Any other value returns 409 DELIVERY_PICKUP_AVAILABILITY_CHANGED. The search does not change or release the selection. minLength: 1.
-     * @return string|null
-     * @throws SdkError When expected_delivery_selection_id is omitted; use hasExpectedDeliverySelectionId() or valueOrDefault().
-     */
-    public function getExpectedDeliverySelectionId(): string|null { return $this->get('expected_delivery_selection_id'); }
-    public function hasExpectedDeliverySelectionId(): bool { return $this->has('expected_delivery_selection_id'); }
     /** Shape $ (Value): {@see DeliveryPickupAvailabilityMaximumDistanceRequestInput}. A maximum distance from the buyer location, as a value and unit, that limits which pickup locations a preview returns.
      * @return DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When maximum_distance is omitted; use hasMaximumDistance() or valueOrDefault().

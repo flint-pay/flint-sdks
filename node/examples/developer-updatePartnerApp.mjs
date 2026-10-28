@@ -12,7 +12,7 @@ const result = await client.developer.updatePartnerApp(
   "example",
   {
     api_version: "example",
-    name: "example",
+    client_secret_enabled: true,
   },
   { idempotencyKey: idempotencyKey },
 );

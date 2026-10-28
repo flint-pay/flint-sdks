@@ -23,17 +23,17 @@ Funds sent from a merchant balance to a payout destination.
 | `fee_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor records the payout, and null until then. `fee_money`: [declared alternatives](../models/IncomingWebhook358012160ab8Payload.md#incomingwebhook358012160ab8payloaddataobjectfee_money). |
 | `initiated_by` | Required | string | What started the payout. A payout imported from your processor follows the processor: scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts list their balance transactions through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Values: `"manual"`, `"scheduled"`, `"platform"`, `"other"`. |
 | `merchant_id` | Required | string | Merchant receiving the payout. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata). |
 | `method` | Required | string | Payout method. instant can appear on imported payouts; unmapped methods are returned as other. Values: `"standard"`, `"instant"`, `"other"`. |
 | `net_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Signed effect of this payout on your Flint balance. It is negative because the payout takes money out: a 25000 payout with no fee has net_money -25000. Null until your processor records the payout. `net_money`: [declared alternatives](../models/IncomingWebhook358012160ab8Payload.md#incomingwebhook358012160ab8payloaddataobjectnet_money). |
 | `original_payout` | Optional | [ExpandedPayoutSummary](../models/ExpandedPayoutSummary.md#expandedpayoutsummary) or null | The payout this one reverses, inlined when you request expand=original_payout. null when expanded and original_payout_id is absent. |
-| `original_payout_id` | Optional | string | On a payout that reverses another payout, the payout it reverses. A payout has at most one of original_payout_id and reversed_by_payout_id. |
+| `original_payout_id` | Optional | string | On a payout that reverses another payout, the payout it reverses. Present only when Flint has the matching original payout. A payout has at most one of original_payout_id and reversed_by_payout_id. |
 | `payout_destination` | Optional | [ExpandedPayoutDestinationSummary](../models/ExpandedPayoutDestinationSummary.md#expandedpayoutdestinationsummary) or null | The payout destination, inlined when you request expand=payout_destination. null when expanded and payout_destination_id is absent. |
 | `payout_destination_id` | Optional | string | Bank account or debit card receiving the payout. Absent when Flint can't match your processor's destination to a payout destination. |
 | `payout_id` | Required | string | Stable identifier of the payout. |
-| `reversal_status` | Required | string | Whether Flint has pulled a paid payout back from your bank: none, reversing while a reversal is in progress, or reversed once it completes and a payout_reversal balance transaction returns the money. status stays paid throughout. Values: `"none"`, `"reversing"`, `"reversed"`. |
-| `reversed_by_payout` | Optional | [ExpandedPayoutSummary](../models/ExpandedPayoutSummary.md#expandedpayoutsummary) or null | The payout that reversed this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. |
-| `reversed_by_payout_id` | Optional | string | On a reversed payout, the separate payout that reversed it, when there is one. A payout has at most one of original_payout_id and reversed_by_payout_id. |
+| `reversal_status` | Required | string | Whether Flint has pulled a paid payout back from your bank: none until the reversal completes, then reversed. A payout_reversal balance transaction returns the money, and status stays paid. Values: `"none"`, `"reversed"`. |
+| `reversed_by_payout` | Optional | [ExpandedPayoutSummary](../models/ExpandedPayoutSummary.md#expandedpayoutsummary) or null | The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. |
+| `reversed_by_payout_id` | Optional | string | The separate payout reversing this one, when Flint has the matching payout. Its presence does not mean the reversal has completed; read reversal_status. A payout has at most one of original_payout_id and reversed_by_payout_id. |
 | `statement_descriptor` | Optional | string | Text shown on your bank statement for the deposit, when one was set. |
 | `status` | Required | string | Where the payout is: pending until it is sent, in_transit on its way to your bank, then paid or failed. A paid payout can still become failed if the bank returns the deposit, and canceled means a manual payout was canceled while pending. Values: `"pending"`, `"in_transit"`, `"paid"`, `"failed"`, `"canceled"`. |
 | `trace_id` | Optional | [PayoutTraceID](../models/PayoutTraceID.md#payouttraceid) | The bank's trace number for the deposit, which your bank can use to locate a late deposit. Its status says whether the number is pending, available, or unsupported, and value holds the number when Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with whether it is pending, available, or unsupported. |
@@ -46,6 +46,10 @@ Field definitions: [IncomingWebhook358012160ab8Payload.data.object.amount_money]
 ### Payout.fee_money
 
 Declared alternatives: [IncomingWebhook358012160ab8Payload.data.object.fee_money](../models/IncomingWebhook358012160ab8Payload.md#incomingwebhook358012160ab8payloaddataobjectfee_money).
+
+### Payout.metadata
+
+Field definitions: [CreateOrderLineItem variant 1.metadata](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata).
 
 ### Payout.net_money
 

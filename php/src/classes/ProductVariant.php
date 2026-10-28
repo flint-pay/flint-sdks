@@ -35,7 +35,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class ProductVariant extends Model {
-    /** @param array{'available_for_sale': bool, 'barcode'?: string, 'created_at'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: mixed, 'images': list<mixed>, 'images_inherited': bool, 'inventory_item_id'?: string, 'inventory_tracking': string, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'updated_at'?: string, 'variant_id': string, 'version': string, ...}|object $values */
+    /** @param array{'available_for_sale': bool, 'barcode'?: string, 'created_at'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: mixed, 'images': list<mixed>, 'images_inherited': bool, 'inventory_item_id'?: string, 'inventory_tracking': string, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'updated_at'?: string, 'variant_id': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariant')); }
     /** Shape $ (Value): boolean. Whether the variant and its product are both active.
      * @return bool
@@ -112,7 +112,7 @@ final class ProductVariant extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata stored on this resource. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

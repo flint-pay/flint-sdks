@@ -21,7 +21,7 @@ Body model: [CreateModifierGroupRequestInput](../models/CreateInlineModifierGrou
 
 #### modifierGroups.create body fields
 
-Field definitions: [shared fields](../models/CreateInlineModifierGroupRequestInput.md#createinlinemodifiergrouprequestinput). Models: [CreateModifierRequestInput](../models/CreateModifierRequestInput.md#createmodifierrequestinput), [TextModifierConfigRequestInput](../models/TextModifierConfigRequestInput.md#textmodifierconfigrequestinput).
+Field definitions: [shared fields](../models/CreateInlineModifierGroupRequestInput.md#createinlinemodifiergrouprequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [CreateModifierRequestInput](../models/CreateModifierRequestInput.md#createmodifierrequestinput), [TextModifierConfigRequestInput](../models/TextModifierConfigRequestInput.md#textmodifierconfigrequestinput).
 
 #### Response
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -119,7 +119,7 @@ $result = $client->modifierGroups->get('example', [], new RequestOptions());
 
 ### modifierGroups.list
 
-List modifier groups.
+List modifier groups. Default order: created_at descending, then modifier_group_id descending.
 
 `GET /v1/modifier-groups`
 
@@ -220,7 +220,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -255,7 +255,7 @@ Body model: [UpdateModifierGroupRequestInput](../models/UpdateModifierGroupReque
 
 #### modifierGroups.update body fields
 
-Field definitions: [shared fields](../models/UpdateModifierGroupRequestInput.md#updatemodifiergrouprequestinput). Models: [ModifierRequestInput](../models/ModifierRequestInput.md#modifierrequestinput), [TextModifierConfigPatchRequestInput](../models/TextModifierConfigPatchRequestInput.md#textmodifierconfigpatchrequestinput).
+Field definitions: [shared fields](../models/UpdateModifierGroupRequestInput.md#updatemodifiergrouprequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput), [ModifierRequestInput](../models/ModifierRequestInput.md#modifierrequestinput), [TextModifierConfigPatchRequestInput](../models/TextModifierConfigPatchRequestInput.md#textmodifierconfigpatchrequestinput).
 
 #### Response
 
@@ -285,7 +285,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

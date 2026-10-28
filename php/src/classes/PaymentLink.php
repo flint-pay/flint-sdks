@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read ?string $inactive_message
  * @property-read ?InventoryRoutingSource $inventory_routing_source
  * @property-read ?CheckoutLegalConfig $legal
- * @property-read ?list<\stdClass> $line_items
+ * @property-read list<\stdClass|PaymentLinkLineItemsItemBundle|PaymentLinkLineItemsItemCustomFixed|PaymentLinkLineItemsItemCustomVariable>|null $line_items
  * @property-read ?int $max_completions
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
@@ -43,7 +43,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentLink extends Model {
-    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: string, 'completed_count': int, 'created_at'?: string, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'delivery_method_ids': list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: string, 'sales_summary'?: mixed, 'status': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold': int, 'updated_at'?: string, 'url': string, 'version': string, ...}|object $values */
+    /** @param array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: string, 'completed_count': int, 'created_at'?: string, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'delivery_method_ids': list<string>, 'description'?: string, 'donation_max_amount_money'?: mixed, 'donation_min_amount_money'?: mixed, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'external_reference_id'?: string, 'image'?: mixed, 'inactive_message'?: string, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'payment_link_id': string, 'payment_link_type'?: string, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: string, 'sales_summary'?: mixed, 'status': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed, 'total_quantity_sold': int, 'updated_at'?: string, 'url': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLink')); }
     /** Shape $ (Value): {@see CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your checkout settings.
      * @return ?CheckoutBuyerFields
@@ -131,7 +131,7 @@ final class PaymentLink extends Model {
     public function getLegal(): ?CheckoutLegalConfig { return $this->get('legal'); }
     public function hasLegal(): bool { return $this->has('legal'); }
     /** Shape $ (Value): Array of {@see PaymentLinkLineItem}. Shape $[] (Value): {@see PaymentLinkLineItem}. A line item on a payment link, sold from a catalog variant, a bundle, or an ad hoc name and price, with quantity and price rules.
-     * @return ?list<\stdClass>
+     * @return list<\stdClass|PaymentLinkLineItemsItemBundle|PaymentLinkLineItemsItemCustomFixed|PaymentLinkLineItemsItemCustomVariable>|null
      */
     public function getLineItems(): ?array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
@@ -145,7 +145,7 @@ final class PaymentLink extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

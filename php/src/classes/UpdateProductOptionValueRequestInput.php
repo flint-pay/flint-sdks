@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string $value
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateProductOptionValueRequestInput extends Model {
-    /** @param array{'metadata'?: array<array-key, string|null>|\stdClass|null, 'option_value_id'?: string, 'position'?: int, 'status'?: string, 'value': string, ...}|object $values */
+    /** @param array{'metadata'?: array<array-key, string|null>|\stdClass|null, 'option_value_id'?: string, 'position'?: int, 'status'?: string, 'value': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateProductOptionValueRequestInput')); }
     /** Shape $ (Value): Map of (string or null) or null. Complete caller-owned metadata for this option value. Retained option values are replaced as members of the options array, so omitting metadata, sending null, or sending {} clears it. A null-valued key is omitted from the replacement. Values can't be empty strings. Keys starting with flint_ are reserved and cannot be written through the public API. Shape $.* (Value): string or null. minLength: 1.
      * @return array<array-key, string|null>|\stdClass|null

@@ -24,11 +24,11 @@ Body model: [CreateGiftCardLoadRequestInput](../models/CreateGiftCardLoadRequest
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `consideration_money` | Optional | [MoneyValueInput](../models/CreditNoteLineItemCorrectionQuantityAmountMoney.md#creditnotelineitemcorrectionquantityamountmoney) or null |  |
+| `consideration_money` | Optional | [MoneyValueInput](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney) or null |  |
 | `expected_version` | Optional | integer string | The gift card version last read. The command changes this card only when its current version matches. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
 | `source` | Required | [GiftCardFundingSourceInput](../models/GiftCardFundingSourceInput.md#giftcardfundingsourceinput) | Where the value of a gift card load came from, such as an external payment, a Flint payment, an import, or an adjustment, with your reference for it. |
 | `source_created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
-| `value_money` | Required | [MoneyValueInput](../models/CreditNoteLineItemCorrectionQuantityAmountMoney.md#creditnotelineitemcorrectionquantityamountmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `value_money` | Required | [MoneyValueInput](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 #### Response
 
@@ -58,7 +58,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -139,7 +139,7 @@ $result = $client->giftCardLoads->get('example', [], new RequestOptions());
 
 ### giftCardLoads.list
 
-Lists funding lots in descending ID order. Consideration may be null for imported balances whose original purchase price is unknown. The idempotency_key filter recovers a load after a lost command response.
+Lists funding lots in descending ID order. Consideration may be null for imported balances whose original purchase price is unknown. The idempotency_key filter recovers a load after a lost command response. Default order: gift_card_load_id descending; this key uniquely orders the results.
 
 `GET /v1/gift-card-loads`
 

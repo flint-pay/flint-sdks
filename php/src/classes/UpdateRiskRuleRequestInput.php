@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $action
  * @property-read string $description
  * @property-read string $expected_version
- * @property-read array{'all': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'not': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass}|object|array{'attribute': string, 'operator': string, 'value': string|int|bool}|object|array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'attribute': string, 'operator': string}|object|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|object|array{'attribute': string, 'list_alias': string, 'operator': string}|object|array{'attribute': string, 'operator': string}|object $predicate
+ * @property-read RiskPredicateNodeInput|array<array-key, mixed>|\stdClass $predicate
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateRiskRuleRequestInput extends Model {
@@ -30,7 +30,7 @@ final class UpdateRiskRuleRequestInput extends Model {
     public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
     /** Shape $ (Value): {@see RiskPredicateNodeInput}. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     * @return array{'all': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'not': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass}|object|array{'attribute': string, 'operator': string, 'value': string|int|bool}|object|array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'attribute': string, 'operator': string}|object|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|object|array{'attribute': string, 'list_alias': string, 'operator': string}|object|array{'attribute': string, 'operator': string}|object
+     * @return RiskPredicateNodeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When predicate is omitted; use hasPredicate() or valueOrDefault().
      */
     public function getPredicate(): mixed { return $this->get('predicate'); }

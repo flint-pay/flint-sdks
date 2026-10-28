@@ -12,7 +12,7 @@ Response model.
 | `line_items` | Required | Array of ([ReturnPreviewsCreateResponse200DataEligibilityEligibilityLineItemsItem](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibilityLineItemsItem.md#returnpreviewscreateresponse200dataeligibilityeligibilitylineitemsitem) and object) |  |
 | `order_id` | Required | string |  |
 | `policy_evaluation` | Required | [ReturnPreviewsCreateResponse200DataEligibilityEligibilityPolicyEvaluation](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibilityPolicyEvaluation.md#returnpreviewscreateresponse200dataeligibilityeligibilitypolicyevaluation) | How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. `policy_evaluation`: [field definitions](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibility.md#returnpreviewscreateresponse200dataeligibilityeligibilitypolicy_evaluation). |
-| `selection` | Required | object and Alternative shapes (see declared variants) | Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. `selection`: [declared alternatives](../models/ReturnPreviewsCreateResponse200DataEligibilityEligibility.md#returnpreviewscreateresponse200dataeligibilityeligibilityselection). |
+| `selection` | Required | object and Alternative shapes (see declared variants) | Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. `selection`: [declared alternatives](../models/MeCreateReturnPreviewResponse200DataEligibilityEligibility.md#mecreatereturnpreviewresponse200dataeligibilityeligibilityselection). |
 | `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 ### ReturnPreviewsCreateResponse200DataEligibilityEligibility.policy_evaluation
@@ -44,27 +44,5 @@ How a return policy evaluated a return request: overall status and reason, the p
 
 ### ReturnPreviewsCreateResponse200DataEligibilityEligibility.selection
 
-Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines.
-
-Field definitions: [shared fields](ReturnPreviewsCreateResponse200.md#returnpreviewscreateresponse200dataeligibility-fields-1selection).
-
-### ReturnPreviewsCreateResponse200DataEligibilityEligibility.selection variant 1: `selection_type` = `"all_remaining_fulfilled"`
-
-oneOf variant 1: The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`..
-
-- Condition: not (present(`line_items`)).
-- Optional: `line_items`.
-- Constraints for `selection_type`: Values: `"all_remaining_fulfilled"`.
-
-### ReturnPreviewsCreateResponse200DataEligibilityEligibility.selection variant 2: `selection_type` = `"line_items"`
-
-oneOf variant 2: The `line_items` variant of `ReturnEligibilitySelection`..
-
-- Required: `line_items`.
-- Constraints for `line_items`: minItems: `1`.
-- Constraints for `selection_type`: Values: `"line_items"`.
-
-### ReturnPreviewsCreateResponse200DataEligibilityEligibility.selection variant 1.line_items[]
-
-Field definitions: [ReturnPreviewsCreateResponse200.data.eligibility fields 1.selection variant 1.line_items[]](../models/ReturnPreviewsCreateResponse200.md#returnpreviewscreateresponse200dataeligibility-fields-1selection-variant-1line_items).
+Declared alternatives: [MeCreateReturnPreviewResponse200DataEligibilityEligibility.selection](../models/MeCreateReturnPreviewResponse200DataEligibilityEligibility.md#mecreatereturnpreviewresponse200dataeligibilityeligibilityselection).
 

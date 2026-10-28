@@ -1,1 +1,1 @@
-{"shared":"APIRequestLogListResponse","dependencies":["APIRequestLog","APIRequestLogListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceReference","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}
+{"shared":"APIRequestLogListResponse","dependencies":["APIRequestLog","APIRequestLogListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceReference","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}

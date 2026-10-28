@@ -1,1 +1,1 @@
-{"shared":"CreateDeliverySelectionRequest","dependencies":["AddressRequest","CreateDeliverySelectionChoiceRequest","CreateDeliverySelectionRequest","DeliverySelectionInstructionsRequest","DeliverySelectionRecipientRequest"]}
+{"shared":"CreateDeliverySelectionRequest","dependencies":["AddressRequest","CreateDeliverySelectionChoiceRequest","CreateDeliverySelectionRequest","DeliverySelectionInstructionsRequest","DeliverySelectionRecipientRequest","SharedCodec0","SharedCodec1"]}

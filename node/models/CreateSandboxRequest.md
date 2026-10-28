@@ -10,35 +10,45 @@ The request body for: Create sandbox.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `access` | Conditional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `issue_test_key` | Conditional | boolean |  |
 | `name` | Required | string | minLength: `1`. |
-| `scope_preset` | Conditional | string | A predefined set of scopes to grant instead of listing them. Flint resolves it when it creates the key and stores the resulting scopes, so scopes added to Flint later are not added to the key. Send either scopes or scope_preset. Values: `"full_access"`, `"read_only"`. |
-| `scopes` | Conditional | Array of string | The scopes to grant. Send either scopes or scope_preset. Items values: [95 declared values](APIKey.md#apikey-scopes--values). |
+| `scopes` | Conditional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. minItems: `1`. uniqueItems: `true`. Items values: [96 declared values](APIKey.md#apikey-scopes--values). |
 | `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
 
-### CreateSandboxRequest variant 1: `issue_test_key` = `true`
+### CreateSandboxRequest variant 1: `access` = `"full"`, `issue_test_key` = `true`
 
 oneOf variant 1; oneOf variant 1.
 
-- Condition: not (at least one(present(`scope_preset`))).
-- Required: `issue_test_key`, `scopes`.
-- Optional: `scope_preset`.
+- Condition: not (present(`scopes`)).
+- Required: `access`, `issue_test_key`.
+- Optional: `scopes`.
+- Constraints for `access`: Values: `"full"`.
 - Constraints for `issue_test_key`: Values: `true`.
 
-### CreateSandboxRequest variant 2: `issue_test_key` = `true`
+### CreateSandboxRequest variant 2: `access` = `"read_only"`, `issue_test_key` = `true`
 
 oneOf variant 1; oneOf variant 2.
 
-- Condition: not (at least one(present(`scopes`))).
-- Required: `issue_test_key`, `scope_preset`.
+- Condition: not (present(`scopes`)).
+- Required: `access`, `issue_test_key`.
 - Optional: `scopes`.
+- Constraints for `access`: Values: `"read_only"`.
 - Constraints for `issue_test_key`: Values: `true`.
 
-### CreateSandboxRequest variant 3: `issue_test_key` = `false`
+### CreateSandboxRequest variant 3: `access` = `"restricted"`, `issue_test_key` = `true`
+
+oneOf variant 1; oneOf variant 3.
+
+- Required: `access`, `issue_test_key`, `scopes`.
+- Constraints for `access`: Values: `"restricted"`.
+- Constraints for `issue_test_key`: Values: `true`.
+
+### CreateSandboxRequest variant 4: `issue_test_key` = `false`
 
 oneOf variant 2.
 
-- Condition: not (at least one(present(`scopes`); present(`scope_preset`); present(`test_key_name`))).
-- Optional: `issue_test_key`, `scope_preset`, `scopes`.
+- Condition: not (at least one(present(`access`); present(`scopes`); present(`test_key_name`))).
+- Optional: `access`, `issue_test_key`, `scopes`.
 - Constraints for `issue_test_key`: Values: `false`.
 

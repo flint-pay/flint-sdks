@@ -1,1 +1,1 @@
-{"shared":"Webhook_return_disposition_created_merchant","dependencies":["MerchantWebhookEnvelope","ReturnActor","ReturnDisposition","SharedCodec373","SharedCodec374","SharedCodec786","Webhook_return_disposition_created_merchant"]}
+{"shared":"Webhook_return_disposition_created_merchant","dependencies":["MerchantWebhookEnvelope","MetadataMap","ReturnActor","ReturnDisposition","SharedCodec413","SharedCodec414","SharedCodec824","Webhook_return_disposition_created_merchant"]}

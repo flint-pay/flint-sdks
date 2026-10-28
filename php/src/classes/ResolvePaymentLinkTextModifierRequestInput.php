@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $value
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResolvePaymentLinkTextModifierRequestInput extends Model {
-    /** @param array{'modifier_group_id': string, 'value': string, ...}|object $values */
+    /** @param array{'modifier_group_id': string, 'value': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolvePaymentLinkTextModifierRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

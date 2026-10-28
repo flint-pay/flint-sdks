@@ -6,8 +6,5 @@ A reference to an image by `url`, with optional `alt` text, used on an order lin
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `alt` | Optional | string | Alternative text describing the image for accessibility. minLength: `1`. |
-| `url` | Required | string | URL of the image. minLength: `1`. |
+Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantImage](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantImage.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantimage).
 

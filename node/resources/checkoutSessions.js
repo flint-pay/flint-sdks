@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/checkoutSessions.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/checkoutSessions.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelectionHistory"]:r0,["listCheckoutSessions"]:r0,["updateCheckoutSession"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["createCheckoutSessionDeliveryQuote"]:r0,["createCheckoutSessionDeliverySelection"]:r0,["deleteCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCurrentDeliverySelection"]:r0,["getCheckoutSessionDeliveryQuote"]:r0,["getCheckoutSessionDeliverySelection"]:r0,["listCheckoutSessionDeliverySelections"]:r0,["listCheckoutSessions"]:r0,["updateCheckoutSession"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -101,14 +101,52 @@ this.checkoutSessions = Object.freeze({
   "checkout_session_id",
   "delivery_quote_id"
 ], [checkout_session_id, delivery_quote_id], [], false, false, params), options).then(_sdkResponse),
-      getDeliverySelectionHistory: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelectionHistory", _sdkRequestInput([
+      getDeliverySelection: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelection", _sdkRequestInput([
   "checkout_session_id",
   "delivery_selection_id"
-], [checkout_session_id, delivery_selection_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionDeliverySelectionHistory", result, path))),
-      getDeliverySelectionHistoryWithResponse: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelectionHistory", _sdkRequestInput([
+], [checkout_session_id, delivery_selection_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionDeliverySelection", result, path))),
+      getDeliverySelectionWithResponse: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelection", _sdkRequestInput([
   "checkout_session_id",
   "delivery_selection_id"
 ], [checkout_session_id, delivery_selection_id], [], false, false, params), options).then(_sdkResponse),
+      getDeliverySelectionHistory: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelection", _sdkRequestInput([
+  "checkout_session_id",
+  "delivery_selection_id"
+], [checkout_session_id, delivery_selection_id], [], false, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionDeliverySelection", result, path))),
+      getDeliverySelectionHistoryWithResponse: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelection", _sdkRequestInput([
+  "checkout_session_id",
+  "delivery_selection_id"
+], [checkout_session_id, delivery_selection_id], [], false, false, params), options).then(_sdkResponse),
+      listDeliverySelections: async (checkout_session_id, params, options) => this.#runtime.request("listCheckoutSessionDeliverySelections", _sdkRequestInput([
+  "checkout_session_id"
+], [checkout_session_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listCheckoutSessionDeliverySelections", result, path))),
+      listDeliverySelectionsWithResponse: async (checkout_session_id, params, options) => this.#runtime.request("listCheckoutSessionDeliverySelections", _sdkRequestInput([
+  "checkout_session_id"
+], [checkout_session_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options).then(_sdkResponse),
+      listDeliverySelectionsPages: (checkout_session_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCheckoutSessionDeliverySelections", _sdkRequestInput([
+  "checkout_session_id"
+], [checkout_session_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options), [], (result, path) => this.#runtime.decodePayload("listCheckoutSessionDeliverySelections", result, path)),
+      listDeliverySelectionsPagesWithResponse: (checkout_session_id, params, options) => _sdkResponsePages(this.#runtime.pages("listCheckoutSessionDeliverySelections", _sdkRequestInput([
+  "checkout_session_id"
+], [checkout_session_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options)),
+      listDeliverySelectionsItems: (checkout_session_id, params, options) => this.#runtime.items("listCheckoutSessionDeliverySelections", _sdkRequestInput([
+  "checkout_session_id"
+], [checkout_session_id], [
+  "page_size",
+  "page_token"
+], false, false, params), options),
       list: async (params, options) => this.#runtime.request("listCheckoutSessions", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
@@ -240,32 +278,34 @@ this.checkoutSessions = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeAddressRequest } from '../models/AddressRequest.js';
-export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
 export { makeCallerSuppliedDeliveryMethodResultRequest } from '../models/CallerSuppliedDeliveryMethodResultRequest.js';
 export { makeCallerSuppliedDeliveryOutcomeRequest } from '../models/CallerSuppliedDeliveryOutcomeRequest.js';
 export { makeCallerSuppliedDeliveryOutcomeRequestAvailable } from '../models/CallerSuppliedDeliveryOutcomeRequestAvailable.js';
 export { makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate } from '../models/CallerSuppliedDeliveryOutcomeRequestCannotCalculate.js';
 export { makeCallerSuppliedDeliveryOutcomeRequestUnavailable } from '../models/CallerSuppliedDeliveryOutcomeRequestUnavailable.js';
 export { makeCheckoutBuyerContactRequest } from '../models/CheckoutBuyerContactRequest.js';
-export { makeCheckoutBuyerFields } from '../models/CheckoutBuyerFields.js';
+export { makeCheckoutBuyerFieldsRequestRequest } from '../models/CheckoutBuyerFieldsRequestRequest.js';
 export { makeCheckoutCustomTextWriteConfig } from '../models/CheckoutCustomTextWriteConfig.js';
 export { makeCheckoutLegalConfigRequest } from '../models/CheckoutLegalConfigRequest.js';
 export { makeCheckoutPaymentConfigRequest } from '../models/CheckoutPaymentConfigRequest.js';
 export { makeCheckoutPrefillRequest } from '../models/CheckoutPrefillRequest.js';
-export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
+export { makeCheckoutPromotionConfigRequestRequest } from '../models/CheckoutPromotionConfigRequestRequest.js';
 export { makeCheckoutQuickPayItemRequest } from '../models/CheckoutQuickPayItemRequest.js';
 export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
 export { makeCheckoutSubscriptionTermsRequest } from '../models/CheckoutSubscriptionTermsRequest.js';
-export { makeCheckoutTaxConfig } from '../models/CheckoutTaxConfig.js';
-export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
+export { makeCheckoutTaxConfigRequestRequest } from '../models/CheckoutTaxConfigRequestRequest.js';
+export { makeCheckoutTipConfigRequestRequest } from '../models/CheckoutTipConfigRequestRequest.js';
 export { makeCloseCheckoutSessionRequest } from '../models/CloseCheckoutSessionRequest.js';
 export { makeConfirmCheckoutSessionCustomerVerificationRequest } from '../models/ConfirmCheckoutSessionCustomerVerificationRequest.js';
 export { makeCreateCheckoutDeliveryQuoteRequest } from '../models/CreateCheckoutDeliveryQuoteRequest.js';
 export { makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest } from '../models/CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest.js';
 export { makeCreateCheckoutSessionCustomerVerificationRequest } from '../models/CreateCheckoutSessionCustomerVerificationRequest.js';
 export { makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest } from '../models/CreateCheckoutSessionGiftCardPurchaseVerificationRequest.js';
+export { makeCreateCheckoutSessionOrder } from '../models/CreateCheckoutSessionOrder.js';
+export { makeCreateCheckoutSessionQuickPay } from '../models/CreateCheckoutSessionQuickPay.js';
 export { makeCreateCheckoutSessionRequest } from '../models/CreateCheckoutSessionRequest.js';
 export { makeCreateCheckoutSessionSavePaymentMethodVerificationRequest } from '../models/CreateCheckoutSessionSavePaymentMethodVerificationRequest.js';
+export { makeCreateCheckoutSessionSubscriptionPlan } from '../models/CreateCheckoutSessionSubscriptionPlan.js';
 export { makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest } from '../models/CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest.js';
 export { makeCreateDeliverySelectionChoiceRequest } from '../models/CreateDeliverySelectionChoiceRequest.js';
 export { makeCreateDeliverySelectionRequest } from '../models/CreateDeliverySelectionRequest.js';
@@ -280,9 +320,8 @@ export { makeDeliverySelectionInstructionsRequest } from '../models/DeliverySele
 export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeDimensions } from '../models/Dimensions.js';
-export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
-export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
-export { makeLocationCoordinate } from '../models/LocationCoordinate.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';

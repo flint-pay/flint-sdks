@@ -2,19 +2,12 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string|\DateTimeInterface $earliest_available_at
  * @property-read string|\DateTimeInterface $latest_reconciled_at
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class MoneyMovementHistoryMetaInput extends Model {
-    /** @param array{'earliest_available_at'?: string|\DateTimeInterface, 'latest_reconciled_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
+    /** @param array{'latest_reconciled_at'?: string|\DateTimeInterface, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MoneyMovementHistoryMetaInput')); }
-    /** Shape $ (Value): string. Earliest time Flint's history for this list covers, when Flint knows it. Format: date-time.
-     * @return string|\DateTimeInterface
-     * @throws SdkError When earliest_available_at is omitted; use hasEarliestAvailableAt() or valueOrDefault().
-     */
-    public function getEarliestAvailableAt(): string|\DateTimeInterface { return $this->get('earliest_available_at'); }
-    public function hasEarliestAvailableAt(): bool { return $this->has('earliest_available_at'); }
     /** Shape $ (Value): string. When Flint last finished reconciling this list's history with your processor. Absent until a reconciliation finishes. Format: date-time.
      * @return string|\DateTimeInterface
      * @throws SdkError When latest_reconciled_at is omitted; use hasLatestReconciledAt() or valueOrDefault().

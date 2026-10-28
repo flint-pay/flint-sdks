@@ -38,7 +38,7 @@ final class PayOrderRequestPayInput extends Model {
      */
     public function getExpectedOutstandingMoney(): mixed { return $this->get('expected_outstanding_money'); }
     public function hasExpectedOutstandingMoney(): bool { return $this->has('expected_outstanding_money'); }
-    /** Shape $ (Value): integer string. Optional version from the order you reviewed. A mismatch returns ORDER_CHANGED_REFRESH_REQUIRED, even when the outstanding amount is unchanged. Starting a payment advances the order's version. After a declined or failed attempt, use the order returned in the pay response or read the order again before retrying. When accepted_gift_card_allocation is sent, its order_version must match this value. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+    /** Shape $ (Value): integer string. Optional version from the order you reviewed. A mismatch returns VERSION_CONFLICT, even when the outstanding amount is unchanged. Starting a payment advances the order's version. After a declined or failed attempt, use the order returned in the pay response or read the order again before retrying. When accepted_gift_card_allocation is sent, its order_version must match this value. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
      * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

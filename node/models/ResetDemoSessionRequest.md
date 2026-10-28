@@ -2,7 +2,9 @@
 
 ## ResetDemoSessionRequest
 
-The request body for: Reset demo session.
+Declared schema CreateDemoSessionRequest: The request body for: Create demo session.
+
+Declared schema ResetDemoSessionRequest: The request body for: Reset demo session.
 
 
 
@@ -10,6 +12,5 @@ The request body for: Reset demo session.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `demo_session_id` | Required | string | The active or provisioning demo session to reset for this client. minLength: `1`. |
 | `template` | Optional | string | Omit to use quickstart. An explicit empty or unsupported template is invalid. Default: `"quickstart"`. Values: `"quickstart"`. |
 

@@ -11,7 +11,7 @@ namespace Flint;
  * @property-read string $delivery_quote_id
  * @property-read ?string $delivery_quote_version
  * @property-read string $delivery_selection_id
- * @property-read ?DeliveryAddressResource $destination_address
+ * @property-read ?Address $destination_address
  * @property-read ?string $eligibility_context_version
  * @property-read string $expires_at
  * @property-read list<DeliveryInputRequirement> $input_requirements
@@ -73,10 +73,10 @@ final class DeliverySelection extends Model {
      */
     public function getDeliverySelectionId(): string { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** Shape $ (Value): {@see DeliveryAddressResource}. Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations.
-     * @return ?DeliveryAddressResource
+    /** Shape $ (Value): {@see Address}. Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return ?Address
      */
-    public function getDestinationAddress(): ?DeliveryAddressResource { return $this->get('destination_address'); }
+    public function getDestinationAddress(): ?Address { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
     /** Shape $ (Value): integer string. Checkout eligibility context version evaluated by this selection. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
      * @return ?string

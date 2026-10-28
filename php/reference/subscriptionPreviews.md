@@ -22,11 +22,11 @@ Body model: [CreateSubscriptionPreviewRequestInput](../models/CreateSubscription
 
 The `delivery_options` variant of `CreateSubscriptionPreviewRequest`.
 
-Body model: [CreateSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateSubscriptionPreviewRequestDeliveryOptionsInput.md#createsubscriptionpreviewrequestdeliveryoptionsinput).
+Body model: [CreateSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput).
 
 #### subscriptionPreviews.create body oneOf variant 1 fields
 
-Field definitions: [shared fields](../models/CreateSubscriptionPreviewRequestDeliveryOptionsInput.md#createsubscriptionpreviewrequestdeliveryoptionsinput). Models: [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequestInput.md#subscriptiondeliverydestinationrequestinput).
+Field definitions: [shared fields](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput). Models: [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequestInput.md#subscriptiondeliverydestinationrequestinput).
 
 #### subscriptionPreviews.create body oneOf variant 2
 
@@ -52,7 +52,7 @@ Field definitions: [shared fields](../models/CreateSubscriptionPreviewRequestDel
 
 The `next_renewal` variant of `CreateSubscriptionPreviewRequest`.
 
-Body model: [CreateSubscriptionPreviewRequestNextRenewalInput](../models/CreateSubscriptionPreviewRequestNextRenewalInput.md#createsubscriptionpreviewrequestnextrenewalinput).
+Body model: [CreateSubscriptionPreviewRequestNextRenewalInput](../models/CreateMeSubscriptionPreviewRequestNextRenewalInput.md#createmesubscriptionpreviewrequestnextrenewalinput).
 
 #### subscriptionPreviews.create body oneOf variant 4 fields
 
@@ -84,7 +84,7 @@ A preview of a subscription. In `create` mode it reports validity and errors; in
 | `address_verification` | Optional | [SubscriptionAddressVerification](../models/SubscriptionAddressVerificationInput.md#subscriptionaddressverificationinput) | The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `delivery_methods` | Optional | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Present in delivery_options mode ([] when no method applies); absent in create mode. |
-| `destination_address` | Optional | [Address](../models/Address.md#address) | A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. |
+| `destination_address` | Optional | [Address](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableAddressAdvisoriesItemSuggestedAddress.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableaddressadvisoriesitemsuggestedaddress) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `errors` | Optional | Array of [SubscriptionPreviewError](../models/SubscriptionPreviewError.md#subscriptionpreviewerror) | Present in create mode ([] when the subscription is valid); absent in delivery_options mode. |
 | `is_valid` | Optional | boolean | Present in create mode; absent in delivery_options mode. |
 | `mode` | Required | string | Values: `"create"`, `"delivery_options"`. |
@@ -116,10 +116,10 @@ Estimated pricing for a subscription plan change, including the recurring item s
 | `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Format: `int32`. |
 | `billing_starts` | Required | string | Values: `"now"`, `"next_renewal"`. |
-| `credit_money` | Required | [MoneyValue](../models/CreditNoteLineItemCorrectionQuantityAmountMoney.md#creditnotelineitemcorrectionquantityamountmoney) or null | Unused paid item time credited when billing_starts is now; null for next_renewal. |
+| `credit_money` | Required | [MoneyValue](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney) or null | Unused paid item time credited when billing_starts is now; null for next_renewal. |
 | `mode` | Required | string | Values: `"plan_change"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `recurring_subtotal_money` | Required | [MoneyValue](../models/CreditNoteLineItemCorrectionQuantityAmountMoney.md#creditnotelineitemcorrectionquantityamountmoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `recurring_subtotal_money` | Required | [MoneyValue](../models/PaymentLinkLineItemsItemBundleResolvedUnitPriceMoney.md#paymentlinklineitemsitembundleresolvedunitpricemoney) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `renewal` | Required | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated pricing and billing time for a subscription's next renewal, including items, discounts, shipping, and tax. |
 | `subscription_id` | Required | string |  |
 | `subscription_plan_id` | Required | string |  |

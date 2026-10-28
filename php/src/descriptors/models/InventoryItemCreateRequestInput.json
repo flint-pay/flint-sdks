@@ -1,1 +1,1 @@
-{"shared":"InventoryItemCreateRequest","dependencies":["InventoryItemCreateRequest"]}
+{"shared":"InventoryItemCreateRequest","dependencies":["InventoryItemCreateRequest","MetadataRequest"]}

@@ -26,7 +26,7 @@ Request input.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](#apirequestloginput-resource_type-values). |
+| `resource_type` | Optional | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](#apirequestloginput-resource_type-values). |
 | `retry` | Optional | string | How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Required | string |  |
 | `served_api_version` | Optional | string |  |
@@ -75,6 +75,7 @@ Request input.
 - `"delivery_revocation"`
 - `"delivery_selection"`
 - `"delivery_zone"`
+- `"demo_session"`
 - `"device"`
 - `"discount"`
 - `"dispute"`
@@ -94,6 +95,7 @@ Request input.
 - `"gift_card_notification"`
 - `"gift_card_redemption"`
 - `"gift_card_transaction"`
+- `"image"`
 - `"inventory_adjustment"`
 - `"inventory_allocation_policy"`
 - `"inventory_allocation_policy_revision"`
@@ -130,6 +132,7 @@ Request input.
 - `"package"`
 - `"package_item"`
 - `"partner_app"`
+- `"partner_app_credential"`
 - `"partner_app_install"`
 - `"payment_intent"`
 - `"payment_link"`
@@ -178,6 +181,8 @@ Request input.
 - `"subscription_payment_retry"`
 - `"subscription_plan"`
 - `"subscription_plan_line_item"`
+- `"tax_connection"`
+- `"tax_registration"`
 - `"user"`
 - `"webhook_delivery"`
 - `"webhook_endpoint"`

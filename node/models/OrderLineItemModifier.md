@@ -10,7 +10,7 @@ A modifier selected on an order line item, with its quantity, price change, tota
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata). |
 | `modifier_group_name` | Required | string | Name of the modifier group recorded when this selection was added to the order line item. |
 | `modifier_id` | Optional | string | Identifier of the selected catalog modifier. If its group is owned by a modifier set (source: inline), read the group through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. |
 | `name` | Required | string | Name of the selected modifier recorded on the order line item. |
@@ -23,6 +23,10 @@ A modifier selected on an order line item, with its quantity, price change, tota
 | `text_value` | Optional | string | Buyer-entered text recorded for a text modifier selection. |
 | `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total price added by this selection. Multiplies unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `total_money`: [field definitions](../models/BuyerOrderLineItemModifier.md#buyerorderlineitemmodifiertotal_money). |
 | `unit_price_delta_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount added to the item's unit price for each unit of this selection, recorded when selected. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_delta_money`: [field definitions](../models/BuyerOrderLineItemModifier.md#buyerorderlineitemmodifierunit_price_delta_money). |
+
+### OrderLineItemModifier.metadata
+
+Field definitions: [CreateOrderLineItem variant 1.metadata](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata).
 
 ### OrderLineItemModifier.text
 

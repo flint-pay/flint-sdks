@@ -1,18 +1,19 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
+import type { Dispute } from '../declarations/types-17.js';
 import type {
-    Dispute,
     DisputeListResponse,
     DisputeResponse,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
+    DisputesAcceptInput,
     DisputesCreateResponseSessionInput,
     DisputesGetInput,
     DisputesListInput
-} from '../declarations/types-16.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-18.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,35 +28,59 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
+export type { Dispute } from '../declarations/types-17.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type {
+    DisputeResponse,
     DisputeResponseSession,
     DisputeResponseSessionResponse,
-    Dispute,
-    DisputeResponse,
     DisputeListResponse,
+    DisputesAcceptInput,
     DisputesCreateResponseSessionInput,
     DisputesGetInput,
     DisputesListInput,
+    ExpandedCustomerSummary,
+    ExpandedOrderSummary,
+    ExpandedPaymentIntentSummary,
     DisputeResponseSessionClientSession,
     DisputeResponseSessionStripe,
     DisputeResponseSessionStripeAccountSession,
-    DisputeResponseSessionStripeComponent,
-    ExpandedCustomerSummary,
-    ExpandedOrderSummary,
-    ExpandedPaymentIntentSummary
-} from '../declarations/types-16.js';
-export type { SdkResponse, SettlementAmounts } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+    DisputeResponseSessionStripeComponent
+} from '../declarations/types-18.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { ClientOptions, CheckoutBuyerContact } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export type { CheckoutBuyerContact } from '../declarations/types-3.js';
-export type { PricingAmounts } from '../declarations/types-37.js';
-export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-36.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { PricingAmounts, PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-39.js';
+export type { SettlementAmounts } from '../declarations/types-47.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface DisputesResource {
+    /**
+ * Accepts a chargeback: you won't contest it, and the disputed amount stays with the buyer. The
+ * dispute becomes `lost`, and Flint sends `dispute.lost`. You can accept while `status` is
+ * `needs_response` and `is_action_required` is `true`. An inquiry can't be accepted; refund the
+ * payment or respond with evidence instead. Accepting can't be undone. Requires
+ * `payments.disputes.write`. Send no body or `{}`. If you don't receive a response, retry with the
+ * same `Idempotency-Key`, or read the dispute: `status: lost` means it was accepted.
+ * @see reference/disputes.md#disputesaccept
+ * POST /v1/disputes/{dispute_id}/accept
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.disputes.accept("example", {}, { idempotencyKey: idempotencyKey })
+ */
+    accept(dispute_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant">): Promise<Dispute>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/disputes.md#disputesaccept
+     */
+    acceptWithResponse(dispute_id: InputValue<string>, params?: {
+        "Idempotency-Key"?: InputValue<string>;
+    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DisputeResponse>>;
     /**
  * Creates a browser session for responding to or viewing a dispute with Stripe Connect. Requires
  * payments.disputes.write. Allowed for closed disputes; bank returns cannot be contested. Pass the
@@ -97,7 +122,8 @@ export interface DisputesResource {
  * Returns a paginated list of disputes for the authenticated merchant with optional payment,
  * customer, status, reason, case type, action required, and timing filters. Defaults to created_at
  * descending. The amount sort compares amount_money.amount in minor units. The evidence_due_at
- * sort places disputes without deadlines last in either direction.
+ * sort places disputes without deadlines last in either direction. Default order: created_at
+ * descending, then dispute_id descending.
  * @see reference/disputes.md#disputeslist
  * GET /v1/disputes
  * @example

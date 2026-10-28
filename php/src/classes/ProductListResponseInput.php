@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductListResponseInput extends Model {
-    /** @param array{'data': list<ProductInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<ProductInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductListResponseInput')); }
     /** Shape $ (Value): Array of {@see ProductInput}. The requested product data. Shape $[] (Value): {@see ProductInput}. An item offered in the merchant's catalog.
      * @return list<ProductInput|array<array-key, mixed>|\stdClass>

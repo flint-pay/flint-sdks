@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [BuyerOrder](../models/BuyerOrder.md#buyerorder) | A customer's purchase and its payment and fulfillment progress. `data`: [field definitions](../models/MeGetOrderResponse200.md#megetorderresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### MeGetOrderResponse200.data
 
@@ -37,7 +37,7 @@ A customer's purchase and its payment and fulfillment progress.
 | `gift_card_settlements` | Required | Array of [OrderGiftCardSettlement](../models/OrderGiftCardSettlement.md#ordergiftcardsettlement) |  |
 | `gift_card_tender_enabled` | Required | boolean |  |
 | `gift_cards` | Required | Array of [OrderGiftCardSelection](../models/OrderGiftCardSelection.md#ordergiftcardselection) |  |
-| `governing_delivery_selection_id` | Optional | string | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Read with GET /v1/orders/{order_id}; other order responses may omit this field. While present, change the destination through the delivery selection. Omitted when no selection governs the order. |
+| `governing_delivery_selection_id` | Required | string or null | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection. |
 | `line_items` | Required | Array of [BuyerOrderLineItem](../models/BuyerOrderLineItem.md#buyerorderlineitem) |  |
 | `merchant_id` | Optional | string |  |
 | `order_id` | Required | string |  |

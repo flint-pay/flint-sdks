@@ -56,7 +56,7 @@ namespace Flint;
  * @property-read MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class Invoice extends Model {
-    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at'?: string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_at'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'public_url'?: string, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'timezone'?: string, 'total_money': mixed, 'uncollectible_at'?: string, 'updated_at'?: string, 'version': string, 'viewed_at'?: string, 'voided_at'?: string, 'written_off_money': mixed, ...}|object $values */
+    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at'?: string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_at'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'public_url'?: string, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'timezone'?: string, 'total_money': mixed, 'uncollectible_at'?: string, 'updated_at'?: string, 'version': string, 'viewed_at'?: string, 'voided_at'?: string, 'written_off_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Invoice')); }
     /** Shape $ (Value): Array of string. Additional recipients copied on the invoice email and every reminder. Shape $[] (Value): string.
      * @return list<string>
@@ -163,7 +163,7 @@ final class Invoice extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -243,7 +243,7 @@ final class Invoice extends Model {
      */
     public function getRemindersPausedAt(): ?string { return $this->get('reminders_paused_at'); }
     public function hasRemindersPausedAt(): bool { return $this->has('reminders_paused_at'); }
-    /** Shape $ (Value): {@see Address}. Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
+    /** Shape $ (Value): {@see Address}. Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
      */
     public function getRemitToAddress(): ?Address { return $this->get('remit_to_address'); }

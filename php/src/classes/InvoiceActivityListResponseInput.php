@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceActivityListResponseInput extends Model {
-    /** @param array{'data': list<InvoiceActivityInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<InvoiceActivityInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceActivityListResponseInput')); }
     /** Shape $ (Value): Array of {@see InvoiceActivityInput}. Shape $[] (Value): {@see InvoiceActivityInput}. Read-only invoice history row for timeline rendering and debugging. Detail fields are present only on the activity types their descriptions list. The invoice and the referenced resources remain authoritative for state and money movement.
      * @return list<InvoiceActivityInput|array<array-key, mixed>|\stdClass>

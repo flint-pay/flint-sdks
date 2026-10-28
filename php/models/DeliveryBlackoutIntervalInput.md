@@ -6,8 +6,5 @@ A local start and end time during which a delivery schedule offers no windows.
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `end_local` | Required | string | minLength: `1`. |
-| `start_local` | Required | string | minLength: `1`. |
+Fields, types, descriptions and enum values: [DeliveryBlackoutIntervalRequestRequestInput](../models/DeliveryBlackoutIntervalRequestRequestInput.md#deliveryblackoutintervalrequestrequestinput).
 

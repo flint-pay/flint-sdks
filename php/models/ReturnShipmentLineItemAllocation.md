@@ -6,5 +6,5 @@ A return line and the quantity placed in a return shipment or package.
 
 Response model.
 
-Fields, types, descriptions and enum values: [ReturnShipmentLineItemAllocationInput](../models/ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput).
+Fields, types, descriptions and enum values: [ReturnShipmentLineItemAllocationRequestRequestInput](../models/ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput).
 

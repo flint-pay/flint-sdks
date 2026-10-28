@@ -11,7 +11,7 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.apiKeys.create(
   {
     name: "example",
-    scopes: [],
+    access: "full",
   },
   { idempotencyKey: idempotencyKey },
 );

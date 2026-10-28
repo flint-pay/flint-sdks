@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateBundleComponentRequestInput extends Model {
-    /** @param array{'bundle_component_id'?: string, 'delivery_profile_id'?: string|null, 'position'?: int, 'quantity'?: int, 'variant_id': string, ...}|object $values */
+    /** @param array{'bundle_component_id'?: string, 'delivery_profile_id'?: string|null, 'position'?: int, 'quantity'?: int, 'variant_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateBundleComponentRequestInput')); }
     /** Shape $ (Value): string. Identifier of an existing component to retain. Omit it to add a new component. minLength: 1. pattern: ^bunc_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string

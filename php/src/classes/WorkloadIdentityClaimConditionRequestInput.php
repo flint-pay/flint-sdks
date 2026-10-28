@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $value
  * Presence-aware input; omitted fields throw when accessed. */
 final class WorkloadIdentityClaimConditionRequestInput extends Model {
-    /** @param array{'claim': string, 'match'?: string, 'value': string, ...}|object $values */
+    /** @param array{'claim': string, 'match'?: string, 'value': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WorkloadIdentityClaimConditionRequestInput')); }
     /** Shape $ (Value): string. Literal top-level scalar claim name. Registered JWT claims are reserved. minLength: 1.
      * @return string

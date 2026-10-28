@@ -1,0 +1,1 @@
+{"shared":"OrderChargeInputPercent","dependencies":["MetadataRequest","MoneyValue","OrderCalculatedChargeTax","OrderChargeInputPercent","SharedCodec212","TaxCalculationRequest","TaxComponentRequest","TaxJurisdiction"]}

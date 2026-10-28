@@ -1,1 +1,1 @@
-{"shared":"InventoryItem","dependencies":["InventoryItem"]}
+{"shared":"InventoryItem","dependencies":["InventoryItem","MetadataMap"]}

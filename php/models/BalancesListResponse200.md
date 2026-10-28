@@ -11,7 +11,7 @@ Response model.
 | `data` | Required | Array of [Balance](../models/Balance.md#balance) | `data[]`: [field definitions](../models/BalancesListResponse200.md#balanceslistresponse200data). |
 | `meta` | Optional | [MoneyMovementListMeta](../models/MoneyMovementListMeta.md#moneymovementlistmeta) | Response metadata for money movement lists, including request and trace IDs, warnings, and the state of the available history. |
 | `next_page_token` | Optional | string | Omitted because all currency balances fit on one page. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### BalancesListResponse200.data[]
 

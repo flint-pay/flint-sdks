@@ -1,1 +1,1 @@
-{"shared":"UpdateProductRequest","dependencies":["ImageRequest","SharedCodec1173","SharedCodec1221","UpdateProductOptionRequest","UpdateProductOptionValueRequest","UpdateProductRequest"]}
+{"shared":"UpdateProductRequest","dependencies":["ImageInputFile","ImageInputSourceURL","ImageRequest","MetadataPatchRequest","SharedCodec1252","SharedCodec1253","SharedCodec1255","SharedCodec1304","SharedCodec1305","UpdateProductOptionRequest","UpdateProductOptionValueRequest","UpdateProductRequest"]}

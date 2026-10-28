@@ -1,0 +1,1 @@
+{"shared":"TaxConnectionDisclosure","phpRepresentation":{"kind":"record","fields":{"statements":{"kind":"list","value":{"kind":"entity","name":"TaxDisclosureStatement"}},"version":{"kind":"value","type":"string"}}},"dependencies":["TaxConnectionDisclosure","TaxDisclosureStatement"]}

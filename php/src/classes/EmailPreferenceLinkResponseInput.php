@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class EmailPreferenceLinkResponseInput extends Model {
-    /** @param array{'data': EmailPreferenceLinkInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': EmailPreferenceLinkInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailPreferenceLinkResponseInput')); }
     /** Shape $ (Value): {@see EmailPreferenceLinkInput}. An email preference for one address, such as shipping updates or checkout reminders, with whether it is enabled and the matching customer if any.
      * @return EmailPreferenceLinkInput|array<array-key, mixed>|\stdClass

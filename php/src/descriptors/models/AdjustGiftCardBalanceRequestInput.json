@@ -1,1 +1,1 @@
-{"shared":"AdjustGiftCardBalanceRequest","dependencies":["AdjustGiftCardBalanceRequest","SignedMoney"]}
+{"shared":"AdjustGiftCardBalanceRequest","dependencies":["AdjustGiftCardBalanceRequest","SignedMoneyRequestRequest"]}

@@ -43,17 +43,17 @@ An immutable merchant billing charge, credit, collection, correction, or write-o
 
 Signed change in available billing credit. credit_issued increases it; credit_applied and credit_refunded decrease it. Other entry types do not change it. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
 
 ### MerchantBillingEntry.net_billing_effect_money
 
 Signed outstanding effect minus the available credit effect. Charges and collection_reversal are positive; credit_issued, collection, custom_domain_collection, and write_off are negative; credit_refunded is positive; credit_applied is zero; correction may be positive or negative. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
 
 ### MerchantBillingEntry.outstanding_effect_money
 
 Signed change in the amount owed Flint. Charges (event_fee, invoice, custom_domain) and collection_reversal increase it; credit_applied, collection, custom_domain_collection, and write_off decrease it; correction may increase or decrease it. Credit issuance and refund do not change it. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
 

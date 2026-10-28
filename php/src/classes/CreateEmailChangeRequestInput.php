@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $new_email
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateEmailChangeRequestInput extends Model {
-    /** @param array{'new_email': string, ...}|object $values */
+    /** @param array{'new_email': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateEmailChangeRequestInput')); }
     /** Shape $ (Value): string. Format: email. minLength: 1. maxLength: 320.
      * @return string

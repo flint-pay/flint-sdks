@@ -1,1 +1,1 @@
-{"shared":"DeliveryAddressAdvisoryResource","dependencies":["DeliveryAddressAdvisoryResource","DeliveryAddressRequest"]}
+{"shared":"DeliveryAddressAdvisoryResource","dependencies":["Address","DeliveryAddressAdvisoryResource"]}

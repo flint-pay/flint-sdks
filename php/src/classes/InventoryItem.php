@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class InventoryItem extends Model {
-    /** @param array{'barcode'?: string, 'created_at': string, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': \stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'barcode'?: string, 'created_at': string, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': mixed, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItem')); }
     /** Shape $ (Value): string. Optional searchable barcode.
      * @return ?string
@@ -36,7 +36,7 @@ final class InventoryItem extends Model {
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }
@@ -61,7 +61,7 @@ final class InventoryItem extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Optimistic-concurrency version for item writes. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Optimistic-concurrency version for item writes. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string
      */
     public function getVersion(): string { return $this->get('version'); }

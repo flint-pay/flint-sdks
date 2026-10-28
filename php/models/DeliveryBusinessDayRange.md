@@ -6,5 +6,5 @@ A minimum and maximum number of business days, used in transit time estimates.
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryBusinessDayRangeInput](../models/DeliveryBusinessDayRangeInput.md#deliverybusinessdayrangeinput).
+Fields, types, descriptions and enum values: [DeliveryBusinessDayRangeRequestRequestInput](../models/DeliveryBusinessDayRangeRequestRequestInput.md#deliverybusinessdayrangerequestrequestinput).
 

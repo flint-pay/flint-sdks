@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreatePaymentMethodDomainRequestInput } from '../declarations/types-8.js';
+import type { CreatePaymentMethodDomainRequestInput } from '../declarations/types-9.js';
 import type {
     PaymentMethodDomain,
     PaymentMethodDomainListResponse,
@@ -9,11 +9,11 @@ import type {
     PaymentMethodDomainsGetInput,
     PaymentMethodDomainsListInput,
     PaymentMethodDomainsUpdateInput
-} from '../declarations/types-36.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-38.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,8 +28,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreatePaymentMethodDomainRequestInput, CreatePaymentMethodDomainRequest } from '../declarations/types-8.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreatePaymentMethodDomainRequestInput } from '../declarations/types-9.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     PaymentMethodDomain,
     PaymentMethodDomainResponse,
@@ -39,17 +39,19 @@ export type {
     PaymentMethodDomainsListInput,
     PaymentMethodDomainsUpdateInput,
     PaymentMethodDomainPaymentOptionStatus
-} from '../declarations/types-36.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-48.js';
+} from '../declarations/types-38.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdatePaymentMethodDomainRequestInput } from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-64.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export type { CreatePaymentMethodDomainRequest } from '../declarations/types-8.js';
+export { makeCreatePaymentMethodDomainRequest } from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdatePaymentMethodDomainRequest } from '../declarations/types-77.js';
 export interface PaymentMethodDomainsResource {
     /**
  * Registers one exact domain or subdomain for Apple Pay and Google Pay in the selected Flint
@@ -88,7 +90,8 @@ export interface PaymentMethodDomainsResource {
     /**
  * Returns payment method domains ordered by payment_method_domain_id ascending in the selected
  * Flint environment. Page tokens are opaque, bind to the list parameters, and return a validation
- * error when invalid or mismatched.
+ * error when invalid or mismatched. Default order: payment_method_domain_id ascending; this key
+ * uniquely orders the results.
  * @see reference/paymentMethodDomains.md#paymentmethoddomainslist
  * GET /v1/payment-method-domains
  * @example

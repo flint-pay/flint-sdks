@@ -21,11 +21,11 @@ Body model: [CreateInventoryItemRequestInput](../models/CreateInventoryItemReque
 
 #### inventoryItems.create body fields
 
-Field definitions: [shared fields](../models/CreateInventoryItemRequestInput.md#createinventoryitemrequestinput).
+Field definitions: [shared fields](../models/CreateInventoryItemRequestInput.md#createinventoryitemrequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput).
 
 #### Response
 
-Returned payload: [InventoryItem](../models/InventoryItemInput.md#inventoryiteminput).
+Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
 
 #### Errors
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -84,7 +84,7 @@ Signature: `get(string|Model $inventory_item_id, array|Model|null $params = null
 
 #### Response
 
-Returned payload: [InventoryItem](../models/InventoryItemInput.md#inventoryiteminput).
+Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
 
 #### Errors
 
@@ -119,7 +119,7 @@ $result = $client->inventoryItems->get('example', [], new RequestOptions());
 
 ### inventoryItems.list
 
-List inventory items. Archived items are excluded unless you filter by status archived.
+List inventory items. Archived items are excluded unless you filter by status archived. Default order: inventory_item_id ascending; this key uniquely orders the results.
 
 `GET /v1/inventory-items`
 
@@ -187,12 +187,12 @@ Signature: `remove(string|Model $inventory_item_id, array|Model|null $params = n
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_item_id` | Required | string |  |
-| `expected_version` | Optional | integer | minimum: `1`. |
+| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 
 #### Response
 
-Returned payload: [InventoryItem](../models/InventoryItemInput.md#inventoryiteminput).
+Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
 
 #### Errors
 
@@ -216,7 +216,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -251,11 +251,11 @@ Body model: [UpdateInventoryItemRequestInput](../models/UpdateInventoryItemReque
 
 #### inventoryItems.update body fields
 
-Field definitions: [shared fields](../models/UpdateInventoryItemRequestInput.md#updateinventoryitemrequestinput).
+Field definitions: [shared fields](../models/UpdateInventoryItemRequestInput.md#updateinventoryitemrequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
-Returned payload: [InventoryItem](../models/InventoryItemInput.md#inventoryiteminput).
+Returned payload: [InventoryItem](../models/InventoryItem.md#inventoryitem).
 
 #### Errors
 
@@ -281,7 +281,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

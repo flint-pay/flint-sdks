@@ -1,211 +1,168 @@
-import type { ErrorObject, ErrorEnvelope, ExpandedCustomerSummary, ExpandedOrderSummary } from './types-16.js';
-import type {
-    InventoryTransferActionConflictErrorDetail,
-    InventoryTransfer,
-    InventoryProvenanceRequest,
-    InventoryProvenanceRequestInput
-} from './types-25.js';
-import type { ResponseMeta } from './types-40.js';
-import type { InventoryLevel } from './types-24.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateInventoryTransferRequestInput } from './types-7.js';
-import type { UpdateInventoryTransferRequestInput } from './types-48.js';
-import type { Address, BundleComponent } from './types-0.js';
 import type {
-    InvoicePaymentDue,
-    InvoicePaymentTermsSnapshot,
-    InvoicePaymentAttempt,
-    InvoicePaymentPolicy,
-    InvoicePaymentPolicyInput
-} from './types-27.js';
-import type { InvoiceScheduleEntry, InvoiceSnapshot } from './types-28.js';
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { CheckoutRedirects, CheckoutRedirectsRequestInput, CheckoutSession } from './types-4.js';
-import type { CategoryReference } from './types-3.js';
-import type { Image } from './types-19.js';
-import type { OrderLineItemModifier } from './types-32.js';
-import type { SelectedProductOption } from './types-44.js';
-/**
- * Shape $ (Value): {@link InventoryTransferActionConflictErrorEnvelope}. An error response
- * containing `InventoryTransferActionConflictErrorObject`.
- */
-export type InventoryTransferActionConflictErrorEnvelope = {
-    /**
-     * Shape $ (Value): {@link InventoryTransferActionConflictErrorObject}. An error returned when
-     * an inventory transfer action conflicts with the transfer's current state. The error returned
-     * for a failed request: `type`, `code`, `message`, `remediation`, `request_id`, and a list of
-     * `details` for individual failures.
-     */
-    "error": InventoryTransferActionConflictErrorObject;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferActionConflictErrorObject}. An error returned when an
- * inventory transfer action conflicts with the transfer's current state. The error returned for a
- * failed request: `type`, `code`, `message`, `remediation`, `request_id`, and a list of `details`
- * for individual failures.
- */
-export type InventoryTransferActionConflictErrorObject = (Exclude<ErrorObject & object, readonly unknown[]>)
-    & ({
-    /** Shape $ (Value): string.  Value enum: "ACTION_NOT_ALLOWED". */
-    "code": "ACTION_NOT_ALLOWED" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link InventoryTransferActionConflictErrorDetail}. minItems: 1.
-     * Shape $[] (Value): {@link InventoryTransferActionConflictErrorDetail}. An error detail
-     * returned when an inventory transfer action conflicts with the transfer's current state. One
-     * specific failure within an error, with a `code` and `message` plus fields that depend on the
-     * code, such as the `param`, resource, quantity, or amount involved.
-     */
-    "details": Array<InventoryTransferActionConflictErrorDetail>;
-    /** Shape $ (Value): string.  Value enum: "action". */
-    "param": "action" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "conflict_error". */
-    "type": "conflict_error" | (string & {});
-    /**
-     * Shape $ (Value): string. Human-readable explanation for your logs. The wording can change,
-     * so branch on code, and do not show it to buyers as is.
-     */
-    "message": string;
-    /**
-     * Shape $ (Value): string. Error reference at https://developers.withflintpay.com/docs/errors#
-     * followed by the lowercase error code.
-     */
-    "doc_url": string;
-    /**
-     * Shape $ (Value): string. System boundary responsible for correcting the failure. Value enum:
-     * "merchant", "integration", "flint".
-     */
-    "error_source": "merchant" | "integration" | "flint" | (string & {});
-});
-/**
- * Shape $ (Value): {@link InventoryTransferConflictErrorEnvelope}. The response for: Transition
- * inventory transfer.
- */
-export type InventoryTransferConflictErrorEnvelope = ((InventoryTransferActionConflictErrorEnvelope)
-    | (InventoryTransferOtherConflictErrorEnvelope)
-    | (unknown));
-/**
- * Shape $ (Value): {@link InventoryTransferLine}. One line of an inventory transfer, with the
- * requested quantity and how much has departed, been received by condition, canceled, lost, or
- * returned.
- */
-export type InventoryTransferLine = {
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "canceled_quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined".
-     */
-    "condition": "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "departed_quantity": `${bigint}`;
+    UpdateInventoryAllocationPolicyRequestInput,
+    UpdateInventoryCountRequestInput,
+    UpdateInventoryItemRequestInput,
+    UpdateInventoryLevelRequestInput
+} from './types-51.js';
+import type { MetadataMap, MetadataRequestInput } from './types-32.js';
+import type { ResponseMeta, ResourceReference } from './types-42.js';
+import type { InventoryAllocationConfigurationValue } from './types-25.js';
+import type { InventorySourceSystem, InventorySourceSystemRequest, InventorySourceSystemRequestInput } from './types-27.js';
+import type { CreateInventoryCountRequestInput, CreateInventoryItemRequestInput } from './types-7.js';
+export type InventoryAllocationPoliciesGetInput = {
     /** Shape $ (Value): string. */
-    "inventory_item_id": string;
+    "inventory_allocation_policy_id": InputValue<string>;
+};
+export type InventoryAllocationPoliciesGetRevisionInput = {
     /** Shape $ (Value): string. */
-    "inventory_transfer_line_id": string;
+    "inventory_allocation_policy_id": InputValue<string>;
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_revision_id": InputValue<string>;
+};
+export type InventoryAllocationPoliciesListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
     /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived".
+     * Shape $[] (Value): string. Value enum: "active", "inactive", "archived".
      */
-    "lost_quantity": `${bigint}`;
+    "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "external_reference_id"?: InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "query"?: InputValue<string>;
+};
+export type InventoryAllocationPoliciesListRevisionsInput = {
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_id": InputValue<string>;
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+};
+export type InventoryAllocationPoliciesRemoveInput = {
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_id": InputValue<string>;
     /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
      */
-    "received_damaged_quantity": `${bigint}`;
+    "expected_version"?: InputValue<`${bigint}` | bigint>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+};
+export type InventoryAllocationPoliciesUpdateInput = {
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
     /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
+     * Shape $ (Value): {@link UpdateInventoryAllocationPolicyRequestInput}. The request body for:
+     * Update inventory allocation policy.
      */
-    "received_quality_control_quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "received_quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "received_quarantined_quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "received_sellable_quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "requested_quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "returned_quantity": `${bigint}`;
+    "body": InputValue<UpdateInventoryAllocationPolicyRequestInput>;
 };
 /**
- * Shape $ (Value): {@link InventoryTransferLineRequest}. One line of an inventory transfer you
- * create: an item and the requested quantity.
+ * Shape $ (Value): {@link InventoryAllocationPolicy}. Named, version-fenced rules that decide
+ * which Locations serve demand and in what order.
  */
-export type InventoryTransferLineRequest = {
+export type InventoryAllocationPolicy = {
     /**
-     * Shape $ (Value): string. Default: "sellable". Value enum: "sellable", "quality_control",
-     * "damaged", "quarantined".
+     * Shape $ (Value): object. Shape $.location_groups (Required): Array of {@link
+     * InventoryAllocationPolicyLocation}. Locations ranked into priority groups. Routing prefers
+     * the lowest group priority, then the lowest location ID. minItems: 1. maxItems: 25. Shape
+     * $.location_groups[] (Value): {@link InventoryAllocationPolicyLocation}. A Location in an
+     * inventory allocation policy and the priority group it belongs to. Shape
+     * $.maximum_locations_per_assignment (Required): integer. Upper bound on how many Locations
+     * one assignment may use. Defaults to 1 for single_location and 10 for split_when_required.
+     * single_location requires 1 when sent. Format: int32. minimum: 1. maximum: 10. Shape
+     * $.splitting_behavior (Required): string. single_location fails rather than splitting demand
+     * across Locations; split_when_required allows a split when no single Location can serve the
+     * whole request. Value enum: "single_location", "split_when_required". Shape
+     * $.within_group_order (Required): string. Tie-break inside a priority group. Ascending
+     * location ID keeps assignments reproducible. Value enum: "location_id_ascending".
      */
-    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_item_id": string;
+    "configuration": {
+        /**
+         * Shape $ (Value): Array of {@link InventoryAllocationPolicyLocation}. Locations ranked
+         * into priority groups. Routing prefers the lowest group priority, then the lowest
+         * location ID. minItems: 1. maxItems: 25. Shape $[] (Value): {@link
+         * InventoryAllocationPolicyLocation}. A Location in an inventory allocation policy and the
+         * priority group it belongs to.
+         */
+        "location_groups": Array<InventoryAllocationPolicyLocation>;
+        /**
+         * Shape $ (Value): integer. Upper bound on how many Locations one assignment may use.
+         * Defaults to 1 for single_location and 10 for split_when_required. single_location
+         * requires 1 when sent. Format: int32. minimum: 1. maximum: 10.
+         */
+        "maximum_locations_per_assignment": number;
+        /**
+         * Shape $ (Value): string. single_location fails rather than splitting demand across
+         * Locations; split_when_required allows a split when no single Location can serve the
+         * whole request. Value enum: "single_location", "split_when_required".
+         */
+        "splitting_behavior": "single_location" | "split_when_required" | (string & {});
+        /**
+         * Shape $ (Value): string. Tie-break inside a priority group. Ascending location ID keeps
+         * assignments reproducible. Value enum: "location_id_ascending".
+         */
+        "within_group_order": "location_id_ascending" | (string & {});
+    };
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
     /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 1.
+     * Shape $ (Value): string. The immutable revision containing this policy's current routing
+     * configuration. Replacing configuration publishes a new revision; other policy edits keep
+     * this ID.
      */
-    "requested_quantity": `${bigint}`;
+    "current_inventory_allocation_policy_revision_id": string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_id": string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
+     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
+     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+     * them.
+     */
+    "metadata": MetadataMap;
+    /** Shape $ (Value): string. */
+    "name": string;
+    /** Shape $ (Value): string.  Value enum: "active", "inactive", "archived". */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
 };
 /**
- * Shape $ (Value): {@link InventoryTransferLineRequestInput}. One line of an inventory transfer
- * you create: an item and the requested quantity.
+ * Shape $ (Value): {@link InventoryAllocationPolicyListResponse}. A page of
+ * `InventoryAllocationPolicy` objects.
  */
-export type InventoryTransferLineRequestInput = {
+export type InventoryAllocationPolicyListResponse = {
     /**
-     * Shape $ (Value): string. Default: "sellable". Value enum: "sellable", "quality_control",
-     * "damaged", "quarantined".
+     * Shape $ (Value): Array of {@link InventoryAllocationPolicy}. Shape $[] (Value): {@link
+     * InventoryAllocationPolicy}. Named, version-fenced rules that decide which Locations serve
+     * demand and in what order.
      */
-    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
-    /** Shape $ (Value): string. minLength: 1. */
-    "inventory_item_id": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 1.
-     */
-    "requested_quantity": `${bigint}` | bigint;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferListResponse}. A page of `InventoryTransfer` objects.
- */
-export type InventoryTransferListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InventoryTransfer}. Shape $[] (Value): {@link
-     * InventoryTransfer}. Stock moving between locations.
-     */
-    "data": Array<InventoryTransfer>;
+    "data": Array<InventoryAllocationPolicy>;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -217,27 +174,33 @@ export type InventoryTransferListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link InventoryTransferOtherConflictErrorEnvelope}. The response for:
- * Transition inventory transfer. An error response containing `ErrorObject`.
+ * Shape $ (Value): {@link InventoryAllocationPolicyLocation}. A Location in an inventory
+ * allocation policy and the priority group it belongs to.
  */
-export type InventoryTransferOtherConflictErrorEnvelope = (Exclude<ErrorEnvelope & object, readonly unknown[]>)
-    & ({
-    /** Shape $ (Value): object. Shape $.code (Optional): string. */
-    "error": {
-        /** Shape $ (Value): string. */
-        "code"?: (string);
-    };
-});
+export type InventoryAllocationPolicyLocation = {
+    /** Shape $ (Value): integer. Format: int32. minimum: 1. */
+    "group_priority": number;
+    /** Shape $ (Value): string. minLength: 1. */
+    "location_id": string;
+};
 /**
- * Shape $ (Value): {@link InventoryTransferResponse}. A response containing `InventoryTransfer`
- * data.
+ * Shape $ (Value): {@link InventoryAllocationPolicyLocationInput}. A Location in an inventory
+ * allocation policy and the priority group it belongs to.
  */
-export type InventoryTransferResponse = {
-    /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-    "data": InventoryTransfer;
+export type InventoryAllocationPolicyLocationInput = InventoryAllocationPolicyLocation;
+/**
+ * Shape $ (Value): {@link InventoryAllocationPolicyResponse}. A response containing
+ * `InventoryAllocationPolicy` data.
+ */
+export type InventoryAllocationPolicyResponse = {
+    /**
+     * Shape $ (Value): {@link InventoryAllocationPolicy}. Named, version-fenced rules that decide
+     * which Locations serve demand and in what order.
+     */
+    "data": InventoryAllocationPolicy;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -247,14 +210,391 @@ export type InventoryTransferResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link InventoryTransferResult}. inventory_transfer is the primary resource and
+ * Shape $ (Value): {@link InventoryAllocationPolicyRevision}. An immutable routing configuration
+ * published when an allocation policy is created or its configuration is replaced. Revisions
+ * remain readable after later policy edits.
+ */
+export type InventoryAllocationPolicyRevision = {
+    /**
+     * Shape $ (Value): {@link InventoryAllocationConfigurationValue}. Routing rules for an
+     * inventory allocation policy: ranked groups of Locations, whether demand can be split, and
+     * how many Locations one assignment may use.
+     */
+    "configuration": InventoryAllocationConfigurationValue;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_allocation_policy_revision_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryAllocationPolicyRevisionListResponse}. A page of
+ * `InventoryAllocationPolicyRevision` objects.
+ */
+export type InventoryAllocationPolicyRevisionListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryAllocationPolicyRevision}. Shape $[] (Value):
+     * {@link InventoryAllocationPolicyRevision}. An immutable routing configuration published when
+     * an allocation policy is created or its configuration is replaced. Revisions remain readable
+     * after later policy edits.
+     */
+    "data": Array<InventoryAllocationPolicyRevision>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryAllocationPolicyRevisionResponse}. A response containing
+ * `InventoryAllocationPolicyRevision` data.
+ */
+export type InventoryAllocationPolicyRevisionResponse = {
+    /**
+     * Shape $ (Value): {@link InventoryAllocationPolicyRevision}. An immutable routing
+     * configuration published when an allocation policy is created or its configuration is
+     * replaced. Revisions remain readable after later policy edits.
+     */
+    "data": InventoryAllocationPolicyRevision;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Shape $ (Value): {@link InventoryCount}. A physical count used to reconcile stock. */
+export type InventoryCount = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "applied_at"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /**
+     * Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
+     */
+    "idempotency_key"?: string;
+    /** Shape $ (Value): string. */
+    "inventory_count_id": string;
+    /**
+     * Shape $ (Value): Array of {@link InventoryCountLine}. Shape $[] (Value): {@link
+     * InventoryCountLine}. One item's line in an inventory count, with the quantities Flint
+     * expected, the quantities counted, and the variance applied.
+     */
+    "lines": Array<InventoryCountLine>;
+    /** Shape $ (Value): string. */
+    "location_id": string;
+    /**
+     * Shape $ (Value): {@link InventoryCountObservationProvenance}. Where an inventory count came
+     * from: the source system, an external actor ID, and when the event occurred.
+     */
+    "observation_provenance"?: InventoryCountObservationProvenance;
+    /** Shape $ (Value): string.  Value enum: "draft", "applied", "canceled". */
+    "status": "draft" | "applied" | "canceled" | (string & {});
+    /**
+     * Shape $ (Value): Array of string. Actions that can change this count now. A draft can be
+     * canceled, and applied once every line has an observation. Empty after the count is applied
+     * or canceled. [] enum: "apply", "cancel". Shape $[] (Value): string. Value enum: "apply",
+     * "cancel".
+     */
+    "supported_actions": Array<"apply" | "cancel" | (string & {})>;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryCountLine}. One item's line in an inventory count, with the
+ * quantities Flint expected, the quantities counted, and the variance applied.
+ */
+export type InventoryCountLine = {
+    /**
+     * Shape $ (Value): integer string. Physical version accepted with the latest saved
+     * observation. Meaningful once counted_on_hand_quantity is present. Applying the count
+     * requires the same physical version. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "captured_physical_version": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "counted_damaged_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "counted_on_hand_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "counted_quality_control_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "counted_quarantined_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. The difference this line applied to the damaged quantity.
+     * Present once the count is applied. A draft or canceled count omits it. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
+     */
+    "damaged_variance"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. The damaged quantity Flint holds for this item at this
+     * location right now. Present while the count is unapplied, on every line whether or not it
+     * has been counted. Applying the count sets the level to the counted quantities, and the apply
+     * is rejected if the level changed since the line was captured. An applied or canceled count
+     * omits it. Whole-number quantity; fractional quantities are not supported. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "expected_damaged_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. The on-hand quantity Flint holds for this item at this
+     * location right now. Present while the count is unapplied, on every line whether or not it
+     * has been counted. Applying the count sets the level to the counted quantities, and the apply
+     * is rejected if the level changed since the line was captured. An applied or canceled count
+     * omits it. Whole-number quantity; fractional quantities are not supported. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "expected_on_hand_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. The quality-control quantity Flint holds for this item at
+     * this location right now. Present while the count is unapplied, on every line whether or not
+     * it has been counted. Applying the count sets the level to the counted quantities, and the
+     * apply is rejected if the level changed since the line was captured. An applied or canceled
+     * count omits it. Whole-number quantity; fractional quantities are not supported. Use an
+     * integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "expected_quality_control_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. The quarantined quantity Flint holds for this item at this
+     * location right now. Present while the count is unapplied, on every line whether or not it
+     * has been counted. Applying the count sets the level to the counted quantities, and the apply
+     * is rejected if the level changed since the line was captured. An applied or canceled count
+     * omits it. Whole-number quantity; fractional quantities are not supported. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "expected_quarantined_quantity"?: `${bigint}`;
+    /** Shape $ (Value): string. */
+    "inventory_count_line_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_movement_id"?: string;
+    /**
+     * Shape $ (Value): integer string. The difference this line applied to the on-hand quantity.
+     * Present once the count is applied. A draft or canceled count omits it. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
+     */
+    "on_hand_variance"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. The difference this line applied to the quality-control
+     * quantity. Present once the count is applied. A draft or canceled count omits it. Use an
+     * integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "quality_control_variance"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. The difference this line applied to the quarantined
+     * quantity. Present once the count is applied. A draft or canceled count omits it. Use an
+     * integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "quarantined_variance"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "source_observation_sequence"?: `${bigint}`;
+};
+/** Shape $ (Value): {@link InventoryCountListResponse}. A page of `InventoryCount` objects. */
+export type InventoryCountListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryCount}. Shape $[] (Value): {@link InventoryCount}.
+     * A physical count used to reconcile stock.
+     */
+    "data": Array<InventoryCount>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryCountObservationProvenance}. Where an inventory count came
+ * from: the source system, an external actor ID, and when the event occurred.
+ */
+export type InventoryCountObservationProvenance = ({
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
+     * when source_system.type is pos, wms, erp, or other. Format: date-time.
+     */
+    "occurred_at"?: string;
+    /**
+     * Shape $ (Value): {@link InventorySourceSystem} or null. Shape $.anyOf[1] (Value): {@link
+     * InventorySourceSystem}. The system an inventory event came from, such as manual entry, a
+     * point of sale, a warehouse system, or Flint, with your source identifier when it applies.
+     * Shape $.anyOf[2] (Value): null.
+     */
+    "source_system": ((InventorySourceSystem) | (null));
+});
+/**
+ * Shape $ (Value): {@link InventoryCountObservationRequest}. A counted quantity for one item in an
+ * inventory count, with the physical version it was read at.
+ */
+export type InventoryCountObservationRequest = {
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. When omitted, keeps the line's expected_damaged_quantity from the same locked
+     * physical snapshot whose version was checked; the saved line reports that value as counted.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 0.
+     */
+    "counted_damaged_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 0.
+     */
+    "counted_on_hand_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. When omitted, keeps the line's expected_quality_control_quantity from the same
+     * locked physical snapshot whose version was checked; the saved line reports that value as
+     * counted. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0.
+     */
+    "counted_quality_control_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. When omitted, keeps the line's expected_quarantined_quantity from the same locked
+     * physical snapshot whose version was checked; the saved line reports that value as counted.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 0.
+     */
+    "counted_quarantined_quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Physical version read before counting this item. Zero is
+     * valid for a missing level. Recount after physical stock changes, even when the count is
+     * unchanged; never refresh only the token. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "expected_physical_version": `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "source_observation_sequence"?: `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryCountObservationRequestInput}. A counted quantity for one item
+ * in an inventory count, with the physical version it was read at.
+ */
+export type InventoryCountObservationRequestInput = {
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. When omitted, keeps the line's expected_damaged_quantity from the same locked
+     * physical snapshot whose version was checked; the saved line reports that value as counted.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 0.
+     */
+    "counted_damaged_quantity"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 0.
+     */
+    "counted_on_hand_quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. When omitted, keeps the line's expected_quality_control_quantity from the same
+     * locked physical snapshot whose version was checked; the saved line reports that value as
+     * counted. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0.
+     */
+    "counted_quality_control_quantity"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. When omitted, keeps the line's expected_quarantined_quantity from the same locked
+     * physical snapshot whose version was checked; the saved line reports that value as counted.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 0.
+     */
+    "counted_quarantined_quantity"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): integer string. Physical version read before counting this item. Zero is
+     * valid for a missing level. Recount after physical stock changes, even when the count is
+     * unchanged; never refresh only the token. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "expected_physical_version": `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "source_observation_sequence"?: `${bigint}` | bigint;
+};
+/** Shape $ (Value): {@link InventoryCountResponse}. A response containing `InventoryCount` data. */
+export type InventoryCountResponse = {
+    /** Shape $ (Value): {@link InventoryCount}. A physical count used to reconcile stock. */
+    "data": InventoryCount;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryCountResult}. inventory_count is the primary resource and
  * expected_version target. Stock-moving transitions return this result instead of a resource
  * alone.
  */
-export type InventoryTransferResult = {
+export type InventoryCountResult = {
+    /** Shape $ (Value): {@link InventoryCount}. A physical count used to reconcile stock. */
+    "inventory_count": InventoryCount;
     /**
      * Shape $ (Value): Array of {@link InventoryLevel}. Post-commit state of every level this
      * command touched, one entry per level. A replay returns the levels the original command
@@ -262,20 +602,18 @@ export type InventoryTransferResult = {
      * quantity state of one inventory item at one Location.
      */
     "inventory_levels": Array<InventoryLevel>;
-    /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-    "inventory_transfer": InventoryTransfer;
 };
 /**
- * Shape $ (Value): {@link InventoryTransferResultResponse}. A response containing
- * `InventoryTransferResult` data.
+ * Shape $ (Value): {@link InventoryCountResultResponse}. A response containing
+ * `InventoryCountResult` data.
  */
-export type InventoryTransferResultResponse = {
+export type InventoryCountResultResponse = {
     /**
-     * Shape $ (Value): {@link InventoryTransferResult}. inventory_transfer is the primary resource
-     * and expected_version target. Stock-moving transitions return this result instead of a
-     * resource alone.
+     * Shape $ (Value): {@link InventoryCountResult}. inventory_count is the primary resource and
+     * expected_version target. Stock-moving transitions return this result instead of a resource
+     * alone.
      */
-    "data": InventoryTransferResult;
+    "data": InventoryCountResult;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -285,497 +623,90 @@ export type InventoryTransferResultResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
- * Shape $ (Value): {@link InventoryTransferTransitionRequest}. The request body for: Transition
- * inventory transfer.
+ * Shape $ (Value): {@link InventoryCountTransitionRequest}. The request body for: Transition
+ * inventory count.
  */
-export type InventoryTransferTransitionRequest = ((InventoryTransferTransitionRequestDepart)
-    | (InventoryTransferTransitionRequestReceive)
-    | (InventoryTransferTransitionRequestReturnToOrigin)
-    | (InventoryTransferTransitionRequestReportLoss)
-    | (InventoryTransferTransitionRequestCancel)
+export type InventoryCountTransitionRequest = ((InventoryCountTransitionRequestApply)
+    | (InventoryCountTransitionRequestCancel)
     | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestCancel}. The `cancel` variant of
- * `InventoryTransferTransitionRequest`.
+ * Shape $ (Value): {@link InventoryCountTransitionRequestApply}. The `apply` variant of
+ * `InventoryCountTransitionRequest`.
  */
-export type InventoryTransferTransitionRequestCancel = {
+export type InventoryCountTransitionRequestApply = {
+    /** Shape $ (Value): string.  Value enum: "apply". */
+    "action": "apply" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link InventoryCountTransitionRequestApplyInput}. The `apply` variant of
+ * `InventoryCountTransitionRequest`.
+ */
+export type InventoryCountTransitionRequestApplyInput = {
+    /** Shape $ (Value): string.  Value enum: "apply". */
+    "action": "apply";
+    /**
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+};
+/**
+ * Shape $ (Value): {@link InventoryCountTransitionRequestCancel}. The `cancel` variant of
+ * `InventoryCountTransitionRequest`.
+ */
+export type InventoryCountTransitionRequestCancel = {
     /** Shape $ (Value): string.  Value enum: "cancel". */
     "action": "cancel" | (string & {});
     /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
      */
     "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_canceled_quantity (Required): integer string. Cumulative
-     * quantity that should be canceled before departure. Whole-number quantity; fractional
-     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should be canceled before
-         * departure. Whole-number quantity; fractional quantities are not supported. Use an
-         * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_canceled_quantity": `${bigint}`;
-    }>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequest;
 };
 /**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestCancelInput}. The `cancel` variant of
- * `InventoryTransferTransitionRequest`.
+ * Shape $ (Value): {@link InventoryCountTransitionRequestCancelInput}. The `cancel` variant of
+ * `InventoryCountTransitionRequest`.
  */
-export type InventoryTransferTransitionRequestCancelInput = {
+export type InventoryCountTransitionRequestCancelInput = {
     /** Shape $ (Value): string.  Value enum: "cancel". */
     "action": "cancel";
     /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): integer string. Optional resource version the caller last read. Enforced
+     * when sent. Use an integer string (decimal digits), not a floating-point number. Format:
+     * uint64. minimum: 1.
      */
     "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_canceled_quantity (Required): integer string. Cumulative
-     * quantity that should be canceled before departure. Whole-number quantity; fractional
-     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should be canceled before
-         * departure. Whole-number quantity; fractional quantities are not supported. Use an
-         * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_canceled_quantity": `${bigint}` | bigint;
-    }>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequestInput}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequestInput;
 };
 /**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestDepart}. The `depart` variant of
- * `InventoryTransferTransitionRequest`.
+ * Shape $ (Value): {@link InventoryCountTransitionRequestInput}. The request body for: Transition
+ * inventory count.
  */
-export type InventoryTransferTransitionRequestDepart = {
-    /** Shape $ (Value): string.  Value enum: "depart". */
-    "action": "depart" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_departed_quantity (Required): integer string. Cumulative
-     * quantity that should have departed the origin. Whole-number quantity; fractional quantities
-     * are not supported. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should have departed the
-         * origin. Whole-number quantity; fractional quantities are not supported. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_departed_quantity": `${bigint}`;
-    }>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequest;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestDepartInput}. The `depart` variant of
- * `InventoryTransferTransitionRequest`.
- */
-export type InventoryTransferTransitionRequestDepartInput = {
-    /** Shape $ (Value): string.  Value enum: "depart". */
-    "action": "depart";
-    /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_departed_quantity (Required): integer string. Cumulative
-     * quantity that should have departed the origin. Whole-number quantity; fractional quantities
-     * are not supported. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should have departed the
-         * origin. Whole-number quantity; fractional quantities are not supported. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_departed_quantity": `${bigint}` | bigint;
-    }>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequestInput}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequestInput;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestInput}. The request body for:
- * Transition inventory transfer.
- */
-export type InventoryTransferTransitionRequestInput = ((InventoryTransferTransitionRequestDepartInput)
-    | (InventoryTransferTransitionRequestReceiveInput)
-    | (InventoryTransferTransitionRequestReturnToOriginInput)
-    | (InventoryTransferTransitionRequestReportLossInput)
-    | (InventoryTransferTransitionRequestCancelInput));
-/**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestReceive}. The `receive` variant of
- * `InventoryTransferTransitionRequest`.
- */
-export type InventoryTransferTransitionRequestReceive = {
-    /** Shape $ (Value): string.  Value enum: "receive". */
-    "action": "receive" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_received_damaged_quantity (Optional): integer string.
-     * Cumulative received quantity classified as damaged. Whole-number quantity; fractional
-     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 0. Shape $[].target_received_quality_control_quantity
-     * (Optional): integer string. Cumulative received quantity classified for quality control.
-     * Whole-number quantity; fractional quantities are not supported. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape
-     * $[].target_received_quantity (Required): integer string. Cumulative quantity that should
-     * have been received at the destination. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0. Shape $[].target_received_quarantined_quantity (Optional): integer
-     * string. Cumulative received quantity classified as quarantined. Whole-number quantity;
-     * fractional quantities are not supported. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. Shape
-     * $[].target_received_sellable_quantity (Optional): integer string. Cumulative received
-     * quantity classified as sellable. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0.
-     */
-    "lines": Array<({
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative received quantity classified as damaged.
-         * Whole-number quantity; fractional quantities are not supported. Use an integer string
-         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_damaged_quantity"?: `${bigint}`;
-        /**
-         * Shape $ (Value): integer string. Cumulative received quantity classified for quality
-         * control. Whole-number quantity; fractional quantities are not supported. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_quality_control_quantity"?: `${bigint}`;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should have been received at
-         * the destination. Whole-number quantity; fractional quantities are not supported. Use an
-         * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_quantity": `${bigint}`;
-        /**
-         * Shape $ (Value): integer string. Cumulative received quantity classified as quarantined.
-         * Whole-number quantity; fractional quantities are not supported. Use an integer string
-         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_quarantined_quantity"?: `${bigint}`;
-        /**
-         * Shape $ (Value): integer string. Cumulative received quantity classified as sellable.
-         * Whole-number quantity; fractional quantities are not supported. Use an integer string
-         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_sellable_quantity"?: `${bigint}`;
-    })>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequest;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestReceiveInput}. The `receive` variant
- * of `InventoryTransferTransitionRequest`.
- */
-export type InventoryTransferTransitionRequestReceiveInput = {
-    /** Shape $ (Value): string.  Value enum: "receive". */
-    "action": "receive";
-    /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_received_damaged_quantity (Optional): integer string.
-     * Cumulative received quantity classified as damaged. Whole-number quantity; fractional
-     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 0. Shape $[].target_received_quality_control_quantity
-     * (Optional): integer string. Cumulative received quantity classified for quality control.
-     * Whole-number quantity; fractional quantities are not supported. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape
-     * $[].target_received_quantity (Required): integer string. Cumulative quantity that should
-     * have been received at the destination. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0. Shape $[].target_received_quarantined_quantity (Optional): integer
-     * string. Cumulative received quantity classified as quarantined. Whole-number quantity;
-     * fractional quantities are not supported. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. Shape
-     * $[].target_received_sellable_quantity (Optional): integer string. Cumulative received
-     * quantity classified as sellable. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0.
-     */
-    "lines": Array<({
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative received quantity classified as damaged.
-         * Whole-number quantity; fractional quantities are not supported. Use an integer string
-         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_damaged_quantity"?: `${bigint}` | bigint;
-        /**
-         * Shape $ (Value): integer string. Cumulative received quantity classified for quality
-         * control. Whole-number quantity; fractional quantities are not supported. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_quality_control_quantity"?: `${bigint}` | bigint;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should have been received at
-         * the destination. Whole-number quantity; fractional quantities are not supported. Use an
-         * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_quantity": `${bigint}` | bigint;
-        /**
-         * Shape $ (Value): integer string. Cumulative received quantity classified as quarantined.
-         * Whole-number quantity; fractional quantities are not supported. Use an integer string
-         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_quarantined_quantity"?: `${bigint}` | bigint;
-        /**
-         * Shape $ (Value): integer string. Cumulative received quantity classified as sellable.
-         * Whole-number quantity; fractional quantities are not supported. Use an integer string
-         * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_received_sellable_quantity"?: `${bigint}` | bigint;
-    })>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequestInput}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequestInput;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestReportLoss}. The `report_loss` variant
- * of `InventoryTransferTransitionRequest`.
- */
-export type InventoryTransferTransitionRequestReportLoss = {
-    /** Shape $ (Value): string.  Value enum: "report_loss". */
-    "action": "report_loss" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_lost_quantity (Required): integer string. Cumulative quantity
-     * that should be recorded as lost in transit. Whole-number quantity; fractional quantities are
-     * not supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0.
-     */
-    "lines": Array<{
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should be recorded as lost in
-         * transit. Whole-number quantity; fractional quantities are not supported. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_lost_quantity": `${bigint}`;
-    }>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequest;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestReportLossInput}. The `report_loss`
- * variant of `InventoryTransferTransitionRequest`.
- */
-export type InventoryTransferTransitionRequestReportLossInput = {
-    /** Shape $ (Value): string.  Value enum: "report_loss". */
-    "action": "report_loss";
-    /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_lost_quantity (Required): integer string. Cumulative quantity
-     * that should be recorded as lost in transit. Whole-number quantity; fractional quantities are
-     * not supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0.
-     */
-    "lines": Array<{
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should be recorded as lost in
-         * transit. Whole-number quantity; fractional quantities are not supported. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_lost_quantity": `${bigint}` | bigint;
-    }>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequestInput}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequestInput;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestReturnToOrigin}. The
- * `return_to_origin` variant of `InventoryTransferTransitionRequest`.
- */
-export type InventoryTransferTransitionRequestReturnToOrigin = {
-    /** Shape $ (Value): string.  Value enum: "return_to_origin". */
-    "action": "return_to_origin" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_returned_quantity (Required): integer string. Cumulative
-     * quantity that should have returned to the origin. Whole-number quantity; fractional
-     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should have returned to the
-         * origin. Whole-number quantity; fractional quantities are not supported. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_returned_quantity": `${bigint}`;
-    }>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequest}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequest;
-};
-/**
- * Shape $ (Value): {@link InventoryTransferTransitionRequestReturnToOriginInput}. The
- * `return_to_origin` variant of `InventoryTransferTransitionRequest`.
- */
-export type InventoryTransferTransitionRequestReturnToOriginInput = {
-    /** Shape $ (Value): string.  Value enum: "return_to_origin". */
-    "action": "return_to_origin";
-    /**
-     * Shape $ (Value): integer string. Transfer version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): Array of object. minItems: 1. maxItems: 100. Shape $[] (Value): object.
-     * Shape $[].inventory_transfer_line_id (Required): string. Transfer line being transitioned.
-     * minLength: 1. Shape $[].target_returned_quantity (Required): integer string. Cumulative
-     * quantity that should have returned to the origin. Whole-number quantity; fractional
-     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /** Shape $ (Value): string. Transfer line being transitioned. minLength: 1. */
-        "inventory_transfer_line_id": string;
-        /**
-         * Shape $ (Value): integer string. Cumulative quantity that should have returned to the
-         * origin. Whole-number quantity; fractional quantities are not supported. Use an integer
-         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
-         */
-        "target_returned_quantity": `${bigint}` | bigint;
-    }>;
-    /**
-     * Shape $ (Value): {@link InventoryProvenanceRequestInput}. When and where the stock moved.
-     * Optional; when omitted, the movements record the time Flint received the command as
-     * occurred_at and a null source_system. Where and when an inventory event happened: the source
-     * system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequestInput;
-};
-export type InventoryTransfersCreateInput = {
+export type InventoryCountTransitionRequestInput = ((InventoryCountTransitionRequestApplyInput) | (InventoryCountTransitionRequestCancelInput));
+export type InventoryCountsCreateInput = {
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
     /**
-     * Shape $ (Value): {@link CreateInventoryTransferRequestInput}. The request body for: Create
-     * inventory transfer.
+     * Shape $ (Value): {@link CreateInventoryCountRequestInput}. The request body for: Create
+     * inventory count.
      */
-    "body": InputValue<CreateInventoryTransferRequestInput>;
+    "body": InputValue<CreateInventoryCountRequestInput>;
 };
-export type InventoryTransfersGetInput = {
+export type InventoryCountsGetInput = {
     /** Shape $ (Value): string. */
-    "inventory_transfer_id": InputValue<string>;
+    "inventory_count_id": InputValue<string>;
 };
-export type InventoryTransfersListInput = {
+export type InventoryCountsListInput = {
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
     "page_size"?: InputValue<number>;
     /** Shape $ (Value): string. */
@@ -783,518 +714,152 @@ export type InventoryTransfersListInput = {
     /** Shape $ (Value): string. */
     "inventory_item_id"?: InputValue<string>;
     /** Shape $ (Value): string. */
-    "origin_location_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "destination_location_id"?: InputValue<string>;
+    "location_id"?: InputValue<string>;
     /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "draft", "in_transit",
-     * "partially_resolved", "closed". Shape $[] (Value): string. Value enum: "draft",
-     * "in_transit", "partially_resolved", "closed".
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "draft", "applied", "canceled".
+     * Shape $[] (Value): string. Value enum: "draft", "applied", "canceled".
      */
-    "status"?: InputValue<Array<"draft" | "in_transit" | "partially_resolved" | "closed">>;
+    "status"?: InputValue<Array<"draft" | "applied" | "canceled">>;
     /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
     "idempotency_key"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "query"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "received", "canceled",
-     * "received_with_cancellation", "returned", "lost", "mixed". Shape $[] (Value): string. Value
-     * enum: "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed".
-     */
-    "closed_reason"?: InputValue<Array<"received" | "canceled" | "received_with_cancellation" | "returned" | "lost" | "mixed">>;
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_after"?: InputValue<string | globalThis.Date>;
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "created_before"?: InputValue<string | globalThis.Date>;
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "departed_after"?: InputValue<string | globalThis.Date>;
+    "applied_after"?: InputValue<string | globalThis.Date>;
     /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "departed_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "received_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "received_before"?: InputValue<string | globalThis.Date>;
+    "applied_before"?: InputValue<string | globalThis.Date>;
 };
-export type InventoryTransfersTransitionInput = {
+export type InventoryCountsTransitionInput = {
     /** Shape $ (Value): string. */
-    "inventory_transfer_id": InputValue<string>;
+    "inventory_count_id": InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
     /**
-     * Shape $ (Value): {@link InventoryTransferTransitionRequestInput}. The request body for:
-     * Transition inventory transfer.
+     * Shape $ (Value): {@link InventoryCountTransitionRequestInput}. The request body for:
+     * Transition inventory count.
      */
-    "body": InputValue<InventoryTransferTransitionRequestInput>;
+    "body": InputValue<InventoryCountTransitionRequestInput>;
 };
-export type InventoryTransfersUpdateInput = {
+export type InventoryCountsUpdateInput = {
     /** Shape $ (Value): string. */
-    "inventory_transfer_id": InputValue<string>;
+    "inventory_count_id": InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
     /**
-     * Shape $ (Value): {@link UpdateInventoryTransferRequestInput}. The request body for: Update
-     * inventory transfer.
+     * Shape $ (Value): {@link UpdateInventoryCountRequestInput}. The request body for: Update
+     * inventory count.
      */
-    "body": InputValue<UpdateInventoryTransferRequestInput>;
-};
-/** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-export type Invoice = {
-    /**
-     * Shape $ (Value): Array of string. Additional recipients copied on the invoice email and
-     * every reminder. Shape $[] (Value): string.
-     */
-    "cc_emails": Array<string>;
-    /**
-     * Shape $ (Value): string. When the current closed interval began. Cleared when status returns
-     * to open or partially_paid. A direct move between closed statuses preserves this timestamp.
-     * Format: date-time.
-     */
-    "closed_at"?: string;
-    /**
-     * Shape $ (Value): {@link InvoiceCollection}. How this invoice is collected, resolved when the
-     * draft is written. Send this object back when updating its collection policy. The invoice
-     * collection policy resolved at write time. The object can be sent back when updating a draft.
-     */
-    "collection": InvoiceCollection;
-    /**
-     * Shape $ (Value): string. Whether collection is blocked. While it is inventory_blocked,
-     * collection attempts return INVOICE_COLLECTION_BLOCKED. Value enum: "none",
-     * "inventory_blocked", "resolved".
-     */
-    "collection_block_status": "none" | "inventory_blocked" | "resolved" | (string & {});
-    /** Shape $ (Value): string. When the invoice was created. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credit note credit allocated to this invoice, minus
-     * reversed allocations. Unallocated credit isn't included. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "credit_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The part of the balance due now. Without
-     * schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding
-     * amount of the first entry, in schedule order, whose due time has arrived and that still has
-     * a balance, or 0 when there is none. It is the amount the next collect call or checkout
-     * session charges. To total everything past due, add the outstanding_money of the entries
-     * whose status is due or overdue. Always 0 unless the invoice is open or partially_paid.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "currently_due_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link ExpandedCustomerSummary} or null. Summary of the billed customer.
-     * Returned only with expand=customer. Shape $.anyOf[1] (Value): {@link
-     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
-     * when the customer is expanded. Shape $.anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /**
-     * Shape $ (Value): string. Customer billed by this invoice. Absent when the invoice has no
-     * customer.
-     */
-    "customer_id"?: string;
-    /**
-     * Shape $ (Value): string. How issue delivered the invoice. Value enum: "email",
-     * "caller_managed".
-     */
-    "delivery_mode"?: "email" | "caller_managed" | (string & {});
-    /**
-     * Shape $ (Value): string. When payment is due. With payment terms, issue sets it from
-     * issued_at and the terms, counted in the invoice's timezone. Absent when the invoice has no
-     * due date. Format: date-time.
-     */
-    "due_at"?: string;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Use it as your sync key: it isn't printed on the invoice. null when unset.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-    /**
-     * Shape $ (Value): string or null. Fine print at the bottom of the invoice and PDF. It cannot
-     * change after issue. null when unset.
-     */
-    "footer": string | null;
-    /** Shape $ (Value): string. Flint invoice ID. */
-    "invoice_id": string;
-    /**
-     * Shape $ (Value): string. Sequential document number assigned when the invoice is issued.
-     * Numbering is per merchant, with test and live mode numbered independently.
-     */
-    "invoice_number"?: string;
-    /**
-     * Shape $ (Value): boolean. Whether the invoice is open or partially_paid and past due with a
-     * balance remaining. Without schedule_entries, due_at has passed and outstanding_money is
-     * above zero; with them, at least one entry is overdue. Computed when the invoice is read.
-     */
-    "is_overdue": boolean;
-    /**
-     * Shape $ (Value): string. When the invoice was issued. Absent on a draft. Format: date-time.
-     */
-    "issued_at"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Late fees assessed after issue, minus waivers,
-     * including amounts since paid or written off. Itemized in late_fees. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "late_fee_money": MoneyValue;
-    /**
-     * Shape $ (Value): Array of {@link InvoiceLateFee}. Late fees assessed on this invoice, each
-     * with its paid, waived, written-off, and outstanding amounts. late_fee_money is their
-     * assessed total minus waivers. Shape $[] (Value): {@link InvoiceLateFee}. A charge assessed
-     * because an invoice payment is overdue.
-     */
-    "late_fees": Array<InvoiceLateFee>;
-    /**
-     * Shape $ (Value): string or null. Message to the customer, printed on the invoice and PDF. It
-     * cannot change after issue. null when unset.
-     */
-    "memo": string | null;
-    /** Shape $ (Value): string. Merchant that owns this invoice. */
-    "merchant_id": string;
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Shape $.* (Value): string. */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Summary of the backing order.
-     * Returned only with expand=order. Shape $.anyOf[1] (Value): {@link ExpandedOrderSummary}. An
-     * order's summary fields, including status, payment and refund status, and pricing and
-     * settlement amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /**
-     * Shape $ (Value): string. The order this invoice bills. Every invoice has one; quick pay
-     * creates it.
-     */
-    "order_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. What is still owed: total_money + late_fee_money -
-     * paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited,
-     * uncollectible, and void invoices; equal to total_money on a draft. Refunds don't change it.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. When the invoice most recently became paid. Cleared when status
-     * leaves paid and set again on a later paid transition. Format: date-time.
-     */
-    "paid_at"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Payments collected toward this invoice, online or as
-     * recorded manual payments, minus reversed payments, including payments toward late fees.
-     * Never below zero. Refunds don't reduce it; they are in refunded_money. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "paid_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentDue}. The resolved due-date policy. Send this object
-     * back when updating the draft; payment_terms captures the term's current revision again. The
-     * invoice due-date policy resolved at write time. The object can be sent back when updating a
-     * draft.
-     */
-    "payment_due": InvoicePaymentDue;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentTermsSnapshot}. The payment term captured on the
-     * draft, with its due date rule and late fee policy. Later changes to the payment term don't
-     * affect this invoice. The payment terms saved on an invoice: the term's name, version, due
-     * date calculation, and late fee policy.
-     */
-    "payment_terms_snapshot"?: InvoicePaymentTermsSnapshot;
-    /**
-     * Shape $ (Value): string or null. The buyer's purchase order number, printed on the invoice
-     * and PDF. It cannot change after issue. null when unset.
-     */
-    "po_number": string | null;
-    /**
-     * Shape $ (Value): string. The hosted invoice link where the buyer views and pays the invoice.
-     * Present after issue on API reads, except a list filtered by idempotency_key; webhook
-     * payloads leave it out. regenerate-public-link replaces it. Anyone with the link can open the
-     * invoice, so treat it as a secret.
-     */
-    "public_url"?: string;
-    /**
-     * Shape $ (Value): string or null. Where Flint emails the invoice and its reminders. Email
-     * delivery requires it at issue. null when unset.
-     */
-    "recipient_email": string | null;
-    /**
-     * Shape $ (Value): string or null. Your reference for the invoice, printed on the invoice and
-     * PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. null
-     * when unset.
-     */
-    "reference": string | null;
-    /**
-     * Shape $ (Value): string. How much of the collected money has been refunded. It doesn't
-     * change status. Value enum: "none", "partially_refunded", "refunded".
-     */
-    "refund_status": "none" | "partially_refunded" | "refunded" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Money refunded to the buyer after collection. Refunds
-     * don't reopen the balance; refund_status summarizes them. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * Shape $ (Value): boolean. Whether automatic reminders are paused. Set reminders_paused on
-     * PATCH /v1/invoices/{invoice_id} to change it.
-     */
-    "reminders_paused": boolean;
-    /**
-     * Shape $ (Value): string. When automatic reminders were paused. Absent while reminders are
-     * active. Format: date-time.
-     */
-    "reminders_paused_at"?: string;
-    /**
-     * Shape $ (Value): {@link Address}. Where the buyer sends offline payments, shown on the
-     * invoice. Defaults to the invoice settings remit-to address. A postal address, as returned on
-     * customers, invoices, tax locations, and fulfillment recipients.
-     */
-    "remit_to_address"?: Address;
-    /**
-     * Shape $ (Value): Array of {@link InvoiceScheduleEntry}. The payment schedule, in schedule
-     * order. Always [] when the invoice has no schedule and is collected in one balance. Shape $[]
-     * (Value): {@link InvoiceScheduleEntry}. One payment on an invoice's payment schedule, such as
-     * a deposit, installment, or balance, with its due time, amounts, and status.
-     */
-    "schedule_entries": Array<InvoiceScheduleEntry>;
-    /**
-     * Shape $ (Value): string or null. When Flint will issue and deliver this draft. null when no
-     * issue is scheduled. Cleared when the draft is issued or voided, or when you send null.
-     * Format: date-time.
-     */
-    "scheduled_issue_at": string | null;
-    /**
-     * Shape $ (Value): string or null. The calendar date of the billed service, in YYYY-MM-DD
-     * format. The invoice and PDF print it as written, without timezone conversion. null when
-     * unset. Format: date.
-     */
-    "service_date": string | null;
-    /**
-     * Shape $ (Value): {@link InvoiceSnapshot}. The billing content of the invoice: line items,
-     * discounts, charges, tip, tax, and totals. A draft previews the backing order; issue freezes
-     * it, and later order changes don't reach an issued invoice. A frozen copy of an issued
-     * invoice's content, including line items, charges, discounts, tax identities, and pricing
-     * amounts.
-     */
-    "snapshot"?: InvoiceSnapshot;
-    /**
-     * Shape $ (Value): string. Current invoice status. paid and credited close the current balance
-     * and can reopen to open or partially_paid after a payment or credit allocation reversal;
-     * invoice.reopened reports that change. void and uncollectible are final. Refunds change
-     * refund_status without reopening the balance. Value enum: "draft", "open", "partially_paid",
-     * "paid", "void", "uncollectible", "credited".
-     */
-    "status": "draft" | "open" | "partially_paid" | "paid" | "void" | "uncollectible" | "credited" | (string & {});
-    /**
-     * Shape $ (Value): string or null. The subscription the backing order belongs to, copied when
-     * the draft is created and never changed. null when the order isn't part of a subscription.
-     */
-    "subscription_id": string | null;
-    /**
-     * Shape $ (Value): string. IANA time zone for the invoice's calendar dates, such as due dates
-     * from payment terms and reminder and late fee day counts. At issue, an invoice without one
-     * takes the invoice settings timezone.
-     */
-    "timezone"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. What the issued invoice bills, equal to
-     * snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order
-     * total. Late fees are in late_fee_money. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /** Shape $ (Value): string. When the invoice was marked uncollectible. Format: date-time. */
-    "uncollectible_at"?: string;
-    /** Shape $ (Value): string. When the invoice last changed. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Current invoice version. Send this as expected_version when
-     * updating the draft. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1.
-     */
-    "version": `${bigint}`;
-    /**
-     * Shape $ (Value): string. When the buyer first opened the invoice through its hosted invoice
-     * link. Recorded on a best-effort basis. Format: date-time.
-     */
-    "viewed_at"?: string;
-    /** Shape $ (Value): string. When the invoice was voided. Format: date-time. */
-    "voided_at"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The balance written off when the invoice was marked
-     * uncollectible, including unpaid late fees. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "written_off_money": MoneyValue;
+    "body": InputValue<UpdateInventoryCountRequestInput>;
 };
 /**
- * Shape $ (Value): {@link InvoiceActivity}. Read-only invoice history row for timeline rendering
- * and debugging. Detail fields are present only on the activity types their descriptions list. The
- * invoice and the referenced resources remain authoritative for state and money movement.
+ * Shape $ (Value): {@link InventoryItem}. A stock-keeping unit that inventory quantities are
+ * tracked against. Catalog variants reference an inventory item rather than carrying their own
+ * counter.
  */
-export type InvoiceActivity = {
-    /**
-     * Shape $ (Value): string. What happened. other means an activity this API version doesn't
-     * describe yet. New values may be added; treat an unrecognized value like `other`. Value enum:
-     * "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed",
-     * "payment_attempt_started", "payment_applied", "manual_payment_recorded",
-     * "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated",
-     * "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible",
-     * "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due",
-     * "late_fee_assessed", "late_fee_waived", "credited", "other".
-     */
-    "activity_type": "draft_created"
-        | "issued"
-        | "sent"
-        | "delivery_sent"
-        | "reminder_sent"
-        | "viewed"
-        | "payment_attempt_started"
-        | "payment_applied"
-        | "manual_payment_recorded"
-        | "manual_payment_reversed"
-        | "refund_succeeded"
-        | "voided"
-        | "token_regenerated"
-        | "collection_blocked"
-        | "collection_block_resolved"
-        | "updated"
-        | "marked_uncollectible"
-        | "payment_processing"
-        | "issue_failed"
-        | "overdue"
-        | "reminder_due"
-        | "late_fee_due"
-        | "late_fee_assessed"
-        | "late_fee_waived"
-        | "credited"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): string. Merchant ID of the actor, when actor_type is merchant. Some system
-     * activities also carry the merchant ID.
-     */
-    "actor_id"?: string;
-    /**
-     * Shape $ (Value): string. Who performed the activity: the merchant (an API key or dashboard
-     * user), the buyer, or Flint on a schedule or in response to a payment event. Absent when no
-     * actor was recorded. Value enum: "merchant", "buyer", "system".
-     */
-    "actor_type"?: "merchant" | "buyer" | "system" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Amount of the payment, refund, or late fee. Present on
-     * payment_applied, manual_payment_recorded, manual_payment_reversed, refund_succeeded,
-     * late_fee_assessed, and late_fee_waived, and on updated when a card refund changed or a
-     * credit note refund was requested. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Delivery channel. Present on delivery_sent and reminder_sent. Value
-     * enum: "email".
-     */
-    "channel"?: "email" | (string & {});
-    /**
-     * Shape $ (Value): string. Checkout session the buyer paid through. Present on
-     * payment_attempt_started for hosted payments.
-     */
-    "checkout_session_id"?: string;
-    /**
-     * Shape $ (Value): string. Why collection was blocked or unblocked. Present on
-     * collection_blocked and collection_block_resolved. Value enum: "inventory_unavailable",
-     * "inventory_restored".
-     */
-    "collection_block_reason"?: "inventory_unavailable" | "inventory_restored" | (string & {});
-    /** Shape $ (Value): string. When the activity happened. Format: date-time. */
+export type InventoryItem = {
+    /** Shape $ (Value): string. Optional searchable barcode. */
+    "barcode"?: string;
+    /** Shape $ (Value): string. Time the inventory item was created. Format: date-time. */
     "created_at": string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Total credit applied to the invoice. Present on
-     * credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255.
      */
-    "credit_money"?: MoneyValue;
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. Stable inventory item ID. */
+    "inventory_item_id": string;
     /**
-     * Shape $ (Value): string. Credit note that requested the refund. Present on updated when a
-     * credit note refund was requested or changed.
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them.
      */
-    "credit_note_id"?: string;
-    /** Shape $ (Value): string. Human-readable Flint description of the activity. */
-    "description": string;
+    "metadata": MetadataMap;
+    /** Shape $ (Value): string. Merchant-facing inventory item name. */
+    "name": string;
+    /** Shape $ (Value): string. Optional searchable stock-keeping unit. */
+    "sku"?: string;
     /**
-     * Shape $ (Value): string. Due date that triggered the activity. Present on overdue,
-     * reminder_due, and late_fee_due. Format: date-time.
+     * Shape $ (Value): string. Current inventory item lifecycle status. Value enum: "active",
+     * "inactive", "archived".
      */
-    "due_at"?: string;
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /** Shape $ (Value): string. Time the inventory item last changed. Format: date-time. */
+    "updated_at": string;
     /**
-     * Shape $ (Value): string. Public error code of the failed scheduled issue. Present on
-     * issue_failed.
+     * Shape $ (Value): integer string. Optimistic-concurrency version for item writes. Use an
+     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      */
-    "error_code"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Amount the processing payment is expected to settle.
-     * Present on payment_processing. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "expected_amount_money"?: MoneyValue;
-    /** Shape $ (Value): string. Flint invoice activity ID. IDs begin with inevt_. */
-    "invoice_activity_id": string;
-    /**
-     * Shape $ (Value): string. The delivery attempt that sent the email. Present on delivery_sent
-     * and reminder_sent.
-     */
-    "invoice_delivery_attempt_id"?: string;
-    /** Shape $ (Value): string. The late fee. Present on late_fee_assessed and late_fee_waived. */
-    "invoice_late_fee_id"?: string;
-    /**
-     * Shape $ (Value): string. The manual payment. Present on manual_payment_recorded and
-     * manual_payment_reversed.
-     */
-    "invoice_manual_payment_id"?: string;
-    /**
-     * Shape $ (Value): string. The payment attempt. Present on payment_attempt_started and
-     * payment_processing.
-     */
-    "invoice_payment_attempt_id"?: string;
-    /**
-     * Shape $ (Value): string. Schedule entry the activity applies to. Present on overdue,
-     * reminder_due, late_fee_due, late_fee_assessed, and late_fee_waived when the invoice has a
-     * payment schedule.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment intent whose funds were applied. Present on
-     * payment_applied.
-     */
-    "payment_intent_id"?: string;
-    /**
-     * Shape $ (Value): string. Payment rail of the attempt. Present on payment_processing. Value
-     * enum: "card", "ach_debit".
-     */
-    "rail"?: "card" | "ach_debit" | (string & {});
-    /**
-     * Shape $ (Value): string. Related refund. Present on refund_succeeded, and on updated when a
-     * card refund changed or a credit note refund was requested or changed. Read the refund for
-     * its current status.
-     */
-    "refund_id"?: string;
-    /**
-     * Shape $ (Value): string. Recipient of the email. Present on delivery_sent and reminder_sent.
-     */
-    "to_email"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Balance written off. Present on marked_uncollectible.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "written_off_money"?: MoneyValue;
+    "version": `${bigint}`;
 };
-/** Shape $ (Value): {@link InvoiceActivityListResponse}. A page of `InvoiceActivity` objects. */
-export type InvoiceActivityListResponse = {
+/**
+ * Shape $ (Value): {@link InventoryItemCreateRequest}. Inventory item details you supply when
+ * creating an inventory item for a product variant: `name`, `sku`, `barcode`, and metadata.
+ */
+export type InventoryItemCreateRequest = {
     /**
-     * Shape $ (Value): Array of {@link InvoiceActivity}. Shape $[] (Value): {@link
-     * InvoiceActivity}. Read-only invoice history row for timeline rendering and debugging. Detail
-     * fields are present only on the activity types their descriptions list. The invoice and the
-     * referenced resources remain authoritative for state and money movement.
+     * Shape $ (Value): string. Barcode assigned to the new inventory item. minLength: 1.
+     * maxLength: 255.
      */
-    "data": Array<InvoiceActivity>;
+    "barcode"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata for the new inventory item.
+     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Name of the inventory item to create for this variant. minLength:
+     * 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Shape $ (Value): string. Stock keeping unit assigned to the new inventory item. minLength:
+     * 1. maxLength: 255.
+     */
+    "sku"?: string;
+};
+/**
+ * Shape $ (Value): {@link InventoryItemCreateRequestInput}. Inventory item details you supply when
+ * creating an inventory item for a product variant: `name`, `sku`, `barcode`, and metadata.
+ */
+export type InventoryItemCreateRequestInput = {
+    /**
+     * Shape $ (Value): string. Barcode assigned to the new inventory item. minLength: 1.
+     * maxLength: 255.
+     */
+    "barcode"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata for the new inventory
+     * item. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to
+     * 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Name of the inventory item to create for this variant. minLength:
+     * 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Shape $ (Value): string. Stock keeping unit assigned to the new inventory item. minLength:
+     * 1. maxLength: 255.
+     */
+    "sku"?: string;
+};
+/** Shape $ (Value): {@link InventoryItemListResponse}. A page of `InventoryItem` objects. */
+export type InventoryItemListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryItem}. Shape $[] (Value): {@link InventoryItem}. A
+     * stock-keeping unit that inventory quantities are tracked against. Catalog variants reference
+     * an inventory item rather than carrying their own counter.
+     */
+    "data": Array<InventoryItem>;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1306,132 +871,16 @@ export type InvoiceActivityListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
-/**
- * Shape $ (Value): {@link InvoiceAutopayRetryPolicy}. When to retry a failed automatic invoice
- * payment, as a list of day offsets.
- */
-export type InvoiceAutopayRetryPolicy = {
+/** Shape $ (Value): {@link InventoryItemResponse}. A response containing `InventoryItem` data. */
+export type InventoryItemResponse = {
     /**
-     * Shape $ (Value): Array of integer. maxItems: 5. uniqueItems: true. Shape $[] (Value):
-     * integer. Format: int32. minimum: 1. maximum: 30.
+     * Shape $ (Value): {@link InventoryItem}. A stock-keeping unit that inventory quantities are
+     * tracked against. Catalog variants reference an inventory item rather than carrying their own
+     * counter.
      */
-    "retry_day_offsets": Array<number>;
-};
-/**
- * Shape $ (Value): {@link InvoiceAutopayRetryPolicyInput}. When to retry a failed automatic
- * invoice payment, as a list of day offsets.
- */
-export type InvoiceAutopayRetryPolicyInput = InvoiceAutopayRetryPolicy;
-/**
- * Shape $ (Value): {@link InvoiceCheckoutSessionRequest}. The request body for: Create an invoice
- * checkout session for the current buyer; Get or create invoice checkout collection.
- */
-export type InvoiceCheckoutSessionRequest = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Shape $ (Value): string. Origin of the page where you render this embedded checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Shape $ (Value): string. Embedded sessions only. Absolute HTTPS URL on your site where Flint
-     * sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the
-     * session there to show the result. Required when the session offers affirm. It can't contain
-     * credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to
-     * 2,048 characters. Format: uri. minLength: 1. maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Shape $ (Value): {@link CheckoutRedirects}. Where hosted checkout sends the buyer. Not
-     * allowed when surface is embedded; use payment_return_url.
-     */
-    "redirects"?: CheckoutRedirects;
-    /**
-     * Shape $ (Value): string. Where the checkout sends the buyer after paying, such as the
-     * invoice's page in the customer account. Limited to 2048 characters (Unicode code points)
-     * before trimming surrounding whitespace. It must be an HTTPS address of the merchant's
-     * customer account: /{merchant_id} on Flint's account host, the merchant's active custom
-     * account domain, or the host of customer_account.merchant_account_url when the merchant hosts
-     * the account. HTTP is accepted only for localhost in test mode. Anything else fails with
-     * INVALID_RETURN_URL. An alias for redirects.success_url on hosted checkout or
-     * payment_return_url on embedded checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048.
-     */
-    "return_url"?: string;
-    /**
-     * Shape $ (Value): string. Defaults to hosted. The same surface reuses the open checkout. A
-     * different surface replaces it only while no payment is in progress; otherwise the request
-     * returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Default: "hosted". Value enum: "hosted",
-     * "embedded".
-     */
-    "surface"?: "hosted" | "embedded" | (string & {});
-});
-/**
- * Shape $ (Value): {@link InvoiceCheckoutSessionRequestInput}. The request body for: Create an
- * invoice checkout session for the current buyer; Get or create invoice checkout collection.
- */
-export type InvoiceCheckoutSessionRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Shape $ (Value): string. Origin of the page where you render this embedded checkout, such as
-     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
-     * receive its result. It does not let the browser call the Flint API. Accepted only when
-     * surface is embedded. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
-     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
-     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
-     */
-    "page_origin"?: string;
-    /**
-     * Shape $ (Value): string. Embedded sessions only. Absolute HTTPS URL on your site where Flint
-     * sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the
-     * session there to show the result. Required when the session offers affirm. It can't contain
-     * credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to
-     * 2,048 characters. Format: uri. minLength: 1. maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Shape $ (Value): {@link CheckoutRedirectsRequestInput}. Where hosted checkout sends the
-     * buyer. Not allowed when surface is embedded; use payment_return_url.
-     */
-    "redirects"?: CheckoutRedirectsRequestInput;
-    /**
-     * Shape $ (Value): string. Where the checkout sends the buyer after paying, such as the
-     * invoice's page in the customer account. Limited to 2048 characters (Unicode code points)
-     * before trimming surrounding whitespace. It must be an HTTPS address of the merchant's
-     * customer account: /{merchant_id} on Flint's account host, the merchant's active custom
-     * account domain, or the host of customer_account.merchant_account_url when the merchant hosts
-     * the account. HTTP is accepted only for localhost in test mode. Anything else fails with
-     * INVALID_RETURN_URL. An alias for redirects.success_url on hosted checkout or
-     * payment_return_url on embedded checkout; keep them consistent when sending both. Format:
-     * uri. minLength: 1. maxLength: 2048.
-     */
-    "return_url"?: string;
-    /**
-     * Shape $ (Value): string. Defaults to hosted. The same surface reuses the open checkout. A
-     * different surface replaces it only while no payment is in progress; otherwise the request
-     * returns CHECKOUT_SURFACE_CHANGE_NOT_ALLOWED. Default: "hosted". Value enum: "hosted",
-     * "embedded".
-     */
-    "surface"?: "hosted" | "embedded";
-});
-/**
- * Shape $ (Value): {@link InvoiceCheckoutSessionResponse}. A response containing
- * `InvoiceCheckoutSessionResult` data.
- */
-export type InvoiceCheckoutSessionResponse = {
-    /**
-     * Shape $ (Value): {@link InvoiceCheckoutSessionResult}. The invoice is the primary resource,
-     * with its checkout session, credential, and any invoice payment attempt.
-     */
-    "data": InvoiceCheckoutSessionResult;
+    "data": InventoryItem;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1441,477 +890,180 @@ export type InvoiceCheckoutSessionResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
-/**
- * Shape $ (Value): {@link InvoiceCheckoutSessionResult}. The invoice is the primary resource, with
- * its checkout session, credential, and any invoice payment attempt.
- */
-export type InvoiceCheckoutSessionResult = {
+export type InventoryItemsCreateInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateInventoryItemRequestInput}. The request body for: Create
+     * inventory item.
+     */
+    "body": InputValue<CreateInventoryItemRequestInput>;
+};
+export type InventoryItemsGetInput = {
     /** Shape $ (Value): string. */
-    "checkout_auth_token": string;
+    "inventory_item_id": InputValue<string>;
+};
+export type InventoryItemsListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
     /**
-     * Shape $ (Value): {@link CheckoutSession}. A session in which a buyer completes an order's
-     * payment.
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived".
+     * Shape $[] (Value): string. Value enum: "active", "inactive", "archived".
      */
-    "checkout_session": CheckoutSession;
-    /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-    "invoice": Invoice;
+    "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+    /** Shape $ (Value): string. */
+    "sku"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "barcode"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "external_reference_id"?: InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "query"?: InputValue<string>;
+};
+export type InventoryItemsRemoveInput = {
+    /** Shape $ (Value): string. */
+    "inventory_item_id": InputValue<string>;
     /**
-     * Shape $ (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-     * invoice.
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
      */
-    "invoice_payment_attempt"?: InvoicePaymentAttempt;
+    "expected_version"?: InputValue<`${bigint}` | bigint>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+};
+export type InventoryItemsUpdateInput = {
+    /** Shape $ (Value): string. */
+    "inventory_item_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link UpdateInventoryItemRequestInput}. The request body for: Update
+     * inventory item.
+     */
+    "body": InputValue<UpdateInventoryItemRequestInput>;
 };
 /**
- * Shape $ (Value): {@link InvoiceCollection}. The invoice collection policy resolved at write
- * time. The object can be sent back when updating a draft.
+ * Shape $ (Value): {@link InventoryLevel}. The quantity state of one inventory item at one
+ * Location.
  */
-export type InvoiceCollection = ({
+export type InventoryLevel = {
     /**
-     * Shape $ (Value): string. How the invoice is collected, resolved when the draft was written.
-     * Value enum: "buyer_initiated", "automatic", "external".
+     * Shape $ (Value): integer string. Derived and never written: on_hand minus unavailable, held,
+     * committed, and safety stock, never below 0. See shortage_quantity for the excess.
+     * Whole-number quantity; fractional quantities are not supported. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
      */
-    "mode": "buyer_initiated" | "automatic" | "external" | (string & {});
+    "available_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): string or null. The saved card Flint charges. Present only with automatic.
-     * On a draft, null means Flint charges the customer's default card, selected at issue. After
-     * issue it is the selected card.
+     * Shape $ (Value): integer string. Advances only when held or committed quantities change. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      */
-    "payment_method_id"?: string | null;
+    "claim_version": `${bigint}`;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): integer string. Units promised to accepted orders. Still physically present
+     * until fulfillment consumes them. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
      */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & ((Exclude<InvoiceCollectionBuyerInitiated & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionAutomatic & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionExternal & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceCollectionAutomatic}. The `automatic` variant of
- * `InvoiceCollection`.
- */
-export type InvoiceCollectionAutomatic = ({
+    "committed_quantity": `${bigint}`;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
     /**
-     * Shape $ (Value): string. How the invoice is collected, resolved when the draft was written.
-     * Value enum: "automatic".
+     * Shape $ (Value): integer string. On-hand units known to be damaged. Not sellable.
+     * Whole-number quantity; fractional quantities are not supported. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
      */
-    "mode": "automatic" | (string & {});
+    "damaged_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): string or null. The saved card Flint charges. Present only with automatic.
-     * On a draft, null means Flint charges the customer's default card, selected at issue. After
-     * issue it is the selected card.
+     * Shape $ (Value): integer string. Units claimed by an open reservation that has not been
+     * committed. Whole-number quantity; fractional quantities are not supported. Use an integer
+     * string (decimal digits), not a floating-point number. Format: int64.
      */
-    "payment_method_id": string | null;
+    "held_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): integer string. Units recorded as inbound but not yet on hand. Does not
+     * count toward availability. Whole-number quantity; fractional quantities are not supported.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64.
      */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "automatic". */
-    "mode"?: "automatic" | (string & {});
-    /** Shape $ (Value): string or null. */
-    "payment_method_id": string | null;
-}));
-/**
- * Shape $ (Value): {@link InvoiceCollectionBuyerInitiated}. The `buyer_initiated` variant of
- * `InvoiceCollection`.
- */
-export type InvoiceCollectionBuyerInitiated = ({
+    "incoming_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): string. How the invoice is collected, resolved when the draft was written.
-     * Value enum: "buyer_initiated".
+     * Shape $ (Value): {@link InventoryItem}. The inventory item this level belongs to. Present
+     * only when the list request asked for expand=inventory_item. A stock-keeping unit that
+     * inventory quantities are tracked against. Catalog variants reference an inventory item
+     * rather than carrying their own counter.
      */
-    "mode": "buyer_initiated" | (string & {});
+    "inventory_item"?: InventoryItem;
+    /** Shape $ (Value): string. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_level_id": string;
+    /** Shape $ (Value): string. */
+    "location_id": string;
     /**
-     * Shape $ (Value): string or null. The saved card Flint charges. Present only with automatic.
-     * On a draft, null means Flint charges the customer's default card, selected at issue. After
-     * issue it is the selected card.
+     * Shape $ (Value): integer string. Units physically present at the Location, in any condition.
+     * Whole-number quantity; fractional quantities are not supported. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
      */
-    "payment_method_id"?: string | null;
+    "on_hand_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): integer string. Advances only when on-hand or condition quantities change.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum:
+     * 0.
      */
-    "payment_policy": InvoicePaymentPolicy;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "buyer_initiated". */
-    "mode"?: "buyer_initiated" | (string & {});
+    "physical_version": `${bigint}`;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): integer string. On-hand units awaiting inspection. Not sellable.
+     * Whole-number quantity; fractional quantities are not supported. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
      */
-    "payment_policy": InvoicePaymentPolicy;
-}));
-/**
- * Shape $ (Value): {@link InvoiceCollectionExternal}. The `external` variant of
- * `InvoiceCollection`.
- */
-export type InvoiceCollectionExternal = ({
+    "quality_control_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): string. How the invoice is collected, resolved when the draft was written.
-     * Value enum: "external".
+     * Shape $ (Value): integer string. On-hand units isolated for review. Not sellable.
+     * Whole-number quantity; fractional quantities are not supported. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
      */
-    "mode": "external" | (string & {});
+    "quarantined_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): string or null. The saved card Flint charges. Present only with automatic.
-     * On a draft, null means Flint charges the customer's default card, selected at issue. After
-     * issue it is the selected card.
+     * Shape $ (Value): integer string. Buffer withheld from allocation. Change it with PATCH
+     * /v1/inventory-levels/{inventory_level_id}. Whole-number quantity; fractional quantities are
+     * not supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
      */
-    "payment_method_id"?: string | null;
+    "safety_stock_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Present only with buyer_initiated. Which payment options an invoice accepts, any
-     * per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): integer string. Derived: claims exceeding sellable physical stock. Positive
+     * only after stock is lost, damaged, or corrected down. Whole-number quantity; fractional
+     * quantities are not supported. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64.
      */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "mode"?: "external" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceCollectionInputAutomatic}. The `automatic` variant of
- * `InvoiceCollectionInput`.
- */
-export type InvoiceCollectionInputAutomatic = ({
+    "shortage_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "automatic".
+     * Shape $ (Value): integer string. Derived: quality_control + damaged + quarantined.
+     * Whole-number quantity; fractional quantities are not supported. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
      */
-    "mode": "automatic" | (string & {});
+    "unavailable_on_hand_quantity": `${bigint}`;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "updated_at": string;
     /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
+     * Shape $ (Value): integer string. Changes on every quantity or claim change at this level,
+     * including holds and commits. Read it immediately before a PATCH. A level that a counted
+     * adjustment creates without a quantity change starts at version 0. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      */
-    "payment_method_id"?: string | null;
+    "version": `${bigint}`;
+};
+/** Shape $ (Value): {@link InventoryLevelListResponse}. A page of `InventoryLevel` objects. */
+export type InventoryLevelListResponse = {
     /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
+     * Shape $ (Value): Array of {@link InventoryLevel}. Shape $[] (Value): {@link InventoryLevel}.
+     * The quantity state of one inventory item at one Location.
      */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "automatic". */
-    "mode"?: "automatic" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceCollectionInputAutomaticInput}. The `automatic` variant of
- * `InvoiceCollectionInput`.
- */
-export type InvoiceCollectionInputAutomaticInput = ({
-    /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "automatic".
-     */
-    "mode": "automatic";
-    /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
-     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyInput;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "automatic". */
-    "mode"?: "automatic";
-})
-    & (({
-    "payment_policy"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoiceCollectionInputBuyerInitiated}. The `buyer_initiated` variant of
- * `InvoiceCollectionInput`.
- */
-export type InvoiceCollectionInputBuyerInitiated = ({
-    /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "buyer_initiated".
-     */
-    "mode": "buyer_initiated" | (string & {});
-    /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "buyer_initiated". */
-    "mode"?: "buyer_initiated" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceCollectionInputBuyerInitiatedInput}. The `buyer_initiated`
- * variant of `InvoiceCollectionInput`.
- */
-export type InvoiceCollectionInputBuyerInitiatedInput = ({
-    /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "buyer_initiated".
-     */
-    "mode": "buyer_initiated";
-    /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
-     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyInput;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "buyer_initiated". */
-    "mode"?: "buyer_initiated";
-})
-    & (({
-    "payment_method_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoiceCollectionInputExternalInput}. The `external` variant of
- * `InvoiceCollectionInput`.
- */
-export type InvoiceCollectionInputExternalInput = ({
-    /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "external".
-     */
-    "mode": "external";
-    /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
-     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyInput;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "mode"?: "external";
-})
-    & (({
-    "payment_method_id"?: never;
-}) & ({
-    "payment_policy"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoiceCollectionInputMerchantDefault}. The `merchant_default` variant
- * of `InvoiceCollectionInput`.
- */
-export type InvoiceCollectionInputMerchantDefault = ({
-    /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "merchant_default".
-     */
-    "mode": "merchant_default" | (string & {});
-    /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "merchant_default". */
-    "mode"?: "merchant_default" | (string & {});
-}));
-/**
- * Shape $ (Value): {@link InvoiceCollectionInputMerchantDefaultInput}. The `merchant_default`
- * variant of `InvoiceCollectionInput`.
- */
-export type InvoiceCollectionInputMerchantDefaultInput = ({
-    /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "merchant_default".
-     */
-    "mode": "merchant_default";
-    /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
-     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyInput;
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "merchant_default". */
-    "mode"?: "merchant_default";
-})
-    & (({
-    "payment_method_id"?: never;
-}) & ({
-    "payment_policy"?: never;
-})));
-/**
- * Shape $ (Value): {@link InvoiceCollectionRequest}. How an invoice is collected, used when
- * creating or updating an invoice: a `mode`, an optional saved payment method, and a payment
- * policy.
- */
-export type InvoiceCollectionRequest = ({
-    /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "merchant_default",
-     * "buyer_initiated", "automatic", "external".
-     */
-    "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external" | (string & {});
-    /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicy}. The payment options the hosted invoice page
-     * offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicy;
-})
-    & ((Exclude<InvoiceCollectionInputMerchantDefault & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionInputBuyerInitiated & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionInputAutomatic & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionExternal & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceCollectionRequestInput}. How an invoice is collected, used when
- * creating or updating an invoice: a `mode`, an optional saved payment method, and a payment
- * policy.
- */
-export type InvoiceCollectionRequestInput = ({
-    /**
-     * Shape $ (Value): string. How the invoice is collected. merchant_default resolves when the
-     * draft is written, and reads return the resolved mode. Value enum: "merchant_default",
-     * "buyer_initiated", "automatic", "external".
-     */
-    "mode": "merchant_default" | "buyer_initiated" | "automatic" | "external";
-    /**
-     * Shape $ (Value): string or null. The customer's saved card to charge. Accepted only with
-     * automatic. Without one, Flint charges the customer's default card, selected when the invoice
-     * is issued. Send null to clear it. minLength: 1.
-     */
-    "payment_method_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentPolicyInput}. The payment options the hosted invoice
-     * page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings
-     * payment_policy, or the checkout payment options when that isn't set. Which payment options
-     * an invoice accepts, any per-option total limits, and whether to show a cost comparison.
-     */
-    "payment_policy"?: InvoicePaymentPolicyInput;
-})
-    & ((Exclude<InvoiceCollectionInputMerchantDefaultInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionInputBuyerInitiatedInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionInputAutomaticInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceCollectionInputExternalInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by email,
- * either the original send or a reminder, with its recipients and status.
- */
-export type InvoiceDeliveryAttempt = ({
-    /**
-     * Shape $ (Value): Array of string. Addresses copied on this email. Absent when none were
-     * copied. Shape $[] (Value): string.
-     */
-    "cc_emails"?: Array<string>;
-    /** Shape $ (Value): string. How Flint delivered the invoice. Value enum: "email". */
-    "channel": "email" | (string & {});
-    /** Shape $ (Value): string. When the attempt was created. Format: date-time. */
-    "created_at"?: string;
-    /**
-     * Shape $ (Value): string. Whether this attempt is the invoice email sent at issue or a
-     * reminder. Value enum: "send", "reminder".
-     */
-    "delivery_type": "send" | "reminder" | (string & {});
-    /**
-     * Shape $ (Value): string. Present only when status is failed. Legacy failed attempts without
-     * a stored reason return rejected. Value enum: "rejected", "delivery_unknown", "canceled".
-     */
-    "failure_reason"?: "rejected" | "delivery_unknown" | "canceled" | (string & {});
-    /** Shape $ (Value): string. Flint invoice delivery attempt ID. */
-    "invoice_delivery_attempt_id": string;
-    /** Shape $ (Value): string. ID of the invoice this delivery attempt belongs to. */
-    "invoice_id": string;
-    /**
-     * Shape $ (Value): string. When the email service accepted the message. Absent until it does.
-     * Format: date-time.
-     */
-    "sent_at"?: string;
-    /**
-     * Shape $ (Value): string. The outcome of this attempt. sent means the email service accepted
-     * the message. Value enum: "pending", "sent", "failed", "suppressed".
-     */
-    "status": "pending" | "sent" | "failed" | "suppressed" | (string & {});
-    /**
-     * Shape $ (Value): string. Present only when status is suppressed. Value enum:
-     * "merchant_managed_email", "recipient_unsubscribed".
-     */
-    "suppression_reason"?: "merchant_managed_email" | "recipient_unsubscribed" | (string & {});
-    /**
-     * Shape $ (Value): string or null. Address the invoice was sent to. `null` after the customer
-     * was deleted.
-     */
-    "to_email": string | null;
-});
-/**
- * Shape $ (Value): {@link InvoiceDeliveryAttemptListResponse}. A page of `InvoiceDeliveryAttempt`
- * objects.
- */
-export type InvoiceDeliveryAttemptListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link InvoiceDeliveryAttempt}. Shape $[] (Value): {@link
-     * InvoiceDeliveryAttempt}. One attempt to deliver an invoice by email, either the original
-     * send or a reminder, with its recipients and status.
-     */
-    "data": Array<InvoiceDeliveryAttempt>;
+    "data": Array<InventoryLevel>;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1923,508 +1075,632 @@ export type InvoiceDeliveryAttemptListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
+};
+/** Shape $ (Value): {@link InventoryLevelResponse}. A response containing `InventoryLevel` data. */
+export type InventoryLevelResponse = {
+    /**
+     * Shape $ (Value): {@link InventoryLevel}. The quantity state of one inventory item at one
+     * Location.
+     */
+    "data": InventoryLevel;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InventoryLevelsGetInput = {
+    /**
+     * Shape $ (Value): Array of string. [] enum: "inventory_item". Shape $[] (Value): string.
+     * Value enum: "inventory_item".
+     */
+    "expand"?: InputValue<Array<"inventory_item">>;
+    /** Shape $ (Value): string. */
+    "inventory_level_id": InputValue<string>;
+};
+export type InventoryLevelsListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "inventory_item_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "location_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived".
+     * Shape $[] (Value): string. Value enum: "active", "inactive", "archived".
+     */
+    "inventory_item_status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+    /** Shape $ (Value): boolean. */
+    "has_available_quantity"?: InputValue<boolean>;
+    /** Shape $ (Value): boolean. */
+    "has_unavailable_condition"?: InputValue<boolean>;
+    /** Shape $ (Value): boolean. */
+    "has_shortage"?: InputValue<boolean>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "query"?: InputValue<string>;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "min_available_quantity"?: InputValue<`${bigint}` | bigint>;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "max_available_quantity"?: InputValue<`${bigint}` | bigint>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Shape $ (Value): Array of string. [] enum: "inventory_item". Shape $[] (Value): string.
+     * Value enum: "inventory_item".
+     */
+    "expand"?: InputValue<Array<"inventory_item">>;
+};
+export type InventoryLevelsUpdateInput = {
+    /** Shape $ (Value): string. */
+    "inventory_level_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link UpdateInventoryLevelRequestInput}. The request body for: Update
+     * inventory level.
+     */
+    "body": InputValue<UpdateInventoryLevelRequestInput>;
 };
 /**
- * Shape $ (Value): {@link InvoiceDiscount}. A discount applied to an invoice, with its source, the
- * discount amount, the amount actually applied, and any promotion.
+ * Shape $ (Value): {@link InventoryMovement}. An immutable record of a single quantity change,
+ * including the level state it produced.
  */
-export type InvoiceDiscount = {
+export type InventoryMovement = {
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
      */
-    "amount_money": MoneyValue;
+    "committed_quantity_delta": `${bigint}`;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): {@link ResourceReference} or null. The credential that recorded this
+     * movement. null when Flint recorded it on its own, such as an expired hold or a fulfillment
+     * handoff. Shape $.anyOf[1] (Value): {@link ResourceReference}. A reference to another
+     * resource by `resource_type` and `resource_id`. Shape $.anyOf[2] (Value): null.
      */
-    "applied_money": MoneyValue;
+    "created_by": ((ResourceReference) | (null));
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "damaged_quantity_delta": `${bigint}`;
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "held_quantity_delta": `${bigint}`;
+    /**
+     * Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
+     */
+    "idempotency_key"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "incoming_quantity_delta": `${bigint}`;
+    /**
+     * Shape $ (Value): {@link InventoryItem}. The inventory item this movement is about. Present
+     * only when the list request asked for expand=inventory_item. A stock-keeping unit that
+     * inventory quantities are tracked against. Catalog variants reference an inventory item
+     * rather than carrying their own counter.
+     */
+    "inventory_item"?: InventoryItem;
     /** Shape $ (Value): string. */
-    "customer_facing_name"?: string;
-    /** Shape $ (Value): string.  Value enum: "order", "line_item". */
-    "discount_class"?: "order" | "line_item" | (string & {});
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Claim version of the inventory level after this movement.
+     * Advances when held or committed quantities change. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 0.
+     */
+    "inventory_level_claim_version": `${bigint}`;
     /** Shape $ (Value): string. */
-    "promotion_code"?: string;
+    "inventory_level_id": string;
+    /**
+     * Shape $ (Value): integer string. Physical version of the inventory level after this
+     * movement. Advances when on-hand or condition quantities change. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0.
+     */
+    "inventory_level_physical_version": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Version of the inventory level after this movement. Use an
+     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     */
+    "inventory_level_version": `${bigint}`;
     /** Shape $ (Value): string. */
-    "promotion_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "manual", "promotion", "plan_change_credit". */
-    "source": "manual" | "promotion" | "plan_change_credit" | (string & {});
-};
-/**
- * Shape $ (Value): {@link InvoiceDocumentRow}. One row of an invoice document, such as a subtotal,
- * discount, tax, late fee, payment, or amount due, with its amount.
- */
-export type InvoiceDocumentRow = {
+    "inventory_movement_id": string;
+    /** Shape $ (Value): string. */
+    "location_id": string;
+    /** Shape $ (Value): string. */
+    "note"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "occurred_at": string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. The row's signed amount. Informational rows do not
-     * contribute to the sum. Signed monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
      */
-    "amount_money": MoneyValue;
-    /** Shape $ (Value): string. Number of the credit note a credit note row names. */
-    "credit_note_number"?: string;
+    "on_hand_quantity_delta": `${bigint}`;
     /**
-     * Shape $ (Value): boolean. Whether the row is shown for information and left out of the sum,
-     * such as tax already included in prices, tax not applied, or money refunded to the buyer. A
-     * closing `total` or `amount_due` row is informational and states the sum. An opening or sole
-     * `total` row contributes to the sum.
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
      */
-    "is_informational": boolean;
+    "quality_control_quantity_delta": `${bigint}`;
     /**
-     * Shape $ (Value): string. Value enum: "subtotal", "discount", "charge", "tax", "tip",
-     * "total", "late_fee", "late_fee_waived", "payments", "credit_note", "credits", "written_off",
-     * "amount_due", "refunded".
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
      */
-    "kind": "subtotal"
-        | "discount"
-        | "charge"
-        | "tax"
-        | "tip"
-        | "total"
-        | "late_fee"
-        | "late_fee_waived"
-        | "payments"
-        | "credit_note"
-        | "credits"
-        | "written_off"
-        | "amount_due"
-        | "refunded"
+    "quarantined_quantity_delta": `${bigint}`;
+    /**
+     * Shape $ (Value): string. The adjustment's reason. Present only on adjustment movements;
+     * other movement types already describe what happened. Value enum: "received", "returned",
+     * "sold", "theft", "loss", "condition_changed", "counted", "correction".
+     */
+    "reason"?: "received"
+        | "returned"
+        | "sold"
+        | "theft"
+        | "loss"
+        | "condition_changed"
+        | "counted"
+        | "correction"
         | (string & {});
-    /** Shape $ (Value): string. Discount, charge, or tax jurisdiction name. */
-    "name"?: string;
     /**
-     * Shape $ (Value): string. When the late fee was assessed or waived, or the credit note
-     * issued. Format: date-time.
+     * Shape $ (Value): {@link InventoryLevel}. The quantity state of one inventory item at one
+     * Location.
+     */
+    "resulting_inventory_level": InventoryLevel;
+    /** Shape $ (Value): string. */
+    "return_disposition_id"?: string;
+    /** Shape $ (Value): string. */
+    "return_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "safety_stock_quantity_delta": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0.
+     */
+    "source_observation_sequence"?: `${bigint}`;
+    /**
+     * Shape $ (Value): {@link ResourceReference}. The GET-able resource whose write recorded this
+     * movement. A reference to another resource by `resource_type` and `resource_id`.
+     */
+    "source_reference": ResourceReference;
+    /**
+     * Shape $ (Value): {@link InventorySourceSystem} or null. Shape $.anyOf[1] (Value): {@link
+     * InventorySourceSystem}. The system an inventory event came from, such as manual entry, a
+     * point of sale, a warehouse system, or Flint, with your source identifier when it applies.
+     * Shape $.anyOf[2] (Value): null.
+     */
+    "source_system": ((InventorySourceSystem) | (null));
+    /**
+     * Shape $ (Value): string. Value enum: "adjustment", "count_applied", "reservation_consumed",
+     * "reservation_committed", "reservation_commitment_released", "reservation_expired",
+     * "reservation_held", "reservation_hold_released", "reservation_reallocated_in",
+     * "reservation_reallocated_out", "return_received", "safety_stock_change",
+     * "transfer_departed", "transfer_received", "transfer_returned", "transfer_lost".
+     */
+    "type": "adjustment"
+        | "count_applied"
+        | "reservation_consumed"
+        | "reservation_committed"
+        | "reservation_commitment_released"
+        | "reservation_expired"
+        | "reservation_held"
+        | "reservation_hold_released"
+        | "reservation_reallocated_in"
+        | "reservation_reallocated_out"
+        | "return_received"
+        | "safety_stock_change"
+        | "transfer_departed"
+        | "transfer_received"
+        | "transfer_returned"
+        | "transfer_lost"
+        | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryMovementListResponse}. A page of `InventoryMovement` objects.
+ */
+export type InventoryMovementListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryMovement}. Shape $[] (Value): {@link
+     * InventoryMovement}. An immutable record of a single quantity change, including the level
+     * state it produced.
+     */
+    "data": Array<InventoryMovement>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryMovementResponse}. A response containing `InventoryMovement`
+ * data.
+ */
+export type InventoryMovementResponse = {
+    /**
+     * Shape $ (Value): {@link InventoryMovement}. An immutable record of a single quantity change,
+     * including the level state it produced.
+     */
+    "data": InventoryMovement;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type InventoryMovementsGetInput = {
+    /**
+     * Shape $ (Value): Array of string. [] enum: "inventory_item". Shape $[] (Value): string.
+     * Value enum: "inventory_item".
+     */
+    "expand"?: InputValue<Array<"inventory_item">>;
+    /** Shape $ (Value): string. */
+    "inventory_movement_id": InputValue<string>;
+};
+export type InventoryMovementsListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "inventory_item_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "location_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "adjustment", "count_applied",
+     * "reservation_consumed", "reservation_committed", "reservation_commitment_released",
+     * "reservation_expired", "reservation_held", "reservation_hold_released",
+     * "reservation_reallocated_in", "reservation_reallocated_out", "return_received",
+     * "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned",
+     * "transfer_lost". Shape $[] (Value): string. Value enum: "adjustment", "count_applied",
+     * "reservation_consumed", "reservation_committed", "reservation_commitment_released",
+     * "reservation_expired", "reservation_held", "reservation_hold_released",
+     * "reservation_reallocated_in", "reservation_reallocated_out", "return_received",
+     * "safety_stock_change", "transfer_departed", "transfer_received", "transfer_returned",
+     * "transfer_lost".
+     */
+    "type"?: InputValue<Array<"adjustment"
+        | "count_applied"
+        | "reservation_consumed"
+        | "reservation_committed"
+        | "reservation_commitment_released"
+        | "reservation_expired"
+        | "reservation_held"
+        | "reservation_hold_released"
+        | "reservation_reallocated_in"
+        | "reservation_reallocated_out"
+        | "return_received"
+        | "safety_stock_change"
+        | "transfer_departed"
+        | "transfer_received"
+        | "transfer_returned"
+        | "transfer_lost">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "received", "returned", "sold",
+     * "theft", "loss", "condition_changed", "counted", "correction". Shape $[] (Value): string.
+     * Value enum: "received", "returned", "sold", "theft", "loss", "condition_changed", "counted",
+     * "correction".
+     */
+    "reason"?: InputValue<Array<"received" | "returned" | "sold" | "theft" | "loss" | "condition_changed" | "counted" | "correction">>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "return_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "return_disposition_id"?: InputValue<string>;
+    /** Shape $ (Value): string. Default: "asc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Shape $ (Value): Array of string. [] enum: "inventory_item". Shape $[] (Value): string.
+     * Value enum: "inventory_item".
+     */
+    "expand"?: InputValue<Array<"inventory_item">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "manual", "pos", "wms", "erp",
+     * "flint", "other". Shape $[] (Value): string. Value enum: "manual", "pos", "wms", "erp",
+     * "flint", "other".
+     */
+    "source_system_type"?: InputValue<Array<"manual" | "pos" | "wms" | "erp" | "flint" | "other">>;
+    /** Shape $ (Value): string. */
+    "external_source_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "external_actor_id"?: InputValue<string>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "fulfillment",
+     * "inventory_adjustment", "inventory_count", "inventory_level", "inventory_receipt",
+     * "inventory_reservation", "inventory_transfer". Shape $[] (Value): string. Value enum:
+     * "fulfillment", "inventory_adjustment", "inventory_count", "inventory_level",
+     * "inventory_receipt", "inventory_reservation", "inventory_transfer".
+     */
+    "source_reference_type"?: InputValue<Array<"fulfillment"
+        | "inventory_adjustment"
+        | "inventory_count"
+        | "inventory_level"
+        | "inventory_receipt"
+        | "inventory_reservation"
+        | "inventory_transfer">>;
+    /** Shape $ (Value): string. */
+    "source_reference_id"?: InputValue<string>;
+};
+/**
+ * Shape $ (Value): {@link InventoryOriginPolicy}. How Flint handles inventory failures for one
+ * order source: the action after a post-payment inventory failure and for a blocked subscription.
+ */
+export type InventoryOriginPolicy = {
+    /** Shape $ (Value): string.  Value enum: "exception_state", "auto_refund". */
+    "post_payment_inventory_failure_action"?: "exception_state" | "auto_refund" | (string & {});
+    /**
+     * Shape $ (Value): string. What happens when a subscription renewal cannot get stock.
+     * inventory_blocked_open_invoice creates an open invoice with collection_block_status
+     * inventory_blocked, external collection, caller-managed delivery, and no due date. past_due
+     * moves the subscription to past due. Value enum: "inventory_blocked_open_invoice",
+     * "past_due".
+     */
+    "subscription_inventory_block_action"?: "inventory_blocked_open_invoice" | "past_due" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link InventoryOriginPolicyRequestRequestInput}. How Flint handles inventory
+ * failures for one order source: the action after a post-payment inventory failure and for a
+ * blocked subscription.
+ */
+export type InventoryOriginPolicyRequestRequestInput = {
+    /** Shape $ (Value): string.  Value enum: "exception_state", "auto_refund". */
+    "post_payment_inventory_failure_action"?: "exception_state" | "auto_refund";
+    /**
+     * Shape $ (Value): string. What happens when a subscription renewal cannot get stock.
+     * inventory_blocked_open_invoice creates an open invoice with collection_block_status
+     * inventory_blocked, external collection, caller-managed delivery, and no due date. past_due
+     * moves the subscription to past due. Value enum: "inventory_blocked_open_invoice",
+     * "past_due".
+     */
+    "subscription_inventory_block_action"?: "inventory_blocked_open_invoice" | "past_due";
+};
+/**
+ * Shape $ (Value): {@link InventoryProvenanceRequest}. Where and when an inventory event happened:
+ * the source system, external actor, and time.
+ */
+export type InventoryProvenanceRequest = ({
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. minLength: 1. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
+     * when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
      */
     "occurred_at"?: string;
     /**
-     * Shape $ (Value): number. Rate of a percent-based charge or a tax row, in percent units.
-     * multipleOf: 0.0001.
+     * Shape $ (Value): {@link InventorySourceSystemRequest}. The source system you report for an
+     * inventory event, such as manual, pos, wms, erp, or other, with your identifier when it
+     * applies.
      */
-    "percent"?: number;
-    /** Shape $ (Value): string. Promotion code of a discount row. */
-    "promotion_code"?: string;
-    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax", "retail_delivery_fee". */
-    "tax_type"?: "sales_tax" | "use_tax" | "retail_delivery_fee" | (string & {});
+    "source_system"?: InventorySourceSystemRequest;
+});
+/**
+ * Shape $ (Value): {@link InventoryProvenanceRequestInput}. Where and when an inventory event
+ * happened: the source system, external actor, and time.
+ */
+export type InventoryProvenanceRequestInput = ({
     /**
-     * Shape $ (Value): string. Value enum: "standard_rated", "not_taxable", "customer_exempt",
-     * "tax_disabled", "location_required", "calculation_incomplete".
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. minLength: 1. maxLength: 255.
      */
-    "taxability_reason"?: "standard_rated"
-        | "not_taxable"
-        | "customer_exempt"
-        | "tax_disabled"
-        | "location_required"
-        | "calculation_incomplete"
-        | (string & {});
+    "external_actor_id"?: string;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Taxable amount of a tax row. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Required
+     * when source_system.type is pos, wms, erp, or other. Format: date-time. minLength: 1.
      */
-    "taxable_money"?: MoneyValue;
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): {@link InventorySourceSystemRequestInput}. The source system you report for
+     * an inventory event, such as manual, pos, wms, erp, or other, with your identifier when it
+     * applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+});
+/**
+ * Shape $ (Value): {@link InventoryReceipt}. Returned units received into Inventory, from a Return
+ * disposition or against the reservation line that consumed them.
+ */
+export type InventoryReceipt = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): string. The Idempotency-Key of the request that created this resource; on a
+     * movement, of the command that wrote it. Omitted when that request had no key.
+     */
+    "idempotency_key"?: string;
+    /** Shape $ (Value): string. */
+    "inventory_receipt_id": string;
+    /**
+     * Shape $ (Value): Array of {@link InventoryReceiptLine}. Shape $[] (Value): {@link
+     * InventoryReceiptLine}. One line of an inventory receipt: a quantity of an item received at a
+     * Location with its disposition.
+     */
+    "lines": Array<InventoryReceiptLine>;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "occurred_at": string;
+    /** Shape $ (Value): string. */
+    "return_disposition_id"?: string;
+    /** Shape $ (Value): string. */
+    "return_id"?: string;
+    /**
+     * Shape $ (Value): {@link InventorySourceSystem} or null. Shape $.anyOf[1] (Value): {@link
+     * InventorySourceSystem}. The system an inventory event came from, such as manual entry, a
+     * point of sale, a warehouse system, or Flint, with your source identifier when it applies.
+     * Shape $.anyOf[2] (Value): null.
+     */
+    "source_system": ((InventorySourceSystem) | (null));
 };
 /**
- * Shape $ (Value): {@link InvoiceLateFee}. A charge assessed because an invoice payment is
- * overdue.
+ * Shape $ (Value): {@link InventoryReceiptLine}. One line of an inventory receipt: a quantity of
+ * an item received at a Location with its disposition.
  */
-export type InvoiceLateFee = {
+export type InventoryReceiptLine = {
     /**
-     * Shape $ (Value): {@link MoneyValue}. The assessed fee: the policy's fixed amount, or its
-     * percent of base_outstanding_money. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): string. sellable adds on-hand stock available for sale. quality_control,
+     * damaged, and quarantined add on-hand stock to the matching condition bucket. lost records
+     * returned units that were lost and changes no stock quantity. Value enum: "sellable",
+     * "quality_control", "damaged", "quarantined", "lost".
      */
-    "amount_money": MoneyValue;
-    /** Shape $ (Value): string. When the fee was assessed. Format: date-time. */
-    "assessed_at": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The unpaid balance the fee was calculated from,
-     * excluding late fees, captured at assessment. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "base_outstanding_money": MoneyValue;
-    /** Shape $ (Value): string. Flint invoice late fee ID. */
-    "invoice_late_fee_id": string;
-    /**
-     * Shape $ (Value): string. The schedule entry this fee applies to. Absent on an invoice
-     * without a schedule, where the fee applies to the whole invoice. Each invoice, or each entry,
-     * takes at most one fee, even after a waiver.
-     */
-    "invoice_schedule_entry_id"?: string;
-    /**
-     * Shape $ (Value): {@link InvoiceLateFeePolicy} or null. The late fee policy from
-     * payment_terms_snapshot, copied when the fee was assessed. Shape $.anyOf[1] (Value): {@link
-     * InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed amount or a percentage, a
-     * grace period in days, and whether Flint applies it automatically. Shape $.anyOf[2] (Value):
-     * null.
-     */
-    "late_fee_policy": ((InvoiceLateFeePolicy) | (null) | (unknown));
-    /**
-     * Shape $ (Value): {@link MoneyValue}. What is still owed on this fee: amount_money -
-     * paid_money - waived_money - written_off_money, never below zero. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Payments applied to this fee, minus reversed payments.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "paid_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. When the fee was waived. Absent unless it was waived. Format:
-     * date-time.
-     */
-    "waived_at"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The amount waived. A waiver removes the fee's whole
-     * outstanding amount at that time, so it is less than amount_money when part of the fee was
-     * already paid. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "waived_money": MoneyValue;
-    /** Shape $ (Value): string. Why the fee was waived, as given when waiving it. */
-    "waiver_reason_message"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The part of this fee written off when the invoice was
-     * marked uncollectible. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "written_off_money": MoneyValue;
-};
-/**
- * Shape $ (Value): {@link InvoiceLateFeePolicy}. A late fee for overdue invoices: a fixed amount
- * or a percentage, a grace period in days, and whether Flint applies it automatically.
- */
-export type InvoiceLateFeePolicy = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Whether Flint applies the one-time fee automatically after the
-     * grace period. Omission defaults to manual. Frozen when the invoice is issued. Default:
-     * "manual". Value enum: "manual", "automatic".
-     */
-    "application_mode"?: "manual" | "automatic" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): number. Percentage applied to the fee base_outstanding_money. maximum: 100.
-     * exclusiveMinimum: 0. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "fixed", "percentage". */
-    "type": "fixed" | "percentage" | (string & {});
-})
-    & ((Exclude<InvoiceLateFeePolicyFixed & object, readonly unknown[]>)
-    | (Exclude<InvoiceLateFeePolicyPercentage & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link InvoiceLateFeePolicyFixed}. The `fixed` variant of
- * `InvoiceLateFeePolicy`.
- */
-export type InvoiceLateFeePolicyFixed = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Whether Flint applies the one-time fee automatically after the
-     * grace period. Omission defaults to manual. Frozen when the invoice is issued. Default:
-     * "manual". Value enum: "manual", "automatic".
-     */
-    "application_mode"?: "manual" | "automatic" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): number. Percentage applied to the fee base_outstanding_money. maximum: 100.
-     * exclusiveMinimum: 0. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "fixed". */
-    "type": "fixed" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "fixed". */
-    "type": "fixed" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-}));
-/**
- * Shape $ (Value): {@link InvoiceLateFeePolicyFixedInput}. The `fixed` variant of
- * `InvoiceLateFeePolicy`.
- */
-export type InvoiceLateFeePolicyFixedInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Whether Flint applies the one-time fee automatically after the
-     * grace period. Omission defaults to manual. Frozen when the invoice is issued. Default:
-     * "manual". Value enum: "manual", "automatic".
-     */
-    "application_mode"?: "manual" | "automatic";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): number. Percentage applied to the fee base_outstanding_money. maximum: 100.
-     * exclusiveMinimum: 0. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "fixed". */
-    "type": "fixed";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "fixed". */
-    "type": "fixed";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-})
-    & ({
-    "percent"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoiceLateFeePolicyInput}. A late fee for overdue invoices: a fixed
- * amount or a percentage, a grace period in days, and whether Flint applies it automatically.
- */
-export type InvoiceLateFeePolicyInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Whether Flint applies the one-time fee automatically after the
-     * grace period. Omission defaults to manual. Frozen when the invoice is issued. Default:
-     * "manual". Value enum: "manual", "automatic".
-     */
-    "application_mode"?: "manual" | "automatic";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): number. Percentage applied to the fee base_outstanding_money. maximum: 100.
-     * exclusiveMinimum: 0. multipleOf: 0.0001.
-     */
-    "percent"?: number;
-    /** Shape $ (Value): string.  Value enum: "fixed", "percentage". */
-    "type": "fixed" | "percentage";
-})
-    & ((Exclude<InvoiceLateFeePolicyFixedInput & object, readonly unknown[]>)
-    | (Exclude<InvoiceLateFeePolicyPercentageInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link InvoiceLateFeePolicyPercentage}. The `percentage` variant of
- * `InvoiceLateFeePolicy`.
- */
-export type InvoiceLateFeePolicyPercentage = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Whether Flint applies the one-time fee automatically after the
-     * grace period. Omission defaults to manual. Frozen when the invoice is issued. Default:
-     * "manual". Value enum: "manual", "automatic".
-     */
-    "application_mode"?: "manual" | "automatic" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): number. Percentage applied to the fee base_outstanding_money. maximum: 100.
-     * exclusiveMinimum: 0. multipleOf: 0.0001.
-     */
-    "percent": number;
-    /** Shape $ (Value): string.  Value enum: "percentage". */
-    "type": "percentage" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "percentage". */
-    "type": "percentage" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): number. Percentage applied to the fee base_outstanding_money. maximum: 100.
-     * exclusiveMinimum: 0. multipleOf: 0.0001.
-     */
-    "percent": number;
-}));
-/**
- * Shape $ (Value): {@link InvoiceLateFeePolicyPercentageInput}. The `percentage` variant of
- * `InvoiceLateFeePolicy`.
- */
-export type InvoiceLateFeePolicyPercentageInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Whether Flint applies the one-time fee automatically after the
-     * grace period. Omission defaults to manual. Frozen when the invoice is issued. Default:
-     * "manual". Value enum: "manual", "automatic".
-     */
-    "application_mode"?: "manual" | "automatic";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): number. Percentage applied to the fee base_outstanding_money. maximum: 100.
-     * exclusiveMinimum: 0. multipleOf: 0.0001.
-     */
-    "percent": number;
-    /** Shape $ (Value): string.  Value enum: "percentage". */
-    "type": "percentage";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "percentage". */
-    "type": "percentage";
-    /** Shape $ (Value): integer. Format: int32. minimum: 0. maximum: 365. */
-    "grace_period_days": number;
-    /**
-     * Shape $ (Value): number. Percentage applied to the fee base_outstanding_money. maximum: 100.
-     * exclusiveMinimum: 0. multipleOf: 0.0001.
-     */
-    "percent": number;
-})
-    & ({
-    "amount_money"?: never;
-}));
-/**
- * Shape $ (Value): {@link InvoiceLineItem}. A line item on an invoice, with its quantity, unit
- * price, discount, tax, and totals, and the product, variant, or bundle it came from.
- */
-export type InvoiceLineItem = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. unit_price_money × quantity. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "base_subtotal_money": MoneyValue;
-    /**
-     * Shape $ (Value): Array of {@link BundleComponent}. The items inside a bundle line, as
-     * billed. Shape $[] (Value): {@link BundleComponent}. An item included in a bundle.
-     */
-    "bundle_components"?: Array<BundleComponent>;
-    /**
-     * Shape $ (Value): string. The catalog bundle the line was sold from. Absent unless
-     * source_type is bundle.
-     */
-    "bundle_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CategoryReference}. The catalog categories of the line's
-     * item when it was billed. Shape $[] (Value): {@link CategoryReference}. A reference to a
-     * product category by ID, handle, and name.
-     */
-    "categories"?: Array<CategoryReference>;
-    /** Shape $ (Value): string. Line item description as billed. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. This line's share of order and line-item discounts.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "discount_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link Image}. Line item image. An image with its `url`, `width`, and
-     * `height`, and optional `alt` text.
-     */
-    "image"?: Image;
-    /**
-     * Shape $ (Value): string. Flint invoice line item ID, stable across draft edits and issue
-     * while the backing order line keeps its ID. Credit notes credit lines by this ID.
-     */
-    "invoice_line_item_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Total of the line's modifiers. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "modifier_total_money": MoneyValue;
-    /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifier}. The line's modifiers, as billed.
-     * Shape $[] (Value): {@link OrderLineItemModifier}. A modifier selected on an order line item,
-     * with its quantity, price change, total, and display flags.
-     */
-    "modifiers"?: Array<OrderLineItemModifier>;
-    /** Shape $ (Value): string. Line item name as billed. */
-    "name": string;
-    /**
-     * Shape $ (Value): string. The backing order's line item. Tax rows in snapshot.tax_breakdowns
-     * reference the line by this ID.
-     */
-    "order_line_item_id"?: string;
-    /**
-     * Shape $ (Value): string. Parent product of the line's variant. Absent on bundle and custom
-     * lines.
-     */
-    "product_id"?: string;
+    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost" | (string & {});
+    /** Shape $ (Value): string. */
+    "inventory_item_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_movement_id"?: string;
+    /** Shape $ (Value): string. */
+    "inventory_receipt_line_id": string;
+    /** Shape $ (Value): string. */
+    "inventory_reservation_id"?: string;
+    /** Shape $ (Value): string. */
+    "inventory_reservation_line_id"?: string;
     /**
      * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
      * supported. Use an integer string (decimal digits), not a floating-point number. Format:
      * int64.
      */
     "quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): Array of {@link SelectedProductOption}. The product options chosen for the
-     * line, as billed. Shape $[] (Value): {@link SelectedProductOption}. An option and value
-     * chosen for a product variant, such as size Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    /** Shape $ (Value): string. Stock keeping unit as billed. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): string. The catalog item the line was sold from. Absent on custom lines.
-     * Value enum: "variant", "bundle".
-     */
-    "source_type"?: "variant" | "bundle" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. base_subtotal_money + modifier_total_money. For a
-     * tax-inclusive price, it includes the tax. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Tax on this line. Its rows in snapshot.tax_breakdowns
-     * give the rate and price_mode. For a tax-inclusive price, the tax is already inside
-     * subtotal_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. What the line bills. For a tax-inclusive price,
-     * subtotal_money - discount_money; otherwise subtotal_money - discount_money + tax_money. In
-     * both cases the tax-exclusive value is total_money - tax_money. Signed monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Price of one unit, before modifiers and discounts.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. The catalog variant the line was sold from. Absent unless
-     * source_type is variant.
-     */
-    "variant_id"?: string;
+    /** Shape $ (Value): string. */
+    "receiving_location_id": string;
+    /** Shape $ (Value): string. */
+    "return_disposition_id"?: string;
+    /** Shape $ (Value): string. */
+    "return_line_item_id"?: string;
 };
-/** Shape $ (Value): {@link InvoiceListResponse}. A page of `Invoice` objects. */
-export type InvoiceListResponse = {
+/**
+ * Shape $ (Value): {@link InventoryReceiptLineRequest}. One line of an inventory receipt you
+ * supply: a quantity of an item received at a Location with its disposition.
+ */
+export type InventoryReceiptLineRequest = {
     /**
-     * Shape $ (Value): Array of {@link Invoice}. Shape $[] (Value): {@link Invoice}. A bill issued
-     * to a customer.
+     * Shape $ (Value): string. sellable adds on-hand stock available for sale. quality_control,
+     * damaged, and quarantined add on-hand stock to the matching condition bucket. lost records
+     * returned units that were lost and changes no stock quantity. Value enum: "sellable",
+     * "quality_control", "damaged", "quarantined", "lost".
      */
-    "data": Array<Invoice>;
+    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): string. The reservation whose consumed stock is being returned. minLength:
+     * 1.
+     */
+    "inventory_reservation_id": string;
+    /**
+     * Shape $ (Value): string. The consumed reservation line. Received quantity cannot exceed
+     * consumed quantity less prior receipts. minLength: 1.
+     */
+    "inventory_reservation_line_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /** Shape $ (Value): string. minLength: 1. */
+    "receiving_location_id": string;
+};
+/**
+ * Shape $ (Value): {@link InventoryReceiptLineRequestInput}. One line of an inventory receipt you
+ * supply: a quantity of an item received at a Location with its disposition.
+ */
+export type InventoryReceiptLineRequestInput = {
+    /**
+     * Shape $ (Value): string. sellable adds on-hand stock available for sale. quality_control,
+     * damaged, and quarantined add on-hand stock to the matching condition bucket. lost records
+     * returned units that were lost and changes no stock quantity. Value enum: "sellable",
+     * "quality_control", "damaged", "quarantined", "lost".
+     */
+    "disposition": "sellable" | "quality_control" | "damaged" | "quarantined" | "lost";
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): string. The reservation whose consumed stock is being returned. minLength:
+     * 1.
+     */
+    "inventory_reservation_id": string;
+    /**
+     * Shape $ (Value): string. The consumed reservation line. Received quantity cannot exceed
+     * consumed quantity less prior receipts. minLength: 1.
+     */
+    "inventory_reservation_line_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /** Shape $ (Value): string. minLength: 1. */
+    "receiving_location_id": string;
+};
+/** Shape $ (Value): {@link InventoryReceiptListResponse}. A page of `InventoryReceipt` objects. */
+export type InventoryReceiptListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link InventoryReceipt}. Shape $[] (Value): {@link
+     * InventoryReceipt}. Returned units received into Inventory, from a Return disposition or
+     * against the reservation line that consumed them.
+     */
+    "data": Array<InventoryReceipt>;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -2436,50 +1712,5 @@ export type InvoiceListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link InvoiceManualPayment}. A recorded offline payment against an invoice.
- * Its amount contributes to invoice paid_money while recorded; reversing it returns its full
- * amount to outstanding_money. A payment can cover principal and late fees. Manual payments are
- * separate from online payment attempts.
- */
-export type InvoiceManualPayment = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Full amount received, including any principal and late
-     * fees covered. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "amount_money": MoneyValue;
-    /** Shape $ (Value): string. The invoice this payment was recorded against. */
-    "invoice_id": string;
-    /**
-     * Shape $ (Value): string. Stable payment ID. IDs begin with omp_. Gift card loads funded by
-     * this payment expose this value as source.order_manual_payment_id.
-     */
-    "invoice_manual_payment_id": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 4096. */
-    "note"?: string;
-    /**
-     * Shape $ (Value): string. Caller-owned check, wire, or bank reference, stored unmodified.
-     * minLength: 1. maxLength: 255.
-     */
-    "payment_reference"?: string;
-    /** Shape $ (Value): string. When the payment was received. Format: date-time. */
-    "received_at": string;
-    /**
-     * Shape $ (Value): string. Note supplied when reversing the payment. Present only when
-     * reversed and a note was supplied. minLength: 1. maxLength: 4096.
-     */
-    "reversal_note"?: string;
-    /**
-     * Shape $ (Value): string. When the payment was reversed. Present only when reversed. Format:
-     * date-time.
-     */
-    "reversed_at"?: string;
-    /**
-     * Shape $ (Value): string. Whether the payment is recorded or has been reversed in full. Value
-     * enum: "recorded", "reversed".
-     */
-    "status": "recorded" | "reversed" | (string & {});
+    "request_id": string;
 };

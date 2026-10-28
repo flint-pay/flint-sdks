@@ -20,7 +20,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->developer->createSandbox([
   'name' => 'example',
   'issue_test_key' => true,
-  'scopes' => [],
+  'access' => 'full',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->sandbox->sandbox_id . PHP_EOL;
 echo $result->sandbox->status . PHP_EOL;

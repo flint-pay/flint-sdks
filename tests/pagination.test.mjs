@@ -44,9 +44,12 @@ test("pagination follows cursors and bounds requests; reads and keyed writes ret
             phone: null,
             status: "active",
             tax_identity: null,
+            billing_address: null,
+            shipping_address: null,
           },
         ],
         ...(second ? {} : { next_page_token: "cursor-two" }),
+        request_id: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D",
       }),
     );
   });

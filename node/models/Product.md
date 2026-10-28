@@ -22,7 +22,7 @@ An item offered in the merchant's catalog.
 | `images` | Required | Array of [ImageAttachment](../models/ImageAttachment.md#imageattachment) | Images attached to this resource, in display order. The first image is primary. |
 | `matched_variant` | Optional | [ProductVariantMatch](../models/ProductVariantMatch.md#productvariantmatch) | On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match. |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
-| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/Bundle.md#bundlemetadata). |
 | `modifier_set` | Optional | [ModifierSet](../models/ModifierSet.md#modifierset) or null | Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. |
 | `modifier_set_id` | Required | string or null | Attached modifier set. Send null on update to remove it. |
 | `name` | Required | string | Product name shown to buyers. |
@@ -36,4 +36,8 @@ An item offered in the merchant's catalog.
 | `variant_count` | Optional | integer | Number of non-archived variants belonging to the product. Format: `int32`. |
 | `variants` | Optional | Array of [ProductVariant](../models/ProductVariant.md#productvariant) | The variants this request created, ordered by `position` and then `variant_id`. Present only on the `POST /v1/products` response. Read variants later with `GET /v1/products/{product_id}/variants`. |
 | `version` | Required | integer string | Current resource version. Send it as expected_version to reject a write if the resource has changed. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+
+### Product.metadata
+
+Field definitions: [Bundle.metadata](../models/Bundle.md#bundlemetadata).
 

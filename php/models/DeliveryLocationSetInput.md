@@ -13,7 +13,7 @@ Request input.
 | `current_delivery_location_set_revision_id` | Required | string | Immutable revision used for new quotes. |
 | `delivery_location_set_id` | Required | string | Stable delivery location set ID. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `name` | Required | string | Merchant-facing location set name. |
 | `status` | Required | string | Current location set lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the location set last changed. Format: `date-time`. |

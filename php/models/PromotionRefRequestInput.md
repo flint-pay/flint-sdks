@@ -13,7 +13,7 @@ Request input.
 
 ### PromotionRefRequestInput variant 1
 
-oneOf variant 1.
+oneOf variant 1: The `Promotion ID` variant of `PromotionRefInput`..
 
 - Condition: not (at least one(present(`promotion_code`))).
 - Required: `promotion_id`.
@@ -21,7 +21,7 @@ oneOf variant 1.
 
 ### PromotionRefRequestInput variant 2
 
-oneOf variant 2.
+oneOf variant 2: The `Promotion code` variant of `PromotionRefInput`..
 
 - Condition: not (at least one(present(`promotion_id`))).
 - Required: `promotion_code`.

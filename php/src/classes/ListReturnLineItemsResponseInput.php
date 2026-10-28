@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ListReturnLineItemsResponseInput extends Model {
-    /** @param array{'data': list<ReturnLineItemInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<ReturnLineItemInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ListReturnLineItemsResponseInput')); }
     /** Shape $ (Value): Array of {@see ReturnLineItemInput}. Shape $[] (Value): {@see ReturnLineItemInput}. An item included in a return request.
      * @return list<ReturnLineItemInput|array<array-key, mixed>|\stdClass>

@@ -1,1 +1,1 @@
-{"shared":"DeliveryPickupAvailabilityCandidateOutcome","dependencies":["DeliveryAddressAdvisoryResource","DeliveryAddressRequest","DeliveryInputConstraint","DeliveryInputRequirement","DeliveryPickupAvailabilityCandidateOutcome","DeliveryWindowResource","MoneyValue","SharedCodec259"]}
+{"shared":"DeliveryPickupAvailabilityCandidateOutcome","dependencies":["Address","DeliveryAddressAdvisoryResource","DeliveryInputConstraint","DeliveryInputRequirement","DeliveryPickupAvailabilityCandidateOutcome","DeliveryWindowResource","MoneyValue","SharedCodec289"]}

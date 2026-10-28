@@ -1,10 +1,9 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { MerchantBillingEntriesListInput } from '../declarations/types-30.js';
-import type { MerchantBillingEntry, MerchantBillingEntryListResponse } from '../declarations/types-31.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { MerchantBillingEntriesListInput, MerchantBillingEntry, MerchantBillingEntryListResponse } from '../declarations/types-32.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -19,21 +18,16 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type {
-    MerchantBillingEntryListResponse,
-    MerchantBillingEntry,
-    NextAction,
-    NextActionMerchantAccountSession,
-    MoneyValue
-} from '../declarations/types-31.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { MerchantBillingEntriesListInput } from '../declarations/types-30.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
+export type { MerchantBillingEntryListResponse, MerchantBillingEntry, MerchantBillingEntriesListInput } from '../declarations/types-32.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface MerchantBillingEntriesResource {
     /**
  * Returns immutable merchant billing entries for the authenticated merchant environment, newest
@@ -46,7 +40,9 @@ export interface MerchantBillingEntriesResource {
  * same entry always returns the same values. To export an interval, use
  * merchant_billing_itemized_v1. It fails with data_unavailable when billing projections or
  * membership history are inconsistent, collection outcome or balance transaction evidence is
- * missing, or an entry is invalid. This list does not run the report interval preflights.
+ * missing, or an entry is invalid. This list does not run the report interval preflights. Default
+ * order: occurred_at descending, then the entry type's rank (descending), then
+ * merchant_billing_entry_id descending.
  * @see reference/merchantBillingEntries.md#merchantbillingentrieslist
  * GET /v1/merchant-billing-entries
  * @example

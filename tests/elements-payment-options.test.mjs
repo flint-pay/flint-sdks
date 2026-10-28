@@ -38,6 +38,7 @@ const envelope = {
       },
     },
   },
+  request_id: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D",
 };
 
 test("Node client preserves nested Stripe Elements response options", async (t) => {

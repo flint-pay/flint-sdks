@@ -1,1 +1,1 @@
-{"shared":"DeliveryPickupAvailabilityLocationSummary","dependencies":["DeliveryAddressResource","DeliveryPickupAvailabilityLocationSummary"]}
+{"shared":"DeliveryPickupAvailabilityLocationSummary","dependencies":["Address","DeliveryPickupAvailabilityLocationSummary"]}

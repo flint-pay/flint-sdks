@@ -1,48 +1,3942 @@
+import type { CreatePaymentMethodDomainRequest } from './types-8.js';
+import type { MetadataMap, MetadataRequestInput } from './types-32.js';
+import type { MoneyValue, MoneyValueInput } from './types-33.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
+import type { ImageRequest, ImageRequestInput } from './types-21.js';
 import type {
-    ReturnReplacementLineItemRequestInput,
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnResolutionLineItemRequestInput,
+    ProductVariantRequest,
+    ProductVariantRequestInput,
+    PromotionApplicationMethodRequest,
+    PromotionCombinesWithPatch,
+    PromotionExclusivityRequest,
+    PromotionApplicationMethodRequestInput,
+    PromotionCombinesWithRequestInput,
+    PromotionExclusivityRequestInput
+} from './types-40.js';
+import type {
+    PromotionRuleGroupRequest,
+    PromotionSchedule,
+    PromotionRuleGroupRequestInput,
+    PromotionScheduleRequestRequestInput,
+    RefundCharge,
+    RefundDestinations,
+    RefundLineItem,
+    RefundChargeInput,
+    RefundDestinationsInput,
+    RefundLineItemInput,
+    Refund,
+    RefundGiftCardCode,
+    RefundLineItemAllocation
+} from './types-41.js';
+import type {
+    RefundTaxBreakdownRefundIn,
+    RefundTenderAllocationRequest,
+    RefundTaxBreakdownRefundInInput,
+    RefundTenderAllocationRequestInput,
+    ResponseMeta,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation,
+    RefundUnissuedGiftCardRecovery
+} from './types-42.js';
+import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-18.js';
+import type { PaymentRefund } from './types-39.js';
+import type {
+    ReturnEligibilitySelection,
+    ReturnEligibilitySelectionInput,
+    ReturnInspectionLineItemRequest,
+    ReturnInspectionLineItemRequestInput,
+    ReturnPolicyRevisionRequest,
+    ReturnPolicyRevisionRequestInput,
+    ReturnEligibilityPreview,
+    ReturnLineItemRequest,
+    ReturnLineItemRequestInput
+} from './types-43.js';
+import type { ReturnSourceSystem, ReturnSourceSystemInput } from './types-45.js';
+import type {
+    ReturnResolutionPreview,
+    ReturnReceiptLineItemRequest,
+    ReturnReceiptLineItemRequestInput,
     ReturnReplacementLineItemRequest,
     ReturnResolutionAdjustmentRequest,
     ReturnResolutionLineItemRequest,
-    ReturnShipmentLineItemAllocationInput
-} from './types-42.js';
-import type { RiskPredicateNode, RiskPredicateNodeInput } from './types-43.js';
-import type {
-    SubscriptionIntervalOption,
-    SubscriptionIntervalOptionInput,
-    SubscriptionDeliveryDestinationRequest,
-    SubscriptionDeliveryDestinationRequestInput,
-    SubscriptionBillingScheduleRequest,
-    SubscriptionBillingStartRequest,
-    SubscriptionDeliveryRequest,
-    SubscriptionBillingScheduleRequestInput,
-    SubscriptionBillingStartRequestInput,
-    SubscriptionDeliveryRequestInput
-} from './types-45.js';
-import type { ImageRequest, ImageRequestInput } from './types-20.js';
-import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-25.js';
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type {
-    SubscriptionPlanLineItemRequest,
-    SubscriptionPlanLineItemRequestInput,
-    SubscriptionServiceLocationRequest,
-    SubscriptionTermsRequest,
-    SubscriptionServiceLocationRequestInput,
-    SubscriptionTermsRequestInput
-} from './types-46.js';
-import type { UpdateDeliveryMethodRequest, UpdateDeliveryMethodRequestInput, TaxIdentity } from './types-47.js';
-import type { WorkloadIdentityClaimConditionRequest, WorkloadIdentityClaimConditionRequestInput } from './types-62.js';
-import type { CredentialProvider } from '../runtime.js';
-import type { CreditNoteLineItem, CreditNoteCorrectionRequestQuantityInput } from './types-10.js';
-import type { ExpandedInvoiceSummary } from './types-16.js';
-import type { ResponseMeta } from './types-40.js';
-import type { Invoice } from './types-26.js';
+    ReturnReplacementLineItemRequestInput,
+    ReturnResolutionAdjustmentRequestInput,
+    ReturnResolutionLineItemRequestInput
+} from './types-44.js';
+import type { CreateReturnResolutionPreviewRequestStandardInput } from './types-10.js';
 /**
- * Shape $ (Value): {@link CreateReturnResolutionRequestCorrectionInput}. The `correction` variant
- * of `CreateReturnResolutionRequest`.
+ * Shape $ (Value): {@link CreatePaymentMethodDomainRequestInput}. The request body for: Register
+ * payment method domain.
  */
-export type CreateReturnResolutionRequestCorrectionInput = ({
+export type CreatePaymentMethodDomainRequestInput = CreatePaymentMethodDomainRequest;
+/** Shape $ (Value): {@link CreatePayoutRequest}. The request body for: Create a payout. */
+export type CreatePayoutRequest = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Amount to send, above zero. It can't exceed what one
+     * balance source has in available_by_source_type. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Shape $ (Value): string. Balance source this payout draws from. Flint chooses the source
+     * when omitted. Value enum: "card", "bank_account".
+     */
+    "balance_source_type"?: "card" | "bank_account" | (string & {});
+    /**
+     * Shape $ (Value): string. Your description of the payout, returned on the payout. minLength:
+     * 1.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Payout method. Only standard is accepted; omitted defaults to
+     * standard. Value enum: "standard".
+     */
+    "method"?: "standard" | (string & {});
+    /**
+     * Shape $ (Value): string. Destination to pay. It must be active and in the payout's currency.
+     * Omit it to pay the currency's default destination. minLength: 1.
+     */
+    "payout_destination_id"?: string;
+    /**
+     * Shape $ (Value): string. Text shown on your bank statement for this deposit, 22 characters
+     * or fewer. minLength: 1.
+     */
+    "statement_descriptor"?: string;
+};
+/** Shape $ (Value): {@link CreatePayoutRequestInput}. The request body for: Create a payout. */
+export type CreatePayoutRequestInput = {
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Amount to send, above zero. It can't exceed what
+     * one balance source has in available_by_source_type. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Shape $ (Value): string. Balance source this payout draws from. Flint chooses the source
+     * when omitted. Value enum: "card", "bank_account".
+     */
+    "balance_source_type"?: "card" | "bank_account";
+    /**
+     * Shape $ (Value): string. Your description of the payout, returned on the payout. minLength:
+     * 1.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Payout method. Only standard is accepted; omitted defaults to
+     * standard. Value enum: "standard".
+     */
+    "method"?: "standard";
+    /**
+     * Shape $ (Value): string. Destination to pay. It must be active and in the payout's currency.
+     * Omit it to pay the currency's default destination. minLength: 1.
+     */
+    "payout_destination_id"?: string;
+    /**
+     * Shape $ (Value): string. Text shown on your bank statement for this deposit, 22 characters
+     * or fewer. minLength: 1.
+     */
+    "statement_descriptor"?: string;
+};
+/**
+ * Shape $ (Value): {@link CreatePickupFulfillmentDetails}. Pickup details you supply when creating
+ * a fulfillment: the pickup address, location, window, instructions, and curbside details.
+ */
+export type CreatePickupFulfillmentDetails = {
+    /**
+     * Shape $ (Value): {@link AddressRequest}. Address where the buyer collects the order. A
+     * complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none.
+     */
+    "address"?: AddressRequest;
+    /**
+     * Shape $ (Value): string. Instructions specific to curbside handoff. minLength: 1. maxLength:
+     * 2048.
+     */
+    "curbside_instructions"?: string;
+    /**
+     * Shape $ (Value): string. Buyer-reported arrival time for curbside or counter pickup. Format:
+     * date-time. minLength: 1.
+     */
+    "customer_arrived_at"?: string;
+    /**
+     * Shape $ (Value): string. Deadline after which an uncollected pickup should enter merchant
+     * review. Format: date-time. minLength: 1.
+     */
+    "expires_at"?: string;
+    /**
+     * Shape $ (Value): string. Pickup instructions for the buyer, such as where to go on arrival.
+     * minLength: 1.
+     */
+    "instructions"?: string;
+    /**
+     * Shape $ (Value): string. Name of the store or place where the buyer collects the order.
+     * minLength: 1.
+     */
+    "location_name"?: string;
+    /**
+     * Shape $ (Value): integer string. Width of the promised pickup window, from 0 to 86400
+     * seconds. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Expected preparation time for restaurant and made-to-order
+     * pickup, from 0 to 86400 seconds. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: `${bigint}`;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "ready_at"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "timezone"?: string;
+    /**
+     * Shape $ (Value): string. Buyer vehicle description used for curbside handoff. minLength: 1.
+     * maxLength: 500.
+     */
+    "vehicle_description"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_end_at"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_start_at"?: string;
+};
+/**
+ * Shape $ (Value): {@link CreatePickupFulfillmentDetailsInput}. Pickup details you supply when
+ * creating a fulfillment: the pickup address, location, window, instructions, and curbside
+ * details.
+ */
+export type CreatePickupFulfillmentDetailsInput = {
+    /**
+     * Shape $ (Value): {@link AddressRequestInput}. Address where the buyer collects the order. A
+     * complete postal address. State and postal_code are required for US addresses and optional
+     * for other countries. Send null or omit line2, state, and postal_code when the address has
+     * none.
+     */
+    "address"?: AddressRequestInput;
+    /**
+     * Shape $ (Value): string. Instructions specific to curbside handoff. minLength: 1. maxLength:
+     * 2048.
+     */
+    "curbside_instructions"?: string;
+    /**
+     * Shape $ (Value): string. Buyer-reported arrival time for curbside or counter pickup. Format:
+     * date-time. minLength: 1.
+     */
+    "customer_arrived_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. Deadline after which an uncollected pickup should enter merchant
+     * review. Format: date-time. minLength: 1.
+     */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. Pickup instructions for the buyer, such as where to go on arrival.
+     * minLength: 1.
+     */
+    "instructions"?: string;
+    /**
+     * Shape $ (Value): string. Name of the store or place where the buyer collects the order.
+     * minLength: 1.
+     */
+    "location_name"?: string;
+    /**
+     * Shape $ (Value): integer string. Width of the promised pickup window, from 0 to 86400
+     * seconds. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): integer string. Expected preparation time for restaurant and made-to-order
+     * pickup, from 0 to 86400 seconds. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: `${bigint}` | bigint;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "ready_at"?: string | globalThis.Date;
+    /** Shape $ (Value): string. minLength: 1. */
+    "timezone"?: string;
+    /**
+     * Shape $ (Value): string. Buyer vehicle description used for curbside handoff. minLength: 1.
+     * maxLength: 500.
+     */
+    "vehicle_description"?: string;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_end_at"?: string | globalThis.Date;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "window_start_at"?: string | globalThis.Date;
+};
+/**
+ * Shape $ (Value): {@link CreateProductOptionRequest}. A product option to create with a product,
+ * such as size, with its values, position, and status.
+ */
+export type CreateProductOptionRequest = {
+    /**
+     * Shape $ (Value): string. Value of this option given to every active variant that has no
+     * active value for it after this request, such as when you add an option to a product that
+     * already has active variants. It must match one of this option's active `values`, ignoring
+     * case and surrounding whitespace. Not stored; the variants keep the value. minLength: 1.
+     * maxLength: 255.
+     */
+    "existing_variant_value"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Option name, such as Size or Color. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Shape $ (Value): integer. Display order among the product's options, starting at zero.
+     * Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Shape $ (Value): string. Whether the option is active or inactive. Active variants must
+     * select an active value for every active option. Default: "active". Value enum: "active",
+     * "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionValueRequest}. Values offered for this
+     * option, such as Small, Medium, and Large for Size. Shape $[] (Value): {@link
+     * CreateProductOptionValueRequest}. One value of a product option to create, such as a
+     * specific size, with its position and status.
+     */
+    "values"?: Array<CreateProductOptionValueRequest>;
+};
+/**
+ * Shape $ (Value): {@link CreateProductOptionRequestInput}. A product option to create with a
+ * product, such as size, with its values, position, and status.
+ */
+export type CreateProductOptionRequestInput = {
+    /**
+     * Shape $ (Value): string. Value of this option given to every active variant that has no
+     * active value for it after this request, such as when you add an option to a product that
+     * already has active variants. It must match one of this option's active `values`, ignoring
+     * case and surrounding whitespace. Not stored; the variants keep the value. minLength: 1.
+     * maxLength: 255.
+     */
+    "existing_variant_value"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Option name, such as Size or Color. minLength: 1. maxLength: 255.
+     */
+    "name": string;
+    /**
+     * Shape $ (Value): integer. Display order among the product's options, starting at zero.
+     * Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Shape $ (Value): string. Whether the option is active or inactive. Active variants must
+     * select an active value for every active option. Default: "active". Value enum: "active",
+     * "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionValueRequestInput}. Values offered for
+     * this option, such as Small, Medium, and Large for Size. Shape $[] (Value): {@link
+     * CreateProductOptionValueRequestInput}. One value of a product option to create, such as a
+     * specific size, with its position and status.
+     */
+    "values"?: Array<CreateProductOptionValueRequestInput>;
+};
+/**
+ * Shape $ (Value): {@link CreateProductOptionValueRequest}. One value of a product option to
+ * create, such as a specific size, with its position and status.
+ */
+export type CreateProductOptionValueRequest = {
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): integer. Display order among the option's values, starting at zero. Format:
+     * int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Shape $ (Value): string. Whether the value is active or inactive. Active variants cannot
+     * newly select an inactive value. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Shape $ (Value): string. Option value shown to buyers, such as Medium. minLength: 1.
+     * maxLength: 255.
+     */
+    "value": string;
+};
+/**
+ * Shape $ (Value): {@link CreateProductOptionValueRequestInput}. One value of a product option to
+ * create, such as a specific size, with its position and status.
+ */
+export type CreateProductOptionValueRequestInput = {
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): integer. Display order among the option's values, starting at zero. Format:
+     * int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Shape $ (Value): string. Whether the value is active or inactive. Active variants cannot
+     * newly select an inactive value. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * Shape $ (Value): string. Option value shown to buyers, such as Medium. minLength: 1.
+     * maxLength: 255.
+     */
+    "value": string;
+};
+/** Shape $ (Value): {@link CreateProductRequest}. The request body for: Create product. */
+export type CreateProductRequest = ({
+    /**
+     * Shape $ (Value): Array of string. Relationship set of category handles that must already
+     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
+     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
+     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
+     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
+     * ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * Shape $ (Value): {@link ProductVariantRequest}. The single variant to create as the
+     * product's default. Send either default_variant or both options and variants. The request
+     * body for: Create product variant.
+     */
+    "default_variant"?: ProductVariantRequest;
+    /**
+     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
+     * maxLength: 2048.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
+     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
+     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
+     * `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
+     * minLength: 1.
+     */
+    "modifier_set_id"?: string | null;
+    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionRequest}. Options and values that
+     * distinguish this product's variants. Send with variants instead of default_variant.
+     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequest}. A product option to
+     * create with a product, such as size, with its values, position, and status.
+     */
+    "options"?: Array<CreateProductOptionRequest>;
+    /**
+     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
+     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple", "optioned".
+     */
+    "variant_mode": "simple" | "optioned" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link ProductVariantRequest}. Independent variants to create with
+     * this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequest}. The request
+     * body for: Create product variant.
+     */
+    "variants"?: Array<ProductVariantRequest>;
+})
+    & ((Exclude<CreateProductRequestSimple & object, readonly unknown[]>)
+    | (Exclude<CreateProductRequestOptioned & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** Shape $ (Value): {@link CreateProductRequestInput}. The request body for: Create product. */
+export type CreateProductRequestInput = ({
+    /**
+     * Shape $ (Value): Array of string. Relationship set of category handles that must already
+     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
+     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
+     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
+     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
+     * ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * Shape $ (Value): {@link ProductVariantRequestInput}. The single variant to create as the
+     * product's default. Send either default_variant or both options and variants. The request
+     * body for: Create product variant.
+     */
+    "default_variant"?: ProductVariantRequestInput;
+    /**
+     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
+     * maxLength: 2048.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
+     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
+     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
+     * optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequestInput>;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
+     * minLength: 1.
+     */
+    "modifier_set_id"?: string | null;
+    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionRequestInput}. Options and values that
+     * distinguish this product's variants. Send with variants instead of default_variant.
+     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequestInput}. A product option to
+     * create with a product, such as size, with its values, position, and status.
+     */
+    "options"?: Array<CreateProductOptionRequestInput>;
+    /**
+     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card";
+    /**
+     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
+     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple", "optioned".
+     */
+    "variant_mode": "simple" | "optioned";
+    /**
+     * Shape $ (Value): Array of {@link ProductVariantRequestInput}. Independent variants to create
+     * with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequestInput}. The
+     * request body for: Create product variant.
+     */
+    "variants"?: Array<ProductVariantRequestInput>;
+})
+    & ((Exclude<CreateProductRequestSimpleInput & object, readonly unknown[]>)
+    | (Exclude<CreateProductRequestOptionedInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link CreateProductRequestOptioned}. The `optioned` variant of
+ * `CreateProductRequest`.
+ */
+export type CreateProductRequestOptioned = ({
+    /**
+     * Shape $ (Value): Array of string. Relationship set of category handles that must already
+     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
+     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
+     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
+     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
+     * ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * Shape $ (Value): {@link ProductVariantRequest}. The single variant to create as the
+     * product's default. Send either default_variant or both options and variants. The request
+     * body for: Create product variant.
+     */
+    "default_variant"?: ProductVariantRequest;
+    /**
+     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
+     * maxLength: 2048.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
+     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
+     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
+     * `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
+     * minLength: 1.
+     */
+    "modifier_set_id"?: string | null;
+    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionRequest}. Options and values that
+     * distinguish this product's variants. Send with variants instead of default_variant.
+     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequest}. A product option to
+     * create with a product, such as size, with its values, position, and status.
+     */
+    "options": Array<CreateProductOptionRequest>;
+    /**
+     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
+     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "optioned". */
+    "variant_mode": "optioned" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link ProductVariantRequest}. Independent variants to create with
+     * this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequest}. The request
+     * body for: Create product variant.
+     */
+    "variants": Array<ProductVariantRequest>;
+})
+    & (({
+    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "optioned". */
+    "variant_mode": "optioned" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionRequest}. Options and values that
+     * distinguish this product's variants. Send with variants instead of default_variant.
+     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequest}. A product option to
+     * create with a product, such as size, with its values, position, and status.
+     */
+    "options": Array<CreateProductOptionRequest>;
+    /**
+     * Shape $ (Value): Array of {@link ProductVariantRequest}. Independent variants to create with
+     * this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequest}. The request
+     * body for: Create product variant.
+     */
+    "variants": Array<ProductVariantRequest>;
+}));
+/**
+ * Shape $ (Value): {@link CreateProductRequestOptionedInput}. The `optioned` variant of
+ * `CreateProductRequest`.
+ */
+export type CreateProductRequestOptionedInput = ({
+    /**
+     * Shape $ (Value): Array of string. Relationship set of category handles that must already
+     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
+     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
+     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
+     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
+     * ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * Shape $ (Value): {@link ProductVariantRequestInput}. The single variant to create as the
+     * product's default. Send either default_variant or both options and variants. The request
+     * body for: Create product variant.
+     */
+    "default_variant"?: ProductVariantRequestInput;
+    /**
+     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
+     * maxLength: 2048.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
+     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
+     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
+     * optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequestInput>;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
+     * minLength: 1.
+     */
+    "modifier_set_id"?: string | null;
+    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionRequestInput}. Options and values that
+     * distinguish this product's variants. Send with variants instead of default_variant.
+     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequestInput}. A product option to
+     * create with a product, such as size, with its values, position, and status.
+     */
+    "options": Array<CreateProductOptionRequestInput>;
+    /**
+     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card";
+    /**
+     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
+     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "optioned". */
+    "variant_mode": "optioned";
+    /**
+     * Shape $ (Value): Array of {@link ProductVariantRequestInput}. Independent variants to create
+     * with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequestInput}. The
+     * request body for: Create product variant.
+     */
+    "variants": Array<ProductVariantRequestInput>;
+})
+    & (({
+    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "optioned". */
+    "variant_mode": ("optioned") & ("optioned");
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionRequestInput}. Options and values that
+     * distinguish this product's variants. Send with variants instead of default_variant.
+     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequestInput}. A product option to
+     * create with a product, such as size, with its values, position, and status.
+     */
+    "options": Array<CreateProductOptionRequestInput>;
+    /**
+     * Shape $ (Value): Array of {@link ProductVariantRequestInput}. Independent variants to create
+     * with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequestInput}. The
+     * request body for: Create product variant.
+     */
+    "variants": Array<ProductVariantRequestInput>;
+})
+    & (({
+    "default_variant"?: never;
+})));
+/**
+ * Shape $ (Value): {@link CreateProductRequestSimple}. The `simple` variant of
+ * `CreateProductRequest`.
+ */
+export type CreateProductRequestSimple = ({
+    /**
+     * Shape $ (Value): Array of string. Relationship set of category handles that must already
+     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
+     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
+     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
+     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
+     * ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * Shape $ (Value): {@link ProductVariantRequest}. The single variant to create as the
+     * product's default. Send either default_variant or both options and variants. The request
+     * body for: Create product variant.
+     */
+    "default_variant": ProductVariantRequest;
+    /**
+     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
+     * maxLength: 2048.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
+     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
+     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
+     * `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
+     * minLength: 1.
+     */
+    "modifier_set_id"?: string | null;
+    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionRequest}. Options and values that
+     * distinguish this product's variants. Send with variants instead of default_variant.
+     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequest}. A product option to
+     * create with a product, such as size, with its values, position, and status.
+     */
+    "options"?: Array<CreateProductOptionRequest>;
+    /**
+     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
+     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple". */
+    "variant_mode": "simple" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link ProductVariantRequest}. Independent variants to create with
+     * this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequest}. The request
+     * body for: Create product variant.
+     */
+    "variants"?: Array<ProductVariantRequest>;
+})
+    & (({
+    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple". */
+    "variant_mode": "simple" | (string & {});
+    /**
+     * Shape $ (Value): {@link ProductVariantRequest}. The single variant to create as the
+     * product's default. Send either default_variant or both options and variants. The request
+     * body for: Create product variant.
+     */
+    "default_variant": ProductVariantRequest;
+}));
+/**
+ * Shape $ (Value): {@link CreateProductRequestSimpleInput}. The `simple` variant of
+ * `CreateProductRequest`.
+ */
+export type CreateProductRequestSimpleInput = ({
+    /**
+     * Shape $ (Value): Array of string. Relationship set of category handles that must already
+     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
+     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
+     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
+     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
+     * ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * Shape $ (Value): {@link ProductVariantRequestInput}. The single variant to create as the
+     * product's default. Send either default_variant or both options and variants. The request
+     * body for: Create product variant.
+     */
+    "default_variant": ProductVariantRequestInput;
+    /**
+     * Shape $ (Value): string. Description of the product shown to buyers. minLength: 1.
+     * maxLength: 2048.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
+     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
+     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
+     * optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequestInput>;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
+     * minLength: 1.
+     */
+    "modifier_set_id"?: string | null;
+    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Shape $ (Value): Array of {@link CreateProductOptionRequestInput}. Options and values that
+     * distinguish this product's variants. Send with variants instead of default_variant.
+     * minItems: 1. Shape $[] (Value): {@link CreateProductOptionRequestInput}. A product option to
+     * create with a product, such as size, with its values, position, and status.
+     */
+    "options"?: Array<CreateProductOptionRequestInput>;
+    /**
+     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
+     * "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card";
+    /**
+     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
+     * variants cannot be sold. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple". */
+    "variant_mode": "simple";
+    /**
+     * Shape $ (Value): Array of {@link ProductVariantRequestInput}. Independent variants to create
+     * with this product, at most 100. Add more with `POST /v1/products/{product_id}/variants`.
+     * minItems: 1. maxItems: 100. Shape $[] (Value): {@link ProductVariantRequestInput}. The
+     * request body for: Create product variant.
+     */
+    "variants"?: Array<ProductVariantRequestInput>;
+})
+    & (({
+    /** Shape $ (Value): string. Selects the variant mode branch. Value enum: "simple". */
+    "variant_mode": ("simple") & ("simple");
+    /**
+     * Shape $ (Value): {@link ProductVariantRequestInput}. The single variant to create as the
+     * product's default. Send either default_variant or both options and variants. The request
+     * body for: Create product variant.
+     */
+    "default_variant": ProductVariantRequestInput;
+})
+    & (({
+    "options"?: never;
+}) & ({
+    "variants"?: never;
+})));
+/**
+ * Shape $ (Value): {@link CreatePromotionCodeRequest}. The request body for: Create promotion
+ * code.
+ */
+export type CreatePromotionCodeRequest = {
+    /**
+     * Shape $ (Value): string. Code a buyer enters to redeem the promotion. minLength: 1.
+     * maxLength: 100.
+     */
+    "code": string;
+    /**
+     * Shape $ (Value): string. When the code stops being redeemable, as an absolute RFC3339
+     * timestamp. Omit for no expiry. Format: date-time. minLength: 1.
+     */
+    "expires_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Maximum number of times this code can be redeemed. Omit for
+     * no redemption limit. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64.
+     */
+    "max_uses"?: `${bigint}`;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a
+     * code that cannot be redeemed. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Shape $ (Value): string. IANA zone the code's times were entered in, used for display.
+     * expires_at is an absolute timestamp, so this does not change when the code expires.
+     * minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string;
+};
+/**
+ * Shape $ (Value): {@link CreatePromotionCodeRequestInput}. The request body for: Create promotion
+ * code.
+ */
+export type CreatePromotionCodeRequestInput = {
+    /**
+     * Shape $ (Value): string. Code a buyer enters to redeem the promotion. minLength: 1.
+     * maxLength: 100.
+     */
+    "code": string;
+    /**
+     * Shape $ (Value): string. When the code stops being redeemable, as an absolute RFC3339
+     * timestamp. Omit for no expiry. Format: date-time. minLength: 1.
+     */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * Shape $ (Value): integer string. Maximum number of times this code can be redeemed. Omit for
+     * no redemption limit. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64.
+     */
+    "max_uses"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a
+     * code that cannot be redeemed. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * Shape $ (Value): string. IANA zone the code's times were entered in, used for display.
+     * expires_at is an absolute timestamp, so this does not change when the code expires.
+     * minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string;
+};
+/** Shape $ (Value): {@link CreatePromotionRequest}. The request body for: Create promotion. */
+export type CreatePromotionRequest = {
+    /**
+     * Shape $ (Value): {@link PromotionApplicationMethodRequest}. Discount effect and how it
+     * applies to eligible items or charges. A flat application method whose type selects its
+     * effect fields.
+     */
+    "application_method": PromotionApplicationMethodRequest;
+    /**
+     * Shape $ (Value): Array of {@link CreatePromotionCodeRequest}. Codes to create with a
+     * code-gated promotion, at most 100. The create response returns them in `codes`. Add more
+     * later with `POST /v1/promotions/{promotion_id}/codes`, and manage each code through the
+     * `/v1/promotions/{promotion_id}/codes/{promotion_code_id}` routes. maxItems: 100. Shape $[]
+     * (Value): {@link CreatePromotionCodeRequest}. The request body for: Create promotion code.
+     */
+    "codes"?: Array<CreatePromotionCodeRequest>;
+    /**
+     * Shape $ (Value): {@link PromotionCombinesWithPatch}. Which discount classes this promotion
+     * can combine with. Omitted classes default to true. Which promotion discount classes this
+     * promotion can combine with. Omitted classes default to true.
+     */
+    "combines_with"?: PromotionCombinesWithPatch;
+    /**
+     * Shape $ (Value): string. Optional description of the promotion for your own records.
+     * minLength: 1. maxLength: 500.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Defaults to order when omitted. Default: "order". Value enum:
+     * "order", "line_item", "service_charge".
+     */
+    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
+    /**
+     * Shape $ (Value): string. Buyer-facing promotion name shown in checkout and order discount
+     * surfaces. Defaults to name when omitted. minLength: 1. maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Shape $ (Value): {@link PromotionRuleGroupRequest}. Conditions an order must satisfy for the
+     * promotion to apply. Omit to create a promotion with no eligibility conditions. A rule group
+     * is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested
+     * groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or
+     * send null where the field is clearable. Responses list rules before nested groups. Under
+     * any, a nested group containing only one rule reads back as that rule. Under all, nested
+     * groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic
+     * normalizations stabilize after one round trip. matched_items.subtotal sums the line items
+     * matched by the line_item.* rules in the same all group, including its nested groups.
+     */
+    "eligibility_rules"?: PromotionRuleGroupRequest;
+    /**
+     * Shape $ (Value): {@link PromotionExclusivityRequest}. Optional group and priority used to
+     * choose one promotion from competing promotions in the same group. See Promotion for the
+     * evaluation order. Only one promotion in an exclusivity group continues. See Promotion for
+     * the evaluation order.
+     */
+    "exclusivity"?: PromotionExclusivityRequest;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Maximum number of redemptions across all codes and
+     * automatic applications. Omit for no redemption limit. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64.
+     */
+    "max_uses"?: `${bigint}`;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Internal promotion name for dashboards, searching, and reporting.
+     * This is not intended for buyer-facing checkout or receipt copy. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Shape $ (Value): string. Whether the promotion applies automatically when its rules match or
+     * requires a promotion code. Value enum: "automatic", "code".
+     */
+    "redemption_type"?: "automatic" | "code" | (string & {});
+    /**
+     * Shape $ (Value): {@link PromotionSchedule}. Optional start and end times that limit when the
+     * promotion can apply. When a promotion is active, with a start time, an end time, and the
+     * time zone it was entered in.
+     */
+    "schedule"?: PromotionSchedule;
+    /**
+     * Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a
+     * promotion that is switched off. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+};
+/** Shape $ (Value): {@link CreatePromotionRequestInput}. The request body for: Create promotion. */
+export type CreatePromotionRequestInput = {
+    /**
+     * Shape $ (Value): {@link PromotionApplicationMethodRequestInput}. Discount effect and how it
+     * applies to eligible items or charges. A flat application method whose type selects its
+     * effect fields.
+     */
+    "application_method": PromotionApplicationMethodRequestInput;
+    /**
+     * Shape $ (Value): Array of {@link CreatePromotionCodeRequestInput}. Codes to create with a
+     * code-gated promotion, at most 100. The create response returns them in `codes`. Add more
+     * later with `POST /v1/promotions/{promotion_id}/codes`, and manage each code through the
+     * `/v1/promotions/{promotion_id}/codes/{promotion_code_id}` routes. maxItems: 100. Shape $[]
+     * (Value): {@link CreatePromotionCodeRequestInput}. The request body for: Create promotion
+     * code.
+     */
+    "codes"?: Array<CreatePromotionCodeRequestInput>;
+    /**
+     * Shape $ (Value): {@link PromotionCombinesWithRequestInput}. Which discount classes this
+     * promotion can combine with. Omitted classes default to true. Which promotion discount
+     * classes this promotion can combine with. Omitted classes default to true.
+     */
+    "combines_with"?: PromotionCombinesWithRequestInput;
+    /**
+     * Shape $ (Value): string. Optional description of the promotion for your own records.
+     * minLength: 1. maxLength: 500.
+     */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Defaults to order when omitted. Default: "order". Value enum:
+     * "order", "line_item", "service_charge".
+     */
+    "discount_class"?: "order" | "line_item" | "service_charge";
+    /**
+     * Shape $ (Value): string. Buyer-facing promotion name shown in checkout and order discount
+     * surfaces. Defaults to name when omitted. minLength: 1. maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Shape $ (Value): {@link PromotionRuleGroupRequestInput}. Conditions an order must satisfy
+     * for the promotion to apply. Omit to create a promotion with no eligibility conditions. A
+     * rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
+     * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no
+     * rules, or send null where the field is clearable. Responses list rules before nested groups.
+     * Under any, a nested group containing only one rule reads back as that rule. Under all,
+     * nested groups keep their boundaries to preserve matched_items.subtotal scope. These
+     * deterministic normalizations stabilize after one round trip. matched_items.subtotal sums the
+     * line items matched by the line_item.* rules in the same all group, including its nested
+     * groups.
+     */
+    "eligibility_rules"?: PromotionRuleGroupRequestInput;
+    /**
+     * Shape $ (Value): {@link PromotionExclusivityRequestInput}. Optional group and priority used
+     * to choose one promotion from competing promotions in the same group. See Promotion for the
+     * evaluation order. Only one promotion in an exclusivity group continues. See Promotion for
+     * the evaluation order.
+     */
+    "exclusivity"?: PromotionExclusivityRequestInput;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Maximum number of redemptions across all codes and
+     * automatic applications. Omit for no redemption limit. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64.
+     */
+    "max_uses"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Internal promotion name for dashboards, searching, and reporting.
+     * This is not intended for buyer-facing checkout or receipt copy. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Shape $ (Value): string. Whether the promotion applies automatically when its rules match or
+     * requires a promotion code. Value enum: "automatic", "code".
+     */
+    "redemption_type"?: "automatic" | "code";
+    /**
+     * Shape $ (Value): {@link PromotionScheduleRequestRequestInput}. Optional start and end times
+     * that limit when the promotion can apply. When a promotion is active, with a start time, an
+     * end time, and the time zone it was entered in.
+     */
+    "schedule"?: PromotionScheduleRequestRequestInput;
+    /**
+     * Shape $ (Value): string. Lifecycle status. Defaults to active; send inactive to create a
+     * promotion that is switched off. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+};
+/** Shape $ (Value): {@link CreateRefundRequest}. The request body for: Create refund. */
+export type CreateRefundRequest = ({
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Required for refund_type amount and forbidden for full
+     * and targets. Total to refund, including named targets and any value Flint allocates to the
+     * remaining components. Tender allocations must sum to this amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link RefundCharge}. Named order charges to refund. Allowed with
+     * refund_type amount or targets. In amount mode their value must fit within amount_money;
+     * Flint allocates the rest. Shape $[] (Value): {@link RefundCharge}. An order charge to refund
+     * when creating a refund, with an optional amount to refund.
+     */
+    "charges"?: Array<RefundCharge>;
+    /**
+     * Shape $ (Value): {@link RefundDestinations}. Default destinations for allocations Flint
+     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
+     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
+     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
+     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
+     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
+     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
+     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
+     * The refund reports each result in tender_allocations, without echoing destinations. Default
+     * refund destinations for payment intent and gift card redemption allocations planned by
+     * Flint. Each tender type defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinations;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link RefundLineItem}. Named order line items to refund. Allowed
+     * with refund_type amount or targets. In amount mode their resolved value must fit within
+     * amount_money; Flint allocates the rest. Shape $[] (Value): {@link RefundLineItem}. An order
+     * line item to refund, with the quantity or amount, tax handling, and any adjustments such as
+     * a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItem>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
+     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
+     * amount requires amount_money and permits named targets and tender_allocations within that
+     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
+     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
+     * full and amount only. Value enum: "full", "amount", "targets".
+     */
+    "refund_type": "full" | "amount" | "targets" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundIn}. Named order tax breakdowns to
+     * refund. Allowed with refund_type amount or targets. In amount mode their value must fit
+     * within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link RefundTaxBreakdownRefundIn}.
+     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
+     * refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocationRequest}. Exhaustive allocations to
+     * original tenders. Allowed only with refund_type amount. Amounts must sum to the required
+     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
+     * original tenders. Additional untargeted value follows the default tender order. Destinations
+     * default to original. Select new_gift_card when the original card is closed or cannot accept
+     * the full credit within its balance cap. For gift card redemptions made outside a Flint
+     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
+     * {@link RefundTenderAllocationRequest}. Where part of a refund goes: back to a payment intent
+     * or to a gift card redemption, with the amount.
+     */
+    "tender_allocations"?: Array<RefundTenderAllocationRequest>;
+})
+    & ((Exclude<CreateRefundRequestFull & object, readonly unknown[]>)
+    | (Exclude<CreateRefundRequestAmount & object, readonly unknown[]>)
+    | (Exclude<CreateRefundRequestTargets & object, readonly unknown[]>)
+    | (Record<string, unknown>))
+    & (({
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocationRequest}. Exhaustive allocations to
+     * original tenders. Allowed only with refund_type amount. Amounts must sum to the required
+     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
+     * original tenders. Additional untargeted value follows the default tender order. Destinations
+     * default to original. Select new_gift_card when the original card is closed or cannot accept
+     * the full credit within its balance cap. For gift card redemptions made outside a Flint
+     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
+     * {@link RefundTenderAllocationRequest}. Where part of a refund goes: back to a payment intent
+     * or to a gift card redemption, with the amount.
+     */
+    "tender_allocations": Array<RefundTenderAllocationRequest>;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id": string;
+})
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link CreateRefundRequestAmount}. The `amount` variant of
+ * `CreateRefundRequest`.
+ */
+export type CreateRefundRequestAmount = ({
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Required for refund_type amount and forbidden for full
+     * and targets. Total to refund, including named targets and any value Flint allocates to the
+     * remaining components. Tender allocations must sum to this amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link RefundCharge}. Named order charges to refund. Allowed with
+     * refund_type amount or targets. In amount mode their value must fit within amount_money;
+     * Flint allocates the rest. Shape $[] (Value): {@link RefundCharge}. An order charge to refund
+     * when creating a refund, with an optional amount to refund.
+     */
+    "charges"?: Array<RefundCharge>;
+    /**
+     * Shape $ (Value): {@link RefundDestinations}. Default destinations for allocations Flint
+     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
+     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
+     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
+     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
+     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
+     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
+     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
+     * The refund reports each result in tender_allocations, without echoing destinations. Default
+     * refund destinations for payment intent and gift card redemption allocations planned by
+     * Flint. Each tender type defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinations;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link RefundLineItem}. Named order line items to refund. Allowed
+     * with refund_type amount or targets. In amount mode their resolved value must fit within
+     * amount_money; Flint allocates the rest. Shape $[] (Value): {@link RefundLineItem}. An order
+     * line item to refund, with the quantity or amount, tax handling, and any adjustments such as
+     * a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItem>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
+     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
+     * amount requires amount_money and permits named targets and tender_allocations within that
+     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
+     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
+     * full and amount only. Value enum: "amount".
+     */
+    "refund_type": "full" | "amount" | "targets" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundIn}. Named order tax breakdowns to
+     * refund. Allowed with refund_type amount or targets. In amount mode their value must fit
+     * within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link RefundTaxBreakdownRefundIn}.
+     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
+     * refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocationRequest}. Exhaustive allocations to
+     * original tenders. Allowed only with refund_type amount. Amounts must sum to the required
+     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
+     * original tenders. Additional untargeted value follows the default tender order. Destinations
+     * default to original. Select new_gift_card when the original card is closed or cannot accept
+     * the full credit within its balance cap. For gift card redemptions made outside a Flint
+     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
+     * {@link RefundTenderAllocationRequest}. Where part of a refund goes: back to a payment intent
+     * or to a gift card redemption, with the amount.
+     */
+    "tender_allocations"?: Array<RefundTenderAllocationRequest>;
+})
+    & ((({
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocationRequest}. Exhaustive allocations to
+     * original tenders. Allowed only with refund_type amount. Amounts must sum to the required
+     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
+     * original tenders. Additional untargeted value follows the default tender order. Destinations
+     * default to original. Select new_gift_card when the original card is closed or cannot accept
+     * the full credit within its balance cap. For gift card redemptions made outside a Flint
+     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
+     * {@link RefundTenderAllocationRequest}. Where part of a refund goes: back to a payment intent
+     * or to a gift card redemption, with the amount.
+     */
+    "tender_allocations": Array<RefundTenderAllocationRequest>;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id": string;
+})
+    | (Record<string, unknown>)));
+/**
+ * Shape $ (Value): {@link CreateRefundRequestAmountInput}. The `amount` variant of
+ * `CreateRefundRequest`.
+ */
+export type CreateRefundRequestAmountInput = ({
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Required for refund_type amount and forbidden for
+     * full and targets. Total to refund, including named targets and any value Flint allocates to
+     * the remaining components. Tender allocations must sum to this amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Shape $ (Value): Array of {@link RefundChargeInput}. Named order charges to refund. Allowed
+     * with refund_type amount or targets. In amount mode their value must fit within amount_money;
+     * Flint allocates the rest. Shape $[] (Value): {@link RefundChargeInput}. An order charge to
+     * refund when creating a refund, with an optional amount to refund.
+     */
+    "charges"?: Array<RefundChargeInput>;
+    /**
+     * Shape $ (Value): {@link RefundDestinationsInput}. Default destinations for allocations Flint
+     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
+     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
+     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
+     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
+     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
+     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
+     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
+     * The refund reports each result in tender_allocations, without echoing destinations. Default
+     * refund destinations for payment intent and gift card redemption allocations planned by
+     * Flint. Each tender type defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinationsInput;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link RefundLineItemInput}. Named order line items to refund.
+     * Allowed with refund_type amount or targets. In amount mode their resolved value must fit
+     * within amount_money; Flint allocates the rest. Shape $[] (Value): {@link
+     * RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
+     * handling, and any adjustments such as a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItemInput>;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
+     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
+     * amount requires amount_money and permits named targets and tender_allocations within that
+     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
+     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
+     * full and amount only. Value enum: "amount".
+     */
+    "refund_type": ("full" | "amount" | "targets") & ("amount");
+    /**
+     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundInInput}. Named order tax
+     * breakdowns to refund. Allowed with refund_type amount or targets. In amount mode their value
+     * must fit within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link
+     * RefundTaxBreakdownRefundInInput}. The tax to refund for one tax breakdown, identified by
+     * `tax_breakdown_id`, when setting tax refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocationRequestInput}. Exhaustive allocations
+     * to original tenders. Allowed only with refund_type amount. Amounts must sum to the required
+     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
+     * original tenders. Additional untargeted value follows the default tender order. Destinations
+     * default to original. Select new_gift_card when the original card is closed or cannot accept
+     * the full credit within its balance cap. For gift card redemptions made outside a Flint
+     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
+     * {@link RefundTenderAllocationRequestInput}. Where part of a refund goes: back to a payment
+     * intent or to a gift card redemption, with the amount.
+     */
+    "tender_allocations"?: Array<RefundTenderAllocationRequestInput>;
+})
+    & ((({
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocationRequestInput}. Exhaustive allocations
+     * to original tenders. Allowed only with refund_type amount. Amounts must sum to the required
+     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
+     * original tenders. Additional untargeted value follows the default tender order. Destinations
+     * default to original. Select new_gift_card when the original card is closed or cannot accept
+     * the full credit within its balance cap. For gift card redemptions made outside a Flint
+     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
+     * {@link RefundTenderAllocationRequestInput}. Where part of a refund goes: back to a payment
+     * intent or to a gift card redemption, with the amount.
+     */
+    "tender_allocations": Array<RefundTenderAllocationRequestInput>;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id": string;
+})))
+    & ((({
+    "destinations"?: never;
+} | {
+    "tender_allocations"?: never;
+}))
+    & (({
+    "destinations"?: never;
+} | {
+    "gift_card_load_id"?: never;
+})));
+/**
+ * Shape $ (Value): {@link CreateRefundRequestFull}. The `full` variant of `CreateRefundRequest`.
+ */
+export type CreateRefundRequestFull = ({
+    /**
+     * Shape $ (Value): {@link RefundDestinations}. Default destinations for allocations Flint
+     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
+     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
+     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
+     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
+     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
+     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
+     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
+     * The refund reports each result in tender_allocations, without echoing destinations. Default
+     * refund destinations for payment intent and gift card redemption allocations planned by
+     * Flint. Each tender type defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinations;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
+     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
+     * amount requires amount_money and permits named targets and tender_allocations within that
+     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
+     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
+     * full and amount only. Value enum: "full".
+     */
+    "refund_type": "full" | "amount" | "targets" | (string & {});
+})
+    & ((({
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /** Shape $ (Value): any. */
+    "tender_allocations": unknown;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id": string;
+})
+    | (Record<string, unknown>)));
+/**
+ * Shape $ (Value): {@link CreateRefundRequestFullInput}. The `full` variant of
+ * `CreateRefundRequest`.
+ */
+export type CreateRefundRequestFullInput = ({
+    /**
+     * Shape $ (Value): {@link RefundDestinationsInput}. Default destinations for allocations Flint
+     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
+     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
+     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
+     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
+     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
+     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
+     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
+     * The refund reports each result in tender_allocations, without echoing destinations. Default
+     * refund destinations for payment intent and gift card redemption allocations planned by
+     * Flint. Each tender type defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinationsInput;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
+     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
+     * amount requires amount_money and permits named targets and tender_allocations within that
+     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
+     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
+     * full and amount only. Value enum: "full".
+     */
+    "refund_type": ("full" | "amount" | "targets") & ("full");
+})
+    & ((({
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /** Shape $ (Value): any. */
+    "tender_allocations": unknown;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id": string;
+})))
+    & ((({
+    "destinations"?: never;
+} | {
+    "tender_allocations"?: never;
+}))
+    & (({
+    "destinations"?: never;
+} | {
+    "gift_card_load_id"?: never;
+})))
+    & (({
+    "amount_money"?: never;
+})
+    & ({
+    "line_items"?: never;
+})
+    & ({
+    "charges"?: never;
+})
+    & ({
+    "tax_breakdown_refunds"?: never;
+})
+    & ({
+    "tender_allocations"?: never;
+}));
+/** Shape $ (Value): {@link CreateRefundRequestInput}. The request body for: Create refund. */
+export type CreateRefundRequestInput = ({
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Required for refund_type amount and forbidden for
+     * full and targets. Total to refund, including named targets and any value Flint allocates to
+     * the remaining components. Tender allocations must sum to this amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /**
+     * Shape $ (Value): Array of {@link RefundChargeInput}. Named order charges to refund. Allowed
+     * with refund_type amount or targets. In amount mode their value must fit within amount_money;
+     * Flint allocates the rest. Shape $[] (Value): {@link RefundChargeInput}. An order charge to
+     * refund when creating a refund, with an optional amount to refund.
+     */
+    "charges"?: Array<RefundChargeInput>;
+    /**
+     * Shape $ (Value): {@link RefundDestinationsInput}. Default destinations for allocations Flint
+     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
+     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
+     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
+     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
+     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
+     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
+     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
+     * The refund reports each result in tender_allocations, without echoing destinations. Default
+     * refund destinations for payment intent and gift card redemption allocations planned by
+     * Flint. Each tender type defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinationsInput;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link RefundLineItemInput}. Named order line items to refund.
+     * Allowed with refund_type amount or targets. In amount mode their resolved value must fit
+     * within amount_money; Flint allocates the rest. Shape $[] (Value): {@link
+     * RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
+     * handling, and any adjustments such as a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItemInput>;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
+     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
+     * amount requires amount_money and permits named targets and tender_allocations within that
+     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
+     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
+     * full and amount only. Value enum: "full", "amount", "targets".
+     */
+    "refund_type": "full" | "amount" | "targets";
+    /**
+     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundInInput}. Named order tax
+     * breakdowns to refund. Allowed with refund_type amount or targets. In amount mode their value
+     * must fit within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link
+     * RefundTaxBreakdownRefundInInput}. The tax to refund for one tax breakdown, identified by
+     * `tax_breakdown_id`, when setting tax refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocationRequestInput}. Exhaustive allocations
+     * to original tenders. Allowed only with refund_type amount. Amounts must sum to the required
+     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
+     * original tenders. Additional untargeted value follows the default tender order. Destinations
+     * default to original. Select new_gift_card when the original card is closed or cannot accept
+     * the full credit within its balance cap. For gift card redemptions made outside a Flint
+     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
+     * {@link RefundTenderAllocationRequestInput}. Where part of a refund goes: back to a payment
+     * intent or to a gift card redemption, with the amount.
+     */
+    "tender_allocations"?: Array<RefundTenderAllocationRequestInput>;
+})
+    & (({
+    "destinations"?: never;
+} | {
+    "tender_allocations"?: never;
+}))
+    & (({
+    "destinations"?: never;
+} | {
+    "gift_card_load_id"?: never;
+}))
+    & ((Exclude<CreateRefundRequestFullInput & object, readonly unknown[]>)
+    | (Exclude<CreateRefundRequestAmountInput & object, readonly unknown[]>)
+    | (Exclude<CreateRefundRequestTargetsInput & object, readonly unknown[]>))
+    & (({
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocationRequestInput}. Exhaustive allocations
+     * to original tenders. Allowed only with refund_type amount. Amounts must sum to the required
+     * amount_money. Selected line-item, charge and flat-tax components must be covered by their
+     * original tenders. Additional untargeted value follows the default tender order. Destinations
+     * default to original. Select new_gift_card when the original card is closed or cannot accept
+     * the full credit within its balance cap. For gift card redemptions made outside a Flint
+     * order, send the allocations without order_id. minItems: 1. maxItems: 21. Shape $[] (Value):
+     * {@link RefundTenderAllocationRequestInput}. Where part of a refund goes: back to a payment
+     * intent or to a gift card redemption, with the amount.
+     */
+    "tender_allocations": Array<RefundTenderAllocationRequestInput>;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Allowed with refund_type full or amount. Original standalone gift
+     * card funding load paid by a Flint payment. Refunds its paid consideration and removes the
+     * corresponding eligible unspent face value. Requires Idempotency-Key; cannot be combined with
+     * order, line item, charge, tax or tender targets. minLength: 1. pattern:
+     * ^gcl_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "gift_card_load_id": string;
+}));
+/**
+ * Shape $ (Value): {@link CreateRefundRequestTargets}. The `targets` variant of
+ * `CreateRefundRequest`.
+ */
+export type CreateRefundRequestTargets = ({
+    /**
+     * Shape $ (Value): Array of {@link RefundCharge}. Named order charges to refund. Allowed with
+     * refund_type amount or targets. In amount mode their value must fit within amount_money;
+     * Flint allocates the rest. Shape $[] (Value): {@link RefundCharge}. An order charge to refund
+     * when creating a refund, with an optional amount to refund.
+     */
+    "charges"?: Array<RefundCharge>;
+    /**
+     * Shape $ (Value): {@link RefundDestinations}. Default destinations for allocations Flint
+     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
+     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
+     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
+     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
+     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
+     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
+     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
+     * The refund reports each result in tender_allocations, without echoing destinations. Default
+     * refund destinations for payment intent and gift card redemption allocations planned by
+     * Flint. Each tender type defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinations;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link RefundLineItem}. Named order line items to refund. Allowed
+     * with refund_type amount or targets. In amount mode their resolved value must fit within
+     * amount_money; Flint allocates the rest. Shape $[] (Value): {@link RefundLineItem}. An order
+     * line item to refund, with the quantity or amount, tax handling, and any adjustments such as
+     * a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItem>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
+     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
+     * amount requires amount_money and permits named targets and tender_allocations within that
+     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
+     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
+     * full and amount only. Value enum: "targets".
+     */
+    "refund_type": "full" | "amount" | "targets" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundIn}. Named order tax breakdowns to
+     * refund. Allowed with refund_type amount or targets. In amount mode their value must fit
+     * within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link RefundTaxBreakdownRefundIn}.
+     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
+     * refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
+})
+    & ((({
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /** Shape $ (Value): any. */
+    "tender_allocations": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. */
+    "gift_card_load_id": unknown;
+})
+    | (Record<string, unknown>)))
+    & (({
+    /** Shape $ (Value): any. minItems: 1. */
+    "line_items": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. minItems: 1. */
+    "charges": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. minItems: 1. */
+    "tax_breakdown_refunds": unknown;
+})
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link CreateRefundRequestTargetsInput}. The `targets` variant of
+ * `CreateRefundRequest`.
+ */
+export type CreateRefundRequestTargetsInput = ({
+    /**
+     * Shape $ (Value): Array of {@link RefundChargeInput}. Named order charges to refund. Allowed
+     * with refund_type amount or targets. In amount mode their value must fit within amount_money;
+     * Flint allocates the rest. Shape $[] (Value): {@link RefundChargeInput}. An order charge to
+     * refund when creating a refund, with an optional amount to refund.
+     */
+    "charges"?: Array<RefundChargeInput>;
+    /**
+     * Shape $ (Value): {@link RefundDestinationsInput}. Default destinations for allocations Flint
+     * plans. Allowed with full, amount without tender_allocations, and targets. Each key defaults
+     * to original, and a key for a tender absent from the refund has no effect. Not allowed with
+     * tender_allocations or gift_card_load_id; use destination on each explicit allocation.
+     * new_gift_card on a payment intent is store credit and requires a payment belonging to an
+     * order. Payments without an order return 400 INVALID_REQUEST with a NOT_ALLOWED detail at
+     * destinations.payment_intent. The merchant keeps the cash and the original processing fee is
+     * not returned; no processor refund is made. New gift card codes are returned for 24 hours.
+     * The refund reports each result in tender_allocations, without echoing destinations. Default
+     * refund destinations for payment intent and gift card redemption allocations planned by
+     * Flint. Each tender type defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinationsInput;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link RefundLineItemInput}. Named order line items to refund.
+     * Allowed with refund_type amount or targets. In amount mode their resolved value must fit
+     * within amount_money; Flint allocates the rest. Shape $[] (Value): {@link
+     * RefundLineItemInput}. An order line item to refund, with the quantity or amount, tax
+     * handling, and any adjustments such as a restocking fee.
+     */
+    "line_items"?: Array<RefundLineItemInput>;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): string. Optional. When omitted, no reason is recorded or sent to the
+     * processor, and the buyer's refund email has no reason line. Value enum: "duplicate",
+     * "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped",
+     * "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind",
+     * "better_price_found", "accidental_order", "other".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Required amount mode: full refunds the full remaining amount;
+     * amount requires amount_money and permits named targets and tender_allocations within that
+     * amount; targets refunds named line_items, charges, or tax_breakdown_refunds without
+     * amount_money. Full and targets do not accept tender_allocations. Gift card loads support
+     * full and amount only. Value enum: "targets".
+     */
+    "refund_type": ("full" | "amount" | "targets") & ("targets");
+    /**
+     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefundInInput}. Named order tax
+     * breakdowns to refund. Allowed with refund_type amount or targets. In amount mode their value
+     * must fit within amount_money; Flint allocates the rest. Requires
+     * commerce.refunds.tax_overrides.write. Shape $[] (Value): {@link
+     * RefundTaxBreakdownRefundInInput}. The tax to refund for one tax breakdown, identified by
+     * `tax_breakdown_id`, when setting tax refunds explicitly.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundInInput>;
+})
+    & ((({
+    /**
+     * Shape $ (Value): string. Order to refund. May be combined with payment_intent_id to select a
+     * payment on that order. Required for named targets unless payment_intent_id belongs to an
+     * order. minLength: 1.
+     */
+    "order_id": string;
+})
+    | ({
+    /**
+     * Shape $ (Value): string. Payment to refund. May be combined with its order_id. Named targets
+     * require a payment on an order. minLength: 1.
+     */
+    "payment_intent_id": string;
+})
+    | ({
+    /** Shape $ (Value): any. */
+    "tender_allocations": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. */
+    "gift_card_load_id": unknown;
+})))
+    & ((({
+    "destinations"?: never;
+} | {
+    "tender_allocations"?: never;
+}))
+    & (({
+    "destinations"?: never;
+} | {
+    "gift_card_load_id"?: never;
+})))
+    & (({
+    /** Shape $ (Value): any. minItems: 1. */
+    "line_items": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. minItems: 1. */
+    "charges": unknown;
+})
+    | ({
+    /** Shape $ (Value): any. minItems: 1. */
+    "tax_breakdown_refunds": unknown;
+}))
+    & (({
+    "amount_money"?: never;
+})
+    & ({
+    "tender_allocations"?: never;
+})
+    & ({
+    "gift_card_load_id"?: never;
+}));
+/**
+ * Shape $ (Value): {@link CreateRefundResponse}. A response containing `CreateRefundResult` data.
+ */
+export type CreateRefundResponse = {
+    /**
+     * Shape $ (Value): {@link CreateRefundResult}. The refund created by a create refund call,
+     * with all the fields of a refund. Money returned against a collected payment.
+     */
+    "data": CreateRefundResult;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link CreateRefundResult}. The refund created by a create refund call, with
+ * all the fields of a refund. Money returned against a collected payment.
+ */
+export type CreateRefundResult = ({
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at"?: string;
+    /** Shape $ (Value): string. */
+    "credit_note_id"?: string;
+    /**
+     * Shape $ (Value): {@link ExpandedCustomerSummary} or null. Shape $.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. Shape $.anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** Shape $ (Value): string. */
+    "customer_id"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. Why a refund failed or a payment refund was canceled. Failed and
+     * canceled amounts become refundable again. Fix the cause, then create a new refund with a new
+     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+     */
+    "failure_reason"?: "expired_or_canceled_card"
+        | "lost_or_stolen_card"
+        | "insufficient_funds"
+        | "insufficient_available_balance"
+        | "declined"
+        | "merchant_request"
+        | "payment_disputed"
+        | "payment_refund_failed"
+        | "payment_refund_not_attempted"
+        | "refund_failed"
+        | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link RefundGiftCardCode}. New gift card codes recovered only
+     * within 24 hours of the original command and only while each code remains current. Omitted
+     * after the recovery window and never returned by ordinary refund reads or events. Shape $[]
+     * (Value): {@link RefundGiftCardCode}. The code of a gift card issued by a refund, returned
+     * once in the refund result with its `gift_card_id`.
+     */
+    "gift_card_codes"?: Array<RefundGiftCardCode>;
+    /**
+     * Shape $ (Value): string. Present only on refunds created through POST
+     * /v1/credit-notes/{credit_note_id}/refunds: the Idempotency-Key of that call. Use it with GET
+     * /v1/credit-notes/{credit_note_id}/refunds?idempotency_key= to recover a refund whose create
+     * response was lost.
+     */
+    "idempotency_key"?: string;
+    /** Shape $ (Value): string. */
+    "invoice_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link RefundLineItemAllocation}. Shape $[] (Value): {@link
+     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
+     * amount, tax, adjustments, and modifier allocations.
+     */
+    "line_item_allocations"?: Array<RefundLineItemAllocation>;
+    /** Shape $ (Value): string. */
+    "merchant_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
+     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
+     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+     * them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
+     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
+     * status, and pricing and settlement amounts, returned when the order is expanded. Shape
+     * $.anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** Shape $ (Value): string. */
+    "order_id"?: string;
+    /**
+     * Shape $ (Value): {@link ExpandedPaymentIntentSummary} or null. Shape $.anyOf[1] (Value):
+     * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+     * status, and capture method, returned when the payment intent is expanded. Shape $.anyOf[2]
+     * (Value): null.
+     */
+    "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+    /** Shape $ (Value): string. */
+    "payment_intent_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link PaymentRefund}. Shape $[] (Value): {@link PaymentRefund}.
+     * The part of a refund returned through one payment, with the amount, tip, status, and any
+     * failure reason.
+     */
+    "payment_refunds"?: Array<PaymentRefund>;
+    /** Shape $ (Value): string. */
+    "payment_review_id"?: string;
+    /**
+     * Shape $ (Value): string or null. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", null.
+     */
+    "reason": "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | null
+        | (string & {})
+        | null;
+    /** Shape $ (Value): string. */
+    "reason_message"?: string;
+    /** Shape $ (Value): string. */
+    "refund_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "refunded_tip_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "return_id"?: string;
+    /** Shape $ (Value): string. */
+    "return_resolution_id"?: string;
+    /**
+     * Shape $ (Value): string. Summary of payment_refunds and tender_allocations. Only failed is
+     * final: succeeded and partially_succeeded can still change when a bank rejects a refund after
+     * accepting it. Follow refund.updated. Value enum: "pending", "succeeded",
+     * "partially_succeeded", "failed".
+     */
+    "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link RefundTaxBreakdownRefund}. Shape $[] (Value): {@link
+     * RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
+     */
+    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
+    /**
+     * Shape $ (Value): Array of {@link RefundTenderAllocation}. Shape $[] (Value): {@link
+     * RefundTenderAllocation}. One tender's share of a refund, listed in the refund's tender
+     * allocations.
+     */
+    "tender_allocations"?: Array<RefundTenderAllocation>;
+    /**
+     * Shape $ (Value): Array of {@link RefundUnissuedGiftCardRecovery}. Cash returned after an
+     * unissued gift card purchase refund failed. Return it through a new refund against
+     * payment_intent_id and order_line_item_id. It does not issue another card. Source remaining
+     * and pending amounts describe the entire original settlement allocation; repeated entries for
+     * that source are not additive. Shape $[] (Value): {@link RefundUnissuedGiftCardRecovery}.
+     * Details of a gift card purchase refunded before the card was issued, including the amounts
+     * recovered.
+     */
+    "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Persisted version of this resource's owned state. Expanded
+     * resources and external observations can change independently. Use an integer string (decimal
+     * digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
+})
+    & (Exclude<Refund & object, readonly unknown[]>)
+    & ({
+    /**
+     * Shape $ (Value): Array of {@link RefundGiftCardCode}. New gift card codes recovered only
+     * within 24 hours of the original command and only while each code remains current. Omitted
+     * after the recovery window and never returned by ordinary refund reads or events. Shape $[]
+     * (Value): {@link RefundGiftCardCode}. The code of a gift card issued by a refund, returned
+     * once in the refund result with its `gift_card_id`.
+     */
+    "gift_card_codes"?: Array<RefundGiftCardCode>;
+});
+/** Shape $ (Value): {@link CreateReportRequest}. The request body for: Create a report. */
+export type CreateReportRequest = {
+    /**
+     * Shape $ (Value): string. Three-letter ISO 4217 currency. Reports never combine currencies.
+     * gift_card_liability_v1 supports USD only; other currencies return INVALID_REQUEST on
+     * currency. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Shape $ (Value): string. Exclusive report interval end instant. Each report type matches its
+     * own occurrence time. At most the same local time 366 calendar days after interval_start_at
+     * in timezone. Must not be in the future. Format: date-time. minLength: 1.
+     */
+    "interval_end_at": string;
+    /**
+     * Shape $ (Value): string. Inclusive report interval start instant. Each report type matches
+     * its own occurrence time. Format: date-time. minLength: 1.
+     */
+    "interval_start_at": string;
+    /**
+     * Shape $ (Value): string. Which report to generate. The value names the row and the column
+     * version, such as payments_itemized_v1. The Reports guide lists each type's rows, interval
+     * matching, and columns. Value enum: "gift_card_liability_v1", "orders_itemized_v1",
+     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
+     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
+     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1".
+     */
+    "report_type": "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
+     * occurs at the start of its arrival_date in this timezone. Defaults to UTC. minLength: 1.
+     */
+    "timezone"?: string;
+};
+/** Shape $ (Value): {@link CreateReportRequestInput}. The request body for: Create a report. */
+export type CreateReportRequestInput = {
+    /**
+     * Shape $ (Value): string. Three-letter ISO 4217 currency. Reports never combine currencies.
+     * gift_card_liability_v1 supports USD only; other currencies return INVALID_REQUEST on
+     * currency. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Shape $ (Value): string. Exclusive report interval end instant. Each report type matches its
+     * own occurrence time. At most the same local time 366 calendar days after interval_start_at
+     * in timezone. Must not be in the future. Format: date-time. minLength: 1.
+     */
+    "interval_end_at": string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. Inclusive report interval start instant. Each report type matches
+     * its own occurrence time. Format: date-time. minLength: 1.
+     */
+    "interval_start_at": string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. Which report to generate. The value names the row and the column
+     * version, such as payments_itemized_v1. The Reports guide lists each type's rows, interval
+     * matching, and columns. Value enum: "gift_card_liability_v1", "orders_itemized_v1",
+     * "orders_itemized_v2", "payments_itemized_v1", "balance_transactions_itemized_v1",
+     * "payouts_itemized_v1", "tax_itemized_v1", "tax_summarized_v1",
+     * "merchant_billing_itemized_v1", "tax_transactions_itemized_v1".
+     */
+    "report_type": "gift_card_liability_v1"
+        | "orders_itemized_v1"
+        | "orders_itemized_v2"
+        | "payments_itemized_v1"
+        | "balance_transactions_itemized_v1"
+        | "payouts_itemized_v1"
+        | "tax_itemized_v1"
+        | "tax_summarized_v1"
+        | "merchant_billing_itemized_v1"
+        | "tax_transactions_itemized_v1";
+    /**
+     * Shape $ (Value): string. IANA timezone used for timestamps and date bucketing. A payout
+     * occurs at the start of its arrival_date in this timezone. Defaults to UTC. minLength: 1.
+     */
+    "timezone"?: string;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnDispositionRequest}. The request body for: Create return
+ * disposition.
+ */
+export type CreateReturnDispositionRequest = ({
+    /**
+     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_location_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result"
+        | "return_policy"
+        | "warehouse_override"
+        | "safety_requirement"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "replaces_return_disposition_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_inspection_line_item_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_receipt_line_item_id"?: string;
+})
+    & ((Exclude<CreateReturnDispositionRequestReceiptLine & object, readonly unknown[]>)
+    | (Exclude<CreateReturnDispositionRequestInspectionLine & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link CreateReturnDispositionRequestInput}. The request body for: Create
+ * return disposition.
+ */
+export type CreateReturnDispositionRequestInput = ({
+    /**
+     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost";
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_location_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at": string | globalThis.Date;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "replaces_return_disposition_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_inspection_line_item_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_receipt_line_item_id"?: string;
+})
+    & ((Exclude<CreateReturnDispositionRequestReceiptLineInput & object, readonly unknown[]>)
+    | (Exclude<CreateReturnDispositionRequestInspectionLineInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link CreateReturnDispositionRequestInspectionLine}. The `Inspection line`
+ * variant of `CreateReturnDispositionRequest`.
+ */
+export type CreateReturnDispositionRequestInspectionLine = ({
+    /**
+     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_location_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result"
+        | "return_policy"
+        | "warehouse_override"
+        | "safety_requirement"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "replaces_return_disposition_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_inspection_line_item_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_receipt_line_item_id"?: string;
+});
+/**
+ * Shape $ (Value): {@link CreateReturnDispositionRequestInspectionLineInput}. The `Inspection
+ * line` variant of `CreateReturnDispositionRequest`.
+ */
+export type CreateReturnDispositionRequestInspectionLineInput = ({
+    /**
+     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost";
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_location_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at": string | globalThis.Date;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "replaces_return_disposition_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_inspection_line_item_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_receipt_line_item_id"?: string;
+})
+    & ({
+    "return_receipt_line_item_id"?: never;
+});
+/**
+ * Shape $ (Value): {@link CreateReturnDispositionRequestReceiptLine}. The `Receipt line` variant
+ * of `CreateReturnDispositionRequest`.
+ */
+export type CreateReturnDispositionRequestReceiptLine = ({
+    /**
+     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_location_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result"
+        | "return_policy"
+        | "warehouse_override"
+        | "safety_requirement"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "replaces_return_disposition_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_inspection_line_item_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_receipt_line_item_id": string;
+});
+/**
+ * Shape $ (Value): {@link CreateReturnDispositionRequestReceiptLineInput}. The `Receipt line`
+ * variant of `CreateReturnDispositionRequest`.
+ */
+export type CreateReturnDispositionRequestReceiptLineInput = ({
+    /**
+     * Shape $ (Value): string. Value enum: "sellable", "quality_control", "damaged",
+     * "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer",
+     * "lost".
+     */
+    "disposition_type": "sellable"
+        | "quality_control"
+        | "damaged"
+        | "quarantined"
+        | "repair"
+        | "refurbish"
+        | "liquidate"
+        | "donate"
+        | "discard"
+        | "return_to_buyer"
+        | "lost";
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_location_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
+    "occurred_at": string | globalThis.Date;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): string. Value enum: "inspection_result", "return_policy",
+     * "warehouse_override", "safety_requirement", "other".
+     */
+    "reason": "inspection_result" | "return_policy" | "warehouse_override" | "safety_requirement" | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "reason_message"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "replaces_return_disposition_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_inspection_line_item_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_receipt_line_item_id": string;
+})
+    & ({
+    "return_inspection_line_item_id"?: never;
+});
+/**
+ * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which items
+ * of an order can be returned, given an order and a selection.
+ */
+export type CreateReturnEligibilityPreviewRequest = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_id": string;
+    /**
+     * Shape $ (Value): {@link ReturnEligibilitySelection}. Which order lines to check for return
+     * eligibility: all remaining fulfilled lines, or a specific list of lines.
+     */
+    "selection": ReturnEligibilitySelection;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview which
+ * items of an order can be returned, given an order and a selection.
+ */
+export type CreateReturnEligibilityPreviewRequestInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_id": string;
+    /**
+     * Shape $ (Value): {@link ReturnEligibilitySelectionInput}. Which order lines to check for
+     * return eligibility: all remaining fulfilled lines, or a specific list of lines.
+     */
+    "selection": ReturnEligibilitySelectionInput;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnInspectionRequest}. The request body for: Create return
+ * inspection.
+ */
+export type CreateReturnInspectionRequest = {
+    /**
+     * Shape $ (Value): string. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "correction_reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. minLength: 1. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Format:
+     * date-time. minLength: 1.
+     */
+    "inspected_at": string;
+    /**
+     * Shape $ (Value): string. Location where the returned merchandise was inspected. Must match
+     * the receipt receiving_location_id. minLength: 1.
+     */
+    "inspection_location_id": string;
+    /**
+     * Shape $ (Value): Array of {@link ReturnInspectionLineItemRequest}. minItems: 1. Shape $[]
+     * (Value): {@link ReturnInspectionLineItemRequest}. The inspection result for one received
+     * return line: acceptance status, condition, and findings.
+     */
+    "line_items": Array<ReturnInspectionLineItemRequest>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_receipt_id": string;
+    /**
+     * Shape $ (Value): {@link ReturnSourceSystem}. The system a return event came from, such as a
+     * point of sale or warehouse system, with its own identifier.
+     */
+    "source_system"?: ReturnSourceSystem;
+    /** Shape $ (Value): string. minLength: 1. */
+    "supersedes_return_inspection_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnInspectionRequestInput}. The request body for: Create return
+ * inspection.
+ */
+export type CreateReturnInspectionRequestInput = {
+    /**
+     * Shape $ (Value): string. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "correction_reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. minLength: 1. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Format:
+     * date-time. minLength: 1.
+     */
+    "inspected_at": string | globalThis.Date;
+    /**
+     * Shape $ (Value): string. Location where the returned merchandise was inspected. Must match
+     * the receipt receiving_location_id. minLength: 1.
+     */
+    "inspection_location_id": string;
+    /**
+     * Shape $ (Value): Array of {@link ReturnInspectionLineItemRequestInput}. minItems: 1. Shape
+     * $[] (Value): {@link ReturnInspectionLineItemRequestInput}. The inspection result for one
+     * received return line: acceptance status, condition, and findings.
+     */
+    "line_items": Array<ReturnInspectionLineItemRequestInput>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_receipt_id": string;
+    /**
+     * Shape $ (Value): {@link ReturnSourceSystemInput}. The system a return event came from, such
+     * as a point of sale or warehouse system, with its own identifier.
+     */
+    "source_system"?: ReturnSourceSystemInput;
+    /** Shape $ (Value): string. minLength: 1. */
+    "supersedes_return_inspection_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnPolicyRequest}. The request body for: Create return policy.
+ */
+export type CreateReturnPolicyRequest = {
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Shape $ (Value): string. minLength: 1. */
+    "name": string;
+    /**
+     * Shape $ (Value): {@link ReturnPolicyRevisionRequest}. The rules for a return policy
+     * revision: scope, eligibility, return window, approval and resolution modes, shipping, and
+     * restocking fee.
+     */
+    "revision": ReturnPolicyRevisionRequest;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnPolicyRequestInput}. The request body for: Create return
+ * policy.
+ */
+export type CreateReturnPolicyRequestInput = {
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Shape $ (Value): string. minLength: 1. */
+    "name": string;
+    /**
+     * Shape $ (Value): {@link ReturnPolicyRevisionRequestInput}. The rules for a return policy
+     * revision: scope, eligibility, return window, approval and resolution modes, shipping, and
+     * restocking fee.
+     */
+    "revision": ReturnPolicyRevisionRequestInput;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewData}. A return preview, selected by `mode`: either
+ * the eligibility of the selected items or the amounts of a resolution.
+ */
+export type CreateReturnPreviewData = ({
+    /**
+     * Shape $ (Value): {@link ReturnEligibilityPreview}. The result of checking whether an order's
+     * items can be returned: overall status, per-line eligibility, and the policy evaluation.
+     */
+    "eligibility"?: ReturnEligibilityPreview;
+    /** Shape $ (Value): string.  Value enum: "eligibility", "resolution". */
+    "mode": "eligibility" | "resolution" | (string & {});
+    /**
+     * Shape $ (Value): {@link ReturnResolutionPreview}. A preview of a return resolution before it
+     * is created: returned and replacement totals, adjustments, and amounts due to or from the
+     * buyer.
+     */
+    "resolution"?: ReturnResolutionPreview;
+})
+    & ((Exclude<CreateReturnPreviewDataEligibility & object, readonly unknown[]>)
+    | (Exclude<CreateReturnPreviewDataResolution & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewDataEligibility}. The `eligibility` variant of
+ * `CreateReturnPreviewData`.
+ */
+export type CreateReturnPreviewDataEligibility = ({
+    /**
+     * Shape $ (Value): {@link ReturnEligibilityPreview}. The result of checking whether an order's
+     * items can be returned: overall status, per-line eligibility, and the policy evaluation.
+     */
+    "eligibility": ReturnEligibilityPreview;
+    /** Shape $ (Value): string.  Value enum: "eligibility". */
+    "mode": "eligibility" | (string & {});
+    /**
+     * Shape $ (Value): {@link ReturnResolutionPreview}. A preview of a return resolution before it
+     * is created: returned and replacement totals, adjustments, and amounts due to or from the
+     * buyer.
+     */
+    "resolution"?: ReturnResolutionPreview;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "eligibility". */
+    "mode": unknown;
+    /**
+     * Shape $ (Value): {@link ReturnEligibilityPreview}. The result of checking whether an order's
+     * items can be returned: overall status, per-line eligibility, and the policy evaluation.
+     */
+    "eligibility": ReturnEligibilityPreview;
+}));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewDataResolution}. The `resolution` variant of
+ * `CreateReturnPreviewData`.
+ */
+export type CreateReturnPreviewDataResolution = ({
+    /**
+     * Shape $ (Value): {@link ReturnEligibilityPreview}. The result of checking whether an order's
+     * items can be returned: overall status, per-line eligibility, and the policy evaluation.
+     */
+    "eligibility"?: ReturnEligibilityPreview;
+    /** Shape $ (Value): string.  Value enum: "resolution". */
+    "mode": "resolution" | (string & {});
+    /**
+     * Shape $ (Value): {@link ReturnResolutionPreview}. A preview of a return resolution before it
+     * is created: returned and replacement totals, adjustments, and amounts due to or from the
+     * buyer.
+     */
+    "resolution": ReturnResolutionPreview;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "resolution". */
+    "mode": unknown;
+    /**
+     * Shape $ (Value): {@link ReturnResolutionPreview}. A preview of a return resolution before it
+     * is created: returned and replacement totals, adjustments, and amounts due to or from the
+     * buyer.
+     */
+    "resolution": ReturnResolutionPreview;
+}));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewRequest}. The request body for: Create return
+ * preview.
+ */
+export type CreateReturnPreviewRequest = ({
+    /**
+     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequest;
+    /** Shape $ (Value): string.  Value enum: "eligibility", "resolution". */
+    "mode": "eligibility" | "resolution" | (string & {});
+    /**
+     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the
+     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
+     * exchange, replacement, no monetary action, or correction.
+     */
+    "resolution"?: CreateReturnResolutionPreviewRequest;
+})
+    & ((Exclude<CreateReturnPreviewRequestEligibility & object, readonly unknown[]>)
+    | (Exclude<CreateReturnPreviewRequestResolution & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewRequestEligibility}. The `eligibility` variant of
+ * `CreateReturnPreviewRequest`.
+ */
+export type CreateReturnPreviewRequestEligibility = ({
+    /**
+     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility": CreateReturnEligibilityPreviewRequest;
+    /** Shape $ (Value): string.  Value enum: "eligibility". */
+    "mode": "eligibility" | (string & {});
+    /**
+     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the
+     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
+     * exchange, replacement, no monetary action, or correction.
+     */
+    "resolution"?: CreateReturnResolutionPreviewRequest;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "eligibility". */
+    "mode": unknown;
+    /**
+     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility": CreateReturnEligibilityPreviewRequest;
+}));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewRequestEligibilityInput}. The `eligibility` variant
+ * of `CreateReturnPreviewRequest`.
+ */
+export type CreateReturnPreviewRequestEligibilityInput = ({
+    /**
+     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview
+     * which items of an order can be returned, given an order and a selection.
+     */
+    "eligibility": CreateReturnEligibilityPreviewRequestInput;
+    /** Shape $ (Value): string.  Value enum: "eligibility". */
+    "mode": "eligibility";
+    /**
+     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
+     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
+     * exchange, replacement, no monetary action, or correction.
+     */
+    "resolution"?: CreateReturnResolutionPreviewRequestInput;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "eligibility". */
+    "mode": "eligibility";
+    /**
+     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview
+     * which items of an order can be returned, given an order and a selection.
+     */
+    "eligibility": CreateReturnEligibilityPreviewRequestInput;
+})
+    & ({
+    "resolution"?: never;
+}));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewRequestInput}. The request body for: Create return
+ * preview.
+ */
+export type CreateReturnPreviewRequestInput = ({
+    /**
+     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview
+     * which items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
+    /** Shape $ (Value): string.  Value enum: "eligibility", "resolution". */
+    "mode": "eligibility" | "resolution";
+    /**
+     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
+     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
+     * exchange, replacement, no monetary action, or correction.
+     */
+    "resolution"?: CreateReturnResolutionPreviewRequestInput;
+})
+    & ((Exclude<CreateReturnPreviewRequestEligibilityInput & object, readonly unknown[]>)
+    | (Exclude<CreateReturnPreviewRequestResolutionInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewRequestResolution}. The `resolution` variant of
+ * `CreateReturnPreviewRequest`.
+ */
+export type CreateReturnPreviewRequestResolution = ({
+    /**
+     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequest}. A request to preview which
+     * items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequest;
+    /** Shape $ (Value): string.  Value enum: "resolution". */
+    "mode": "resolution" | (string & {});
+    /**
+     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the
+     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
+     * exchange, replacement, no monetary action, or correction.
+     */
+    "resolution": CreateReturnResolutionPreviewRequest;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "resolution". */
+    "mode": unknown;
+    /**
+     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the
+     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
+     * exchange, replacement, no monetary action, or correction.
+     */
+    "resolution": CreateReturnResolutionPreviewRequest;
+}));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewRequestResolutionInput}. The `resolution` variant of
+ * `CreateReturnPreviewRequest`.
+ */
+export type CreateReturnPreviewRequestResolutionInput = ({
+    /**
+     * Shape $ (Value): {@link CreateReturnEligibilityPreviewRequestInput}. A request to preview
+     * which items of an order can be returned, given an order and a selection.
+     */
+    "eligibility"?: CreateReturnEligibilityPreviewRequestInput;
+    /** Shape $ (Value): string.  Value enum: "resolution". */
+    "mode": "resolution";
+    /**
+     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
+     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
+     * exchange, replacement, no monetary action, or correction.
+     */
+    "resolution": CreateReturnResolutionPreviewRequestInput;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "resolution". */
+    "mode": "resolution";
+    /**
+     * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
+     * amounts of a return resolution for a return, selected by `resolution_type`: refund,
+     * exchange, replacement, no monetary action, or correction.
+     */
+    "resolution": CreateReturnResolutionPreviewRequestInput;
+})
+    & ({
+    "eligibility"?: never;
+}));
+/**
+ * Shape $ (Value): {@link CreateReturnPreviewResponse}. A response containing
+ * `CreateReturnPreviewData` data.
+ */
+export type CreateReturnPreviewResponse = {
+    /**
+     * Shape $ (Value): {@link CreateReturnPreviewData}. A return preview, selected by `mode`:
+     * either the eligibility of the selected items or the amounts of a resolution.
+     */
+    "data": CreateReturnPreviewData;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnReasonRequest}. The request body for: Create return reason.
+ */
+export type CreateReturnReasonRequest = {
+    /**
+     * Shape $ (Value): Array of string. Catalog category handles this reason applies to. A reason
+     * with categories is suggested, and accepted from a customer session, only for order lines
+     * whose product is in one of them. A reason with no categories applies to every line. Not
+     * product types or tags: use handles from GET /v1/categories. Shape $[] (Value): string.
+     * minLength: 1.
+     */
+    "category_handles"?: Array<string>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "description"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "handle": string;
+    /** Shape $ (Value): boolean. Default: false. */
+    "is_note_required"?: boolean;
+    /** Shape $ (Value): string. minLength: 1. */
+    "name": string;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnReasonRequestInput}. The request body for: Create return
+ * reason.
+ */
+export type CreateReturnReasonRequestInput = CreateReturnReasonRequest;
+/**
+ * Shape $ (Value): {@link CreateReturnReceiptRequest}. The request body for: Create return
+ * receipt.
+ */
+export type CreateReturnReceiptRequest = {
+    /**
+     * Shape $ (Value): string. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "correction_reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. minLength: 1. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ReturnReceiptLineItemRequest}. minItems: 1. Shape $[]
+     * (Value): {@link ReturnReceiptLineItemRequest}. One line of received merchandise: a matched
+     * return line, excess quantity, or an unverified item.
+     */
+    "line_items": Array<ReturnReceiptLineItemRequest>;
+    /**
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Format:
+     * date-time. minLength: 1.
+     */
+    "received_at": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "receiving_location_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "shipment_id"?: string;
+    /**
+     * Shape $ (Value): {@link ReturnSourceSystem}. The system a return event came from, such as a
+     * point of sale or warehouse system, with its own identifier.
+     */
+    "source_system"?: ReturnSourceSystem;
+    /** Shape $ (Value): string. minLength: 1. */
+    "supersedes_return_receipt_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnReceiptRequestInput}. The request body for: Create return
+ * receipt.
+ */
+export type CreateReturnReceiptRequestInput = {
+    /**
+     * Shape $ (Value): string. Value enum: "entry_error", "duplicate_observation",
+     * "source_correction", "reconciliation_correction", "other".
+     */
+    "correction_reason"?: "entry_error"
+        | "duplicate_observation"
+        | "source_correction"
+        | "reconciliation_correction"
+        | "other";
+    /** Shape $ (Value): string. minLength: 1. */
+    "correction_reason_message"?: string;
+    /**
+     * Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put
+     * secrets in this field. minLength: 1. maxLength: 255.
+     */
+    "external_actor_id"?: string;
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ReturnReceiptLineItemRequestInput}. minItems: 1. Shape $[]
+     * (Value): {@link ReturnReceiptLineItemRequestInput}. One line of received merchandise: a
+     * matched return line, excess quantity, or an unverified item.
+     */
+    "line_items": Array<ReturnReceiptLineItemRequestInput>;
+    /**
+     * Shape $ (Value): string. When the event occurred, at most 5 minutes in the future. Format:
+     * date-time. minLength: 1.
+     */
+    "received_at": string | globalThis.Date;
+    /** Shape $ (Value): string. minLength: 1. */
+    "receiving_location_id": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "shipment_id"?: string;
+    /**
+     * Shape $ (Value): {@link ReturnSourceSystemInput}. The system a return event came from, such
+     * as a point of sale or warehouse system, with its own identifier.
+     */
+    "source_system"?: ReturnSourceSystemInput;
+    /** Shape $ (Value): string. minLength: 1. */
+    "supersedes_return_receipt_id"?: string;
+};
+/** Shape $ (Value): {@link CreateReturnRequest}. The request body for: Create return. */
+export type CreateReturnRequest = {
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ReturnLineItemRequest}. minItems: 1. Shape $[] (Value):
+     * {@link ReturnLineItemRequest}. An order line item to return, with the quantity, return
+     * reason, and optionally a note and the resolution the buyer wants.
+     */
+    "line_items": Array<ReturnLineItemRequest>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data for a new or replaced map. Omit it for
+     * no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties:
+     * 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_id": string;
+};
+/** Shape $ (Value): {@link CreateReturnRequestInput}. The request body for: Create return. */
+export type CreateReturnRequestInput = {
+    /**
+     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
+     * minLength: 1. maxLength: 255.
+     */
+    "external_reference_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ReturnLineItemRequestInput}. minItems: 1. Shape $[]
+     * (Value): {@link ReturnLineItemRequestInput}. An order line item to return, with the
+     * quantity, return reason, and optionally a note and the resolution the buyer wants.
+     */
+    "line_items": Array<ReturnLineItemRequestInput>;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned metadata. Values can't be empty
+     * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be
+     * written through the public API. Caller-owned key-value data for a new or replaced map. Omit
+     * it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values
+     * are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes.
+     * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_id": string;
+};
+/**
+ * Shape $ (Value): {@link CreateReturnResolutionPreviewRequest}. A request to preview the amounts
+ * of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+ * replacement, no monetary action, or correction.
+ */
+export type CreateReturnResolutionPreviewRequest = ({
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequest}. Shape $[] (Value):
+     * {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution,
+     * with the assessed and applied amounts and whether it is applied or waived.
+     */
+    "adjustments"?: Array<ReturnResolutionAdjustmentRequest>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "corrects_return_resolution_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
+     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_return_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Shape $[] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
+     * resolution.
+     */
+    "line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /**
+     * Shape $ (Value): string. Value enum: "original_price", "current_price",
+     * "merchant_agreed_price".
+     */
+    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequest}. Shape $[] (Value):
+     * {@link ReturnReplacementLineItemRequest}. A replacement item to include in a return
+     * resolution, from a variant, a bundle, or a custom name and price.
+     */
+    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
+    /**
+     * Shape $ (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction".
+     */
+    "resolution_type": "refund"
+        | "exchange"
+        | "replacement"
+        | "store_credit"
+        | "no_monetary_action"
+        | "correction"
+        | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_id": string;
+})
+    & ((Exclude<CreateReturnResolutionPreviewRequestStandard & object, readonly unknown[]>)
+    | (Exclude<CreateReturnResolutionPreviewRequestCorrection & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestCorrection}. The `correction`
+ * variant of `CreateReturnResolutionPreviewRequest`.
+ */
+export type CreateReturnResolutionPreviewRequestCorrection = ({
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequest}. Shape $[] (Value):
+     * {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution,
+     * with the assessed and applied amounts and whether it is applied or waived.
+     */
+    "adjustments": Array<ReturnResolutionAdjustmentRequest>;
+    /** Shape $ (Value): string. minLength: 1. */
+    "corrects_return_resolution_id": string;
+    /**
+     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
+     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+     */
+    "expected_return_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Shape $[] (Value): {@link
+     * ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
+     * resolution.
+     */
+    "line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /**
+     * Shape $ (Value): string. Value enum: "original_price", "current_price",
+     * "merchant_agreed_price".
+     */
+    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequest}. Shape $[] (Value):
+     * {@link ReturnReplacementLineItemRequest}. A replacement item to include in a return
+     * resolution, from a variant, a bundle, or a custom name and price.
+     */
+    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
+    /** Shape $ (Value): string.  Value enum: "correction". */
+    "resolution_type": "correction" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_id": string;
+})
+    & (({
+    /** Shape $ (Value): any. minItems: 1. */
+    "adjustments": unknown;
+    /** Shape $ (Value): any.  Value enum: "correction". */
+    "resolution_type"?: unknown;
+    /** Shape $ (Value): string. minLength: 1. */
+    "corrects_return_resolution_id": string;
+}));
+/**
+ * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestCorrectionInput}. The `correction`
+ * variant of `CreateReturnResolutionPreviewRequest`.
+ */
+export type CreateReturnResolutionPreviewRequestCorrectionInput = ({
     /**
      * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
      * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
@@ -58,33 +3952,11 @@ export type CreateReturnResolutionRequestCorrectionInput = ({
      */
     "expected_return_version"?: `${bigint}` | bigint;
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
      * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
      * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
      * return resolution.
      */
     "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
     /**
      * Shape $ (Value): string. Value enum: "original_price", "current_price",
      * "merchant_agreed_price".
@@ -98,6 +3970,8 @@ export type CreateReturnResolutionRequestCorrectionInput = ({
     "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
     /** Shape $ (Value): string.  Value enum: "correction". */
     "resolution_type": "correction";
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_id": string;
 })
     & (({
     /** Shape $ (Value): any. minItems: 1. */
@@ -117,10 +3991,11 @@ export type CreateReturnResolutionRequestCorrectionInput = ({
     "pricing_basis"?: never;
 })));
 /**
- * Shape $ (Value): {@link CreateReturnResolutionRequestInput}. The request body for: Create return
- * resolution.
+ * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestInput}. A request to preview the
+ * amounts of a return resolution for a return, selected by `resolution_type`: refund, exchange,
+ * replacement, no monetary action, or correction.
  */
-export type CreateReturnResolutionRequestInput = ({
+export type CreateReturnResolutionPreviewRequestInput = ({
     /**
      * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
      * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
@@ -136,33 +4011,11 @@ export type CreateReturnResolutionRequestInput = ({
      */
     "expected_return_version"?: `${bigint}` | bigint;
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
      * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
      * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
      * return resolution.
      */
     "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
     /**
      * Shape $ (Value): string. Value enum: "original_price", "current_price",
      * "merchant_agreed_price".
@@ -179,17 +4032,20 @@ export type CreateReturnResolutionRequestInput = ({
      * "no_monetary_action", "correction".
      */
     "resolution_type": "refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction";
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_id": string;
 })
-    & ((Exclude<CreateReturnResolutionRequestStandardInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnResolutionRequestCorrectionInput & object, readonly unknown[]>));
+    & ((Exclude<CreateReturnResolutionPreviewRequestStandardInput & object, readonly unknown[]>)
+    | (Exclude<CreateReturnResolutionPreviewRequestCorrectionInput & object, readonly unknown[]>));
 /**
- * Shape $ (Value): {@link CreateReturnResolutionRequestStandard}. The `exchange` variant of
- * `CreateReturnResolutionRequest`. The `no_monetary_action` variant of
- * `CreateReturnResolutionRequest`. The `refund` variant of `CreateReturnResolutionRequest`. The
- * `replacement` variant of `CreateReturnResolutionRequest`. The `store_credit` variant of
- * `CreateReturnResolutionRequest`.
+ * Shape $ (Value): {@link CreateReturnResolutionPreviewRequestStandard}. The `exchange` variant of
+ * `CreateReturnResolutionPreviewRequest`. The `no_monetary_action` variant of
+ * `CreateReturnResolutionPreviewRequest`. The `refund` variant of
+ * `CreateReturnResolutionPreviewRequest`. The `replacement` variant of
+ * `CreateReturnResolutionPreviewRequest`. The `store_credit` variant of
+ * `CreateReturnResolutionPreviewRequest`.
  */
-export type CreateReturnResolutionRequestStandard = ({
+export type CreateReturnResolutionPreviewRequestStandard = ({
     /**
      * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequest}. Shape $[] (Value):
      * {@link ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution,
@@ -205,33 +4061,11 @@ export type CreateReturnResolutionRequestStandard = ({
      */
     "expected_return_version"?: `${bigint}`;
     /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
      * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Shape $[] (Value): {@link
      * ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
      * resolution.
      */
     "line_items": Array<ReturnResolutionLineItemRequest>;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
     /**
      * Shape $ (Value): string. Value enum: "original_price", "current_price",
      * "merchant_agreed_price".
@@ -248,6 +4082,8 @@ export type CreateReturnResolutionRequestStandard = ({
      * "no_monetary_action", "store_credit".
      */
     "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. */
+    "return_id": string;
 })
     & (({
     /** Shape $ (Value): any. minItems: 1. */
@@ -257,3581 +4093,4 @@ export type CreateReturnResolutionRequestStandard = ({
      * "store_credit".
      */
     "resolution_type"?: unknown;
-}));
-/**
- * Shape $ (Value): {@link CreateReturnResolutionRequestStandardInput}. The `exchange` variant of
- * `CreateReturnResolutionRequest`. The `no_monetary_action` variant of
- * `CreateReturnResolutionRequest`. The `refund` variant of `CreateReturnResolutionRequest`. The
- * `replacement` variant of `CreateReturnResolutionRequest`. The `store_credit` variant of
- * `CreateReturnResolutionRequest`.
- */
-export type CreateReturnResolutionRequestStandardInput = ({
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionAdjustmentRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return
-     * resolution, with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Optional version of the parent Return. A stale value
-     * returns VERSION_CONFLICT with the Return ID and its current version. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
-     * return resolution.
-     */
-    "line_items": Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Shape $ (Value): Array of {@link ReturnReplacementLineItemRequestInput}. Shape $[] (Value):
-     * {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /**
-     * Shape $ (Value): string. Value enum: "refund", "exchange", "replacement",
-     * "no_monetary_action", "store_credit".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-})
-    & (({
-    /** Shape $ (Value): any. minItems: 1. */
-    "line_items": unknown;
-    /**
-     * Shape $ (Value): any. Value enum: "refund", "exchange", "replacement", "no_monetary_action",
-     * "store_credit".
-     */
-    "resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-})
-    & ({
-    "corrects_return_resolution_id"?: never;
-}));
-/** Shape $ (Value): {@link CreateRiskListRequest}. The request body for: Create a risk list. */
-export type CreateRiskListRequest = {
-    /** Shape $ (Value): string. minLength: 1. pattern: ^[a-z][a-z0-9_]{0,127}$. */
-    "alias": string;
-    /**
-     * Shape $ (Value): string. Values are trimmed and compared exactly after item-type
-     * normalization for deduplication and membership. card_fingerprint is the 32-character
-     * hexadecimal value from PaymentMethod.fingerprint and is lowercased; case_sensitive_string
-     * preserves case and Unicode composition. string and email are lowercased, with accents
-     * preserved. email requires a bare address. email_domain is lowercased, has one final dot
-     * removed, and converts internationalized domains to ASCII. ip_address uses canonical IP form,
-     * including IPv4-mapped IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin
-     * preserves 6 through 8 digits, including leading zeros, and matches the full value.
-     * customer_id preserves the validated ID. Value enum: "card_fingerprint", "card_bin", "email",
-     * "email_domain", "ip_address", "country", "customer_id", "string", "case_sensitive_string".
-     */
-    "item_type": "card_fingerprint"
-        | "card_bin"
-        | "email"
-        | "email_domain"
-        | "ip_address"
-        | "country"
-        | "customer_id"
-        | "string"
-        | "case_sensitive_string"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-};
-/**
- * Shape $ (Value): {@link CreateRiskListRequestInput}. The request body for: Create a risk list.
- */
-export type CreateRiskListRequestInput = {
-    /** Shape $ (Value): string. minLength: 1. pattern: ^[a-z][a-z0-9_]{0,127}$. */
-    "alias": string;
-    /**
-     * Shape $ (Value): string. Values are trimmed and compared exactly after item-type
-     * normalization for deduplication and membership. card_fingerprint is the 32-character
-     * hexadecimal value from PaymentMethod.fingerprint and is lowercased; case_sensitive_string
-     * preserves case and Unicode composition. string and email are lowercased, with accents
-     * preserved. email requires a bare address. email_domain is lowercased, has one final dot
-     * removed, and converts internationalized domains to ASCII. ip_address uses canonical IP form,
-     * including IPv4-mapped IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin
-     * preserves 6 through 8 digits, including leading zeros, and matches the full value.
-     * customer_id preserves the validated ID. Value enum: "card_fingerprint", "card_bin", "email",
-     * "email_domain", "ip_address", "country", "customer_id", "string", "case_sensitive_string".
-     */
-    "item_type": "card_fingerprint"
-        | "card_bin"
-        | "email"
-        | "email_domain"
-        | "ip_address"
-        | "country"
-        | "customer_id"
-        | "string"
-        | "case_sensitive_string";
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-};
-/**
- * Shape $ (Value): {@link CreateRiskPreviewRequest}. The request body for: Create a risk preview.
- */
-export type CreateRiskPreviewRequest = ({
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action"?: "allow" | "block" | "review" | "require_3ds" | (string & {});
-    /**
-     * Shape $ (Value): {@link RiskPredicateNode}. A node in a risk rule condition: a comparison of
-     * an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate"?: RiskPredicateNode;
-    /** Shape $ (Value): string. minLength: 1. */
-    "risk_rule_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
-    /**
-     * Shape $ (Value): {@link RiskPredicateNode}. A node in a risk rule condition: a comparison of
-     * an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNode;
-}))
-    | ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "risk_rule_id": string;
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateRiskPreviewRequestInput}. The request body for: Create a risk
- * preview.
- */
-export type CreateRiskPreviewRequestInput = {
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action": "allow" | "block" | "review" | "require_3ds";
-    /**
-     * Shape $ (Value): {@link RiskPredicateNodeInput}. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "risk_rule_id"?: never;
-}
-    | {
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action"?: "allow" | "block" | "review" | "require_3ds";
-    /**
-     * Shape $ (Value): {@link RiskPredicateNodeInput}. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate"?: RiskPredicateNodeInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "risk_rule_id": string;
-};
-/** Shape $ (Value): {@link CreateRiskRuleRequest}. The request body for: Create a risk rule. */
-export type CreateRiskRuleRequest = {
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "description": string;
-    /**
-     * Shape $ (Value): {@link RiskPredicateNode}. A node in a risk rule condition: a comparison of
-     * an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNode;
-    /** Shape $ (Value): string. Default: "active". Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/**
- * Shape $ (Value): {@link CreateRiskRuleRequestInput}. The request body for: Create a risk rule.
- */
-export type CreateRiskRuleRequestInput = {
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action": "allow" | "block" | "review" | "require_3ds";
-    /** Shape $ (Value): string. minLength: 1. */
-    "description": string;
-    /**
-     * Shape $ (Value): {@link RiskPredicateNodeInput}. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeInput;
-    /** Shape $ (Value): string. Default: "active". Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-};
-/** Shape $ (Value): {@link CreateSandboxRequest}. The request body for: Create sandbox. */
-export type CreateSandboxRequest = ({
-    /** Shape $ (Value): boolean. */
-    "issue_test_key"?: boolean;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): string. A predefined set of scopes to grant instead of listing them. Flint
-     * resolves it when it creates the key and stores the resulting scopes, so scopes added to
-     * Flint later are not added to the key. Send either scopes or scope_preset. Value enum:
-     * "full_access", "read_only".
-     */
-    "scope_preset"?: "full_access" | "read_only" | (string & {});
-    /**
-     * Shape $ (Value): Array of string. The scopes to grant. Send either scopes or scope_preset.
-     * [] enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.inventory_locations.write"
-        | "commerce.inventory_policies.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.return_policies.write"
-        | "commerce.return_reasons.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.read"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.payment_options.read"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "test_key_name"?: string;
-})
-    & ((({
-    /** Shape $ (Value): any.  Value enum: true. */
-    "issue_test_key": unknown;
-})
-    & ((({
-    /**
-     * Shape $ (Value): Array of string. The scopes to grant. Send either scopes or scope_preset.
-     * [] enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.inventory_locations.write"
-        | "commerce.inventory_policies.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.return_policies.write"
-        | "commerce.return_reasons.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.read"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.payment_options.read"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-}))
-    | (({
-    /**
-     * Shape $ (Value): string. A predefined set of scopes to grant instead of listing them. Flint
-     * resolves it when it creates the key and stores the resulting scopes, so scopes added to
-     * Flint later are not added to the key. Send either scopes or scope_preset. Value enum:
-     * "full_access", "read_only".
-     */
-    "scope_preset": "full_access" | "read_only" | (string & {});
-}))
-    | (Record<string, unknown>)))
-    | (({
-    /** Shape $ (Value): any.  Value enum: false. */
-    "issue_test_key"?: unknown;
-}))
-    | (Record<string, unknown>));
-/** Shape $ (Value): {@link CreateSandboxRequestInput}. The request body for: Create sandbox. */
-export type CreateSandboxRequestInput = ({
-    /** Shape $ (Value): boolean. */
-    "issue_test_key"?: boolean;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): string. A predefined set of scopes to grant instead of listing them. Flint
-     * resolves it when it creates the key and stores the resulting scopes, so scopes added to
-     * Flint later are not added to the key. Send either scopes or scope_preset. Value enum:
-     * "full_access", "read_only".
-     */
-    "scope_preset"?: "full_access" | "read_only";
-    /**
-     * Shape $ (Value): Array of string. The scopes to grant. Send either scopes or scope_preset.
-     * [] enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.inventory_locations.write"
-        | "commerce.inventory_policies.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.return_policies.write"
-        | "commerce.return_reasons.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.read"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.payment_options.read"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "test_key_name"?: string;
-})
-    & ((({
-    /** Shape $ (Value): any.  Value enum: true. */
-    "issue_test_key": (true) & (true);
-})
-    & ((({
-    /**
-     * Shape $ (Value): Array of string. The scopes to grant. Send either scopes or scope_preset.
-     * [] enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.inventory_locations.write"
-        | "commerce.inventory_policies.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.return_policies.write"
-        | "commerce.return_reasons.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.read"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.payment_options.read"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-})
-    & (({
-    "scope_preset"?: never;
-})))
-    | (({
-    /**
-     * Shape $ (Value): string. A predefined set of scopes to grant instead of listing them. Flint
-     * resolves it when it creates the key and stores the resulting scopes, so scopes added to
-     * Flint later are not added to the key. Send either scopes or scope_preset. Value enum:
-     * "full_access", "read_only".
-     */
-    "scope_preset": "full_access" | "read_only";
-})
-    & (({
-    "scopes"?: never;
-})))))
-    | (({
-    /** Shape $ (Value): any.  Value enum: false. */
-    "issue_test_key"?: (false) & (false);
-})
-    & (({
-    "scopes"?: never;
-}) & ({
-    "scope_preset"?: never;
-}) & ({
-    "test_key_name"?: never;
-}))));
-/**
- * Shape $ (Value): {@link CreateServiceFulfillmentDetails}. Service details you supply when
- * creating a fulfillment: the scheduled start and end, timezone, and notes.
- */
-export type CreateServiceFulfillmentDetails = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "notes"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "scheduled_end_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "scheduled_start_at"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * Shape $ (Value): {@link CreateServiceFulfillmentDetailsInput}. Service details you supply when
- * creating a fulfillment: the scheduled start and end, timezone, and notes.
- */
-export type CreateServiceFulfillmentDetailsInput = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "notes"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "scheduled_end_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "scheduled_start_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-};
-/** Shape $ (Value): {@link CreateShipmentRequest}. The request body for: Create shipment. */
-export type CreateShipmentRequest = ({
-    /** Shape $ (Value): string.  Value enum: "outbound", "return". */
-    "direction"?: "outbound" | "return" | (string & {});
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Shape $[] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-})
-    & ((({
-    /** Shape $ (Value): string.  Value enum: "outbound". */
-    "direction"?: "outbound" | (string & {});
-}))
-    | ({
-    /** Shape $ (Value): string.  Value enum: "return". */
-    "direction": "return" | (string & {});
-    /** Shape $ (Value): Array of any. minItems: 1. Shape $[] (Value): any. */
-    "return_line_items": Array<unknown>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id": string;
-})
-    | (Record<string, unknown>));
-/** Shape $ (Value): {@link CreateShipmentRequestInput}. The request body for: Create shipment. */
-export type CreateShipmentRequestInput = ({
-    /** Shape $ (Value): string.  Value enum: "outbound", "return". */
-    "direction"?: "outbound" | "return";
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnShipmentLineItemAllocationInput}. Shape $[] (Value):
-     * {@link ReturnShipmentLineItemAllocationInput}. A return line and the quantity placed in a
-     * return shipment or package.
-     */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationInput>;
-})
-    & ((({
-    /** Shape $ (Value): string.  Value enum: "outbound". */
-    "direction"?: "outbound";
-})
-    & (({
-    "return_id"?: never;
-}) & ({
-    "return_line_items"?: never;
-})))
-    | ({
-    /** Shape $ (Value): string.  Value enum: "return". */
-    "direction": "return";
-    /** Shape $ (Value): Array of any. minItems: 1. Shape $[] (Value): any. */
-    "return_line_items": Array<unknown>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_id": string;
-}));
-/**
- * Shape $ (Value): {@link CreateSubscriptionAccessLinkRequest}. The access a subscription link
- * gives its buyer. Omit the body or purpose for read-only access.
- */
-export type CreateSubscriptionAccessLinkRequest = {
-    /**
-     * Shape $ (Value): string. subscription_view opens the subscription read-only.
-     * subscription_manage also lets the buyer cancel, pause, or undo a scheduled cancellation,
-     * subject to your store's policy and the subscription's state; it requires
-     * commerce.subscriptions.write. Both work for 14 days or 5 opens. Default:
-     * "subscription_view". Value enum: "subscription_view", "subscription_manage".
-     */
-    "purpose"?: "subscription_view" | "subscription_manage" | (string & {});
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionAccessLinkRequestInput}. The access a subscription
- * link gives its buyer. Omit the body or purpose for read-only access.
- */
-export type CreateSubscriptionAccessLinkRequestInput = {
-    /**
-     * Shape $ (Value): string. subscription_view opens the subscription read-only.
-     * subscription_manage also lets the buyer cancel, pause, or undo a scheduled cancellation,
-     * subject to your store's policy and the subscription's state; it requires
-     * commerce.subscriptions.write. Both work for 14 days or 5 opens. Default:
-     * "subscription_view". Value enum: "subscription_view", "subscription_manage".
-     */
-    "purpose"?: "subscription_view" | "subscription_manage";
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionDeliveryMigrationRequest}. The request body for: Move
- * subscribers to another delivery method.
- */
-export type CreateSubscriptionDeliveryMigrationRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "from_delivery_method_id": string;
-    /**
-     * Shape $ (Value): string. Limit the migration to this plan's live subscriptions. minLength:
-     * 1.
-     */
-    "subscription_plan_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "to_delivery_method_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionDeliveryMigrationRequestInput}. The request body for:
- * Move subscribers to another delivery method.
- */
-export type CreateSubscriptionDeliveryMigrationRequestInput = CreateSubscriptionDeliveryMigrationRequest;
-/**
- * Shape $ (Value): {@link CreateSubscriptionLineItemRequest}. The request body for: Add
- * subscription line item.
- */
-export type CreateSubscriptionLineItemRequest = ({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "bundle_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
-     * "variant", "bundle".
-     */
-    "type": "variant" | "bundle" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id"?: string;
-})
-    & ((Exclude<CreateSubscriptionLineItemRequestVariant & object, readonly unknown[]>)
-    | (Exclude<CreateSubscriptionLineItemRequestBundle & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateSubscriptionLineItemRequestBundle}. The `bundle` variant of
- * `CreateSubscriptionLineItemRequest`.
- */
-export type CreateSubscriptionLineItemRequestBundle = ({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "bundle_id": string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
-     * "bundle".
-     */
-    "type": "bundle" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id"?: string;
-});
-/**
- * Shape $ (Value): {@link CreateSubscriptionLineItemRequestBundleInput}. The `bundle` variant of
- * `CreateSubscriptionLineItemRequest`.
- */
-export type CreateSubscriptionLineItemRequestBundleInput = ({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "bundle_id": string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
-     * "bundle".
-     */
-    "type": "bundle";
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id"?: string;
-})
-    & (({
-    "variant_id"?: never;
-}));
-/**
- * Shape $ (Value): {@link CreateSubscriptionLineItemRequestInput}. The request body for: Add
- * subscription line item.
- */
-export type CreateSubscriptionLineItemRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "bundle_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
-     * "variant", "bundle".
-     */
-    "type": "variant" | "bundle";
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id"?: string;
-})
-    & ((Exclude<CreateSubscriptionLineItemRequestVariantInput & object, readonly unknown[]>)
-    | (Exclude<CreateSubscriptionLineItemRequestBundleInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link CreateSubscriptionLineItemRequestVariant}. The `variant` variant of
- * `CreateSubscriptionLineItemRequest`.
- */
-export type CreateSubscriptionLineItemRequestVariant = ({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "bundle_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
-     * "variant".
-     */
-    "type": "variant" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id": string;
-});
-/**
- * Shape $ (Value): {@link CreateSubscriptionLineItemRequestVariantInput}. The `variant` variant of
- * `CreateSubscriptionLineItemRequest`.
- */
-export type CreateSubscriptionLineItemRequestVariantInput = ({
-    /** Shape $ (Value): string. minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "bundle_id"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): string. The catalog source of the new line: variant or bundle. Value enum:
-     * "variant".
-     */
-    "type": "variant";
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-}));
-/**
- * Shape $ (Value): {@link CreateSubscriptionOfferRequest}. The request body for: Create
- * subscription offer.
- */
-export type CreateSubscriptionOfferRequest = {
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. minItems: 1. maxItems: 12.
-     * uniqueItems: true. Shape $[] (Value): {@link SubscriptionIntervalOption}. A billing
-     * interval, such as every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options": Array<SubscriptionIntervalOption>;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of string. Catalog targets for new signups. At least one product or
-     * variant is required. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength:
-     * 1.
-     */
-    "product_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): string or null. An active promotion with forever recurrence. On PATCH, null
-     * removes the discount for new signups; omission keeps it. minLength: 1.
-     */
-    "promotion_id"?: string | null;
-    /**
-     * Shape $ (Value): string. Use active or inactive. Archive the offer with DELETE. Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): Array of string. Delivery methods offered at signup. An empty array uses
-     * the store's checkout defaults. Existing subscriptions keep their selected method. maxItems:
-     * 25. uniqueItems: true. Shape $[] (Value): string. minLength: 1.
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Catalog targets for new signups. At least one product or
-     * variant is required. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength:
-     * 1.
-     */
-    "variant_ids"?: Array<string>;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionOfferRequestInput}. The request body for: Create
- * subscription offer.
- */
-export type CreateSubscriptionOfferRequestInput = {
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOptionInput}. minItems: 1. maxItems:
-     * 12. uniqueItems: true. Shape $[] (Value): {@link SubscriptionIntervalOptionInput}. A billing
-     * interval, such as every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options": Array<SubscriptionIntervalOptionInput>;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of string. Catalog targets for new signups. At least one product or
-     * variant is required. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength:
-     * 1.
-     */
-    "product_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): string or null. An active promotion with forever recurrence. On PATCH, null
-     * removes the discount for new signups; omission keeps it. minLength: 1.
-     */
-    "promotion_id"?: string | null;
-    /**
-     * Shape $ (Value): string. Use active or inactive. Archive the offer with DELETE. Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): Array of string. Delivery methods offered at signup. An empty array uses
-     * the store's checkout defaults. Existing subscriptions keep their selected method. maxItems:
-     * 25. uniqueItems: true. Shape $[] (Value): string. minLength: 1.
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Catalog targets for new signups. At least one product or
-     * variant is required. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength:
-     * 1.
-     */
-    "variant_ids"?: Array<string>;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPlanRequest}. The request body for: Create
- * subscription plan.
- */
-export type CreateSubscriptionPlanRequest = {
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. */
-    "billing_interval_count": number;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. maxItems: 12. uniqueItems:
-     * true. Shape $[] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as
-     * every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * Shape $ (Value): integer. A commitment period you agree with the buyer, 1 to 120 months.
-     * Flint shows it at checkout and records it on each new subscription (contract_start_at,
-     * contract_end_at). Flint does not stop the buyer from canceling earlier. Format: int32.
-     * minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. A fee you agree the buyer owes for canceling before the
-     * contract term ends. Flint shows it at checkout and records it on each new subscription, but
-     * never charges it. To collect it, charge the buyer yourself, for example with an order on
-     * their saved payment method. Requires contract_term_months. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
-     * `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Shape $ (Value): {@link InventoryRoutingSourceRequest}. Where tracked demand from this plan
-     * is routed: a fixed Location, an allocation policy, or an immutable policy revision. Required
-     * when any line item tracks inventory. New subscriptions and payment links for the plan copy
-     * it, unless the payment link sends its own. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequest;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPlanLineItemRequest}. minItems: 1. Shape $[]
-     * (Value): {@link SubscriptionPlanLineItemRequest}. A line item to put on a new subscription
-     * plan, from a variant, a bundle, or a custom name and price.
-     */
-    "line_items": Array<SubscriptionPlanLineItemRequest>;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of integer. maxItems: 10. uniqueItems: true. Shape $[] (Value):
-     * integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "setup_fee_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups
-     * with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are
-     * read-only and their status is set only by DELETE
-     * /v1/subscription-plans/{subscription_plan_id}. Default: "active". Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /** Shape $ (Value): integer. Format: int32. */
-    "trial_period_days"?: number;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPlanRequestInput}. The request body for: Create
- * subscription plan.
- */
-export type CreateSubscriptionPlanRequestInput = {
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly";
-    /** Shape $ (Value): integer. Format: int32. */
-    "billing_interval_count": number;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOptionInput}. maxItems: 12.
-     * uniqueItems: true. Shape $[] (Value): {@link SubscriptionIntervalOptionInput}. A billing
-     * interval, such as every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>;
-    /**
-     * Shape $ (Value): integer. A commitment period you agree with the buyer, 1 to 120 months.
-     * Flint shows it at checkout and records it on each new subscription (contract_start_at,
-     * contract_end_at). Flint does not stop the buyer from canceling earlier. Format: int32.
-     * minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. A fee you agree the buyer owes for canceling
-     * before the contract term ends. Flint shows it at checkout and records it on each new
-     * subscription, but never charges it. To collect it, charge the buyer yourself, for example
-     * with an order on their saved payment method. Requires contract_term_months. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
-     * optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Shape $ (Value): {@link InventoryRoutingSourceRequestInput}. Where tracked demand from this
-     * plan is routed: a fixed Location, an allocation policy, or an immutable policy revision.
-     * Required when any line item tracks inventory. New subscriptions and payment links for the
-     * plan copy it, unless the payment link sends its own. Where you want inventory routed from: a
-     * fixed Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPlanLineItemRequestInput}. minItems: 1. Shape
-     * $[] (Value): {@link SubscriptionPlanLineItemRequestInput}. A line item to put on a new
-     * subscription plan, from a variant, a bundle, or a custom name and price.
-     */
-    "line_items": Array<SubscriptionPlanLineItemRequestInput>;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of integer. maxItems: 10. uniqueItems: true. Shape $[] (Value):
-     * integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "setup_fee_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups
-     * with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are
-     * read-only and their status is set only by DELETE
-     * /v1/subscription-plans/{subscription_plan_id}. Default: "active". Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /** Shape $ (Value): integer. Format: int32. */
-    "trial_period_days"?: number;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequest}. The request body for: Preview
- * subscription.
- */
-export type CreateSubscriptionPreviewRequest = ((CreateSubscriptionPreviewRequestDeliveryOptions)
-    | (CreateSubscriptionPreviewRequestCreate)
-    | (CreateSubscriptionPreviewRequestDeliveryMethodUpdate)
-    | (CreateSubscriptionPreviewRequestNextRenewal)
-    | (CreateSubscriptionPreviewRequestPlanChange)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestCreate}. The `create` variant of
- * `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestCreate = {
-    /** Shape $ (Value): string.  Value enum: "create". */
-    "mode": "create" | (string & {});
-    /**
-     * Shape $ (Value): {@link CreateSubscriptionRequest}. The request body for: Create
-     * subscription.
-     */
-    "subscription": CreateSubscriptionRequest;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestCreateInput}. The `create` variant of
- * `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestCreateInput = {
-    /** Shape $ (Value): string.  Value enum: "create". */
-    "mode": "create";
-    /**
-     * Shape $ (Value): {@link CreateSubscriptionRequestInput}. The request body for: Create
-     * subscription.
-     */
-    "subscription": CreateSubscriptionRequestInput;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestDeliveryMethodUpdate}. The
- * `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestDeliveryMethodUpdate = {
-    /**
-     * Shape $ (Value): {@link UpdateDeliveryMethodRequest}. The request body for: Update delivery
-     * method.
-     */
-    "delivery_method": UpdateDeliveryMethodRequest;
-    /** Shape $ (Value): string. minLength: 1. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "delivery_method_id": string;
-    /** Shape $ (Value): string.  Value enum: "delivery_method_update". */
-    "mode": "delivery_method_update" | (string & {});
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput}. The
- * `delivery_method_update` variant of `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput = {
-    /**
-     * Shape $ (Value): {@link UpdateDeliveryMethodRequestInput}. The request body for: Update
-     * delivery method.
-     */
-    "delivery_method": UpdateDeliveryMethodRequestInput;
-    /** Shape $ (Value): string. minLength: 1. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "delivery_method_id": string;
-    /** Shape $ (Value): string.  Value enum: "delivery_method_update". */
-    "mode": "delivery_method_update";
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestDeliveryOptions}. The `delivery_options`
- * variant of `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestDeliveryOptions = {
-    /**
-     * Shape $ (Value): {@link SubscriptionDeliveryDestinationRequest}. Where to deliver a
-     * subscription: a saved customer address by ID, or a new address.
-     */
-    "destination": SubscriptionDeliveryDestinationRequest;
-    /** Shape $ (Value): string.  Value enum: "delivery_options". */
-    "mode": "delivery_options" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestDeliveryOptionsInput}. The
- * `delivery_options` variant of `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestDeliveryOptionsInput = {
-    /**
-     * Shape $ (Value): {@link SubscriptionDeliveryDestinationRequestInput}. Where to deliver a
-     * subscription: a saved customer address by ID, or a new address.
-     */
-    "destination": SubscriptionDeliveryDestinationRequestInput;
-    /** Shape $ (Value): string.  Value enum: "delivery_options". */
-    "mode": "delivery_options";
-    /** Shape $ (Value): string. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestInput}. The request body for: Preview
- * subscription.
- */
-export type CreateSubscriptionPreviewRequestInput = ((CreateSubscriptionPreviewRequestDeliveryOptionsInput)
-    | (CreateSubscriptionPreviewRequestCreateInput)
-    | (CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput)
-    | (CreateSubscriptionPreviewRequestNextRenewalInput)
-    | (CreateSubscriptionPreviewRequestPlanChangeInput));
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestNextRenewal}. The `next_renewal` variant
- * of `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestNextRenewal = {
-    /** Shape $ (Value): string.  Value enum: "next_renewal". */
-    "mode": "next_renewal" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestNextRenewalInput}. The `next_renewal`
- * variant of `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestNextRenewalInput = {
-    /** Shape $ (Value): string.  Value enum: "next_renewal". */
-    "mode": "next_renewal";
-    /** Shape $ (Value): string. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestPlanChange}. The `plan_change` variant
- * of `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestPlanChange = ({
-    /**
-     * Shape $ (Value): string. Send with billing_interval_count to choose a target plan option.
-     * Omit both to keep the current interval. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Shape $ (Value): integer. Required when billing_interval is sent; billing_interval is
-     * required when this field is sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /**
-     * Shape $ (Value): string. now bills a new period with credit for unused paid item time.
-     * next_renewal changes the plan immediately and keeps the current paid period and next billing
-     * date. Value enum: "now", "next_renewal".
-     */
-    "billing_starts": "now" | "next_renewal" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "plan_change". */
-    "mode": "plan_change" | (string & {});
-    /**
-     * Shape $ (Value): integer. Omit to keep the current subscription quantity. The target plan
-     * must offer the quantity. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 100.
-     */
-    "quantity"?: number;
-    /** Shape $ (Value): string. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_id": string;
-    /** Shape $ (Value): string. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_plan_id": string;
-});
-/**
- * Shape $ (Value): {@link CreateSubscriptionPreviewRequestPlanChangeInput}. The `plan_change`
- * variant of `CreateSubscriptionPreviewRequest`.
- */
-export type CreateSubscriptionPreviewRequestPlanChangeInput = ({
-    /**
-     * Shape $ (Value): string. Send with billing_interval_count to choose a target plan option.
-     * Omit both to keep the current interval. Value enum: "daily", "weekly", "monthly", "yearly".
-     */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /**
-     * Shape $ (Value): integer. Required when billing_interval is sent; billing_interval is
-     * required when this field is sent. minimum: 1. maximum: 365.
-     */
-    "billing_interval_count"?: number;
-    /**
-     * Shape $ (Value): string. now bills a new period with credit for unused paid item time.
-     * next_renewal changes the plan immediately and keeps the current paid period and next billing
-     * date. Value enum: "now", "next_renewal".
-     */
-    "billing_starts": "now" | "next_renewal";
-    /** Shape $ (Value): string.  Value enum: "plan_change". */
-    "mode": "plan_change";
-    /**
-     * Shape $ (Value): integer. Omit to keep the current subscription quantity. The target plan
-     * must offer the quantity. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 100.
-     */
-    "quantity"?: number;
-    /** Shape $ (Value): string. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_id": string;
-    /** Shape $ (Value): string. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "subscription_plan_id": string;
-});
-/**
- * Shape $ (Value): {@link CreateSubscriptionRequest}. The request body for: Create subscription.
- */
-export type CreateSubscriptionRequest = {
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing. Applies
-     * only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): {@link SubscriptionBillingScheduleRequest}. Who owns the billing schedule
-     * when creating a subscription: Flint or an external system.
-     */
-    "billing_schedule"?: SubscriptionBillingScheduleRequest;
-    /**
-     * Shape $ (Value): {@link SubscriptionBillingStartRequest}. How billing begins. Send exactly
-     * one closed tagged-union branch.
-     */
-    "billing_start": SubscriptionBillingStartRequest;
-    /** Shape $ (Value): string. minLength: 1. */
-    "customer_id": string;
-    /**
-     * Shape $ (Value): {@link SubscriptionDeliveryRequest}. The delivery preference to set on a
-     * subscription: delivery method, type, destination, and recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequest;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "payment_method_id"?: string;
-    /**
-     * Shape $ (Value): {@link SubscriptionServiceLocationRequest}. Where a subscription's service
-     * is delivered: a saved customer address by ID, or a new address.
-     */
-    "service_location"?: SubscriptionServiceLocationRequest;
-    /**
-     * Shape $ (Value): {@link SubscriptionTermsRequest}. Subscription terms from either a
-     * subscription plan or subscription offers, selected by `type`.
-     */
-    "terms": SubscriptionTermsRequest;
-};
-/**
- * Shape $ (Value): {@link CreateSubscriptionRequestInput}. The request body for: Create
- * subscription.
- */
-export type CreateSubscriptionRequestInput = {
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing. Applies
-     * only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): {@link SubscriptionBillingScheduleRequestInput}. Who owns the billing
-     * schedule when creating a subscription: Flint or an external system.
-     */
-    "billing_schedule"?: SubscriptionBillingScheduleRequestInput;
-    /**
-     * Shape $ (Value): {@link SubscriptionBillingStartRequestInput}. How billing begins. Send
-     * exactly one closed tagged-union branch.
-     */
-    "billing_start": SubscriptionBillingStartRequestInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "customer_id": string;
-    /**
-     * Shape $ (Value): {@link SubscriptionDeliveryRequestInput}. The delivery preference to set on
-     * a subscription: delivery method, type, destination, and recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequestInput;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "payment_method_id"?: string;
-    /**
-     * Shape $ (Value): {@link SubscriptionServiceLocationRequestInput}. Where a subscription's
-     * service is delivered: a saved customer address by ID, or a new address.
-     */
-    "service_location"?: SubscriptionServiceLocationRequestInput;
-    /**
-     * Shape $ (Value): {@link SubscriptionTermsRequestInput}. Subscription terms from either a
-     * subscription plan or subscription offers, selected by `type`.
-     */
-    "terms": SubscriptionTermsRequestInput;
-};
-/**
- * Shape $ (Value): {@link CreateWebhookDeliveryRequest}. The request body for: Create webhook
- * delivery.
- */
-export type CreateWebhookDeliveryRequest = {
-    /** Shape $ (Value): string. Your note explaining this action. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-    /**
-     * Shape $ (Value): string. Active endpoint that currently subscribes to the event. minLength:
-     * 1.
-     */
-    "webhook_endpoint_id": string;
-    /** Shape $ (Value): string. Retained webhook event to deliver. minLength: 1. */
-    "webhook_event_id": string;
-};
-/**
- * Shape $ (Value): {@link CreateWebhookDeliveryRequestInput}. The request body for: Create webhook
- * delivery.
- */
-export type CreateWebhookDeliveryRequestInput = CreateWebhookDeliveryRequest;
-/**
- * Shape $ (Value): {@link CreateWebhookEndpointRequest}. The request body for: Create webhook
- * endpoint.
- */
-export type CreateWebhookEndpointRequest = ({
-    /**
-     * Shape $ (Value): string. Set default to follow the merchant default, or a supported
-     * YYYY-MM-DD version to pin this endpoint. Omission follows the merchant default. Null is not
-     * accepted. minLength: 1.
-     */
-    "api_version"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): Array of string. Event types to deliver. Send ["*"] for every type the
-     * endpoint's event_sources deliver, including types added later; * must be the only entry and
-     * is not available with installed_merchants. At least one entry is required. Use only current
-     * event type names; previous and removed names are rejected. Stored subscriptions map previous
-     * names permanently and drop removed names on read. See the [changelog](/docs/changelog).
-     * minItems: 1. Shape $[] (Value): string. minLength: 1.
-     */
-    "enabled_events": Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Event sources this endpoint receives. Defaults to
-     * merchant. Use partner_app for app lifecycle events and installed_merchants for events from
-     * merchants that installed the partner app. [] enum: "merchant", "partner_app",
-     * "installed_merchants". Shape $[] (Value): string. Value enum: "merchant", "partner_app",
-     * "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
-    /**
-     * Shape $ (Value): Array of string. Modes of installed-merchant events this endpoint receives.
-     * Required when event_sources includes installed_merchants and omitted otherwise. Partner app
-     * lifecycle events are delivered regardless of these modes. minItems: 1. maxItems: 2.
-     * uniqueItems: true. [] enum: "test", "live". Shape $[] (Value): string. Value enum: "test",
-     * "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
-    /**
-     * Shape $ (Value): string. Partner app that owns partner_app or installed_merchants event
-     * sources. minLength: 1.
-     */
-    "partner_app_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "url": string;
-});
-/**
- * Shape $ (Value): {@link CreateWebhookEndpointRequestInput}. The request body for: Create webhook
- * endpoint.
- */
-export type CreateWebhookEndpointRequestInput = ({
-    /**
-     * Shape $ (Value): string. Set default to follow the merchant default, or a supported
-     * YYYY-MM-DD version to pin this endpoint. Omission follows the merchant default. Null is not
-     * accepted. minLength: 1.
-     */
-    "api_version"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): Array of string. Event types to deliver. Send ["*"] for every type the
-     * endpoint's event_sources deliver, including types added later; * must be the only entry and
-     * is not available with installed_merchants. At least one entry is required. Use only current
-     * event type names; previous and removed names are rejected. Stored subscriptions map previous
-     * names permanently and drop removed names on read. See the [changelog](/docs/changelog).
-     * minItems: 1. Shape $[] (Value): string. minLength: 1.
-     */
-    "enabled_events": Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Event sources this endpoint receives. Defaults to
-     * merchant. Use partner_app for app lifecycle events and installed_merchants for events from
-     * merchants that installed the partner app. [] enum: "merchant", "partner_app",
-     * "installed_merchants". Shape $[] (Value): string. Value enum: "merchant", "partner_app",
-     * "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants">;
-    /**
-     * Shape $ (Value): Array of string. Modes of installed-merchant events this endpoint receives.
-     * Required when event_sources includes installed_merchants and omitted otherwise. Partner app
-     * lifecycle events are delivered regardless of these modes. minItems: 1. maxItems: 2.
-     * uniqueItems: true. [] enum: "test", "live". Shape $[] (Value): string. Value enum: "test",
-     * "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live">;
-    /**
-     * Shape $ (Value): string. Partner app that owns partner_app or installed_merchants event
-     * sources. minLength: 1.
-     */
-    "partner_app_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /** Shape $ (Value): string. minLength: 1. */
-    "url": string;
-});
-/**
- * Shape $ (Value): {@link CreateWebhookTestEventRequest}. The request body for: Create webhook
- * test event.
- */
-export type CreateWebhookTestEventRequest = {
-    /**
-     * Shape $ (Value): string. Current event type to send. merchant delivers merchant events;
-     * partner_app delivers partner lifecycle events; installed_merchants delivers merchant events
-     * permitted by the install read scopes. The event catalog lists event_sources for each type.
-     * Value enum: "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded".
-     */
-    "event_type": "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded"
-        | (string & {});
-};
-/**
- * Shape $ (Value): {@link CreateWebhookTestEventRequestInput}. The request body for: Create
- * webhook test event.
- */
-export type CreateWebhookTestEventRequestInput = {
-    /**
-     * Shape $ (Value): string. Current event type to send. merchant delivers merchant events;
-     * partner_app delivers partner lifecycle events; installed_merchants delivers merchant events
-     * permitted by the install read scopes. The event catalog lists event_sources for each type.
-     * Value enum: "balance.updated", "balance_transaction.created", "balance_transaction.updated",
-     * "bundle.archived", "bundle.created", "bundle.updated", "category.created",
-     * "category.deleted", "category.updated", "checkout_session.closed",
-     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
-     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
-     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
-     * "credit_note_allocation.created", "credit_note_allocation.reversed",
-     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
-     * "customer.updated", "customer_deletion_request.completed",
-     * "customer_deletion_request.created", "customer_deletion_request.failed",
-     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
-     * "delivery_location_set.activated", "delivery_location_set.archived",
-     * "delivery_location_set.created", "delivery_location_set.deactivated",
-     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
-     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
-     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
-     * "delivery_profile.deactivated", "delivery_profile.updated",
-     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
-     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
-     * "delivery_rate_callback.updated", "delivery_revocation.created",
-     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
-     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
-     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
-     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
-     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
-     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
-     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
-     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
-     * "gift_card_load.updated", "gift_card_notification.created",
-     * "gift_card_notification.updated", "gift_card_redemption.created",
-     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
-     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
-     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
-     * "inventory_reservation.closed", "inventory_reservation.committed",
-     * "inventory_reservation.consumed", "inventory_reservation.created",
-     * "inventory_reservation.hold_expired", "inventory_reservation.released",
-     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
-     * "inventory_transfer.received", "inventory_transfer.returned",
-     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
-     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
-     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
-     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
-     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
-     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
-     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
-     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
-     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
-     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
-     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
-     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
-     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
-     * "modifier_set.updated", "order.closed", "order.created",
-     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
-     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
-     * "package.created", "package.updated", "partner_app_install.created",
-     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
-     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
-     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
-     * "payment_intent.payment_failed", "payment_intent.processing",
-     * "payment_intent.requires_action", "payment_intent.requires_capture",
-     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
-     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
-     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
-     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
-     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
-     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
-     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
-     * "product_variant.archived", "product_variant.created", "product_variant.updated",
-     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
-     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
-     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
-     * "report.succeeded", "return.canceled", "return.completed", "return.created",
-     * "return.decision_recorded", "return.reopened", "return.updated",
-     * "return_disposition.created", "return_disposition.updated",
-     * "return_inspection.acceptance_decided", "return_inspection.created",
-     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
-     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
-     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
-     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
-     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
-     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
-     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
-     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
-     * "subscription.trial_ending", "subscription.updated",
-     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
-     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded".
-     */
-    "event_type": "balance.updated"
-        | "balance_transaction.created"
-        | "balance_transaction.updated"
-        | "bundle.archived"
-        | "bundle.created"
-        | "bundle.updated"
-        | "category.created"
-        | "category.deleted"
-        | "category.updated"
-        | "checkout_session.closed"
-        | "checkout_session.created"
-        | "checkout_session.expired"
-        | "checkout_session.invalidated"
-        | "checkout_session.paid"
-        | "checkout_session.partially_paid"
-        | "credit_note.created"
-        | "credit_note.issued"
-        | "credit_note.updated"
-        | "credit_note.voided"
-        | "credit_note_allocation.created"
-        | "credit_note_allocation.reversed"
-        | "custom_domain.archived"
-        | "custom_domain.updated"
-        | "customer.created"
-        | "customer.deleted"
-        | "customer.updated"
-        | "customer_deletion_request.completed"
-        | "customer_deletion_request.created"
-        | "customer_deletion_request.failed"
-        | "customer_deletion_request.processing"
-        | "customer_deletion_request.rejected"
-        | "delivery_location_set.activated"
-        | "delivery_location_set.archived"
-        | "delivery_location_set.created"
-        | "delivery_location_set.deactivated"
-        | "delivery_location_set.updated"
-        | "delivery_method.activated"
-        | "delivery_method.archived"
-        | "delivery_method.created"
-        | "delivery_method.deactivated"
-        | "delivery_method.updated"
-        | "delivery_profile.activated"
-        | "delivery_profile.archived"
-        | "delivery_profile.created"
-        | "delivery_profile.deactivated"
-        | "delivery_profile.updated"
-        | "delivery_rate_callback.activated"
-        | "delivery_rate_callback.archived"
-        | "delivery_rate_callback.created"
-        | "delivery_rate_callback.deactivated"
-        | "delivery_rate_callback.updated"
-        | "delivery_revocation.created"
-        | "delivery_selection.committed"
-        | "delivery_zone.activated"
-        | "delivery_zone.archived"
-        | "delivery_zone.created"
-        | "delivery_zone.deactivated"
-        | "delivery_zone.updated"
-        | "dispute.created"
-        | "dispute.inquiry_closed"
-        | "dispute.lost"
-        | "dispute.needs_response"
-        | "dispute.prevented"
-        | "dispute.updated"
-        | "dispute.won"
-        | "environment_grant.created"
-        | "environment_grant.revoked"
-        | "fraud_warning.created"
-        | "fraud_warning.updated"
-        | "fulfillment.canceled"
-        | "fulfillment.completed"
-        | "fulfillment.created"
-        | "fulfillment.failed"
-        | "fulfillment.updated"
-        | "fulfillment_event.created"
-        | "gift_card.created"
-        | "gift_card.updated"
-        | "gift_card_load.created"
-        | "gift_card_load.updated"
-        | "gift_card_notification.created"
-        | "gift_card_notification.updated"
-        | "gift_card_redemption.created"
-        | "gift_card_redemption.updated"
-        | "gift_card_transaction.created"
-        | "inventory_count.applied"
-        | "inventory_level.shortage_detected"
-        | "inventory_level.updated"
-        | "inventory_receipt.created"
-        | "inventory_reservation.action_required"
-        | "inventory_reservation.at_risk"
-        | "inventory_reservation.closed"
-        | "inventory_reservation.committed"
-        | "inventory_reservation.consumed"
-        | "inventory_reservation.created"
-        | "inventory_reservation.hold_expired"
-        | "inventory_reservation.released"
-        | "inventory_transfer.closed"
-        | "inventory_transfer.departed"
-        | "inventory_transfer.lost"
-        | "inventory_transfer.received"
-        | "inventory_transfer.returned"
-        | "invoice.collection_block_resolved"
-        | "invoice.collection_blocked"
-        | "invoice.created"
-        | "invoice.credited"
-        | "invoice.issue_failed"
-        | "invoice.issued"
-        | "invoice.late_fee_assessed"
-        | "invoice.late_fee_due"
-        | "invoice.late_fee_waived"
-        | "invoice.marked_uncollectible"
-        | "invoice.overdue"
-        | "invoice.paid"
-        | "invoice.partially_paid"
-        | "invoice.partially_refunded"
-        | "invoice.refunded"
-        | "invoice.reminder_due"
-        | "invoice.reopened"
-        | "invoice.sent"
-        | "invoice.updated"
-        | "invoice.voided"
-        | "invoice_delivery_attempt.failed"
-        | "invoice_delivery_attempt.sent"
-        | "invoice_delivery_attempt.suppressed"
-        | "invoice_manual_payment.created"
-        | "invoice_manual_payment.reversed"
-        | "invoice_payment_attempt.canceled"
-        | "invoice_payment_attempt.expired"
-        | "invoice_payment_attempt.failed"
-        | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
-        | "merchant.readiness_updated"
-        | "merchant.updated"
-        | "merchant_billing_balance.updated"
-        | "merchant_billing_invoice.issued"
-        | "merchant_billing_invoice.updated"
-        | "modifier_group.archived"
-        | "modifier_group.created"
-        | "modifier_group.updated"
-        | "modifier_set.archived"
-        | "modifier_set.created"
-        | "modifier_set.updated"
-        | "order.closed"
-        | "order.created"
-        | "order.inventory_exception_created"
-        | "order.inventory_exception_resolved"
-        | "order.paid"
-        | "order.partially_paid"
-        | "order.partially_refunded"
-        | "order.refunded"
-        | "order.updated"
-        | "package.created"
-        | "package.updated"
-        | "partner_app_install.created"
-        | "partner_app_install.permissions_updated"
-        | "partner_app_install.revoked"
-        | "partner_app_install.updated"
-        | "payment_intent.canceled"
-        | "payment_intent.created"
-        | "payment_intent.expired"
-        | "payment_intent.fulfillment_hold_updated"
-        | "payment_intent.payment_failed"
-        | "payment_intent.processing"
-        | "payment_intent.requires_action"
-        | "payment_intent.requires_capture"
-        | "payment_intent.succeeded"
-        | "payment_intent.updated"
-        | "payment_link.created"
-        | "payment_link.updated"
-        | "payment_method.activated"
-        | "payment_method.archived"
-        | "payment_method.failed"
-        | "payment_review.closed"
-        | "payment_review.opened"
-        | "payment_review.reopened"
-        | "payout.canceled"
-        | "payout.created"
-        | "payout.failed"
-        | "payout.paid"
-        | "payout.reversed"
-        | "payout.updated"
-        | "payout_destination.archived"
-        | "payout_destination.created"
-        | "payout_destination.disabled"
-        | "payout_destination.updated"
-        | "payout_settings.updated"
-        | "product.archived"
-        | "product.created"
-        | "product.updated"
-        | "product_variant.archived"
-        | "product_variant.created"
-        | "product_variant.updated"
-        | "promotion.archived"
-        | "promotion.created"
-        | "promotion.updated"
-        | "promotion_code.archived"
-        | "promotion_code.created"
-        | "promotion_code.updated"
-        | "refund.created"
-        | "refund.failed"
-        | "refund.partially_succeeded"
-        | "refund.succeeded"
-        | "refund.updated"
-        | "report.failed"
-        | "report.succeeded"
-        | "return.canceled"
-        | "return.completed"
-        | "return.created"
-        | "return.decision_recorded"
-        | "return.reopened"
-        | "return.updated"
-        | "return_disposition.created"
-        | "return_disposition.updated"
-        | "return_inspection.acceptance_decided"
-        | "return_inspection.created"
-        | "return_inspection.superseded"
-        | "return_receipt.created"
-        | "return_receipt.superseded"
-        | "return_receipt.verified"
-        | "return_resolution.created"
-        | "return_resolution.updated"
-        | "shipment.created"
-        | "shipment.updated"
-        | "subscription.activated"
-        | "subscription.canceled"
-        | "subscription.cancellation_scheduled"
-        | "subscription.created"
-        | "subscription.cycle_skipped"
-        | "subscription.delivery_action_required"
-        | "subscription.delivery_pause_upcoming"
-        | "subscription.delivery_updated"
-        | "subscription.dunning_exhausted"
-        | "subscription.past_due"
-        | "subscription.paused"
-        | "subscription.payment_succeeded"
-        | "subscription.plan_changed"
-        | "subscription.reactivated"
-        | "subscription.renewal_upcoming"
-        | "subscription.resumed"
-        | "subscription.trial_ending"
-        | "subscription.updated"
-        | "subscription_delivery_migration.completed"
-        | "subscription_payment_retry.created"
-        | "subscription_payment_retry.failed"
-        | "subscription_payment_retry.succeeded";
-};
-/**
- * Shape $ (Value): {@link CreateWorkloadIdentityRequest}. The request body for: Create a workload
- * identity.
- */
-export type CreateWorkloadIdentityRequest = {
-    /**
-     * Shape $ (Value): string. Immutable token audience. Defaults to Flint's configured issuer URL
-     * when omitted. minLength: 1. maxLength: 255.
-     */
-    "audience"?: string;
-    /**
-     * Shape $ (Value): Array of {@link WorkloadIdentityClaimConditionRequest}. Bounded value
-     * array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared
-     * issuers require tenant pinning. maxItems: 10. uniqueItems: true. Shape $[] (Value): {@link
-     * WorkloadIdentityClaimConditionRequest}. A condition to match one top-level scalar claim in
-     * the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequest>;
-    /**
-     * Shape $ (Value): string. Immutable public HTTPS issuer with a DNS host, optional port 443,
-     * and no userinfo, query, or fragment. Compared exactly. minLength: 1. maxLength: 255.
-     */
-    "issuer": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of string. Complete scope set to grant. Machine callers may grant
-     * only scopes they hold in the same environment. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.inventory_locations.write"
-        | "commerce.inventory_policies.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.return_policies.write"
-        | "commerce.return_reasons.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.read"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.payment_options.read"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 1024. */
-    "subject": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob" | (string & {});
-};
-/**
- * Shape $ (Value): {@link CreateWorkloadIdentityRequestInput}. The request body for: Create a
- * workload identity.
- */
-export type CreateWorkloadIdentityRequestInput = {
-    /**
-     * Shape $ (Value): string. Immutable token audience. Defaults to Flint's configured issuer URL
-     * when omitted. minLength: 1. maxLength: 255.
-     */
-    "audience"?: string;
-    /**
-     * Shape $ (Value): Array of {@link WorkloadIdentityClaimConditionRequestInput}. Bounded value
-     * array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared
-     * issuers require tenant pinning. maxItems: 10. uniqueItems: true. Shape $[] (Value): {@link
-     * WorkloadIdentityClaimConditionRequestInput}. A condition to match one top-level scalar claim
-     * in the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequestInput>;
-    /**
-     * Shape $ (Value): string. Immutable public HTTPS issuer with a DNS host, optional port 443,
-     * and no userinfo, query, or fragment. Compared exactly. minLength: 1. maxLength: 255.
-     */
-    "issuer": string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Shape $ (Value): Array of string. Complete scope set to grant. Machine callers may grant
-     * only scopes they hold in the same environment. minItems: 1. uniqueItems: true. [] enum:
-     * "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". Shape $[] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.organizations.read", "accounts.organizations.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write", "commerce.inventory.read",
-     * "commerce.inventory.write", "commerce.inventory_locations.write",
-     * "commerce.inventory_policies.write", "commerce.invoices.read", "commerce.invoices.write",
-     * "commerce.orders.read", "commerce.orders.write", "commerce.products.read",
-     * "commerce.products.write", "commerce.promotions.read", "commerce.promotions.write",
-     * "commerce.refunds.read", "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.return_policies.write", "commerce.return_reasons.write",
-     * "commerce.returns.operations.write", "commerce.returns.read",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "customers.read",
-     * "customers.sessions.write", "customers.write", "developer.feedback_reports.read",
-     * "developer.feedback_reports.write", "developer.partner_apps.read",
-     * "developer.partner_apps.write", "developer.request_logs.read",
-     * "developer.request_logs.self.read", "developer.resource_timelines.read",
-     * "developer.sandboxes.read", "developer.sandboxes.write", "merchant_billing.read",
-     * "merchants.account_sessions.write", "merchants.locations.read", "merchants.locations.write",
-     * "merchants.onboarding.read", "merchants.onboarding.write", "merchants.profile.read",
-     * "merchants.profile.write", "money_movement.balance_transactions.read",
-     * "money_movement.balances.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "payments.disputes.read", "payments.disputes.write",
-     * "payments.payment_intents.read", "payments.payment_intents.write",
-     * "payments.payment_method_domains.read", "payments.payment_method_domains.write",
-     * "payments.payment_methods.read", "payments.payment_methods.write",
-     * "payments.payment_options.read", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.organizations.read"
-        | "accounts.organizations.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.inventory_locations.write"
-        | "commerce.inventory_policies.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.return_policies.write"
-        | "commerce.return_reasons.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.read"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.payment_options.read"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 1024. */
-    "subject": string;
-    /** Shape $ (Value): string. Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob";
-};
-export interface Credentials {
-    "checkout": {
-        "CheckoutSessionBearer": string | CredentialProvider;
-    };
-    "customer": {
-        "CustomerSessionBearer": string | CredentialProvider;
-    };
-    "invoice": {
-        "InvoiceAccessTokenBearer": string | CredentialProvider;
-    };
-    "merchant": {
-        "BearerAuth": string | CredentialProvider;
-    };
-    "onboarding": {
-        "OnboardingSessionBearer": string | CredentialProvider;
-    };
-}
-/**
- * Shape $ (Value): {@link CreditNote}. A correction against an issued invoice. Credit notes reduce
- * what is owed; refunds return what was already collected.
- */
-export type CreditNote = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credit applied to the invoice, net of reversed
-     * allocations. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "allocated_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credit available to allocate or refund. Zero on draft
-     * and void notes. On issued notes, total_money equals allocated_money plus
-     * pending_refund_money plus refunded_money plus available_money. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code.
-     */
-    "available_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice at
-     * issue. Later profile edits do not change this document. Shape $.anyOf[1] (Value): {@link
-     * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does
-     * not verify IDs or change tax treatment. Tax IDs are an owned collection in display order;
-     * replacing the array requires the parent's expected_version. Existing entries retain their
-     * document_tax_id; omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "buyer_tax_identity": ((TaxIdentity) | (null));
-    /** Shape $ (Value): string. When the credit note was created. Format: date-time. */
-    "created_at": string;
-    /** Shape $ (Value): string. Unique identifier of the credit note. */
-    "credit_note_id": string;
-    /**
-     * Shape $ (Value): string. Assigned at issue and stable from then on. Absent while the credit
-     * note is a draft.
-     */
-    "credit_note_number"?: string;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. null when unset. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id": string | null;
-    /**
-     * Shape $ (Value): {@link ExpandedInvoiceSummary}. Summary of the source invoice. Returned
-     * only with expand=invoice. An invoice's summary fields, including status, due date, and paid,
-     * outstanding, and refunded amounts, returned when the invoice is expanded.
-     */
-    "invoice"?: ExpandedInvoiceSummary;
-    /** Shape $ (Value): string. The invoice this credit note corrects. */
-    "invoice_id": string;
-    /**
-     * Shape $ (Value): string. When the credit note was issued. Absent on a draft. Format:
-     * date-time.
-     */
-    "issued_at"?: string;
-    /**
-     * Shape $ (Value): string. Status of the most recent refund linked to this credit note. Absent
-     * when no refund has been requested. Value enum: "pending", "succeeded",
-     * "partially_succeeded", "failed".
-     */
-    "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link CreditNoteLineItem}. Itemized corrections against frozen
-     * invoice lines. Amount and quantity corrections share each source line's remaining value,
-     * discount, and tax across issued, non-void credit notes. Drafts reserve no credit. Shape $[]
-     * (Value): {@link CreditNoteLineItem}. One correction calculated from the frozen invoice
-     * line's remaining billed value, discount, and tax. The source line's inclusive or additive
-     * tax mode is preserved. Current catalog prices and tax settings do not affect the correction.
-     * Stored issued values are never recalculated by a read.
-     */
-    "line_items": Array<CreditNoteLineItem>;
-    /**
-     * Shape $ (Value): string or null. Free text shown on the credit note, up to 4096 characters.
-     * null when unset.
-     */
-    "memo": string | null;
-    /** Shape $ (Value): string. The merchant that owns the credit note. */
-    "merchant_id": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credit reserved by linked refunds that have not
-     * resolved yet. Released if a refund fails or is canceled. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "pending_refund_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Why the invoice is being corrected. Shown on the credit note
-     * document. Value enum: "returned_goods", "order_adjustment", "billing_error", "goodwill",
-     * "other".
-     */
-    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credit consumed by linked refunds that succeeded.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link TaxIdentity} or null. Identity frozen on the source invoice at
-     * issue. Later profile edits do not change this document. Shape $.anyOf[1] (Value): {@link
-     * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does
-     * not verify IDs or change tax treatment. Tax IDs are an owned collection in display order;
-     * replacing the array requires the parent's expected_version. Existing entries retain their
-     * document_tax_id; omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "seller_tax_identity": ((TaxIdentity) | (null));
-    /**
-     * Shape $ (Value): string. draft while the credit note is editable, issued once it is numbered
-     * and frozen, void once retired. Value enum: "draft", "issued", "void".
-     */
-    "status": "draft" | "issued" | "void" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The face value of the credit note, the sum of its
-     * lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /** Shape $ (Value): string. When the credit note last changed. Format: date-time. */
-    "updated_at": string;
-    /**
-     * Shape $ (Value): integer string. Current credit note version. Send this as expected_version
-     * when updating the draft. Use an integer string (decimal digits), not a floating-point
-     * number. Format: int64. minimum: 1.
-     */
-    "version": `${bigint}`;
-    /**
-     * Shape $ (Value): string. When the credit note was voided. Absent unless it is void. Format:
-     * date-time.
-     */
-    "voided_at"?: string;
-};
-/**
- * Shape $ (Value): {@link CreditNoteAllocation}. One application of credit to the invoice.
- * Allocations are append-only: a reversal sets reversed_at rather than removing the row.
- */
-export type CreditNoteAllocation = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "allocated_at": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Credit applied to the invoice balance. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** Shape $ (Value): string. Unique identifier of the allocation. */
-    "credit_note_allocation_id": string;
-    /** Shape $ (Value): string. The credit note whose credit was applied. */
-    "credit_note_id": string;
-    /**
-     * Shape $ (Value): string. The key the caller sent when allocating, or issue: followed by the
-     * issue request's Idempotency-Key for an allocation made on issue. It is this allocation's
-     * identity and is filterable on the allocations list.
-     */
-    "idempotency_key": string;
-    /** Shape $ (Value): string. The invoice whose balance the credit reduced. */
-    "invoice_id": string;
-    /**
-     * Shape $ (Value): string. When the allocation was reversed and its credit returned. Absent
-     * while the allocation stands. Format: date-time.
-     */
-    "reversed_at"?: string;
-};
-/**
- * Shape $ (Value): {@link CreditNoteAllocationListResponse}. A page of `CreditNoteAllocation`
- * objects.
- */
-export type CreditNoteAllocationListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link CreditNoteAllocation}. Shape $[] (Value): {@link
-     * CreditNoteAllocation}. One application of credit to the invoice. Allocations are
-     * append-only: a reversal sets reversed_at rather than removing the row.
-     */
-    "data": Array<CreditNoteAllocation>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CreditNoteAllocationResponse}. A response containing
- * `CreditNoteAllocation` data.
- */
-export type CreditNoteAllocationResponse = {
-    /**
-     * Shape $ (Value): {@link CreditNoteAllocation}. One application of credit to the invoice.
-     * Allocations are append-only: a reversal sets reversed_at rather than removing the row.
-     */
-    "data": CreditNoteAllocation;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CreditNoteAllocationResult}. The allocation, the credit note with its
- * new available_money, and the recomputed invoice.
- */
-export type CreditNoteAllocationResult = {
-    /**
-     * Shape $ (Value): {@link CreditNote}. The credit note with its recomputed available_money and
-     * allocated_money. A correction against an issued invoice. Credit notes reduce what is owed;
-     * refunds return what was already collected.
-     */
-    "credit_note": CreditNote;
-    /**
-     * Shape $ (Value): {@link CreditNoteAllocation}. The allocation that was created or reversed.
-     * One application of credit to the invoice. Allocations are append-only: a reversal sets
-     * reversed_at rather than removing the row.
-     */
-    "credit_note_allocation": CreditNoteAllocation;
-    /**
-     * Shape $ (Value): {@link Invoice}. The invoice with its recomputed outstanding balance and
-     * status. A bill issued to a customer.
-     */
-    "invoice": Invoice;
-};
-/**
- * Shape $ (Value): {@link CreditNoteAllocationResultResponse}. A response containing
- * `CreditNoteAllocationResult` data.
- */
-export type CreditNoteAllocationResultResponse = {
-    /**
-     * Shape $ (Value): {@link CreditNoteAllocationResult}. The allocation, the credit note with
-     * its new available_money, and the recomputed invoice.
-     */
-    "data": CreditNoteAllocationResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CreditNoteCorrectionRequest}. How much of an invoice line item a credit
- * note line credits, by whole `quantity` or by `amount`, chosen by `type`.
- */
-export type CreditNoteCorrectionRequest = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Positive billed value to credit in the invoice
-     * currency, no more than the frozen source line's remaining value. Consumes proportional
-     * remaining tax and discount without consuming quantity; later quantity corrections use the
-     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
-     * supported. No more than the source line's remaining uncredited quantity. Credits that
-     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
-     * corrections reduce that remaining value without consuming quantity. A share that rounds to
-     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "quantity"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. quantity credits whole units and requires quantity. amount credits
-     * a named figure and requires amount_money. The two are mutually exclusive. Value enum:
-     * "quantity", "amount".
-     */
-    "type": "quantity" | "amount" | (string & {});
-})
-    & ((Exclude<CreditNoteCorrectionRequestQuantity & object, readonly unknown[]>)
-    | (Exclude<CreditNoteCorrectionRequestAmount & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link CreditNoteCorrectionRequestAmount}. The `amount` variant of
- * `CreditNoteCorrectionRequest`.
- */
-export type CreditNoteCorrectionRequestAmount = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Positive billed value to credit in the invoice
-     * currency, no more than the frozen source line's remaining value. Consumes proportional
-     * remaining tax and discount without consuming quantity; later quantity corrections use the
-     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
-     * supported. No more than the source line's remaining uncredited quantity. Credits that
-     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
-     * corrections reduce that remaining value without consuming quantity. A share that rounds to
-     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "quantity"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. quantity credits whole units and requires quantity. amount credits
-     * a named figure and requires amount_money. The two are mutually exclusive. Value enum:
-     * "amount".
-     */
-    "type": "amount" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "amount". */
-    "type": "amount" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Positive billed value to credit in the invoice
-     * currency, no more than the frozen source line's remaining value. Consumes proportional
-     * remaining tax and discount without consuming quantity; later quantity corrections use the
-     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money": MoneyValue;
-}));
-/**
- * Shape $ (Value): {@link CreditNoteCorrectionRequestAmountInput}. The `amount` variant of
- * `CreditNoteCorrectionRequest`.
- */
-export type CreditNoteCorrectionRequestAmountInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Positive billed value to credit in the invoice
-     * currency, no more than the frozen source line's remaining value. Consumes proportional
-     * remaining tax and discount without consuming quantity; later quantity corrections use the
-     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
-     * supported. No more than the source line's remaining uncredited quantity. Credits that
-     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
-     * corrections reduce that remaining value without consuming quantity. A share that rounds to
-     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "quantity"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. quantity credits whole units and requires quantity. amount credits
-     * a named figure and requires amount_money. The two are mutually exclusive. Value enum:
-     * "amount".
-     */
-    "type": "amount";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "amount". */
-    "type": "amount";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Positive billed value to credit in the invoice
-     * currency, no more than the frozen source line's remaining value. Consumes proportional
-     * remaining tax and discount without consuming quantity; later quantity corrections use the
-     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money": MoneyValueInput;
-})
-    & ({
-    "quantity"?: never;
-}));
-/**
- * Shape $ (Value): {@link CreditNoteCorrectionRequestInput}. How much of an invoice line item a
- * credit note line credits, by whole `quantity` or by `amount`, chosen by `type`.
- */
-export type CreditNoteCorrectionRequestInput = ({
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Positive billed value to credit in the invoice
-     * currency, no more than the frozen source line's remaining value. Consumes proportional
-     * remaining tax and discount without consuming quantity; later quantity corrections use the
-     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
-     * supported. No more than the source line's remaining uncredited quantity. Credits that
-     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
-     * corrections reduce that remaining value without consuming quantity. A share that rounds to
-     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "quantity"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. quantity credits whole units and requires quantity. amount credits
-     * a named figure and requires amount_money. The two are mutually exclusive. Value enum:
-     * "quantity", "amount".
-     */
-    "type": "quantity" | "amount";
-})
-    & ((Exclude<CreditNoteCorrectionRequestQuantityInput & object, readonly unknown[]>)
-    | (Exclude<CreditNoteCorrectionRequestAmountInput & object, readonly unknown[]>));
-/**
- * Shape $ (Value): {@link CreditNoteCorrectionRequestQuantity}. The `quantity` variant of
- * `CreditNoteCorrectionRequest`.
- */
-export type CreditNoteCorrectionRequestQuantity = ({
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Positive billed value to credit in the invoice
-     * currency, no more than the frozen source line's remaining value. Consumes proportional
-     * remaining tax and discount without consuming quantity; later quantity corrections use the
-     * reduced remaining value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
-     * supported. No more than the source line's remaining uncredited quantity. Credits that
-     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
-     * corrections reduce that remaining value without consuming quantity. A share that rounds to
-     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "quantity": `${bigint}`;
-    /**
-     * Shape $ (Value): string. quantity credits whole units and requires quantity. amount credits
-     * a named figure and requires amount_money. The two are mutually exclusive. Value enum:
-     * "quantity".
-     */
-    "type": "quantity" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "quantity". */
-    "type": "quantity" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Positive whole units; fractional quantities are not
-     * supported. No more than the source line's remaining uncredited quantity. Credits that
-     * fraction of its remaining billed value, rounded half up once at line level. Earlier amount
-     * corrections reduce that remaining value without consuming quantity. A share that rounds to
-     * zero is rejected; use a larger quantity or a positive amount. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64.
-     */
-    "quantity": `${bigint}`;
 }));

@@ -1,8 +1,8 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateSubscriptionOfferRequestInput } from '../declarations/types-9.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
+import type { CreateSubscriptionOfferRequestInput } from '../declarations/types-10.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
 import type {
     SubscriptionOffer,
     SubscriptionOfferListResponse,
@@ -12,9 +12,9 @@ import type {
     SubscriptionOffersListInput,
     SubscriptionOffersRemoveInput,
     SubscriptionOffersUpdateInput
-} from '../declarations/types-45.js';
-import type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-48.js';
+import type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,8 +29,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateSubscriptionOfferRequestInput, Credentials } from '../declarations/types-9.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateSubscriptionOfferRequestInput } from '../declarations/types-10.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     SubscriptionOffer,
     SubscriptionOfferResponse,
@@ -42,17 +42,21 @@ export type {
     SubscriptionOffersUpdateInput,
     SubscriptionIntervalOptionInput,
     SubscriptionIntervalOption
-} from '../declarations/types-45.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-49.js';
+} from '../declarations/types-48.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateSubscriptionOfferRequestInput } from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-4.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateSubscriptionOfferRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeSubscriptionIntervalOption } from '../declarations/types-72.js';
-export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateSubscriptionOfferRequest } from '../declarations/types-69.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeSubscriptionIntervalOption } from '../declarations/types-76.js';
+export { makeUpdateSubscriptionOfferRequest } from '../declarations/types-78.js';
 export interface SubscriptionOffersResource {
     /**
  * Create subscription offer. Offer changes affect new signups only. Existing subscriptions keep
@@ -112,7 +116,7 @@ export interface SubscriptionOffersResource {
     getWithResponse(subscription_offer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<SubscriptionOfferResponse>>;
     /**
  * List subscription offers. Offer changes affect new signups only. Existing subscriptions keep
- * their terms.
+ * their terms. Default order: created_at descending, then subscription_offer_id descending.
  * @see reference/subscriptionOffers.md#subscriptionofferslist
  * GET /v1/subscription-offers
  * @example

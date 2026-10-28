@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class EffectiveDeliverySelectionResponseInput extends Model {
-    /** @param array{'data': EffectiveDeliverySelectionResourceInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': EffectiveDeliverySelectionResourceInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EffectiveDeliverySelectionResponseInput')); }
     /** Shape $ (Value): {@see EffectiveDeliverySelectionResourceInput}. The delivery selection currently in effect for a checkout, with its `source` (none, provisional, or committed) and whether it can still be changed.
      * @return EffectiveDeliverySelectionResourceInput|array<array-key, mixed>|\stdClass

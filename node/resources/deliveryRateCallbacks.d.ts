@@ -8,7 +8,9 @@ import type {
     DeliveryRateCallbackListResponse,
     DeliveryRateCallbackResponse,
     DeliveryRateCallbackSigningKeyRotation,
-    DeliveryRateCallbackSigningKeyRotationResponse,
+    DeliveryRateCallbackSigningKeyRotationResponse
+} from '../declarations/types-15.js';
+import type {
     DeliveryRateCallbackTestDelivery,
     DeliveryRateCallbackTestDeliveryResponse,
     DeliveryRateCallbacksCheckConnectionInput,
@@ -19,11 +21,11 @@ import type {
     DeliveryRateCallbacksRemoveInput,
     DeliveryRateCallbacksRotateSigningKeyInput,
     DeliveryRateCallbacksUpdateInput
-} from '../declarations/types-14.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-16.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,17 +40,24 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     DeliveryRateCallbackConnectionCheck,
     DeliveryRateCallbackConnectionCheckResponse,
     DeliveryRateCallback,
     DeliveryRateCallbackResponse,
-    DeliveryRateCallbackTestDelivery,
-    DeliveryRateCallbackTestDeliveryResponse,
     DeliveryRateCallbackListResponse,
     DeliveryRateCallbackSigningKeyRotation,
     DeliveryRateCallbackSigningKeyRotationResponse,
+    DeliveryRateCallbackConfigurationInput,
+    DeliveryRateCallbackConfiguration,
+    DeliveryRateCallbackConfigurationPatchRequestInput
+} from '../declarations/types-15.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-6.js';
+export type {
+    DeliveryRateCallbackTestDelivery,
+    DeliveryRateCallbackTestDeliveryResponse,
     DeliveryRateCallbacksCheckConnectionInput,
     DeliveryRateCallbacksCreateInput,
     DeliveryRateCallbacksCreateTestDeliveryInput,
@@ -56,23 +65,21 @@ export type {
     DeliveryRateCallbacksGetInput,
     DeliveryRateCallbacksListInput,
     DeliveryRateCallbacksRotateSigningKeyInput,
-    DeliveryRateCallbacksUpdateInput,
-    DeliveryRateCallbackConfigurationInput,
-    DeliveryRateCallbackConfiguration,
-    DeliveryRateCallbackConfigurationPatchRequestInput
-} from '../declarations/types-14.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-48.js';
+    DeliveryRateCallbacksUpdateInput
+} from '../declarations/types-16.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-63.js';
-export { makeDeliveryRateCallbackConfiguration, makeDeliveryRateCallbackConfigurationPatchRequest } from '../declarations/types-66.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export type { WebhookSigningMethodInput } from '../declarations/types-57.js';
+export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-67.js';
+export { makeDeliveryRateCallbackConfiguration, makeDeliveryRateCallbackConfigurationPatchRequest } from '../declarations/types-70.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-77.js';
+export { makeWebhookSigningMethod } from '../declarations/types-78.js';
 export interface DeliveryRateCallbacksResource {
     /**
  * Sends a minimal signed probe to verify endpoint reachability and callback credentials without
@@ -97,7 +104,12 @@ export interface DeliveryRateCallbacksResource {
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRateCallbackConnectionCheckResponse>>;
     /**
  * Delivery callback endpoints pin shared outbound callback transport configuration. Creation
- * publishes immutable revision 1. It starts inactive.
+ * publishes immutable revision 1. signing_methods defaults to ["jwt"]. JWTs use Flint's public
+ * JWKS and this callback's delivery_rate_callback_id as aud. Verify body_sha256 against the exact
+ * request bytes. The jwt method sends Authorization: Bearer, and the hmac method sends
+ * webhook-signature and Flint-Signing-Key-Ids. Every request includes webhook-id and
+ * webhook-timestamp. A shared secret and key_id are issued and returned once only when hmac is
+ * included. It starts inactive.
  * @see reference/deliveryRateCallbacks.md#deliveryratecallbackscreate
  * POST /v1/delivery-rate-callbacks
  * @example
@@ -174,7 +186,8 @@ export interface DeliveryRateCallbacksResource {
     getWithResponse(delivery_rate_callback_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryRateCallbackResponse>>;
     /**
  * Returns delivery rate callbacks in a stable, cursor-paginated order. Archived resources are
- * excluded by default.
+ * excluded by default. Default order: created_at ascending, then delivery_rate_callback_id
+ * ascending.
  * @see reference/deliveryRateCallbacks.md#deliveryratecallbackslist
  * GET /v1/delivery-rate-callbacks
  * @example
@@ -233,8 +246,9 @@ export interface DeliveryRateCallbacksResource {
         "delivery_method_id"?: InputValue<string>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryRateCallback>;
     /**
- * Rotates the endpoint signing secret, accepts both keys for one hour, and returns the new secret
- * once.
+ * Issues a first shared secret and adds hmac when no secret exists, and increments the callback's
+ * version. Otherwise rotates the shared secret and accepts both keys for one hour. Returns the new
+ * secret and key_id once.
  * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksrotatesigningkey
  * POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/rotate-secret
  * @example
@@ -253,8 +267,10 @@ export interface DeliveryRateCallbacksResource {
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<DeliveryRateCallbackSigningKeyRotationResponse>>;
     /**
  * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable
- * revision and requires expected_version. Archived resources can't be changed; create a new
- * resource instead.
+ * revision. Configuration and signing_methods changes require expected_version. signing_methods
+ * replaces the set; removing hmac deletes all shared secrets. Use rotate-secret to issue a first
+ * shared secret before adding hmac. Archived resources can't be changed; create a new resource
+ * instead.
  * @see reference/deliveryRateCallbacks.md#deliveryratecallbacksupdate
  * PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}
  * @example

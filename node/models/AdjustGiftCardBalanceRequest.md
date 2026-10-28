@@ -18,5 +18,5 @@ The request body for: Adjust gift card value.
 
 Nonzero USD amount to change the card's value by: positive adds value and negative removes it. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](SignedMoneyRequestRequestInput.md#signedmoneyrequestrequestinput).
 

@@ -1,8 +1,8 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateLocationRequestInput } from '../declarations/types-7.js';
+import type { CreateLocationRequestInput } from '../declarations/types-8.js';
+import type { Location } from '../declarations/types-30.js';
 import type {
-    Location,
     LocationListResponse,
     LocationResponse,
     LocationsCreateInput,
@@ -10,11 +10,11 @@ import type {
     LocationsListInput,
     LocationsRemoveInput,
     LocationsUpdateInput
-} from '../declarations/types-29.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateLocationRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-31.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateLocationRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,10 +29,11 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateLocationRequestInput } from '../declarations/types-7.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateLocationRequestInput } from '../declarations/types-8.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
+export type { Location, LocationCoordinate } from '../declarations/types-30.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type {
-    Location,
     LocationResponse,
     LocationListResponse,
     LocationsCreateInput,
@@ -40,26 +41,25 @@ export type {
     LocationsGetInput,
     LocationsListInput,
     LocationsUpdateInput,
-    LocationAddressRequestInput,
-    LocationCoordinateInput,
-    LocationAddress,
-    LocationCoordinate,
-    LocationAddressRequest
-} from '../declarations/types-29.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateLocationRequestInput } from '../declarations/types-48.js';
+    LocationCoordinateRequestRequestInput
+} from '../declarations/types-31.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateLocationRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateLocationRequest } from '../declarations/types-64.js';
-export { makeLocationAddressRequest, makeLocationCoordinate, makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateLocationRequest } from '../declarations/types-72.js';
+export type { AddressRequestInput, AuthMode, Address, AddressRequest } from '../declarations/types-0.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeAddressRequest } from '../declarations/types-65.js';
+export { makeCreateLocationRequest } from '../declarations/types-67.js';
+export { makeLocationCoordinateRequestRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateLocationRequest } from '../declarations/types-77.js';
 export interface LocationsResource {
     /**
  * Create a Location. Sending inventory_allocation_enabled also requires
- * commerce.inventory_locations.write. Omitted inventory_allocation_enabled defaults to false.
+ * commerce.inventory.allocation.write. Omitted inventory_allocation_enabled defaults to false.
  * Every Location can hold stock. Idempotency is scoped to the authenticated merchant, environment,
  * and endpoint. Its fingerprint includes the canonical request body.
  * @see reference/locations.md#locationscreate
@@ -67,8 +67,9 @@ export interface LocationsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.locations.create({address: {city: "example", country: "US", line1: "example"}, name:
- * "example", timezone: "example"}, { idempotencyKey: idempotencyKey })
+ * client.locations.create({address: {city: "Springfield", country: "US", line1: "100 Example
+ * Street", postal_code: "62701", state: "IL"}, name: "Main Street", timezone: "America/Chicago"},
+ * { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<CreateLocationRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
@@ -89,14 +90,14 @@ export interface LocationsResource {
  * client.locations.remove("example", {}, { idempotencyKey: idempotencyKey })
  */
     remove(location_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<number>;
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<Location>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/locations.md#locationsremove
      */
     removeWithResponse(location_id: InputValue<string>, params?: {
-        "expected_version"?: InputValue<number>;
+        "expected_version"?: InputValue<`${bigint}` | bigint>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<LocationResponse>>;
     /**
@@ -114,7 +115,7 @@ export interface LocationsResource {
     /**
  * List Locations. inventory_allocation_enabled is always included and can be filtered with the
  * Location read scope. The false filter includes Locations without an inventory allocation
- * configuration.
+ * configuration. Default order: location_id ascending; this key uniquely orders the results.
  * @see reference/locations.md#locationslist
  * GET /v1/locations
  * @example
@@ -174,7 +175,7 @@ export interface LocationsResource {
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Location>;
     /**
  * Update a Location's profile, availability, geography, and inventory allocation in one call.
- * Sending inventory_allocation_enabled also requires commerce.inventory_locations.write. The
+ * Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. The
  * version advances on every change. expected_version is optional and compared with version when
  * sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its
  * fingerprint includes the canonical request body.
@@ -196,7 +197,7 @@ export interface LocationsResource {
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<LocationResponse>>;
     /**
  * Update a Location's profile, availability, geography, and inventory allocation in one call.
- * Sending inventory_allocation_enabled also requires commerce.inventory_locations.write. The
+ * Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. The
  * version advances on every change. expected_version is optional and compared with version when
  * sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its
  * fingerprint includes the canonical request body.
@@ -219,7 +220,7 @@ export interface LocationsResource {
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<LocationResponse>>;
     /**
  * Update a Location's profile, availability, geography, and inventory allocation in one call.
- * Sending inventory_allocation_enabled also requires commerce.inventory_locations.write. The
+ * Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. The
  * version advances on every change. expected_version is optional and compared with version when
  * sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its
  * fingerprint includes the canonical request body.

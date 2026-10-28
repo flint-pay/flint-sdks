@@ -1,1 +1,1 @@
-{"shared":"ResolvePaymentLinkTextModifierRequest","dependencies":["ResolvePaymentLinkTextModifierRequest"]}
+{"shared":"TextModifierRequest","dependencies":["TextModifierRequest"]}

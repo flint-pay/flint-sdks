@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read string $submit_to
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentCollectionStripeElements extends Model {
-    /** @param array{'amount_money'?: mixed, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: \stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<mixed>, 'submit_to': string, ...}|object $values */
+    /** @param array{'amount_money'?: mixed, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: \stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<object{'amount_money': mixed, 'last_payment_error'?: mixed, 'payment_collection'?: mixed, 'payment_intent_id': string, 'status': string, 'tip_money': mixed}>, 'submit_to': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripeElements')); }
     /** Shape $ (Value): {@see MoneyValue}. Amount and currency used to initialize the payment form. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue

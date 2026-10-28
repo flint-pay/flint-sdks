@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePaymentMethodDomainRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'status': string, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'status': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePaymentMethodDomainRequestInput')); }
     /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string

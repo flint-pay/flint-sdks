@@ -22,7 +22,7 @@ Body model: [AdjustGiftCardBalanceRequestInput](../models/AdjustGiftCardBalanceR
 
 #### giftCardAdjustments.create body fields
 
-Field definitions: [shared fields](../models/AdjustGiftCardBalanceRequestInput.md#adjustgiftcardbalancerequestinput). Models: [SignedMoneyInput](../models/SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](../models/AdjustGiftCardBalanceRequestInput.md#adjustgiftcardbalancerequestinput). Models: [SignedMoneyRequestRequestInput](../models/SignedMoneyRequestRequestInput.md#signedmoneyrequestrequestinput).
 
 #### Response
 
@@ -52,7 +52,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

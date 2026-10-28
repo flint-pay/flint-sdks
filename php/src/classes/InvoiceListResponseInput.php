@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceListResponseInput extends Model {
-    /** @param array{'data': list<InvoiceInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<InvoiceInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceListResponseInput')); }
     /** Shape $ (Value): Array of {@see InvoiceInput}. Shape $[] (Value): {@see InvoiceInput}. A bill issued to a customer.
      * @return list<InvoiceInput|array<array-key, mixed>|\stdClass>

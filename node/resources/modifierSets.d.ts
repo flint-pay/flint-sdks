@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateModifierSetRequestInput } from '../declarations/types-7.js';
+import type { CreateModifierSetRequestInput } from '../declarations/types-8.js';
 import type {
     ModifierSet,
     ModifierSetListResponse,
@@ -10,11 +10,11 @@ import type {
     ModifierSetsListInput,
     ModifierSetsRemoveInput,
     ModifierSetsUpdateInput
-} from '../declarations/types-31.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateModifierSetRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-33.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateModifierSetRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,8 +35,8 @@ export type {
     CreateModifierRequestInput,
     CreateModifierSetGroupInputExistingInput,
     CreateModifierSetGroupInputInlineInput
-} from '../declarations/types-7.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+} from '../declarations/types-8.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     ModifierSet,
     ModifierSetResponse,
@@ -49,8 +49,6 @@ export type {
     MoneyValueInput,
     ModifierOverrideInput,
     ModifierSetGroup,
-    ModifierGroup,
-    Modifier,
     MoneyValue,
     ModifierOverride,
     ModifierSetGroupExisting,
@@ -61,16 +59,25 @@ export type {
     ModifierRequestInput,
     ModifierSetGroupInputExistingInput,
     ModifierSetGroupInputInlineInput
-} from '../declarations/types-31.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateModifierSetRequestInput } from '../declarations/types-48.js';
+} from '../declarations/types-33.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateModifierSetRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-6.js';
-export type { TextModifierConfigRequestInput, TextModifierConfig, TextModifierConfigRequest } from '../declarations/types-47.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    ModifierGroup,
+    Modifier,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-32.js';
+export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-7.js';
+export type { TextModifierConfigRequestInput, TextModifierConfig, TextModifierConfigRequest } from '../declarations/types-50.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { InlineModifierGroupRequestInput } from '../declarations/types-23.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { InlineModifierGroupRequestInput } from '../declarations/types-25.js';
 export {
     makeCreateInlineModifierGroupRequest,
     makeCreateModifierRequest,
@@ -78,18 +85,18 @@ export {
     makeCreateModifierSetGroupInputInline,
     makeCreateModifierSetGroupRequest,
     makeCreateModifierSetRequest
-} from '../declarations/types-64.js';
-export { makeInlineModifierGroupRequest } from '../declarations/types-67.js';
+} from '../declarations/types-67.js';
+export { makeInlineModifierGroupRequest } from '../declarations/types-71.js';
 export {
+    makeMetadataPatchRequest,
+    makeMetadataRequest,
     makeModifierOverride,
     makeModifierRequest,
     makeModifierSetGroupInputExisting,
-    makeModifierSetGroupInputInline,
-    makeModifierSetGroupRequest,
-    makeMoneyValue
-} from '../declarations/types-68.js';
-export { makeTextModifierConfigRequest } from '../declarations/types-72.js';
-export { makeUpdateModifierSetRequest } from '../declarations/types-73.js';
+    makeModifierSetGroupInputInline
+} from '../declarations/types-72.js';
+export { makeModifierSetGroupRequest, makeMoneyValue } from '../declarations/types-73.js';
+export { makeTextModifierConfigRequest, makeUpdateModifierSetRequest } from '../declarations/types-77.js';
 export interface ModifierSetsResource {
     /**
  * Create modifier set.
@@ -147,7 +154,7 @@ export interface ModifierSetsResource {
      */
     getWithResponse(modifier_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ModifierSetResponse>>;
     /**
- * List modifier sets.
+ * List modifier sets. Default order: created_at descending, then modifier_set_id descending.
  * @see reference/modifierSets.md#modifiersetslist
  * GET /v1/modifier-sets
  * @example

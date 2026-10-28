@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `entries` | Required | Array of Alternative shapes (see declared variants) | `entries[]`: [declared alternatives](../models/ResourceTimeline.md#resourcetimelineentries). |
 | `resource_id` | Required | string |  |
-| `resource_type` | Required | string | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). `resource_type`: [field definitions](../models/DeveloperGetCurrentAPIKeyRequestLogResponse200.md#developergetcurrentapikeyrequestlogresponse200dataresource_type). |
+| `resource_type` | Required | string | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). `resource_type`: [field definitions](../models/DeveloperGetCurrentAPIKeyRequestLogResponse200.md#developergetcurrentapikeyrequestlogresponse200dataresource_type). |
 | `test` | Required | boolean |  |
 
 ### ResourceTimeline.entries[]
@@ -38,7 +38,7 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 | `retry` | Conditional | string | How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Conditional | string |  |
 | `status_code` | Conditional | integer | Format: `int32`. |
-| `event_type` | Conditional | string | Values: [245 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Conditional | string | Values: [246 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 | `webhook_event_id` | Conditional | string |  |
 | `attempt_number` | Conditional | integer | Format: `int32`. |
 | `completed_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. |

@@ -23,6 +23,7 @@ $result = $client->subscriptionPlans->create([
   'currency' => 'USD',
   'line_items' => [
     (object) [
+      'type' => 'variant',
       'variant_id' => 'example',
     ],
   ],

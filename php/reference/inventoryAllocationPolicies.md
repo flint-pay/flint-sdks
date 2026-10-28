@@ -21,7 +21,7 @@ Body model: [CreateInventoryAllocationPolicyRequestInput](../models/CreateInvent
 
 #### inventoryAllocationPolicies.create body fields
 
-Field definitions: [shared fields](../models/CreateInventoryAllocationPolicyRequestInput.md#createinventoryallocationpolicyrequestinput). Models: [InventoryAllocationConfigurationValueInput](../models/InventoryAllocationConfigurationValueInput.md#inventoryallocationconfigurationvalueinput).
+Field definitions: [shared fields](../models/CreateInventoryAllocationPolicyRequestInput.md#createinventoryallocationpolicyrequestinput). Models: [InventoryAllocationConfigurationValueInput](../models/InventoryAllocationConfigurationValueInput.md#inventoryallocationconfigurationvalueinput), [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput).
 
 #### Response
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -189,7 +189,7 @@ $result = $client->inventoryAllocationPolicies->getRevision('example', 'example'
 
 ### inventoryAllocationPolicies.list
 
-List allocation policies. Archived policies are excluded unless you filter by status archived.
+List allocation policies. Archived policies are excluded unless you filter by status archived. Default order: inventory_allocation_policy_id ascending; this key uniquely orders the results.
 
 `GET /v1/inventory-allocation-policies`
 
@@ -244,7 +244,7 @@ $result = $client->inventoryAllocationPolicies->list([], new RequestOptions());
 
 ### inventoryAllocationPolicies.listRevisions
 
-List immutable revisions of an allocation policy, newest first by default.
+List immutable revisions of an allocation policy, newest first by default. Default order: inventory_allocation_policy_revision_id descending; this key uniquely orders the results.
 
 `GET /v1/inventory-allocation-policies/{inventory_allocation_policy_id}/revisions`
 
@@ -311,7 +311,7 @@ Signature: `remove(string|Model $inventory_allocation_policy_id, array|Model|nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `inventory_allocation_policy_id` | Required | string |  |
-| `expected_version` | Optional | integer | minimum: `1`. |
+| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 
 #### Response
@@ -340,7 +340,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -375,7 +375,7 @@ Body model: [UpdateInventoryAllocationPolicyRequestInput](../models/UpdateInvent
 
 #### inventoryAllocationPolicies.update body fields
 
-Field definitions: [shared fields](../models/UpdateInventoryAllocationPolicyRequestInput.md#updateinventoryallocationpolicyrequestinput). Models: [InventoryAllocationConfigurationValueInput](../models/InventoryAllocationConfigurationValueInput.md#inventoryallocationconfigurationvalueinput).
+Field definitions: [shared fields](../models/UpdateInventoryAllocationPolicyRequestInput.md#updateinventoryallocationpolicyrequestinput). Models: [InventoryAllocationConfigurationValueInput](../models/InventoryAllocationConfigurationValueInput.md#inventoryallocationconfigurationvalueinput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
@@ -405,7 +405,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

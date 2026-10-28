@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read array{'unit': string, 'value': int|float}|object|null $weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePackageRequestInput extends Model {
-    /** @param array{'carrier'?: string|null, 'dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'external_system'?: string|null, 'label_url'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'service_code'?: string|null, 'status_reason'?: string|null, 'tracking_number'?: string|null, 'tracking_url'?: string|null, 'weight'?: array{'unit': string, 'value': int|float}|object|null, ...}|object $values */
+    /** @param array{'carrier'?: string|null, 'dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'external_system'?: string|null, 'label_url'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'service_code'?: string|null, 'status_reason'?: string|null, 'tracking_number'?: string|null, 'tracking_url'?: string|null, 'weight'?: array{'unit': string, 'value': int|float}|object|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePackageRequestInput')); }
     /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
      * @return string|null
@@ -61,11 +61,11 @@ final class UpdatePackageRequestInput extends Model {
      */
     public function getLabelUrl(): string|null { return $this->get('label_url'); }
     public function hasLabelUrl(): bool { return $this->has('label_url'); }
-    /** Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string or null. minLength: 1.
+    /** Shape $ (Value): {@see MetadataPatchRequestInput} or null. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.anyOf[1] (Value): {@see MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. Shape $.anyOf[2] (Value): null.
      * @return array<array-key, string|null>|\stdClass|null
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
      * @return string|null

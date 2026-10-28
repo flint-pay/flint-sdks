@@ -1,1 +1,1 @@
-{"shared":"CreateDeliveryRateCallbackRequest","dependencies":["CreateDeliveryRateCallbackRequest","DeliveryRateCallbackConfiguration"]}
+{"shared":"CreateDeliveryRateCallbackRequest","dependencies":["CreateDeliveryRateCallbackRequest","DeliveryRateCallbackConfiguration","WebhookSigningMethod"]}

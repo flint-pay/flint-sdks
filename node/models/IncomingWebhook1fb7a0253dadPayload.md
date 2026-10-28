@@ -21,12 +21,13 @@
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
+| `source` | Conditional | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
 
 ### IncomingWebhook1fb7a0253dadPayload variant 1: `event_type` = `"refund.partially_succeeded"`
 
 oneOf variant 1: The `refund.partially_succeeded` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"refund.partially_succeeded"`.
@@ -35,6 +36,7 @@ oneOf variant 1: The `refund.partially_succeeded` webhook payload for the `merch
 
 oneOf variant 2: The `refund.partially_succeeded` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"refund.partially_succeeded"`.
@@ -54,6 +56,10 @@ Field definitions: [shared fields](Refund.md#refund).
 ### IncomingWebhook1fb7a0253dadPayload.data.object.amount_money
 
 Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+
+### IncomingWebhook1fb7a0253dadPayload.data.object.metadata
+
+Field definitions: [BuyerRefund.metadata](../models/BuyerRefund.md#buyerrefundmetadata).
 
 ### IncomingWebhook1fb7a0253dadPayload.data.object.refunded_tip_money
 

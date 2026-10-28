@@ -6,10 +6,5 @@ A return reason a buyer can pick for a line, with its `handle` and whether a not
 
 Response model.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `handle` | Required | string |  |
-| `is_note_required` | Required | boolean |  |
-| `name` | Required | string |  |
-| `return_reason_id` | Required | string |  |
+Fields, types, descriptions and enum values: [MeCreateReturnPreviewResponse200DataEligibilityEligibilityLineItemsItemSuggestedReturnReasonsItem](../models/MeCreateReturnPreviewResponse200DataEligibilityEligibilityLineItemsItemSuggestedReturnReasonsItem.md#mecreatereturnpreviewresponse200dataeligibilityeligibilitylineitemsitemsuggestedreturnreasonsitem).
 

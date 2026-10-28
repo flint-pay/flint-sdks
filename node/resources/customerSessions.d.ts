@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateCustomerSessionRequestInput } from '../declarations/types-5.js';
+import type { CreateCustomerSessionRequestInput } from '../declarations/types-6.js';
 import type {
     CustomerSession,
     CustomerSessionResponse,
@@ -11,11 +11,11 @@ import type {
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse,
     CustomerSessionsRevokeInput
-} from '../declarations/types-10.js';
-import type { RefreshCustomerSessionRequestInput } from '../declarations/types-39.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-12.js';
+import type { RefreshCustomerSessionRequestInput } from '../declarations/types-41.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,8 +30,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateCustomerSessionRequestInput } from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateCustomerSessionRequestInput } from '../declarations/types-6.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     CustomerSessionWithSecret,
     CustomerSessionWithSecretResponse,
@@ -42,17 +42,18 @@ export type {
     CustomerSessionsCreateInput,
     CustomerSessionsRefreshInput,
     CustomerSessionsRevokeInput
-} from '../declarations/types-10.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { RefreshCustomerSessionRequestInput, RefreshCustomerSessionRequest } from '../declarations/types-39.js';
-export type { _SdkRequiredIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-12.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { RefreshCustomerSessionRequestInput, RefreshCustomerSessionRequest } from '../declarations/types-41.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateCustomerSessionRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeRefreshCustomerSessionRequest } from '../declarations/types-70.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateCustomerSessionRequest } from '../declarations/types-66.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeRefreshCustomerSessionRequest } from '../declarations/types-74.js';
 export interface CustomerSessionsResource {
     /**
  * Mints a server-side, customer-scoped credential after the merchant has authenticated the buyer.

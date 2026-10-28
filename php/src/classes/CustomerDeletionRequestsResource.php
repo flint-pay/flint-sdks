@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class CustomerDeletionRequestsResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Lists deletion requests across the selected merchant environment so a merchant can discover and review buyer-created requests.
+    /** Lists deletion requests across the selected merchant environment so a merchant can discover and review buyer-created requests. Default order: requested_at descending, then customer_deletion_request_id descending.
      * @param array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return CustomerDeletionRequestsListResponse200
      */

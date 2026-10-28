@@ -1,16 +1,16 @@
-import { d4404 as c0, d4405 as c4, d4406 as c5 } from '../descriptors/data/192.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d210 as c1 } from '../descriptors/data/12.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4901 as c2, d4908 as c21 } from '../descriptors/data/222.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3013 as c3 } from '../descriptors/data/116.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4924 as c6, d4916 as c13, d4917 as c14, d4918 as c15, d4919 as c16, d4920 as c17, d4913 as c22, d4914 as c24 } from '../descriptors/data/223.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4925 as c7, d4926 as c18, d4927 as c19, d4928 as c20, d4929 as c23, d4930 as c25, d4931 as c26 } from '../descriptors/data/224.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4416 as c8, d4408 as c9, d4409 as c10, d4410 as c11, d4411 as c12, d4417 as c28 } from '../descriptors/data/193.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3250 as c27 } from '../descriptors/data/130.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d210 as d210 } from '../descriptors/data/12.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d4644 as c0, d4645 as c4, d4646 as c5, d4648 as c9, d4649 as c10, d4650 as c11, d4651 as c12, d4652 as c21 } from '../descriptors/data/209.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d246 as c1 } from '../descriptors/data/15.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5189 as c2, d5199 as c23 } from '../descriptors/data/242.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3168 as c3 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5210 as c6, d5211 as c7, d5202 as c13, d5203 as c14, d5204 as c15, d5205 as c16, d5206 as c17, d5200 as c25 } from '../descriptors/data/243.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4658 as c8, d4659 as c22 } from '../descriptors/data/210.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5212 as c18, d5213 as c19, d5214 as c20, d5215 as c24, d5216 as c26, d5217 as c27 } from '../descriptors/data/244.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3435 as c28 } from '../descriptors/data/142.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d246 as d246 } from '../descriptors/data/15.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d210;
+const read = d246;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnEligibilityPreviewRequest"]:c0(),["CreateReturnPreviewRequestEligibility"]:c1(),["CreateReturnResolutionPreviewRequest"]:c2(),["MoneyValue"]:c3(),["ReturnEligibilityLineItemRequest"]:c4(),["ReturnEligibilitySelection"]:c5(),["ReturnReplacementLineItemRequest"]:c6(),["ReturnResolutionAdjustmentRequest"]:c7(),["ReturnResolutionLineItemRequest"]:c8(),["SharedCodec1070"]:c9(),["SharedCodec1071"]:c10(),["SharedCodec1072"]:c11(),["SharedCodec1073"]:c12(),["SharedCodec1104"]:c13(),["SharedCodec1105"]:c14(),["SharedCodec1106"]:c15(),["SharedCodec1107"]:c16(),["SharedCodec1108"]:c17(),["SharedCodec1109"]:c18(),["SharedCodec1110"]:c19(),["SharedCodec1111"]:c20(),["SharedCodec200"]:c21(),["SharedCodec205"]:c22(),["SharedCodec206"]:c23(),["SharedCodec207"]:c24(),["SharedCodec208"]:c25(),["SharedCodec209"]:c26(),["SharedCodec38"]:c27(),["SharedCodec9"]:c28()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateReturnEligibilityPreviewRequest"]:c0(),["CreateReturnPreviewRequestEligibility"]:c1(),["CreateReturnResolutionPreviewRequest"]:c2(),["MoneyValue"]:c3(),["ReturnEligibilityLineItemRequest"]:c4(),["ReturnEligibilitySelection"]:c5(),["ReturnReplacementLineItemRequest"]:c6(),["ReturnResolutionAdjustmentRequest"]:c7(),["ReturnResolutionLineItemRequest"]:c8(),["SharedCodec1141"]:c9(),["SharedCodec1142"]:c10(),["SharedCodec1143"]:c11(),["SharedCodec1144"]:c12(),["SharedCodec1175"]:c13(),["SharedCodec1176"]:c14(),["SharedCodec1177"]:c15(),["SharedCodec1178"]:c16(),["SharedCodec1179"]:c17(),["SharedCodec1180"]:c18(),["SharedCodec1181"]:c19(),["SharedCodec1182"]:c20(),["SharedCodec14"]:c21(),["SharedCodec17"]:c22(),["SharedCodec240"]:c23(),["SharedCodec241"]:c24(),["SharedCodec242"]:c25(),["SharedCodec243"]:c26(),["SharedCodec244"]:c27(),["SharedCodec52"]:c28()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateReturnPreviewRequestEligibility(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

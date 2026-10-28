@@ -2,7 +2,7 @@
 
 ## OrderTaxLocationInputPostalCodeInput
 
-A postal-code tax location with an explicit address type of `postal_code`.
+The `postal_code` variant of `OrderTaxLocationInput`.
 
 Request input.
 

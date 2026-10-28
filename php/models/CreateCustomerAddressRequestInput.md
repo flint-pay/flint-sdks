@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Required | [PostalAddressInput](../models/PostalAddressInput.md#postaladdressinput) | A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country. |
+| `address` | Required | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `is_default_billing` | Optional | boolean |  |
 | `is_default_shipping` | Optional | boolean |  |
 | `label` | Optional | string | Limited to 100 characters (Unicode code points), counted before surrounding whitespace is trimmed. minLength: `1`. maxLength: `100`. |

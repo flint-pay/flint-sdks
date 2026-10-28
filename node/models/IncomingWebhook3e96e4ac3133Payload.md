@@ -33,9 +33,9 @@ The business accepting payments.
 
 Field definitions: [shared fields](Merchant.md#merchant).
 
-### IncomingWebhook3e96e4ac3133Payload.data.object.address
+### IncomingWebhook3e96e4ac3133Payload.data.object.metadata
 
-Field definitions: [BuyerCustomer.billing_address](../models/BuyerCustomer.md#buyercustomerbilling_address).
+Field definitions: [BuyerRefund.metadata](../models/BuyerRefund.md#buyerrefundmetadata).
 
 ### IncomingWebhook3e96e4ac3133Payload.request
 

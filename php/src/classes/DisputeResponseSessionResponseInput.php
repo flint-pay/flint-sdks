@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DisputeResponseSessionResponseInput extends Model {
-    /** @param array{'data': DisputeResponseSessionInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': DisputeResponseSessionInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputeResponseSessionResponseInput')); }
     /** Shape $ (Value): {@see DisputeResponseSessionInput}. A session for responding to a dispute in the browser, with the `dispute_id` and a short-lived `client_session` for the embedded response component.
      * @return DisputeResponseSessionInput|array<array-key, mixed>|\stdClass

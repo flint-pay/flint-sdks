@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class RiskPreviewResponseInput extends Model {
-    /** @param array{'data': RiskPreviewInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': RiskPreviewInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskPreviewResponseInput')); }
     /** Shape $ (Value): {@see RiskPreviewInput}. The result of validating a proposed risk rule: whether it is valid, any issues found, warnings, and an analysis of the rule.
      * @return RiskPreviewInput|array<array-key, mixed>|\stdClass

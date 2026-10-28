@@ -116,19 +116,19 @@ Body model: [UpdateSettingsRequestInput](../models/UpdateSettingsRequest.md#upda
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `branding` | Optional | [BrandingSettingsRequestInput](../models/BrandingSettingsRequest.md#brandingsettingsrequest) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
-| `checkout` | Optional | [CheckoutSettingsInput](../models/CheckoutSettings.md#checkoutsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
-| `customer_account` | Optional | [CustomerAccountSettingsInput](../models/CustomerAccountSettings.md#customeraccountsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. Flint then serves the default Flint-hosted account, and GET /v1/settings omits customer_account. |
-| `customer_email_delivery` | Optional | [CustomerEmailDeliverySettingsInput](../models/CustomerEmailDeliverySettings.md#customeremaildeliverysettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
+| `checkout` | Optional | [CheckoutSettingsRequestRequestInput](../models/CheckoutSettingsRequestRequestInput.md#checkoutsettingsrequestrequestinput) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
+| `customer_account` | Optional | [CustomerAccountSettingsRequestRequestInput](../models/CustomerAccountSettingsRequestRequestInput.md#customeraccountsettingsrequestrequestinput) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. Flint then serves the default Flint-hosted account, and GET /v1/settings omits customer_account. |
+| `customer_email_delivery` | Optional | [CustomerEmailDeliverySettingsRequestRequestInput](../models/CustomerEmailDeliverySettings.md#customeremaildeliverysettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
 | `expected_version` | Optional | integer string | The Settings.version last read by the caller. Required when tax_identity is present, including null. Stale versions return VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `fulfillment` | Optional | [FulfillmentSettingsInput](../models/FulfillmentSettings.md#fulfillmentsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
-| `inventory` | Optional | [InventorySettingsInput](../models/InventorySettings.md#inventorysettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
+| `fulfillment` | Optional | [FulfillmentSettingsRequestRequestInput](../models/FulfillmentSettings.md#fulfillmentsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
+| `inventory` | Optional | [InventorySettingsRequestRequestInput](../models/InventorySettingsRequestRequestInput.md#inventorysettingsrequestrequestinput) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
 | `invoices` | Optional | [InvoiceSettingsPatchInput](../models/InvoiceSettingsPatch.md#invoicesettingspatch) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
 | `legal` | Optional | [LegalSettingsRequestInput](../models/LegalSettingsRequestInput.md#legalsettingsrequestinput) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
-| `metadata` | Optional | Map of (string or null) or null | Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `payment_limits` | Optional | [PaymentLimitSettingsPatchInput](../models/PaymentLimitSettingsPatch.md#paymentlimitsettingspatch) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. Clearing merchant limits preserves Flint support approvals. Cleared maps are omitted from reads. |
-| `promotions` | Optional | [PromotionSettingsInput](../models/PromotionSettings.md#promotionsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
+| `promotions` | Optional | [PromotionSettingsRequestRequestInput](../models/PromotionSettings.md#promotionsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
 | `receipts` | Optional | [ReceiptSettingsRequestInput](../models/ReceiptSettingsRequest.md#receiptsettingsrequest) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
-| `subscriptions` | Optional | [SubscriptionSettingsInput](../models/SubscriptionSettings.md#subscriptionsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
+| `subscriptions` | Optional | [SubscriptionSettingsRequestRequestInput](../models/SubscriptionSettings.md#subscriptionsettings) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
 | `tax` | Optional | [TaxSettingsRequestInput](../models/TaxSettingsRequest.md#taxsettingsrequest) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
 | `tax_identity` | Optional | [TaxIdentityPatchInput](../models/TaxIdentityRequestInput.md#taxidentityrequestinput) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. Legal identity displayed on invoices and credit notes. Requires expected_version whenever present. |
 | `tipping` | Optional | [TippingSettingsPatchInput](../models/TippingSettingsPatch.md#tippingsettingspatch) or null | Patch object: fields you send are applied, fields you omit are unchanged. Send null to remove every value you set in this section. |
@@ -160,7 +160,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -225,7 +225,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `validateCustomDomainWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

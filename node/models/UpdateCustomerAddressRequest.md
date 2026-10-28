@@ -10,15 +10,11 @@ The request body for: Update a customer address; Update one of the current buyer
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [Address](../models/Address.md#address) | Replaces the whole postal address. Send every field you want to keep; omitted optional fields such as line2 are removed. A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country. `address`: [field definitions](../models/UpdateCustomerAddressRequest.md#updatecustomeraddressrequestaddress). |
+| `address` | Optional | [AddressRequest](../models/AddressRequest.md#addressrequest) | Replaces the whole postal address. Send every field you want to keep; omitted optional fields such as line2 are removed. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `is_default_billing` | Optional | boolean | Set true to make this the default billing address and remove that default from any other saved address. Set false to clear this default if this address holds it; no other address becomes the default. |
+| `is_default_shipping` | Optional | boolean | Set true to make this the default shipping address and remove that default from any other saved address. Set false to clear this default if this address holds it; no other address becomes the default. |
 | `label` | Optional | string or null | Limited to 100 characters (Unicode code points), counted before surrounding whitespace is trimmed. Send null to clear it. minLength: `1`. maxLength: `100`. |
 | `phone` | Optional | string or null | E.164 phone number. Limited to 30 characters (Unicode code points), counted before surrounding whitespace is trimmed. Send null to clear it. minLength: `1`. maxLength: `30`. |
 | `recipient_name` | Optional | string | Limited to 255 characters (Unicode code points), counted before surrounding whitespace is trimmed. minLength: `1`. maxLength: `255`. |
-
-### UpdateCustomerAddressRequest.address
-
-Replaces the whole postal address. Send every field you want to keep; omitted optional fields such as line2 are removed. A postal address for a customer, with line 1, optional line 2, city, state, postal code, and country.
-
-Field definitions: [shared fields](PostalAddressInput.md#postaladdressinput).
 

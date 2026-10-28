@@ -4,17 +4,18 @@ namespace Flint;
 /**
  * @property-read string $bundle_id
  * @property-read string $description
- * @property-read list<mixed> $modifiers
+ * @property-read list<array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object> $modifiers
  * @property-read string $name
  * @property-read int $quantity
  * @property-read string $subscription_plan_line_item_id
  * @property-read list<string> $swap_variant_ids
  * @property-read OrderLineItemTaxInput|array<array-key, mixed>|\stdClass $tax
+ * @property-read string $type
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateSubscriptionPlanLineItemRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'bundle_id'?: string, 'description'?: string, 'modifiers'?: list<array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object>, 'name'?: string, 'quantity'?: int, 'subscription_plan_line_item_id'?: string, 'swap_variant_ids'?: list<string>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id': string}|object|array{'bundle_id': string, 'description'?: string, 'modifiers'?: list<array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object>, 'name'?: string, 'quantity'?: int, 'subscription_plan_line_item_id'?: string, 'swap_variant_ids'?: list<string>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object|array{'bundle_id'?: string, 'description'?: string, 'modifiers'?: list<array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object>, 'name': string, 'quantity'?: int, 'subscription_plan_line_item_id'?: string, 'swap_variant_ids'?: list<string>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateSubscriptionPlanLineItemRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string
@@ -28,8 +29,8 @@ final class UpdateSubscriptionPlanLineItemRequestInput extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Shape $ (Value): Array of {@see OrderLineItemModifierRequestInput}. Shape $[] (Value): {@see OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional): Map of string. Shape $[].metadata.* (Value): string. minLength: 1. Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. minLength: 1. Shape $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity (Optional): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape $[].text (Optional): {@see TextModifierRequestInput}. Text a buyer entered for a text modifier group on an order line item. Shape $[].oneOf[1] (Value): any. Shape $[].oneOf[2] (Value): any.
-     * @return list<mixed>
+    /** Shape $ (Value): Array of {@see OrderLineItemModifierRequestInput}. Shape $[] (Value): {@see OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional): {@see MetadataRequestInput}. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. Shape $[].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. minLength: 1. Shape $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity (Optional): integer string. Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape $[].text (Optional): {@see TextModifierRequestInput}. Text a buyer entered for a text modifier group on an order line item. Shape $[].type (Required): string. Selects the type branch. Value enum: "catalog", "text". Shape $[].oneOf[1] (Value): {@see OrderLineItemModifierInputCatalogInput}. The `catalog` variant of `OrderLineItemModifierInput`. Shape $[].oneOf[2] (Value): {@see OrderLineItemModifierInputTextInput}. The `text` variant of `OrderLineItemModifierInput`.
+     * @return list<array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
@@ -64,6 +65,12 @@ final class UpdateSubscriptionPlanLineItemRequestInput extends Model {
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
+    /** Shape $ (Value): string.  Value enum: "variant", "bundle", "custom".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().

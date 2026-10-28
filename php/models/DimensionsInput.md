@@ -6,10 +6,5 @@ Package or item dimensions as `length`, `width`, and `height` in the given `unit
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `height` | Required | number | Distance along this dimension, in the specified unit. maximum: `100000`. exclusiveMinimum: `0`. multipleOf: `0.001`. |
-| `length` | Required | number | Distance along this dimension, in the specified unit. maximum: `100000`. exclusiveMinimum: `0`. multipleOf: `0.001`. |
-| `unit` | Required | string | Length unit for length, width, and height. Use millimeter, centimeter, or inch. Values: `"millimeter"`, `"centimeter"`, `"inch"`. |
-| `width` | Required | number | Distance along this dimension, in the specified unit. maximum: `100000`. exclusiveMinimum: `0`. multipleOf: `0.001`. |
+Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantUnitDimensions](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantUnitDimensions.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantunitdimensions).
 

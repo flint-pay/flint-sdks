@@ -1,13 +1,11 @@
 import type { InputValue } from '../runtime.js';
+import type { Bundle } from '../declarations/types-0.js';
 import type {
-    Bundle,
     BundleComponent,
     BundleComponentListResponse,
     BundleListResponse,
     BundleResponse,
-    BundlesCreateInput
-} from '../declarations/types-0.js';
-import type {
+    BundlesCreateInput,
     BundlesGetInput,
     BundlesListComponentsInput,
     BundlesListInput,
@@ -16,10 +14,10 @@ import type {
 } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateBundleRequestInput } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateBundleRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateBundleRequestInput } from '../declarations/types-50.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -35,54 +33,59 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateBundleRequestInput, CreateBundleComponentRequestInput, CreateBundleComponentRequest } from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
+export type { Bundle, AuthMode } from '../declarations/types-0.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type {
-    Bundle,
     BundleResponse,
     BundleComponentListResponse,
     BundleComponent,
     BundleListResponse,
     BundlesCreateInput,
-    AuthMode,
+    BundlesRemoveInput,
+    BundlesGetInput,
+    BundlesListComponentsInput,
+    BundlesListInput,
+    BundlesUpdateInput,
     BundleComponentVariantSummary
-} from '../declarations/types-0.js';
-export type { SdkResponse, SelectedProductOption } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-1.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type {
     UpdateBundleRequestInput,
     TextModifierConfig,
     UpdateBundleComponentRequestInput,
     UpdateBundleComponentRequest
-} from '../declarations/types-47.js';
-export type {
-    BundlesRemoveInput,
-    BundlesGetInput,
-    BundlesListComponentsInput,
-    BundlesListInput,
-    BundlesUpdateInput
-} from '../declarations/types-1.js';
+} from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { ImageRequestInput } from '../declarations/types-20.js';
+export type { ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput, ImageAttachment } from '../declarations/types-21.js';
+export type {
+    MetadataRequestInput,
+    MetadataMap,
+    ModifierGroup,
+    Modifier,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-32.js';
 export type {
     MoneyValueInput,
     ModifierSet,
     ModifierSetGroup,
-    ModifierGroup,
-    Modifier,
     MoneyValue,
     ModifierOverride,
     ModifierSetGroupExisting,
     ModifierSetGroupInline,
     NextAction,
     NextActionMerchantAccountSession
-} from '../declarations/types-31.js';
-export type { Credentials } from '../declarations/types-9.js';
+} from '../declarations/types-33.js';
+export type { Credentials } from '../declarations/types-11.js';
 export type { CategoryReference } from '../declarations/types-3.js';
-export type { ImageAttachment } from '../declarations/types-19.js';
-export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-63.js';
-export { makeImageRequest } from '../declarations/types-67.js';
-export { makeModifierOverride, makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-72.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { SelectedProductOption } from '../declarations/types-47.js';
+export { makeCreateBundleComponentRequest, makeCreateBundleRequest } from '../declarations/types-66.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-71.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierOverride } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateBundleComponentRequest, makeUpdateBundleRequest } from '../declarations/types-77.js';
 export interface BundlesResource {
     /**
  * Create bundle.
@@ -143,7 +146,7 @@ export interface BundlesResource {
         "expand"?: InputValue<Array<"modifier_set">>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<BundleResponse>>;
     /**
- * List bundle components.
+ * List bundle components. Default order: position ascending, then bundle_component_id ascending.
  * @see reference/bundles.md#bundleslistcomponents
  * GET /v1/bundles/{bundle_id}/components
  * @example
@@ -192,7 +195,7 @@ export interface BundlesResource {
         "delivery_configuration_status"?: InputValue<Array<"configured" | "action_required" | "not_applicable">>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<BundleComponent>;
     /**
- * List bundles.
+ * List bundles. Default order: created_at descending, then bundle_id descending.
  * @see reference/bundles.md#bundleslist
  * GET /v1/bundles
  * @example

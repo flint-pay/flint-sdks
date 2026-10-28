@@ -15,7 +15,7 @@ Request input.
 | `fulfillment_event_id` | Optional | string |  |
 | `fulfillment_id` | Required | string |  |
 | `fulfillment_notification_id` | Required | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `notification_type` | Required | string | Values: [14 declared values](#fulfillmentnotificationinput-notification_type-values). |
 | `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null |  |
 | `order_id` | Required | string |  |

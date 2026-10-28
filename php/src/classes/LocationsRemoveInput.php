@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $location_id
- * @property-read int $expected_version
+ * @property-read string $expected_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class LocationsRemoveInput extends Model {
-    /** @param array{'location_id': string, 'expected_version'?: int, 'Idempotency-Key'?: string}|object $values */
+    /** @param array{'location_id': string, 'expected_version'?: string, 'Idempotency-Key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LocationsRemoveInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -14,11 +14,11 @@ final class LocationsRemoveInput extends Model {
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Shape $ (Value): integer. minimum: 1.
-     * @return int
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
-    public function getExpectedVersion(): int { return $this->get('expected_version'); }
+    public function getExpectedVersion(): string { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
     /** Shape $ (Value): string. maxLength: 255.
      * @return string

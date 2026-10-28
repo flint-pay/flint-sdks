@@ -30,7 +30,7 @@ Request input.
 | `gift_card_settlements` | Required | Array of [OrderGiftCardSettlementInput](../models/OrderGiftCardSettlementInput.md#ordergiftcardsettlementinput) |  |
 | `gift_card_tender_enabled` | Required | boolean |  |
 | `gift_cards` | Required | Array of [OrderGiftCardSelectionInput](../models/OrderGiftCardSelectionInput.md#ordergiftcardselectioninput) |  |
-| `governing_delivery_selection_id` | Optional | string | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Read with GET /v1/orders/{order_id}; other order responses may omit this field. While present, change the destination through the delivery selection. Omitted when no selection governs the order. |
+| `governing_delivery_selection_id` | Required | string or null | ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection. |
 | `internal_note` | Optional | string |  |
 | `inventory_exception_reason` | Optional | string | Why inventory could not be committed after payment. The cause remains after resolution. Omitted when no reason was recorded. Unrecognized reasons are returned as other; new values may be added. Values: `"inventory_deduction_failed"`, `"inventory_handoff_failed"`, `"auto_refund_required"`, `"auto_refund_failed"`, `"policy_resolution_failed"`, `"other"`. |
 | `inventory_exception_resolution_message` | Optional | string | The merchant note supplied when resolving the inventory exception. It is not shown to the buyer. |
@@ -39,7 +39,7 @@ Request input.
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceInput](../models/InventoryRoutingSourceInput.md#inventoryroutingsourceinput) | Where this order's tracked demand is routed. Required before an order containing tracked variants can hold stock. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. |
 | `line_items` | Required | Array of [OrderLineItemInput](../models/OrderLineItemInput.md#orderlineiteminput) |  |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `order_id` | Required | string |  |
 | `order_number` | Optional | string |  |
 | `origin` | Optional | string | Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |

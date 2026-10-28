@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateCustomDomainRequestInput } from '../declarations/types-5.js';
+import type { CreateCustomDomainRequestInput } from '../declarations/types-6.js';
 import type {
     CustomDomain,
     CustomDomainListResponse,
@@ -9,10 +9,10 @@ import type {
     CustomDomainsGetInput,
     CustomDomainsListInput,
     CustomDomainsRemoveInput
-} from '../declarations/types-10.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-11.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,8 +27,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateCustomDomainRequestInput } from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateCustomDomainRequestInput } from '../declarations/types-6.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     CustomDomain,
     CustomDomainResponse,
@@ -37,16 +37,17 @@ export type {
     CustomDomainsRemoveInput,
     CustomDomainsGetInput,
     CustomDomainsListInput,
+    Credentials,
     CustomDomainDNSRecord
-} from '../declarations/types-10.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-11.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateCustomDomainRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateCustomDomainRequest } from '../declarations/types-66.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface CustomDomainsResource {
     /**
  * Configures a checkout or customer account hostname in this environment. Remove an existing
@@ -109,7 +110,8 @@ export interface CustomDomainsResource {
      */
     getWithResponse(custom_domain_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<CustomDomainResponse>>;
     /**
- * Returns domains ordered by created_at descending, then custom_domain_id descending.
+ * Returns domains ordered by created_at descending, then custom_domain_id descending. Default
+ * order: created_at descending, then custom_domain_id descending.
  * @see reference/customDomains.md#customdomainslist
  * GET /v1/custom-domains
  * @example

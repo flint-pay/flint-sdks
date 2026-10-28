@@ -2,10 +2,10 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'description'?: string, 'external_reference_id'?: string, 'handle'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, ...}|object $body
+ * @property-read array{'description'?: string, 'external_reference_id'?: string, 'handle'?: string, 'metadata'?: mixed, 'name': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class CategoriesCreateInput extends Model {
-    /** @param array{'Idempotency-Key'?: string, 'body': array{'description'?: string, 'external_reference_id'?: string, 'handle'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, ...}|object}|object $values */
+    /** @param array{'Idempotency-Key'?: string, 'body': array{'description'?: string, 'external_reference_id'?: string, 'handle'?: string, 'metadata'?: mixed, 'name': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CategoriesCreateInput')); }
     /** Shape $ (Value): string. maxLength: 255.
      * @return string
@@ -14,7 +14,7 @@ final class CategoriesCreateInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): object. The request body for: Create category.
-     * @return array{'description'?: string, 'external_reference_id'?: string, 'handle'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, ...}|object
+     * @return array{'description'?: string, 'external_reference_id'?: string, 'handle'?: string, 'metadata'?: mixed, 'name': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

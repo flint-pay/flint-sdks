@@ -53,7 +53,7 @@ $result = $client->returnReceipts->get('example', [], new RequestOptions());
 
 ### returnReceipts.list
 
-List merchandise receipts. Omitting return_id lists receipts across every Return for the merchant. Newest first: created_at descending, with return_receipt_id descending as the tiebreak.
+List merchandise receipts. Omitting return_id lists receipts across every Return for the merchant. Newest first: created_at descending, with return_receipt_id descending as the tiebreak. Default order: created_at descending, then return_receipt_id descending.
 
 `GET /v1/return-receipts`
 
@@ -180,7 +180,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `verifyLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -12,15 +12,9 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.me.updateAddress(
-  "example",
+  "caddr_example",
   {
-    address: {
-      city: "example",
-      country: "US",
-      line1: "example",
-      postal_code: "example",
-      state: "example",
-    },
+    label: "Home",
   },
   { idempotencyKey: idempotencyKey },
 );

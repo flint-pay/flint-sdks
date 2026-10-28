@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $invoice_schedule_entry_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class AssessInvoiceLateFeeRequestInput extends Model {
-    /** @param array{'invoice_schedule_entry_id'?: string, ...}|object $values */
+    /** @param array{'invoice_schedule_entry_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AssessInvoiceLateFeeRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

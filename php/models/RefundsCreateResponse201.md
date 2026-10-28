@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [CreateRefundResult](../models/CreateRefundResult.md#createrefundresult) | The refund created by a create refund call, with all the fields of a refund. Money returned against a collected payment. Money returned against a collected payment. `data`: [field definitions](../models/RefundsCreateResponse201.md#refundscreateresponse201data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### RefundsCreateResponse201.data
 
@@ -30,7 +30,7 @@ The refund created by a create refund call, with all the fields of a refund. Mon
 | `invoice_id` | Optional | string |  |
 | `line_item_allocations` | Optional | Array of [RefundLineItemAllocation](../models/RefundLineItemAllocation.md#refundlineitemallocation) |  |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null |  |
 | `order_id` | Optional | string |  |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null |  |
@@ -58,4 +58,8 @@ The code of a gift card issued by a refund, returned once in the refund result w
 | --- | --- | --- | --- |
 | `code` | Required | string |  |
 | `gift_card_id` | Required | string |  |
+
+### RefundsCreateResponse201.data.metadata
+
+Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
 

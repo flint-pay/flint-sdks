@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string|null $terms_of_service_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class LegalSettingsRequestInput extends Model {
-    /** @param array{'contract_url'?: string|null, 'refund_policy_url'?: string|null, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string|null, 'terms_of_service_url'?: string|null, ...}|object $values */
+    /** @param array{'contract_url'?: string|null, 'refund_policy_url'?: string|null, 'require_terms_of_service'?: bool, 'shipping_policy_url'?: string|null, 'terms_of_service_url'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LegalSettingsRequestInput')); }
     /** Shape $ (Value): string or null. Send null to clear it. minLength: 1.
      * @return string|null

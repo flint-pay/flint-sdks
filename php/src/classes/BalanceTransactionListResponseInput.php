@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BalanceTransactionListResponseInput extends Model {
-    /** @param array{'data': list<BalanceTransactionInput|array<array-key, mixed>|\stdClass>, 'meta'?: MoneyMovementListMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<BalanceTransactionInput|array<array-key, mixed>|\stdClass>, 'meta'?: MoneyMovementListMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BalanceTransactionListResponseInput')); }
     /** Shape $ (Value): Array of {@see BalanceTransactionInput}. Shape $[] (Value): {@see BalanceTransactionInput}. A change to the merchant's balance.
      * @return list<BalanceTransactionInput|array<array-key, mixed>|\stdClass>

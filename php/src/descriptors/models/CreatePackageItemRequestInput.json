@@ -1,1 +1,1 @@
-{"shared":"CreatePackageItemRequest","dependencies":["CreatePackageItemRequest"]}
+{"shared":"CreatePackageItemRequest","dependencies":["CreatePackageItemRequest","MetadataRequest"]}

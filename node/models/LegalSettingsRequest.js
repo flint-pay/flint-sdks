@@ -1,7 +1,7 @@
-import { d5080 as c0 } from '../descriptors/data/232.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d5080 as d5080 } from '../descriptors/data/232.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d5356 as c0 } from '../descriptors/data/252.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5356 as d5356 } from '../descriptors/data/252.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5080;
+const read = d5356;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["LegalSettingsRequest"]:c0()}); }
 export { codec as _validate };

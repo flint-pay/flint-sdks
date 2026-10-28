@@ -19,7 +19,7 @@ A rule for assessing and handling payment risk.
 | `description` | Required | string |  |
 | `issues` | Required | Array of [RiskRuleIssue](../models/RiskRuleIssue.md#riskruleissue) | Problems that stop Flint from evaluating this rule. Empty when the rule can run. An active rule with issues is skipped on every payment and protects nothing until you fix it. An inactive rule with issues can't be activated until you fix it. |
 | `origin` | Required | string | Values: `"system_default"`, `"merchant"`. |
-| `predicate` | Required | [RiskPredicateNode](../models/RiskPredicateNode.md#riskpredicatenode) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `predicate`: [declared alternatives](../models/CreateRiskPreviewRequest.md#createriskpreviewrequestpredicate). |
+| `predicate` | Required | [RiskPredicateNode](../models/RiskPredicateNode.md#riskpredicatenode) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
 | `risk_rule_id` | Required | string |  |
 | `stage` | Required | string | Values: `"pre_authorization"`, `"post_authorization"`. |
 | `status` | Required | string | Values: `"active"`, `"inactive"`, `"archived"`. |
@@ -44,8 +44,4 @@ anyOf variant 2.
 
 - Undeclared: `resource_id`, `resource_type`.
 - Value shape: null. The credential that created this rule. Null when Flint created it, as for Flint's default rules. The reference may name an API key in the other mode. 
-
-### RiskRule.predicate
-
-Declared alternatives: [CreateRiskPreviewRequest.predicate](../models/CreateRiskPreviewRequest.md#createriskpreviewrequestpredicate).
 

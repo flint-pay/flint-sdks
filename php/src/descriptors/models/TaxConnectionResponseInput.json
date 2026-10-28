@@ -1,0 +1,1 @@
+{"shared":"TaxConnectionResponse","dependencies":["Address","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec1242","SharedCodec2","SharedCodec3","TaxConnection","TaxConnectionDisclosure","TaxConnectionResponse","TaxConnectionSellerAttestation","TaxDisclosureStatement"]}

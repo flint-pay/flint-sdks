@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read ?string $created_at
  * @property-read ?string $customer_id
  * @property-read ?string $fulfillment_status
+ * @property-read string|null $governing_delivery_selection_id
  * @property-read string $order_id
  * @property-read ?string $order_number
  * @property-read ?list<string> $payment_intent_ids
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedOrderSummary extends Model {
-    /** @param array{'buyer_contact'?: mixed, 'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'fulfillment_status'?: string, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': mixed, 'refund_status': string, 'settlement_amounts': mixed, 'status': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'buyer_contact'?: mixed, 'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': mixed, 'refund_status': string, 'settlement_amounts': mixed, 'status': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedOrderSummary')); }
     /** Shape $ (Value): {@see CheckoutBuyerContact}. Buyer contact recorded on the order, including guest contact when retained. Omitted when the order has no recorded contact. Buyer contact supplied with payment or saved during checkout.
      * @return ?CheckoutBuyerContact
@@ -51,6 +52,11 @@ final class ExpandedOrderSummary extends Model {
      */
     public function getFulfillmentStatus(): ?string { return $this->get('fulfillment_status'); }
     public function hasFulfillmentStatus(): bool { return $this->has('fulfillment_status'); }
+    /** Shape $ (Value): string or null. ID of the delivery selection that governs this order. Null when no selection governs the order.
+     * @return string|null
+     */
+    public function getGoverningDeliverySelectionId(): string|null { return $this->get('governing_delivery_selection_id'); }
+    public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
     /** Shape $ (Value): string. Stable identifier of the expanded order.
      * @return string
      */

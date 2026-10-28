@@ -6,5 +6,5 @@ When a promotion is active, with a start time, an end time, and the time zone it
 
 Response model.
 
-Fields, types, descriptions and enum values: [PromotionScheduleInput](../models/PromotionScheduleInput.md#promotionscheduleinput).
+Fields, types, descriptions and enum values: [PromotionScheduleRequestRequestInput](../models/PromotionScheduleRequestRequestInput.md#promotionschedulerequestrequestinput).
 

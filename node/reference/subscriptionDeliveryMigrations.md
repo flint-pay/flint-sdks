@@ -58,7 +58,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -124,7 +124,7 @@ const result = await client.subscriptionDeliveryMigrations.get("example", {}, { 
 
 ### subscriptionDeliveryMigrations.list
 
-Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion. Default order: created_at descending, then subscription_delivery_migration_id descending.
 
 `GET /v1/subscription-delivery-migrations`
 
@@ -188,7 +188,7 @@ const result = await client.subscriptionDeliveryMigrations.list({}, {  });
 
 ### subscriptionDeliveryMigrations.listFailures
 
-Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion.
+Each subscription is previewed before its delivery method changes. Progress and per-subscription failures remain available after completion. Default order: subscription_id ascending; this key uniquely orders the results.
 
 `GET /v1/subscription-delivery-migrations/{subscription_delivery_migration_id}/failures`
 

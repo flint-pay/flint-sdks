@@ -1,11 +1,11 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { DeclinePaymentReviewRequestInput } from '../declarations/types-11.js';
-import type { PaymentReview, PaymentReviewListResponse, PaymentReviewResponse } from '../declarations/types-36.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { ReviewsApproveInput, ReviewsDeclineInput, ReviewsGetInput, ReviewsListInput } from '../declarations/types-43.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { DeclinePaymentReviewRequestInput } from '../declarations/types-12.js';
+import type { PaymentReview, PaymentReviewListResponse, PaymentReviewResponse } from '../declarations/types-39.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { ReviewsApproveInput, ReviewsDeclineInput, ReviewsGetInput, ReviewsListInput } from '../declarations/types-45.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -20,31 +20,32 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResourceReference, ResourceType, ResponseMeta } from '../declarations/types-42.js';
 export type {
     PaymentReview,
     PaymentReviewResponse,
     PaymentReviewListResponse,
     PaymentReviewResolutionFailure,
+    PricingAmounts,
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentReviewPaymentSummary,
     PaymentReviewRisk
-} from '../declarations/types-36.js';
-export type { SdkResponse, SettlementAmounts } from '../declarations/types-44.js';
-export type { DeclinePaymentReviewRequestInput, DeclinePaymentReviewRequest } from '../declarations/types-11.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { ReviewsApproveInput, ReviewsDeclineInput, ReviewsGetInput, ReviewsListInput } from '../declarations/types-43.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+} from '../declarations/types-39.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { DeclinePaymentReviewRequestInput, DeclinePaymentReviewRequest } from '../declarations/types-12.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { ReviewsApproveInput, ReviewsDeclineInput, ReviewsGetInput, ReviewsListInput } from '../declarations/types-45.js';
+export type { ClientOptions, CheckoutBuyerContact } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-16.js';
-export type { CheckoutBuyerContact } from '../declarations/types-3.js';
-export type { PricingAmounts } from '../declarations/types-37.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export { makeDeclinePaymentReviewRequest } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-18.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { SettlementAmounts } from '../declarations/types-47.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeDeclinePaymentReviewRequest } from '../declarations/types-69.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface ReviewsResource {
     /**
  * Approves the payment and closes the review with `closed_reason: approved`. Approving never
@@ -113,7 +114,8 @@ export interface ReviewsResource {
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<PaymentReviewResponse>>;
     /**
  * Lists payment reviews, most recently opened first. A review opens when a `review` rule matches a
- * payment the bank approved. Every status is included unless you filter by `status`.
+ * payment the bank approved. Every status is included unless you filter by `status`. Default
+ * order: opened_at descending, then payment_review_id descending.
  * @see reference/reviews.md#reviewslist
  * GET /v1/payment-reviews
  * @example

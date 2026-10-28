@@ -17,9 +17,9 @@ $client = new Client(new ClientOptions(
 $input = [
   'body' => (object) [
     'currency' => 'USD',
-    'delivery_method_ids' => [],
     'line_items' => [
       (object) [
+        'type' => 'variant',
         'variant_id' => 'example',
       ],
     ],

@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read array{'amount': string, 'currency': string}|object|null $fee_money
  * @property-read string $initiated_by
  * @property-read string $merchant_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $method
  * @property-read array{'amount': string, 'currency': string, ...}|object|null $net_money
  * @property-read array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $original_payout
@@ -32,7 +32,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayoutInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string|\DateTimeInterface, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': array{'amount': string, 'currency': string}|object|null, 'initiated_by': string, 'merchant_id': string, 'metadata'?: array<array-key, string>|\stdClass, 'method': string, 'net_money': array{'amount': string, 'currency': string, ...}|object|null, 'original_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'original_payout_id'?: string, 'payout_destination'?: array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': string, ...}|object|null, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: PayoutTraceIDInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at': string|\DateTimeInterface, 'currency': string, 'description'?: string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fee_amount_status': string, 'fee_money': array{'amount': string, 'currency': string}|object|null, 'initiated_by': string, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'method': string, 'net_money': array{'amount': string, 'currency': string, ...}|object|null, 'original_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'original_payout_id'?: string, 'payout_destination'?: array{'available_payout_methods': list<string>, 'bank_name'?: string, 'country'?: string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'default_for_currency': bool, 'last4'?: string, 'payout_destination_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, 'version': string, ...}|object|null, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'reversed_by_payout'?: array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'reversed_by_payout_id'?: string, 'statement_descriptor'?: string, 'status': string, 'trace_id'?: PayoutTraceIDInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutInput')); }
     /** Shape $ (Value): {@see MoneyValueInput}. Amount sent to your bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -112,11 +112,11 @@ final class PayoutInput extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Payout method. instant can appear on imported payouts; unmapped methods are returned as other. Value enum: "standard", "instant", "other".
      * @return string
@@ -136,7 +136,7 @@ final class PayoutInput extends Model {
      */
     public function getOriginalPayout(): mixed { return $this->get('original_payout'); }
     public function hasOriginalPayout(): bool { return $this->has('original_payout'); }
-    /** Shape $ (Value): string. On a payout that reverses another payout, the payout it reverses. A payout has at most one of original_payout_id and reversed_by_payout_id.
+    /** Shape $ (Value): string. On a payout that reverses another payout, the payout it reverses. Present only when Flint has the matching original payout. A payout has at most one of original_payout_id and reversed_by_payout_id.
      * @return string
      * @throws SdkError When original_payout_id is omitted; use hasOriginalPayoutId() or valueOrDefault().
      */
@@ -160,19 +160,19 @@ final class PayoutInput extends Model {
      */
     public function getPayoutId(): string { return $this->get('payout_id'); }
     public function hasPayoutId(): bool { return $this->has('payout_id'); }
-    /** Shape $ (Value): string. Whether Flint has pulled a paid payout back from your bank: none, reversing while a reversal is in progress, or reversed once it completes and a payout_reversal balance transaction returns the money. status stays paid throughout. Value enum: "none", "reversing", "reversed".
+    /** Shape $ (Value): string. Whether Flint has pulled a paid payout back from your bank: none until the reversal completes, then reversed. A payout_reversal balance transaction returns the money, and status stays paid. Value enum: "none", "reversed".
      * @return string
      * @throws SdkError When reversal_status is omitted; use hasReversalStatus() or valueOrDefault().
      */
     public function getReversalStatus(): string { return $this->get('reversal_status'); }
     public function hasReversalStatus(): bool { return $this->has('reversal_status'); }
-    /** Shape $ (Value): {@see ExpandedPayoutSummaryInput} or null. The payout that reversed this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Shape $.anyOf[1] (Value): {@see ExpandedPayoutSummaryInput}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
+    /** Shape $ (Value): {@see ExpandedPayoutSummaryInput} or null. The payout reversing this one, inlined when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is absent. Shape $.anyOf[1] (Value): {@see ExpandedPayoutSummaryInput}. A payout's summary fields, including amount, method, status, and arrival date, returned when the payout is expanded. Shape $.anyOf[2] (Value): null.
      * @return array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'arrival_date'?: string, 'balance_source_type': string, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'method': string, 'payout_destination_id'?: string, 'payout_id': string, 'reversal_status': string, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When reversed_by_payout is omitted; use hasReversedByPayout() or valueOrDefault().
      */
     public function getReversedByPayout(): mixed { return $this->get('reversed_by_payout'); }
     public function hasReversedByPayout(): bool { return $this->has('reversed_by_payout'); }
-    /** Shape $ (Value): string. On a reversed payout, the separate payout that reversed it, when there is one. A payout has at most one of original_payout_id and reversed_by_payout_id.
+    /** Shape $ (Value): string. The separate payout reversing this one, when Flint has the matching payout. Its presence does not mean the reversal has completed; read reversal_status. A payout has at most one of original_payout_id and reversed_by_payout_id.
      * @return string
      * @throws SdkError When reversed_by_payout_id is omitted; use hasReversedByPayoutId() or valueOrDefault().
      */

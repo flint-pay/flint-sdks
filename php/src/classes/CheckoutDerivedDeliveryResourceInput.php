@@ -5,13 +5,14 @@ namespace Flint;
  * @property-read list<string> $buyer_reasons
  * @property-read list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass> $choice_groups
  * @property-read string $delivery_quote_id
+ * @property-read string|null $delivery_selection_id
  * @property-read string $evaluation_status
  * @property-read string|\DateTimeInterface $expires_at
  * @property-read list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass> $input_requirements
  * @property-read list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass> $merchant_diagnostics
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutDerivedDeliveryResourceInput extends Model {
-    /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'delivery_quote_id'?: string, 'evaluation_status': string, 'expires_at'?: string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
+    /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<DeliveryQuoteChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResourceInput')); }
     /** Shape $ (Value): Array of string. Shape $[] (Value): string.
      * @return list<string>
@@ -31,6 +32,12 @@ final class CheckoutDerivedDeliveryResourceInput extends Model {
      */
     public function getDeliveryQuoteId(): string { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
+    /** Shape $ (Value): string or null. Current delivery selection ID after reconciliation, or null when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes.
+     * @return string|null
+     * @throws SdkError When delivery_selection_id is omitted; use hasDeliverySelectionId() or valueOrDefault().
+     */
+    public function getDeliverySelectionId(): string|null { return $this->get('delivery_selection_id'); }
+    public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
     /** Shape $ (Value): string.  Value enum: "complete", "incomplete", "degraded", "requires_explicit_quote".
      * @return string
      * @throws SdkError When evaluation_status is omitted; use hasEvaluationStatus() or valueOrDefault().

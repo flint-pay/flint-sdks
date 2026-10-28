@@ -1,18 +1,18 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CustomDomain, CustomDomainResponse } from '../declarations/types-10.js';
-import type { RequestOptions } from '../declarations/types-40.js';
+import type { CustomDomain, CustomDomainResponse } from '../declarations/types-11.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
 import type {
-    SdkResponse,
     Settings,
     SettingsGetEffectiveInput,
     SettingsGetInput,
     SettingsResponse,
     SettingsUpdateInput,
     SettingsValidateCustomDomainInput
-} from '../declarations/types-44.js';
-import type { UpdateSettingsRequestInput } from '../declarations/types-49.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-47.js';
+import type { UpdateSettingsRequestInput } from '../declarations/types-52.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,40 +27,41 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     Settings,
-    SdkResponse,
     SettingsResponse,
     SettingsGetEffectiveInput,
     SettingsGetInput,
     SettingsUpdateInput,
     SettingsValidateCustomDomainInput
-} from '../declarations/types-44.js';
-export type { UpdateSettingsRequestInput } from '../declarations/types-49.js';
+} from '../declarations/types-47.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { UpdateSettingsRequestInput } from '../declarations/types-52.js';
 export type {
     CustomDomain,
     CustomDomainResponse,
+    Credentials,
     CustomerAccountSettings,
     CustomerAccountPresentation,
     CustomerAccountRouteTemplates,
     CustomerEmailDeliverySettings,
-    CustomerAccountSettingsInput,
-    CustomerAccountPresentationInput,
-    CustomerAccountRouteTemplatesInput,
-    CustomerEmailDeliverySettingsInput,
+    CustomerAccountSettingsRequestRequestInput,
+    CustomerAccountPresentationRequestRequestInput,
+    CustomerAccountRouteTemplatesRequestRequestInput,
+    CustomerEmailDeliverySettingsRequestRequestInput,
     CustomDomainDNSRecord,
     CustomDomainsRemoveInput
-} from '../declarations/types-10.js';
+} from '../declarations/types-11.js';
 export type {
     ClientOptions,
     CheckoutSettings,
     CheckoutRecoveryEmailSettings,
     CheckoutTaxConfig,
-    CheckoutSettingsInput,
-    CheckoutRecoveryEmailSettingsInput,
-    CheckoutSavedPaymentDetailsSettingsInput
+    CheckoutSettingsRequestRequestInput,
+    CheckoutRecoveryEmailSettingsRequestRequestInput,
+    CheckoutSavedPaymentDetailsSettingsRequestRequestInput
 } from '../declarations/types-4.js';
 export type {
     AuthMode,
@@ -70,34 +71,37 @@ export type {
     AddressRequestInput,
     AddressRequest
 } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { BuyerCapabilities, BuyerPauseCapability, BuyerCapabilitiesInput, BuyerPauseCapabilityInput } from '../declarations/types-1.js';
-export type { BuyerRetentionOffer, BuyerSkipCapability, BuyerRetentionOfferInput, BuyerSkipCapabilityInput } from '../declarations/types-2.js';
-export type { FulfillmentSettings, FulfillmentSettingsInput } from '../declarations/types-17.js';
-export type { InventorySettings, InventoryOriginPolicy, InventorySettingsInput, InventoryOriginPolicyInput } from '../declarations/types-25.js';
+export type { BuyerCapabilities, BuyerCapabilitiesInput } from '../declarations/types-1.js';
+export type { BuyerPauseCapability, BuyerRetentionOffer, BuyerPauseCapabilityInput, BuyerRetentionOfferInput } from '../declarations/types-2.js';
+export type { BuyerSkipCapability, BuyerSkipCapabilityInput } from '../declarations/types-3.js';
+export type { FulfillmentSettings, FulfillmentSettingsRequestRequestInput } from '../declarations/types-19.js';
+export type { InventorySettings, InventorySettingsRequestRequestInput } from '../declarations/types-27.js';
+export type { InventoryOriginPolicy, InventoryOriginPolicyRequestRequestInput } from '../declarations/types-26.js';
 export type {
     InvoiceSettings,
-    LegalSettings,
-    InvoiceSettingsPatchInput,
-    LegalSettingsRequestInput,
-    LegalSettingsRequest
-} from '../declarations/types-28.js';
-export type { InvoiceAutopayRetryPolicy, InvoiceAutopayRetryPolicyInput } from '../declarations/types-26.js';
-export type {
     InvoicePaymentPolicy,
     InvoicePaymentOptionLimit,
     InvoiceReminderPolicy,
     InvoiceReminderRule,
+    InvoiceSettingsPatchInput,
     InvoicePaymentPolicyInput,
     InvoicePaymentOptionLimitInput,
     InvoiceReminderPolicyInput,
     InvoiceReminderRuleInput
-} from '../declarations/types-27.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-31.js';
-export type { PaymentLimitSettings, PaymentLimitSettingsPatchInput } from '../declarations/types-35.js';
-export type { PromotionSettings, PromotionSettingsInput } from '../declarations/types-38.js';
-export type { ReceiptSettings, ReceiptSettingsRequestInput, ReceiptSettingsRequest } from '../declarations/types-39.js';
-export type { SubscriptionSettings, SubscriptionSettingsInput } from '../declarations/types-46.js';
+} from '../declarations/types-29.js';
+export type { InvoiceAutopayRetryPolicy, InvoiceAutopayRetryPolicyInput } from '../declarations/types-28.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-33.js';
+export type { LegalSettings, LegalSettingsRequestInput, LegalSettingsRequest } from '../declarations/types-30.js';
+export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
+export type { PaymentLimitSettings, PaymentLimitSettingsPatchInput } from '../declarations/types-37.js';
+export type {
+    PromotionSettings,
+    ReceiptSettings,
+    PromotionSettingsRequestRequestInput,
+    ReceiptSettingsRequestInput,
+    ReceiptSettingsRequest
+} from '../declarations/types-41.js';
+export type { SubscriptionSettings, SubscriptionSettingsRequestRequestInput } from '../declarations/types-49.js';
 export type {
     TaxSettings,
     TaxIdentity,
@@ -105,28 +109,30 @@ export type {
     TaxSettingsRequestInput,
     TaxIdentityPatchInput,
     TippingSettingsPatchInput
-} from '../declarations/types-47.js';
-export type { DocumentTaxID, DocumentTaxIDInput } from '../declarations/types-16.js';
+} from '../declarations/types-50.js';
+export type { DocumentTaxID, DocumentTaxIDRequestRequestInput } from '../declarations/types-18.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
 export {
     makeAddressRequest,
     makeBrandingSettingsRequest,
     makeBuyerCapabilities,
     makeBuyerPauseCapability,
     makeBuyerRetentionOffer,
-    makeBuyerSkipCapability,
-    makeCheckoutRecoveryEmailSettings,
-    makeCheckoutSavedPaymentDetailsSettings,
-    makeCheckoutSettings
-} from '../declarations/types-62.js';
-export { makeCheckoutTaxConfig } from '../declarations/types-63.js';
-export {
-    makeCustomerAccountPresentation,
-    makeCustomerAccountRouteTemplates,
-    makeCustomerAccountSettings,
-    makeCustomerEmailDeliverySettings
+    makeBuyerSkipCapability
 } from '../declarations/types-65.js';
-export { makeDocumentTaxID, makeFulfillmentSettings } from '../declarations/types-66.js';
-export { makeInventoryOriginPolicy, makeInventorySettings } from '../declarations/types-67.js';
+export {
+    makeCheckoutRecoveryEmailSettingsRequestRequest,
+    makeCheckoutSavedPaymentDetailsSettingsRequestRequest,
+    makeCheckoutSettingsRequestRequest
+} from '../declarations/types-66.js';
+export {
+    makeCustomerAccountPresentationRequestRequest,
+    makeCustomerAccountRouteTemplatesRequestRequest,
+    makeCustomerAccountSettingsRequestRequest,
+    makeCustomerEmailDeliverySettingsRequestRequest
+} from '../declarations/types-69.js';
+export { makeDocumentTaxIDRequestRequest, makeFulfillmentSettingsRequestRequest } from '../declarations/types-70.js';
+export { makeInventoryOriginPolicyRequestRequest, makeInventorySettingsRequestRequest } from '../declarations/types-71.js';
 export {
     makeInvoiceAutopayRetryPolicy,
     makeInvoicePaymentOptionLimit,
@@ -135,12 +141,13 @@ export {
     makeInvoiceReminderRule,
     makeInvoiceSettingsPatch,
     makeLegalSettingsRequest,
-    makeMoneyValue
-} from '../declarations/types-68.js';
-export { makePaymentLimitSettingsPatch } from '../declarations/types-69.js';
-export { makePromotionSettings, makeReceiptSettingsRequest } from '../declarations/types-70.js';
-export { makeSubscriptionSettings, makeTaxIdentityPatch, makeTaxSettingsRequest, makeTippingSettingsPatch } from '../declarations/types-72.js';
-export { makeUpdateSettingsRequest } from '../declarations/types-73.js';
+    makeMetadataPatchRequest
+} from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makePaymentLimitSettingsPatch, makePromotionSettingsRequestRequest, makeReceiptSettingsRequest } from '../declarations/types-74.js';
+export { makeSubscriptionSettingsRequestRequest, makeTaxIdentityPatch } from '../declarations/types-76.js';
+export { makeTaxSettingsRequest, makeTippingSettingsPatch } from '../declarations/types-77.js';
+export { makeUpdateSettingsRequest } from '../declarations/types-78.js';
 export interface SettingsResource {
     /**
  * Returns the authenticated merchant's settings for this environment with Flint's defaults filled

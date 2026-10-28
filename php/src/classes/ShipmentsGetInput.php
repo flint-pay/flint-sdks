@@ -14,7 +14,7 @@ final class ShipmentsGetInput extends Model {
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** Shape $ (Value): Array of string.  [] enum: "order". Shape $[] (Value): string.  Value enum: "order".
+    /** Shape $ (Value): Array of string.  [] enum: "order", "packages". Shape $[] (Value): string.  Value enum: "order", "packages".
      * @return list<string>
      * @throws SdkError When expand is omitted; use hasExpand() or valueOrDefault().
      */

@@ -15,6 +15,8 @@ Response model.
 | `api_version_changed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `api_version_previous` | Optional | string |  |
 | `client_id` | Required | string |  |
+| `client_secret_enabled` | Required | boolean |  |
+| `client_secret_last_used_at` | Required | string or null | RFC3339 timestamp. Format: `date-time`. |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `default_requested_permissions` | Required | Array of string |  |
 | `name` | Required | string |  |
@@ -25,5 +27,5 @@ Response model.
 | `status` | Required | string | Values: `"active"`, `"archived"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
-| `client_secret` | Required | string | One-time client secret returned when the partner app is created or its secret is rotated. |
+| `client_secret` | Required | string or null | One-time client secret returned when enabled at creation. Null when client_secret_enabled is false. |
 

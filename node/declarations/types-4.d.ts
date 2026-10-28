@@ -1,7 +1,7 @@
-import type { ResourceReference, ResponseMeta } from './types-40.js';
-import type { DeliveryInputRequirement, DeliveryMerchantDiagnostic } from './types-12.js';
-import type { DeliveryQuoteChoiceGroupResource } from './types-14.js';
 import type { Address, AddressRequest, AddressRequestInput, AuthMode } from './types-0.js';
+import type { ResourceReference, ResponseMeta } from './types-42.js';
+import type { DeliveryInputRequirement, DeliveryMerchantDiagnostic } from './types-13.js';
+import type { DeliveryQuoteChoiceGroupResource } from './types-15.js';
 import type {
     ErrorRemediation,
     ExpandedCustomerSummary,
@@ -9,26 +9,234 @@ import type {
     ExpandedOrderSummary,
     ExpandedPaymentIntentSummary,
     ExpandedPaymentLinkSummary
-} from './types-16.js';
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { OrderLineItemTax, OrderLineItemTaxInput, OrderPaymentAttempt } from './types-32.js';
-import type { CheckoutBuyerContact, CheckoutBuyerFields, CheckoutCustomTextConfig, CheckoutCustomerPrefill } from './types-3.js';
-import type { Image } from './types-19.js';
-import type { LegalSettings } from './types-28.js';
-import type { PaymentCollection } from './types-35.js';
+} from './types-18.js';
+import type { MoneyValue, MoneyValueInput } from './types-33.js';
+import type { OrderLineItemTax, OrderLineItemTaxInput, OrderPaymentAttempt } from './types-34.js';
+import type { Image } from './types-21.js';
+import type { LegalSettings } from './types-30.js';
+import type { MetadataMap } from './types-32.js';
+import type { PaymentCollection } from './types-37.js';
 import type { InputValue, ClientOptions as RuntimeClientOptions, CredentialProvider } from '../runtime.js';
 import type {
+    CloseCheckoutSessionRequestInput,
     ConfirmCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutDeliveryQuoteRequestInput,
     CreateCheckoutSessionRequestInput
 } from './types-5.js';
 import type { CreateDeliverySelectionRequestInput } from './types-6.js';
-import type { UpdateCheckoutSessionRequestInput } from './types-47.js';
-import type { SubscriptionIntervalOption } from './types-45.js';
-import type { Credentials } from './types-9.js';
-import type { Invoice } from './types-26.js';
-import type { InvoicePaymentAttempt } from './types-27.js';
+import type { UpdateCheckoutSessionRequestInput } from './types-50.js';
+import type { SubscriptionIntervalOption } from './types-48.js';
+import type { Credentials } from './types-11.js';
+/**
+ * Shape $ (Value): {@link ChangeSubscriptionPlanRequest}. The request body for: Change
+ * subscription plan.
+ */
+export type ChangeSubscriptionPlanRequest = ({
+    /**
+     * Shape $ (Value): string. Send with billing_interval_count to choose a target plan option.
+     * Omit both to keep the current interval. Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    /**
+     * Shape $ (Value): integer. Required when billing_interval is sent; billing_interval is
+     * required when this field is sent. minimum: 1. maximum: 365.
+     */
+    "billing_interval_count"?: number;
+    /**
+     * Shape $ (Value): string. now bills a new period with credit for unused paid item time.
+     * next_renewal changes the plan immediately and keeps the current paid period and next billing
+     * date. Value enum: "now", "next_renewal".
+     */
+    "billing_starts": "now" | "next_renewal" | (string & {});
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}`;
+    /**
+     * Shape $ (Value): integer. Omit to keep the current subscription quantity. The target plan
+     * must offer the quantity. Whole-number quantity; fractional quantities are not supported.
+     * minimum: 1. maximum: 100.
+     */
+    "quantity"?: number;
+    /** Shape $ (Value): string. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "subscription_plan_id": string;
+});
+/**
+ * Shape $ (Value): {@link ChangeSubscriptionPlanRequestInput}. The request body for: Change
+ * subscription plan.
+ */
+export type ChangeSubscriptionPlanRequestInput = ({
+    /**
+     * Shape $ (Value): string. Send with billing_interval_count to choose a target plan option.
+     * Omit both to keep the current interval. Value enum: "daily", "weekly", "monthly", "yearly".
+     */
+    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
+    /**
+     * Shape $ (Value): integer. Required when billing_interval is sent; billing_interval is
+     * required when this field is sent. minimum: 1. maximum: 365.
+     */
+    "billing_interval_count"?: number;
+    /**
+     * Shape $ (Value): string. now bills a new period with credit for unused paid item time.
+     * next_renewal changes the plan immediately and keeps the current paid period and next billing
+     * date. Value enum: "now", "next_renewal".
+     */
+    "billing_starts": "now" | "next_renewal";
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): integer. Omit to keep the current subscription quantity. The target plan
+     * must offer the quantity. Whole-number quantity; fractional quantities are not supported.
+     * minimum: 1. maximum: 100.
+     */
+    "quantity"?: number;
+    /** Shape $ (Value): string. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. */
+    "subscription_plan_id": string;
+});
+/**
+ * Shape $ (Value): {@link CheckoutBuyerContact}. Buyer contact supplied with payment or saved
+ * during checkout.
+ */
+export type CheckoutBuyerContact = {
+    /**
+     * Shape $ (Value): string or null. Email supplied for the buyer, exactly as sent. Null when no
+     * email is saved; is_email_cleared distinguishes an explicit clear. Format: email. maxLength:
+     * 255.
+     */
+    "email": string | null;
+    /**
+     * Shape $ (Value): boolean. True when the buyer explicitly cleared the email, including before
+     * entering one. Saving an email resets it to false. Do not restore a prefilled email while
+     * true.
+     */
+    "is_email_cleared": boolean;
+    /**
+     * Shape $ (Value): boolean. True when the buyer explicitly cleared the phone, including before
+     * entering one. Saving a phone resets it to false. Do not restore a prefilled phone while
+     * true.
+     */
+    "is_phone_cleared": boolean;
+    /**
+     * Shape $ (Value): string or null. Phone supplied for the buyer, in E.164 format. Null when no
+     * phone is saved; is_phone_cleared distinguishes an explicit clear. pattern:
+     * ^\+[1-9][0-9]{1,14}$.
+     */
+    "phone": string | null;
+    /**
+     * Shape $ (Value): string. When the buyer last changed the saved checkout contact. Omitted on
+     * order buyer contact. Format: date-time.
+     */
+    "updated_at"?: string;
+};
+/**
+ * Shape $ (Value): {@link CheckoutBuyerContactRequest}. Buyer contact to supply with payment or
+ * save during checkout. Send at least one field. Values are stored exactly as sent, so an email
+ * with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept
+ * null to clear a field. Payment requests do not accept null. minProperties: 1.
+ */
+export type CheckoutBuyerContactRequest = {
+    /**
+     * Shape $ (Value): string or null. Email for the buyer, such as buyer@example.com. On checkout
+     * session updates, null clears the saved email. Format: email. minLength: 1. maxLength: 255.
+     */
+    "email"?: string | null;
+    /**
+     * Shape $ (Value): string or null. Phone for the buyer, in E.164 format, such as +14155551234.
+     * On checkout session updates, null clears the saved phone. minLength: 1. pattern:
+     * ^\+[1-9][0-9]{1,14}$.
+     */
+    "phone"?: string | null;
+};
+/**
+ * Shape $ (Value): {@link CheckoutBuyerContactRequestInput}. Buyer contact to supply with payment
+ * or save during checkout. Send at least one field. Values are stored exactly as sent, so an email
+ * with surrounding spaces is rejected. Checkout session updates keep omitted fields and accept
+ * null to clear a field. Payment requests do not accept null. minProperties: 1.
+ */
+export type CheckoutBuyerContactRequestInput = CheckoutBuyerContactRequest;
+/**
+ * Shape $ (Value): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+ * leave out uses your checkout settings.
+ */
+export type CheckoutBuyerFields = {
+    /**
+     * Shape $ (Value): boolean. Whether checkout offers address suggestions while the buyer enters
+     * an address.
+     */
+    "address_autocomplete_enabled"?: boolean;
+    /** Shape $ (Value): boolean. Whether checkout requires the buyer's billing address. */
+    "require_billing_address"?: boolean;
+    /**
+     * Shape $ (Value): boolean. Whether checkout requires the buyer's email address. Subscription
+     * plan sessions always require email, so only true is allowed with type: subscription_plan.
+     */
+    "require_email"?: boolean;
+    /** Shape $ (Value): boolean. Whether checkout requires the buyer's phone number. */
+    "require_phone"?: boolean;
+};
+/**
+ * Shape $ (Value): {@link CheckoutBuyerFieldsRequestRequestInput}. What checkout asks the buyer
+ * for. Each field you leave out uses your checkout settings.
+ */
+export type CheckoutBuyerFieldsRequestRequestInput = CheckoutBuyerFields;
+/**
+ * Shape $ (Value): {@link CheckoutCustomTextConfig}. Custom text shown in checkout: an order
+ * summary message and a shipping address label.
+ */
+export type CheckoutCustomTextConfig = {
+    /** Shape $ (Value): string. */
+    "order_summary_message"?: string;
+    /** Shape $ (Value): string. */
+    "shipping_address_label"?: string;
+};
+/**
+ * Shape $ (Value): {@link CheckoutCustomTextWriteConfigInput}. Custom checkout text you supply
+ * when creating a checkout session: an order summary message and a shipping address label.
+ */
+export type CheckoutCustomTextWriteConfigInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_summary_message"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "shipping_address_label"?: string;
+};
+/**
+ * Shape $ (Value): {@link CheckoutCustomerPrefill}. Details the buyer's checkout can prefill from
+ * the customer it acts for.
+ */
+export type CheckoutCustomerPrefill = {
+    /**
+     * Shape $ (Value): {@link Address}. The customer's default billing address. Omitted when the
+     * customer has none. A postal address. Every address has country. Addresses Flint checked as
+     * complete (customer and saved addresses, merchant, location, invoice, order delivery
+     * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
+     * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
+     * locations and postal-code tax locations hold only what was provided, such as postal_code and
+     * country.
+     */
+    "billing_address"?: Address;
+    /** Shape $ (Value): string. The customer's email. */
+    "email": string;
+    /**
+     * Shape $ (Value): {@link Address}. The customer's default shipping address. Omitted when the
+     * customer has none. A postal address. Every address has country. Addresses Flint checked as
+     * complete (customer and saved addresses, merchant, location, invoice, order delivery
+     * destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and
+     * city, and US ones always have state and postal_code. Delivery quote destinations, buyer
+     * locations and postal-code tax locations hold only what was provided, such as postal_code and
+     * country.
+     */
+    "shipping_address"?: Address;
+    /**
+     * Shape $ (Value): string. Recipient name of the customer's default shipping address. Present
+     * whenever `shipping_address` is.
+     */
+    "shipping_recipient_name"?: string;
+};
 /**
  * Shape $ (Value): {@link CheckoutDeliveryPinnedDependency}. A delivery dependency pinned to a
  * checkout, such as the assigned method, eligibility, or pricing callback, with the revision it
@@ -77,6 +285,12 @@ export type CheckoutDerivedDeliveryResource = {
     "choice_groups": Array<DeliveryQuoteChoiceGroupResource>;
     /** Shape $ (Value): string. */
     "delivery_quote_id"?: string;
+    /**
+     * Shape $ (Value): string or null. Current delivery selection ID after reconciliation, or null
+     * when no selection is current. Assert this value with expected_delivery_selection_id on
+     * checkout delivery writes.
+     */
+    "delivery_selection_id": string | null;
     /**
      * Shape $ (Value): string. Value enum: "complete", "incomplete", "degraded",
      * "requires_explicit_quote".
@@ -213,8 +427,12 @@ export type CheckoutPaymentMethodSave = {
  */
 export type CheckoutPrefill = {
     /**
-     * Shape $ (Value): {@link Address}. A postal address, as returned on customers, invoices, tax
-     * locations, and fulfillment recipients.
+     * Shape $ (Value): {@link Address}. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
      */
     "billing_address"?: Address;
     /** Shape $ (Value): string. */
@@ -222,8 +440,12 @@ export type CheckoutPrefill = {
     /** Shape $ (Value): string. */
     "phone"?: string;
     /**
-     * Shape $ (Value): {@link Address}. A postal address, as returned on customers, invoices, tax
-     * locations, and fulfillment recipients.
+     * Shape $ (Value): {@link Address}. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
      */
     "shipping_address"?: Address;
 };
@@ -237,9 +459,9 @@ export type CheckoutPrefill = {
  */
 export type CheckoutPrefillRequest = {
     /**
-     * Shape $ (Value): {@link AddressRequest}. A postal address you supply when creating or
-     * updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to
-     * clear it.
+     * Shape $ (Value): {@link AddressRequest}. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
      */
     "billing_address"?: AddressRequest;
     /** Shape $ (Value): string. minLength: 1. */
@@ -247,9 +469,9 @@ export type CheckoutPrefillRequest = {
     /** Shape $ (Value): string. minLength: 1. */
     "phone"?: string;
     /**
-     * Shape $ (Value): {@link AddressRequest}. A postal address you supply when creating or
-     * updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to
-     * clear it.
+     * Shape $ (Value): {@link AddressRequest}. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
      */
     "shipping_address"?: AddressRequest;
 };
@@ -263,9 +485,9 @@ export type CheckoutPrefillRequest = {
  */
 export type CheckoutPrefillRequestInput = {
     /**
-     * Shape $ (Value): {@link AddressRequestInput}. A postal address you supply when creating or
-     * updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to
-     * clear it.
+     * Shape $ (Value): {@link AddressRequestInput}. A complete postal address. State and
+     * postal_code are required for US addresses and optional for other countries. Send null or
+     * omit line2, state, and postal_code when the address has none.
      */
     "billing_address"?: AddressRequestInput;
     /** Shape $ (Value): string. minLength: 1. */
@@ -273,9 +495,9 @@ export type CheckoutPrefillRequestInput = {
     /** Shape $ (Value): string. minLength: 1. */
     "phone"?: string;
     /**
-     * Shape $ (Value): {@link AddressRequestInput}. A postal address you supply when creating or
-     * updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to
-     * clear it.
+     * Shape $ (Value): {@link AddressRequestInput}. A complete postal address. State and
+     * postal_code are required for US addresses and optional for other countries. Send null or
+     * omit line2, state, and postal_code when the address has none.
      */
     "shipping_address"?: AddressRequestInput;
 };
@@ -319,10 +541,10 @@ export type CheckoutPromotionConfig = {
     "codes_enabled"?: boolean | null;
 };
 /**
- * Shape $ (Value): {@link CheckoutPromotionConfigInput}. Promotion settings for a checkout:
- * whether automatic promotions apply and whether the buyer can apply promotion codes.
+ * Shape $ (Value): {@link CheckoutPromotionConfigRequestRequestInput}. Promotion settings for a
+ * checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
  */
-export type CheckoutPromotionConfigInput = CheckoutPromotionConfig;
+export type CheckoutPromotionConfigRequestRequestInput = CheckoutPromotionConfig;
 /**
  * Shape $ (Value): {@link CheckoutQuickPayItemRequest}. A single custom item to charge on a
  * checkout session, supplied as `quick_pay_item`: a name, an amount, and optional tax settings.
@@ -378,10 +600,10 @@ export type CheckoutRecoveryEmailSettings = {
     "enabled"?: boolean;
 };
 /**
- * Shape $ (Value): {@link CheckoutRecoveryEmailSettingsInput}. Checkout reminder email settings.
- * On update, an omitted field keeps its value.
+ * Shape $ (Value): {@link CheckoutRecoveryEmailSettingsRequestRequestInput}. Checkout reminder
+ * email settings. On update, an omitted field keeps its value.
  */
-export type CheckoutRecoveryEmailSettingsInput = CheckoutRecoveryEmailSettings;
+export type CheckoutRecoveryEmailSettingsRequestRequestInput = CheckoutRecoveryEmailSettings;
 /**
  * Shape $ (Value): {@link CheckoutRedirects}. Where hosted checkout sends the buyer. Not allowed
  * when surface is embedded; use payment_return_url.
@@ -436,10 +658,10 @@ export type CheckoutRedirectsRequestInput = {
     "success_url"?: string;
 };
 /**
- * Shape $ (Value): {@link CheckoutSavedPaymentDetailsSettingsInput}. Saved payment details
- * settings for hosted checkout. On update, an omitted field keeps its value.
+ * Shape $ (Value): {@link CheckoutSavedPaymentDetailsSettingsRequestRequestInput}. Saved payment
+ * details settings for hosted checkout. On update, an omitted field keeps its value.
  */
-export type CheckoutSavedPaymentDetailsSettingsInput = {
+export type CheckoutSavedPaymentDetailsSettingsRequestRequestInput = {
     /**
      * Shape $ (Value): boolean. Whether hosted checkout shows buyers an unchecked option to save
      * the card they type. A card is saved only when the buyer checks it and the payment succeeds,
@@ -528,6 +750,14 @@ export type CheckoutSession = {
      */
     "customer_prefill"?: CheckoutCustomerPrefill;
     /**
+     * Shape $ (Value): {@link CheckoutDerivedDeliveryResource}. Current delivery choices for
+     * Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field
+     * does not request a delivery quote. Omitted when the session is not open, has no order, or
+     * Flint cannot read its delivery. The delivery options Flint derived for a checkout as a buyer
+     * sees them: choice groups, input requirements, and evaluation status.
+     */
+    "delivery"?: CheckoutDerivedDeliveryResource;
+    /**
      * Shape $ (Value): Array of string. Immutable delivery method assignment captured when the
      * checkout was created. Shape $[] (Value): string.
      */
@@ -557,14 +787,6 @@ export type CheckoutSession = {
      * maxLength: 255.
      */
     "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): {@link CheckoutDerivedDeliveryResource}. Current fulfillment choices for
-     * Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field
-     * does not request a delivery quote. Omitted when the session is not open, has no order, or
-     * Flint cannot read its delivery. The delivery options Flint derived for a checkout as a buyer
-     * sees them: choice groups, input requirements, and evaluation status.
-     */
-    "fulfillment"?: CheckoutDerivedDeliveryResource;
     /**
      * Shape $ (Value): {@link CheckoutGiftCardChallenge}. Where the buyer completes a gift card
      * challenge for this checkout. Returned on single-session reads, session create and update
@@ -624,8 +846,13 @@ export type CheckoutSession = {
      * field is omitted when the merchant has not set it.
      */
     "merchant_support"?: CheckoutMerchantSupport;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
-    "metadata"?: Record<string, string>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
+     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
+     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+     * them.
+     */
+    "metadata"?: MetadataMap;
     /**
      * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
      * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
@@ -922,7 +1149,7 @@ export type CheckoutSessionCustomerVerificationResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /** Shape $ (Value): {@link CheckoutSessionListResponse}. A page of `CheckoutSession` objects. */
 export type CheckoutSessionListResponse = {
@@ -942,7 +1169,7 @@ export type CheckoutSessionListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link CheckoutSessionResponse}. A response containing `CheckoutSession` data.
@@ -962,7 +1189,7 @@ export type CheckoutSessionResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link CheckoutSessionTax}. Tax settings of a checkout session: whether it
@@ -972,12 +1199,16 @@ export type CheckoutSessionTax = {
     /** Shape $ (Value): boolean. Whether the session collects tax, as set when it was created. */
     "enabled"?: boolean;
     /**
-     * Shape $ (Value): {@link CheckoutTaxLocation}. The tax location your order already held when
-     * this session was created over it. Hosted checkout shows it and does not ask the buyer for
-     * another. Omitted when the buyer may give or change the location. A tax location: country and
-     * postal code, with address lines, city, and state when set.
+     * Shape $ (Value): {@link Address}. The tax location your order already held when this session
+     * was created over it. Hosted checkout shows it and does not ask the buyer for another.
+     * Omitted when the buyer may give or change the location. A postal address. Every address has
+     * country. Addresses Flint checked as complete (customer and saved addresses, merchant,
+     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
+     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country.
      */
-    "location_fixed_by_merchant"?: CheckoutTaxLocation;
+    "location_fixed_by_merchant"?: Address;
 };
 /**
  * Shape $ (Value): {@link CheckoutSessionWithSecret}. The checkout session with its checkout
@@ -1064,7 +1295,7 @@ export type CheckoutSessionsDeleteCurrentDeliverySelectionInput = {
     /** Shape $ (Value): string. */
     "checkout_session_id": InputValue<string>;
     /** Shape $ (Value): string. */
-    "expected_delivery_selection_id": InputValue<string>;
+    "expected_delivery_selection_id"?: InputValue<string>;
     /** Shape $ (Value): string. maxLength: 255. */
     "Idempotency-Key"?: InputValue<string>;
 };
@@ -1078,7 +1309,7 @@ export type CheckoutSessionsGetDeliveryQuoteInput = {
     /** Shape $ (Value): string. */
     "delivery_quote_id": InputValue<string>;
 };
-export type CheckoutSessionsGetDeliverySelectionHistoryInput = {
+export type CheckoutSessionsGetDeliverySelectionInput = {
     /** Shape $ (Value): string. */
     "checkout_session_id": InputValue<string>;
     /** Shape $ (Value): string. */
@@ -1093,6 +1324,14 @@ export type CheckoutSessionsGetInput = {
      * "invoice", "order", "payment_intents", "payment_link".
      */
     "expand"?: InputValue<Array<"customer" | "invoice" | "order" | "payment_intents" | "payment_link">>;
+};
+export type CheckoutSessionsListDeliverySelectionsInput = {
+    /** Shape $ (Value): string. */
+    "checkout_session_id": InputValue<string>;
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
 };
 export type CheckoutSessionsListInput = {
     /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
@@ -1221,11 +1460,11 @@ export type CheckoutSettings = {
     "saved_payment_details"?: CheckoutTaxConfig;
 };
 /**
- * Shape $ (Value): {@link CheckoutSettingsInput}. Merchant defaults for checkout: custom domain,
- * delivery methods, expiration, payment options, required contact fields, promotion codes,
- * recovery email, and saved payment details.
+ * Shape $ (Value): {@link CheckoutSettingsRequestRequestInput}. Merchant defaults for checkout:
+ * custom domain, delivery methods, expiration, payment options, required contact fields, promotion
+ * codes, recovery email, and saved payment details.
  */
-export type CheckoutSettingsInput = {
+export type CheckoutSettingsRequestRequestInput = {
     /**
      * Shape $ (Value): Array of string. Default delivery methods for checkout creation requests
      * that omit delivery_method_ids, payment links without delivery_method_ids, and invoice
@@ -1255,13 +1494,13 @@ export type CheckoutSettingsInput = {
      */
     "promotion_codes_enabled"?: boolean;
     /**
-     * Shape $ (Value): {@link CheckoutRecoveryEmailSettingsInput}. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Checkout reminder email: one email to a buyer
-     * who entered an email address in hosted checkout and left without paying. Merchant scope
-     * only. Effective settings default it to off with a 3600 second delay. Checkout reminder email
-     * settings. On update, an omitted field keeps its value.
+     * Shape $ (Value): {@link CheckoutRecoveryEmailSettingsRequestRequestInput}. Patch object:
+     * fields you send are applied, fields you omit are unchanged. Checkout reminder email: one
+     * email to a buyer who entered an email address in hosted checkout and left without paying.
+     * Merchant scope only. Effective settings default it to off with a 3600 second delay. Checkout
+     * reminder email settings. On update, an omitted field keeps its value.
      */
-    "recovery_email"?: CheckoutRecoveryEmailSettingsInput;
+    "recovery_email"?: CheckoutRecoveryEmailSettingsRequestRequestInput;
     /** Shape $ (Value): boolean. */
     "require_billing_address"?: boolean;
     /** Shape $ (Value): boolean. */
@@ -1269,13 +1508,13 @@ export type CheckoutSettingsInput = {
     /** Shape $ (Value): boolean. */
     "require_phone"?: boolean;
     /**
-     * Shape $ (Value): {@link CheckoutSavedPaymentDetailsSettingsInput}. Patch object: fields you
-     * send are applied, fields you omit are unchanged. Whether hosted checkout offers buyers the
-     * option to save the card they type for faster checkout at this merchant. Merchant scope only.
-     * Effective settings default it to on. Saved payment details settings for hosted checkout. On
-     * update, an omitted field keeps its value.
+     * Shape $ (Value): {@link CheckoutSavedPaymentDetailsSettingsRequestRequestInput}. Patch
+     * object: fields you send are applied, fields you omit are unchanged. Whether hosted checkout
+     * offers buyers the option to save the card they type for faster checkout at this merchant.
+     * Merchant scope only. Effective settings default it to on. Saved payment details settings for
+     * hosted checkout. On update, an omitted field keeps its value.
      */
-    "saved_payment_details"?: CheckoutSavedPaymentDetailsSettingsInput;
+    "saved_payment_details"?: CheckoutSavedPaymentDetailsSettingsRequestRequestInput;
 };
 /**
  * Shape $ (Value): {@link CheckoutSubscriptionRecurringShipping}. Recurring shipping charged on a
@@ -1406,31 +1645,10 @@ export type CheckoutTaxConfig = {
     "enabled"?: boolean;
 };
 /**
- * Shape $ (Value): {@link CheckoutTaxConfigInput}. Whether tax is collected for a checkout session
- * or payment link.
+ * Shape $ (Value): {@link CheckoutTaxConfigRequestRequestInput}. Whether tax is collected for a
+ * checkout session or payment link.
  */
-export type CheckoutTaxConfigInput = CheckoutTaxConfig;
-/**
- * Shape $ (Value): {@link CheckoutTaxLocation}. A tax location: country and postal code, with
- * address lines, city, and state when set.
- */
-export type CheckoutTaxLocation = {
-    /** Shape $ (Value): string. City of the tax location, when set. */
-    "city"?: string;
-    /**
-     * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
-     * pattern: ^[A-Z]{2}$. Example: "US".
-     */
-    "country": string;
-    /** Shape $ (Value): string. First line of the tax location's address, when set. */
-    "line1"?: string;
-    /** Shape $ (Value): string. Second line of the tax location's address, when set. */
-    "line2"?: string;
-    /** Shape $ (Value): string. Postal code used to calculate tax. */
-    "postal_code": string;
-    /** Shape $ (Value): string. State, province, or region of the tax location, when set. */
-    "state"?: string;
-};
+export type CheckoutTaxConfigRequestRequestInput = CheckoutTaxConfig;
 /**
  * Shape $ (Value): {@link CheckoutTheme}. Colors, corner radius, font family, and title that style
  * a checkout, taken from the session or link theme or the merchant's branding settings.
@@ -1518,10 +1736,10 @@ export type CheckoutTipConfig = {
     "tip_percent_options"?: Array<number>;
 };
 /**
- * Shape $ (Value): {@link CheckoutTipConfigInput}. Tip settings for a checkout: whether tips are
- * enabled, the percent or fixed amount options, the default tip, and custom tips.
+ * Shape $ (Value): {@link CheckoutTipConfigRequestRequestInput}. Tip settings for a checkout:
+ * whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
  */
-export type CheckoutTipConfigInput = {
+export type CheckoutTipConfigRequestRequestInput = {
     /** Shape $ (Value): boolean. Whether buyers can enter a custom tip amount. */
     "custom_tip_enabled"?: boolean;
     /**
@@ -1574,150 +1792,4 @@ export type ClientOptions = Omit<RuntimeClientOptions, 'baseUrl' | 'token' | 'au
     "token"?: string | CredentialProvider;
     authMode?: AuthMode;
     credentials?: Partial<Credentials>;
-};
-/**
- * Shape $ (Value): {@link CloseCheckoutSessionRequest}. The request body for: Close checkout
- * session.
- */
-export type CloseCheckoutSessionRequest = {
-    /**
-     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
-     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
-     * request before retrying. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Your note explaining why you are closing the checkout session. It
-     * is not shown to the buyer. minLength: 1.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link CloseCheckoutSessionRequestInput}. The request body for: Close checkout
- * session.
- */
-export type CloseCheckoutSessionRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
-     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
-     * request before retrying. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Your note explaining why you are closing the checkout session. It
-     * is not shown to the buyer. minLength: 1.
-     */
-    "reason_message"?: string;
-};
-/** Shape $ (Value): {@link CloseOrderRequest}. The request body for: Close order. */
-export type CloseOrderRequest = {
-    /**
-     * Shape $ (Value): string. Send keep to close while keeping collected money. Required when
-     * collected money remains refundable to its original tenders, after pending refunds. Closing
-     * does not refund money, and the order remains refundable. Accepted when nothing was
-     * collected. Value enum: "keep".
-     */
-    "collected_money_behavior"?: "keep" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Optional order version from the last order read. The
-     * mutation fails if the order changed. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Your note explaining why you are closing the order. It is not shown
-     * to the buyer. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/** Shape $ (Value): {@link CloseOrderRequestInput}. The request body for: Close order. */
-export type CloseOrderRequestInput = {
-    /**
-     * Shape $ (Value): string. Send keep to close while keeping collected money. Required when
-     * collected money remains refundable to its original tenders, after pending refunds. Closing
-     * does not refund money, and the order remains refundable. Accepted when nothing was
-     * collected. Value enum: "keep".
-     */
-    "collected_money_behavior"?: "keep";
-    /**
-     * Shape $ (Value): integer string. Optional order version from the last order read. The
-     * mutation fails if the order changed. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Your note explaining why you are closing the order. It is not shown
-     * to the buyer. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/** Shape $ (Value): {@link CollectInvoiceRequest}. The request body for: Collect invoice. */
-export type CollectInvoiceRequest = {
-    /** Shape $ (Value): string. minLength: 1. */
-    "invoice_schedule_entry_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "payment_method_id"?: string;
-};
-/** Shape $ (Value): {@link CollectInvoiceRequestInput}. The request body for: Collect invoice. */
-export type CollectInvoiceRequestInput = CollectInvoiceRequest;
-/**
- * Shape $ (Value): {@link CollectInvoiceResponse}. A response containing `CollectInvoiceResult`
- * data.
- */
-export type CollectInvoiceResponse = {
-    /**
-     * Shape $ (Value): {@link CollectInvoiceResult}. The invoice is the primary resource and
-     * expected_version target; invoice_payment_attempt records the collection outcome.
-     */
-    "data": CollectInvoiceResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link CollectInvoiceResult}. The invoice is the primary resource and
- * expected_version target; invoice_payment_attempt records the collection outcome.
- */
-export type CollectInvoiceResult = {
-    /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-    "invoice": Invoice;
-    /**
-     * Shape $ (Value): {@link InvoicePaymentAttempt} or null. Shape $.anyOf[1] (Value): {@link
-     * InvoicePaymentAttempt}. An attempt to collect payment for an invoice. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "invoice_payment_attempt": ((InvoicePaymentAttempt) | (null));
-};
-/** Shape $ (Value): {@link CompleteReturnRequest}. The request body for: Complete return. */
-export type CompleteReturnRequest = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string.  Value enum: "manual_completion", "exception_waived", "other". */
-    "reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-};
-/** Shape $ (Value): {@link CompleteReturnRequestInput}. The request body for: Complete return. */
-export type CompleteReturnRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string.  Value enum: "manual_completion", "exception_waived", "other". */
-    "reason"?: "manual_completion" | "exception_waived" | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
 };

@@ -24,7 +24,7 @@ namespace Flint;
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class FulfillmentNotification extends Model {
-    /** @param array{'channel': string, 'created_at'?: string, 'external_reference_id'?: string, 'failed_at'?: string, 'fulfillment_event_id'?: string, 'fulfillment_id': string, 'fulfillment_notification_id': string, 'metadata'?: \stdClass, 'notification_type': string, 'order'?: mixed, 'order_id': string, 'package_id'?: string, 'recipient_customer_id'?: string, 'recipient_email'?: string, 'sent_at'?: string, 'shipment_id'?: string, 'status': string, 'suppression_reason'?: string, 'trigger_type': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'channel': string, 'created_at'?: string, 'external_reference_id'?: string, 'failed_at'?: string, 'fulfillment_event_id'?: string, 'fulfillment_id': string, 'fulfillment_notification_id': string, 'metadata'?: mixed, 'notification_type': string, 'order'?: mixed, 'order_id': string, 'package_id'?: string, 'recipient_customer_id'?: string, 'recipient_email'?: string, 'sent_at'?: string, 'shipment_id'?: string, 'status': string, 'suppression_reason'?: string, 'trigger_type': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentNotification')); }
     /** Shape $ (Value): string.  Value enum: "email".
      * @return string
@@ -61,7 +61,7 @@ final class FulfillmentNotification extends Model {
      */
     public function getFulfillmentNotificationId(): string { return $this->get('fulfillment_notification_id'); }
     public function hasFulfillmentNotificationId(): bool { return $this->has('fulfillment_notification_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

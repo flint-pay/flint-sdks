@@ -9,9 +9,9 @@ namespace Flint;
  * @property-read string $phone
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentRecipientRequestInput extends Model {
-    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'instructions'?: string, 'name'?: string, 'phone'?: string, ...}|object $values */
+    /** @param array{'address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'instructions'?: string, 'name'?: string, 'phone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentRecipientRequestInput')); }
-    /** Shape $ (Value): {@see AddressRequestInput}. Postal address where the recipient receives the items. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
+    /** Shape $ (Value): {@see AddressRequestInput}. Postal address where the recipient receives the items. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */

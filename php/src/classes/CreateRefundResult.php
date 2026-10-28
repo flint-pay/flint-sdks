@@ -35,7 +35,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class CreateRefundResult extends Model {
-    /** @param array{'amount_money': mixed, 'created_at'?: string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'gift_card_codes'?: list<mixed>, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'payment_review_id'?: string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'unissued_gift_card_recoveries'?: list<mixed>, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'created_at'?: string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'external_reference_id'?: string, 'failure_reason'?: string, 'gift_card_codes'?: list<mixed>, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'merchant_id'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'payment_review_id'?: string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'unissued_gift_card_recoveries'?: list<mixed>, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateRefundResult')); }
     /** Shape $ (Value): {@see CreateRefundResultAmountMoney}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return CreateRefundResultAmountMoney
@@ -97,7 +97,7 @@ final class CreateRefundResult extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Shape $.* (Value): string. maxLength: 4096.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

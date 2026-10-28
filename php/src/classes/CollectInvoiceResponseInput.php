@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CollectInvoiceResponseInput extends Model {
-    /** @param array{'data': CollectInvoiceResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': CollectInvoiceResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CollectInvoiceResponseInput')); }
     /** Shape $ (Value): {@see CollectInvoiceResultInput}. The invoice is the primary resource and expected_version target; invoice_payment_attempt records the collection outcome.
      * @return CollectInvoiceResultInput|array<array-key, mixed>|\stdClass

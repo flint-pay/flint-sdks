@@ -4,7 +4,7 @@
 
 ### locations.create
 
-Create a Location. Sending inventory_allocation_enabled also requires commerce.inventory_locations.write. Omitted inventory_allocation_enabled defaults to false. Every Location can hold stock. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body.
+Create a Location. Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. Omitted inventory_allocation_enabled defaults to false. Every Location can hold stock. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body.
 
 `POST /v1/locations`
 
@@ -21,7 +21,7 @@ Body model: [CreateLocationRequestInput](../models/CreateLocationRequestInput.md
 
 #### locations.create body fields
 
-Field definitions: [shared fields](../models/CreateLocationRequestInput.md#createlocationrequestinput). Models: [LocationAddressRequestInput](../models/LocationAddressRequestInput.md#locationaddressrequestinput), [LocationCoordinateInput](../models/LocationCoordinateInput.md#locationcoordinateinput).
+Field definitions: [shared fields](../models/CreateLocationRequestInput.md#createlocationrequestinput). Models: [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput), [LocationCoordinateRequestRequestInput](../models/LocationCoordinateRequestRequestInput.md#locationcoordinaterequestrequestinput), [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput).
 
 #### Response
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -63,12 +63,14 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->locations->create([
   'address' => (object) [
-    'city' => 'example',
+    'city' => 'Springfield',
     'country' => 'US',
-    'line1' => 'example',
+    'line1' => '100 Example Street',
+    'postal_code' => '62701',
+    'state' => 'IL',
   ],
-  'name' => 'example',
-  'timezone' => 'example',
+  'name' => 'Main Street',
+  'timezone' => 'America/Chicago',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -125,7 +127,7 @@ $result = $client->locations->get('example', [], new RequestOptions());
 
 ### locations.list
 
-List Locations. inventory_allocation_enabled is always included and can be filtered with the Location read scope. The false filter includes Locations without an inventory allocation configuration.
+List Locations. inventory_allocation_enabled is always included and can be filtered with the Location read scope. The false filter includes Locations without an inventory allocation configuration. Default order: location_id ascending; this key uniquely orders the results.
 
 `GET /v1/locations`
 
@@ -192,7 +194,7 @@ Signature: `remove(string|Model $location_id, array|Model|null $params = null, ?
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `location_id` | Required | string |  |
-| `expected_version` | Optional | integer | minimum: `1`. |
+| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
 
 #### Response
@@ -221,7 +223,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -238,7 +240,7 @@ $result = $client->locations->remove('example', [], new RequestOptions(idempoten
 
 ### locations.update
 
-Update a Location's profile, availability, geography, and inventory allocation in one call. Sending inventory_allocation_enabled also requires commerce.inventory_locations.write. The version advances on every change. expected_version is optional and compared with version when sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body.
+Update a Location's profile, availability, geography, and inventory allocation in one call. Sending inventory_allocation_enabled also requires commerce.inventory.allocation.write. The version advances on every change. expected_version is optional and compared with version when sent. Idempotency is scoped to the authenticated merchant, environment, and endpoint. Its fingerprint includes the canonical request body.
 
 `PATCH /v1/locations/{location_id}`
 
@@ -256,7 +258,7 @@ Body model: [UpdateLocationRequestInput](../models/UpdateLocationRequestInput.md
 
 #### locations.update body fields
 
-Field definitions: [shared fields](../models/UpdateLocationRequestInput.md#updatelocationrequestinput). Models: [LocationAddressRequestInput](../models/LocationAddressRequestInput.md#locationaddressrequestinput), [LocationCoordinateInput](../models/LocationCoordinateInput.md#locationcoordinateinput).
+Field definitions: [shared fields](../models/UpdateLocationRequestInput.md#updatelocationrequestinput). Models: [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput), [LocationCoordinateRequestRequestInput](../models/LocationCoordinateRequestRequestInput.md#locationcoordinaterequestrequestinput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
@@ -286,7 +288,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

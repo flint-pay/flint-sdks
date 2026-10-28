@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class WebhookEventTypesResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Returns every webhook event type you can use in enabled_events and event filters, with the event sources each type is valid for.
+    /** Returns every webhook event type you can use in enabled_events and event filters, with the event sources each type is valid for. Default order: event_type ascending; this key uniquely orders the results.
      * @param array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return WebhookEventTypesListResponse200
      */

@@ -12,10 +12,10 @@ import type {
 } from '../declarations/types-0.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { ConfigurationVersionRequestInput, CreateAPIKeyRequestInput, CreateAPIKeyResponse } from '../declarations/types-5.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateAPIKeyRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateAPIKeyRequestInput } from '../declarations/types-50.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,8 +30,15 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateAPIKeyRequestInput, CreateAPIKeyResponse, ConfigurationVersionRequestInput } from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceType } from '../declarations/types-40.js';
+export type {
+    CreateAPIKeyRequestInput,
+    CreateAPIKeyResponse,
+    ConfigurationVersionRequestInput,
+    CreateAPIKeyRequestFullInput,
+    CreateAPIKeyRequestReadOnlyInput,
+    CreateAPIKeyRequestRestrictedInput
+} from '../declarations/types-5.js';
+export type { RequestOptions, ResponseMeta, ResourceReference, ResourceType } from '../declarations/types-42.js';
 export type {
     APIKeyWithSecret,
     APIKey,
@@ -44,15 +51,22 @@ export type {
     ApiKeysUpdateInput,
     AuthMode
 } from '../declarations/types-0.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateAPIKeyRequestInput } from '../declarations/types-47.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateAPIKeyRequestInput } from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeConfigurationVersionRequest, makeCreateAPIKeyRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateAPIKeyRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export {
+    makeConfigurationVersionRequest,
+    makeCreateAPIKeyRequest,
+    makeCreateAPIKeyRequestFull,
+    makeCreateAPIKeyRequestReadOnly,
+    makeCreateAPIKeyRequestRestricted
+} from '../declarations/types-66.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateAPIKeyRequest } from '../declarations/types-77.js';
 export interface ApiKeysResource {
     /**
  * Creates a merchant-bound external API key. secret_key is returned only in the initial successful
@@ -62,7 +76,7 @@ export interface ApiKeysResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.apiKeys.create({name: "example", scopes: []}, { idempotencyKey: idempotencyKey })
+ * client.apiKeys.create({name: "example", access: "full"}, { idempotencyKey: idempotencyKey })
  */
     create(params: (InputValue<CreateAPIKeyRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
@@ -88,7 +102,7 @@ export interface ApiKeysResource {
     getWithResponse(api_key_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<APIKeyResponse>>;
     /**
  * Returns merchant-bound external API key metadata. Internal keys, demo-session keys, and secrets
- * are never returned.
+ * are never returned. Default order: created_at descending, then api_key_id descending.
  * @see reference/apiKeys.md#apikeyslist
  * GET /v1/api-keys
  * @example
@@ -186,15 +200,15 @@ export interface ApiKeysResource {
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<APIKeyResponse>>;
     /**
- * Updates an API key's name, scopes, or expires_at. Expired keys can be updated, and a future
- * expires_at reactivates one. A revoked key can't be updated. An API key caller may grant only
- * scopes it holds and can manage only keys whose scopes it holds.
+ * Updates an API key's name, access, scopes, or expires_at. Expired keys can be updated, and a
+ * future expires_at reactivates one. A revoked key can't be updated. An API key caller may grant
+ * only scopes it holds and can manage only keys whose scopes it holds.
  * @see reference/apiKeys.md#apikeysupdate
  * PATCH /v1/api-keys/{api_key_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.apiKeys.update("example", {}, { idempotencyKey: idempotencyKey })
+ * client.apiKeys.update("key_example", {name: "Reporting key"}, { idempotencyKey: idempotencyKey })
  */
     update(api_key_id: InputValue<string>, params: (InputValue<UpdateAPIKeyRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;

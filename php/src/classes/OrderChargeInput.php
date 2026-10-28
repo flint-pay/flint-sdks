@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $description
  * @property-read string $fulfillment_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $order_charge_id
  * @property-read int|float $percent
@@ -20,7 +20,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderChargeInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'applied_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'order_charge_id': string, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'applied_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'calculation_basis'?: string, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'fulfillment_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'order_charge_id': string, 'percent'?: int|float, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedChargeTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderChargeInput')); }
     /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -58,11 +58,11 @@ final class OrderChargeInput extends Model {
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string.
      * @return string

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read ResolvePaymentLinkTextModifierRequestInput|array<array-key, mixed>|\stdClass $text
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResolvePaymentLinkLineItemModifierRequestInput extends Model {
-    /** @param array{'modifier_id'?: string, 'quantity'?: string, 'text'?: ResolvePaymentLinkTextModifierRequestInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'modifier_id'?: string, 'quantity'?: string, 'text'?: ResolvePaymentLinkTextModifierRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResolvePaymentLinkLineItemModifierRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

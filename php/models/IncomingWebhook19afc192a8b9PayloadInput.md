@@ -19,12 +19,13 @@ Request input.
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353PayloadInput.md#incomingwebhook019a504a3353payloadinput-variant-2source). |
+| `source` | Conditional | [PartnerWebhookEnvelopeSourceInput](../models/PartnerWebhookEnvelopeSourceInput.md#partnerwebhookenvelopesourceinput) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353PayloadInput.md#incomingwebhook019a504a3353payloadinput-variant-2source). |
 
 ### IncomingWebhook19afc192a8b9PayloadInput variant 1: `event_type` = `"product_variant.archived"`
 
 oneOf variant 1: The `product_variant.archived` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"product_variant.archived"`.
@@ -33,6 +34,7 @@ oneOf variant 1: The `product_variant.archived` webhook payload for the `merchan
 
 oneOf variant 2: The `product_variant.archived` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"product_variant.archived"`.
@@ -64,7 +66,7 @@ A specific purchasable version of a product.
 | `inventory_tracking` | Required | string | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#incomingwebhook19afc192a8b9payloadinputdataobject-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
-| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `modifier_set` | Optional | [ModifierSetInput](../models/ModifierSetInput.md#modifiersetinput) or null | Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. |
 | `modifier_set_id` | Required | string or null | Attached modifier set. Send null on update to remove it. |
 | `name` | Optional | string | Variant name that distinguishes it from the product's other variants. |

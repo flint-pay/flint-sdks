@@ -28,7 +28,7 @@ A record of an API request and its response.
 | `requested_api_version` | Optional | string |  |
 | `requested_api_version_source` | Optional | string | Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string |  |
-| `resource_type` | Optional | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
+| `resource_type` | Optional | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
 | `retry` | Optional | string | How to recover: same_request resends the identical request with the same Idempotency-Key; after_refresh re-reads the resource and rebuilds the request with a new key; none requires correcting the request or following next_steps or next_actions. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Required | string |  |
 | `served_api_version` | Optional | string |  |
@@ -55,5 +55,5 @@ The public resource that made this request. Absent when Flint cannot attribute t
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the referenced resource. |
-| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
+| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
 

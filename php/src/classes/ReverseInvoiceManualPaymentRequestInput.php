@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $reversed_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReverseInvoiceManualPaymentRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'reversal_note'?: string, 'reversed_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'reversal_note'?: string, 'reversed_at'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReverseInvoiceManualPaymentRequestInput')); }
     /** Shape $ (Value): integer string. Expected version of the invoice. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
      * @return string

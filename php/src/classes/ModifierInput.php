@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $default_quantity
  * @property-read string $line_item_tax_category
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $modifier_group_id
  * @property-read string $modifier_id
  * @property-read string $name
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierInput extends Model {
-    /** @param array{'created_at'?: string|\DateTimeInterface, 'default_quantity'?: string, 'line_item_tax_category'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'modifier_group_id'?: string, 'modifier_id': string, 'name': string, 'position': int, 'selected_by_default': bool, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'status': string, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'created_at'?: string|\DateTimeInterface, 'default_quantity'?: string, 'line_item_tax_category'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_group_id'?: string, 'modifier_id': string, 'name': string, 'position': int, 'selected_by_default': bool, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'status': string, 'taxable'?: bool, 'unit_price_delta_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierInput')); }
     /** Shape $ (Value): string. When the modifier was created, as an RFC3339 timestamp. Format: date-time.
      * @return string|\DateTimeInterface
@@ -39,11 +39,11 @@ final class ModifierInput extends Model {
      */
     public function getLineItemTaxCategory(): string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Identifier of the group that owns this modifier. For an inline group, read the group through its modifier set.
      * @return string

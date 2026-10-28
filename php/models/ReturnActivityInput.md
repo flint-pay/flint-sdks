@@ -15,7 +15,7 @@ Request input.
 | `reason` | Optional | string | Values: [56 declared values](#returnactivityinput-reason-values). |
 | `reason_message` | Optional | string |  |
 | `resource_id` | Required | string |  |
-| `resource_type` | Required | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | [ResourceTypeInput](../models/ResourceTypeInput.md#resourcetypeinput) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `return_activity_id` | Required | string |  |
 | `return_id` | Required | string |  |
 | `return_version` | Required | integer string | Return version produced by this activity. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |

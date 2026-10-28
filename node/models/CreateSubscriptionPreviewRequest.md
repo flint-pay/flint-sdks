@@ -10,7 +10,7 @@ The request body for: Preview subscription.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `destination` | Conditional | [SubscriptionDeliveryDestinationRequest](../models/SubscriptionDeliveryDestinationRequest.md#subscriptiondeliverydestinationrequest) | Where to deliver a subscription: a saved customer address by ID, or a new address. |
+| `destination` | Conditional | [SubscriptionServiceLocationRequest](../models/SubscriptionServiceLocationRequest.md#subscriptionservicelocationrequest) | Where to deliver a subscription: a saved customer address by ID, or a new address. `destination`: [declared alternatives](../models/CreateMeSubscriptionPreviewRequest.md#createmesubscriptionpreviewrequest-variant-1destination). |
 | `mode` | Required | string |  |
 | `subscription_id` | Conditional | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `subscription` | Conditional | [CreateSubscriptionRequest](../models/CreateSubscriptionRequest.md#createsubscriptionrequest) | The request body for: Create subscription. |
@@ -62,4 +62,8 @@ oneOf variant 5: The `plan_change` variant of `CreateSubscriptionPreviewRequest`
 - Optional: `billing_interval`, `billing_interval_count`, `quantity`.
 - Undeclared: `destination`, `subscription`, `delivery_method`, `delivery_method_id`.
 - Constraints for `mode`: Values: `"plan_change"`.
+
+### CreateSubscriptionPreviewRequest variant 1.destination
+
+Declared alternatives: [CreateMeSubscriptionPreviewRequest variant 1.destination](../models/CreateMeSubscriptionPreviewRequest.md#createmesubscriptionpreviewrequest-variant-1destination).
 

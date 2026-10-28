@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class APIKeyListResponseInput extends Model {
-    /** @param array{'data': list<APIKeyInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<APIKeyInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('APIKeyListResponseInput')); }
     /** Shape $ (Value): Array of {@see APIKeyInput}. Shape $[] (Value): {@see APIKeyInput}. A credential used to authenticate API requests.
      * @return list<APIKeyInput|array<array-key, mixed>|\stdClass>

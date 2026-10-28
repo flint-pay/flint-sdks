@@ -19,12 +19,13 @@ Request input.
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353PayloadInput.md#incomingwebhook019a504a3353payloadinput-variant-2source). |
+| `source` | Conditional | [PartnerWebhookEnvelopeSourceInput](../models/PartnerWebhookEnvelopeSourceInput.md#partnerwebhookenvelopesourceinput) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353PayloadInput.md#incomingwebhook019a504a3353payloadinput-variant-2source). |
 
 ### IncomingWebhook2111a23e6e7cPayloadInput variant 1: `event_type` = `"return.canceled"`
 
 oneOf variant 1: The `return.canceled` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"return.canceled"`.
@@ -33,6 +34,7 @@ oneOf variant 1: The `return.canceled` webhook payload for the `merchant` event 
 
 oneOf variant 2: The `return.canceled` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"return.canceled"`.
@@ -71,7 +73,7 @@ A request to send purchased items back.
 | `initiated_by` | Required | string | Who created the Return, from the credential that sent the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent. Values: `"buyer"`, `"merchant"`, `"integration"`. |
 | `line_items` | Required | Array of [ReturnLineItemInput](../models/ReturnLineItemInput.md#returnlineiteminput) |  |
 | `merchandise_status` | Required | string | On the Return, the least-finished line's value. Values: [10 declared values](#incomingwebhook2111a23e6e7cpayloadinputdataobject-merchandise_status-values). |
-| `metadata` | Required | Map of string |  |
+| `metadata` | Required | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null |  |
 | `order_id` | Required | string |  |
 | `policy_evaluation` | Optional | [ReturnPolicyEvaluationInput](../models/ReturnPolicyEvaluationInput.md#returnpolicyevaluationinput) | How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. |

@@ -31,7 +31,7 @@ final class InventoryLevel extends Model {
      */
     public function getAvailableQuantity(): string { return $this->get('available_quantity'); }
     public function hasAvailableQuantity(): bool { return $this->has('available_quantity'); }
-    /** Shape $ (Value): integer string. Advances only when held or committed quantities change. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+    /** Shape $ (Value): integer string. Advances only when held or committed quantities change. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      * @return string
      */
     public function getClaimVersion(): string { return $this->get('claim_version'); }
@@ -86,7 +86,7 @@ final class InventoryLevel extends Model {
      */
     public function getOnHandQuantity(): string { return $this->get('on_hand_quantity'); }
     public function hasOnHandQuantity(): bool { return $this->has('on_hand_quantity'); }
-    /** Shape $ (Value): integer string. Advances only when on-hand or condition quantities change. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+    /** Shape $ (Value): integer string. Advances only when on-hand or condition quantities change. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      * @return string
      */
     public function getPhysicalVersion(): string { return $this->get('physical_version'); }
@@ -121,7 +121,7 @@ final class InventoryLevel extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+    /** Shape $ (Value): integer string. Changes on every quantity or claim change at this level, including holds and commits. Read it immediately before a PATCH. A level that a counted adjustment creates without a quantity change starts at version 0. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      * @return string
      */
     public function getVersion(): string { return $this->get('version'); }

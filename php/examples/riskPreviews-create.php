@@ -15,6 +15,7 @@ $client = new Client(new ClientOptions(
   allowInsecureHttp: in_array(parse_url($baseUrl, PHP_URL_HOST), ['localhost', '127.0.0.1'], true) && parse_url($baseUrl, PHP_URL_SCHEME) === 'http',
 ));
 $result = $client->riskPreviews->create([
+  'mode' => 'stored_rule',
   'risk_rule_id' => 'rr_example',
 ]);
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;

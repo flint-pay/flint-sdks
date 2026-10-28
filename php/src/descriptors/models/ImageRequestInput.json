@@ -1,1 +1,1 @@
-{"shared":"ImageRequest","dependencies":["ImageRequest"]}
+{"shared":"ImageRequest","dependencies":["ImageInputFile","ImageInputSourceURL","ImageRequest"]}

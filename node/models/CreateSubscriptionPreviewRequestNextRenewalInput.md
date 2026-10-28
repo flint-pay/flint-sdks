@@ -2,5 +2,13 @@
 
 ## CreateSubscriptionPreviewRequestNextRenewalInput
 
-Request input. Response: [CreateSubscriptionPreviewRequestNextRenewal](../models/CreateSubscriptionPreviewRequestNextRenewal.md#createsubscriptionpreviewrequestnextrenewal). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
+Request input. Response: [CreateSubscriptionPreviewRequestNextRenewal](../models/CreateSubscriptionPreviewRequestNextRenewal.md#createsubscriptionpreviewrequestnextrenewal).
+
+The `next_renewal` variant of `CreateSubscriptionPreviewRequest`.
+
+
+
+
+
+Fields, types, descriptions and enum values: [CreateSubscriptionPreviewRequestNextRenewal](../models/CreateSubscriptionPreviewRequestNextRenewal.md#createsubscriptionpreviewrequestnextrenewal).
 

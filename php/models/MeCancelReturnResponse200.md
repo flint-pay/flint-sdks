@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [BuyerReturn](../models/BuyerReturn.md#buyerreturn) | A request to send purchased items back. `data`: [field definitions](../models/MeCancelReturnResponse200.md#mecancelreturnresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### MeCancelReturnResponse200.data
 

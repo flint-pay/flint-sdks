@@ -12,14 +12,14 @@ namespace Flint;
  * @property-read PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass $exclusivity
  * @property-read string $external_reference_id
  * @property-read string $max_uses
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $redemption_type
- * @property-read PromotionScheduleInput|array<array-key, mixed>|\stdClass $schedule
+ * @property-read PromotionScheduleRequestRequestInput|array<array-key, mixed>|\stdClass $schedule
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePromotionRequestInput extends Model {
-    /** @param array{'application_method': PromotionApplicationMethodRequestInput|array<array-key, mixed>|\stdClass, 'codes'?: list<CreatePromotionCodeRequestInput|array<array-key, mixed>|\stdClass>, 'combines_with'?: PromotionCombinesWithRequestInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'discount_class'?: string, 'display_name'?: string, 'eligibility_rules'?: PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'redemption_type'?: string, 'schedule'?: PromotionScheduleInput|array<array-key, mixed>|\stdClass, 'status'?: string, ...}|object $values */
+    /** @param array{'application_method': PromotionApplicationMethodRequestInput|array<array-key, mixed>|\stdClass, 'codes'?: list<CreatePromotionCodeRequestInput|array<array-key, mixed>|\stdClass>, 'combines_with'?: PromotionCombinesWithRequestInput|array<array-key, mixed>|\stdClass, 'description'?: string, 'discount_class'?: string, 'display_name'?: string, 'eligibility_rules'?: PromotionRuleGroupRequestInput|array<array-key, mixed>|\stdClass, 'exclusivity'?: PromotionExclusivityRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'max_uses'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'redemption_type'?: string, 'schedule'?: PromotionScheduleRequestRequestInput|array<array-key, mixed>|\stdClass, 'status'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePromotionRequestInput')); }
     /** Shape $ (Value): {@see PromotionApplicationMethodRequestInput}. Discount effect and how it applies to eligible items or charges. A flat application method whose type selects its effect fields.
      * @return PromotionApplicationMethodRequestInput|array<array-key, mixed>|\stdClass
@@ -81,11 +81,11 @@ final class CreatePromotionRequestInput extends Model {
      */
     public function getMaxUses(): string { return $this->get('max_uses'); }
     public function hasMaxUses(): bool { return $this->has('max_uses'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Internal promotion name for dashboards, searching, and reporting. This is not intended for buyer-facing checkout or receipt copy. minLength: 1. maxLength: 255.
      * @return string
@@ -99,8 +99,8 @@ final class CreatePromotionRequestInput extends Model {
      */
     public function getRedemptionType(): string { return $this->get('redemption_type'); }
     public function hasRedemptionType(): bool { return $this->has('redemption_type'); }
-    /** Shape $ (Value): {@see PromotionScheduleInput}. Optional start and end times that limit when the promotion can apply. When a promotion is active, with a start time, an end time, and the time zone it was entered in.
-     * @return PromotionScheduleInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see PromotionScheduleRequestRequestInput}. Optional start and end times that limit when the promotion can apply. When a promotion is active, with a start time, an end time, and the time zone it was entered in.
+     * @return PromotionScheduleRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When schedule is omitted; use hasSchedule() or valueOrDefault().
      */
     public function getSchedule(): mixed { return $this->get('schedule'); }

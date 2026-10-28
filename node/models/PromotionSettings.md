@@ -2,7 +2,7 @@
 
 ## PromotionSettings
 
-Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order.
+
 
 
 
@@ -13,4 +13,16 @@ Merchant promotion settings: whether automatic promotions and codes are enabled,
 | `automatic_enabled` | Optional | boolean |  |
 | `codes_enabled` | Optional | boolean | Merchant promotion code redemption policy. Explicit false rejects promotion-code application even when a checkout or payment link asks to show code entry. |
 | `max_promotions_per_order` | Optional | integer | Maximum promotion discounts on an order, from 1 to 10, default 2. Manual discounts do not count. See Promotion for the evaluation order. Format: `int32`. minimum: `1`. maximum: `10`. Default: `2`. |
+
+### PromotionSettings variant 1
+
+anyOf variant 1: Declared schema PromotionSettings. Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order..
+
+No additional constraints.
+
+### PromotionSettings variant 2
+
+anyOf variant 2: Declared schema PromotionSettingsRequestRequest. Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order..
+
+No additional constraints.
 

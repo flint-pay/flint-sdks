@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $payment_note
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutPaymentConfigRequestInput extends Model {
-    /** @param array{'enabled_payment_options'?: list<string>, 'payment_note'?: string, ...}|object $values */
+    /** @param array{'enabled_payment_options'?: list<string>, 'payment_note'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutPaymentConfigRequestInput')); }
     /** Shape $ (Value): Array of string.  [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return list<string>

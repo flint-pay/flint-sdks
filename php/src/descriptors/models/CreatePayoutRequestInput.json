@@ -1,1 +1,1 @@
-{"shared":"CreatePayoutRequest","dependencies":["CreatePayoutRequest","MoneyValue"]}
+{"shared":"CreatePayoutRequest","dependencies":["CreatePayoutRequest","MetadataRequest","MoneyValue"]}

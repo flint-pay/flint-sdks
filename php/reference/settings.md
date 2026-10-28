@@ -113,7 +113,7 @@ Body model: [UpdateSettingsRequestInput](../models/UpdateSettingsRequestInput.md
 
 #### settings.update body fields
 
-Field definitions: [shared fields](../models/UpdateSettingsRequestInput.md#updatesettingsrequestinput). Models: [BrandingSettingsRequestInput](../models/BrandingSettingsRequestInput.md#brandingsettingsrequestinput), [CheckoutSettingsInput](../models/CheckoutSettingsInput.md#checkoutsettingsinput), [CustomerAccountSettingsInput](../models/CustomerAccountSettingsInput.md#customeraccountsettingsinput), [CustomerEmailDeliverySettingsInput](../models/CustomerEmailDeliverySettingsInput.md#customeremaildeliverysettingsinput), [FulfillmentSettingsInput](../models/FulfillmentSettingsInput.md#fulfillmentsettingsinput), [InventorySettingsInput](../models/InventorySettingsInput.md#inventorysettingsinput), [InvoiceSettingsPatchInput](../models/InvoiceSettingsPatchInput.md#invoicesettingspatchinput), [LegalSettingsRequestInput](../models/LegalSettingsRequestInput.md#legalsettingsrequestinput), [PaymentLimitSettingsPatchInput](../models/PaymentLimitSettingsPatchInput.md#paymentlimitsettingspatchinput), [PromotionSettingsInput](../models/PromotionSettingsInput.md#promotionsettingsinput), [ReceiptSettingsRequestInput](../models/ReceiptSettingsRequestInput.md#receiptsettingsrequestinput), [SubscriptionSettingsInput](../models/SubscriptionSettingsInput.md#subscriptionsettingsinput), [TaxSettingsRequestInput](../models/TaxSettingsRequestInput.md#taxsettingsrequestinput), [TaxIdentityPatchInput](../models/TaxIdentityPatchInput.md#taxidentitypatchinput), [TippingSettingsPatchInput](../models/TippingSettingsPatchInput.md#tippingsettingspatchinput).
+Field definitions: [shared fields](../models/UpdateSettingsRequestInput.md#updatesettingsrequestinput). Models: [BrandingSettingsRequestInput](../models/BrandingSettingsRequestInput.md#brandingsettingsrequestinput), [CheckoutSettingsRequestRequestInput](../models/CheckoutSettingsRequestRequestInput.md#checkoutsettingsrequestrequestinput), [CustomerAccountSettingsRequestRequestInput](../models/CustomerAccountSettingsRequestRequestInput.md#customeraccountsettingsrequestrequestinput), [CustomerEmailDeliverySettingsRequestRequestInput](../models/CustomerEmailDeliverySettingsRequestRequestInput.md#customeremaildeliverysettingsrequestrequestinput), [FulfillmentSettingsRequestRequestInput](../models/FulfillmentSettingsRequestRequestInput.md#fulfillmentsettingsrequestrequestinput), [InventorySettingsRequestRequestInput](../models/InventorySettingsRequestRequestInput.md#inventorysettingsrequestrequestinput), [InvoiceSettingsPatchInput](../models/InvoiceSettingsPatchInput.md#invoicesettingspatchinput), [LegalSettingsRequestInput](../models/LegalSettingsRequestInput.md#legalsettingsrequestinput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput), [PaymentLimitSettingsPatchInput](../models/PaymentLimitSettingsPatchInput.md#paymentlimitsettingspatchinput), [PromotionSettingsRequestRequestInput](../models/PromotionSettingsRequestRequestInput.md#promotionsettingsrequestrequestinput), [ReceiptSettingsRequestInput](../models/ReceiptSettingsRequestInput.md#receiptsettingsrequestinput), [SubscriptionSettingsRequestRequestInput](../models/SubscriptionSettingsRequestRequestInput.md#subscriptionsettingsrequestrequestinput), [TaxSettingsRequestInput](../models/TaxSettingsRequestInput.md#taxsettingsrequestinput), [TaxIdentityPatchInput](../models/TaxIdentityPatchInput.md#taxidentitypatchinput), [TippingSettingsPatchInput](../models/TippingSettingsPatchInput.md#tippingsettingspatchinput).
 
 #### Response
 
@@ -142,7 +142,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -199,7 +199,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `validateCustomDomainWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

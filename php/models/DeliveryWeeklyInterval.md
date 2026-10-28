@@ -6,5 +6,5 @@ A recurring weekly span, from a start weekday and minute to an end weekday and m
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryWeeklyIntervalInput](../models/DeliveryWeeklyIntervalInput.md#deliveryweeklyintervalinput).
+Fields, types, descriptions and enum values: [DeliveryWeeklyIntervalRequestRequestInput](../models/DeliveryWeeklyIntervalRequestRequestInput.md#deliveryweeklyintervalrequestrequestinput).
 

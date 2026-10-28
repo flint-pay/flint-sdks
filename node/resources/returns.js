@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returns.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/returns.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturn"]:r0,["cancelReturnLineItem"]:r0,["completeReturn"]:r0,["createReturn"]:r0,["createReturnAccessLink"]:r0,["createReturnDisposition"]:r0,["createReturnInspection"]:r0,["createReturnLineItem"]:r0,["createReturnReceipt"]:r0,["createReturnResolution"]:r0,["decideReturn"]:r0,["deleteReturnLineItem"]:r0,["getReturn"]:r0,["getReturnLineItem"]:r0,["listReturnActivities"]:r0,["listReturnLineItems"]:r0,["listReturns"]:r0,["processReturn"]:r0,["reopenReturn"]:r0,["updateReturn"]:r0,["updateReturnLineItem"]:r0,["waiveReturnLineItemInspection"]:r0});
 export class Client {
@@ -439,6 +439,8 @@ export { makeCancelReturnLineItemRequest } from '../models/CancelReturnLineItemR
 export { makeCancelReturnRequest } from '../models/CancelReturnRequest.js';
 export { makeCompleteReturnRequest } from '../models/CompleteReturnRequest.js';
 export { makeCreateReturnDispositionRequest } from '../models/CreateReturnDispositionRequest.js';
+export { makeCreateReturnDispositionRequestInspectionLine } from '../models/CreateReturnDispositionRequestInspectionLine.js';
+export { makeCreateReturnDispositionRequestReceiptLine } from '../models/CreateReturnDispositionRequestReceiptLine.js';
 export { makeCreateReturnInspectionRequest } from '../models/CreateReturnInspectionRequest.js';
 export { makeCreateReturnReceiptRequest } from '../models/CreateReturnReceiptRequest.js';
 export { makeCreateReturnRequest } from '../models/CreateReturnRequest.js';
@@ -446,6 +448,8 @@ export { makeCreateReturnResolutionRequest } from '../models/CreateReturnResolut
 export { makeCreateReturnResolutionRequestCorrection } from '../models/CreateReturnResolutionRequestCorrection.js';
 export { makeCreateReturnResolutionRequestStandard } from '../models/CreateReturnResolutionRequestStandard.js';
 export { makeDecideReturnRequest } from '../models/DecideReturnRequest.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeProcessExistingReturnLineItemRequest } from '../models/ProcessExistingReturnLineItemRequest.js';
 export { makeProcessExistingReturnRequest } from '../models/ProcessExistingReturnRequest.js';

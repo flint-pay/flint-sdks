@@ -21,10 +21,11 @@ A merchant webhook endpoint belongs to the live mode or sandbox of the credentia
 | `installed_merchant_modes` | Optional | Array of string | Modes of installed-merchant events this endpoint receives. Required when event_sources includes installed_merchants and omitted otherwise. Partner app lifecycle events are delivered regardless of these modes. minItems: `1`. maxItems: `2`. uniqueItems: `true`. Items values: `"test"`, `"live"`. |
 | `partner_app_id` | Optional | string | Partner app that owns partner_app or installed_merchants event sources. |
 | `previous_secret_expires_at` | Optional | string | When the replaced signing secret stops signing deliveries. Present only during a rotation overlap. Until then each delivery carries a signature from both secrets. Format: `date-time`. |
+| `signing_methods` | Required | Array of string | minItems: `1`. uniqueItems: `true`. Items: jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Items values: `"jwt"`, `"hmac"`. |
 | `status` | Required | string | Availability of this endpoint. Deleted is returned only by DELETE. Values: `"active"`, `"inactive"`, `"deleted"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `url` | Required | string |  |
 | `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `webhook_endpoint_id` | Required | string |  |
-| `secret` | Optional | string | One-time signing secret. Present on create and rotation; omitted on an idempotent replay after the secret retention period. |
+| `secret` | Optional | string | One-time signing secret. Present on create only when hmac is enabled, and on rotation; omitted on an idempotent replay after the secret retention period. |
 

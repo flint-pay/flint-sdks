@@ -6,13 +6,12 @@ import type {
     PaymentMethodResponse,
     PaymentMethodWithSetup,
     PaymentMethodsGetInput,
-    PaymentMethodsListInput,
-    PaymentMethodsRemoveInput,
-    PaymentMethodsSaveInput
-} from '../declarations/types-36.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SavePaymentMethodRequestInput, SavePaymentMethodResponse, SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    PaymentMethodsListInput
+} from '../declarations/types-38.js';
+import type { PaymentMethodsRemoveInput, PaymentMethodsSaveInput } from '../declarations/types-39.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SavePaymentMethodRequestInput, SavePaymentMethodResponse, SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,35 +26,29 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type {
-    SavePaymentMethodRequestInput,
-    SdkResponse,
-    SavePaymentMethodResponse,
-    StripeClientSetup,
-    StripeClientSetupStripe,
-    StripeClientAuthority
-} from '../declarations/types-44.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { SavePaymentMethodRequestInput, SdkResponse, SavePaymentMethodResponse } from '../declarations/types-46.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     PaymentMethodWithSetup,
     PaymentMethod,
     PaymentMethodResponse,
     PaymentMethodListResponse,
-    PaymentMethodsSaveInput,
-    PaymentMethodsRemoveInput,
     PaymentMethodsGetInput,
     PaymentMethodsListInput
-} from '../declarations/types-36.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-38.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { PaymentMethodsSaveInput, PaymentMethodsRemoveInput } from '../declarations/types-39.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { StripeClientSetup, StripeClientSetupStripe, StripeClientAuthority } from '../declarations/types-47.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
 export type { CardDetails } from '../declarations/types-3.js';
-export type { ExpandedCustomerSummary } from '../declarations/types-16.js';
-export type { MeRemovePaymentMethodInput } from '../declarations/types-30.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeSavePaymentMethodRequest } from '../declarations/types-71.js';
+export type { ExpandedCustomerSummary } from '../declarations/types-18.js';
+export type { MeRemovePaymentMethodInput } from '../declarations/types-32.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeSavePaymentMethodRequest } from '../declarations/types-76.js';
 export interface PaymentMethodsResource {
     /**
  * Initiates saving a payment method and returns the client setup payload needed to complete setup
@@ -117,6 +110,7 @@ export interface PaymentMethodsResource {
  * Lists payment methods in every status except archived, newest first. Filter by status=active for
  * the cards you can charge. Optionally filter to a customer. Filter by usage off_session to list
  * the payment methods a subscription, automatic invoice, or default payment method can use.
+ * Default order: created_at descending, then payment_method_id descending.
  * @see reference/paymentMethods.md#paymentmethodslist
  * GET /v1/payment-methods
  * @example

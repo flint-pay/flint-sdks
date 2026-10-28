@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class ModifierSet extends Model {
-    /** @param array{'created_at'?: string, 'external_reference_id'?: string, 'merchant_id'?: string, 'metadata'?: \stdClass, 'modifier_groups': list<mixed>, 'modifier_set_id': string, 'name': string, 'status': string, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'created_at'?: string, 'external_reference_id'?: string, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_groups': list<mixed>, 'modifier_set_id': string, 'name': string, 'status': string, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierSet')); }
     /** Shape $ (Value): string. When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -31,7 +31,7 @@ final class ModifierSet extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

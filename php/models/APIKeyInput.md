@@ -8,6 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `api_key_id` | Required | string |  |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_by` | Optional | [ResourceReferenceInput](../models/ResourceReferenceInput.md#resourcereferenceinput) | The API key or user that created this key. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Absent when the creator is unavailable. A reference to another resource by `resource_type` and `resource_id`. |
@@ -18,7 +19,7 @@ Request input.
 | `name` | Required | string | maxLength: `100`. |
 | `revoked_at` | Optional | string | When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. Format: `date-time`. |
 | `sandbox_id` | Optional | string |  |
-| `scopes` | Required | Array of string | Items values: [95 declared values](#apikeyinput-scopes--values). |
+| `scopes` | Required | Array of string | The scopes the key holds now. For full and read_only keys this list grows when Flint adds scopes. Items values: [96 declared values](#apikeyinput-scopes--values). |
 | `status` | Required | string | Current key status. A non-revoked key is expired when expires_at is at or before the current time; otherwise it is active. Revoked keys remain revoked regardless of expires_at. Values: `"active"`, `"expired"`, `"revoked"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
@@ -51,10 +52,10 @@ Request input.
 - `"commerce.gift_cards.redemptions.write"`
 - `"commerce.gift_cards.secrets.write"`
 - `"commerce.gift_cards.write"`
+- `"commerce.inventory.allocation.write"`
+- `"commerce.inventory.policies.write"`
 - `"commerce.inventory.read"`
 - `"commerce.inventory.write"`
-- `"commerce.inventory_locations.write"`
-- `"commerce.inventory_policies.write"`
 - `"commerce.invoices.read"`
 - `"commerce.invoices.write"`
 - `"commerce.orders.read"`
@@ -66,10 +67,10 @@ Request input.
 - `"commerce.refunds.read"`
 - `"commerce.refunds.tax_overrides.write"`
 - `"commerce.refunds.write"`
-- `"commerce.return_policies.write"`
-- `"commerce.return_reasons.write"`
 - `"commerce.returns.operations.write"`
+- `"commerce.returns.policies.write"`
 - `"commerce.returns.read"`
+- `"commerce.returns.reasons.write"`
 - `"commerce.returns.resolutions.write"`
 - `"commerce.returns.write"`
 - `"commerce.subscription_plans.read"`
@@ -88,6 +89,8 @@ Request input.
 - `"developer.resource_timelines.read"`
 - `"developer.sandboxes.read"`
 - `"developer.sandboxes.write"`
+- `"developer.test_clocks.read"`
+- `"developer.test_clocks.write"`
 - `"merchant_billing.read"`
 - `"merchants.account_sessions.write"`
 - `"merchants.locations.read"`
@@ -110,7 +113,6 @@ Request input.
 - `"payments.payment_method_domains.write"`
 - `"payments.payment_methods.read"`
 - `"payments.payment_methods.write"`
-- `"payments.payment_options.read"`
 - `"reports.read"`
 - `"reports.write"`
 - `"risk.controls.write"`

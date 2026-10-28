@@ -13,7 +13,7 @@ const result = await client.workloadIdentities.create(
     name: "example",
     issuer: "example",
     subject: "example",
-    scopes: ["accounts.api_keys.read"],
+    scopes: [],
   },
   { idempotencyKey: idempotencyKey },
 );

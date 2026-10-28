@@ -20,7 +20,7 @@ namespace Flint;
 final class InvoiceSnapshot extends Model {
     /** @param array{'billing_address'?: mixed, 'buyer_note'?: string, 'buyer_tax_identity': mixed, 'charges'?: list<mixed>, 'customer_display_name'?: string, 'customer_email'?: string, 'discounts'?: list<mixed>, 'internal_note'?: string, 'line_items'?: list<mixed>, 'merchant_display_name'?: string, 'pricing_amounts': mixed, 'requested_tip'?: mixed, 'seller_tax_identity': mixed, 'tax_breakdowns': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceSnapshot')); }
-    /** Shape $ (Value): {@see Address}. Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
+    /** Shape $ (Value): {@see Address}. Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
      */
     public function getBillingAddress(): ?Address { return $this->get('billing_address'); }

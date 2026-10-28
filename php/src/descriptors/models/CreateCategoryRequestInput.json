@@ -1,1 +1,1 @@
-{"shared":"CreateCategoryRequest","dependencies":["CreateCategoryRequest"]}
+{"shared":"CreateCategoryRequest","dependencies":["CreateCategoryRequest","MetadataRequest"]}

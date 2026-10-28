@@ -55,7 +55,7 @@ $result = $client->fulfillmentNotifications->get('example', [], new RequestOptio
 
 ### fulfillmentNotifications.list
 
-Returns persisted fulfillment notification audit records. Results default to newest created first.
+Returns persisted fulfillment notification audit records. Results default to newest created first. Default order: created_at descending, then fulfillment_notification_id descending.
 
 `GET /v1/fulfillment-notifications`
 

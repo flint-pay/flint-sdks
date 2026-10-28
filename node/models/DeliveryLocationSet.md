@@ -15,9 +15,13 @@ The locations available to a delivery method.
 | `current_delivery_location_set_revision_id` | Required | string | Immutable revision used for new quotes. |
 | `delivery_location_set_id` | Required | string | Stable delivery location set ID. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/DeliveryLocationSet.md#deliverylocationsetmetadata). |
 | `name` | Required | string | Merchant-facing location set name. |
 | `status` | Required | string | Current location set lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the location set last changed. Format: `date-time`. |
 | `version` | Required | integer string | Optimistic-concurrency version for location set writes. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+
+### DeliveryLocationSet.metadata
+
+Value shape: Map of string. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
 

@@ -1,1 +1,1 @@
-{"shared":"UpdatePromotionCodeRequest","dependencies":["UpdatePromotionCodeRequest"]}
+{"shared":"UpdatePromotionCodeRequest","dependencies":["MetadataPatchRequest","SharedCodec1256","UpdatePromotionCodeRequest"]}

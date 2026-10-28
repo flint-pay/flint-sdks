@@ -17,7 +17,7 @@ final class MoneyMovementListMetaInput extends Model {
      */
     public function getApiVersion(): string { return $this->get('api_version'); }
     public function hasApiVersion(): bool { return $this->has('api_version'); }
-    /** Shape $ (Value): {@see MoneyMovementHistoryMetaInput}. How complete Flint's history for this list is. history is omitted when Flint's history for this list is complete. How complete the history in a money movement list is, with the earliest available and latest reconciled times.
+    /** Shape $ (Value): {@see MoneyMovementHistoryMetaInput}. How complete Flint's history for this list is. history is omitted when Flint's history for this list is complete. How complete the history in a money movement list is and when it was last reconciled.
      * @return MoneyMovementHistoryMetaInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When history is omitted; use hasHistory() or valueOrDefault().
      */

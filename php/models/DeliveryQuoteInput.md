@@ -14,10 +14,11 @@ Request input.
 | `buyer_reasons` | Required | Array of string | Buyer-safe reasons no delivery option was available. Merchant configuration details are never included. Items values: [6 declared values](#deliveryquoteinput-buyer_reasons--values). |
 | `checkout_session_id` | Optional | string | Always present with an API key or dashboard credential. |
 | `choice_groups` | Required | Array of [DeliveryQuoteChoiceGroupResourceInput](../models/DeliveryQuoteChoiceGroupResourceInput.md#deliveryquotechoicegroupresourceinput) |  |
-| `consumed_by_delivery_selection_id` | Optional | string |  |
+| `created_at` | Required | string | When Flint created this quote. Format: `date-time`. |
 | `delivery_quote_id` | Required | string |  |
 | `delivery_quote_version` | Optional | integer string | Version of the order's delivery details evaluated by this quote. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `destination_address` | Optional | [DeliveryAddressResourceInput](../models/DeliveryAddressResourceInput.md#deliveryaddressresourceinput) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations. |
+| `delivery_revocation_id` | Required | string or null | The delivery revocation that revoked this quote, or null when no revocation applies. |
+| `destination_address` | Optional | [AddressInput](../models/AddressInput.md#addressinput) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `eligibility_context_version` | Optional | integer string | Version of the checkout eligibility context evaluated by this quote. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
@@ -30,8 +31,9 @@ Request input.
 | `revocation_reason` | Optional | string | Why the quote was revoked: the reason on the delivery revocation that fenced a dependency this quote used. Present when status is revoked. Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
 | `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `selection_required` | Required | boolean |  |
-| `stale_reason` | Optional | string | Values: `"checkout_changed"`, `"selection_changed"`, `"eligibility_changed"`, `"inventory_changed"`, `"authority_changed"`, `"consumed_by_priced_quote"`. |
-| `status` | Required | string | Values: `"active"`, `"consumed"`, `"stale"`, `"expired"`, `"revoked"`. |
+| `stale_reason` | Optional | string | Values: `"checkout_changed"`, `"selection_changed"`, `"eligibility_changed"`, `"inventory_changed"`, `"authority_changed"`, `"superseded_by_priced_quote"`. |
+| `status` | Required | string | Whether the quote can be selected now, derived from the current checkout or renewal order on every read. Values: `"active"`, `"consumed"`, `"stale"`, `"expired"`, `"revoked"`. |
+| `superseded_by_delivery_quote_id` | Optional | string | The priced delivery quote that replaced this quote. Its basis_delivery_quote_id names this quote. |
 
 #### DeliveryQuoteInput buyer_reasons [] values
 

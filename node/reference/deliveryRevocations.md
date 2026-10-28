@@ -51,6 +51,91 @@ const result = await client.deliveryRevocations.get("example", {}, {  });
 
 [Complete runnable example](../examples/deliveryRevocations-get.mjs)
 
+### deliveryRevocations.list
+
+Returns permanent delivery revocations, newest first by created_at and delivery_revocation_id. Default order: created_at descending, then delivery_revocation_id descending.
+
+`GET /v1/delivery-revocations`
+
+Signature:
+
+```typescript
+list(params?: {
+  "page_size"?: InputValue<number>;
+  "page_token"?: InputValue<string>;
+  "target_type"?: InputValue<Array<"location_geography" |
+    "delivery_rate_callback_signing_key" |
+    "delivery_rate_callback" |
+    "delivery_rate_callback_revision" |
+    "delivery_method" |
+    "delivery_method_revision">>;
+  "reason"?: InputValue<Array<"unsafe_configuration" |
+    "location_unavailable" |
+    "credential_compromise" |
+    "legal_requirement" |
+    "other">>;
+  "created_after"?: InputValue<string | globalThis.Date>;
+  "created_before"?: InputValue<string | globalThis.Date>
+},
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string |  |
+| `target_type` | Optional | Array of string | minItems: `1`. Items values: [6 declared values](#deliveryrevocationslist-input-target_type--values). |
+| `reason` | Optional | Array of string | minItems: `1`. Items values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
+| `created_after` | Optional | string | Format: `date-time`. |
+| `created_before` | Optional | string | Format: `date-time`. |
+
+#### deliveryRevocations.list input target_type [] values
+
+- `"location_geography"`
+- `"delivery_rate_callback_signing_key"`
+- `"delivery_rate_callback"`
+- `"delivery_rate_callback_revision"`
+- `"delivery_method"`
+- `"delivery_method_revision"`
+
+#### Response
+
+Returned payload: [DeliveryRevocationListResponse](../models/DeliveryRevocationListResponse.md#deliveryrevocationlistresponse).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 403 | AuthenticationError | authentication |
+| 410 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `listWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listItems`, `listPages`, `listPagesWithResponse`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```typescript
+const result = await client.deliveryRevocations.list({}, {  });
+```
+
+[Complete runnable example](../examples/deliveryRevocations-list.mjs)
+
 ### deliveryRevocations.revokeDeliveryDependency
 
 Permanently fences one exact method, endpoint, signing key, revision, or Location geography version. Issued quotes are revoked immediately. Current selections are released the next time they are read. Stable method and callback-endpoint targets require expected_version so a concurrent publication cannot broaden the revocation.
@@ -112,7 +197,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `revokeDeliveryDependencyWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

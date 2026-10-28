@@ -21,7 +21,7 @@ Body model: [CreateReturnPolicyRequestInput](../models/CreateReturnPolicyRequest
 
 #### returnPolicies.create body fields
 
-Field definitions: [shared fields](../models/CreateReturnPolicyRequestInput.md#createreturnpolicyrequestinput). Models: [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequestInput.md#returnpolicyrevisionrequestinput).
+Field definitions: [shared fields](../models/CreateReturnPolicyRequestInput.md#createreturnpolicyrequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequestInput.md#returnpolicyrevisionrequestinput).
 
 #### Response
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -190,7 +190,7 @@ $result = $client->returnPolicies->getRevision('example', 'example', [], new Req
 
 ### returnPolicies.list
 
-List Return policies with their status. Include the current revision with expand=current_revision. Newest first: created_at descending, with return_policy_id descending as the tiebreak.
+List Return policies with their status. Include the current revision with expand=current_revision. Newest first: created_at descending, with return_policy_id descending as the tiebreak. Default order: created_at descending, then return_policy_id descending.
 
 `GET /v1/return-policies`
 
@@ -246,7 +246,7 @@ $result = $client->returnPolicies->list([], new RequestOptions());
 
 ### returnPolicies.listRevisions
 
-List every published revision of a Return policy. Newest first: created_at descending, with return_policy_revision_id descending as the tiebreak.
+List every published revision of a Return policy. Newest first: created_at descending, with return_policy_revision_id descending as the tiebreak. Default order: created_at descending, then return_policy_revision_id descending.
 
 `GET /v1/return-policies/{return_policy_id}/revisions`
 
@@ -347,7 +347,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `publishRevisionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -415,7 +415,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -450,7 +450,7 @@ Body model: [UpdateReturnPolicyRequestInput](../models/UpdateReturnPolicyRequest
 
 #### returnPolicies.update body fields
 
-Field definitions: [shared fields](../models/UpdateReturnPolicyRequestInput.md#updatereturnpolicyrequestinput).
+Field definitions: [shared fields](../models/UpdateReturnPolicyRequestInput.md#updatereturnpolicyrequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
@@ -480,7 +480,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

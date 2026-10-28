@@ -36,10 +36,10 @@ Field definitions: [shared fields](CreditNotesCreateResponse201.md#creditnotescr
 
 ### SubscriptionDelivery.destination fields 1.address variant 1
 
-anyOf variant 1: A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients..
+anyOf variant 1: A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country..
 
-- Required: `city`, `country`, `line1`, `postal_code`, `state`.
-- Optional: `line2`.
+- Required: `country`.
+- Optional: `city`, `line1`, `line2`, `postal_code`, `state`.
 
 ### SubscriptionDelivery.destination fields 1.address variant 2
 

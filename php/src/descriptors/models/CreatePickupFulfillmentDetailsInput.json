@@ -1,1 +1,1 @@
-{"shared":"CreatePickupFulfillmentDetails","dependencies":["AddressRequest","CreatePickupFulfillmentDetails"]}
+{"shared":"CreatePickupFulfillmentDetails","dependencies":["AddressRequest","CreatePickupFulfillmentDetails","SharedCodec0","SharedCodec1"]}

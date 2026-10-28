@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [BuyerSubscription](../models/BuyerSubscription.md#buyersubscription) | A customer's recurring purchase. `data`: [field definitions](../models/MeCancelSubscriptionResponse200.md#mecancelsubscriptionresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### MeCancelSubscriptionResponse200.data
 
@@ -87,7 +87,7 @@ Field definitions: [BuyerSubscriptionLastPaymentError](../models/BuyerSubscripti
 | `name` | Conditional | string |  |
 | `quantity_options` | Conditional | Array of integer | maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
 | `setup_fee_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `status` | Conditional | string | Active plans accept new signups. Inactive plans refuse new signups with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
+| `status` | Conditional | string | Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `subscription_plan_id` | Conditional | string |  |
 | `trial_period_days` | Conditional | integer | Format: `int32`. |
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. |
@@ -125,32 +125,36 @@ A line item of a subscription plan as a buyer sees it: the product, bundle, or v
 | `swap_variant_ids` | Required | Array of string | maxItems: `25`. uniqueItems: `true`. Items: pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `swap_variants` | Optional | Array of object | Current sellable alternatives in swap_variant_ids order, excluding the line's own variant and variants priced in a different currency. Present on variant lines, including an empty array. maxItems: `25`. `swap_variants[]`: [field definitions](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200datasubscription_plan-variant-1line_itemsswap_variants). |
 | `tax` | Optional | object | A line item's tax category and whether it is taxable. `tax`: [field definitions](../models/OrdersApplyDiscountResponse200.md#ordersapplydiscountresponse200datasubscription_plan-variant-1line_itemstax). |
+| `type` | Required | string | Values: `"variant"`, `"bundle"`, `"custom"`. |
 | `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Conditional | string |  |
 
-### MeCancelSubscriptionResponse200.data.subscription_plan variant 1.line_items[] variant 1
+### MeCancelSubscriptionResponse200.data.subscription_plan variant 1.line_items[] variant 1: `type` = `"variant"`
 
-oneOf variant 1.
+oneOf variant 1: The `variant` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`bundle_id`))).
 - Required: `variant_id`.
 - Optional: `bundle_id`, `name`, `unit_price_money`.
+- Constraints for `type`: Values: `"variant"`.
 
-### MeCancelSubscriptionResponse200.data.subscription_plan variant 1.line_items[] variant 2
+### MeCancelSubscriptionResponse200.data.subscription_plan variant 1.line_items[] variant 2: `type` = `"bundle"`
 
-oneOf variant 2.
+oneOf variant 2: The `bundle` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`))).
 - Required: `bundle_id`.
 - Optional: `name`, `unit_price_money`, `variant_id`.
+- Constraints for `type`: Values: `"bundle"`.
 
-### MeCancelSubscriptionResponse200.data.subscription_plan variant 1.line_items[] variant 3
+### MeCancelSubscriptionResponse200.data.subscription_plan variant 1.line_items[] variant 3: `type` = `"custom"`
 
-oneOf variant 3.
+oneOf variant 3: The `custom` variant of `BuyerSubscriptionPlanLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`))).
 - Required: `name`, `unit_price_money`.
 - Optional: `bundle_id`, `variant_id`.
+- Constraints for `type`: Values: `"custom"`.
 
 ### MeCancelSubscriptionResponse200.data.subscription_plan variant 1.line_items[].swap_variants[]
 

@@ -9,9 +9,9 @@ const result = await client.deliveryPreviews.create(
   {
     body: {
       currency: "USD",
-      delivery_method_ids: [],
       line_items: [
         {
+          type: "variant",
           variant_id: "example",
         },
       ],

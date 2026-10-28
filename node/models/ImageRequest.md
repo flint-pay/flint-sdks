@@ -17,15 +17,17 @@ An image you supply by `source_url`, with optional `alt` text and external refer
 
 ### ImageRequest variant 1
 
-oneOf variant 1.
+oneOf variant 1: The `Source URL` variant of `ImageInput`..
 
+- Condition: not (at least one(present(`file_id`))).
 - Required: `source_url`.
 - Optional: `file_id`.
 
 ### ImageRequest variant 2
 
-oneOf variant 2.
+oneOf variant 2: The `File` variant of `ImageInput`..
 
+- Condition: not (at least one(present(`source_url`))).
 - Required: `file_id`.
 - Optional: `source_url`.
 

@@ -19,7 +19,7 @@ Request input.
 | `gift_card_purchase` | Optional | [GiftCardPurchaseSnapshotInput](../models/GiftCardPurchaseSnapshotInput.md#giftcardpurchasesnapshotinput) | The gift card purchase details saved on an order line item: configuration, face value, price paid, and recipient. |
 | `image` | Optional | [ImageInput](../models/ImageInput.md#imageinput) | An image with its `url`, `width`, and `height`, and optional `alt` text. |
 | `inventory_snapshot` | Required | [LineItemInventorySnapshotInput](../models/LineItemInventorySnapshotInput.md#lineiteminventorysnapshotinput) or null |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `modifier_total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `modifiers` | Required | Array of [OrderLineItemModifierInput](../models/OrderLineItemModifierInput.md#orderlineitemmodifierinput) |  |
 | `name` | Required | string |  |

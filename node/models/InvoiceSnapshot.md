@@ -10,7 +10,7 @@ A frozen copy of an issued invoice's content, including line items, charges, dis
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_address` | Optional | [Address](../models/Address.md#address) | Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. `billing_address`: [field definitions](../models/InvoiceSnapshot.md#invoicesnapshotbilling_address). |
+| `billing_address` | Optional | [Address](../models/Address.md#address) | Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `buyer_note` | Optional | string | The backing order's buyer note, captured on the invoice. |
 | `buyer_tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null | Buyer tax identity captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. |
 | `charges` | Optional | Array of [OrderCharge](../models/OrderCharge.md#ordercharge) | The backing order's service charges, frozen at issue. |
@@ -24,10 +24,4 @@ A frozen copy of an issued invoice's content, including line items, charges, dis
 | `requested_tip` | Optional | [InvoiceTip](../models/InvoiceTip.md#invoicetip) | The tip requested on the backing order, frozen at issue. Absent when none was requested. A tip requested on an invoice, set as a fixed amount or a percentage, with an optional name and description. |
 | `seller_tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. |
 | `tax_breakdowns` | Required | Array of [TaxBreakdown](../models/TaxBreakdown.md#taxbreakdown) | Tax jurisdiction rows for this invoice. A draft previews the backing order's current rows; issue freezes them, and the API, hosted invoice, and PDF share the frozen rows. External tax produces these rows. Automatic tax doesn't, so an automatic-tax invoice reports its tax in pricing_amounts and each line's tax_money. On a newly issued external-tax invoice, rows sum to pricing_amounts.tax_money, and rows with price_mode inclusive sum to pricing_amounts.inclusive_tax_money. A row's order_line_item_id matches the same field on InvoiceLineItem; order_charge_id names a charge in charges. Always [] when no tax rows apply. Some older external-tax invoices have no frozen rows. |
-
-### InvoiceSnapshot.billing_address
-
-Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
-
-Field definitions: [shared fields](BuyerCustomer.md#buyercustomerbilling_address).
 

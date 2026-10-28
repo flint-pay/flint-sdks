@@ -53,7 +53,7 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 
 Signed change to the card's balance: positive amounts add value and negative amounts remove it. balance_after_money is balance_before_money plus this amount; funding_loss_accepted records a decision and moves 0. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
 
 ### GiftCardTransaction.balance_after_money
 

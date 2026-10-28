@@ -1,1 +1,1 @@
-{"shared":"InvoiceActivityListResponse","dependencies":["InvoiceActivity","InvoiceActivityListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec885","SharedCodec968"]}
+{"shared":"InvoiceActivityListResponse","dependencies":["InvoiceActivity","InvoiceActivityListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3","SharedCodec922"]}

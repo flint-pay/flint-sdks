@@ -24,7 +24,7 @@ namespace Flint;
  * @property-read list<OrderGiftCardSettlement> $gift_card_settlements
  * @property-read bool $gift_card_tender_enabled
  * @property-read list<OrderGiftCardSelection> $gift_cards
- * @property-read ?string $governing_delivery_selection_id
+ * @property-read string|null $governing_delivery_selection_id
  * @property-read ?string $internal_note
  * @property-read ?string $inventory_exception_reason
  * @property-read ?string $inventory_exception_resolution_message
@@ -63,7 +63,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class Order extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'closed_at'?: string, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id'?: string, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: \stdClass, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'payment_link_id'?: string, 'payment_status': string, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: string, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'closed_at'?: string, 'closed_reason'?: string, 'closed_reason_message'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'external_reference_id'?: string, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id': string|null, 'internal_note'?: string, 'inventory_exception_reason'?: string, 'inventory_exception_resolution_message'?: string, 'inventory_exception_status'?: string, 'inventory_reservation_id'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'merchant_id'?: string, 'metadata'?: mixed, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'payment_link_id'?: string, 'payment_status': string, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription'?: mixed, 'subscription_cycle'?: string, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Order')); }
     /** Shape $ (Value): {@see OrderPaymentAttempt}. An attempt to pay an order.
      * @return ?OrderPaymentAttempt
@@ -175,10 +175,10 @@ final class Order extends Model {
      */
     public function getGiftCards(): array { return $this->get('gift_cards'); }
     public function hasGiftCards(): bool { return $this->has('gift_cards'); }
-    /** Shape $ (Value): string. ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Read with GET /v1/orders/{order_id}; other order responses may omit this field. While present, change the destination through the delivery selection. Omitted when no selection governs the order.
-     * @return ?string
+    /** Shape $ (Value): string or null. ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection.
+     * @return string|null
      */
-    public function getGoverningDeliverySelectionId(): ?string { return $this->get('governing_delivery_selection_id'); }
+    public function getGoverningDeliverySelectionId(): string|null { return $this->get('governing_delivery_selection_id'); }
     public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
     /** Shape $ (Value): string.
      * @return ?string
@@ -220,7 +220,7 @@ final class Order extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

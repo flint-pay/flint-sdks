@@ -43,7 +43,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -57,63 +57,6 @@ $result = $client->subscriptions->cancel('example', [], new RequestOptions(idemp
 ```
 
 [Complete runnable example](../examples/subscriptions-cancel.php)
-
-### subscriptions.changePaymentMethod
-
-Changes the subscription to an active payment method owned by the same customer. The payment method's usage must be off_session. Send expected_version to reject a concurrent change. A card whose setup hasn't finished returns 409 PAYMENT_METHOD_NOT_READY. Retry the same request with the same Idempotency-Key once setup finishes.
-
-`POST /v1/subscriptions/{subscription_id}/payment-method`
-
-Signature: `changePaymentMethod(string|Model $subscription_id, array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-Field definitions: [shared fields](me.md#request-fields-4). Models: [ChangeSubscriptionPaymentMethodRequestInput](../models/ChangeSubscriptionPaymentMethodRequestInput.md#changesubscriptionpaymentmethodrequestinput).
-
-#### Response
-
-Returned payload: [Subscription](../models/Subscription.md#subscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `changePaymentMethodWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->subscriptions->changePaymentMethod('example', [
-  'payment_method_id' => 'example',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/subscriptions-changePaymentMethod.php)
 
 ### subscriptions.changePlan
 
@@ -167,7 +110,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `changePlanWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -204,7 +147,7 @@ Body model: [CreateSubscriptionRequestInput](../models/CreateSubscriptionRequest
 
 #### subscriptions.create body fields
 
-Field definitions: [shared fields](../models/CreateSubscriptionRequestInput.md#createsubscriptionrequestinput). Models: [SubscriptionBillingScheduleRequestInput](../models/SubscriptionBillingScheduleRequestInput.md#subscriptionbillingschedulerequestinput), [SubscriptionBillingStartRequestInput](../models/SubscriptionBillingStartRequestInput.md#subscriptionbillingstartrequestinput), [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequestInput.md#subscriptiondeliveryrequestinput), [SubscriptionServiceLocationRequestInput](../models/SubscriptionServiceLocationRequestInput.md#subscriptionservicelocationrequestinput), [SubscriptionTermsRequestInput](../models/SubscriptionTermsRequestInput.md#subscriptiontermsrequestinput).
+Field definitions: [shared fields](../models/CreateSubscriptionRequestInput.md#createsubscriptionrequestinput). Models: [SubscriptionBillingScheduleRequestInput](../models/SubscriptionBillingScheduleRequestInput.md#subscriptionbillingschedulerequestinput), [SubscriptionBillingStartRequestInput](../models/SubscriptionBillingStartRequestInput.md#subscriptionbillingstartrequestinput), [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequestInput.md#subscriptiondeliveryrequestinput), [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [SubscriptionServiceLocationRequestInput](../models/SubscriptionServiceLocationRequestInput.md#subscriptionservicelocationrequestinput), [SubscriptionTermsRequestInput](../models/SubscriptionTermsRequestInput.md#subscriptiontermsrequestinput).
 
 #### Response
 
@@ -236,7 +179,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -310,7 +253,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createAccessLinkWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -391,6 +334,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -401,7 +345,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -465,7 +409,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createPaymentRetryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -524,6 +468,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 410 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -534,7 +479,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `deleteLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -663,7 +608,7 @@ $result = $client->subscriptions->getPaymentRetry('example', 'example', [], new 
 
 ### subscriptions.list
 
-Returns a paginated list of subscriptions for the authenticated merchant. Subscriptions without a next_billing_at never match next_billing_after or next_billing_before, and sort last with sort_by=next_billing_at in either direction.
+Returns a paginated list of subscriptions for the authenticated merchant. Subscriptions without a next_billing_at never match next_billing_after or next_billing_before, and sort last with sort_by=next_billing_at in either direction. Default order: created_at descending, then subscription_id descending.
 
 `GET /v1/subscriptions`
 
@@ -738,7 +683,7 @@ $result = $client->subscriptions->list([], new RequestOptions());
 
 ### subscriptions.listPaymentRetries
 
-Returns a subscription's manual payment retries, newest first.
+Returns a subscription's manual payment retries, newest first. Default order: created_at descending, then subscription_payment_retry_id descending.
 
 `GET /v1/subscriptions/{subscription_id}/payment-retries`
 
@@ -746,7 +691,7 @@ Signature: `listPaymentRetries(string|Model $subscription_id, array|Model|null $
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-55).
+Field definitions: [shared fields](me.md#request-fields-51).
 
 #### Response
 
@@ -795,7 +740,7 @@ Signature: `pause(string|Model $subscription_id, array|Model $params, ?RequestOp
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-57). Models: [PauseSubscriptionRequestInput](../models/PauseSubscriptionRequestInput.md#pausesubscriptionrequestinput).
+Field definitions: [shared fields](me.md#request-fields-53). Models: [PauseSubscriptionRequestInput](../models/PauseSubscriptionRequestInput.md#pausesubscriptionrequestinput).
 
 #### Response
 
@@ -826,7 +771,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `pauseWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -841,61 +786,6 @@ $result = $client->subscriptions->pause('example', [], new RequestOptions(idempo
 
 [Complete runnable example](../examples/subscriptions-pause.php)
 
-### subscriptions.reactivate
-
-Clears a pending cancellation without changing the current billing period. Alternatively, PATCH the subscription with cancel_at_period_end set to false. Send expected_version to reject a concurrent change.
-
-`POST /v1/subscriptions/{subscription_id}/reactivate`
-
-Signature: `reactivate(string|Model $subscription_id, array|Model|null $params = null, ?RequestOptions $options = null)`
-
-#### Request fields
-
-Field definitions: [shared fields](me.md#request-fields-58). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
-
-#### Response
-
-Returned payload: [Subscription](../models/Subscription.md#subscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `reactivateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->subscriptions->reactivate('example', null, new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/subscriptions-reactivate.php)
-
 ### subscriptions.renew
 
 Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires Idempotency-Key; retry with the same key to recover the same attempt. Returns the subscription, renewal order, and payment attempt with status 200, including when the payment is declined. Inspect order_payment_attempt.last_payment_error for a failed payment.
@@ -906,7 +796,7 @@ Signature: `renew(string|Model $subscription_id, array|Model $params, ?RequestOp
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-61). Models: [RenewSubscriptionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
+Field definitions: [shared fields](me.md#request-fields-56). Models: [RenewSubscriptionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
 
 #### Response
 
@@ -938,7 +828,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `renewWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -955,7 +845,7 @@ $result = $client->subscriptions->renew('example', [], new RequestOptions(idempo
 
 ### subscriptions.resume
 
-Asks Flint to resume a paused subscription. Returns 202 while the subscription is still paused, with resume_requested_at set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, use reactivate.
+Asks Flint to resume a paused subscription. Returns 202 while the subscription is still paused, with resume_requested_at set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, PATCH the subscription with cancel_at_period_end set to false.
 
 `POST /v1/subscriptions/{subscription_id}/resume`
 
@@ -963,7 +853,7 @@ Signature: `resume(string|Model $subscription_id, array|Model|null $params = nul
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-58). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](me.md#request-fields-57). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 
@@ -983,6 +873,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 | 504 | ServerError | server |
 
@@ -994,7 +885,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `resumeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1059,7 +950,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `skipCycleWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1076,7 +967,7 @@ $result = $client->subscriptions->skipCycle('example', [], new RequestOptions(id
 
 ### subscriptions.update
 
-Updates metadata, external_reference_id, payment_method_id, delivery, billing interval, quantity, or cancel_at_period_end: false to undo a scheduled cancellation. Send billing_interval and billing_interval_count together. A billing_schedule update must be the only mutable field. Delivery, cadence and quantity changes apply to future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines through the line-items collection.
+Updates metadata, external_reference_id, payment_method_id, delivery, billing interval, quantity, or cancel_at_period_end: false to undo a scheduled cancellation. Send billing_interval and billing_interval_count together. A billing_schedule update must be the only mutable field. Delivery, cadence and quantity changes apply to future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines through the line-items collection. A card whose setup hasn't finished returns 409 ACTION_NOT_ALLOWED with reason status_not_reached. Once setup finishes, send a new request with a new Idempotency-Key.
 
 `PATCH /v1/subscriptions/{subscription_id}`
 
@@ -1094,7 +985,7 @@ Body model: [UpdateSubscriptionRequestInput](../models/UpdateSubscriptionRequest
 
 #### subscriptions.update body fields
 
-Field definitions: [shared fields](../models/UpdateSubscriptionRequestInput.md#updatesubscriptionrequestinput). Models: [SubscriptionBillingScheduleUpdateRequestInput](../models/SubscriptionBillingScheduleUpdateRequestInput.md#subscriptionbillingscheduleupdaterequestinput), [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequestInput.md#subscriptiondeliveryrequestinput).
+Field definitions: [shared fields](../models/UpdateSubscriptionRequestInput.md#updatesubscriptionrequestinput). Models: [SubscriptionBillingScheduleUpdateRequestInput](../models/SubscriptionBillingScheduleUpdateRequestInput.md#subscriptionbillingscheduleupdaterequestinput), [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequestInput.md#subscriptiondeliveryrequestinput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
@@ -1114,6 +1005,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -1124,7 +1016,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1138,93 +1030,6 @@ $result = $client->subscriptions->update('example', [], new RequestOptions(idemp
 ```
 
 [Complete runnable example](../examples/subscriptions-update.php)
-
-### subscriptions.updateBillingSchedule
-
-Sets the next billing date, clears an external schedule while it awaits a date, or transfers schedule ownership. Moving a Flint-owned next_billing_at sets billing_anchor_day to its UTC day unless you send an explicit anchor. Transferring an external schedule to Flint with a next billing date follows the same rule. An unchanged date and owner preserve the anchor. The response carries the updated subscription. Send expected_version to reject a concurrent change.
-
-`PATCH /v1/subscriptions/{subscription_id}/billing-schedule`
-
-Signature: `updateBillingSchedule(SubscriptionsUpdateBillingScheduleInput|array $input, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [UpdateSubscriptionBillingScheduleRequestInput](../models/UpdateSubscriptionBillingScheduleRequestInput.md#updatesubscriptionbillingschedulerequestinput) | A closed owner-specific billing schedule update. |
-
-Body model: [UpdateSubscriptionBillingScheduleRequestInput](../models/UpdateSubscriptionBillingScheduleRequestInput.md#updatesubscriptionbillingschedulerequestinput).
-
-#### subscriptions.updateBillingSchedule body oneOf variant 1
-
-The `flint` variant of `UpdateSubscriptionBillingScheduleRequest`.
-
-Body model: [UpdateSubscriptionBillingScheduleRequestFlintInput](../models/UpdateSubscriptionBillingScheduleRequestFlintInput.md#updatesubscriptionbillingschedulerequestflintinput).
-
-#### subscriptions.updateBillingSchedule body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/UpdateSubscriptionBillingScheduleRequestFlintInput.md#updatesubscriptionbillingschedulerequestflintinput).
-
-#### subscriptions.updateBillingSchedule body oneOf variant 2
-
-The `external` variant of `UpdateSubscriptionBillingScheduleRequest`.
-
-Body model: [UpdateSubscriptionBillingScheduleRequestExternalInput](../models/UpdateSubscriptionBillingScheduleRequestExternalInput.md#updatesubscriptionbillingschedulerequestexternalinput).
-
-#### subscriptions.updateBillingSchedule body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/UpdateSubscriptionBillingScheduleRequestExternalInput.md#updatesubscriptionbillingschedulerequestexternalinput).
-
-#### Response
-
-Returned payload: [Subscription](../models/Subscription.md#subscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `updateBillingScheduleWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->subscriptions->updateBillingSchedule([
-  'subscription_id' => 'example',
-  'body' => (object) [
-    'owner' => 'flint',
-    'next_billing_at' => '2026-01-01T00:00:00Z',
-  ],
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/subscriptions-updateBillingSchedule.php)
 
 ### subscriptions.updateLineItem
 
@@ -1267,6 +1072,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -1277,7 +1083,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass $source_system
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateInventoryReceiptRequestInput extends Model {
-    /** @param array{'external_actor_id'?: string, 'lines': list<InventoryReceiptLineRequestInput|array<array-key, mixed>|\stdClass>, 'occurred_at'?: string|\DateTimeInterface, 'source_system'?: InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'external_actor_id'?: string, 'lines': list<InventoryReceiptLineRequestInput|array<array-key, mixed>|\stdClass>, 'occurred_at'?: string|\DateTimeInterface, 'source_system'?: InventorySourceSystemRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInventoryReceiptRequestInput')); }
     /** Shape $ (Value): string. Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: 1. maxLength: 255.
      * @return string

@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptions.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/subscriptions.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPaymentMethod"]:r0,["changeSubscriptionPlan"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionLineItem"]:r0,["createSubscriptionPaymentRetry"]:r0,["deleteSubscriptionLineItem"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["reactivateSubscription"]:r0,["renewSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionBillingSchedule"]:r0,["updateSubscriptionLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelSubscription"]:r0,["changeSubscriptionPlan"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionLineItem"]:r0,["createSubscriptionPaymentRetry"]:r0,["deleteSubscriptionLineItem"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["renewSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -21,16 +21,6 @@ this.subscriptions = Object.freeze({
   "Idempotency-Key"
 ], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelSubscription", result, path))),
       cancelWithResponse: async (subscription_id, params, options) => this.#runtime.request("cancelSubscription", _sdkRequestInput([
-  "subscription_id"
-], [subscription_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(_sdkResponse),
-      changePaymentMethod: async (subscription_id, params, options) => this.#runtime.request("changeSubscriptionPaymentMethod", _sdkRequestInput([
-  "subscription_id"
-], [subscription_id], [
-  "Idempotency-Key"
-], true, true, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("changeSubscriptionPaymentMethod", result, path))),
-      changePaymentMethodWithResponse: async (subscription_id, params, options) => this.#runtime.request("changeSubscriptionPaymentMethod", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
   "Idempotency-Key"
@@ -293,16 +283,6 @@ this.subscriptions = Object.freeze({
 ], [subscription_id], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      reactivate: async (subscription_id, params, options) => this.#runtime.request("reactivateSubscription", _sdkRequestInput([
-  "subscription_id"
-], [subscription_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("reactivateSubscription", result, path))),
-      reactivateWithResponse: async (subscription_id, params, options) => this.#runtime.request("reactivateSubscription", _sdkRequestInput([
-  "subscription_id"
-], [subscription_id], [
-  "Idempotency-Key"
-], true, false, params), options).then(_sdkResponse),
       renew: async (subscription_id, params, options) => this.#runtime.request("renewSubscription", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -343,8 +323,6 @@ this.subscriptions = Object.freeze({
 ], [subscription_id], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      updateBillingSchedule: (input = {}, options) => this.#runtime.request("updateSubscriptionBillingSchedule", input, options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateSubscriptionBillingSchedule", result, path))),
-      updateBillingScheduleWithResponse: (input = {}, options) => this.#runtime.request("updateSubscriptionBillingSchedule", input, options).then(_sdkResponse),
       updateLineItem: async (subscription_id, subscription_line_item_id, params, options) => this.#runtime.request("updateSubscriptionLineItem", _sdkRequestInput([
   "subscription_id",
   "subscription_line_item_id"
@@ -364,7 +342,6 @@ close() { return this.#runtime.close(); }
 }
 export { makeAddressRequest } from '../models/AddressRequest.js';
 export { makeCancelSubscriptionRequest } from '../models/CancelSubscriptionRequest.js';
-export { makeChangeSubscriptionPaymentMethodRequest } from '../models/ChangeSubscriptionPaymentMethodRequest.js';
 export { makeChangeSubscriptionPlanRequest } from '../models/ChangeSubscriptionPlanRequest.js';
 export { makeConfigurationVersionRequest } from '../models/ConfigurationVersionRequest.js';
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
@@ -375,12 +352,11 @@ export { makeCreateSubscriptionLineItemRequestVariant } from '../models/CreateSu
 export { makeCreateSubscriptionRequest } from '../models/CreateSubscriptionRequest.js';
 export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
 export { makeDimensions } from '../models/Dimensions.js';
-export { makeGiftCardCustomAmountBounds } from '../models/GiftCardCustomAmountBounds.js';
-export { makeGiftCardProductConfiguration } from '../models/GiftCardProductConfiguration.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeOrderCalculatedChargeTax } from '../models/OrderCalculatedChargeTax.js';
 export { makeOrderCalculatedLineItemTax } from '../models/OrderCalculatedLineItemTax.js';
-export { makeOrderDeliveryDestinationAddressRequest } from '../models/OrderDeliveryDestinationAddressRequest.js';
 export { makeOrderLineItemTax } from '../models/OrderLineItemTax.js';
 export { makePauseSubscriptionRequest } from '../models/PauseSubscriptionRequest.js';
 export { makePromotionRecurrence } from '../models/PromotionRecurrence.js';
@@ -416,9 +392,6 @@ export { makeTaxCalculationRequest } from '../models/TaxCalculationRequest.js';
 export { makeTaxComponentRequest } from '../models/TaxComponentRequest.js';
 export { makeTaxJurisdiction } from '../models/TaxJurisdiction.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
-export { makeUpdateSubscriptionBillingScheduleRequest } from '../models/UpdateSubscriptionBillingScheduleRequest.js';
-export { makeUpdateSubscriptionBillingScheduleRequestExternal } from '../models/UpdateSubscriptionBillingScheduleRequestExternal.js';
-export { makeUpdateSubscriptionBillingScheduleRequestFlint } from '../models/UpdateSubscriptionBillingScheduleRequestFlint.js';
 export { makeUpdateSubscriptionLineItemRequest } from '../models/UpdateSubscriptionLineItemRequest.js';
 export { makeUpdateSubscriptionRequest } from '../models/UpdateSubscriptionRequest.js';
 export { makeWeight } from '../models/Weight.js';

@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnPolicy extends Model {
-    /** @param array{'created_at': string, 'current_return_policy_revision_id': string, 'current_revision'?: mixed, 'external_reference_id'?: string, 'metadata': \stdClass, 'name': string, 'return_policy_id': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'created_at': string, 'current_return_policy_revision_id': string, 'current_revision'?: mixed, 'external_reference_id'?: string, 'metadata': mixed, 'name': string, 'return_policy_id': string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPolicy')); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return string
@@ -36,7 +36,7 @@ final class ReturnPolicy extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
     public function getMetadata(): array { return $this->get('metadata'); }

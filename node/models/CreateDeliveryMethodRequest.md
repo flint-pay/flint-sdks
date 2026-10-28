@@ -14,7 +14,7 @@ The request body for: Create delivery method.
 | `description` | Optional | string | minLength: `1`. |
 | `display_position` | Optional | integer | Format: `int32`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
 | `name` | Required | string | minLength: `1`. |
 | `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `status` | Optional | string | Values: `"inactive"`, `"active"`. |
@@ -44,7 +44,7 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. `buyer_instructions`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationbuyer_instructions). |
 | `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 | `estimate` | Optional | [DeliveryEstimateRule](../models/DeliveryEstimateRule.md#deliveryestimaterule) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none, a transit time, or a schedule window. `estimate`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimate). |
@@ -75,6 +75,12 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 - `"buyer_location.country"`
 - `"buyer_location.coordinate"`
 
+### CreateDeliveryMethodRequest variant 1.configuration.buyer_instructions
+
+Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
+
+Field definitions: [shared fields](BuyerInstructionsConfig.md#buyerinstructionsconfig).
+
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate
 
 The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none, a transit time, or a schedule window.
@@ -82,14 +88,72 @@ The buyer-visible delivery or pickup estimate. Use type none when the merchant m
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `schedule_window` | Optional | [DeliveryScheduleWindowRule](../models/DeliveryScheduleWindowRule.md#deliveryschedulewindowrule) | Scheduled-window estimate rule you supply for a delivery method, defined by its `availability` schedule. `schedule_window`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_window). |
-| `transit_time` | Optional | [DeliveryTransitTimeRule](../models/DeliveryTransitTimeRule.md#deliverytransittimerule) | Estimate rule giving a delivery method's handling time and transit time as ranges of business days. |
+| `transit_time` | Optional | [DeliveryTransitTimeRule](../models/DeliveryTransitTimeRule.md#deliverytransittimerule) | Estimate rule giving a delivery method's handling time and transit time as ranges of business days. `transit_time`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_time). |
 | `type` | Required | string | Values: `"none"`, `"transit_time"`, `"schedule_window"`. |
 
 ### CreateDeliveryMethodRequest variant 1.configuration.estimate.schedule_window
 
 Scheduled-window estimate rule you supply for a delivery method, defined by its `availability` schedule.
 
-Field definitions: [shared fields](DeliveryScheduleWindowRule.md#deliveryschedulewindowrule).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `availability` | Required | [DeliveryAvailability](../models/DeliveryAvailability.md#deliveryavailability) | When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book. `availability`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailability). |
+
+### CreateDeliveryMethodRequest variant 1.configuration.estimate.schedule_window.availability
+
+When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `blackout_intervals` | Optional | Array of [DeliveryBlackoutInterval](../models/DeliveryBlackoutInterval.md#deliveryblackoutinterval) | `blackout_intervals[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailabilityblackout_intervals). |
+| `dst_disambiguation` | Optional | string | Default: `"earlier"`. Values: `"earlier"`, `"later"`. |
+| `maximum_scheduling_horizon_days` | Required | integer |  |
+| `preparation_lead_time_seconds` | Required | integer string | Notice the merchant needs before a window starts, in seconds. A buyer can choose a window until this long before it starts. Quotes offer only windows that can still be chosen, so a window already under way is not offered. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `same_day_cutoff_minute` | Optional | integer |  |
+| `timezone` | Required | string | minLength: `1`. |
+| `weekly_intervals` | Required | Array of [DeliveryWeeklyInterval](../models/DeliveryWeeklyInterval.md#deliveryweeklyinterval) | `weekly_intervals[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailabilityweekly_intervals). |
+
+### CreateDeliveryMethodRequest variant 1.configuration.estimate.schedule_window.availability.blackout_intervals[]
+
+A local start and end time during which a delivery schedule offers no windows.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `end_local` | Required | string | minLength: `1`. |
+| `start_local` | Required | string | minLength: `1`. |
+
+### CreateDeliveryMethodRequest variant 1.configuration.estimate.schedule_window.availability.weekly_intervals[]
+
+A recurring weekly span, from a start weekday and minute to an end weekday and minute, used in a delivery method's availability schedule.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `end_minute` | Required | integer |  |
+| `end_weekday` | Required | integer |  |
+| `start_minute` | Required | integer |  |
+| `start_weekday` | Required | integer |  |
+
+### CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time
+
+Estimate rule giving a delivery method's handling time and transit time as ranges of business days.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `handling_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | A minimum and maximum number of business days, used in transit time estimates. `handling_days`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days). |
+| `transit_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | A minimum and maximum number of business days, used in transit time estimates. `transit_days`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days). |
+
+### CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time.handling_days
+
+A minimum and maximum number of business days, used in transit time estimates.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `maximum` | Required | integer |  |
+| `minimum` | Required | integer |  |
+
+### CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time.transit_days
+
+Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time.handling_days](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days).
 
 ### CreateDeliveryMethodRequest variant 1.configuration.public_details
 
@@ -101,13 +165,17 @@ Buyer-visible structured details supplied by the merchant.
 | `pickup_mode` | Optional | string | Required for pickup methods and rejected for other method types. Values: `"in_store"`, `"curbside"`, `"locker"`, `"other"`. |
 | `service_level` | Optional | string | Buyer-visible service level. Shipment accepts economy, standard, expedited, express, overnight, same_day. Local delivery accepts on_demand, same_day, scheduled. Values: `"economy"`, `"standard"`, `"expedited"`, `"express"`, `"overnight"`, `"same_day"`. |
 
+### CreateDeliveryMethodRequest.metadata
+
+Field definitions: [AddLineItemsRequest.line_items[].metadata](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata).
+
 ### CreateDeliveryMethodRequest variant 2.configuration
 
 The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. `buyer_instructions`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationbuyer_instructions). |
 | `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 | `estimate` | Optional | [DeliveryEstimateRule](../models/DeliveryEstimateRule.md#deliveryestimaterule) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none, a transit time, or a schedule window. `estimate`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimate). |
@@ -119,6 +187,10 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
 | `selection_guarantee_seconds` | Optional | integer string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
 | `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
+
+### CreateDeliveryMethodRequest variant 2.configuration.buyer_instructions
+
+Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.buyer_instructions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationbuyer_instructions).
 
 ### CreateDeliveryMethodRequest variant 2.configuration.estimate
 
@@ -140,7 +212,7 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. |
+| `buyer_instructions` | Optional | [BuyerInstructionsConfig](../models/BuyerInstructionsConfig.md#buyerinstructionsconfig) | Controls whether checkout collects buyer instructions for this method. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection. `buyer_instructions`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationbuyer_instructions). |
 | `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates the shipping and delivery categories at the general rate and refuses the others with AUTOMATIC_TAX_CHARGE_UNSUPPORTED. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
 | `eligibility` | Optional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Conditions that decide where this method is offered. Omit this field to offer the method everywhere the merchant serves. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
 | `estimate` | Optional | [DeliveryEstimateRule](../models/DeliveryEstimateRule.md#deliveryestimaterule) | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none, a transit time, or a schedule window. `estimate`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimate). |
@@ -152,6 +224,10 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. |
 | `selection_guarantee_seconds` | Optional | integer string | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
 | `taxable` | Optional | boolean or null | Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. |
+
+### CreateDeliveryMethodRequest variant 3.configuration.buyer_instructions
+
+Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.buyer_instructions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationbuyer_instructions).
 
 ### CreateDeliveryMethodRequest variant 3.configuration.estimate
 
@@ -165,17 +241,19 @@ Field definitions: [shared fields](DeliveryMethodOriginSelectorInputPickupLocati
 
 ### CreateDeliveryMethodRequest variant 3.configuration.origin variant 1: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1.
+oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1: The Delivery location set selector for a pickup_location_collection delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`location_ids`))).
 - Required: `delivery_location_set_id`.
 - Optional: `location_ids`.
 
 ### CreateDeliveryMethodRequest variant 3.configuration.origin variant 2: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2.
+oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2: The Locations selector for a pickup_location_collection delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`delivery_location_set_id`))).
 - Required: `location_ids`.
 - Optional: `delivery_location_set_id`.
 

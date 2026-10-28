@@ -12,7 +12,7 @@ The buyer's proposed resolution type, returned quantities, and replacement items
 | --- | --- | --- | --- |
 | `line_items` | Required | Array of [ReturnResolutionLineItemRequest](../models/ReturnResolutionLineItemRequest.md#returnresolutionlineitemrequest) | minItems: `1`. `line_items[]`: [field definitions](../models/BuyerCreateReturnResolutionPreviewRequest.md#buyercreatereturnresolutionpreviewrequestline_items). |
 | `replacement_line_items` | Optional | Array of [BuyerReturnReplacementLineItemRequest](../models/BuyerReturnReplacementLineItemRequest.md#buyerreturnreplacementlineitemrequest) |  |
-| `resolution_type` | Required | string | Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`. |
+| `resolution_type` | Required | string | The proposed resolution type. For store_credit, send a nonempty line_items list and omit replacement_line_items. Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. |
 | `return_id` | Required | string | minLength: `1`. |
 
 ### BuyerCreateReturnResolutionPreviewRequest.line_items[]

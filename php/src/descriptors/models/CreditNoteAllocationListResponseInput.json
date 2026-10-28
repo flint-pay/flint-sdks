@@ -1,1 +1,1 @@
-{"shared":"CreditNoteAllocationListResponse","dependencies":["CreditNoteAllocation","CreditNoteAllocationListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}
+{"shared":"CreditNoteAllocationListResponse","dependencies":["CreditNoteAllocation","CreditNoteAllocationListResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}

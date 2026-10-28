@@ -1,9 +1,9 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { Package, PackageCreateRequestInput, PackageResponse } from '../declarations/types-34.js';
-import type { RequestOptions } from '../declarations/types-40.js';
+import type { Package, PackageCreateRequestInput, PackageResponse } from '../declarations/types-36.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
 import type {
-    SdkResponse,
     Shipment,
     ShipmentListResponse,
     ShipmentResponse,
@@ -12,10 +12,10 @@ import type {
     ShipmentsListInput,
     ShipmentsUpdateInput,
     ShipmentsVoidResourceInput
-} from '../declarations/types-44.js';
-import type { UpdateShipmentRequestInput } from '../declarations/types-49.js';
-import type { VoidShipmentRequestInput, VoidShipmentResponse, VoidShipmentResult } from '../declarations/types-50.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-47.js';
+import type { UpdateShipmentRequestInput } from '../declarations/types-52.js';
+import type { VoidShipmentRequestInput, VoidShipmentResponse, VoidShipmentResult } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,10 +36,11 @@ export type {
     PackageResponse,
     PackageCreateInputCreatedInput,
     PackageCreateInputShippedInput
-} from '../declarations/types-34.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+} from '../declarations/types-36.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency, WeightInput, Weight } from '../declarations/types-65.js';
 export type {
-    SdkResponse,
     Shipment,
     ShipmentResponse,
     ShipmentListResponse,
@@ -49,26 +50,31 @@ export type {
     ShipmentsUpdateInput,
     ShipmentsVoidResourceInput,
     SettlementAmounts
-} from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateShipmentRequestInput } from '../declarations/types-49.js';
-export type { VoidShipmentRequestInput, VoidShipmentResult, VoidShipmentResponse, VoidPackageRequestInput } from '../declarations/types-50.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type { DimensionsInput, Dimensions, ExpandedOrderSummary } from '../declarations/types-16.js';
-export type { CreatePackageItemRequestInput } from '../declarations/types-7.js';
-export type { ReturnShipmentLineItemAllocationInput, ReturnResolutionLineItemRequest } from '../declarations/types-42.js';
-export type { WeightInput, Weight } from '../declarations/types-61.js';
+} from '../declarations/types-47.js';
+export type { UpdateShipmentRequestInput } from '../declarations/types-52.js';
+export type { VoidShipmentRequestInput, VoidShipmentResult, VoidShipmentResponse, VoidPackageRequestInput } from '../declarations/types-53.js';
+export type { ClientOptions, CheckoutBuyerContact } from '../declarations/types-4.js';
+export type { DimensionsInput, Dimensions } from '../declarations/types-17.js';
+export type { CreatePackageItemRequestInput } from '../declarations/types-8.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
+export type { ReturnShipmentLineItemAllocationRequestRequestInput, ReturnResolutionLineItemRequest } from '../declarations/types-44.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { CheckoutBuyerContact } from '../declarations/types-3.js';
-export type { PricingAmounts } from '../declarations/types-37.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export { makeCreatePackageItemRequest } from '../declarations/types-64.js';
-export { makeDimensions } from '../declarations/types-66.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makePackageCreateInputCreated, makePackageCreateInputShipped, makePackageCreateRequest } from '../declarations/types-69.js';
-export { makeReturnResolutionLineItemRequest, makeReturnShipmentLineItemAllocation } from '../declarations/types-71.js';
-export { makeUpdateShipmentRequest, makeVoidPackageRequest, makeVoidShipmentRequest, makeWeight } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ExpandedOrderSummary, ExpandedPackageSummary } from '../declarations/types-18.js';
+export type { PricingAmounts } from '../declarations/types-39.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeCreatePackageItemRequest } from '../declarations/types-68.js';
+export { makeDimensions } from '../declarations/types-70.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export {
+    makeMoneyValue,
+    makePackageCreateInputCreated,
+    makePackageCreateInputShipped,
+    makePackageCreateRequest
+} from '../declarations/types-73.js';
+export { makeReturnResolutionLineItemRequest, makeReturnShipmentLineItemAllocationRequestRequest } from '../declarations/types-75.js';
+export { makeUpdateShipmentRequest, makeVoidPackageRequest, makeVoidShipmentRequest, makeWeight } from '../declarations/types-78.js';
 export interface ShipmentsResource {
     /**
  * Creates a package record under a shipment. Change package status with POST
@@ -101,16 +107,17 @@ export interface ShipmentsResource {
  * client.shipments.get("example")
  */
     get(shipment_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"order">>;
+        "expand"?: InputValue<Array<"order" | "packages">>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Shipment>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/shipments.md#shipmentsget
      */
     getWithResponse(shipment_id: InputValue<string>, params?: {
-        "expand"?: InputValue<Array<"order">>;
+        "expand"?: InputValue<Array<"order" | "packages">>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ShipmentResponse>>;
     /**
- * Lists shipment execution records, newest created first.
+ * Lists shipment execution records, newest created first. Default order: created_at descending,
+ * then shipment_id descending.
  * @see reference/shipments.md#shipmentslist
  * GET /v1/shipments
  * @example

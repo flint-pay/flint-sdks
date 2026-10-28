@@ -4,7 +4,7 @@
 
 ### customerDeletionRequests.list
 
-Lists deletion requests across the selected merchant environment so a merchant can discover and review buyer-created requests.
+Lists deletion requests across the selected merchant environment so a merchant can discover and review buyer-created requests. Default order: requested_at descending, then customer_deletion_request_id descending.
 
 `GET /v1/customer-deletion-requests`
 
@@ -126,7 +126,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `resolveWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

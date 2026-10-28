@@ -24,14 +24,22 @@ Promotion evaluation order: manual discounts stay, do not count toward the cap, 
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `max_uses` | Optional | integer string | Maximum number of redemptions across all codes and automatic applications. Omitted when there is no redemption limit. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns the promotion. |
-| `metadata` | Optional | Map of string | Key-value data you attach to the promotion. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Key-value data you attach to the promotion. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/IncomingWebhook25e323147b49Payload.md#incomingwebhook25e323147b49payloaddataobjectmetadata). |
 | `name` | Required | string | Internal promotion name for dashboards, searching, and reporting. |
 | `promotion_id` | Required | string | Unique identifier for the promotion. |
 | `redemption_type` | Required | string | Whether the promotion applies automatically when its rules match or requires a promotion code. Values: `"automatic"`, `"code"`. |
-| `schedule` | Optional | [PromotionSchedule](../models/PromotionSchedule.md#promotionschedule) | Optional start and end times that limit when the promotion can apply. When a promotion is active, with a start time, an end time, and the time zone it was entered in. |
+| `schedule` | Optional | [PromotionSchedule](../models/PromotionSchedule.md#promotionschedule) | Optional start and end times that limit when the promotion can apply. When a promotion is active, with a start time, an end time, and the time zone it was entered in. `schedule`: [field definitions](../models/IncomingWebhook25e323147b49Payload.md#incomingwebhook25e323147b49payloaddataobjectschedule). |
 | `status` | Required | string | Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can still be unavailable: read available. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `unavailable_reason` | Optional | string | Why available is false. Present only when available is false. Values: `"inactive"`, `"archived"`, `"not_yet_started"`, `"expired"`, `"exhausted"`, `"no_active_codes"`. |
 | `updated_at` | Optional | string | When the promotion was last updated, as an RFC3339 timestamp. Format: `date-time`. |
 | `uses_count` | Required | integer string | Number of times the promotion has been redeemed. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `version` | Required | integer string | Persisted owned-state version. Clock-based availability and expanded resources do not advance this counter. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+
+### Promotion.metadata
+
+Field definitions: [IncomingWebhook25e323147b49Payload.data.object.metadata](../models/IncomingWebhook25e323147b49Payload.md#incomingwebhook25e323147b49payloaddataobjectmetadata).
+
+### Promotion.schedule fields 1
+
+Field definitions: [IncomingWebhook25e323147b49Payload.data.object.schedule](../models/IncomingWebhook25e323147b49Payload.md#incomingwebhook25e323147b49payloaddataobjectschedule).
 

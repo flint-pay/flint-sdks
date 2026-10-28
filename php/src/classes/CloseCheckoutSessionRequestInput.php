@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $reason_message
  * Presence-aware input; omitted fields throw when accessed. */
 final class CloseCheckoutSessionRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'reason_message'?: string, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CloseCheckoutSessionRequestInput')); }
     /** Shape $ (Value): integer string. Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string

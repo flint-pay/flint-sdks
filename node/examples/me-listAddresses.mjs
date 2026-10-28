@@ -9,4 +9,4 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.listAddresses();
-console.log(result);
+console.log(result.request_id);

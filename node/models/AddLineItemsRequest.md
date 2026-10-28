@@ -25,40 +25,44 @@ A line item to add to an order: a catalog variant, a bundle, or a custom item wi
 | `gift_card_purchase` | Optional | [GiftCardPurchaseRequest](../models/GiftCardPurchaseRequest.md#giftcardpurchaserequest) | Buyer-selected face value and recipient for a gift_card variant. The server freezes the offer and resolves consideration per unit. Omit to purchase the reference denomination without a recipient. Gift card details you supply for an order line item: the `face_value_money` and the `recipient` who receives the card. `gift_card_purchase`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchase). |
 | `image` | Optional | [ImageReferenceRequest](../models/ImageReferenceRequest.md#imagereferencerequest) | A reference to an image by `url`, with optional `alt` text, used on an order line item. |
 | `inventory_demands` | Optional | Array of [OrderDraftLineItemInventoryDemandRequest](../models/OrderDraftLineItemInventoryDemandRequest.md#orderdraftlineiteminventorydemandrequest) |  |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
 | `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmodifiers). |
 | `name` | Conditional | string | minLength: `1`. |
 | `quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. maximum: `9999`. Default: `1`. |
 | `subscription` | Optional | [SubscribedLineRequest](../models/SubscribedLineRequest.md#subscribedlinerequest) | Selected recurring terms for this variant. Lines with the same cadence start one subscription after payment. Makes an order line a subscription purchase, with the subscription offer and billing interval. |
 | `tax` | Optional | [OrderCalculatedLineItemTax](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax) | Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation. `tax`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1tax), [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-3tax). |
+| `type` | Required | string | Selects the type branch. Values: `"variant"`, `"bundle"`, `"custom"`. |
 | `unit_dimensions` | Optional | [Dimensions](../models/Dimensions.md#dimensions) | Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. |
 | `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money). |
 | `unit_weight` | Optional | [Weight](../models/Weight.md#weight) | Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. |
 | `variant_id` | Conditional | string | minLength: `1`. |
 
-### AddLineItemsRequest.line_items[] variant 1
+### AddLineItemsRequest.line_items[] variant 1: `type` = `"variant"`
 
-oneOf variant 1.
+oneOf variant 1: The `variant` variant of `CreateOrderLineItemInput`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`))).
 - Required: `variant_id`.
 - Optional: `bundle_id`, `fulfillment`, `name`, `unit_price_money`.
+- Constraints for `type`: Values: `"variant"`.
 
-### AddLineItemsRequest.line_items[] variant 2
+### AddLineItemsRequest.line_items[] variant 2: `type` = `"bundle"`
 
-oneOf variant 2.
+oneOf variant 2: The `bundle` variant of `CreateOrderLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`); present(`gift_card_purchase`))).
 - Required: `bundle_id`.
 - Optional: `fulfillment`, `name`, `unit_price_money`, `variant_id`.
+- Constraints for `type`: Values: `"bundle"`.
 
-### AddLineItemsRequest.line_items[] variant 3
+### AddLineItemsRequest.line_items[] variant 3: `type` = `"custom"`
 
-oneOf variant 3.
+oneOf variant 3: The `custom` variant of `CreateOrderLineItemInput`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`); present(`gift_card_purchase`))).
 - Required: `fulfillment`, `name`, `unit_price_money`.
 - Optional: `bundle_id`, `variant_id`.
+- Constraints for `type`: Values: `"custom"`.
 
 ### AddLineItemsRequest.line_items[].gift_card_purchase
 
@@ -82,29 +86,39 @@ Recipient of a gift card purchase that you supply: `email`, optional `name` and 
 
 Field definitions: [shared fields](GiftCardPurchaseRecipientRequestInput.md#giftcardpurchaserecipientrequestinput).
 
+### AddLineItemsRequest.line_items[].metadata
+
+Value shape: Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. 
+
 ### AddLineItemsRequest.line_items[].modifiers[]
 
 A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity.
 
 Field definitions: [shared fields](OrderLineItemModifierRequest.md#orderlineitemmodifierrequest).
 
-### AddLineItemsRequest.line_items[].modifiers[] variant 1
+### AddLineItemsRequest.line_items[].modifiers[] variant 1: `type` = `"catalog"`
 
-oneOf variant 1.
+oneOf variant 1: The `catalog` variant of `OrderLineItemModifierInput`..
 
 - Condition: not (present(`order_line_item_modifier_id`)).
 - Condition: not (present(`text`)).
 - Required: `modifier_id`.
 - Optional: `text`.
+- Constraints for `type`: Values: `"catalog"`.
 
-### AddLineItemsRequest.line_items[].modifiers[] variant 2
+### AddLineItemsRequest.line_items[].modifiers[] variant 2: `type` = `"text"`
 
-oneOf variant 2.
+oneOf variant 2: The `text` variant of `OrderLineItemModifierInput`..
 
 - Condition: not (present(`order_line_item_modifier_id`)).
 - Condition: not (at least one(present(`modifier_id`); present(`quantity`))).
 - Required: `text`.
 - Optional: `modifier_id`.
+- Constraints for `type`: Values: `"text"`.
+
+### AddLineItemsRequest.line_items[].modifiers[].metadata
+
+Value shape: Map of string. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. 
 
 ### AddLineItemsRequest.line_items[].modifiers[].text
 

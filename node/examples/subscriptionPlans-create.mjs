@@ -15,6 +15,7 @@ const result = await client.subscriptionPlans.create(
     currency: "USD",
     line_items: [
       {
+        type: "variant",
         variant_id: "example",
       },
     ],

@@ -62,7 +62,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `decideLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -128,7 +128,7 @@ const result = await client.returnInspections.get("example", {}, {  });
 
 ### returnInspections.list
 
-List inspection observations. Omitting return_id lists inspections across every Return for the merchant. Newest first: created_at descending, with return_inspection_id descending as the tiebreak.
+List inspection observations. Omitting return_id lists inspections across every Return for the merchant. Newest first: created_at descending, with return_inspection_id descending as the tiebreak. Default order: created_at descending, then return_inspection_id descending.
 
 `GET /v1/return-inspections`
 

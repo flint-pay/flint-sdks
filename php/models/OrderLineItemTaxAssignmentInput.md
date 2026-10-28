@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculation` | Required | [TaxCalculationRequestInput](../models/TaxCalculationRequestInput.md#taxcalculationrequestinput) | Tax you calculated yourself for a line or charge: whether prices include tax, and the tax components. |
+| `calculation` | Required | [TaxCalculationRequestRequestInput](../models/TaxCalculationRequestRequestInput.md#taxcalculationrequestrequestinput) | Tax you calculated yourself for a line or charge: whether prices include tax, and the tax components. |
 | `order_line_item_id` | Required | string | minLength: `1`. |
 

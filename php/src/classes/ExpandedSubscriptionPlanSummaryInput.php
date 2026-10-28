@@ -80,7 +80,7 @@ final class ExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getSetupFeeMoney(): mixed { return $this->get('setup_fee_money'); }
     public function hasSetupFeeMoney(): bool { return $this->has('setup_fee_money'); }
-    /** Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive", "archived".
+    /** Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

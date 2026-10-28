@@ -31,7 +31,7 @@ Body model: [CreateReturnPolicyRequestInput](../models/CreateReturnPolicyRequest
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `name` | Required | string | minLength: `1`. |
 | `revision` | Required | [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequest.md#returnpolicyrevisionrequest) | The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee. |
 
@@ -63,7 +63,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -196,7 +196,7 @@ const result = await client.returnPolicies.getRevision("example", "example", {},
 
 ### returnPolicies.list
 
-List Return policies with their status. Include the current revision with expand=current_revision. Newest first: created_at descending, with return_policy_id descending as the tiebreak.
+List Return policies with their status. Include the current revision with expand=current_revision. Newest first: created_at descending, with return_policy_id descending as the tiebreak. Default order: created_at descending, then return_policy_id descending.
 
 `GET /v1/return-policies`
 
@@ -264,7 +264,7 @@ const result = await client.returnPolicies.list({}, {  });
 
 ### returnPolicies.listRevisions
 
-List every published revision of a Return policy. Newest first: created_at descending, with return_policy_revision_id descending as the tiebreak.
+List every published revision of a Return policy. Newest first: created_at descending, with return_policy_revision_id descending as the tiebreak. Default order: created_at descending, then return_policy_revision_id descending.
 
 `GET /v1/return-policies/{return_policy_id}/revisions`
 
@@ -354,7 +354,7 @@ Body model: [PublishReturnPolicyRevisionRequestInput](../models/PublishReturnPol
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Required | integer string | Required current version of the Return policy. A stale value returns RETURN_VERSION_CONFLICT. Publishing increments the policy version. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Required | integer string | Required current version of the Return policy. A stale value returns VERSION_CONFLICT. Publishing increments the policy version. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
 | `revision` | Required | [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequest.md#returnpolicyrevisionrequest) | The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee. |
 
 #### Response
@@ -385,7 +385,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `publishRevisionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -451,7 +451,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -494,7 +494,13 @@ Body model: [UpdateReturnPolicyRequestInput](../models/UpdateReturnPolicyRequest
 
 #### returnPolicies.update body fields
 
-Field definitions: [shared fields](../models/UpdateReturnPolicyRequest.md#updatereturnpolicyrequest).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `name` | Optional | string | minLength: `1`. |
+| `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 
 #### Response
 
@@ -524,7 +530,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

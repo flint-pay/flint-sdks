@@ -1,1 +1,1 @@
-{"shared":"UpdateDeliveryRateCallbackRequest","dependencies":["DeliveryRateCallbackConfigurationPatchRequest","SharedCodec1179","SharedCodec1185","UpdateDeliveryRateCallbackRequest"]}
+{"shared":"UpdateDeliveryRateCallbackRequest","dependencies":["DeliveryRateCallbackConfigurationPatchRequest","SharedCodec1262","SharedCodec1268","SharedCodec1269","UpdateDeliveryRateCallbackRequest","WebhookSigningMethod"]}

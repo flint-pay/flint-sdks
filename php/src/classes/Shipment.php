@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read ExpandedOrderSummary|null $order
  * @property-read string $order_id
  * @property-read int $package_count
+ * @property-read ?list<ExpandedPackageSummary> $packages
  * @property-read ?string $return_id
  * @property-read ?list<ReturnShipmentLineItemAllocation> $return_line_items
  * @property-read string $shipment_id
@@ -22,7 +23,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class Shipment extends Model {
-    /** @param array{'created_at'?: string, 'delivered_at'?: string, 'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'handed_off_at'?: string, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id': string, 'package_count': int, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'created_at'?: string, 'delivered_at'?: string, 'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'fulfillment_id': string, 'handed_off_at'?: string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'package_count': int, 'packages'?: list<mixed>, 'return_id'?: string, 'return_line_items'?: list<mixed>, 'shipment_id': string, 'shipped_at'?: string, 'status': string, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Shipment')); }
     /** Shape $ (Value): string. Creation timestamp. Format: date-time.
      * @return ?string
@@ -59,7 +60,7 @@ final class Shipment extends Model {
      */
     public function getHandedOffAt(): ?string { return $this->get('handed_off_at'); }
     public function hasHandedOffAt(): bool { return $this->has('handed_off_at'); }
-    /** Shape $ (Value): Map of string. Caller-owned key-value metadata associated with the shipment. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value metadata associated with the shipment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -79,6 +80,11 @@ final class Shipment extends Model {
      */
     public function getPackageCount(): int { return $this->get('package_count'); }
     public function hasPackageCount(): bool { return $this->has('package_count'); }
+    /** Shape $ (Value): Array of {@see ExpandedPackageSummary}. Summaries of the shipment's packages in creation order, returned when the packages relationship is expanded or when the shipment is created with packages. Shape $[] (Value): {@see ExpandedPackageSummary}. A package's summary fields, including carrier, tracking, status, and supported actions, returned when the package is expanded.
+     * @return ?list<ExpandedPackageSummary>
+     */
+    public function getPackages(): ?array { return $this->get('packages'); }
+    public function hasPackages(): bool { return $this->has('packages'); }
     /** Shape $ (Value): string. Return associated with this shipment, when its direction is return.
      * @return ?string
      */

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $timezone
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateServiceFulfillmentDetailsInput extends Model {
-    /** @param array{'notes'?: string, 'scheduled_end_at'?: string|\DateTimeInterface, 'scheduled_start_at'?: string|\DateTimeInterface, 'timezone'?: string, ...}|object $values */
+    /** @param array{'notes'?: string, 'scheduled_end_at'?: string|\DateTimeInterface, 'scheduled_start_at'?: string|\DateTimeInterface, 'timezone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateServiceFulfillmentDetailsInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

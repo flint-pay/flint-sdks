@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerSessionWithSecretResponseInput extends Model {
-    /** @param array{'data': CustomerSessionWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': CustomerSessionWithSecretInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionWithSecretResponseInput')); }
     /** Shape $ (Value): {@see CustomerSessionWithSecretInput}. A customer session with its `secret` and `refresh_token`, returned only when the session is created or refreshed. A session granting a customer access to their saved details.
      * @return CustomerSessionWithSecretInput|array<array-key, mixed>|\stdClass

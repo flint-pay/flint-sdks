@@ -2,30 +2,22 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $billing_address
  * @property-read string $default_invoice_payment_term_id
  * @property-read string $email
  * @property-read string $external_reference_id
  * @property-read string $internal_note
  * @property-read bool $is_merchant_verified
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $on_email_conflict
  * @property-read string $phone
  * @property-read string $segment
- * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $shipping_address
  * @property-read bool $tax_exempt
  * @property-read TaxIdentityPatchInput|array<array-key, mixed>|\stdClass $tax_identity
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCustomerRequestInput extends Model {
-    /** @param array{'billing_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: array<array-key, string>|\stdClass, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'segment'?: string, 'shipping_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'tax_exempt'?: bool, 'tax_identity'?: TaxIdentityPatchInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: TaxIdentityPatchInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCustomerRequestInput')); }
-    /** Shape $ (Value): {@see AddressRequestInput}. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
-     * @return AddressRequestInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When billing_address is omitted; use hasBillingAddress() or valueOrDefault().
-     */
-    public function getBillingAddress(): mixed { return $this->get('billing_address'); }
-    public function hasBillingAddress(): bool { return $this->has('billing_address'); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string
      * @throws SdkError When default_invoice_payment_term_id is omitted; use hasDefaultInvoicePaymentTermId() or valueOrDefault().
@@ -56,11 +48,11 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getIsMerchantVerified(): bool { return $this->get('is_merchant_verified'); }
     public function hasIsMerchantVerified(): bool { return $this->has('is_merchant_verified'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string
@@ -86,12 +78,6 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getSegment(): string { return $this->get('segment'); }
     public function hasSegment(): bool { return $this->has('segment'); }
-    /** Shape $ (Value): {@see AddressRequestInput}. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it.
-     * @return AddressRequestInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When shipping_address is omitted; use hasShippingAddress() or valueOrDefault().
-     */
-    public function getShippingAddress(): mixed { return $this->get('shipping_address'); }
-    public function hasShippingAddress(): bool { return $this->has('shipping_address'); }
     /** Shape $ (Value): boolean.
      * @return bool
      * @throws SdkError When tax_exempt is omitted; use hasTaxExempt() or valueOrDefault().

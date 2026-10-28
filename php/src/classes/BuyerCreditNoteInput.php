@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null $buyer_tax_identity
+ * @property-read array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null $buyer_tax_identity
  * @property-read string $credit_note_id
  * @property-read string $credit_note_number
  * @property-read string $invoice_id
@@ -13,16 +13,16 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $pending_refund_money
  * @property-read string $reason
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
- * @property-read array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null $seller_tax_identity
+ * @property-read array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null $seller_tax_identity
  * @property-read string $status
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
  * @property-read string|\DateTimeInterface $voided_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCreditNoteInput extends Model {
-    /** @param array{'buyer_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'credit_note_id': string, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string|\DateTimeInterface, 'latest_refund_status'?: string, 'line_items': list<CreditNoteLineItemInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'seller_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'buyer_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'credit_note_id': string, 'credit_note_number': string, 'invoice_id': string, 'issued_at': string|\DateTimeInterface, 'latest_refund_status'?: string, 'line_items': list<CreditNoteLineItemInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'pending_refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'seller_tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreditNoteInput')); }
     /** Shape $ (Value): {@see TaxIdentityInput} or null. Identity frozen on the source invoice at issue. Later profile edits do not change this document. Shape $.anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2] (Value): null.
-     * @return array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
+     * @return array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
      * @throws SdkError When buyer_tax_identity is omitted; use hasBuyerTaxIdentity() or valueOrDefault().
      */
     public function getBuyerTaxIdentity(): mixed { return $this->get('buyer_tax_identity'); }
@@ -88,7 +88,7 @@ final class BuyerCreditNoteInput extends Model {
     public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
     /** Shape $ (Value): {@see TaxIdentityInput} or null. Identity frozen on the source invoice at issue. Later profile edits do not change this document. Shape $.anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2] (Value): null.
-     * @return array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
+     * @return array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
      * @throws SdkError When seller_tax_identity is omitted; use hasSellerTaxIdentity() or valueOrDefault().
      */
     public function getSellerTaxIdentity(): mixed { return $this->get('seller_tax_identity'); }

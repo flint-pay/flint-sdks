@@ -1,1 +1,1 @@
-{"shared":"Webhook_inventory_level_updated_merchant","dependencies":["InventoryItem","InventoryLevel","MerchantWebhookEnvelope","SharedCodec373","SharedCodec374","SharedCodec619","Webhook_inventory_level_updated_merchant"]}
+{"shared":"Webhook_inventory_level_updated_merchant","dependencies":["InventoryItem","InventoryLevel","MerchantWebhookEnvelope","MetadataMap","SharedCodec413","SharedCodec414","SharedCodec656","Webhook_inventory_level_updated_merchant"]}

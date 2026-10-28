@@ -19,12 +19,13 @@ Request input.
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353PayloadInput.md#incomingwebhook019a504a3353payloadinput-variant-2source). |
+| `source` | Conditional | [PartnerWebhookEnvelopeSourceInput](../models/PartnerWebhookEnvelopeSourceInput.md#partnerwebhookenvelopesourceinput) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353PayloadInput.md#incomingwebhook019a504a3353payloadinput-variant-2source). |
 
 ### IncomingWebhookf5b72c2a310ePayloadInput variant 1: `event_type` = `"delivery_selection.committed"`
 
 oneOf variant 1: The `delivery_selection.committed` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"delivery_selection.committed"`.
@@ -33,6 +34,7 @@ oneOf variant 1: The `delivery_selection.committed` webhook payload for the `mer
 
 oneOf variant 2: The `delivery_selection.committed` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"delivery_selection.committed"`.
@@ -58,7 +60,7 @@ The delivery choice selected for a checkout or order.
 | `delivery_quote_id` | Required | string | Quote from which this selection was made. |
 | `delivery_quote_version` | Optional | integer string | Quote version from which this selection was created. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `delivery_selection_id` | Required | string | Stable delivery selection ID. |
-| `destination_address` | Optional | [DeliveryAddressResourceInput](../models/DeliveryAddressResourceInput.md#deliveryaddressresourceinput) | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations. |
+| `destination_address` | Optional | [AddressInput](../models/AddressInput.md#addressinput) | Destination address snapshot used for delivery evaluation. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `eligibility_context_version` | Optional | integer string | Checkout eligibility context version evaluated by this selection. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `expires_at` | Required | string | Deadline after which this provisional selection can no longer be committed. Format: `date-time`. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirementInput](../models/DeliveryInputRequirementInput.md#deliveryinputrequirementinput) | Inputs this selection still needs before payment: each recipient field a chosen option requires that the selection does not include. Each entry repeats the quote's requirement for that option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection reference until a new delivery selection includes them. Empty when nothing is missing, and always empty unless status is selected. |

@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnResolutions.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/returnResolutions.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnResolution"]:r0,["confirmReturnResolution"]:r0,["getOrCreateReturnResolutionCheckoutSession"]:r0,["getReturnResolution"]:r0,["listReturnResolutions"]:r0,["releaseReturnResolution"]:r0,["retryReturnResolution"]:r0,["updateReturnResolution"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnResolution"]:r0,["confirmReturnResolution"]:r0,["createReturnResolutionCheckoutSession"]:r0,["getReturnResolution"]:r0,["listReturnResolutions"]:r0,["releaseReturnResolution"]:r0,["retryReturnResolution"]:r0,["updateReturnResolution"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -35,12 +35,22 @@ this.returnResolutions = Object.freeze({
 ], [return_resolution_id], [
   "Idempotency-Key"
 ], true, true, params), options).then(_sdkResponse),
-      getOrCreateCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("getOrCreateReturnResolutionCheckoutSession", _sdkRequestInput([
+      createCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
-], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrCreateReturnResolutionCheckoutSession", result, path))),
-      getOrCreateCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("getOrCreateReturnResolutionCheckoutSession", _sdkRequestInput([
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnResolutionCheckoutSession", result, path))),
+      createCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("createReturnResolutionCheckoutSession", _sdkRequestInput([
+  "return_resolution_id"
+], [return_resolution_id], [
+  "Idempotency-Key"
+], true, false, params), options).then(_sdkResponse),
+      getOrCreateCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createReturnResolutionCheckoutSession", _sdkRequestInput([
+  "return_resolution_id"
+], [return_resolution_id], [
+  "Idempotency-Key"
+], true, false, params), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnResolutionCheckoutSession", result, path))),
+      getOrCreateCheckoutSessionWithResponse: async (return_resolution_id, params, options) => this.#runtime.request("createReturnResolutionCheckoutSession", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
   "Idempotency-Key"
@@ -180,18 +190,14 @@ this.returnResolutions = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
-export { makeBuyerInstructionsConfig } from '../models/BuyerInstructionsConfig.js';
 export { makeCancelReturnRequest } from '../models/CancelReturnRequest.js';
 export { makeCancelReturnResolutionRequest } from '../models/CancelReturnResolutionRequest.js';
-export { makeCheckoutBuyerFields } from '../models/CheckoutBuyerFields.js';
-export { makeCheckoutPromotionConfig } from '../models/CheckoutPromotionConfig.js';
 export { makeCheckoutRedirectsRequest } from '../models/CheckoutRedirectsRequest.js';
-export { makeCheckoutTipConfig } from '../models/CheckoutTipConfig.js';
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
-export { makeDeliveryAddressRequest } from '../models/DeliveryAddressRequest.js';
 export { makeDeliveryRecipientRequirement } from '../models/DeliveryRecipientRequirement.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeGetOrCreateReturnResolutionCheckoutSessionRequest } from '../models/GetOrCreateReturnResolutionCheckoutSessionRequest.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeReleaseReturnResolutionRequest } from '../models/ReleaseReturnResolutionRequest.js';
 export { makeRetryReturnResolutionRequest } from '../models/RetryReturnResolutionRequest.js';

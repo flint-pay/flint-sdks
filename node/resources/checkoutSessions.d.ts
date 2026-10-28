@@ -15,31 +15,33 @@ import type {
     CheckoutSessionsDeleteCurrentDeliverySelectionInput,
     CheckoutSessionsGetCurrentDeliverySelectionInput,
     CheckoutSessionsGetDeliveryQuoteInput,
-    CheckoutSessionsGetDeliverySelectionHistoryInput,
+    CheckoutSessionsGetDeliverySelectionInput,
     CheckoutSessionsGetInput,
+    CheckoutSessionsListDeliverySelectionsInput,
     CheckoutSessionsListInput,
     CheckoutSessionsUpdateInput,
-    ClientOptions,
-    CloseCheckoutSessionRequestInput
+    ClientOptions
 } from '../declarations/types-4.js';
 import type {
+    CloseCheckoutSessionRequestInput,
     ConfirmCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutDeliveryQuoteRequestInput,
     CreateCheckoutSessionRequestInput
 } from '../declarations/types-5.js';
 import type { CreateDeliverySelectionRequestInput } from '../declarations/types-6.js';
-import type { DeliveryQuote, DeliveryQuoteResponse } from '../declarations/types-14.js';
+import type { DeliveryQuote, DeliveryQuoteResponse } from '../declarations/types-15.js';
 import type {
     DeliverySelection,
+    DeliverySelectionListResponse,
     DeliverySelectionResponse,
     DeliverySelectionResult,
     DeliverySelectionResultResponse
-} from '../declarations/types-15.js';
-import type { EffectiveDeliverySelectionResource, EffectiveDeliverySelectionResponse } from '../declarations/types-16.js';
-import type { RequestOptions, ResolvePaymentLinkResponse } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateCheckoutSessionRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-16.js';
+import type { EffectiveDeliverySelectionResource, EffectiveDeliverySelectionResponse } from '../declarations/types-18.js';
+import type { RequestOptions, ResolvePaymentLinkResponse } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateCheckoutSessionRequestInput } from '../declarations/types-50.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -56,6 +58,20 @@ export type {
 } from '../runtime.js';
 export type {
     CloseCheckoutSessionRequestInput,
+    ConfirmCheckoutSessionCustomerVerificationRequestInput,
+    CreateCheckoutSessionRequestInput,
+    CreateCheckoutDeliveryQuoteRequestInput,
+    CreateCheckoutSessionOrderInput,
+    CreateCheckoutSessionQuickPayInput,
+    CreateCheckoutSessionSubscriptionPlanInput,
+    CreateCheckoutSessionCustomerVerificationRequestInput,
+    CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
+    CreateCheckoutSessionSavePaymentMethodVerificationRequestInput,
+    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput,
+    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput
+} from '../declarations/types-5.js';
+export type { RequestOptions, ResolvePaymentLinkResponse, ResourceReference, ResourceType, ResponseMeta } from '../declarations/types-42.js';
+export type {
     CheckoutSession,
     CheckoutSessionResponse,
     CheckoutSessionWithSecret,
@@ -72,12 +88,17 @@ export type {
     CheckoutSessionsGetInput,
     CheckoutSessionsGetCurrentDeliverySelectionInput,
     CheckoutSessionsGetDeliveryQuoteInput,
-    CheckoutSessionsGetDeliverySelectionHistoryInput,
+    CheckoutSessionsGetDeliverySelectionInput,
+    CheckoutSessionsListDeliverySelectionsInput,
     CheckoutSessionsListInput,
     CheckoutSessionsUpdateInput,
     ClientOptions,
-    CheckoutDeliveryPinnedDependency,
+    CheckoutBuyerContact,
+    CheckoutBuyerFields,
+    CheckoutCustomTextConfig,
+    CheckoutCustomerPrefill,
     CheckoutDerivedDeliveryResource,
+    CheckoutDeliveryPinnedDependency,
     CheckoutGiftCardChallenge,
     CheckoutMerchantSupport,
     CheckoutPaymentMethodSave,
@@ -89,76 +110,52 @@ export type {
     CheckoutSubscriptionTerms,
     CheckoutSubscriptionRecurringShipping,
     CheckoutSessionTax,
-    CheckoutTaxLocation,
     CheckoutTheme,
     CheckoutTipConfig,
+    CheckoutBuyerFieldsRequestRequestInput,
+    CheckoutCustomTextWriteConfigInput,
     CheckoutLegalConfigRequestInput,
     CheckoutPaymentConfigRequestInput,
     CheckoutPrefillRequestInput,
-    CheckoutPromotionConfigInput,
+    CheckoutPromotionConfigRequestRequestInput,
     CheckoutQuickPayItemRequestInput,
     CheckoutRedirectsRequestInput,
     CheckoutSubscriptionTermsRequestInput,
-    CheckoutTaxConfigInput,
-    CheckoutTipConfigInput,
-    CheckoutTaxConfig
+    CheckoutTaxConfigRequestRequestInput,
+    CheckoutTipConfigRequestRequestInput,
+    CheckoutBuyerContactRequestInput,
+    CheckoutTaxConfig,
+    CheckoutBuyerContactRequest
 } from '../declarations/types-4.js';
-export type {
-    RequestOptions,
-    ResolvePaymentLinkResponse,
-    ResourceReference,
-    ResourceType,
-    ResponseMeta,
-    ResponseWarning
-} from '../declarations/types-40.js';
-export type {
-    SdkResponse,
-    StripePaymentClientAction,
-    StripeSetupIntentClientAction,
-    SettlementAmounts,
-    SelectableOrderPaymentIntent,
-    ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails,
-    SelectedProductOption,
-    SubscribedLine
-} from '../declarations/types-44.js';
-export type {
-    ConfirmCheckoutSessionCustomerVerificationRequestInput,
-    CreateCheckoutSessionRequestInput,
-    CreateCheckoutDeliveryQuoteRequestInput,
-    CreateCheckoutSessionCustomerVerificationRequestInput,
-    CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
-    CreateCheckoutSessionSavePaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput,
-    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput
-} from '../declarations/types-5.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type {
     DeliveryQuote,
     DeliveryQuoteResponse,
     DeliveryQuoteChoiceGroupResource,
     DeliveryQuoteExecutionLegResource,
-    DeliveryRecipientRequirement,
     DeliveryQuoteLineItemResource,
-    DeliveryQuoteMethodResource,
-    DeliveryRecipientResource
-} from '../declarations/types-14.js';
+    DeliveryQuoteMethodResource
+} from '../declarations/types-15.js';
 export type { CreateDeliverySelectionRequestInput, CreateDeliverySelectionChoiceRequestInput } from '../declarations/types-6.js';
 export type {
     DeliverySelectionResult,
     DeliverySelectionResultResponse,
     DeliverySelection,
     DeliverySelectionResponse,
+    DeliverySelectionListResponse,
     DeliveryWindowRequest,
     DeliveryShipmentDetails,
+    DeliveryRecipientRequirement,
     DeliveryWindowRequestInput,
     DeliverySelectionInstructionsRequestInput,
     DeliverySelectionRecipientRequestInput,
     DeliverySelectionChoiceResource,
     DeliverySelectionInstructionsRequest,
     DeliverySelectionLifecycleEventResource,
+    DeliveryRecipientResource,
     DeliverySelectionRecipientRequest
-} from '../declarations/types-15.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-16.js';
+export type { _SdkWithoutIdempotency, Weight } from '../declarations/types-65.js';
 export type {
     EffectiveDeliverySelectionResource,
     EffectiveDeliverySelectionResponse,
@@ -168,44 +165,28 @@ export type {
     ExpandedOrderSummary,
     ExpandedPaymentIntentSummary,
     ExpandedPaymentLinkSummary,
-    DigitalFulfillmentDetails,
     ExpandedPackageSummary,
-    Dimensions
-} from '../declarations/types-16.js';
+    ExpandedShipmentSummary,
+    ExpandedSubscriptionSummary,
+    ExpandedSubscriptionPlanSummary
+} from '../declarations/types-18.js';
 export type {
     UpdateCheckoutSessionRequestInput,
     ThemeConfigRequestInput,
     TextModifierRequest,
-    TaxCalculationRequest,
-    TaxComponentRequest,
     TaxJurisdiction,
-    TaxBreakdown,
-    TaxBreakdownPercentage,
-    TaxBreakdownFlatAmount,
     TicketedEvent,
     Tip,
     TipPaymentIntentAllocation,
     TipValueSettlementAllocation
-} from '../declarations/types-47.js';
-export type {
-    AuthMode,
-    Address,
-    AddressRequestInput,
-    BundleComponent,
-    BundleComponentVariantSummary,
-    AddressRequest
-} from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
+} from '../declarations/types-50.js';
+export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-11.js';
 export type {
     OrderPaymentAttempt,
     OrderPaymentAttemptPaymentMethodSave,
     OrderLineItemTaxInput,
-    Order,
-    OrderAuthorizationAmounts,
-    OrderCharge,
-    OrderCalculatedChargeTax,
     OrderDeliveryDestination,
-    OrderDeliveryDestinationAddress,
     OrderDeliveryDestinationRecipient,
     OrderDiscount,
     OrderLineItemModifier,
@@ -220,10 +201,20 @@ export type {
     OrderLineItemFulfillmentProfile,
     OrderLineSubscriptionOfferSummary,
     OrderLineSubscriptionOfferDiscount,
-    OrderCalculatedLineItemTax,
+    OrderReturnCreditSettlement,
     OrderLineItemTax
-} from '../declarations/types-32.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession, MoneyValueInput } from '../declarations/types-31.js';
+} from '../declarations/types-34.js';
+export type {
+    MoneyValue,
+    NextAction,
+    NextActionMerchantAccountSession,
+    MoneyValueInput,
+    Order,
+    OrderAuthorizationAmounts,
+    OrderCharge,
+    OrderCalculatedChargeTax,
+    OrderCalculatedLineItemTax
+} from '../declarations/types-33.js';
 export type {
     PaymentAttemptGiftCardRedemption,
     PaymentErrorSummary,
@@ -232,128 +223,142 @@ export type {
     PaymentCollection,
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
-} from '../declarations/types-35.js';
+} from '../declarations/types-37.js';
 export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
     PendingPaymentActionSetupPaymentSourceSubject,
     PricingAmounts,
+    PaymentSourceSummary,
+    PaymentSourceAchDebitSummary,
+    PaymentSourceCardSummary,
     PickupFulfillmentDetails
-} from '../declarations/types-37.js';
+} from '../declarations/types-39.js';
 export type {
-    CheckoutBuyerContact,
-    CheckoutBuyerFields,
-    CheckoutCustomTextConfig,
-    CheckoutCustomerPrefill,
-    CheckoutBuyerFieldsInput,
-    CheckoutCustomTextWriteConfigInput,
-    CallerSuppliedDeliveryMethodResultRequestInput,
-    CallerSuppliedDeliveryOutcomeRequestInput,
-    CallerSuppliedDeliveryOutcomeRequestAvailableInput,
-    CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
-    CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput,
-    CategoryReference,
-    CheckoutBuyerContactRequestInput,
-    CheckoutBuyerContactRequest
-} from '../declarations/types-3.js';
+    StripePaymentClientAction,
+    StripeSetupIntentClientAction,
+    SettlementAmounts,
+    SelectableOrderPaymentIntent,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails,
+    SelectedProductOption,
+    SubscribedLine
+} from '../declarations/types-47.js';
 export type {
     DeliveryAddressAdvisoryResource,
-    DeliveryAddressRequest,
     DeliveryCandidateOutcomeResource,
     DeliveryArrivalEstimate,
     DeliveryCandidateOutcomeResourceAvailable,
+    DeliveryBuyerLocationRequestInput,
+    DeliveryAddressRequestInput,
+    DeliveryBuyerLocationInputAddressInput,
+    DeliveryBuyerLocationInputCoordinateInput,
+    DeliveryBuyerLocationResource,
+    DeliveryBuyerLocationResourceAddress,
+    DeliveryBuyerLocationResourceCoordinate,
+    DeliveryAddressRequest
+} from '../declarations/types-12.js';
+export type {
+    DeliveryInputRequirement,
+    DeliveryInputConstraint,
+    DeliveryLocationSummaryResource,
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryBuyerLocationRequestInput,
-    DeliveryAddressRequestInput,
-    DeliveryCoordinateRequestInput,
-    DeliveryBuyerLocationInputAddressInput,
-    DeliveryBuyerLocationInputCoordinateInput,
-    DeliveryBuyerLocationRequest,
-    DeliveryBuyerLocationInputAddress,
-    DeliveryBuyerLocationInputCoordinate
-} from '../declarations/types-11.js';
-export type {
-    DeliveryInputRequirement,
-    DeliveryInputConstraint,
-    DeliveryOptionProjection,
-    DeliveryPlan,
-    DeliveryPickupDetails,
-    DeliveryLocationSummaryResource,
     DeliveryMerchantDiagnostic,
     DeliveryEligibilityMismatch,
+    DeliveryCoordinateRequestInput,
     DeliveryInventoryAssignmentRequestInput,
-    DeliveryPendingCallerRateRequest,
     DeliveryInventoryReservationSummary,
     DeliveryFulfillmentDetails
-} from '../declarations/types-12.js';
+} from '../declarations/types-13.js';
+export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails, DeliveryPendingCallerRateRequest } from '../declarations/types-14.js';
 export type {
     BuyerInstructionsConfig,
     BuyerAction,
     BuyerCancelActionOptions,
     BuyerCancelRetentionOffer,
-    BuyerPauseActionOptions,
-    BuyerPayBalanceActionOptions
+    BundleComponent,
+    BundleComponentVariantSummary
 } from '../declarations/types-1.js';
-export type { LegalSettings, LineItemInventorySnapshot, LineItemInventoryDemand } from '../declarations/types-28.js';
-export type { Image, GiftCardPurchaseSnapshot, GiftCardProductConfiguration, GiftCardPurchaseRecipient } from '../declarations/types-19.js';
-export type { PaymentSourceSummary, PaymentSourceAchDebitSummary, PaymentSourceCardSummary } from '../declarations/types-36.js';
-export type { SubscriptionIntervalOption } from '../declarations/types-45.js';
-export type { LocationCoordinate } from '../declarations/types-29.js';
+export type { LegalSettings, LocationCoordinate, LineItemInventorySnapshot, LineItemInventoryDemand } from '../declarations/types-30.js';
+export type { Image, GiftCardPurchaseSnapshot, GiftCardPurchaseRecipient } from '../declarations/types-21.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
+export type {
+    SubscriptionIntervalOption,
+    SubscriptionPlanLineItem,
+    SubscriptionPlanLineItemBundle,
+    SubscriptionPlanLineItemCustom
+} from '../declarations/types-48.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type {
+    CallerSuppliedDeliveryMethodResultRequestInput,
+    CallerSuppliedDeliveryOutcomeRequestInput,
+    CallerSuppliedDeliveryOutcomeRequestAvailableInput,
+    CallerSuppliedDeliveryOutcomeRequestUnavailableInput,
+    CallerSuppliedDeliveryOutcomeRequestCannotCalculateInput,
+    CategoryReference
+} from '../declarations/types-3.js';
+export type { BuyerPauseActionOptions, BuyerPayBalanceActionOptions } from '../declarations/types-2.js';
 export type {
     Fulfillment,
     FulfillmentHold,
     FulfillmentChargeLink,
     FulfillmentLineItem,
     FulfillmentOutcome,
-    FulfillmentRecipient,
-    ExpandedShipmentSummary,
-    ExpandedSubscriptionSummary,
-    ExpandedSubscriptionPlanSummary
-} from '../declarations/types-17.js';
-export type { InventoryRoutingSource } from '../declarations/types-25.js';
-export type { GiftCardCustomAmountBounds } from '../declarations/types-18.js';
-export type { PurchasedGiftCard } from '../declarations/types-39.js';
-export type { Weight } from '../declarations/types-61.js';
-export type { OrderReturnCreditSettlement, OrderTax, OrderTaxExemption, OrderTaxLocation } from '../declarations/types-33.js';
-export type { SubscriptionPlanLineItem, SubscriptionPlanSwapVariant } from '../declarations/types-46.js';
+    FulfillmentRecipient
+} from '../declarations/types-19.js';
+export type { DigitalFulfillmentDetails, Dimensions } from '../declarations/types-17.js';
+export type { InventoryRoutingSource } from '../declarations/types-27.js';
+export type { GiftCardProductConfiguration, GiftCardCustomAmountBounds } from '../declarations/types-20.js';
+export type { PurchasedGiftCard } from '../declarations/types-41.js';
+export type {
+    TaxCalculationRequest,
+    TaxComponentRequest,
+    SubscriptionPlanSwapVariant,
+    SubscriptionPlanLineItemVariant,
+    TaxBreakdown,
+    TaxBreakdownPercentage,
+    TaxBreakdownFlatAmount
+} from '../declarations/types-49.js';
+export type { OrderTax, OrderTaxExemption, OrderTaxLocation } from '../declarations/types-35.js';
 export {
     makeAddressRequest,
-    makeBuyerInstructionsConfig,
     makeCallerSuppliedDeliveryMethodResultRequest,
     makeCallerSuppliedDeliveryOutcomeRequest,
     makeCallerSuppliedDeliveryOutcomeRequestAvailable,
     makeCallerSuppliedDeliveryOutcomeRequestCannotCalculate,
-    makeCallerSuppliedDeliveryOutcomeRequestUnavailable,
+    makeCallerSuppliedDeliveryOutcomeRequestUnavailable
+} from '../declarations/types-65.js';
+export {
     makeCheckoutBuyerContactRequest,
-    makeCheckoutBuyerFields,
+    makeCheckoutBuyerFieldsRequestRequest,
     makeCheckoutCustomTextWriteConfig,
     makeCheckoutLegalConfigRequest,
     makeCheckoutPaymentConfigRequest,
     makeCheckoutPrefillRequest,
-    makeCheckoutPromotionConfig,
+    makeCheckoutPromotionConfigRequestRequest,
     makeCheckoutQuickPayItemRequest,
     makeCheckoutRedirectsRequest,
-    makeCheckoutSubscriptionTermsRequest
-} from '../declarations/types-62.js';
-export {
-    makeCheckoutTaxConfig,
-    makeCheckoutTipConfig,
+    makeCheckoutSubscriptionTermsRequest,
+    makeCheckoutTaxConfigRequestRequest,
+    makeCheckoutTipConfigRequestRequest,
     makeCloseCheckoutSessionRequest,
     makeConfirmCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutDeliveryQuoteRequest,
     makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest,
     makeCreateCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest,
+    makeCreateCheckoutSessionOrder,
+    makeCreateCheckoutSessionQuickPay,
     makeCreateCheckoutSessionRequest,
     makeCreateCheckoutSessionSavePaymentMethodVerificationRequest,
-    makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest,
-    makeCreateDeliverySelectionChoiceRequest,
-    makeCreateDeliverySelectionRequest
-} from '../declarations/types-63.js';
+    makeCreateCheckoutSessionSubscriptionPlan,
+    makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest
+} from '../declarations/types-66.js';
+export { makeCreateDeliverySelectionChoiceRequest, makeCreateDeliverySelectionRequest } from '../declarations/types-67.js';
 export {
     makeDeliveryAddressRequest,
     makeDeliveryBuyerLocationInputAddress,
@@ -361,27 +366,29 @@ export {
     makeDeliveryBuyerLocationRequest,
     makeDeliveryCoordinateRequest,
     makeDeliveryInventoryAssignmentRequest
-} from '../declarations/types-65.js';
+} from '../declarations/types-69.js';
 export {
     makeDeliveryRecipientRequirement,
     makeDeliverySelectionInstructionsRequest,
     makeDeliverySelectionRecipientRequest,
     makeDeliveryWindowRequest,
     makeDimensions
-} from '../declarations/types-66.js';
-export { makeGiftCardCustomAmountBounds, makeGiftCardProductConfiguration } from '../declarations/types-67.js';
-export { makeLocationCoordinate, makeMoneyValue } from '../declarations/types-68.js';
-export { makeOrderCalculatedChargeTax, makeOrderCalculatedLineItemTax, makeOrderLineItemTax } from '../declarations/types-69.js';
+} from '../declarations/types-70.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export {
+    makeMoneyValue,
+    makeOrderCalculatedChargeTax,
+    makeOrderCalculatedLineItemTax,
+    makeOrderLineItemTax
+} from '../declarations/types-73.js';
 export {
     makeSubscriptionIntervalOption,
     makeTaxCalculationRequest,
     makeTaxComponentRequest,
-    makeTaxJurisdiction,
-    makeTextModifierRequest,
-    makeThemeConfigRequest,
-    makeUpdateCheckoutSessionRequest
-} from '../declarations/types-72.js';
-export { makeWeight } from '../declarations/types-73.js';
+    makeTaxJurisdiction
+} from '../declarations/types-76.js';
+export { makeTextModifierRequest, makeThemeConfigRequest, makeUpdateCheckoutSessionRequest } from '../declarations/types-77.js';
+export { makeWeight } from '../declarations/types-78.js';
 export interface CheckoutSessionsResource {
     /**
  * Closes an open checkout session before it naturally expires.
@@ -429,23 +436,23 @@ export interface CheckoutSessionsResource {
  * again, any code after its 5th try, any code for an email past its limit on wrong tries, or a
  * code whose email's customer changed its email or was deleted after the code was sent. If the
  * checkout stops offering saved payment details before the code is confirmed, such as when the
- * merchant turns them off, the request returns CUSTOMER_VERIFICATION_NOT_OFFERED. A credential
- * that already acts for a customer gets CHECKOUT_CUSTOMER_ALREADY_AUTHORIZED, and confirming never
- * replaces a customer the merchant named. Once the customer whose email the buyer confirmed
- * changes that email or is deleted, the checkout acts for no customer, and the buyer can confirm
- * the customer's new email or another one. A checkout opened from a checkout reminder link acts
- * for no customer the buyer confirmed earlier, so its buyer confirms an email again. A texted code
- * for saved details binds the checkout the same way, but the new credential opens only the cards
- * saved with that number: it lists and pays with no card saved by email, and reads no customer
- * details. A texted code checks once, so after a lost answer request a new code. A code for
- * purpose confirm_saved_payment_method keeps the session's credential, so the response omits
- * checkout_auth_token and carries payment_method_save on the checkout session. A texted code saves
- * the card with the number when the number already opens the customer's saved details or the
- * customer has none yet; otherwise payment_method_save.email_confirmation_required turns true, and
- * an emailed code finishes the save. An emailed code alone saves the card by email. After success,
- * a retry with the same Idempotency-Key and code returns the stored answer and credential to any
- * credential of the session. After failure, a retry checks the code again and counts as another
- * try.
+ * merchant turns them off, the request returns 409 ACTION_NOT_ALLOWED with reason not_offered. A
+ * credential that already acts for a customer gets 409 ACTION_NOT_ALLOWED with reason
+ * already_applied, and confirming never replaces a customer the merchant named. Once the customer
+ * whose email the buyer confirmed changes that email or is deleted, the checkout acts for no
+ * customer, and the buyer can confirm the customer's new email or another one. A checkout opened
+ * from a checkout reminder link acts for no customer the buyer confirmed earlier, so its buyer
+ * confirms an email again. A texted code for saved details binds the checkout the same way, but
+ * the new credential opens only the cards saved with that number: it lists and pays with no card
+ * saved by email, and reads no customer details. A texted code checks once, so after a lost answer
+ * request a new code. A code for purpose confirm_saved_payment_method keeps the session's
+ * credential, so the response omits checkout_auth_token and carries payment_method_save on the
+ * checkout session. A texted code saves the card with the number when the number already opens the
+ * customer's saved details or the customer has none yet; otherwise
+ * payment_method_save.email_confirmation_required turns true, and an emailed code finishes the
+ * save. An emailed code alone saves the card by email. After success, a retry with the same
+ * Idempotency-Key and code returns the stored answer and credential to any credential of the
+ * session. After failure, a retry checks the code again and counts as another try.
  * @see reference/checkoutSessions.md#checkoutsessionsconfirmcustomerverification
  * POST
  * /v1/checkout-sessions/{checkout_session_id}/customer-verifications/{checkout_session_customer_verification_id}/confirm
@@ -519,8 +526,7 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.createDeliveryQuote("example", {expected_delivery_selection_id:
- * "example"}, { idempotencyKey: idempotencyKey })
+ * client.checkoutSessions.createDeliveryQuote("example", {}, { idempotencyKey: idempotencyKey })
  */
     createDeliveryQuote(checkout_session_id: InputValue<string>, params: (InputValue<CreateCheckoutDeliveryQuoteRequestInput>)
         & {
@@ -542,7 +548,7 @@ export interface CheckoutSessionsResource {
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.checkoutSessions.createDeliverySelection("example", {choices: [], delivery_quote_id:
- * "example", expected_delivery_selection_id: "example"}, { idempotencyKey: idempotencyKey })
+ * "example"}, { idempotencyKey: idempotencyKey })
  */
     createDeliverySelection(checkout_session_id: InputValue<string>, params: (InputValue<CreateDeliverySelectionRequestInput>)
         & {
@@ -563,18 +569,18 @@ export interface CheckoutSessionsResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.checkoutSessions.deleteCurrentDeliverySelection("example",
- * {expected_delivery_selection_id: "example"}, { idempotencyKey: idempotencyKey })
+ * client.checkoutSessions.deleteCurrentDeliverySelection("example", {}, { idempotencyKey:
+ * idempotencyKey })
  */
-    deleteCurrentDeliverySelection(checkout_session_id: InputValue<string>, params: {
-        "expected_delivery_selection_id": InputValue<string>;
+    deleteCurrentDeliverySelection(checkout_session_id: InputValue<string>, params?: {
+        "expected_delivery_selection_id"?: InputValue<string>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"checkout" | "merchant">): Promise<DeliverySelectionResult>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
      * @see reference/checkoutSessions.md#checkoutsessionsdeletecurrentdeliveryselection
      */
-    deleteCurrentDeliverySelectionWithResponse(checkout_session_id: InputValue<string>, params: {
-        "expected_delivery_selection_id": InputValue<string>;
+    deleteCurrentDeliverySelectionWithResponse(checkout_session_id: InputValue<string>, params?: {
+        "expected_delivery_selection_id"?: InputValue<string>;
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"checkout" | "merchant">): Promise<SdkResponse<DeliverySelectionResultResponse>>;
     /**
@@ -621,18 +627,74 @@ export interface CheckoutSessionsResource {
     /**
  * Returns one checkout selection with its economics, lifecycle events, and retention-aware private
  * data. While the selection is selected, the tax on its delivery charges follows the order's tax.
- * @see reference/checkoutSessions.md#checkoutsessionsgetdeliveryselectionhistory
+ * @see reference/checkoutSessions.md#checkoutsessionsgetdeliveryselection
  * GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/{delivery_selection_id}
+ * @example
+ * client.checkoutSessions.getDeliverySelection("example", "example")
+ */
+    getDeliverySelection(checkout_session_id: InputValue<string>, delivery_selection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliverySelection>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/checkoutSessions.md#checkoutsessionsgetdeliveryselection
+     */
+    getDeliverySelectionWithResponse(checkout_session_id: InputValue<string>, delivery_selection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliverySelectionResponse>>;
+    /**
+ * Returns one checkout selection with its economics, lifecycle events, and retention-aware private
+ * data. While the selection is selected, the tax on its delivery charges follows the order's tax.
+ * @see reference/checkoutSessions.md#checkoutsessionsgetdeliveryselection
+ * GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections/{delivery_selection_id}
+ * @deprecated Use checkoutSessions.getDeliverySelection; HTTP behavior is unchanged.
  * @example
  * client.checkoutSessions.getDeliverySelectionHistory("example", "example")
  */
     getDeliverySelectionHistory(checkout_session_id: InputValue<string>, delivery_selection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliverySelection>;
     /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/checkoutSessions.md#checkoutsessionsgetdeliveryselectionhistory
+     * @see reference/checkoutSessions.md#checkoutsessionsgetdeliveryselection
      */
     getDeliverySelectionHistoryWithResponse(checkout_session_id: InputValue<string>, delivery_selection_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliverySelectionResponse>>;
     /**
- * Returns a paginated list of checkout sessions for the authenticated merchant.
+ * Returns a checkout session's selections, newest first by created_at and delivery_selection_id,
+ * with economics, lifecycle events, and retention-aware private data. Default order: created_at
+ * descending, then delivery_selection_id descending.
+ * @see reference/checkoutSessions.md#checkoutsessionslistdeliveryselections
+ * GET /v1/checkout-sessions/{checkout_session_id}/delivery-selections
+ * @example
+ * client.checkoutSessions.listDeliverySelections("example")
+ */
+    listDeliverySelections(checkout_session_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<DeliverySelectionListResponse>;
+    /** Complete decoded body and HTTP metadata, without payload unwrapping.
+     * @see reference/checkoutSessions.md#checkoutsessionslistdeliveryselections
+     */
+    listDeliverySelectionsWithResponse(checkout_session_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliverySelectionListResponse>>;
+    /** Iterate pages lazily.
+     * @see reference/checkoutSessions.md#checkoutsessionslistdeliveryselections
+     */
+    listDeliverySelectionsPages(checkout_session_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliverySelectionListResponse>;
+    /** Iterate complete page bodies with HTTP metadata.
+     * @see reference/checkoutSessions.md#checkoutsessionslistdeliveryselections
+     */
+    listDeliverySelectionsPagesWithResponse(checkout_session_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<SdkResponse<DeliverySelectionListResponse>>;
+    /** Iterate items lazily.
+     * @see reference/checkoutSessions.md#checkoutsessionslistdeliveryselections
+     */
+    listDeliverySelectionsItems(checkout_session_id: InputValue<string>, params?: {
+        "page_size"?: InputValue<number>;
+        "page_token"?: InputValue<string>;
+    }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliverySelection>;
+    /**
+ * Returns a paginated list of checkout sessions for the authenticated merchant. Default order:
+ * created_at descending, then checkout_session_id descending.
  * @see reference/checkoutSessions.md#checkoutsessionslist
  * GET /v1/checkout-sessions
  * @example

@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $expected_delivery_selection_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionsDeleteCurrentDeliverySelectionInput extends Model {
-    /** @param array{'checkout_session_id': string, 'expected_delivery_selection_id': string, 'Idempotency-Key'?: string}|object $values */
+    /** @param array{'checkout_session_id': string, 'expected_delivery_selection_id'?: string, 'Idempotency-Key'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionsDeleteCurrentDeliverySelectionInput')); }
     /** Shape $ (Value): string.
      * @return string

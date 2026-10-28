@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $title
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkThemeConfigInput extends Model {
-    /** @param array{'accent_color'?: string, 'primary_color'?: string, 'title'?: string, ...}|object $values */
+    /** @param array{'accent_color'?: string, 'primary_color'?: string, 'title'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkThemeConfigInput')); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 50.
      * @return string

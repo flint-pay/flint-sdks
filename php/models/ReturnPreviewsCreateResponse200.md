@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | object and Alternative shapes (see declared variants) | A return preview, selected by `mode`: either the eligibility of the selected items or the amounts of a resolution. `data`: [declared alternatives](../models/ReturnPreviewsCreateResponse200.md#returnpreviewscreateresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### ReturnPreviewsCreateResponse200.data
 
@@ -50,7 +50,7 @@ The result of checking whether an order's items can be returned: overall status,
 | `line_items` | Required | Array of object | `line_items[]`: [field definitions](../models/ReturnPreviewsCreateResponse200.md#returnpreviewscreateresponse200dataeligibility-fields-1line_items). |
 | `order_id` | Required | string |  |
 | `policy_evaluation` | Required | [ReturnPolicyEvaluation](../models/ReturnPolicyEvaluation.md#returnpolicyevaluation) | How a return policy evaluated a return request: overall status and reason, the policy revision used, and per-line results. |
-| `selection` | Required | object and Alternative shapes (see declared variants) | Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. `selection`: [declared alternatives](../models/ReturnPreviewsCreateResponse200.md#returnpreviewscreateresponse200dataeligibility-fields-1selection). |
+| `selection` | Required | object and Alternative shapes (see declared variants) | Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines. `selection`: [declared alternatives](../models/MeCreateReturnPreviewResponse200.md#mecreatereturnpreviewresponse200dataeligibility-fields-1selection). |
 | `status` | Required | string | Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 ### ReturnPreviewsCreateResponse200.data.eligibility fields 1.line_items[]
@@ -73,39 +73,16 @@ Return eligibility for one order line item, with the line's details, suggested r
 | `requested_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) |  |
 | `sku` | Optional | string |  |
-| `suggested_return_reasons` | Required | Array of [ReturnReasonSummary](../models/ReturnReasonSummary.md#returnreasonsummary) | Active reasons that apply to this item, up to 20. Category-scoped reasons come first, then reasons that apply to every item. Each group sorts by handle ascending, with return_reason_id ascending as the tiebreak. maxItems: `20`. |
+| `suggested_return_reasons` | Required | Array of object | Active reasons that apply to this item, up to 20. Category-scoped reasons come first, then reasons that apply to every item. Each group sorts by handle ascending, with return_reason_id ascending as the tiebreak. maxItems: `20`. `suggested_return_reasons[]`: [field definitions](../models/MeCreateReturnPreviewResponse200.md#mecreatereturnpreviewresponse200dataeligibility-fields-1line_itemssuggested_return_reasons). |
 | `variant_id` | Optional | string |  |
+
+### ReturnPreviewsCreateResponse200.data.eligibility fields 1.line_items[].suggested_return_reasons[]
+
+Field definitions: [MeCreateReturnPreviewResponse200.data.eligibility fields 1.line_items[].suggested_return_reasons[]](../models/MeCreateReturnPreviewResponse200.md#mecreatereturnpreviewresponse200dataeligibility-fields-1line_itemssuggested_return_reasons).
 
 ### ReturnPreviewsCreateResponse200.data.eligibility fields 1.selection
 
-Which order lines to check for return eligibility: all remaining fulfilled lines, or a specific list of lines.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `line_items` | Conditional | Array of object | `line_items[]`: [field definitions](../models/ReturnPreviewsCreateResponse200.md#returnpreviewscreateresponse200dataeligibility-fields-1selection-variant-1line_items). |
-| `selection_type` | Required | string | Values: `"all_remaining_fulfilled"`, `"line_items"`. |
-
-### ReturnPreviewsCreateResponse200.data.eligibility fields 1.selection variant 1: `selection_type` = `"all_remaining_fulfilled"`
-
-oneOf variant 1: The `all_remaining_fulfilled` variant of `ReturnEligibilitySelection`..
-
-- Condition: not (present(`line_items`)).
-- Optional: `line_items`.
-- Constraints for `selection_type`: Values: `"all_remaining_fulfilled"`.
-
-### ReturnPreviewsCreateResponse200.data.eligibility fields 1.selection variant 2: `selection_type` = `"line_items"`
-
-oneOf variant 2: The `line_items` variant of `ReturnEligibilitySelection`..
-
-- Required: `line_items`.
-- Constraints for `line_items`: minItems: `1`.
-- Constraints for `selection_type`: Values: `"line_items"`.
-
-### ReturnPreviewsCreateResponse200.data.eligibility fields 1.selection variant 1.line_items[]
-
-An order line and quantity to check. return_reason_id is optional here; when you send it, Flint checks that the reason is active and applies to the line.
-
-Field definitions: [shared fields](ReturnPreviewsCreateResponse200DataEligibilityEligibilitySelectionAllRemainingFulfilledLineItemsItem.md#returnpreviewscreateresponse200dataeligibilityeligibilityselectionallremainingfulfilledlineitemsitem).
+Declared alternatives: [MeCreateReturnPreviewResponse200.data.eligibility fields 1.selection](../models/MeCreateReturnPreviewResponse200.md#mecreatereturnpreviewresponse200dataeligibility-fields-1selection).
 
 ### ReturnPreviewsCreateResponse200.data.resolution fields 1
 

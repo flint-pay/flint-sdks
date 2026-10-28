@@ -1,1 +1,1 @@
-{"shared":"UpdateSubscriptionOfferRequest","dependencies":["SubscriptionIntervalOption","UpdateSubscriptionOfferRequest"]}
+{"shared":"UpdateSubscriptionOfferRequest","dependencies":["MetadataPatchRequest","SharedCodec1256","SubscriptionIntervalOption","UpdateSubscriptionOfferRequest"]}

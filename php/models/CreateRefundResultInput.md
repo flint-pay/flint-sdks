@@ -22,7 +22,7 @@ Request input.
 | `invoice_id` | Optional | string |  |
 | `line_item_allocations` | Optional | Array of [RefundLineItemAllocationInput](../models/RefundLineItemAllocationInput.md#refundlineitemallocationinput) |  |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null |  |
 | `order_id` | Optional | string |  |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummaryInput](../models/ExpandedPaymentIntentSummaryInput.md#expandedpaymentintentsummaryinput) or null |  |

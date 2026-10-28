@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|null $delivery_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateDigitalFulfillmentDetailsInput extends Model {
-    /** @param array{'delivered_at'?: string|\DateTimeInterface|null, 'delivery_url'?: string|null, ...}|object $values */
+    /** @param array{'delivered_at'?: string|\DateTimeInterface|null, 'delivery_url'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateDigitalFulfillmentDetailsInput')); }
     /** Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1.
      * @return string|\DateTimeInterface|null

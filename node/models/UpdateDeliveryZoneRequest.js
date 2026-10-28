@@ -1,12 +1,15 @@
-import { d3537 as c0, d3538 as c1, d3539 as c2, d3540 as c3, d3541 as c4, d3542 as c5, d3543 as c6 } from '../descriptors/data/145.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3732 as c7, d3733 as c8, d3734 as c9, d3735 as c10, d3740 as c12, d3741 as c13, d3742 as c14, d3743 as c15 } from '../descriptors/data/155.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3467 as c11 } from '../descriptors/data/141.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d2441 as c16 } from '../descriptors/data/97.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d2441 as d2441 } from '../descriptors/data/97.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3731 as c0, d3732 as c1, d3733 as c2, d3734 as c3, d3735 as c4, d3736 as c5, d3737 as c6 } from '../descriptors/data/158.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3950 as c7 } from '../descriptors/data/169.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3251 as c8 } from '../descriptors/data/131.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3348 as c9 } from '../descriptors/data/137.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3656 as c10 } from '../descriptors/data/154.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3951 as c11, d3956 as c12 } from '../descriptors/data/170.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d2591 as c13 } from '../descriptors/data/108.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d2591 as d2591 } from '../descriptors/data/108.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2441;
+const read = d2591;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryCountryCondition"]:c0(),["DeliveryDistance"]:c1(),["DeliveryPostalCodeCondition"]:c2(),["DeliveryPostalCodeValue"]:c3(),["DeliveryRadiusCondition"]:c4(),["DeliveryRadiusOrigin"]:c5(),["DeliveryStateCondition"]:c6(),["DeliveryZoneConfiguration"]:c7(),["SharedCodec109"]:c8(),["SharedCodec110"]:c9(),["SharedCodec111"]:c10(),["SharedCodec1179"]:c11(),["SharedCodec337"]:c12(),["SharedCodec338"]:c13(),["SharedCodec339"]:c14(),["SharedCodec340"]:c15(),["UpdateDeliveryZoneRequest"]:c16()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryCountryCondition"]:c0(),["DeliveryDistance"]:c1(),["DeliveryPostalCodeCondition"]:c2(),["DeliveryPostalCodeValue"]:c3(),["DeliveryRadiusCondition"]:c4(),["DeliveryRadiusOrigin"]:c5(),["DeliveryStateCondition"]:c6(),["DeliveryZoneConfiguration"]:c7(),["MetadataPatchRequest"]:c8(),["SharedCodec1256"]:c9(),["SharedCodec1262"]:c10(),["SharedCodec130"]:c11(),["SharedCodec370"]:c12(),["UpdateDeliveryZoneRequest"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateDeliveryZoneRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

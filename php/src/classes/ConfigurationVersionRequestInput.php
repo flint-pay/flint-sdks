@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $expected_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ConfigurationVersionRequestInput extends Model {
-    /** @param array{'expected_version'?: string, ...}|object $values */
+    /** @param array{'expected_version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ConfigurationVersionRequestInput')); }
     /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string

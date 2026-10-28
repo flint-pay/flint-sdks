@@ -20,14 +20,8 @@ $client = new Client(new ClientOptions(
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->me->updateAddress('example', [
-  'address' => (object) [
-    'city' => 'example',
-    'country' => 'US',
-    'line1' => 'example',
-    'postal_code' => 'example',
-    'state' => 'example',
-  ],
+$result = $client->me->updateAddress('caddr_example', [
+  'label' => 'Home',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_address_id . PHP_EOL;
 echo $result->customer_id . PHP_EOL;

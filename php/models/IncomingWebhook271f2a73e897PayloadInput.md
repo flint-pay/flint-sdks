@@ -19,12 +19,13 @@ Request input.
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353PayloadInput.md#incomingwebhook019a504a3353payloadinput-variant-2source). |
+| `source` | Conditional | [PartnerWebhookEnvelopeSourceInput](../models/PartnerWebhookEnvelopeSourceInput.md#partnerwebhookenvelopesourceinput) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353PayloadInput.md#incomingwebhook019a504a3353payloadinput-variant-2source). |
 
 ### IncomingWebhook271f2a73e897PayloadInput variant 1: `event_type` = `"bundle.created"`
 
 oneOf variant 1: The `bundle.created` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"bundle.created"`.
@@ -33,6 +34,7 @@ oneOf variant 1: The `bundle.created` webhook payload for the `merchant` event s
 
 oneOf variant 2: The `bundle.created` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"bundle.created"`.
@@ -62,7 +64,7 @@ A group of items sold together.
 | `images` | Required | Array of [ImageAttachmentInput](../models/ImageAttachmentInput.md#imageattachmentinput) | Images attached to this resource, in display order. The first image is primary. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#incomingwebhook271f2a73e897payloadinputdataobject-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
-| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `modifier_set` | Optional | [ModifierSetInput](../models/ModifierSetInput.md#modifiersetinput) or null | Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. |
 | `modifier_set_id` | Required | string or null | Attached modifier set. Send null on update to remove it. |
 | `name` | Required | string | Bundle name shown to buyers. |

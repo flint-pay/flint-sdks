@@ -2,7 +2,7 @@
 
 ## MoneyMovementHistoryMeta
 
-How complete the history in a money movement list is, with the earliest available and latest reconciled times.
+How complete the history in a money movement list is and when it was last reconciled.
 
 Response model.
 

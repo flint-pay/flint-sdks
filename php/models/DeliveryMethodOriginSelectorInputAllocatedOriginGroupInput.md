@@ -15,17 +15,19 @@ Request input.
 
 ### DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput variant 1: `type` = `"allocated_origin_group"`
 
-oneOf variant 1.
+oneOf variant 1: The Delivery location set selector for a allocated_origin_group delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`location_ids`))).
 - Required: `delivery_location_set_id`.
 - Optional: `location_ids`.
 
 ### DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput variant 2: `type` = `"allocated_origin_group"`
 
-oneOf variant 2.
+oneOf variant 2: The Locations selector for a allocated_origin_group delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`delivery_location_set_id`))).
 - Required: `location_ids`.
 - Optional: `delivery_location_set_id`.
 

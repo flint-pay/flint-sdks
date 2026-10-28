@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|null $delivery_profile_id
  * @property-read string $expected_version
  * @property-read string|null $external_reference_id
- * @property-read GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass $gift_card_configuration
+ * @property-read GiftCardProductConfigurationRequestRequestInput|array<array-key, mixed>|\stdClass $gift_card_configuration
  * @property-read list<ImageRequestInput|array<array-key, mixed>|\stdClass> $images
  * @property-read InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass $inventory_item
  * @property-read string|null $inventory_item_id
@@ -24,7 +24,7 @@ namespace Flint;
  * @property-read array{'unit': string, 'value': int|float}|object|null $unit_weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateProductVariantRequestInput extends Model {
-    /** @param array{'barcode'?: string|null, 'delivery_profile_id'?: string|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'gift_card_configuration'?: GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_item'?: InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass, 'inventory_item_id'?: string|null, 'line_item_tax_category'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string|null, 'position'?: int, 'selected_options'?: list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>, 'sku'?: string|null, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: array{'unit': string, 'value': int|float}|object|null, ...}|object $values */
+    /** @param array{'barcode'?: string|null, 'delivery_profile_id'?: string|null, 'expected_version'?: string, 'external_reference_id'?: string|null, 'gift_card_configuration'?: GiftCardProductConfigurationRequestRequestInput|array<array-key, mixed>|\stdClass, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_item'?: InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass, 'inventory_item_id'?: string|null, 'line_item_tax_category'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string|null, 'position'?: int, 'selected_options'?: list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>, 'sku'?: string|null, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: array{'unit': string, 'value': int|float}|object|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateProductVariantRequestInput')); }
     /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 100.
      * @return string|null
@@ -50,8 +50,8 @@ final class UpdateProductVariantRequestInput extends Model {
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): {@see GiftCardProductConfigurationInput}. Replaces the complete gift card configuration. Omission preserves it. Null is not accepted. Include expected_version to reject a concurrent variant change. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
-     * @return GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see GiftCardProductConfigurationRequestRequestInput}. Replaces the complete gift card configuration. Omission preserves it. Null is not accepted. Include expected_version to reject a concurrent variant change. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
+     * @return GiftCardProductConfigurationRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gift_card_configuration is omitted; use hasGiftCardConfiguration() or valueOrDefault().
      */
     public function getGiftCardConfiguration(): mixed { return $this->get('gift_card_configuration'); }
@@ -80,11 +80,11 @@ final class UpdateProductVariantRequestInput extends Model {
      */
     public function getLineItemTaxCategory(): string|null { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string or null. minLength: 1.
+    /** Shape $ (Value): {@see MetadataPatchRequestInput} or null. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. Shape $.anyOf[1] (Value): {@see MetadataPatchRequestInput}. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty object makes no change; send null for the whole field to clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so the number of operations is not itself the stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. Shape $.anyOf[1].* (Value): string or null. minLength: 1. maxLength: 4096. Shape $.anyOf[2] (Value): null.
      * @return array<array-key, string|null>|\stdClass|null
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object|null { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it. minLength: 1.
      * @return string|null

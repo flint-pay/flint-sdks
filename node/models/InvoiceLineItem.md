@@ -67,7 +67,7 @@ Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 What the line bills. For a tax-inclusive price, subtotal_money - discount_money; otherwise subtotal_money - discount_money + tax_money. In both cases the tax-exclusive value is total_money - tax_money. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
 
 ### InvoiceLineItem.unit_price_money
 

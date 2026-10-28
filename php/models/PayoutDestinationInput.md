@@ -18,7 +18,7 @@ Request input.
 | `disabled_reason` | Optional | string | Flint-normalized reason the payout destination cannot currently be used. Unknown provider/backend values are returned as destination_unavailable. Values: [9 declared values](IncomingWebhook44e6923a1369PayloadInput.md#incomingwebhook44e6923a1369payloadinputdataobject-disabled_reason-values). |
 | `last4` | Optional | string | Last four digits of the account or card number. |
 | `merchant_id` | Required | string | Merchant that owns the destination. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `payout_destination_id` | Required | string | Stable identifier of the payout destination. |
 | `status` | Required | string | Current status. Archived: deleted, and still readable by ID. Values: `"pending"`, `"active"`, `"verification_required"`, `"disabled"`, `"archived"`, `"failed"`. |
 | `status_updated_at` | Optional | string | When Flint last recorded the destination's status. Format: `date-time`. |

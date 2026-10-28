@@ -1,11 +1,10 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { Merchant } from '../declarations/types-30.js';
-import type { MerchantResponse, MerchantsGetInput, MerchantsUpdateInput } from '../declarations/types-31.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateMerchantRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { Merchant, MerchantResponse, MerchantsGetInput, MerchantsUpdateInput } from '../declarations/types-32.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateMerchantRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -20,32 +19,34 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { Merchant } from '../declarations/types-30.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    Merchant,
     MerchantResponse,
     MerchantsGetInput,
     MerchantsUpdateInput,
+    MetadataMap,
     MerchantReadiness,
-    NextAction,
-    NextActionMerchantAccountSession,
-    MoneyValue
-} from '../declarations/types-31.js';
-export type { UpdateMerchantRequestInput } from '../declarations/types-48.js';
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-32.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { UpdateMerchantRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { ImageAttachment } from '../declarations/types-19.js';
-export type { ExpandedOrganizationSummary } from '../declarations/types-16.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ImageAttachment, ImageRequestInput, ImageInputSourceURLInput, ImageInputFileInput } from '../declarations/types-21.js';
+export type { ExpandedOrganizationSummary } from '../declarations/types-18.js';
 export type { CapabilityReadiness } from '../declarations/types-3.js';
-export type { ReadinessAction, ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessAxis } from '../declarations/types-39.js';
-export type { ImageRequestInput } from '../declarations/types-20.js';
-export { makeAddressRequest } from '../declarations/types-62.js';
-export { makeImageRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateMerchantRequest } from '../declarations/types-73.js';
+export type { ReadinessAction, ReadinessMerchantAccountSession, ReadinessRequirements, ReadinessAxis } from '../declarations/types-41.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeAddressRequest } from '../declarations/types-65.js';
+export { makeImageInputFile, makeImageInputSourceURL, makeImageRequest } from '../declarations/types-71.js';
+export { makeMetadataPatchRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateMerchantRequest } from '../declarations/types-77.js';
 export interface MerchantsResource {
     /**
  * Returns the authenticated merchant.

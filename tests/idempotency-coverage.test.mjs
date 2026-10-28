@@ -111,7 +111,7 @@ for (const [runtime, load, settings] of [
     const expected = expectations();
     const compiled = load();
     const counts = { optional: 0, required: 0, none: 0, retrying: 0 };
-    assert.equal(compiled.size, 606);
+    assert.equal(compiled.size, 610);
     for (const [id, descriptor] of compiled) {
       const contract = expected.get(id);
       assert.ok(contract, `${id} is not in the pinned OpenAPI`);
@@ -162,10 +162,10 @@ for (const [runtime, load, settings] of [
         );
     }
     assert.deepEqual(counts, {
-      optional: 298,
+      optional: 296,
       required: 33,
-      none: 275,
-      retrying: 597,
+      none: 281,
+      retrying: 601,
     });
   });
 }

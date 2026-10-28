@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $fulfillment_id
- * @property-read mixed $body
+ * @property-read array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: mixed, 'packages'?: list<mixed>, 'return_id'?: string, 'return_line_items'?: list<mixed>}|object|array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: mixed, 'packages'?: list<mixed>, 'return_id': string, 'return_line_items': list<mixed>}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsCreateShipmentInput extends Model {
-    /** @param array{'fulfillment_id': string, 'Idempotency-Key'?: string, 'body': mixed}|object $values */
+    /** @param array{'fulfillment_id': string, 'Idempotency-Key'?: string, 'body': array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: mixed, 'packages'?: list<mixed>, 'return_id'?: string, 'return_line_items'?: list<mixed>}|object|array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: mixed, 'packages'?: list<mixed>, 'return_id': string, 'return_line_items': list<mixed>}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentsCreateShipmentInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -21,7 +21,7 @@ final class FulfillmentsCreateShipmentInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): object and Alternative shapes (see declared variants). The request body for: Create shipment.
-     * @return mixed
+     * @return array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: mixed, 'packages'?: list<mixed>, 'return_id'?: string, 'return_line_items'?: list<mixed>}|object|array{'direction': string, 'external_reference_id'?: string, 'external_system'?: string, 'metadata'?: mixed, 'packages'?: list<mixed>, 'return_id': string, 'return_line_items': list<mixed>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): mixed { return $this->get('body'); }

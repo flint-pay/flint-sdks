@@ -12,14 +12,15 @@ An estimate of available delivery options and their prices.
 | --- | --- | --- | --- |
 | `basis_delivery_quote_id` | Optional | string |  |
 | `basis_delivery_selection_id` | Optional | string |  |
-| `buyer_location` | Optional | [DeliveryBuyerLocationRequest](../models/DeliveryBuyerLocationRequest.md#deliverybuyerlocationrequest) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote. `buyer_location`: [declared alternatives](../models/DeliveryPreview.md#deliverypreviewbuyer_location). |
+| `buyer_location` | Optional | [DeliveryBuyerLocationResource](../models/DeliveryBuyerLocationResource.md#deliverybuyerlocationresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote. |
 | `buyer_reasons` | Required | Array of string | Buyer-safe reasons no delivery option was available. Merchant configuration details are never included. Items values: [6 declared values](#deliveryquote-buyer_reasons--values). |
 | `checkout_session_id` | Optional | string | Always present with an API key or dashboard credential. |
 | `choice_groups` | Required | Array of [DeliveryQuoteChoiceGroupResource](../models/DeliveryQuoteChoiceGroupResource.md#deliveryquotechoicegroupresource) |  |
-| `consumed_by_delivery_selection_id` | Optional | string |  |
+| `created_at` | Required | string | When Flint created this quote. Format: `date-time`. |
 | `delivery_quote_id` | Required | string |  |
 | `delivery_quote_version` | Optional | integer string | Version of the order's delivery details evaluated by this quote. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
-| `destination_address` | Optional | [DeliveryAddressRequest](../models/DeliveryAddressRequest.md#deliveryaddressrequest) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations. `destination_address`: [field definitions](../models/DeliveryPreview.md#deliverypreviewdestination_address). |
+| `delivery_revocation_id` | Required | string or null | The delivery revocation that revoked this quote, or null when no revocation applies. |
+| `destination_address` | Optional | [Address](../models/Address.md#address) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `eligibility_context_version` | Optional | integer string | Version of the checkout eligibility context evaluated by this quote. Always present with an API key or dashboard credential. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
 | `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
@@ -32,8 +33,9 @@ An estimate of available delivery options and their prices.
 | `revocation_reason` | Optional | string | Why the quote was revoked: the reason on the delivery revocation that fenced a dependency this quote used. Present when status is revoked. Values: `"unsafe_configuration"`, `"location_unavailable"`, `"credential_compromise"`, `"legal_requirement"`, `"other"`. |
 | `revoked_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `selection_required` | Required | boolean |  |
-| `stale_reason` | Optional | string | Values: `"checkout_changed"`, `"selection_changed"`, `"eligibility_changed"`, `"inventory_changed"`, `"authority_changed"`, `"consumed_by_priced_quote"`. |
-| `status` | Required | string | Values: `"active"`, `"consumed"`, `"stale"`, `"expired"`, `"revoked"`. |
+| `stale_reason` | Optional | string | Values: `"checkout_changed"`, `"selection_changed"`, `"eligibility_changed"`, `"inventory_changed"`, `"authority_changed"`, `"superseded_by_priced_quote"`. |
+| `status` | Required | string | Whether the quote can be selected now, derived from the current checkout or renewal order on every read. Values: `"active"`, `"consumed"`, `"stale"`, `"expired"`, `"revoked"`. |
+| `superseded_by_delivery_quote_id` | Optional | string | The priced delivery quote that replaced this quote. Its basis_delivery_quote_id names this quote. |
 
 #### DeliveryQuote buyer_reasons [] values
 
@@ -43,12 +45,4 @@ An estimate of available delivery options and their prices.
 - `"no_pickup_location_nearby"`
 - `"unavailable_for_these_items"`
 - `"temporarily_unavailable"`
-
-### DeliveryQuote.buyer_location
-
-Declared alternatives: [DeliveryPreview.buyer_location](../models/DeliveryPreview.md#deliverypreviewbuyer_location).
-
-### DeliveryQuote.destination_address
-
-Field definitions: [DeliveryPreview.destination_address](../models/DeliveryPreview.md#deliverypreviewdestination_address).
 

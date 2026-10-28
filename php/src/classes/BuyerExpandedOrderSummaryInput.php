@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $customer_id
  * @property-read string $fulfillment_status
+ * @property-read string|null $governing_delivery_selection_id
  * @property-read string $order_id
  * @property-read string $order_number
  * @property-read list<string> $payment_intent_ids
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerExpandedOrderSummaryInput extends Model {
-    /** @param array{'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': SettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerExpandedOrderSummaryInput')); }
     /** Shape $ (Value): string. When the order closed. Present exactly when status is closed. Set once at the transition and never changed. Format: date-time.
      * @return string|\DateTimeInterface
@@ -50,6 +51,12 @@ final class BuyerExpandedOrderSummaryInput extends Model {
      */
     public function getFulfillmentStatus(): string { return $this->get('fulfillment_status'); }
     public function hasFulfillmentStatus(): bool { return $this->has('fulfillment_status'); }
+    /** Shape $ (Value): string or null. ID of the delivery selection that governs this order. Null when no selection governs the order.
+     * @return string|null
+     * @throws SdkError When governing_delivery_selection_id is omitted; use hasGoverningDeliverySelectionId() or valueOrDefault().
+     */
+    public function getGoverningDeliverySelectionId(): string|null { return $this->get('governing_delivery_selection_id'); }
+    public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
     /** Shape $ (Value): string. Stable identifier of the expanded order.
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().

@@ -1,18 +1,18 @@
 import type { Result, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { WebhookDelivery, WebhookDeliveryListResponse, WebhookEvent } from '../declarations/types-50.js';
-import type { WebhookEventListResponse } from '../declarations/types-52.js';
-import type { WebhookEventResponse } from '../declarations/types-53.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { WebhookDelivery, WebhookDeliveryListResponse, WebhookEvent } from '../declarations/types-53.js';
+import type { WebhookEventListResponse } from '../declarations/types-55.js';
 import type {
+    WebhookEventResponse,
     WebhookEventsGetInput,
     WebhookEventsListInput,
     WebhookEventsListWebhookDeliveriesInput,
     WebhookEventsStreamInput,
     WebhookEventsStreamResponse
-} from '../declarations/types-54.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-57.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,24 +27,28 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResourceType, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { WebhookEvent, WebhookDeliveryListResponse, WebhookDelivery } from '../declarations/types-50.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { WebhookEventResponse } from '../declarations/types-53.js';
-export type { WebhookEventListResponse } from '../declarations/types-52.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResourceType, ResponseMeta } from '../declarations/types-42.js';
+export type { WebhookEvent, WebhookDeliveryListResponse, WebhookDelivery } from '../declarations/types-53.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type {
+    WebhookEventResponse,
     WebhookEventsStreamResponse,
     WebhookEventsGetInput,
     WebhookEventsListWebhookDeliveriesInput,
     WebhookEventsListInput,
-    WebhookEventsStreamInput
-} from '../declarations/types-54.js';
+    WebhookEventsStreamInput,
+    WebhookEventSource,
+    WebhookEventSourcePartnerApp,
+    WebhookEventSourceInstalledMerchants
+} from '../declarations/types-57.js';
+export type { WebhookEventListResponse } from '../declarations/types-55.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface WebhookEventsResource {
     /**
  * Returns a specific webhook event for the authenticated merchant.
@@ -60,7 +64,8 @@ export interface WebhookEventsResource {
     getWithResponse(webhook_event_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<WebhookEventResponse>>;
     /**
  * Returns webhook deliveries, newest first (`created_at` descending, then `webhook_delivery_id`).
- * Includes deliveries of synthetic test events.
+ * Includes deliveries of synthetic test events. Default order: created_at descending, then
+ * webhook_delivery_id descending.
  * @see reference/webhookEvents.md#webhookeventslistwebhookdeliveries
  * GET /v1/webhook-deliveries
  * @example
@@ -124,7 +129,8 @@ export interface WebhookEventsResource {
         "page_token"?: InputValue<string>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<WebhookDelivery>;
     /**
- * Returns recent canonical webhook events for the authenticated merchant.
+ * Returns recent canonical webhook events for the authenticated merchant. Default order:
+ * created_at descending, then webhook_event_id descending.
  * @see reference/webhookEvents.md#webhookeventslist
  * GET /v1/webhook-events
  * @example
@@ -381,7 +387,8 @@ export interface WebhookEventsResource {
             | "subscription_delivery_migration.completed"
             | "subscription_payment_retry.created"
             | "subscription_payment_retry.failed"
-            | "subscription_payment_retry.succeeded">>;
+            | "subscription_payment_retry.succeeded"
+            | "tax_connection.updated">>;
         "resource_type"?: InputValue<Array<"balance"
             | "balance_transaction"
             | "bundle"
@@ -447,7 +454,8 @@ export interface WebhookEventsResource {
             | "shipment"
             | "subscription"
             | "subscription_delivery_migration"
-            | "subscription_payment_retry">>;
+            | "subscription_payment_retry"
+            | "tax_connection">>;
         "resource_id"?: InputValue<string>;
         "api_request_log_id"?: InputValue<string>;
         "request_id"?: InputValue<string>;
@@ -709,7 +717,8 @@ export interface WebhookEventsResource {
             | "subscription_delivery_migration.completed"
             | "subscription_payment_retry.created"
             | "subscription_payment_retry.failed"
-            | "subscription_payment_retry.succeeded">>;
+            | "subscription_payment_retry.succeeded"
+            | "tax_connection.updated">>;
         "resource_type"?: InputValue<Array<"balance"
             | "balance_transaction"
             | "bundle"
@@ -775,7 +784,8 @@ export interface WebhookEventsResource {
             | "shipment"
             | "subscription"
             | "subscription_delivery_migration"
-            | "subscription_payment_retry">>;
+            | "subscription_payment_retry"
+            | "tax_connection">>;
         "resource_id"?: InputValue<string>;
         "api_request_log_id"?: InputValue<string>;
         "request_id"?: InputValue<string>;
@@ -1037,7 +1047,8 @@ export interface WebhookEventsResource {
             | "subscription_delivery_migration.completed"
             | "subscription_payment_retry.created"
             | "subscription_payment_retry.failed"
-            | "subscription_payment_retry.succeeded">>;
+            | "subscription_payment_retry.succeeded"
+            | "tax_connection.updated">>;
         "resource_type"?: InputValue<Array<"balance"
             | "balance_transaction"
             | "bundle"
@@ -1103,7 +1114,8 @@ export interface WebhookEventsResource {
             | "shipment"
             | "subscription"
             | "subscription_delivery_migration"
-            | "subscription_payment_retry">>;
+            | "subscription_payment_retry"
+            | "tax_connection">>;
         "resource_id"?: InputValue<string>;
         "api_request_log_id"?: InputValue<string>;
         "request_id"?: InputValue<string>;
@@ -1365,7 +1377,8 @@ export interface WebhookEventsResource {
             | "subscription_delivery_migration.completed"
             | "subscription_payment_retry.created"
             | "subscription_payment_retry.failed"
-            | "subscription_payment_retry.succeeded">>;
+            | "subscription_payment_retry.succeeded"
+            | "tax_connection.updated">>;
         "resource_type"?: InputValue<Array<"balance"
             | "balance_transaction"
             | "bundle"
@@ -1431,7 +1444,8 @@ export interface WebhookEventsResource {
             | "shipment"
             | "subscription"
             | "subscription_delivery_migration"
-            | "subscription_payment_retry">>;
+            | "subscription_payment_retry"
+            | "tax_connection">>;
         "resource_id"?: InputValue<string>;
         "api_request_log_id"?: InputValue<string>;
         "request_id"?: InputValue<string>;
@@ -1693,7 +1707,8 @@ export interface WebhookEventsResource {
             | "subscription_delivery_migration.completed"
             | "subscription_payment_retry.created"
             | "subscription_payment_retry.failed"
-            | "subscription_payment_retry.succeeded">>;
+            | "subscription_payment_retry.succeeded"
+            | "tax_connection.updated">>;
         "resource_type"?: InputValue<Array<"balance"
             | "balance_transaction"
             | "bundle"
@@ -1759,7 +1774,8 @@ export interface WebhookEventsResource {
             | "shipment"
             | "subscription"
             | "subscription_delivery_migration"
-            | "subscription_payment_retry">>;
+            | "subscription_payment_retry"
+            | "tax_connection">>;
         "resource_id"?: InputValue<string>;
         "api_request_log_id"?: InputValue<string>;
         "request_id"?: InputValue<string>;
@@ -2018,7 +2034,8 @@ export interface WebhookEventsResource {
             | "subscription_delivery_migration.completed"
             | "subscription_payment_retry.created"
             | "subscription_payment_retry.failed"
-            | "subscription_payment_retry.succeeded">>;
+            | "subscription_payment_retry.succeeded"
+            | "tax_connection.updated">>;
         "after_event_id"?: InputValue<string>;
         "Last-Event-ID"?: InputValue<string>;
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<Result<WebhookEventsStreamResponse>>;

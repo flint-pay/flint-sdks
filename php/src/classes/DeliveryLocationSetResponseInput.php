@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryLocationSetResponseInput extends Model {
-    /** @param array{'data': DeliveryLocationSetInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': DeliveryLocationSetInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSetResponseInput')); }
     /** Shape $ (Value): {@see DeliveryLocationSetInput}. The locations available to a delivery method.
      * @return DeliveryLocationSetInput|array<array-key, mixed>|\stdClass

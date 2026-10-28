@@ -20,10 +20,10 @@ The request body for: Create promotion.
 | `exclusivity` | Optional | [PromotionExclusivityRequest](../models/PromotionExclusivityRequest.md#promotionexclusivityrequest) | Optional group and priority used to choose one promotion from competing promotions in the same group. See Promotion for the evaluation order. Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `max_uses` | Optional | integer string | Maximum number of redemptions across all codes and automatic applications. Omit for no redemption limit. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
 | `name` | Required | string | Internal promotion name for dashboards, searching, and reporting. This is not intended for buyer-facing checkout or receipt copy. minLength: `1`. maxLength: `255`. |
 | `redemption_type` | Optional | string | Whether the promotion applies automatically when its rules match or requires a promotion code. Values: `"automatic"`, `"code"`. |
-| `schedule` | Optional | [PromotionSchedule](../models/PromotionSchedule.md#promotionschedule) | Optional start and end times that limit when the promotion can apply. When a promotion is active, with a start time, an end time, and the time zone it was entered in. |
+| `schedule` | Optional | [PromotionSchedule](../models/PromotionSchedule.md#promotionschedule) | Optional start and end times that limit when the promotion can apply. When a promotion is active, with a start time, an end time, and the time zone it was entered in. `schedule`: [field definitions](../models/CreatePromotionRequest.md#createpromotionrequestschedule). |
 | `status` | Optional | string | Lifecycle status. Defaults to active; send inactive to create a promotion that is switched off. Default: `"active"`. Values: `"active"`, `"inactive"`. |
 
 ### CreatePromotionRequest.combines_with
@@ -31,4 +31,14 @@ The request body for: Create promotion.
 Which discount classes this promotion can combine with. Omitted classes default to true. Which promotion discount classes this promotion can combine with. Omitted classes default to true.
 
 Field definitions: [shared fields](PromotionCombinesWithPatch.md#promotioncombineswithpatch).
+
+### CreatePromotionRequest.metadata
+
+Field definitions: [AddLineItemsRequest.line_items[].metadata](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata).
+
+### CreatePromotionRequest.schedule
+
+Optional start and end times that limit when the promotion can apply. When a promotion is active, with a start time, an end time, and the time zone it was entered in.
+
+Field definitions: [shared fields](PromotionSchedule.md#promotionschedule).
 

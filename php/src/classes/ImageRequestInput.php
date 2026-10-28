@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $source_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class ImageRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ImageRequestInput')); }
     /** Shape $ (Value): string. Alternative text describing the image for accessibility. minLength: 1. maxLength: 512.
      * @return string

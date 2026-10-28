@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/deliveryProfiles.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import r0 from '../descriptors/resources/deliveryProfiles.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import settings from '../descriptors/settings.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["assignToUnconfiguredDeliveryProfile"]:r0,["createDeliveryProfile"]:r0,["deleteDeliveryProfile"]:r0,["getDeliveryProfile"]:r0,["listDeliveryProfiles"]:r0,["updateDeliveryProfile"]:r0});
 export class Client {
@@ -120,10 +120,16 @@ close() { return this.#runtime.close(); }
 }
 export { makeAssignToUnconfiguredDeliveryProfileRequest } from '../models/AssignToUnconfiguredDeliveryProfileRequest.js';
 export { makeCreateDeliveryProfileRequest } from '../models/CreateDeliveryProfileRequest.js';
+export { makeDeliveryProfileConfigurationInputManual } from '../models/DeliveryProfileConfigurationInputManual.js';
+export { makeDeliveryProfileConfigurationInputNone } from '../models/DeliveryProfileConfigurationInputNone.js';
+export { makeDeliveryProfileConfigurationInputQuote } from '../models/DeliveryProfileConfigurationInputQuote.js';
+export { makeDeliveryProfileConfigurationInputRequired } from '../models/DeliveryProfileConfigurationInputRequired.js';
 export { makeDeliveryProfileConfigurationRequest } from '../models/DeliveryProfileConfigurationRequest.js';
 export { makeDeliveryProfileOriginPolicyInputFixedLocation } from '../models/DeliveryProfileOriginPolicyInputFixedLocation.js';
 export { makeDeliveryProfileOriginPolicyInputInventoryRouting } from '../models/DeliveryProfileOriginPolicyInputInventoryRouting.js';
 export { makeDeliveryProfileOriginPolicyInputMethodOrigin } from '../models/DeliveryProfileOriginPolicyInputMethodOrigin.js';
 export { makeDeliveryProfileOriginPolicyRequest } from '../models/DeliveryProfileOriginPolicyRequest.js';
+export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeUpdateDeliveryProfileRequest } from '../models/UpdateDeliveryProfileRequest.js';

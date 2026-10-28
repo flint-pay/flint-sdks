@@ -9,11 +9,11 @@ namespace Flint;
  * @property-read string $payment_method_creation
  * @property-read array<array-key, mixed>|\stdClass $payment_method_options
  * @property-read list<string> $payment_method_types
- * @property-read list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass> $selectable_payment_intents
+ * @property-read list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object> $selectable_payment_intents
  * @property-read string $submit_to
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentCollectionStripeElementsInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: array<array-key, mixed>|\stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>, 'submit_to': string, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: array<array-key, mixed>|\stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>, 'submit_to': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripeElementsInput')); }
     /** Shape $ (Value): {@see MoneyValueInput}. Amount and currency used to initialize the payment form. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -58,7 +58,7 @@ final class PaymentCollectionStripeElementsInput extends Model {
     public function getPaymentMethodTypes(): array { return $this->get('payment_method_types'); }
     public function hasPaymentMethodTypes(): bool { return $this->has('payment_method_types'); }
     /** Shape $ (Value): Array of {@see SelectableOrderPaymentIntentInput}. Order payment intents that the buyer can select for collection. Shape $[] (Value): {@see SelectableOrderPaymentIntentInput}. A payment intent on an order the caller can pick, with its amount, status, and last payment error.
-     * @return list<SelectableOrderPaymentIntentInput|array<array-key, mixed>|\stdClass>
+     * @return list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>
      * @throws SdkError When selectable_payment_intents is omitted; use hasSelectablePaymentIntents() or valueOrDefault().
      */
     public function getSelectablePaymentIntents(): array { return $this->get('selectable_payment_intents'); }

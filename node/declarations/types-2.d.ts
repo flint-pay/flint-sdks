@@ -1,43 +1,714 @@
-import type { MoneyValue } from './types-31.js';
 import type {
+    BundleComponent,
+    BuyerOrder,
     BuyerErrorRemediation,
     BuyerExpandedOrderSummary,
     BuyerAction,
-    BuyerCheckoutSessionWithSecret,
-    BuyerExpandedSubscriptionPlanSummary,
-    BuyerOrderLineItemModifier,
-    BuyerOrder,
-    BuyerOrderPaymentAttempt
+    BuyerCheckoutSessionWithSecret
 } from './types-1.js';
-import type { PaymentErrorSummary, PaymentFulfillmentHold } from './types-35.js';
-import type { PaymentSourceSummary, PaymentRefund } from './types-36.js';
-import type { ResponseMeta, ReturnFinancialSummary, ReturnEligibilitySelection } from './types-40.js';
-import type { CardDetails, BuyerSubscriptionServiceLocation, CategoryReference } from './types-3.js';
-import type { StripeClientSetup, SelectedProductOption, SubscriptionAddressVerification } from './types-44.js';
-import type { ExpandedCustomerSummary, ExpandedPaymentIntentSummary } from './types-16.js';
-import type { RefundLineItemAllocation, RefundTaxBreakdownRefund, RefundTenderAllocation } from './types-39.js';
-import type { BundleComponent, Address } from './types-0.js';
-import type { Image } from './types-19.js';
+import type { CategoryReference, CardDetails } from './types-3.js';
+import type { Dimensions } from './types-17.js';
+import type { GiftCardPurchaseSnapshot, Image } from './types-21.js';
+import type { LineItemInventorySnapshot } from './types-30.js';
+import type { MoneyValue, OrderCalculatedLineItemTax } from './types-33.js';
 import type {
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements,
+    OrderLineSubscriptionOfferSummary,
+    OrderPaymentAttemptPaymentMethodSave
+} from './types-34.js';
+import type { PurchasedGiftCard, RefundLineItemAllocation } from './types-41.js';
+import type { SelectedProductOption, SubscribedLine, StripeClientSetup } from './types-47.js';
+import type { Weight } from './types-65.js';
+import type { TextModifierRequest } from './types-50.js';
+import type { ResponseMeta, RefundTaxBreakdownRefund, RefundTenderAllocation } from './types-42.js';
+import type { PaymentAttemptGiftCardRedemption, PaymentErrorSummary, PaymentFulfillmentHold } from './types-37.js';
+import type { PendingPaymentAction, PaymentSourceSummary, PaymentRefund } from './types-39.js';
+import type { OrderTaxExemption } from './types-35.js';
+import type { TaxBreakdown } from './types-49.js';
+import type { Address } from './types-0.js';
+import type {
+    ReturnResolutionLineItemRequest,
     ReturnReasonSummary,
+    ReturnReplacementLineItem,
+    ReturnResolutionLineItem
+} from './types-44.js';
+import type { ExpandedCustomerSummary, ExpandedPaymentIntentSummary } from './types-18.js';
+import type { MetadataMap } from './types-32.js';
+import type {
+    ReturnFinancialSummary,
+    ReturnEligibilitySelection,
     ReturnLineItemValue,
     ReturnLineItemDecisionProposal,
     ReturnPolicyAdjustmentProposal
-} from './types-41.js';
-import type { ReturnResolutionLineItemRequest, ReturnReplacementLineItem, ReturnResolutionLineItem } from './types-42.js';
-import type {
-    SubscriptionDelivery,
-    SubscriptionDeliveryHold,
-    SubscriptionIntervalOption,
-    SubscriptionDeliveryOption
-} from './types-45.js';
-import type {
-    SubscriptionPromotion,
-    SubscriptionUpcomingDeliveryHold,
-    SubscriptionPlanSwapVariant,
-    SubscriptionRenewalPreview
-} from './types-46.js';
-import type { OrderLineItemTax } from './types-32.js';
+} from './types-43.js';
+/** Shape $ (Value): {@link BuyerOrderLineItem}. An item purchased in an order. */
+export type BuyerOrderLineItem = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "base_subtotal_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link BundleComponent}. Shape $[] (Value): {@link
+     * BundleComponent}. An item included in a bundle.
+     */
+    "bundle_components": Array<BundleComponent>;
+    /** Shape $ (Value): string. */
+    "bundle_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link CategoryReference}. Shape $[] (Value): {@link
+     * CategoryReference}. A reference to a product category by ID, handle, and name.
+     */
+    "categories": Array<CategoryReference>;
+    /** Shape $ (Value): string. */
+    "description"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link OrderLineItemFulfillmentQuantities}. Current quantities for
+     * each required fulfillment obligation: one entry for a single item or one per bundle
+     * component that requires fulfillment. Quantities use line units for single items and
+     * component units for bundles. required_quantity equals unassigned_quantity +
+     * assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity. Omitted when
+     * the line needs no fulfillment or the order's obligations cannot be computed, including older
+     * lines without recorded requirements. Shape $[] (Value): {@link
+     * OrderLineItemFulfillmentQuantities}. Counts of how much of an order line item is assigned,
+     * fulfilled, failed, canceled, or still unassigned for fulfillment.
+     */
+    "fulfillment_quantities"?: Array<OrderLineItemFulfillmentQuantities>;
+    /**
+     * Shape $ (Value): {@link OrderLineItemFulfillmentRequirements}. Fulfillment requirements
+     * fixed when the line item was created. direct describes a single item; components describes
+     * each bundle component. Omitted for older line items without recorded requirements.
+     * Fulfillment requirements for an order line item, given for a single item or for each
+     * component of a bundle.
+     */
+    "fulfillment_requirements"?: OrderLineItemFulfillmentRequirements;
+    /**
+     * Shape $ (Value): {@link GiftCardPurchaseSnapshot}. The gift card purchase details saved on
+     * an order line item: configuration, face value, price paid, and recipient.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseSnapshot;
+    /**
+     * Shape $ (Value): {@link Image}. An image with its `url`, `width`, and `height`, and optional
+     * `alt` text.
+     */
+    "image"?: Image;
+    /**
+     * Shape $ (Value): {@link LineItemInventorySnapshot} or null. Shape $.anyOf[1] (Value): {@link
+     * LineItemInventorySnapshot}. Whether an order line item tracks inventory, and the inventory
+     * item quantities each unit demands. Shape $.anyOf[2] (Value): null.
+     */
+    "inventory_snapshot": ((LineItemInventorySnapshot) | (null));
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "modifier_total_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link BuyerOrderLineItemModifier}. Shape $[] (Value): {@link
+     * BuyerOrderLineItemModifier}. A modifier on a buyer's order line item, either a catalog
+     * modifier or entered text, with its quantity and price change.
+     */
+    "modifiers": Array<BuyerOrderLineItemModifier>;
+    /** Shape $ (Value): string. */
+    "name": string;
+    /** Shape $ (Value): string. */
+    "order_line_item_id": string;
+    /** Shape $ (Value): string. */
+    "product_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link PurchasedGiftCard}. Masked card identities for fully funded
+     * units of this purchase line. Partial consideration does not issue a card. Shape $[] (Value):
+     * {@link PurchasedGiftCard}. A gift card issued for one unit of a purchased order line item,
+     * with its last four code characters and any card it replaced.
+     */
+    "purchased_gift_cards": Array<PurchasedGiftCard>;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "refunded_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): Array of {@link SelectedProductOption}. Shape $[] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    /** Shape $ (Value): string. */
+    "sku"?: string;
+    /** Shape $ (Value): string.  Value enum: "variant", "bundle". */
+    "source_type"?: "variant" | "bundle" | (string & {});
+    /**
+     * Shape $ (Value): {@link SubscribedLine}. Recurring offer and cadence frozen for this line at
+     * signup. The subscription offer and billing interval an order line was bought under, with the
+     * recurring amount.
+     */
+    "subscription"?: SubscribedLine;
+    /** Shape $ (Value): string. Subscription created for this line after the order is paid. */
+    "subscription_id"?: string;
+    /**
+     * Shape $ (Value): {@link OrderLineSubscriptionOfferSummary}. Applicable active offer for a
+     * one-time line, or the offer terms frozen for a subscribed line. A subscription offer
+     * attached to an order line item, with its name, discount, and billing interval options.
+     */
+    "subscription_offer"?: OrderLineSubscriptionOfferSummary;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link OrderCalculatedLineItemTax}. Tax settings for an order line item
+     * calculated by Flint or supplied by you, including the line item tax category and whether it
+     * is taxable.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link Dimensions}. Dimensions of one unit fixed when the line was created.
+     * Omitted when unknown and for bundle lines. Package or item dimensions as `length`, `width`,
+     * and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link Weight}. Weight of one unit fixed when the line was created. Omitted
+     * when unknown and for bundle lines. A weight value in grams, kilograms, ounces, or pounds,
+     * used in delivery profile configuration.
+     */
+    "unit_weight"?: Weight;
+    /** Shape $ (Value): string. */
+    "variant_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link BuyerOrderLineItemModifier}. A modifier on a buyer's order line item,
+ * either a catalog modifier or entered text, with its quantity and price change.
+ */
+export type BuyerOrderLineItemModifier = {
+    /**
+     * Shape $ (Value): string. Name of the modifier group recorded when this selection was added
+     * to the order line item.
+     */
+    "modifier_group_name": string;
+    /**
+     * Shape $ (Value): string. Identifier of the selected catalog modifier. If its group is owned
+     * by a modifier set (source: inline), read the group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it.
+     */
+    "modifier_id"?: string;
+    /** Shape $ (Value): string. Name of the selected modifier recorded on the order line item. */
+    "name": string;
+    /**
+     * Shape $ (Value): string. Stable identifier of the selected modifier on this order line item.
+     */
+    "order_line_item_modifier_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): boolean. Whether this selection appears in fulfillment details, recorded
+     * when selected.
+     */
+    "show_on_fulfillment": boolean;
+    /**
+     * Shape $ (Value): boolean. Whether this selection appears on buyer receipts, recorded when
+     * selected.
+     */
+    "show_on_receipt": boolean;
+    /**
+     * Shape $ (Value): string. Whether the selection is a catalog list modifier or buyer-entered
+     * text. Value enum: "catalog_modifier", "text".
+     */
+    "source_type": "catalog_modifier" | "text" | (string & {});
+    /**
+     * Shape $ (Value): {@link TextModifierRequest}. Selected text group and buyer-entered value.
+     * Read an inline text group through its owning modifier set. Text a buyer entered for a text
+     * modifier group on an order line item.
+     */
+    "text"?: TextModifierRequest;
+    /** Shape $ (Value): string. Buyer-entered text recorded for a text modifier selection. */
+    "text_value"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Total price added by this selection. Multiplies
+     * unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item
+     * quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Amount added to the item's unit price for each unit of
+     * this selection, recorded when selected. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "unit_price_delta_money": MoneyValue;
+};
+/** Shape $ (Value): {@link BuyerOrderListResponse}. A page of `BuyerOrder` objects. */
+export type BuyerOrderListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link BuyerOrder}. Shape $[] (Value): {@link BuyerOrder}. A
+     * customer's purchase and its payment and fulfillment progress.
+     */
+    "data": Array<BuyerOrder>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Shape $ (Value): {@link BuyerOrderPaymentAttempt}. An attempt to pay an order. */
+export type BuyerOrderPaymentAttempt = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "completed_at"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "expected_outstanding_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link PaymentAttemptGiftCardRedemption}. Shape $[] (Value):
+     * {@link PaymentAttemptGiftCardRedemption}. A gift card redemption made as part of an order
+     * payment attempt, with the amount, tip, and gift card.
+     */
+    "gift_card_redemptions": Array<PaymentAttemptGiftCardRedemption>;
+    /**
+     * Shape $ (Value): boolean. Whether the attempt can continue through PayOrder with action:
+     * resume and this order_payment_attempt_id after any pending client action is complete. If
+     * false, check status before starting another payment; the attempt may still be in progress.
+     */
+    "is_resumable": boolean;
+    /**
+     * Shape $ (Value): {@link BuyerPaymentErrorSummary}. The concluded failure of a payment leg
+     * that failed this attempt. Absent for non-payment failures. Why a payment attempt failed: a
+     * normalized `code`, a message, when it failed, and recovery guidance.
+     */
+    "last_payment_error"?: BuyerPaymentErrorSummary;
+    /** Shape $ (Value): string.  Value enum: "payment", "setup", "settlement". */
+    "mode": "payment" | "setup" | "settlement" | (string & {});
+    /** Shape $ (Value): string. */
+    "order_payment_attempt_id": string;
+    /**
+     * Shape $ (Value): Array of {@link BuyerPaymentAttemptPaymentIntent}. Shape $[] (Value):
+     * {@link BuyerPaymentAttemptPaymentIntent}. The payment intent behind an order payment
+     * attempt, with its status, amounts, authorization expiry, and last payment error.
+     */
+    "payment_intents": Array<BuyerPaymentAttemptPaymentIntent>;
+    /**
+     * Shape $ (Value): {@link OrderPaymentAttemptPaymentMethodSave}. Set when the pay request sent
+     * save_payment_method: true and the attempt paid without saving the payment method. A card
+     * typed into checkout and saved has no entry here; read payment_method_save on the checkout
+     * session for a card saved with a mobile phone number. What became of the buyer's
+     * save_payment_method. The payment does not depend on it.
+     */
+    "payment_method_save"?: OrderPaymentAttemptPaymentMethodSave;
+    /**
+     * Shape $ (Value): Array of {@link PendingPaymentAction}. Shape $[] (Value): {@link
+     * PendingPaymentAction}. Client-side action required before continuing a payment. Resume an
+     * order through PayOrder with order_payment_attempt_id, or continue a standalone PaymentIntent
+     * through its confirm endpoint without a replacement credential.
+     */
+    "pending_actions": Array<PendingPaymentAction>;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "started_at"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "processing", "requires_action", "requires_capture",
+     * "partially_succeeded", "requires_retry", "finalizing", "succeeded", "failed", "expired",
+     * "canceled".
+     */
+    "status": "processing"
+        | "requires_action"
+        | "requires_capture"
+        | "partially_succeeded"
+        | "requires_retry"
+        | "finalizing"
+        | "succeeded"
+        | "failed"
+        | "expired"
+        | "canceled"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Non-payment reason an attempt failed, was canceled, or expired.
+     * Failed attempts with an unmapped non-payment reason report other. Canceled and expired
+     * attempts include a reason only when it adds information beyond status. New values may be
+     * added. Value enum: "authorization_canceled", "coupon_reservation_failed",
+     * "gift_card_hold_acquisition_failed", "invalid_payment_source", "inventory_unavailable",
+     * "order_changed_before_payment", "order_payment_customer_mismatch", "other",
+     * "payment_authorization_canceled", "payment_authorization_expired",
+     * "payment_confirmation_rejected", "payment_link_capacity_claim_failed",
+     * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
+     * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
+     * "payment_source_binding_failed", "payment_source_conflict", "payment_source_not_updatable",
+     * "payment_source_ownership_mismatch", "resource_guarantee_failed",
+     * "setup_action_unavailable", "setup_hold_acquisition_failed", "setup_result_incomplete",
+     * "tip_allocation_sync_failed", "zero_balance_hold_acquisition_failed".
+     */
+    "status_reason"?: "authorization_canceled"
+        | "coupon_reservation_failed"
+        | "gift_card_hold_acquisition_failed"
+        | "invalid_payment_source"
+        | "inventory_unavailable"
+        | "order_changed_before_payment"
+        | "order_payment_customer_mismatch"
+        | "other"
+        | "payment_authorization_canceled"
+        | "payment_authorization_expired"
+        | "payment_confirmation_rejected"
+        | "payment_link_capacity_claim_failed"
+        | "payment_link_capacity_validation_failed"
+        | "payment_method_activation_pending"
+        | "payment_method_required"
+        | "payment_option_not_allowed"
+        | "payment_option_unavailable"
+        | "payment_source_binding_failed"
+        | "payment_source_conflict"
+        | "payment_source_not_updatable"
+        | "payment_source_ownership_mismatch"
+        | "resource_guarantee_failed"
+        | "setup_action_unavailable"
+        | "setup_hold_acquisition_failed"
+        | "setup_result_incomplete"
+        | "tip_allocation_sync_failed"
+        | "zero_balance_hold_acquisition_failed"
+        | (string & {});
+};
+/** Shape $ (Value): {@link BuyerOrderResponse}. A response containing `BuyerOrder` data. */
+export type BuyerOrderResponse = {
+    /**
+     * Shape $ (Value): {@link BuyerOrder}. A customer's purchase and its payment and fulfillment
+     * progress.
+     */
+    "data": BuyerOrder;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link BuyerOrderTax}. Tax details on a buyer's order: whether tax is enabled,
+ * its mode and status, location, exemption, and tax breakdowns.
+ */
+export type BuyerOrderTax = {
+    /**
+     * Shape $ (Value): string. Identifies which automatic tax behavior applies to this order.
+     * connected means the account's tax connection calculated it. standard marks an order
+     * calculated before automatic tax required a tax connection. Value enum: "standard",
+     * "connected".
+     */
+    "automatic_profile"?: "standard" | "connected" | (string & {});
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    "available_location_inputs"?: Array<string>;
+    /** Shape $ (Value): boolean. */
+    "enabled": boolean;
+    /**
+     * Shape $ (Value): {@link OrderTaxExemption}. Whether an order is tax exempt, and the customer
+     * it was assessed from.
+     */
+    "exemption"?: OrderTaxExemption;
+    /**
+     * Shape $ (Value): {@link BuyerOrderTaxLocation}. The location used to calculate tax on a
+     * buyer's order, and where its address came from.
+     */
+    "location"?: BuyerOrderTaxLocation;
+    /** Shape $ (Value): string.  Value enum: "automatic", "external". */
+    "mode": "automatic" | "external" | (string & {});
+    /**
+     * Shape $ (Value): string. Whether the order's prices include tax (`inclusive`) or tax is
+     * added to them (`additive`). Present on every order Flint renders after 2026-10-20; a
+     * response replayed for an idempotent retry of an earlier request omits it. Each line item and
+     * charge also states its own mode in `tax.calculation.price_mode`, which decides that item's
+     * tax. Value enum: "additive", "inclusive".
+     */
+    "price_mode"?: "additive" | "inclusive" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "not_required", "requires_location", "calculated",
+     * "exempt", "incomplete".
+     */
+    "status": "not_required" | "requires_location" | "calculated" | "exempt" | "incomplete" | (string & {});
+    /**
+     * Shape $ (Value): Array of {@link TaxBreakdown}. Shape $[] (Value): {@link TaxBreakdown}. The
+     * tax calculated for one jurisdiction on an order, line item, or charge, with the taxable
+     * amount, rate or flat amount, and tax.
+     */
+    "tax_breakdowns"?: Array<TaxBreakdown>;
+};
+/**
+ * Shape $ (Value): {@link BuyerOrderTaxLocation}. The location used to calculate tax on a buyer's
+ * order, and where its address came from.
+ */
+export type BuyerOrderTaxLocation = {
+    /**
+     * Shape $ (Value): {@link Address}. Omitted for a checkout session credential that doesn't act
+     * for the customer the buyer verified. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
+     */
+    "address"?: Address;
+    /**
+     * Shape $ (Value): string. Value enum: "provided", "fulfillment", "customer", "device",
+     * "location", "merchant".
+     */
+    "address_source": "provided" | "fulfillment" | "customer" | "device" | "location" | "merchant" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "postal_code", "tax_address", "billing_address",
+     * "shipping_address", "business_address".
+     */
+    "address_type": "postal_code"
+        | "tax_address"
+        | "billing_address"
+        | "shipping_address"
+        | "business_address"
+        | (string & {});
+    /** Shape $ (Value): string. */
+    "customer_id"?: string;
+    /** Shape $ (Value): string. */
+    "fulfillment_id"?: string;
+};
+/** Shape $ (Value): {@link BuyerPackage}. A package within a shipment. */
+export type BuyerPackage = {
+    /** Shape $ (Value): string. Carrier transporting the package. */
+    "carrier"?: string;
+    /** Shape $ (Value): string. Creation timestamp. Format: date-time. */
+    "created_at"?: string;
+    /** Shape $ (Value): string. Package delivery timestamp. Format: date-time. */
+    "delivered_at"?: string;
+    /**
+     * Shape $ (Value): {@link Dimensions}. Physical length, width, and height of the package.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
+     */
+    "dimensions"?: Dimensions;
+    /**
+     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
+     * arrive. Null when no estimate is set. Retained after delivery as history. This estimate is
+     * separate from the fulfillment's promised shipment window. Format: date-time.
+     */
+    "expected_delivery_at"?: string | null;
+    /** Shape $ (Value): string. Fulfillment whose items are in the package. */
+    "fulfillment_id": string;
+    /**
+     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
+     * authenticated merchant workflows. Non-Flint URLs must include external_system for
+     * provenance. Flint does not currently manage label file hosting or buyer-facing label
+     * downloads. Omitted for a checkout session credential that doesn't act for the customer the
+     * buyer verified.
+     */
+    "label_url"?: string;
+    /** Shape $ (Value): string. Order whose items are in the package. */
+    "order_id": string;
+    /** Shape $ (Value): string. Stable identifier of the package. */
+    "package_id": string;
+    /**
+     * Shape $ (Value): string. Return this package belongs to. Present only on packages of return
+     * shipments.
+     */
+    "return_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Return line quantities
+     * allocated to this parcel. Present only on packages of return shipments. Shape $[] (Value):
+     * {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return
+     * shipment or package.
+     */
+    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    /** Shape $ (Value): string. Carrier service used for the package. */
+    "service_code"?: string;
+    /** Shape $ (Value): string. Shipment carrying this package. */
+    "shipment_id": string;
+    /** Shape $ (Value): string. Package handoff timestamp. Format: date-time. */
+    "shipped_at"?: string;
+    /**
+     * Shape $ (Value): string. Current package lifecycle state. Package states are the source used
+     * to derive shipment status. - `created`: The package record exists but has not been packed or
+     * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The
+     * package was handed to the carrier. - `in_transit`: The carrier is moving the package through
+     * its network. - `out_for_delivery`: The package is on its final delivery route. -
+     * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier
+     * attempted delivery but did not complete it. Follow the carrier instructions before retrying
+     * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
+     * carrier-reported issue. - `returned`: The package was returned toward or to its origin. -
+     * `voided`: The package was voided and will not continue through delivery. Value enum:
+     * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+     * "delivery_attempted", "exception", "returned", "voided".
+     */
+    "status": "created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided"
+        | (string & {});
+    /**
+     * Shape $ (Value): Array of string. Always empty for buyer credentials. maxItems: 0. [] enum:
+     * "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
+     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped". Shape $[] (Value):
+     * string. Value enum: "mark_delivered", "mark_delivery_attempted", "mark_exception",
+     * "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped".
+     */
+    "supported_actions": Array<"mark_delivered"
+        | "mark_delivery_attempted"
+        | "mark_exception"
+        | "mark_in_transit"
+        | "mark_out_for_delivery"
+        | "mark_packed"
+        | "mark_returned"
+        | "mark_shipped"
+        | (string & {})>;
+    /**
+     * Shape $ (Value): string. Omitted for a checkout session credential that doesn't act for the
+     * customer the buyer verified.
+     */
+    "tracking_number"?: string;
+    /**
+     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
+     * rejected. Omitted for a checkout session credential that doesn't act for the customer the
+     * buyer verified.
+     */
+    "tracking_url"?: string;
+    /** Shape $ (Value): string. Last update timestamp. Format: date-time. */
+    "updated_at"?: string;
+    /**
+     * Shape $ (Value): integer string. Monotonic package version for expected_version checks. Use
+     * an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     */
+    "version": `${bigint}`;
+    /**
+     * Shape $ (Value): {@link Weight}. Physical weight of the package. A weight value in grams,
+     * kilograms, ounces, or pounds, used in delivery profile configuration.
+     */
+    "weight"?: Weight;
+};
+/** Shape $ (Value): {@link BuyerPackageListResponse}. A page of `BuyerPackage` objects. */
+export type BuyerPackageListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link BuyerPackage}. Shape $[] (Value): {@link BuyerPackage}. A
+     * package within a shipment.
+     */
+    "data": Array<BuyerPackage>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Shape $ (Value): {@link BuyerPackageResponse}. A response containing `BuyerPackage` data. */
+export type BuyerPackageResponse = {
+    /** Shape $ (Value): {@link BuyerPackage}. A package within a shipment. */
+    "data": BuyerPackage;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link BuyerPauseActionOptions}. The pause lengths this subscription accepts
+ * from its buyer.
+ */
+export type BuyerPauseActionOptions = {
+    /**
+     * Shape $ (Value): integer. When present, pause_duration_cycles is required and must be
+     * between 1 and this value. When absent, omit pause_duration_cycles to pause until the buyer
+     * resumes. Format: int32. minimum: 1. maximum: 12.
+     */
+    "max_pause_duration_cycles"?: number;
+};
+/**
+ * Shape $ (Value): {@link BuyerPauseCapability}. Whether buyers may pause their own subscriptions.
+ * Send at least one field. minProperties: 1.
+ */
+export type BuyerPauseCapability = {
+    /**
+     * Shape $ (Value): boolean. Whether buyers may pause. When false, a buyer's pause returns
+     * PAUSE_NOT_ALLOWED. Default: true.
+     */
+    "enabled"?: boolean;
+    /**
+     * Shape $ (Value): integer. The longest pause a buyer may choose, in billing periods. When
+     * set, a buyer's pause must send pause_duration_cycles from 1 to this value. Omit it for no
+     * limit, which also lets a buyer pause until they resume. Format: int32. minimum: 1. maximum:
+     * 12.
+     */
+    "max_cycles"?: number;
+};
+/**
+ * Shape $ (Value): {@link BuyerPauseCapabilityInput}. Whether buyers may pause their own
+ * subscriptions. Send at least one field. minProperties: 1.
+ */
+export type BuyerPauseCapabilityInput = BuyerPauseCapability;
+/**
+ * Shape $ (Value): {@link BuyerPayBalanceActionOptions}. The return resolutions the buyer can pay
+ * now.
+ */
+export type BuyerPayBalanceActionOptions = {
+    /**
+     * Shape $ (Value): Array of string. Payable resolutions in creation order. Read each amount
+     * with GET /v1/me/return-resolutions/{return_resolution_id}, then create its checkout session
+     * with POST /v1/me/return-resolutions/{return_resolution_id}/checkout-sessions. minItems: 1.
+     * Shape $[] (Value): string.
+     */
+    "return_resolution_ids": Array<string>;
+};
 /**
  * Shape $ (Value): {@link BuyerPaymentAttemptPaymentIntent}. The payment intent behind an order
  * payment attempt, with its status, amounts, authorization expiry, and last payment error.
@@ -479,7 +1150,7 @@ export type BuyerPaymentIntentListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerPaymentIntentResponse}. A response containing `BuyerPaymentIntent`
@@ -500,7 +1171,7 @@ export type BuyerPaymentIntentResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /** Shape $ (Value): {@link BuyerPaymentMethod}. A customer's saved payment details. */
 export type BuyerPaymentMethod = {
@@ -567,7 +1238,7 @@ export type BuyerPaymentMethodListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerPaymentMethodResponse}. A response containing `BuyerPaymentMethod`
@@ -585,7 +1256,7 @@ export type BuyerPaymentMethodResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerPaymentMethodWithSetup}. The saved payment method, with
@@ -662,8 +1333,13 @@ export type BuyerRefund = {
     "line_item_allocations"?: Array<RefundLineItemAllocation>;
     /** Shape $ (Value): string. */
     "merchant_id"?: string;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
-    "metadata"?: Record<string, string>;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
+     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
+     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+     * them.
+     */
+    "metadata"?: MetadataMap;
     /**
      * Shape $ (Value): {@link BuyerExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
      * BuyerExpandedOrderSummary}. An order summary in a buyer response, with order status and
@@ -747,7 +1423,7 @@ export type BuyerRefundListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /** Shape $ (Value): {@link BuyerRefundResponse}. A response containing `BuyerRefund` data. */
 export type BuyerRefundResponse = {
@@ -762,7 +1438,7 @@ export type BuyerRefundResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerRetentionOffer}. The offer a buyer sees before canceling. Send at
@@ -1063,8 +1739,12 @@ export type BuyerReturnEligibilityPreviewLineItem = {
  */
 export type BuyerReturnHandoffDestination = {
     /**
-     * Shape $ (Value): {@link Address}. A postal address, as returned on customers, invoices, tax
-     * locations, and fulfillment recipients.
+     * Shape $ (Value): {@link Address}. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
      */
     "address"?: Address;
     /** Shape $ (Value): string.  Value enum: "buyer_address", "location", "external_location". */
@@ -1468,7 +2148,7 @@ export type BuyerReturnListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerReturnPolicyEvaluation}. Return policy evaluation results shown to
@@ -1648,26 +2328,66 @@ export type BuyerReturnPreview = ({
      */
     "resolution"?: BuyerReturnResolutionPreview;
 })
-    & ((({
-    /** Shape $ (Value): any.  Value enum: "eligibility". */
-    "mode": "eligibility";
+    & ((Exclude<BuyerReturnPreviewEligibility & object, readonly unknown[]>)
+    | (Exclude<BuyerReturnPreviewResolution & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link BuyerReturnPreviewEligibility}. The `eligibility` variant of
+ * `BuyerReturnPreview`.
+ */
+export type BuyerReturnPreviewEligibility = ({
     /**
      * Shape $ (Value): {@link BuyerReturnEligibilityPreview}. The buyer's Return eligibility
      * preview for an order, including eligible items and policy evaluation results.
      */
     "eligibility": BuyerReturnEligibilityPreview;
-}))
-    | (({
-    /** Shape $ (Value): any.  Value enum: "resolution". */
-    "mode": "resolution";
+    /** Shape $ (Value): string.  Value enum: "eligibility". */
+    "mode": "eligibility" | (string & {});
+    /**
+     * Shape $ (Value): {@link BuyerReturnResolutionPreview}. The buyer's preview of a Return
+     * resolution, including returned items, replacements, adjustments, and the amounts to refund
+     * or collect.
+     */
+    "resolution"?: BuyerReturnResolutionPreview;
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "eligibility". */
+    "mode": unknown;
+    /**
+     * Shape $ (Value): {@link BuyerReturnEligibilityPreview}. The buyer's Return eligibility
+     * preview for an order, including eligible items and policy evaluation results.
+     */
+    "eligibility": BuyerReturnEligibilityPreview;
+}));
+/**
+ * Shape $ (Value): {@link BuyerReturnPreviewResolution}. The `resolution` variant of
+ * `BuyerReturnPreview`.
+ */
+export type BuyerReturnPreviewResolution = ({
+    /**
+     * Shape $ (Value): {@link BuyerReturnEligibilityPreview}. The buyer's Return eligibility
+     * preview for an order, including eligible items and policy evaluation results.
+     */
+    "eligibility"?: BuyerReturnEligibilityPreview;
+    /** Shape $ (Value): string.  Value enum: "resolution". */
+    "mode": "resolution" | (string & {});
     /**
      * Shape $ (Value): {@link BuyerReturnResolutionPreview}. The buyer's preview of a Return
      * resolution, including returned items, replacements, adjustments, and the amounts to refund
      * or collect.
      */
     "resolution": BuyerReturnResolutionPreview;
-}))
-    | (Record<string, unknown>));
+})
+    & (({
+    /** Shape $ (Value): any.  Value enum: "resolution". */
+    "mode": unknown;
+    /**
+     * Shape $ (Value): {@link BuyerReturnResolutionPreview}. The buyer's preview of a Return
+     * resolution, including returned items, replacements, adjustments, and the amounts to refund
+     * or collect.
+     */
+    "resolution": BuyerReturnResolutionPreview;
+}));
 /**
  * Shape $ (Value): {@link BuyerReturnPreviewResponse}. A response containing `BuyerReturnPreview`
  * data.
@@ -1687,7 +2407,7 @@ export type BuyerReturnPreviewResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerReturnReplacementLineItemInputBundle}. The `bundle` variant of
@@ -2096,7 +2816,7 @@ export type BuyerReturnResolutionCheckoutSessionResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerReturnResolutionExecutionBlocker}. Work that must complete before a
@@ -2220,7 +2940,7 @@ export type BuyerReturnResolutionResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /** Shape $ (Value): {@link BuyerReturnResponse}. A response containing `BuyerReturn` data. */
 export type BuyerReturnResponse = {
@@ -2235,7 +2955,7 @@ export type BuyerReturnResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerSavePaymentMethodResponse}. A response containing
@@ -2257,7 +2977,7 @@ export type BuyerSavePaymentMethodResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
 };
 /**
  * Shape $ (Value): {@link BuyerSelectableOrderPaymentIntent}. A payment intent a buyer can pay on
@@ -2407,765 +3127,5 @@ export type BuyerShipmentListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link BuyerShipmentResponse}. A response containing `BuyerShipment` data. */
-export type BuyerShipmentResponse = {
-    /** Shape $ (Value): {@link BuyerShipment}. A shipment carrying fulfilled order items. */
-    "data": BuyerShipment;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BuyerSkipCapability}. Whether buyers may skip renewals. Send at least
- * one field. minProperties: 1.
- */
-export type BuyerSkipCapability = {
-    /**
-     * Shape $ (Value): boolean. Whether buyers may skip a renewal. Merchant credentials may always
-     * skip an eligible cycle. Default: true.
-     */
-    "enabled"?: boolean;
-    /**
-     * Shape $ (Value): integer. Maximum consecutive cycles a buyer may skip. Omit it for no limit.
-     * The count resets after a paid renewal. Format: int32. minimum: 1. maximum: 12.
-     */
-    "max_consecutive_skips"?: number;
-};
-/**
- * Shape $ (Value): {@link BuyerSkipCapabilityInput}. Whether buyers may skip renewals. Send at
- * least one field. minProperties: 1.
- */
-export type BuyerSkipCapabilityInput = BuyerSkipCapability;
-/** Shape $ (Value): {@link BuyerSubscription}. A customer's recurring purchase. */
-export type BuyerSubscription = {
-    /**
-     * Shape $ (Value): boolean. True while an active or trialing subscription on an external
-     * billing schedule has no next billing date.
-     */
-    "awaiting_billing_schedule"?: boolean;
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing. Applies
-     * only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-     */
-    "billing_anchor_day"?: number;
-    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /**
-     * Shape $ (Value): integer. Number of billing_interval units between charges. Changes with
-     * billing_interval. Format: int32.
-     */
-    "billing_interval_count": number;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. maxItems: 12. uniqueItems:
-     * true. Shape $[] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as
-     * every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * Shape $ (Value): string. Who supplies billing dates: flint advances the schedule after each
-     * paid renewal; external uses dates you supply. Change it with billing_schedule on PATCH
-     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-     */
-    "billing_schedule_owner": "flint" | "external" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link BuyerAction}. What the buyer can do with the subscription,
-     * in this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, then renew,
-     * under the store's buyer policy. The available cancel and pause actions carry the choices
-     * they accept. A buyer's read or change through a customer session on /v1/me, or in Flint's
-     * buyer account, lists all twelve every time; a merchant read gets an empty list.
-     * update_payment_method is required while a payment is past due, due by next_retry_at when a
-     * retry is scheduled, and when the card expires before next_billing_at, due by then. Example:
-     * []. Shape $[] (Value): {@link BuyerAction}. One thing a buyer can do with an order,
-     * subscription, invoice or return they read through /v1/me. Show the actions with is_required
-     * as what needs the buyer's attention, and the first available action as the primary action on
-     * the resource's page in your account.
-     */
-    "buyer_actions": Array<BuyerAction>;
-    /**
-     * Shape $ (Value): boolean. True when the subscription is scheduled to cancel at
-     * scheduled_cancel_at. Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo
-     * with PATCH and cancel_at_period_end false.
-     */
-    "cancel_at_period_end": boolean;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "canceled_at"?: string;
-    /**
-     * Shape $ (Value): {@link BuyerSubscriptionCancellationDetails}. Who asked to cancel, when,
-     * and why. Present once a cancellation is requested, whether it takes effect at the end of the
-     * billing period or right away. Omitted when no one asked, and removed when a scheduled
-     * cancellation is undone. See cancellation_reason for voluntary and payment-related
-     * cancellations. The cancellation request behind a scheduled or completed cancellation.
-     */
-    "cancellation_details"?: BuyerSubscriptionCancellationDetails;
-    /**
-     * Shape $ (Value): string. Why the subscription is canceled or scheduled to cancel. Uses
-     * cancellation_details.requested_by when recorded, payment_failed for a canceled subscription
-     * without a requester, and other for a scheduled cancellation without a requester. Omitted
-     * otherwise. Value enum: "buyer", "merchant", "payment_failed", "other".
-     */
-    "cancellation_reason"?: "buyer" | "merchant" | "payment_failed" | "other" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 0.
-     */
-    "completed_cycles": `${bigint}`;
-    /**
-     * Shape $ (Value): string. When the recorded contract term ends. Does not move when the
-     * subscription pauses or changes plan. Flint does not stop the buyer from canceling earlier.
-     * Format: date-time.
-     */
-    "contract_end_at"?: string;
-    /**
-     * Shape $ (Value): string. When the recorded contract term started. Does not move when the
-     * subscription pauses or changes plan. Format: date-time.
-     */
-    "contract_start_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "current_period_end_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "current_period_start_at"?: string;
-    /** Shape $ (Value): string. */
-    "customer_id": string;
-    /**
-     * Shape $ (Value): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it.
-     */
-    "delivery"?: SubscriptionDelivery;
-    /**
-     * Shape $ (Value): {@link SubscriptionDeliveryHold}. Current delivery issue that blocks
-     * collection. Mutually exclusive with upcoming_delivery_hold. A hold on a subscription's
-     * deliveries because its delivery method or destination no longer works, and who can fix it.
-     */
-    "delivery_hold"?: SubscriptionDeliveryHold;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. The fee in the recorded contract terms. Present
-     * whenever those terms include a fee. It applies only to a cancellation before
-     * contract_end_at. Flint never charges it. Later plan changes do not change this fee. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): object. Why the latest subscription renewal payment failed. Omits merchant
-     * remediation and sensitive decline signals. Shape $.code (Required): string. Flint-normalized
-     * payment failure code. Unknown provider values are returned as payment_failed. Value enum:
-     * "card_declined", "insufficient_funds", "bank_account_closed", "bank_account_not_found",
-     * "bank_debit_not_authorized", "bank_account_restricted", "bank_debit_limit_exceeded",
-     * "authentication_required", "payment_blocked", "expired_card", "incorrect_cvc",
-     * "processing_error", "payment_method_unavailable", "payment_method_declined",
-     * "payment_not_completed", "payment_action_expired", "payment_method_temporarily_unavailable",
-     * "payment_failed". Shape $.failed_at (Required): string. Time the payment attempt concluded
-     * in failure. Format: date-time. Shape $.message (Required): string. Flint-authored buyer-safe
-     * payment failure message.
-     */
-    "last_payment_error"?: {
-        /**
-         * Shape $ (Value): string. Flint-normalized payment failure code. Unknown provider values
-         * are returned as payment_failed. Value enum: "card_declined", "insufficient_funds",
-         * "bank_account_closed", "bank_account_not_found", "bank_debit_not_authorized",
-         * "bank_account_restricted", "bank_debit_limit_exceeded", "authentication_required",
-         * "payment_blocked", "expired_card", "incorrect_cvc", "processing_error",
-         * "payment_method_unavailable", "payment_method_declined", "payment_not_completed",
-         * "payment_action_expired", "payment_method_temporarily_unavailable", "payment_failed".
-         */
-        "code": "card_declined"
-            | "insufficient_funds"
-            | "bank_account_closed"
-            | "bank_account_not_found"
-            | "bank_debit_not_authorized"
-            | "bank_account_restricted"
-            | "bank_debit_limit_exceeded"
-            | "authentication_required"
-            | "payment_blocked"
-            | "expired_card"
-            | "incorrect_cvc"
-            | "processing_error"
-            | "payment_method_unavailable"
-            | "payment_method_declined"
-            | "payment_not_completed"
-            | "payment_action_expired"
-            | "payment_method_temporarily_unavailable"
-            | "payment_failed"
-            | (string & {});
-        /**
-         * Shape $ (Value): string. Time the payment attempt concluded in failure. Format:
-         * date-time.
-         */
-        "failed_at": string;
-        /** Shape $ (Value): string. Flint-authored buyer-safe payment failure message. */
-        "message": string;
-    };
-    /**
-     * Shape $ (Value): Array of {@link BuyerSubscriptionLineItem}. What each renewal bills. Plan
-     * edits do not change it. Adding, changing or swapping a line takes that variant's current
-     * catalog price, which then stays until the line changes again. Shape $[] (Value): {@link
-     * BuyerSubscriptionLineItem}. An item included in a customer's recurring purchase.
-     */
-    "line_items": Array<BuyerSubscriptionLineItem>;
-    /** Shape $ (Value): string. */
-    "merchant_id"?: string;
-    /**
-     * Shape $ (Value): string. The billing date whose payment failed, as an RFC3339 timestamp.
-     * Present only while status is past_due. Format: date-time.
-     */
-    "missed_billing_at"?: string;
-    /**
-     * Shape $ (Value): string. When Flint next starts a scheduled renewal charge, as an RFC3339
-     * timestamp. Present only while a trialing or active subscription has a billing date and isn't
-     * set to cancel at the end of its period. Absent when no renewal is scheduled: a paused
-     * subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date
-     * in missed_billing_at and retries at next_retry_at, an incomplete one retries at
-     * next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at
-     * scheduled_cancel_at, and an external schedule awaiting a date reports
-     * awaiting_billing_schedule. Format: date-time.
-     */
-    "next_billing_at"?: string;
-    /**
-     * Shape $ (Value): string or null. Recorded automatic payment retry time. Null when no retry
-     * time is available. Format: date-time.
-     */
-    "next_retry_at": string | null;
-    /**
-     * Shape $ (Value): string. ID of the paid renewal order whose shipment has not been
-     * dispatched. It keeps its committed delivery destination after preference changes and
-     * cancellation. Absent when no such renewal order exists. Only renewal orders count; the
-     * signup order is not included.
-     */
-    "open_renewal_order_id"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Unpaid balance of the failed renewal order, including
-     * tax, shipping and discounts, after payments and credits. Present only while status is
-     * past_due and a positive balance remains. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "outstanding_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): string. Why the subscription is paused: merchant for a pause made with your
-     * API key or dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-     * during or after a delivery hold, and payment_failed when renewal payment retries ran out and
-     * your dunning settings pause the subscription. Omitted when the subscription is not paused.
-     * Value enum: "buyer", "delivery_action_required", "merchant", "payment_failed".
-     */
-    "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "paused_at"?: string;
-    /** Shape $ (Value): string. The saved payment method renewals charge. Change it with PATCH. */
-    "payment_method_id": string;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPromotion}. Recurring promotions applying to
-     * the next charged cycle. Empty when none apply; signup-only and exhausted promotions are
-     * excluded. Shape $[] (Value): {@link SubscriptionPromotion}. A recurring promotion applied to
-     * a subscription, including its recurrence and remaining discounted cycles.
-     */
-    "promotions": Array<SubscriptionPromotion>;
-    /**
-     * Shape $ (Value): integer. How many of each line the subscription bills each period, as a
-     * whole number; fractional quantities are not supported. A change applies from the next
-     * renewal that has not been paid. Format: int32.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): Array of integer. maxItems: 10. uniqueItems: true. Shape $[] (Value):
-     * integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /**
-     * Shape $ (Value): {@link MoneyValue} or null. What one billing period's items cost before
-     * discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes
-     * when items, quantity, or the plan change; editing the plan doesn't change it. For the next
-     * charge, use a subscription preview in next_renewal mode. Shape $.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. Shape $.anyOf[2] (Value): null.
-     */
-    "recurring_subtotal_money": ((MoneyValue) | (null));
-    /**
-     * Shape $ (Value): string or null. When Flint accepted a pending resume request. Set only
-     * while paused with a resume Flint has not applied yet. Clears when Flint resumes the
-     * subscription or refuses the request. Format: date-time.
-     */
-    "resume_requested_at": string | null;
-    /**
-     * Shape $ (Value): string or null. When the scheduled cancellation takes effect: trial_end_at
-     * while trialing, current_period_end_at while active, or next_retry_at while past_due. Null
-     * when cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-     */
-    "scheduled_cancel_at": string | null;
-    /**
-     * Shape $ (Value): string or null. When a pause with a length (pause_duration_cycles) resumes
-     * on its own: that many billing intervals after paused_at. Null when the subscription is not
-     * paused or the pause has no length, such as a pause until you resume it or the pause Flint
-     * starts when a delivery hold runs out. Format: date-time.
-     */
-    "scheduled_resume_at": string | null;
-    /**
-     * Shape $ (Value): {@link BuyerSubscriptionServiceLocation}. Omitted for a checkout session
-     * credential that doesn't act for the customer the buyer verified. The customer address
-     * reference or address used as the buyer's subscription service location.
-     */
-    "service_location"?: BuyerSubscriptionServiceLocation;
-    /**
-     * Shape $ (Value): string. When a scheduled start's first billing period begins. Present only
-     * until that first payment succeeds. Format: date-time.
-     */
-    "starts_at"?: string;
-    /**
-     * Shape $ (Value): string. Value enum: "trialing", "active", "paused", "past_due", "canceled",
-     * "incomplete", "scheduled".
-     */
-    "status": "trialing"
-        | "active"
-        | "paused"
-        | "past_due"
-        | "canceled"
-        | "incomplete"
-        | "scheduled"
-        | (string & {});
-    /** Shape $ (Value): string. */
-    "subscription_id": string;
-    /**
-     * Shape $ (Value): {@link BuyerExpandedSubscriptionPlanSummary} or null. Shape $.anyOf[1]
-     * (Value): {@link BuyerExpandedSubscriptionPlanSummary}. A subscription plan expanded on a
-     * buyer's order: billing interval, setup fee, trial length, status, and line items. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "subscription_plan"?: ((BuyerExpandedSubscriptionPlanSummary) | (null));
-    /**
-     * Shape $ (Value): string. Subscription plan ID. Omitted when terms_type is
-     * subscription_offer.
-     */
-    "subscription_plan_id"?: string;
-    /**
-     * Shape $ (Value): string. Terms come from the subscription plan in subscription_plan_id, or
-     * from subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer".
-     */
-    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "trial_end_at"?: string;
-    /**
-     * Shape $ (Value): {@link SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the
-     * next renewal at renewal_at. Mutually exclusive with delivery_hold. A delivery problem
-     * detected for an upcoming renewal that will hold the subscription's delivery, and who can fix
-     * it.
-     */
-    "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 0.
-     */
-    "version": `${bigint}`;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionCancellationDetails}. The cancellation request behind a
- * scheduled or completed cancellation.
- */
-export type BuyerSubscriptionCancellationDetails = {
-    /**
-     * Shape $ (Value): string. The reason the requester chose. Omitted when none was given. Value
-     * enum: "too_expensive", "missing_features", "switched_service", "unused", "customer_service",
-     * "too_complex", "low_quality", "other".
-     */
-    "reason_code"?: "too_expensive"
-        | "missing_features"
-        | "switched_service"
-        | "unused"
-        | "customer_service"
-        | "too_complex"
-        | "low_quality"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. When the cancellation was requested. Format: date-time. */
-    "requested_at": string;
-    /**
-     * Shape $ (Value): string. buyer: the buyer, in Flint's buyer account or with a customer
-     * session. merchant: a merchant credential, such as an API key or the dashboard. Value enum:
-     * "buyer", "merchant".
-     */
-    "requested_by": "buyer" | "merchant" | (string & {});
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionLineItem}. An item included in a customer's recurring
- * purchase.
- */
-export type BuyerSubscriptionLineItem = {
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "base_subtotal_money": MoneyValue;
-    /** Shape $ (Value): string. */
-    "bundle_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CategoryReference}. Shape $[] (Value): {@link
-     * CategoryReference}. A reference to a product category by ID, handle, and name.
-     */
-    "categories"?: Array<CategoryReference>;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link Image}. An image with its `url`, `width`, and `height`, and optional
-     * `alt` text.
-     */
-    "image"?: Image;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "modifier_total_money": MoneyValue;
-    /**
-     * Shape $ (Value): Array of {@link BuyerOrderLineItemModifier}. Shape $[] (Value): {@link
-     * BuyerOrderLineItemModifier}. A modifier on a buyer's order line item, either a catalog
-     * modifier or entered text, with its quantity and price change.
-     */
-    "modifiers"?: Array<BuyerOrderLineItemModifier>;
-    /** Shape $ (Value): string. */
-    "name": string;
-    /** Shape $ (Value): string. */
-    "product_id"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): Array of {@link SelectedProductOption}. Shape $[] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    /** Shape $ (Value): string. */
-    "sku"?: string;
-    /** Shape $ (Value): string.  Value enum: "variant", "bundle". */
-    "source_type"?: "variant" | "bundle" | (string & {});
-    /** Shape $ (Value): string. */
-    "subscription_line_item_id"?: string;
-    /** Shape $ (Value): string. */
-    "subscription_offer_id"?: string;
-    /** Shape $ (Value): string. */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-    /** Shape $ (Value): string. */
-    "variant_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionListResponse}. A page of `BuyerSubscription` objects.
- */
-export type BuyerSubscriptionListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link BuyerSubscription}. Shape $[] (Value): {@link
-     * BuyerSubscription}. A customer's recurring purchase.
-     */
-    "data": Array<BuyerSubscription>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionPaymentRetry}. A retry of a past-due payment on the
- * buyer's subscription. Includes, when available, the buyer's order and a failure they can act on.
- * Omits the store's idempotency keys and payment attempt IDs.
- */
-export type BuyerSubscriptionPaymentRetry = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "completed_at"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at": string;
-    /**
-     * Shape $ (Value): {@link PaymentErrorSummary}. A summary of why a payment attempt failed,
-     * with a normalized error code, a message, the failure time, and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /** Shape $ (Value): string. */
-    "order_id"?: string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "started_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "pending", "processing", "succeeded", "failed". */
-    "status": "pending" | "processing" | "succeeded" | "failed" | (string & {});
-    /** Shape $ (Value): string. */
-    "subscription_id": string;
-    /** Shape $ (Value): string. */
-    "subscription_payment_retry_id": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at": string;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionPaymentRetryListResponse}. A page of
- * `BuyerSubscriptionPaymentRetry` objects.
- */
-export type BuyerSubscriptionPaymentRetryListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link BuyerSubscriptionPaymentRetry}. Shape $[] (Value): {@link
-     * BuyerSubscriptionPaymentRetry}. A retry of a past-due payment on the buyer's subscription.
-     * Includes, when available, the buyer's order and a failure they can act on. Omits the store's
-     * idempotency keys and payment attempt IDs.
-     */
-    "data": Array<BuyerSubscriptionPaymentRetry>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionPaymentRetryResponse}. A response containing
- * `BuyerSubscriptionPaymentRetry` data.
- */
-export type BuyerSubscriptionPaymentRetryResponse = {
-    /**
-     * Shape $ (Value): {@link BuyerSubscriptionPaymentRetry}. A retry of a past-due payment on the
-     * buyer's subscription. Includes, when available, the buyer's order and a failure they can act
-     * on. Omits the store's idempotency keys and payment attempt IDs.
-     */
-    "data": BuyerSubscriptionPaymentRetry;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionPlanLineItem}. A line item of a subscription plan as a
- * buyer sees it: the product, bundle, or variant, quantity, unit price, and swap variants.
- */
-export type BuyerSubscriptionPlanLineItem = ({
-    /** Shape $ (Value): string. */
-    "bundle_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CategoryReference}. Shape $[] (Value): {@link
-     * CategoryReference}. A reference to a product category by ID, handle, and name.
-     */
-    "categories"?: Array<CategoryReference>;
-    /** Shape $ (Value): string. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): {@link Image}. An image with its `url`, `width`, and `height`, and optional
-     * `alt` text.
-     */
-    "image"?: Image;
-    /** Shape $ (Value): string. */
-    "name"?: string;
-    /** Shape $ (Value): string. */
-    "product_id"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Format: int32.
-     */
-    "quantity": number;
-    /**
-     * Shape $ (Value): Array of {@link SelectedProductOption}. Shape $[] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    /** Shape $ (Value): string. */
-    "sku"?: string;
-    /** Shape $ (Value): string. */
-    "subscription_plan_line_item_id": string;
-    /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "swap_variant_ids": Array<string>;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionPlanSwapVariant}. Current sellable alternatives
-     * in swap_variant_ids order, excluding the line's own variant and variants priced in a
-     * different currency. Present on variant lines, including an empty array. maxItems: 25. Shape
-     * $[] (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber can swap to on a
-     * plan line, with its name, options, and price.
-     */
-    "swap_variants"?: Array<SubscriptionPlanSwapVariant>;
-    /**
-     * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is
-     * taxable.
-     */
-    "tax"?: OrderLineItemTax;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. */
-    "variant_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string. */
-    "variant_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. */
-    "bundle_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-}))
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link BuyerSubscriptionPreview}. Available subscription delivery methods shown
- * to the buyer.
- */
-export type BuyerSubscriptionPreview = {
-    /**
-     * Shape $ (Value): {@link SubscriptionAddressVerification}. The verification state of a
-     * subscription's delivery address: `verified`, `unverified`, `needs_review`, or
-     * `unverifiable`.
-     */
-    "address_verification"?: SubscriptionAddressVerification;
-    /**
-     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
-     * ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency"?: string;
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionDeliveryOption}. Present in delivery_options
-     * mode ([] when no method applies); absent in create mode. Shape $[] (Value): {@link
-     * SubscriptionDeliveryOption}. A delivery method offered for a subscription, with its
-     * availability, price, and the reason it is unavailable if it is.
-     */
-    "delivery_methods"?: Array<SubscriptionDeliveryOption>;
-    /**
-     * Shape $ (Value): {@link Address}. A postal address, as returned on customers, invoices, tax
-     * locations, and fulfillment recipients.
-     */
-    "destination_address"?: Address;
-    /**
-     * Shape $ (Value): string. Always delivery_options for buyer previews. Value enum:
-     * "delivery_options".
-     */
-    "mode": "delivery_options" | (string & {});
-    /** Shape $ (Value): string. */
-    "subscription_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionPreviewResponse}. The response for: Preview
- * subscription.
- */
-export type BuyerSubscriptionPreviewResponse = {
-    /**
-     * Shape $ (Value): {@link BuyerSubscriptionPreview} or {@link SubscriptionRenewalPreview}.
-     * Shape $.oneOf[1] (Value): {@link BuyerSubscriptionPreview}. Available subscription delivery
-     * methods shown to the buyer. Shape $.oneOf[2] (Value): {@link SubscriptionRenewalPreview}. A
-     * preview of a subscription's next renewal and its estimated pricing.
-     */
-    "data": ((BuyerSubscriptionPreview) | (SubscriptionRenewalPreview) | (Record<string, unknown>));
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionRenewalResult}. The subscription is the primary
- * resource and expected_version target; the result uses the same subscription and order fields as
- * the corresponding /v1/me reads.
- */
-export type BuyerSubscriptionRenewalResult = {
-    /**
-     * Shape $ (Value): {@link BuyerOrder}. A customer's purchase and its payment and fulfillment
-     * progress.
-     */
-    "order": BuyerOrder;
-    /**
-     * Shape $ (Value): {@link BuyerOrderPaymentAttempt} or null. Shape $.anyOf[1] (Value): {@link
-     * BuyerOrderPaymentAttempt}. An attempt to pay an order. Shape $.anyOf[2] (Value): null.
-     */
-    "order_payment_attempt": ((BuyerOrderPaymentAttempt) | (null));
-    /** Shape $ (Value): {@link BuyerSubscription}. A customer's recurring purchase. */
-    "subscription": BuyerSubscription;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionRenewalResultResponse}. A response containing
- * `BuyerSubscriptionRenewalResult` data.
- */
-export type BuyerSubscriptionRenewalResultResponse = {
-    /**
-     * Shape $ (Value): {@link BuyerSubscriptionRenewalResult}. The subscription is the primary
-     * resource and expected_version target; the result uses the same subscription and order fields
-     * as the corresponding /v1/me reads.
-     */
-    "data": BuyerSubscriptionRenewalResult;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link BuyerSubscriptionResponse}. A response containing `BuyerSubscription`
- * data.
- */
-export type BuyerSubscriptionResponse = {
-    /** Shape $ (Value): {@link BuyerSubscription}. A customer's recurring purchase. */
-    "data": BuyerSubscription;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
+    "request_id": string;
 };

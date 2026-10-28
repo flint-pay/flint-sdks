@@ -5,20 +5,20 @@ import type {
     CreateCustomerAddressRequestInput,
     CreateCustomerDeletionRequestInput,
     CreateCustomerRequestInput
-} from '../declarations/types-5.js';
+} from '../declarations/types-6.js';
 import type {
     Customer,
     CustomerAddress,
     CustomerAddressListResponse,
     CustomerAddressResponse,
     CustomerDeletionRequest,
-    CustomerDeletionRequestResponse,
+    CustomerDeletionRequestResponse
+} from '../declarations/types-11.js';
+import type {
     CustomerListResponse,
     CustomerResponse,
     CustomerSessionsRevocation,
-    CustomerSessionsRevocationResponse
-} from '../declarations/types-10.js';
-import type {
+    CustomerSessionsRevocationResponse,
     CustomersCreateAccessLinkInput,
     CustomersCreateAddressInput,
     CustomersCreateDeletionRequestInput,
@@ -31,16 +31,16 @@ import type {
     CustomersListAddressesInput,
     CustomersListInput,
     CustomersRevokeSessionsInput,
-    CustomersSetDefaultAddressInput,
     CustomersUpdateAddressInput,
     CustomersUpdateInput
-} from '../declarations/types-11.js';
-import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-19.js';
-import type { LinkCustomerGuestPurchasesRequestInput } from '../declarations/types-28.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse, SetDefaultCustomerAddressRequestInput } from '../declarations/types-44.js';
-import type { UpdateCustomerAddressRequestInput, UpdateCustomerRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-12.js';
+import type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-21.js';
+import type { LinkCustomerGuestPurchasesRequestInput } from '../declarations/types-30.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateCustomerAddressRequestInput } from '../declarations/types-50.js';
+import type { UpdateCustomerRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -60,35 +60,23 @@ export type {
     CreateCustomerAddressRequestInput,
     CreateCustomerDeletionRequestInput,
     CreateCustomerDeletionRequest
-} from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+} from '../declarations/types-6.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     Customer,
-    CustomerResponse,
     CustomerAddress,
     CustomerAddressResponse,
     CustomerDeletionRequest,
     CustomerDeletionRequestResponse,
     CustomerAddressListResponse,
+    Credentials
+} from '../declarations/types-11.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type {
+    CustomerResponse,
     CustomerListResponse,
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse,
-    CustomerReceivables,
-    CustomerReceivableBalance
-} from '../declarations/types-10.js';
-export type { SdkResponse, SetDefaultCustomerAddressRequestInput } from '../declarations/types-44.js';
-export type { AccessLink, AccessLinkResponse, AddressRequestInput, AuthMode, Address, AddressRequest } from '../declarations/types-0.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-28.js';
-export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-19.js';
-export type {
-    UpdateCustomerRequestInput,
-    UpdateCustomerAddressRequestInput,
-    TaxIdentityRequestInput,
-    TaxIdentity,
-    TaxIdentityPatchInput
-} from '../declarations/types-47.js';
-export type {
     CustomersCreateInput,
     CustomersCreateAccessLinkInput,
     CustomersCreateAddressInput,
@@ -101,28 +89,30 @@ export type {
     CustomersListAddressesInput,
     CustomersListInput,
     CustomersRevokeSessionsInput,
-    CustomersSetDefaultAddressInput,
     CustomersUpdateInput,
-    CustomersUpdateAddressInput
-} from '../declarations/types-11.js';
+    CustomersUpdateAddressInput,
+    CustomerReceivables,
+    CustomerReceivableBalance
+} from '../declarations/types-12.js';
+export type { AccessLink, AccessLinkResponse, AddressRequestInput, AuthMode, Address, AddressRequest } from '../declarations/types-0.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { LinkCustomerGuestPurchasesRequestInput, LinkCustomerGuestPurchasesRequest } from '../declarations/types-30.js';
+export type { GuestPurchaseLink, GuestPurchaseLinkResponse } from '../declarations/types-21.js';
+export type { UpdateCustomerRequestInput } from '../declarations/types-51.js';
+export type { UpdateCustomerAddressRequestInput, TaxIdentityRequestInput, TaxIdentity, TaxIdentityPatchInput } from '../declarations/types-50.js';
 export type { ClientOptions } from '../declarations/types-4.js';
-export type { DocumentTaxIDInput, ExpandedPaymentMethodSummary, DocumentTaxID } from '../declarations/types-16.js';
-export type { Credentials } from '../declarations/types-9.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
+export type { DocumentTaxIDRequestRequestInput, ExpandedPaymentMethodSummary, DocumentTaxID } from '../declarations/types-18.js';
 export type { CardDetails } from '../declarations/types-3.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export type { PostalAddressInput } from '../declarations/types-37.js';
-export { makeAddressRequest } from '../declarations/types-62.js';
-export { makeCreateCustomerAddressRequest, makeCreateCustomerDeletionRequest, makeCreateCustomerRequest } from '../declarations/types-63.js';
-export { makeDocumentTaxID } from '../declarations/types-66.js';
-export { makeLinkCustomerGuestPurchasesRequest, makeMoneyValue } from '../declarations/types-68.js';
-export { makePostalAddress } from '../declarations/types-70.js';
-export { makeSetDefaultCustomerAddressRequest } from '../declarations/types-71.js';
-export {
-    makeTaxIdentityPatch,
-    makeTaxIdentityRequest,
-    makeUpdateCustomerAddressRequest,
-    makeUpdateCustomerRequest
-} from '../declarations/types-72.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export { makeAddressRequest } from '../declarations/types-65.js';
+export { makeCreateCustomerAddressRequest, makeCreateCustomerDeletionRequest, makeCreateCustomerRequest } from '../declarations/types-66.js';
+export { makeDocumentTaxIDRequestRequest } from '../declarations/types-70.js';
+export { makeLinkCustomerGuestPurchasesRequest, makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeTaxIdentityPatch, makeTaxIdentityRequest } from '../declarations/types-76.js';
+export { makeUpdateCustomerAddressRequest, makeUpdateCustomerRequest } from '../declarations/types-77.js';
 export interface CustomersResource {
     /**
  * Creates a customer for the authenticated merchant.
@@ -170,17 +160,17 @@ export interface CustomersResource {
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<AccessLinkResponse>>;
     /**
  * Creates a stable saved address. The address becomes a default only when the request sets
- * is_default_billing or is_default_shipping, or later through set-default, including the
- * customer's first address. A saved default becomes the customer's effective address for the
+ * is_default_billing or is_default_shipping, or later by setting those flags with PATCH, including
+ * the customer's first address. A saved default becomes the customer's effective address for the
  * corresponding role.
  * @see reference/customers.md#customerscreateaddress
  * POST /v1/customers/{customer_id}/addresses
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.createAddress("example", {address: {city: "example", country: "US", line1:
- * "example", postal_code: "example", state: "example"}, recipient_name: "example"}, {
- * idempotencyKey: idempotencyKey })
+ * client.customers.createAddress("cus_example", {address: {city: "Springfield", country: "US",
+ * line1: "100 Example Street", postal_code: "62701", state: "IL"}, recipient_name: "Jordan
+ * Example"}, { idempotencyKey: idempotencyKey })
  */
     createAddress(customer_id: InputValue<string>, params: (InputValue<CreateCustomerAddressRequestInput>)
         & {
@@ -216,7 +206,8 @@ export interface CustomersResource {
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerDeletionRequestResponse>>;
     /**
- * Deletes a saved address and moves any default designation to the newest remaining address.
+ * Deletes a saved address. Deleting the billing or shipping default leaves the customer with none;
+ * Flint doesn't pick another address.
  * @see reference/customers.md#customersdeleteaddress
  * DELETE /v1/customers/{customer_id}/addresses/{customer_address_id}
  * @example
@@ -299,7 +290,8 @@ export interface CustomersResource {
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<GuestPurchaseLinkResponse>>;
     /**
- * Lists the customer's saved addresses with billing and shipping default flags.
+ * Lists the customer's saved addresses with billing and shipping default flags. Default order:
+ * created_at descending, then customer_address_id descending.
  * @see reference/customers.md#customerslistaddresses
  * GET /v1/customers/{customer_id}/addresses
  * @example
@@ -340,7 +332,7 @@ export interface CustomersResource {
     /**
  * Returns a paginated list of customers for the authenticated merchant. Without a status filter,
  * returns active and deletion_processing customers; deleted customers appear only when the filter
- * names deleted.
+ * names deleted. Default order: created_at descending, then customer_id descending.
  * @see reference/customers.md#customerslist
  * GET /v1/customers
  * @example
@@ -468,33 +460,10 @@ export interface CustomersResource {
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerSessionsRevocationResponse>>;
     /**
- * Sets the address as the billing default, shipping default, or both and makes it the customer's
- * effective address for each selected role.
- * @see reference/customers.md#customerssetdefaultaddress
- * POST /v1/customers/{customer_id}/addresses/{customer_address_id}/set-default
- * @example
- * // Persist this key with the action before sending; reuse it for every resubmission.
- * const idempotencyKey = crypto.randomUUID();
- * client.customers.setDefaultAddress("example", "example", {default_for: "billing"}, {
- * idempotencyKey: idempotencyKey })
- */
-    setDefaultAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<SetDefaultCustomerAddressRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<CustomerAddress>;
-    /** Complete decoded body and HTTP metadata, without payload unwrapping.
-     * @see reference/customers.md#customerssetdefaultaddress
-     */
-    setDefaultAddressWithResponse(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<SetDefaultCustomerAddressRequestInput>)
-        & {
-        "Idempotency-Key"?: InputValue<string>;
-    }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerAddressResponse>>;
-    /**
- * Applies a sparse update to a customer. Writing billing_address or shipping_address clears the
- * corresponding saved-address default, so that field remains effective until another saved default
- * is selected. Changing email requires customer_account.mode to be merchant_hosted; otherwise
- * Flint returns 409 CUSTOMER_EMAIL_BUYER_MANAGED. If Flint cannot read the account settings, it
- * returns a retryable 503 SERVICE_UNAVAILABLE without changing the customer.
+ * Applies a sparse update to a customer. Changing email requires customer_account.mode to be
+ * merchant_hosted; otherwise Flint returns 409 CUSTOMER_EMAIL_BUYER_MANAGED. If Flint cannot read
+ * the account settings, it returns a retryable 503 SERVICE_UNAVAILABLE without changing the
+ * customer.
  * @see reference/customers.md#customersupdate
  * PATCH /v1/customers/{customer_id}
  * @example
@@ -512,16 +481,16 @@ export interface CustomersResource {
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<CustomerResponse>>;
     /**
- * Applies a sparse update to a saved address. Updating a default address also updates the
- * customer's effective address for that role.
+ * Applies a sparse update to a saved address. Set is_default_billing or is_default_shipping to
+ * true to make this address the default, or false to clear a default it holds. Updating a default
+ * address also updates the customer's effective address for that role.
  * @see reference/customers.md#customersupdateaddress
  * PATCH /v1/customers/{customer_id}/addresses/{customer_address_id}
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.customers.updateAddress("example", "example", {address: {city: "example", country: "US",
- * line1: "example", postal_code: "example", state: "example"}}, { idempotencyKey: idempotencyKey
- * })
+ * client.customers.updateAddress("cus_example", "caddr_example", {label: "Home"}, {
+ * idempotencyKey: idempotencyKey })
  */
     updateAddress(customer_id: InputValue<string>, customer_address_id: InputValue<string>, params: (InputValue<UpdateCustomerAddressRequestInput>)
         & {

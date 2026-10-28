@@ -1,3120 +1,1324 @@
-import type { MoneyValue, MoneyValueInput } from './types-31.js';
-import type { AddressRequest, AddressRequestInput, BrandingSettingsRequest, BrandingSettingsRequestInput } from './types-0.js';
-import type { ImageRequest, ImageRequestInput } from './types-20.js';
-import type { Dimensions, DimensionsInput } from './types-16.js';
-import type { GiftCardProductConfiguration, GiftCardProductConfigurationInput } from './types-19.js';
-import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-24.js';
+import type { BundleComponent } from './types-1.js';
+import type { CategoryReference } from './types-3.js';
+import type { Image } from './types-21.js';
+import type { MoneyValue, Order, MoneyValueInput } from './types-33.js';
+import type { OrderLineItemModifier, OrderLineItemTax, OrderPaymentAttempt } from './types-34.js';
 import type {
-    ProductVariantSelectedOptionRequest,
-    ProductVariantSelectedOptionRequestInput,
-    PromotionApplicationMethodPatch,
-    PromotionApplicationMethodPatchInput
-} from './types-37.js';
-import type { Weight, WeightInput } from './types-61.js';
-import type {
-    PromotionCombinesWithPatch,
-    PromotionExclusivityPatch,
-    PromotionRuleGroupRequest,
-    PromotionSchedulePatch,
-    PromotionCombinesWithPatchInput,
-    PromotionExclusivityPatchInput,
-    PromotionRuleGroupRequestInput,
-    PromotionSchedulePatchInput,
-    PromotionSettings,
-    PromotionSettingsInput
-} from './types-38.js';
-import type { RiskPredicateNode, RiskPredicateNodeInput } from './types-43.js';
-import type { CheckoutSettings, CheckoutSettingsInput } from './types-4.js';
-import type {
-    CustomerAccountSettings,
-    CustomerEmailDeliverySettings,
-    CustomerAccountSettingsInput,
-    CustomerEmailDeliverySettingsInput
-} from './types-10.js';
-import type { FulfillmentSettings, FulfillmentSettingsInput } from './types-17.js';
-import type { InventorySettings, InventorySettingsInput, InventoryRoutingSourceRequest } from './types-25.js';
-import type { InvoiceSettingsPatch, LegalSettingsRequest, InvoiceSettingsPatchInput, LegalSettingsRequestInput } from './types-28.js';
-import type { PaymentLimitSettingsPatch, PaymentLimitSettingsPatchInput } from './types-35.js';
-import type { ReceiptSettingsRequest, ReceiptSettingsRequestInput } from './types-39.js';
-import type { SubscriptionSettings, SubscriptionSettingsInput } from './types-46.js';
-import type {
-    TaxIdentityPatch,
-    TaxSettingsRequest,
-    TippingSettingsPatch,
-    TaxIdentityPatchInput,
-    TaxSettingsRequestInput,
-    TippingSettingsPatchInput
+    SelectedProductOption,
+    SubscriptionAddressVerification,
+    Subscription,
+    SkipSubscriptionCycleRequestInput
 } from './types-47.js';
-import type { SubscriptionIntervalOption, SubscriptionIntervalOptionInput } from './types-45.js';
+import type { ResponseMeta } from './types-42.js';
 import type {
-    OrderLineItemModifierRequest,
-    OrderLineItemTax,
-    OrderLineItemModifierRequestInput,
-    OrderLineItemTaxInput
+    SubscriptionPlan,
+    SubscriptionDeliveryOption,
+    SubscriptionDeliveryMethodImpact,
+    SubscriptionPlanChangePreview,
+    SubscriptionDeliveryDestinationInputAddressInput,
+    SubscriptionOfferTermsRequest,
+    SubscriptionOfferTermsRequestInput
+} from './types-48.js';
+import type { InputValue } from '../runtime.js';
+import type {
+    CreateSubscriptionPlanRequestInput,
+    CreateSubscriptionPreviewRequestInput,
+    CreateSubscriptionAccessLinkRequestInput,
+    CreateSubscriptionRequestInput,
+    CreateSubscriptionLineItemRequestInput
+} from './types-10.js';
+import type { UpdateSubscriptionPlanRequestInput, UpdateSubscriptionRequestInput } from './types-53.js';
+import type { Address, AddressRequest } from './types-0.js';
+import type { ErrorDetail } from './types-18.js';
+import type { PromotionRecurrence } from './types-40.js';
+import type {
+    MeCancelSubscriptionInput,
+    MeCreateSubscriptionPaymentRetryInput,
+    MeGetSubscriptionPaymentRetryInput
+} from './types-31.js';
+import type { ChangeSubscriptionPlanRequestInput } from './types-4.js';
+import type {
+    MeListSubscriptionPaymentRetriesInput,
+    MePauseSubscriptionInput,
+    MeRenewSubscriptionInput,
+    MeResumeSubscriptionInput
 } from './types-32.js';
+import type { UpdateSubscriptionLineItemRequestInput } from './types-52.js';
+import type { TaxJurisdiction, TaxJurisdictionInput, TaxJurisdictionRequestRequestInput } from './types-50.js';
 /**
- * Shape $ (Value): {@link UpdatePayoutDestinationRequest}. The request body for: Update payout
- * destination metadata.
+ * Shape $ (Value): {@link SubscriptionPlanLineItemVariant}. The `variant` variant of
+ * `SubscriptionPlanLineItem`.
  */
-export type UpdatePayoutDestinationRequest = {
+export type SubscriptionPlanLineItemVariant = ({
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): Array of {@link BundleComponent}. Shape $[] (Value): {@link
+     * BundleComponent}. An item included in a bundle.
      */
-    "expected_version"?: `${bigint}`;
+    "bundle_components"?: Array<BundleComponent>;
+    /** Shape $ (Value): string. */
+    "bundle_id"?: string;
     /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
+     * Shape $ (Value): Array of {@link CategoryReference}. Shape $[] (Value): {@link
+     * CategoryReference}. A reference to a product category by ID, handle, and name.
      */
-    "metadata"?: Record<string, string | null> | null;
-};
-/**
- * Shape $ (Value): {@link UpdatePayoutDestinationRequestInput}. The request body for: Update
- * payout destination metadata.
- */
-export type UpdatePayoutDestinationRequestInput = {
+    "categories"?: Array<CategoryReference>;
+    /** Shape $ (Value): string. */
+    "description"?: string;
     /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): {@link Image}. An image with its `url`, `width`, and `height`, and optional
+     * `alt` text.
      */
-    "expected_version"?: `${bigint}` | bigint;
+    "image"?: Image;
     /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
+     * Shape $ (Value): Array of {@link OrderLineItemModifier}. Shape $[] (Value): {@link
+     * OrderLineItemModifier}. A modifier selected on an order line item, with its quantity, price
+     * change, total, and display flags.
      */
-    "metadata"?: Record<string, string | null> | null;
-};
-/**
- * Shape $ (Value): {@link UpdatePayoutSettingsRequest}. The request body for: Update payout
- * settings.
- */
-export type UpdatePayoutSettingsRequest = ({
-    /**
-     * Shape $ (Value): integer or null. Days, 0 through 31, a payment stays pending before its
-     * funds become available, in place of the account's default. Send null to go back to the
-     * default. Format: int32.
-     */
-    "delay_days_override"?: number | null;
-    /**
-     * Shape $ (Value): integer string. Expected version of the payout settings. Required when
-     * sending minimum_balance_by_currency, monthly_payout_days, or weekly_payout_days, including
-     * empty collections and supported null clears. A stale value returns 409 VERSION_CONFLICT;
-     * retrieve the settings and rebuild the request before retrying. Use an integer string
-     * (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. When Flint sends available funds: daily, weekly on
-     * weekly_payout_days, monthly on monthly_payout_days, or manual, which sends nothing until you
-     * create a payout. weekly and monthly need their day list in the same request. Value enum:
-     * "manual", "daily", "weekly", "monthly".
-     */
-    "interval"?: "manual" | "daily" | "weekly" | "monthly" | (string & {});
-    /**
-     * Shape $ (Value): Map of ({@link MoneyValue} or null). Amount to keep in your balance instead
-     * of paying it out, keyed by currency code. Each value's currency must match its key and its
-     * amount can't be negative. Set a currency to null to remove its minimum. Shape $.* (Value):
-     * {@link MoneyValue} or null. Shape $.*.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. Shape $.*.anyOf[2]
-     * (Value): null.
-     */
-    "minimum_balance_by_currency"?: Record<string, ((MoneyValue) | (null))>;
-    /**
-     * Shape $ (Value): Array of integer. Days of the month, 1 through 31, on which monthly payouts
-     * are sent. Send it with interval monthly; it is rejected with any other interval. Shape $[]
-     * (Value): integer. Format: int32.
-     */
-    "monthly_payout_days"?: Array<number>;
-    /**
-     * Shape $ (Value): string or null. Text shown on your bank statement for payouts, 22
-     * characters or fewer. Send null to clear it. minLength: 1.
-     */
-    "statement_descriptor"?: string | null;
-    /**
-     * Shape $ (Value): Array of string. Weekdays on which weekly payouts are sent, monday through
-     * friday. Send it with interval weekly; it is rejected with any other interval. [] enum:
-     * "monday", "tuesday", "wednesday", "thursday", "friday". Shape $[] (Value): string. Value
-     * enum: "monday", "tuesday", "wednesday", "thursday", "friday".
-     */
-    "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday" | (string & {})>;
-});
-/**
- * Shape $ (Value): {@link UpdatePayoutSettingsRequestInput}. The request body for: Update payout
- * settings.
- */
-export type UpdatePayoutSettingsRequestInput = ({
-    /**
-     * Shape $ (Value): integer or null. Days, 0 through 31, a payment stays pending before its
-     * funds become available, in place of the account's default. Send null to go back to the
-     * default. Format: int32.
-     */
-    "delay_days_override"?: number | null;
-    /**
-     * Shape $ (Value): integer string. Expected version of the payout settings. Required when
-     * sending minimum_balance_by_currency, monthly_payout_days, or weekly_payout_days, including
-     * empty collections and supported null clears. A stale value returns 409 VERSION_CONFLICT;
-     * retrieve the settings and rebuild the request before retrying. Use an integer string
-     * (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. When Flint sends available funds: daily, weekly on
-     * weekly_payout_days, monthly on monthly_payout_days, or manual, which sends nothing until you
-     * create a payout. weekly and monthly need their day list in the same request. Value enum:
-     * "manual", "daily", "weekly", "monthly".
-     */
-    "interval"?: "manual" | "daily" | "weekly" | "monthly";
-    /**
-     * Shape $ (Value): Map of ({@link MoneyValueInput} or null). Amount to keep in your balance
-     * instead of paying it out, keyed by currency code. Each value's currency must match its key
-     * and its amount can't be negative. Set a currency to null to remove its minimum. Shape $.*
-     * (Value): {@link MoneyValueInput} or null. Shape $.*.anyOf[1] (Value): {@link
-     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. Shape $.*.anyOf[2] (Value): null.
-     */
-    "minimum_balance_by_currency"?: Record<string, ((MoneyValueInput) | (null))>;
-    /**
-     * Shape $ (Value): Array of integer. Days of the month, 1 through 31, on which monthly payouts
-     * are sent. Send it with interval monthly; it is rejected with any other interval. Shape $[]
-     * (Value): integer. Format: int32.
-     */
-    "monthly_payout_days"?: Array<number>;
-    /**
-     * Shape $ (Value): string or null. Text shown on your bank statement for payouts, 22
-     * characters or fewer. Send null to clear it. minLength: 1.
-     */
-    "statement_descriptor"?: string | null;
-    /**
-     * Shape $ (Value): Array of string. Weekdays on which weekly payouts are sent, monday through
-     * friday. Send it with interval weekly; it is rejected with any other interval. [] enum:
-     * "monday", "tuesday", "wednesday", "thursday", "friday". Shape $[] (Value): string. Value
-     * enum: "monday", "tuesday", "wednesday", "thursday", "friday".
-     */
-    "weekly_payout_days"?: Array<"monday" | "tuesday" | "wednesday" | "thursday" | "friday">;
-});
-/**
- * Shape $ (Value): {@link UpdatePickupFulfillmentDetails}. Pickup fulfillment fields to change
- * when updating a fulfillment, such as location, pickup window, and curbside details. Send null to
- * clear a field.
- */
-export type UpdatePickupFulfillmentDetails = {
-    /**
-     * Shape $ (Value): {@link AddressRequest} or null. Address where the buyer collects the order.
-     * Shape $.anyOf[1] (Value): {@link AddressRequest}. A postal address you supply when creating
-     * or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2`
-     * to clear it. Shape $.anyOf[2] (Value): null.
-     */
-    "address"?: ((AddressRequest) | (null));
-    /**
-     * Shape $ (Value): string or null. Instructions specific to curbside handoff. Send null to
-     * clear it. minLength: 1. maxLength: 2048.
-     */
-    "curbside_instructions"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Buyer-reported arrival time for curbside or counter pickup.
-     * Send null to clear it. Format: date-time. minLength: 1.
-     */
-    "customer_arrived_at"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Deadline after which an uncollected pickup should enter
-     * merchant review. Send null to clear it. Format: date-time. minLength: 1.
-     */
-    "expires_at"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Pickup instructions for the buyer, such as where to go on
-     * arrival. Send null to clear it. minLength: 1.
-     */
-    "instructions"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Name of the store or place where the buyer collects the
-     * order. Send null to clear it. minLength: 1.
-     */
-    "location_name"?: string | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "picked_up_at"?: string | null;
-    /**
-     * Shape $ (Value): integer string or null. Width of the promised pickup window, from 0 to
-     * 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0. maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: `${bigint}` | null;
-    /**
-     * Shape $ (Value): integer string or null. Expected preparation time for restaurant and
-     * made-to-order pickup, from 0 to 86400 seconds. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: `${bigint}` | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "ready_at"?: string | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-    /**
-     * Shape $ (Value): string or null. Buyer vehicle description used for curbside handoff. Send
-     * null to clear it. minLength: 1. maxLength: 500.
-     */
-    "vehicle_description"?: string | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "window_end_at"?: string | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "window_start_at"?: string | null;
-};
-/**
- * Shape $ (Value): {@link UpdatePickupFulfillmentDetailsInput}. Pickup fulfillment fields to
- * change when updating a fulfillment, such as location, pickup window, and curbside details. Send
- * null to clear a field.
- */
-export type UpdatePickupFulfillmentDetailsInput = {
-    /**
-     * Shape $ (Value): {@link AddressRequestInput} or null. Address where the buyer collects the
-     * order. Shape $.anyOf[1] (Value): {@link AddressRequestInput}. A postal address you supply
-     * when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null
-     * for `line2` to clear it. Shape $.anyOf[2] (Value): null.
-     */
-    "address"?: ((AddressRequestInput) | (null));
-    /**
-     * Shape $ (Value): string or null. Instructions specific to curbside handoff. Send null to
-     * clear it. minLength: 1. maxLength: 2048.
-     */
-    "curbside_instructions"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Buyer-reported arrival time for curbside or counter pickup.
-     * Send null to clear it. Format: date-time. minLength: 1.
-     */
-    "customer_arrived_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string or null. Deadline after which an uncollected pickup should enter
-     * merchant review. Send null to clear it. Format: date-time. minLength: 1.
-     */
-    "expires_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string or null. Pickup instructions for the buyer, such as where to go on
-     * arrival. Send null to clear it. minLength: 1.
-     */
-    "instructions"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Name of the store or place where the buyer collects the
-     * order. Send null to clear it. minLength: 1.
-     */
-    "location_name"?: string | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "picked_up_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): integer string or null. Width of the promised pickup window, from 0 to
-     * 86400 seconds. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64. minimum: 0. maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: `${bigint}` | bigint | null;
-    /**
-     * Shape $ (Value): integer string or null. Expected preparation time for restaurant and
-     * made-to-order pickup, from 0 to 86400 seconds. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: `${bigint}` | bigint | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "ready_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-    /**
-     * Shape $ (Value): string or null. Buyer vehicle description used for curbside handoff. Send
-     * null to clear it. minLength: 1. maxLength: 500.
-     */
-    "vehicle_description"?: string | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "window_end_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "window_start_at"?: string | globalThis.Date | null;
-};
-/**
- * Shape $ (Value): {@link UpdateProductOptionRequest}. A product option to keep or add when
- * updating a product, with its name, position, status, and values.
- */
-export type UpdateProductOptionRequest = {
-    /**
-     * Shape $ (Value): string. Value of this option given to every active variant that has no
-     * active value for it after this request, such as when you add an option to a product that
-     * already has active variants. It must match one of this option's active `values`, ignoring
-     * case and surrounding whitespace. Not stored; the variants keep the value. minLength: 1.
-     * maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Complete caller-owned metadata for this
-     * option. Retained options are replaced as members of the options array, so omitting metadata,
-     * sending null, or sending {} clears it. A null-valued key is omitted from the replacement.
-     * Values can't be empty strings. Keys starting with flint_ are reserved and cannot be written
-     * through the public API. Shape $.* (Value): string or null. minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Option name, such as Size or Color. minLength: 1. maxLength: 255.
-     */
-    "name": string;
-    /**
-     * Shape $ (Value): string. Identifier of an existing option to retain. Omit it to create a new
-     * option. minLength: 1. pattern: ^opt_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "option_id"?: string;
-    /**
-     * Shape $ (Value): integer. Display order among the product's options, starting at zero.
-     * Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Shape $ (Value): string. Whether the option is active or inactive. Active variants must
-     * select an active value for every active option. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link UpdateProductOptionValueRequest}. Values offered for this
-     * option, such as Small, Medium, and Large for Size. Shape $[] (Value): {@link
-     * UpdateProductOptionValueRequest}. A value to keep or add on a product option when updating a
-     * product, with its position and status.
-     */
-    "values"?: Array<UpdateProductOptionValueRequest>;
-};
-/**
- * Shape $ (Value): {@link UpdateProductOptionRequestInput}. A product option to keep or add when
- * updating a product, with its name, position, status, and values.
- */
-export type UpdateProductOptionRequestInput = {
-    /**
-     * Shape $ (Value): string. Value of this option given to every active variant that has no
-     * active value for it after this request, such as when you add an option to a product that
-     * already has active variants. It must match one of this option's active `values`, ignoring
-     * case and surrounding whitespace. Not stored; the variants keep the value. minLength: 1.
-     * maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Complete caller-owned metadata for this
-     * option. Retained options are replaced as members of the options array, so omitting metadata,
-     * sending null, or sending {} clears it. A null-valued key is omitted from the replacement.
-     * Values can't be empty strings. Keys starting with flint_ are reserved and cannot be written
-     * through the public API. Shape $.* (Value): string or null. minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Option name, such as Size or Color. minLength: 1. maxLength: 255.
-     */
-    "name": string;
-    /**
-     * Shape $ (Value): string. Identifier of an existing option to retain. Omit it to create a new
-     * option. minLength: 1. pattern: ^opt_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "option_id"?: string;
-    /**
-     * Shape $ (Value): integer. Display order among the product's options, starting at zero.
-     * Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Shape $ (Value): string. Whether the option is active or inactive. Active variants must
-     * select an active value for every active option. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): Array of {@link UpdateProductOptionValueRequestInput}. Values offered for
-     * this option, such as Small, Medium, and Large for Size. Shape $[] (Value): {@link
-     * UpdateProductOptionValueRequestInput}. A value to keep or add on a product option when
-     * updating a product, with its position and status.
-     */
-    "values"?: Array<UpdateProductOptionValueRequestInput>;
-};
-/**
- * Shape $ (Value): {@link UpdateProductOptionValueRequest}. A value to keep or add on a product
- * option when updating a product, with its position and status.
- */
-export type UpdateProductOptionValueRequest = {
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Complete caller-owned metadata for this
-     * option value. Retained option values are replaced as members of the options array, so
-     * omitting metadata, sending null, or sending {} clears it. A null-valued key is omitted from
-     * the replacement. Values can't be empty strings. Keys starting with flint_ are reserved and
-     * cannot be written through the public API. Shape $.* (Value): string or null. minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Identifier of an existing option value to retain. Omit it to create
-     * a new value. minLength: 1. pattern: ^optv_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "option_value_id"?: string;
-    /**
-     * Shape $ (Value): integer. Display order among the option's values, starting at zero. Format:
-     * int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Shape $ (Value): string. Whether the value is active or inactive. Active variants cannot
-     * newly select an inactive value. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): string. Option value shown to buyers, such as Medium. minLength: 1.
-     * maxLength: 255.
-     */
-    "value": string;
-};
-/**
- * Shape $ (Value): {@link UpdateProductOptionValueRequestInput}. A value to keep or add on a
- * product option when updating a product, with its position and status.
- */
-export type UpdateProductOptionValueRequestInput = {
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Complete caller-owned metadata for this
-     * option value. Retained option values are replaced as members of the options array, so
-     * omitting metadata, sending null, or sending {} clears it. A null-valued key is omitted from
-     * the replacement. Values can't be empty strings. Keys starting with flint_ are reserved and
-     * cannot be written through the public API. Shape $.* (Value): string or null. minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Identifier of an existing option value to retain. Omit it to create
-     * a new value. minLength: 1. pattern: ^optv_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "option_value_id"?: string;
-    /**
-     * Shape $ (Value): integer. Display order among the option's values, starting at zero. Format:
-     * int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Shape $ (Value): string. Whether the value is active or inactive. Active variants cannot
-     * newly select an inactive value. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): string. Option value shown to buyers, such as Medium. minLength: 1.
-     * maxLength: 255.
-     */
-    "value": string;
-};
-/**
- * Shape $ (Value): {@link UpdateProductRequest}. Send only fields to change. Omitted fields keep
- * their stored values. null clears nullable fields; null on any other field returns 400
- * INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys
- * after merging.
- */
-export type UpdateProductRequest = ({
-    /**
-     * Shape $ (Value): Array of string. Relationship set of category handles that must already
-     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
-     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
-     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
-     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "default_variant_id"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 2048. */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * options or images is present. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
-     * `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "modifiers"?: Array<OrderLineItemModifier>;
+    /** Shape $ (Value): string. */
     "name"?: string;
+    /** Shape $ (Value): string. */
+    "product_id"?: string;
     /**
-     * Shape $ (Value): Array of {@link UpdateProductOptionRequest}. Replaces all product options
-     * and values atomically. Include existing option_id and option_value_id values to retain
-     * members. Omitted members are archived. Null is not accepted. Shape $[] (Value): {@link
-     * UpdateProductOptionRequest}. A product option to keep or add when updating a product, with
-     * its name, position, status, and values.
-     */
-    "options"?: Array<UpdateProductOptionRequest>;
-    /**
-     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
-     * "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type"?: "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-    /**
-     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
-     * variants cannot be sold. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-});
-/**
- * Shape $ (Value): {@link UpdateProductRequestInput}. Send only fields to change. Omitted fields
- * keep their stored values. null clears nullable fields; null on any other field returns 400
- * INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys
- * after merging.
- */
-export type UpdateProductRequestInput = ({
-    /**
-     * Shape $ (Value): Array of string. Relationship set of category handles that must already
-     * exist. Each handle has 1 to 100 characters (Unicode code points). Unknown handles return
-     * RESOURCE_NOT_FOUND. Replaces the whole set when present; send [] to clear it. On PATCH,
-     * omission leaves it unchanged. Does not require expected_version. maxItems: 100. uniqueItems:
-     * true. Shape $[] (Value): string. minLength: 1. maxLength: 100. pattern:
-     * ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "default_variant_id"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 2048. */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * options or images is present. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequestInput}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
-     * optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string. Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): Array of {@link UpdateProductOptionRequestInput}. Replaces all product
-     * options and values atomically. Include existing option_id and option_value_id values to
-     * retain members. Omitted members are archived. Null is not accepted. Shape $[] (Value):
-     * {@link UpdateProductOptionRequestInput}. A product option to keep or add when updating a
-     * product, with its name, position, status, and values.
-     */
-    "options"?: Array<UpdateProductOptionRequestInput>;
-    /**
-     * Shape $ (Value): string. Kind of goods or service this product represents. Value enum:
-     * "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type"?: "physical" | "service" | "fee" | "digital" | "gift_card";
-    /**
-     * Shape $ (Value): string. Whether the product is active or inactive. An inactive product's
-     * variants cannot be sold. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-});
-/**
- * Shape $ (Value): {@link UpdateProductVariantRequest}. Send only fields to change. Omitted fields
- * keep their stored values. null clears nullable fields; null on any other field returns 400
- * INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys
- * after merging.
- */
-export type UpdateProductVariantRequest = ({
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 100. */
-    "barcode"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "delivery_profile_id"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * images is present. Use an integer string (decimal digits), not a floating-point number.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link GiftCardProductConfiguration}. Replaces the complete gift card
-     * configuration. Omission preserves it. Null is not accepted. Include expected_version to
-     * reject a concurrent variant change. Gift card settings on a product variant: its
-     * `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
-     */
-    "gift_card_configuration"?: GiftCardProductConfiguration;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequest}. Replaces the authored variant gallery
-     * atomically. Send [] to clear it and resume product-image inheritance. minItems: 0. maxItems:
-     * 8. Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with
-     * optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Shape $ (Value): {@link InventoryItemCreateRequest}. New inventory item to create and track
-     * for this variant. Send either inventory_item or inventory_item_id. Inventory item details
-     * you supply when creating an inventory item for a product variant: `name`, `sku`, `barcode`,
-     * and metadata.
-     */
-    "inventory_item"?: InventoryItemCreateRequest;
-    /**
-     * Shape $ (Value): string or null. Inventory item tracked by this variant. Send null to stop
-     * tracking inventory. minLength: 1.
-     */
-    "inventory_item_id"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Flint line-item tax category. Send null to clear it. Value
-     * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
-     * "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission",
-     * null.
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 255. */
-    "name"?: string | null;
-    /**
-     * Shape $ (Value): integer. Display order among the product's variants, starting at zero.
+     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
      * Format: int32.
      */
-    "position"?: number;
+    "quantity": number;
     /**
-     * Shape $ (Value): Array of {@link ProductVariantSelectedOptionRequest}. Option name and value
-     * selections for this variant. When present on an update, replaces the entire selection. Omit
-     * to leave unchanged. Select one active value for every active option. null is invalid. Shape
-     * $[] (Value): {@link ProductVariantSelectedOptionRequest}. An option name and value you
-     * choose to identify a product variant, such as Size and Large.
+     * Shape $ (Value): Array of {@link SelectedProductOption}. Shape $[] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
      */
-    "selected_options"?: Array<ProductVariantSelectedOptionRequest>;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 100. */
-    "sku"?: string | null;
-    /**
-     * Shape $ (Value): string. Whether the variant is active or inactive. An inactive variant
-     * cannot be sold. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Shape $ (Value): boolean. Whether this item is subject to tax. */
-    "taxable"?: boolean;
-    /**
-     * Shape $ (Value): {@link Dimensions} or null. Replaces the complete object. Send null to
-     * clear it. Shape $.anyOf[1] (Value): {@link Dimensions}. Package or item dimensions as
-     * `length`, `width`, and `height` in the given `unit`. Shape $.anyOf[2] (Value): null.
-     */
-    "unit_dimensions"?: ((Dimensions) | (null));
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Price charged for one unit, in the currency's smallest
-     * unit. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /**
-     * Shape $ (Value): {@link Weight} or null. Replaces the complete object. Send null to clear
-     * it. Shape $.anyOf[1] (Value): {@link Weight}. A weight value in grams, kilograms, ounces, or
-     * pounds, used in delivery profile configuration. Shape $.anyOf[2] (Value): null.
-     */
-    "unit_weight"?: ((Weight) | (null));
-});
-/**
- * Shape $ (Value): {@link UpdateProductVariantRequestInput}. Send only fields to change. Omitted
- * fields keep their stored values. null clears nullable fields; null on any other field returns
- * 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50
- * keys after merging.
- */
-export type UpdateProductVariantRequestInput = ({
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 100. */
-    "barcode"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "delivery_profile_id"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * images is present. Use an integer string (decimal digits), not a floating-point number.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): {@link GiftCardProductConfigurationInput}. Replaces the complete gift card
-     * configuration. Omission preserves it. Null is not accepted. Include expected_version to
-     * reject a concurrent variant change. Gift card settings on a product variant: its
-     * `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
-     */
-    "gift_card_configuration"?: GiftCardProductConfigurationInput;
-    /**
-     * Shape $ (Value): Array of {@link ImageRequestInput}. Replaces the authored variant gallery
-     * atomically. Send [] to clear it and resume product-image inheritance. minItems: 0. maxItems:
-     * 8. Shape $[] (Value): {@link ImageRequestInput}. An image you supply by `source_url`, with
-     * optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Shape $ (Value): {@link InventoryItemCreateRequestInput}. New inventory item to create and
-     * track for this variant. Send either inventory_item or inventory_item_id. Inventory item
-     * details you supply when creating an inventory item for a product variant: `name`, `sku`,
-     * `barcode`, and metadata.
-     */
-    "inventory_item"?: InventoryItemCreateRequestInput;
-    /**
-     * Shape $ (Value): string or null. Inventory item tracked by this variant. Send null to stop
-     * tracking inventory. minLength: 1.
-     */
-    "inventory_item_id"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Flint line-item tax category. Send null to clear it. Value
-     * enum: "general", "physical_goods", "digital_goods", "software", "saas", "services",
-     * "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission",
-     * null.
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it.
-     * minLength: 1.
-     */
-    "modifier_set_id"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 255. */
-    "name"?: string | null;
-    /**
-     * Shape $ (Value): integer. Display order among the product's variants, starting at zero.
-     * Format: int32.
-     */
-    "position"?: number;
-    /**
-     * Shape $ (Value): Array of {@link ProductVariantSelectedOptionRequestInput}. Option name and
-     * value selections for this variant. When present on an update, replaces the entire selection.
-     * Omit to leave unchanged. Select one active value for every active option. null is invalid.
-     * Shape $[] (Value): {@link ProductVariantSelectedOptionRequestInput}. An option name and
-     * value you choose to identify a product variant, such as Size and Large.
-     */
-    "selected_options"?: Array<ProductVariantSelectedOptionRequestInput>;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 100. */
-    "sku"?: string | null;
-    /**
-     * Shape $ (Value): string. Whether the variant is active or inactive. An inactive variant
-     * cannot be sold. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Shape $ (Value): boolean. Whether this item is subject to tax. */
-    "taxable"?: boolean;
-    /**
-     * Shape $ (Value): {@link DimensionsInput} or null. Replaces the complete object. Send null to
-     * clear it. Shape $.anyOf[1] (Value): {@link DimensionsInput}. Package or item dimensions as
-     * `length`, `width`, and `height` in the given `unit`. Shape $.anyOf[2] (Value): null.
-     */
-    "unit_dimensions"?: ((DimensionsInput) | (null));
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Price charged for one unit, in the currency's
-     * smallest unit. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /**
-     * Shape $ (Value): {@link WeightInput} or null. Replaces the complete object. Send null to
-     * clear it. Shape $.anyOf[1] (Value): {@link WeightInput}. A weight value in grams, kilograms,
-     * ounces, or pounds, used in delivery profile configuration. Shape $.anyOf[2] (Value): null.
-     */
-    "unit_weight"?: ((WeightInput) | (null));
-});
-/**
- * Shape $ (Value): {@link UpdatePromotionCodeRequest}. The request body for: Update promotion
- * code.
- */
-export type UpdatePromotionCodeRequest = {
-    /**
-     * Shape $ (Value): integer string. Promotion code version last read by the caller. Optional
-     * for updates. Use an integer string (decimal digits), not a floating-point number. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Absolute RFC3339 expiry timestamp. Omission keeps the
-     * stored value; null clears it. Format: date-time. minLength: 1.
-     */
-    "expires_at"?: string | null;
-    /**
-     * Shape $ (Value): integer string or null. Maximum number of times this code can be redeemed.
-     * Send null to remove the redemption limit. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "max_uses"?: `${bigint}` | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Lifecycle status: active or inactive. Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): string or null. IANA zone the code's times were entered in, used for
-     * display. expires_at is an absolute timestamp, so this does not change when the code expires.
-     * Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
-};
-/**
- * Shape $ (Value): {@link UpdatePromotionCodeRequestInput}. The request body for: Update promotion
- * code.
- */
-export type UpdatePromotionCodeRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Promotion code version last read by the caller. Optional
-     * for updates. Use an integer string (decimal digits), not a floating-point number. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Absolute RFC3339 expiry timestamp. Omission keeps the
-     * stored value; null clears it. Format: date-time. minLength: 1.
-     */
-    "expires_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): integer string or null. Maximum number of times this code can be redeemed.
-     * Send null to remove the redemption limit. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64.
-     */
-    "max_uses"?: `${bigint}` | bigint | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Lifecycle status: active or inactive. Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): string or null. IANA zone the code's times were entered in, used for
-     * display. expires_at is an absolute timestamp, so this does not change when the code expires.
-     * Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
-};
-/** Shape $ (Value): {@link UpdatePromotionRequest}. The request body for: Update promotion. */
-export type UpdatePromotionRequest = ({
-    /**
-     * Shape $ (Value): {@link PromotionApplicationMethodPatch}. Fields of the discount effect to
-     * change. Omitted fields keep their stored values. Send only application_method fields to
-     * change. Omitted fields keep their stored values. Sending a different type replaces the
-     * effect with the supplied effect fields; allocation, calculation_basis, recurrence, and
-     * discounted_item_rules are preserved unless sent, and discounted_item_rules: null clears the
-     * stored rules. Money, recurrence, currency_options, and each rule group are replaced whole
-     * when present. null clears only nullable fields. discounted_item_rules cannot be null for
-     * buy_x_get_y. minProperties: 1.
-     */
-    "application_method"?: PromotionApplicationMethodPatch;
-    /**
-     * Shape $ (Value): {@link PromotionCombinesWithPatch}. Send only the classes to change.
-     * Omitted classes keep their current value. null, an empty object, and null classes are
-     * invalid. Change which promotion discount classes this promotion can combine with. Omitted
-     * classes keep their current values. minProperties: 1.
-     */
-    "combines_with"?: PromotionCombinesWithPatch;
-    /**
-     * Shape $ (Value): string or null. Description of the promotion for your own records. Send
-     * null to clear it. minLength: 1. maxLength: 500.
-     */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): string. Promotion discount class. Value enum: "order", "line_item",
-     * "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
-    /**
-     * Shape $ (Value): string. Buyer-facing promotion name shown in checkout and order discount
-     * surfaces. minLength: 1. maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Shape $ (Value): {@link PromotionRuleGroupRequest} or null. Replaces the promotion's
-     * eligibility conditions. Send null to remove all eligibility conditions. Shape $.anyOf[1]
-     * (Value): {@link PromotionRuleGroupRequest}. A rule group is an object with exactly one
-     * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a
-     * rules key are invalid. Omit the field for no rules, or send null where the field is
-     * clearable. Responses list rules before nested groups. Under any, a nested group containing
-     * only one rule reads back as that rule. Under all, nested groups keep their boundaries to
-     * preserve matched_items.subtotal scope. These deterministic normalizations stabilize after
-     * one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-     * in the same all group, including its nested groups. Shape $.anyOf[2] (Value): null.
-     */
-    "eligibility_rules"?: ((PromotionRuleGroupRequest) | (null) | (unknown));
-    /**
-     * Shape $ (Value): {@link PromotionExclusivityPatch} or null. Fields of the exclusivity group
-     * and priority to change. Send null to remove the promotion from its exclusivity group. Shape
-     * $.anyOf[1] (Value): {@link PromotionExclusivityPatch}. Send only fields to change. Omitted
-     * fields keep their stored values. Send priority 0 to reset it. An empty object is invalid.
-     * minProperties: 1. Shape $.anyOf[2] (Value): null.
-     */
-    "exclusivity"?: ((PromotionExclusivityPatch) | (null));
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * application_method or eligibility_rules is present, including an empty collection or a
-     * supported null clear. Optional for scalar updates. Use an integer string (decimal digits),
-     * not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): integer string or null. Maximum number of redemptions across all codes and
-     * automatic applications. Send null to remove the redemption limit. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64.
-     */
-    "max_uses"?: `${bigint}` | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Internal promotion name for dashboards, searching, and reporting.
-     * minLength: 1. maxLength: 255.
-     */
-    "name"?: string;
-    /**
-     * Shape $ (Value): {@link PromotionSchedulePatch} or null. Fields of the promotion schedule to
-     * change. Send null to remove the schedule. Shape $.anyOf[1] (Value): {@link
-     * PromotionSchedulePatch}. Send only fields to change. Omitted fields keep their stored
-     * values. null clears nullable subfields. An empty object is invalid. minProperties: 1. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "schedule"?: ((PromotionSchedulePatch) | (null));
-    /**
-     * Shape $ (Value): string. Lifecycle status to set: active or inactive. Archived promotions
-     * cannot be updated. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-});
-/** Shape $ (Value): {@link UpdatePromotionRequestInput}. The request body for: Update promotion. */
-export type UpdatePromotionRequestInput = ({
-    /**
-     * Shape $ (Value): {@link PromotionApplicationMethodPatchInput}. Fields of the discount effect
-     * to change. Omitted fields keep their stored values. Send only application_method fields to
-     * change. Omitted fields keep their stored values. Sending a different type replaces the
-     * effect with the supplied effect fields; allocation, calculation_basis, recurrence, and
-     * discounted_item_rules are preserved unless sent, and discounted_item_rules: null clears the
-     * stored rules. Money, recurrence, currency_options, and each rule group are replaced whole
-     * when present. null clears only nullable fields. discounted_item_rules cannot be null for
-     * buy_x_get_y. minProperties: 1.
-     */
-    "application_method"?: PromotionApplicationMethodPatchInput;
-    /**
-     * Shape $ (Value): {@link PromotionCombinesWithPatchInput}. Send only the classes to change.
-     * Omitted classes keep their current value. null, an empty object, and null classes are
-     * invalid. Change which promotion discount classes this promotion can combine with. Omitted
-     * classes keep their current values. minProperties: 1.
-     */
-    "combines_with"?: PromotionCombinesWithPatchInput;
-    /**
-     * Shape $ (Value): string or null. Description of the promotion for your own records. Send
-     * null to clear it. minLength: 1. maxLength: 500.
-     */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): string. Promotion discount class. Value enum: "order", "line_item",
-     * "service_charge".
-     */
-    "discount_class"?: "order" | "line_item" | "service_charge";
-    /**
-     * Shape $ (Value): string. Buyer-facing promotion name shown in checkout and order discount
-     * surfaces. minLength: 1. maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Shape $ (Value): {@link PromotionRuleGroupRequestInput} or null. Replaces the promotion's
-     * eligibility conditions. Send null to remove all eligibility conditions. Shape $.anyOf[1]
-     * (Value): {@link PromotionRuleGroupRequestInput}. A rule group is an object with exactly one
-     * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a
-     * rules key are invalid. Omit the field for no rules, or send null where the field is
-     * clearable. Responses list rules before nested groups. Under any, a nested group containing
-     * only one rule reads back as that rule. Under all, nested groups keep their boundaries to
-     * preserve matched_items.subtotal scope. These deterministic normalizations stabilize after
-     * one round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-     * in the same all group, including its nested groups. Shape $.anyOf[2] (Value): null.
-     */
-    "eligibility_rules"?: ((PromotionRuleGroupRequestInput) | (null));
-    /**
-     * Shape $ (Value): {@link PromotionExclusivityPatchInput} or null. Fields of the exclusivity
-     * group and priority to change. Send null to remove the promotion from its exclusivity group.
-     * Shape $.anyOf[1] (Value): {@link PromotionExclusivityPatchInput}. Send only fields to
-     * change. Omitted fields keep their stored values. Send priority 0 to reset it. An empty
-     * object is invalid. minProperties: 1. Shape $.anyOf[2] (Value): null.
-     */
-    "exclusivity"?: ((PromotionExclusivityPatchInput) | (null));
-    /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * application_method or eligibility_rules is present, including an empty collection or a
-     * supported null clear. Optional for scalar updates. Use an integer string (decimal digits),
-     * not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): integer string or null. Maximum number of redemptions across all codes and
-     * automatic applications. Send null to remove the redemption limit. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64.
-     */
-    "max_uses"?: `${bigint}` | bigint | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Internal promotion name for dashboards, searching, and reporting.
-     * minLength: 1. maxLength: 255.
-     */
-    "name"?: string;
-    /**
-     * Shape $ (Value): {@link PromotionSchedulePatchInput} or null. Fields of the promotion
-     * schedule to change. Send null to remove the schedule. Shape $.anyOf[1] (Value): {@link
-     * PromotionSchedulePatchInput}. Send only fields to change. Omitted fields keep their stored
-     * values. null clears nullable subfields. An empty object is invalid. minProperties: 1. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "schedule"?: ((PromotionSchedulePatchInput) | (null));
-    /**
-     * Shape $ (Value): string. Lifecycle status to set: active or inactive. Archived promotions
-     * cannot be updated. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-});
-/** Shape $ (Value): {@link UpdateRefundRequest}. The request body for: Update refund. */
-export type UpdateRefundRequest = {
-    /**
-     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
-     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
-     * request before retrying. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-};
-/** Shape $ (Value): {@link UpdateRefundRequestInput}. The request body for: Update refund. */
-export type UpdateRefundRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Optional expected version of this resource. A stale value
-     * returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the
-     * request before retrying. Use an integer string (decimal digits), not a floating-point
-     * number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-};
-/**
- * Shape $ (Value): {@link UpdateReturnLineItemRequest}. The request body for: Update return line
- * item.
- */
-export type UpdateReturnLineItemRequest = {
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "buyer_note"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "requested_quantity"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Send null to clear it. Value enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", null.
-     */
-    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | null | (string & {}) | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_reason_id"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateReturnLineItemRequestInput}. The request body for: Update return
- * line item.
- */
-export type UpdateReturnLineItemRequestInput = {
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "buyer_note"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "requested_quantity"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Send null to clear it. Value enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", null.
-     */
-    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_reason_id"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateReturnPolicyRequest}. The request body for: Update return policy.
- */
-export type UpdateReturnPolicyRequest = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/**
- * Shape $ (Value): {@link UpdateReturnPolicyRequestInput}. The request body for: Update return
- * policy.
- */
-export type UpdateReturnPolicyRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-};
-/**
- * Shape $ (Value): {@link UpdateReturnReasonRequest}. The request body for: Update return reason.
- */
-export type UpdateReturnReasonRequest = ({
-    /**
-     * Shape $ (Value): Array of string. Catalog category handles this reason applies to. A reason
-     * with categories is suggested, and accepted from a customer session, only for order lines
-     * whose product is in one of them. A reason with no categories applies to every line. Not
-     * product types or tags: use handles from GET /v1/categories. Requires expected_version. Shape
-     * $[] (Value): string. minLength: 1.
-     */
-    "category_handles"?: Array<string>;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Required when any of these fields is present:
-     * category_handles. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /** Shape $ (Value): boolean. */
-    "is_note_required"?: boolean;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): string. Set active to offer the reason or inactive to stop offering it. To
-     * archive a merchant reason, use DELETE. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-});
-/**
- * Shape $ (Value): {@link UpdateReturnReasonRequestInput}. The request body for: Update return
- * reason.
- */
-export type UpdateReturnReasonRequestInput = ({
-    /**
-     * Shape $ (Value): Array of string. Catalog category handles this reason applies to. A reason
-     * with categories is suggested, and accepted from a customer session, only for order lines
-     * whose product is in one of them. A reason with no categories applies to every line. Not
-     * product types or tags: use handles from GET /v1/categories. Requires expected_version. Shape
-     * $[] (Value): string. minLength: 1.
-     */
-    "category_handles"?: Array<string>;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "description"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Required when any of these fields is present:
-     * category_handles. Use an integer string (decimal digits), not a floating-point number.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /** Shape $ (Value): boolean. */
-    "is_note_required"?: boolean;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): string. Set active to offer the reason or inactive to stop offering it. To
-     * archive a merchant reason, use DELETE. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-});
-/**
- * Shape $ (Value): {@link UpdateReturnReplacementLineItemInputBundle}. The `bundle` variant of
- * `UpdateReturnReplacementLineItemInput`.
- */
-export type UpdateReturnReplacementLineItemInputBundle = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_replacement_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    "selected_options"?: Array<SelectedProductOption>;
+    /** Shape $ (Value): string. */
     "sku"?: string;
+    /** Shape $ (Value): string. */
+    "subscription_plan_line_item_id": string;
     /**
-     * Shape $ (Value): string. The source of the replacement merchandise: variant, bundle, or
-     * custom. Value enum: "bundle".
+     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
+     * string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "type": "bundle" | (string & {});
+    "swap_variant_ids": Array<string>;
     /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
+     * Shape $ (Value): Array of {@link SubscriptionPlanSwapVariant}. Current sellable alternatives
+     * in swap_variant_ids order, excluding the line's own variant and variants priced in a
+     * different currency. Present on variant lines, including an empty array. maxItems: 25. Shape
+     * $[] (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber can swap to on a
+     * plan line, with its name, options, and price.
      */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "bundle". */
-    "type": unknown;
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-}));
-/**
- * Shape $ (Value): {@link UpdateReturnReplacementLineItemInputBundleInput}. The `bundle` variant
- * of `UpdateReturnReplacementLineItemInput`.
- */
-export type UpdateReturnReplacementLineItemInputBundleInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
+    "swap_variants"?: Array<SubscriptionPlanSwapVariant>;
     /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
+     * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is
+     * taxable.
      */
-    "quantity": `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_replacement_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): string. The source of the replacement merchandise: variant, bundle, or
-     * custom. Value enum: "bundle".
-     */
-    "type": "bundle";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "bundle". */
-    "type": "bundle";
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-}) & ({
-    "name"?: never;
-})));
-/**
- * Shape $ (Value): {@link UpdateReturnReplacementLineItemInputCustom}. The `custom` variant of
- * `UpdateReturnReplacementLineItemInput`.
- */
-export type UpdateReturnReplacementLineItemInputCustom = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_replacement_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): string. The source of the replacement merchandise: variant, bundle, or
-     * custom. Value enum: "custom".
-     */
-    "type": "custom" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "custom". */
-    "type": unknown;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-}));
-/**
- * Shape $ (Value): {@link UpdateReturnReplacementLineItemInputCustomInput}. The `custom` variant
- * of `UpdateReturnReplacementLineItemInput`.
- */
-export type UpdateReturnReplacementLineItemInputCustomInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_replacement_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): string. The source of the replacement merchandise: variant, bundle, or
-     * custom. Value enum: "custom".
-     */
-    "type": "custom";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "custom". */
-    "type": "custom";
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-})
-    & (({
-    "variant_id"?: never;
-}) & ({
-    "bundle_id"?: never;
-})));
-/**
- * Shape $ (Value): {@link UpdateReturnReplacementLineItemInputVariant}. The `variant` variant of
- * `UpdateReturnReplacementLineItemInput`.
- */
-export type UpdateReturnReplacementLineItemInputVariant = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_replacement_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): string. The source of the replacement merchandise: variant, bundle, or
-     * custom. Value enum: "variant".
-     */
+    "tax"?: OrderLineItemTax;
+    /** Shape $ (Value): string.  Value enum: "variant". */
     "type": "variant" | (string & {});
     /**
      * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
      * an ISO 4217 currency code.
      */
     "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
+    /** Shape $ (Value): string. */
     "variant_id": string;
 })
     & (({
-    /** Shape $ (Value): any.  Value enum: "variant". */
-    "type": unknown;
-    /** Shape $ (Value): string. minLength: 1. */
+    /** Shape $ (Value): string.  Value enum: "variant". */
+    "type": "variant" | (string & {});
+    /** Shape $ (Value): string. */
     "variant_id": string;
 }));
-/**
- * Shape $ (Value): {@link UpdateReturnReplacementLineItemInputVariantInput}. The `variant` variant
- * of `UpdateReturnReplacementLineItemInput`.
- */
-export type UpdateReturnReplacementLineItemInputVariantInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
+/** Shape $ (Value): {@link SubscriptionPlanListResponse}. A page of `SubscriptionPlan` objects. */
+export type SubscriptionPlanListResponse = {
     /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
+     * Shape $ (Value): Array of {@link SubscriptionPlan}. Shape $[] (Value): {@link
+     * SubscriptionPlan}. The recurring price and billing terms offered to customers.
      */
-    "quantity": `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_replacement_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
+    "data": Array<SubscriptionPlan>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionPlanResponse}. A response containing `SubscriptionPlan`
+ * data.
+ */
+export type SubscriptionPlanResponse = {
+    /**
+     * Shape $ (Value): {@link SubscriptionPlan}. The recurring price and billing terms offered to
+     * customers.
+     */
+    "data": SubscriptionPlan;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber can swap to on a
+ * plan line, with its name, options, and price.
+ */
+export type SubscriptionPlanSwapVariant = {
+    /**
+     * Shape $ (Value): {@link Image}. An image with its `url`, `width`, and `height`, and optional
+     * `alt` text.
+     */
+    "image"?: Image;
+    /** Shape $ (Value): string. */
+    "name": string;
+    /**
+     * Shape $ (Value): Array of {@link SelectedProductOption}. Shape $[] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
+    /** Shape $ (Value): string. */
     "sku"?: string;
     /**
-     * Shape $ (Value): string. The source of the replacement merchandise: variant, bundle, or
-     * custom. Value enum: "variant".
+     * Shape $ (Value): {@link MoneyValue} or null. Shape $.anyOf[1] (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. Shape
+     * $.anyOf[2] (Value): null.
      */
-    "type": "variant";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
+    "unit_price_money": ((MoneyValue) | (null));
+    /** Shape $ (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
     "variant_id": string;
-})
-    & (({
-    /** Shape $ (Value): any.  Value enum: "variant". */
-    "type": "variant";
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-}) & ({
-    "name"?: never;
-})));
-/**
- * Shape $ (Value): {@link UpdateReturnReplacementLineItemRequest}. A replacement item to keep or
- * add when updating a return resolution. Include `return_replacement_line_item_id` to keep an
- * existing one.
- */
-export type UpdateReturnReplacementLineItemRequest = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_replacement_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): string. The source of the replacement merchandise: variant, bundle, or
-     * custom. Value enum: "variant", "bundle", "custom".
-     */
-    "type": "variant" | "bundle" | "custom" | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((Exclude<UpdateReturnReplacementLineItemInputVariant & object, readonly unknown[]>)
-    | (Exclude<UpdateReturnReplacementLineItemInputBundle & object, readonly unknown[]>)
-    | (Exclude<UpdateReturnReplacementLineItemInputCustom & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link UpdateReturnReplacementLineItemRequestInput}. A replacement item to keep
- * or add when updating a return resolution. Include `return_replacement_line_item_id` to keep an
- * existing one.
- */
-export type UpdateReturnReplacementLineItemRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_replacement_line_item_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "sku"?: string;
-    /**
-     * Shape $ (Value): string. The source of the replacement merchandise: variant, bundle, or
-     * custom. Value enum: "variant", "bundle", "custom".
-     */
-    "type": "variant" | "bundle" | "custom";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((Exclude<UpdateReturnReplacementLineItemInputVariantInput & object, readonly unknown[]>)
-    | (Exclude<UpdateReturnReplacementLineItemInputBundleInput & object, readonly unknown[]>)
-    | (Exclude<UpdateReturnReplacementLineItemInputCustomInput & object, readonly unknown[]>));
-/** Shape $ (Value): {@link UpdateReturnRequestInput}. The request body for: Update return. */
-export type UpdateReturnRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Optional version of the Return. A stale value returns
-     * RETURN_VERSION_CONFLICT with the current Return version. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
 };
 /**
- * Shape $ (Value): {@link UpdateReturnResolutionAdjustmentRequest}. A fee or credit to keep or add
- * when updating a return resolution. Include `return_resolution_adjustment_id` to update an
- * existing one.
+ * Shape $ (Value): {@link SubscriptionPlanTermsRequest}. The `subscription_plan` variant of
+ * `SubscriptionTermsInput`.
  */
-export type UpdateReturnResolutionAdjustmentRequest = {
-    /**
-     * Shape $ (Value): string. Value enum: "return_shipping_fee", "restocking_fee", "other_fee",
-     * "goodwill_credit", "price_correction", "other".
-     */
-    "adjustment_type": "return_shipping_fee"
-        | "restocking_fee"
-        | "other_fee"
-        | "goodwill_credit"
-        | "price_correction"
-        | "other"
-        | (string & {});
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "applied_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "assessed_amount_money": MoneyValue;
-    /**
-     * Shape $ (Value): string. Value enum: "return_policy", "inspection_result",
-     * "return_shipping_cost", "customer_service", "manual_correction", "other".
-     */
-    "reason": "return_policy"
-        | "inspection_result"
-        | "return_shipping_cost"
-        | "customer_service"
-        | "manual_correction"
-        | "other"
-        | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id"?: string;
-    /**
-     * Shape $ (Value): string. Keep this member ID when updating an existing adjustment. Omit it
-     * to create a new adjustment. minLength: 1.
-     */
-    "return_resolution_adjustment_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "applied", "waived". */
-    "status"?: "applied" | "waived" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "deduction", "credit". */
-    "value_effect": "deduction" | "credit" | (string & {});
-    /**
-     * Shape $ (Value): string. Value enum: "policy_override", "merchant_review",
-     * "customer_service", "other".
-     */
-    "waiver_reason"?: "policy_override" | "merchant_review" | "customer_service" | "other" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "waiver_reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateReturnResolutionAdjustmentRequestInput}. A fee or credit to keep
- * or add when updating a return resolution. Include `return_resolution_adjustment_id` to update an
- * existing one.
- */
-export type UpdateReturnResolutionAdjustmentRequestInput = {
-    /**
-     * Shape $ (Value): string. Value enum: "return_shipping_fee", "restocking_fee", "other_fee",
-     * "goodwill_credit", "price_correction", "other".
-     */
-    "adjustment_type": "return_shipping_fee"
-        | "restocking_fee"
-        | "other_fee"
-        | "goodwill_credit"
-        | "price_correction"
-        | "other";
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "applied_amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "assessed_amount_money": MoneyValueInput;
-    /**
-     * Shape $ (Value): string. Value enum: "return_policy", "inspection_result",
-     * "return_shipping_cost", "customer_service", "manual_correction", "other".
-     */
-    "reason": "return_policy"
-        | "inspection_result"
-        | "return_shipping_cost"
-        | "customer_service"
-        | "manual_correction"
-        | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id"?: string;
-    /**
-     * Shape $ (Value): string. Keep this member ID when updating an existing adjustment. Omit it
-     * to create a new adjustment. minLength: 1.
-     */
-    "return_resolution_adjustment_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "applied", "waived". */
-    "status"?: "applied" | "waived";
-    /** Shape $ (Value): string.  Value enum: "deduction", "credit". */
-    "value_effect": "deduction" | "credit";
-    /**
-     * Shape $ (Value): string. Value enum: "policy_override", "merchant_review",
-     * "customer_service", "other".
-     */
-    "waiver_reason"?: "policy_override" | "merchant_review" | "customer_service" | "other";
-    /** Shape $ (Value): string. minLength: 1. */
-    "waiver_reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateReturnResolutionLineItemRequest}. A return line and quantity to
- * keep or add when updating a return resolution.
- */
-export type UpdateReturnResolutionLineItemRequest = {
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}`;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_resolution_line_item_id"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateReturnResolutionLineItemRequestInput}. A return line and quantity
- * to keep or add when updating a return resolution.
- */
-export type UpdateReturnResolutionLineItemRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
-     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
-     * int64.
-     */
-    "quantity": `${bigint}` | bigint;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_line_item_id": string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "return_resolution_line_item_id"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateReturnResolutionRequest}. The request body for: Update return
- * resolution.
- */
-export type UpdateReturnResolutionRequest = ({
-    /**
-     * Shape $ (Value): Array of {@link UpdateReturnResolutionAdjustmentRequest}. Requires
-     * expected_version. Shape $[] (Value): {@link UpdateReturnResolutionAdjustmentRequest}. A fee
-     * or credit to keep or add when updating a return resolution. Include
-     * `return_resolution_adjustment_id` to update an existing one.
-     */
-    "adjustments"?: Array<UpdateReturnResolutionAdjustmentRequest>;
-    /**
-     * Shape $ (Value): integer string. Required when any of these fields is present: line_items,
-     * replacement_line_items, adjustments. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link UpdateReturnResolutionLineItemRequest}. Requires
-     * expected_version. Shape $[] (Value): {@link UpdateReturnResolutionLineItemRequest}. A return
-     * line and quantity to keep or add when updating a return resolution.
-     */
-    "line_items"?: Array<UpdateReturnResolutionLineItemRequest>;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     * Shape $ (Value): Array of {@link UpdateReturnReplacementLineItemRequest}. Requires
-     * expected_version. Shape $[] (Value): {@link UpdateReturnReplacementLineItemRequest}. A
-     * replacement item to keep or add when updating a return resolution. Include
-     * `return_replacement_line_item_id` to keep an existing one.
-     */
-    "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequest>;
-});
-/**
- * Shape $ (Value): {@link UpdateReturnResolutionRequestInput}. The request body for: Update return
- * resolution.
- */
-export type UpdateReturnResolutionRequestInput = ({
-    /**
-     * Shape $ (Value): Array of {@link UpdateReturnResolutionAdjustmentRequestInput}. Requires
-     * expected_version. Shape $[] (Value): {@link UpdateReturnResolutionAdjustmentRequestInput}. A
-     * fee or credit to keep or add when updating a return resolution. Include
-     * `return_resolution_adjustment_id` to update an existing one.
-     */
-    "adjustments"?: Array<UpdateReturnResolutionAdjustmentRequestInput>;
-    /**
-     * Shape $ (Value): integer string. Required when any of these fields is present: line_items,
-     * replacement_line_items, adjustments. Use an integer string (decimal digits), not a
-     * floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): string. Where the gift-card-paid portion is refunded. original credits the
-     * original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
-     * correction, except a correction of store_credit. Omit for store_credit, replacement, and
-     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and
-     * conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and
-     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
-     * persists the chosen destination before starting the new attempt. Default: "original". Value
-     * enum: "original", "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Shape $ (Value): Array of {@link UpdateReturnResolutionLineItemRequestInput}. Requires
-     * expected_version. Shape $[] (Value): {@link UpdateReturnResolutionLineItemRequestInput}. A
-     * return line and quantity to keep or add when updating a return resolution.
-     */
-    "line_items"?: Array<UpdateReturnResolutionLineItemRequestInput>;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): string. Value enum: "original_price", "current_price",
-     * "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Shape $ (Value): Array of {@link UpdateReturnReplacementLineItemRequestInput}. Requires
-     * expected_version. Shape $[] (Value): {@link UpdateReturnReplacementLineItemRequestInput}. A
-     * replacement item to keep or add when updating a return resolution. Include
-     * `return_replacement_line_item_id` to keep an existing one.
-     */
-    "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequestInput>;
-});
-/** Shape $ (Value): {@link UpdateRiskListRequest}. The request body for: Update a risk list. */
-export type UpdateRiskListRequest = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Name of a merchant-created risk list. It can't be cleared.
-     * minLength: 1.
-     */
-    "name": string;
-};
-/**
- * Shape $ (Value): {@link UpdateRiskListRequestInput}. The request body for: Update a risk list.
- */
-export type UpdateRiskListRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Name of a merchant-created risk list. It can't be cleared.
-     * minLength: 1.
-     */
-    "name": string;
-};
-/** Shape $ (Value): {@link UpdateRiskRuleRequest}. The request body for: Update a risk rule. */
-export type UpdateRiskRuleRequest = ({
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action"?: "allow" | "block" | "review" | "require_3ds" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): integer string. Optional risk rule version last read by the caller. Use an
-     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): {@link RiskPredicateNode}. A node in a risk rule condition: a comparison of
-     * an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate"?: RiskPredicateNode;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
-})
-    | ({
-    /**
-     * Shape $ (Value): {@link RiskPredicateNode}. A node in a risk rule condition: a comparison of
-     * an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNode;
-})
-    | ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "description": string;
-})
-    | ({
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status": "active" | "inactive" | (string & {});
-})
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link UpdateRiskRuleRequestInput}. The request body for: Update a risk rule.
- */
-export type UpdateRiskRuleRequestInput = ({
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action"?: "allow" | "block" | "review" | "require_3ds";
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): integer string. Optional risk rule version last read by the caller. Use an
-     * integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): {@link RiskPredicateNodeInput}. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate"?: RiskPredicateNodeInput;
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-})
-    & (({
-    /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds". */
-    "action": "allow" | "block" | "review" | "require_3ds";
-})
-    | ({
-    /**
-     * Shape $ (Value): {@link RiskPredicateNodeInput}. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeInput;
-})
-    | ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "description": string;
-})
-    | ({
-    /** Shape $ (Value): string.  Value enum: "active", "inactive". */
-    "status": "active" | "inactive";
-}));
-/**
- * Shape $ (Value): {@link UpdateServiceFulfillmentDetails}. Service fulfillment fields to change
- * when updating a fulfillment: scheduled times, completion time, and notes. Send null to clear a
- * field.
- */
-export type UpdateServiceFulfillmentDetails = {
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "completed_at"?: string | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "notes"?: string | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "scheduled_end_at"?: string | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "scheduled_start_at"?: string | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateServiceFulfillmentDetailsInput}. Service fulfillment fields to
- * change when updating a fulfillment: scheduled times, completion time, and notes. Send null to
- * clear a field.
- */
-export type UpdateServiceFulfillmentDetailsInput = {
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "completed_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. */
-    "notes"?: string | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "scheduled_end_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string or null. RFC3339 timestamp. Send null to clear it. Format:
-     * date-time. minLength: 1.
-     */
-    "scheduled_start_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateSettingsRequest}. The request body for: Update merchant settings.
- */
-export type UpdateSettingsRequest = ({
-    /**
-     * Shape $ (Value): {@link BrandingSettingsRequest} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link BrandingSettingsRequest}. Branding values to
-     * change when updating settings. Send null for a color or `font_family` to clear it. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "branding"?: ((BrandingSettingsRequest) | (null));
-    /**
-     * Shape $ (Value): {@link CheckoutSettings} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link CheckoutSettings}. Merchant defaults for checkout:
-     * custom domain, delivery methods, expiration, payment options, required contact fields,
-     * promotion codes, recovery email, and saved payment details. Shape $.anyOf[2] (Value): null.
-     */
-    "checkout"?: ((CheckoutSettings) | (null));
-    /**
-     * Shape $ (Value): {@link CustomerAccountSettings} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Flint then serves the default Flint-hosted account, and GET /v1/settings omits
-     * customer_account. Shape $.anyOf[1] (Value): {@link CustomerAccountSettings}. Customer
-     * account settings: hosted mode, merchant account URL, presentation, route templates, and what
-     * buyers may do to their own subscriptions. Shape $.anyOf[2] (Value): null.
-     */
-    "customer_account"?: ((CustomerAccountSettings) | (null));
-    /**
-     * Shape $ (Value): {@link CustomerEmailDeliverySettings} or null. Patch object: fields you
-     * send are applied, fields you omit are unchanged. Send null to remove every value you set in
-     * this section. Shape $.anyOf[1] (Value): {@link CustomerEmailDeliverySettings}. For each kind
-     * of customer email, whether Flint sends it or the merchant sends it. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "customer_email_delivery"?: ((CustomerEmailDeliverySettings) | (null));
-    /**
-     * Shape $ (Value): integer string. The Settings.version last read by the caller. Required when
-     * tax_identity is present, including null. Stale versions return VERSION_CONFLICT. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): {@link FulfillmentSettings} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link FulfillmentSettings}. Merchant fulfillment
-     * settings, including whether fulfillments require approval (`approval_required`). Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "fulfillment"?: ((FulfillmentSettings) | (null));
-    /**
-     * Shape $ (Value): {@link InventorySettings} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link InventorySettings}. Inventory settings: the
-     * `low_stock_threshold` and how inventory failures are handled for each order source. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "inventory"?: ((InventorySettings) | (null));
-    /**
-     * Shape $ (Value): {@link InvoiceSettingsPatch} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link InvoiceSettingsPatch}. Changes to a merchant's
-     * invoice settings. Send only the fields to change, and send null on a nullable field to clear
-     * it. minProperties: 1. Shape $.anyOf[2] (Value): null.
-     */
-    "invoices"?: ((InvoiceSettingsPatch) | (null));
-    /**
-     * Shape $ (Value): {@link LegalSettingsRequest} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link LegalSettingsRequest}. Changes to a merchant's
-     * legal settings. Send null on a URL to clear it. Shape $.anyOf[2] (Value): null.
-     */
-    "legal"?: ((LegalSettingsRequest) | (null));
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Merged by key. Caller-owned metadata. Omit
-     * this field to leave metadata unchanged. Send an object to merge by key, set a key to null to
-     * remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes
-     * no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API. Shape $.* (Value): string or
-     * null. minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): {@link PaymentLimitSettingsPatch} or null. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Clearing merchant limits preserves Flint support approvals. Cleared maps are
-     * omitted from reads. Shape $.anyOf[1] (Value): {@link PaymentLimitSettingsPatch}. Changes to
-     * a merchant's payment amount limits. Each map replaces the existing one, and null clears it.
-     * minProperties: 1. Shape $.anyOf[2] (Value): null.
-     */
-    "payment_limits"?: ((PaymentLimitSettingsPatch) | (null));
-    /**
-     * Shape $ (Value): {@link PromotionSettings} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link PromotionSettings}. Merchant promotion settings:
-     * whether automatic promotions and codes are enabled, and how many promotions can apply to one
-     * order. Shape $.anyOf[2] (Value): null.
-     */
-    "promotions"?: ((PromotionSettings) | (null));
-    /**
-     * Shape $ (Value): {@link ReceiptSettingsRequest} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link ReceiptSettingsRequest}. Receipt settings to
-     * change when updating settings. Send null for `header_text` or `footer_text` to clear it.
-     * Shape $.anyOf[2] (Value): null.
-     */
-    "receipts"?: ((ReceiptSettingsRequest) | (null));
-    /**
-     * Shape $ (Value): {@link SubscriptionSettings} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link SubscriptionSettings}. Subscription settings: the
-     * default billing schedule owner, dunning retry days and end action, and the backorder email.
-     * Shape $.anyOf[2] (Value): null.
-     */
-    "subscriptions"?: ((SubscriptionSettings) | (null));
-    /**
-     * Shape $ (Value): {@link TaxSettingsRequest} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link TaxSettingsRequest}. Tax settings to change when
-     * updating settings. Send null for a category to clear it. Shape $.anyOf[2] (Value): null.
-     */
-    "tax"?: ((TaxSettingsRequest) | (null));
-    /**
-     * Shape $ (Value): {@link TaxIdentityPatch} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Legal identity displayed on invoices and credit notes. Requires expected_version
-     * whenever present. Shape $.anyOf[1] (Value): {@link TaxIdentityPatch}. Merchant-provided
-     * legal identity displayed on invoices and credit notes. Does not verify IDs or change tax
-     * treatment. Tax IDs are an owned collection in display order; replacing the array requires
-     * the parent's expected_version. Existing entries retain their document_tax_id; omit an entry
-     * to remove it, or omit its ID to add one. Shape $.anyOf[2] (Value): null.
-     */
-    "tax_identity"?: ((TaxIdentityPatch) | (null));
-    /**
-     * Shape $ (Value): {@link TippingSettingsPatch} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link TippingSettingsPatch}. Tipping settings to change
-     * when updating settings. Omit a field to keep it; send null to clear a preselected tip.
-     * minProperties: 1. Shape $.anyOf[2] (Value): null.
-     */
-    "tipping"?: ((TippingSettingsPatch) | (null));
-});
-/**
- * Shape $ (Value): {@link UpdateSettingsRequestInput}. The request body for: Update merchant
- * settings.
- */
-export type UpdateSettingsRequestInput = ({
-    /**
-     * Shape $ (Value): {@link BrandingSettingsRequestInput} or null. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link BrandingSettingsRequestInput}. Branding values to
-     * change when updating settings. Send null for a color or `font_family` to clear it. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "branding"?: ((BrandingSettingsRequestInput) | (null));
-    /**
-     * Shape $ (Value): {@link CheckoutSettingsInput} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link CheckoutSettingsInput}. Merchant defaults for
-     * checkout: custom domain, delivery methods, expiration, payment options, required contact
-     * fields, promotion codes, recovery email, and saved payment details. Shape $.anyOf[2]
-     * (Value): null.
-     */
-    "checkout"?: ((CheckoutSettingsInput) | (null));
-    /**
-     * Shape $ (Value): {@link CustomerAccountSettingsInput} or null. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Flint then serves the default Flint-hosted account, and GET /v1/settings omits
-     * customer_account. Shape $.anyOf[1] (Value): {@link CustomerAccountSettingsInput}. Customer
-     * account settings: hosted mode, merchant account URL, presentation, route templates, and what
-     * buyers may do to their own subscriptions. Shape $.anyOf[2] (Value): null.
-     */
-    "customer_account"?: ((CustomerAccountSettingsInput) | (null));
-    /**
-     * Shape $ (Value): {@link CustomerEmailDeliverySettingsInput} or null. Patch object: fields
-     * you send are applied, fields you omit are unchanged. Send null to remove every value you set
-     * in this section. Shape $.anyOf[1] (Value): {@link CustomerEmailDeliverySettingsInput}. For
-     * each kind of customer email, whether Flint sends it or the merchant sends it. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "customer_email_delivery"?: ((CustomerEmailDeliverySettingsInput) | (null));
-    /**
-     * Shape $ (Value): integer string. The Settings.version last read by the caller. Required when
-     * tax_identity is present, including null. Stale versions return VERSION_CONFLICT. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): {@link FulfillmentSettingsInput} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link FulfillmentSettingsInput}. Merchant fulfillment
-     * settings, including whether fulfillments require approval (`approval_required`). Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "fulfillment"?: ((FulfillmentSettingsInput) | (null));
-    /**
-     * Shape $ (Value): {@link InventorySettingsInput} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link InventorySettingsInput}. Inventory settings: the
-     * `low_stock_threshold` and how inventory failures are handled for each order source. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "inventory"?: ((InventorySettingsInput) | (null));
-    /**
-     * Shape $ (Value): {@link InvoiceSettingsPatchInput} or null. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link InvoiceSettingsPatchInput}. Changes to a
-     * merchant's invoice settings. Send only the fields to change, and send null on a nullable
-     * field to clear it. minProperties: 1. Shape $.anyOf[2] (Value): null.
-     */
-    "invoices"?: ((InvoiceSettingsPatchInput) | (null));
-    /**
-     * Shape $ (Value): {@link LegalSettingsRequestInput} or null. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link LegalSettingsRequestInput}. Changes to a
-     * merchant's legal settings. Send null on a URL to clear it. Shape $.anyOf[2] (Value): null.
-     */
-    "legal"?: ((LegalSettingsRequestInput) | (null));
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Merged by key. Caller-owned metadata. Omit
-     * this field to leave metadata unchanged. Send an object to merge by key, set a key to null to
-     * remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes
-     * no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint,
-     * are not returned, and cannot be written through the public API. Shape $.* (Value): string or
-     * null. minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /**
-     * Shape $ (Value): {@link PaymentLimitSettingsPatchInput} or null. Patch object: fields you
-     * send are applied, fields you omit are unchanged. Send null to remove every value you set in
-     * this section. Clearing merchant limits preserves Flint support approvals. Cleared maps are
-     * omitted from reads. Shape $.anyOf[1] (Value): {@link PaymentLimitSettingsPatchInput}.
-     * Changes to a merchant's payment amount limits. Each map replaces the existing one, and null
-     * clears it. minProperties: 1. Shape $.anyOf[2] (Value): null.
-     */
-    "payment_limits"?: ((PaymentLimitSettingsPatchInput) | (null));
-    /**
-     * Shape $ (Value): {@link PromotionSettingsInput} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link PromotionSettingsInput}. Merchant promotion
-     * settings: whether automatic promotions and codes are enabled, and how many promotions can
-     * apply to one order. Shape $.anyOf[2] (Value): null.
-     */
-    "promotions"?: ((PromotionSettingsInput) | (null));
-    /**
-     * Shape $ (Value): {@link ReceiptSettingsRequestInput} or null. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link ReceiptSettingsRequestInput}. Receipt settings to
-     * change when updating settings. Send null for `header_text` or `footer_text` to clear it.
-     * Shape $.anyOf[2] (Value): null.
-     */
-    "receipts"?: ((ReceiptSettingsRequestInput) | (null));
-    /**
-     * Shape $ (Value): {@link SubscriptionSettingsInput} or null. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link SubscriptionSettingsInput}. Subscription settings:
-     * the default billing schedule owner, dunning retry days and end action, and the backorder
-     * email. Shape $.anyOf[2] (Value): null.
-     */
-    "subscriptions"?: ((SubscriptionSettingsInput) | (null));
-    /**
-     * Shape $ (Value): {@link TaxSettingsRequestInput} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link TaxSettingsRequestInput}. Tax settings to change
-     * when updating settings. Send null for a category to clear it. Shape $.anyOf[2] (Value):
-     * null.
-     */
-    "tax"?: ((TaxSettingsRequestInput) | (null));
-    /**
-     * Shape $ (Value): {@link TaxIdentityPatchInput} or null. Patch object: fields you send are
-     * applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Legal identity displayed on invoices and credit notes. Requires expected_version
-     * whenever present. Shape $.anyOf[1] (Value): {@link TaxIdentityPatchInput}. Merchant-provided
-     * legal identity displayed on invoices and credit notes. Does not verify IDs or change tax
-     * treatment. Tax IDs are an owned collection in display order; replacing the array requires
-     * the parent's expected_version. Existing entries retain their document_tax_id; omit an entry
-     * to remove it, or omit its ID to add one. Shape $.anyOf[2] (Value): null.
-     */
-    "tax_identity"?: ((TaxIdentityPatchInput) | (null));
-    /**
-     * Shape $ (Value): {@link TippingSettingsPatchInput} or null. Patch object: fields you send
-     * are applied, fields you omit are unchanged. Send null to remove every value you set in this
-     * section. Shape $.anyOf[1] (Value): {@link TippingSettingsPatchInput}. Tipping settings to
-     * change when updating settings. Omit a field to keep it; send null to clear a preselected
-     * tip. minProperties: 1. Shape $.anyOf[2] (Value): null.
-     */
-    "tipping"?: ((TippingSettingsPatchInput) | (null));
-});
-/** Shape $ (Value): {@link UpdateShipmentRequest}. The request body for: Update shipment. */
-export type UpdateShipmentRequest = {
-    /**
-     * Shape $ (Value): integer string. Optional resource version last read by the caller. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Requires external_system. External references are not unique. Use Idempotency-Key
-     * for retries. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Name of the external system that external_reference_id
-     * belongs to. External references are not unique. Use Idempotency-Key for retries. Send null
-     * to clear it. minLength: 1.
-     */
-    "external_system"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-};
-/** Shape $ (Value): {@link UpdateShipmentRequestInput}. The request body for: Update shipment. */
-export type UpdateShipmentRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Optional resource version last read by the caller. Use an
-     * integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Requires external_system. External references are not unique. Use Idempotency-Key
-     * for retries. Send null to clear it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): string or null. Name of the external system that external_reference_id
-     * belongs to. External references are not unique. Use Idempotency-Key for retries. Send null
-     * to clear it. minLength: 1.
-     */
-    "external_system"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionBillingScheduleRequest}. A closed owner-specific
- * billing schedule update.
- */
-export type UpdateSubscriptionBillingScheduleRequest = ((UpdateSubscriptionBillingScheduleRequestFlint)
-    | (UpdateSubscriptionBillingScheduleRequestExternal)
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link UpdateSubscriptionBillingScheduleRequestExternal}. The `external`
- * variant of `UpdateSubscriptionBillingScheduleRequest`.
- */
-export type UpdateSubscriptionBillingScheduleRequestExternal = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Future date at which Flint attempts the next charge. Omit
-     * to preserve the date or send null to clear it. Format: date-time. minLength: 1.
-     */
-    "next_billing_at"?: string | null;
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external" | (string & {});
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionBillingScheduleRequestExternalInput}. The `external`
- * variant of `UpdateSubscriptionBillingScheduleRequest`.
- */
-export type UpdateSubscriptionBillingScheduleRequestExternalInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Future date at which Flint attempts the next charge. Omit
-     * to preserve the date or send null to clear it. Format: date-time. minLength: 1.
-     */
-    "next_billing_at"?: string | globalThis.Date | null;
-    /** Shape $ (Value): string.  Value enum: "external". */
-    "owner": "external";
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionBillingScheduleRequestFlint}. The `flint` variant of
- * `UpdateSubscriptionBillingScheduleRequest`.
- */
-export type UpdateSubscriptionBillingScheduleRequestFlint = {
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing.
-     * Overrides the day inferred from a moved next_billing_at. Format: int32. minimum: 1. maximum:
-     * 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string. Future date at which Flint attempts the next charge. Format:
-     * date-time. minLength: 1.
-     */
-    "next_billing_at": string;
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint" | (string & {});
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionBillingScheduleRequestFlintInput}. The `flint` variant
- * of `UpdateSubscriptionBillingScheduleRequest`.
- */
-export type UpdateSubscriptionBillingScheduleRequestFlintInput = {
-    /**
-     * Shape $ (Value): integer. UTC day of the month used for monthly and yearly billing.
-     * Overrides the day inferred from a moved next_billing_at. Format: int32. minimum: 1. maximum:
-     * 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string. Future date at which Flint attempts the next charge. Format:
-     * date-time. minLength: 1.
-     */
-    "next_billing_at": string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "flint". */
-    "owner": "flint";
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionBillingScheduleRequestInput}. A closed owner-specific
- * billing schedule update.
- */
-export type UpdateSubscriptionBillingScheduleRequestInput = ((UpdateSubscriptionBillingScheduleRequestFlintInput)
-    | (UpdateSubscriptionBillingScheduleRequestExternalInput));
-/**
- * Shape $ (Value): {@link UpdateSubscriptionLineItemRequest}. The request body for: Update
- * subscription line item.
- */
-export type UpdateSubscriptionLineItemRequest = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity"?: number;
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionLineItemRequestInput}. The request body for: Update
- * subscription line item.
- */
-export type UpdateSubscriptionLineItemRequestInput = {
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * minimum: 1. maximum: 9999.
-     */
-    "quantity"?: number;
-    /** Shape $ (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. */
-    "variant_id"?: string;
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionOfferRequest}. The request body for: Update
- * subscription offer. minProperties: 1.
- */
-export type UpdateSubscriptionOfferRequest = {
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. minItems: 1. maxItems: 12.
-     * uniqueItems: true. Shape $[] (Value): {@link SubscriptionIntervalOption}. A billing
-     * interval, such as every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * Shape $ (Value): integer string. The version read before editing. A mismatch returns
-     * VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point number.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Omission leaves this field unchanged. Null clears it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): Array of string. Catalog targets for new signups. At least one product or
-     * variant is required. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength:
-     * 1.
-     */
-    "product_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): string or null. An active promotion with forever recurrence. On PATCH, null
-     * removes the discount for new signups; omission keeps it. minLength: 1.
-     */
-    "promotion_id"?: string | null;
-    /**
-     * Shape $ (Value): string. Use active or inactive. Archive the offer with DELETE. Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Shape $ (Value): Array of string. Delivery methods offered at signup. An empty array uses
-     * the store's checkout defaults. Existing subscriptions keep their selected method. maxItems:
-     * 25. uniqueItems: true. Shape $[] (Value): string. minLength: 1.
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Catalog targets for new signups. At least one product or
-     * variant is required. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength:
-     * 1.
-     */
-    "variant_ids"?: Array<string>;
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionOfferRequestInput}. The request body for: Update
- * subscription offer. minProperties: 1.
- */
-export type UpdateSubscriptionOfferRequestInput = {
-    /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOptionInput}. minItems: 1. maxItems:
-     * 12. uniqueItems: true. Shape $[] (Value): {@link SubscriptionIntervalOptionInput}. A billing
-     * interval, such as every 2 months, offered by a subscription plan.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOptionInput>;
-    /**
-     * Shape $ (Value): integer string. The version read before editing. A mismatch returns
-     * VERSION_CONFLICT. Use an integer string (decimal digits), not a floating-point number.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Omission leaves this field unchanged. Null clears it. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
-     */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): Array of string. Catalog targets for new signups. At least one product or
-     * variant is required. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength:
-     * 1.
-     */
-    "product_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): string or null. An active promotion with forever recurrence. On PATCH, null
-     * removes the discount for new signups; omission keeps it. minLength: 1.
-     */
-    "promotion_id"?: string | null;
-    /**
-     * Shape $ (Value): string. Use active or inactive. Archive the offer with DELETE. Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Shape $ (Value): Array of string. Delivery methods offered at signup. An empty array uses
-     * the store's checkout defaults. Existing subscriptions keep their selected method. maxItems:
-     * 25. uniqueItems: true. Shape $[] (Value): string. minLength: 1.
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): Array of string. Catalog targets for new signups. At least one product or
-     * variant is required. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength:
-     * 1.
-     */
-    "variant_ids"?: Array<string>;
-};
-/**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemRequest}. A line item to keep or add when
- * updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing one.
- */
-export type UpdateSubscriptionPlanLineItemRequest = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequest}. Shape $[] (Value): {@link
-     * OrderLineItemModifierRequest}. A modifier selection you supply on a line item: a catalog
-     * modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional): Map of
-     * string. Shape $[].metadata.* (Value): string. minLength: 1. Shape $[].modifier_id
-     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
-     * accepted spellings follow resource ID validation. minLength: 1. Shape
-     * $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
-     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequest}. Text a buyer entered for a text modifier
-     * group on an order line item. Shape $[].oneOf[1] (Value): any. Shape $[].oneOf[2] (Value):
-     * any.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is
-     * taxable.
-     */
-    "tax"?: OrderLineItemTax;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValue;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-}))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-}))
-    | (Record<string, unknown>));
-/**
- * Shape $ (Value): {@link UpdateSubscriptionPlanLineItemRequestInput}. A line item to keep or add
- * when updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing
- * one.
- */
-export type UpdateSubscriptionPlanLineItemRequestInput = ({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "description"?: string;
-    /**
-     * Shape $ (Value): Array of {@link OrderLineItemModifierRequestInput}. Shape $[] (Value):
-     * {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a line item: a
-     * catalog modifier by ID or a text modifier, with a quantity. Shape $[].metadata (Optional):
-     * Map of string. Shape $[].metadata.* (Value): string. minLength: 1. Shape $[].modifier_id
-     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
-     * accepted spellings follow resource ID validation. minLength: 1. Shape
-     * $[].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during
-     * replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Shape $[].quantity
-     * (Optional): integer string. Whole-number quantity; fractional quantities are not supported.
-     * Use an integer string (decimal digits), not a floating-point number. Format: int64. Shape
-     * $[].text (Optional): {@link TextModifierRequestInput}. Text a buyer entered for a text
-     * modifier group on an order line item. Shape $[].oneOf[1] (Value): any. Shape $[].oneOf[2]
-     * (Value): any.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
-    /**
-     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
-     * Omission uses 1. Format: int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * Shape $ (Value): string. ID of an existing item on this plan to retain. Omit for a new item.
-     * Duplicate IDs and IDs from other plans are rejected. minLength: 1.
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * Shape $ (Value): Array of string. maxItems: 25. uniqueItems: true. Shape $[] (Value):
-     * string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "swap_variant_ids"?: Array<string>;
-    /**
-     * Shape $ (Value): {@link OrderLineItemTaxInput}. A line item's tax category and whether it is
-     * taxable.
-     */
-    "tax"?: OrderLineItemTaxInput;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money"?: MoneyValueInput;
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id"?: string;
-})
-    & ((({
-    /** Shape $ (Value): string. minLength: 1. */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})))
-    | (({
-    /** Shape $ (Value): string. minLength: 1. */
-    "name": string;
-    /**
-     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValueInput;
-})
-    & (({
-    "variant_id"?: never;
-}) & ({
-    "bundle_id"?: never;
-}))));
-/**
- * Shape $ (Value): {@link UpdateSubscriptionPlanRequest}. The request body for: Update
- * subscription plan.
- */
-export type UpdateSubscriptionPlanRequest = ({
+export type SubscriptionPlanTermsRequest = ({
     /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
     "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Shape $ (Value): integer. Format: int32. */
+    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 365. */
     "billing_interval_count"?: number;
     /**
-     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. Omission leaves the choices
-     * unchanged. Send [] to reset to the plan’s default billing interval and count. Null is
-     * invalid. maxItems: 12. uniqueItems: true. Shape $[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing interval, such as every 2 months, offered by a
+     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
+     * Format: int32. minimum: 1. maximum: 100. Default: 1.
+     */
+    "quantity"?: number;
+    /** Shape $ (Value): string. minLength: 1. */
+    "subscription_plan_id": string;
+    /** Shape $ (Value): string.  Value enum: "subscription_plan". */
+    "type": "subscription_plan" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link SubscriptionPlanTermsRequestInput}. The `subscription_plan` variant of
+ * `SubscriptionTermsInput`.
+ */
+export type SubscriptionPlanTermsRequestInput = ({
+    /** Shape $ (Value): string.  Value enum: "daily", "weekly", "monthly", "yearly". */
+    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
+    /** Shape $ (Value): integer. Format: int32. minimum: 1. maximum: 365. */
+    "billing_interval_count"?: number;
+    /**
+     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
+     * Format: int32. minimum: 1. maximum: 100. Default: 1.
+     */
+    "quantity"?: number;
+    /** Shape $ (Value): string. minLength: 1. */
+    "subscription_plan_id": string;
+    /** Shape $ (Value): string.  Value enum: "subscription_plan". */
+    "type": "subscription_plan";
+});
+export type SubscriptionPlansCreateInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateSubscriptionPlanRequestInput}. The request body for: Create
      * subscription plan.
      */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
+    "body": InputValue<CreateSubscriptionPlanRequestInput>;
+};
+export type SubscriptionPlansGetInput = {
+    /** Shape $ (Value): string. */
+    "subscription_plan_id": InputValue<string>;
+};
+export type SubscriptionPlansListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
     /**
-     * Shape $ (Value): integer. A commitment period you agree with the buyer, 1 to 120 months.
-     * Flint shows it at checkout and records it on each new subscription (contract_start_at,
-     * contract_end_at). Flint does not stop the buyer from canceling earlier. Format: int32.
-     * minimum: 1. maximum: 120.
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "inactive", "archived".
+     * Shape $[] (Value): string. Value enum: "active", "inactive", "archived".
      */
-    "contract_term_months"?: number;
+    "status"?: InputValue<Array<"active" | "inactive" | "archived">>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "external_reference_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "query"?: InputValue<string>;
     /**
-     * Shape $ (Value): string or null. Omission leaves this field unchanged. Null clears it.
-     * minLength: 1.
+     * Shape $ (Value): string. Default: "created_at". Value enum: "name", "created_at",
+     * "updated_at".
      */
-    "description"?: string | null;
+    "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+};
+export type SubscriptionPlansRemoveInput = {
+    /** Shape $ (Value): string. */
+    "subscription_plan_id": InputValue<string>;
     /**
-     * Shape $ (Value): {@link MoneyValue}. A fee you agree the buyer owes for canceling before the
-     * contract term ends. Flint shows it at checkout and records it on each new subscription, but
-     * never charges it. To collect it, charge the buyer yourself, for example with an order on
-     * their saved payment method. Requires contract_term_months. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
      */
-    "early_termination_fee_money"?: MoneyValue;
+    "expected_version"?: InputValue<`${bigint}` | bigint>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+};
+export type SubscriptionPlansUpdateInput = {
+    /** Shape $ (Value): string. */
+    "subscription_plan_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
     /**
-     * Shape $ (Value): integer string. Resource version last read by the caller. Required when
-     * replacing an owned collection. Required when any of these fields is present: images,
-     * line_items. Use an integer string (decimal digits), not a floating-point number. Format:
-     * uint64. minimum: 1.
+     * Shape $ (Value): {@link UpdateSubscriptionPlanRequestInput}. The request body for: Update
+     * subscription plan.
      */
-    "expected_version"?: `${bigint}`;
+    "body": InputValue<UpdateSubscriptionPlanRequestInput>;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionPreview}. A preview of a subscription. In `create` mode it
+ * reports validity and errors; in `delivery_options` mode it lists delivery methods.
+ */
+export type SubscriptionPreview = {
     /**
-     * Shape $ (Value): string or null. Caller-owned identifier for this resource in an external
-     * system. Omission leaves this field unchanged. Null clears it. minLength: 1. maxLength: 255.
+     * Shape $ (Value): {@link SubscriptionAddressVerification}. The verification state of a
+     * subscription's delivery address: `verified`, `unverified`, `needs_review`, or
+     * `unverifiable`.
      */
-    "external_reference_id"?: string | null;
+    "address_verification"?: SubscriptionAddressVerification;
     /**
-     * Shape $ (Value): Array of {@link ImageRequest}. The complete desired gallery in display
-     * order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8.
-     * Shape $[] (Value): {@link ImageRequest}. An image you supply by `source_url`, with optional
-     * `alt` text and external reference.
+     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
      */
-    "images"?: Array<ImageRequest>;
+    "currency"?: string;
     /**
-     * Shape $ (Value): {@link InventoryRoutingSourceRequest}. Replaces the plan's routing source.
-     * Subscriptions and payment links that already exist keep the source they copied. It can't be
-     * cleared. Where you want inventory routed from: a fixed Location, an inventory allocation
-     * policy, or one policy revision, selected by `type`.
+     * Shape $ (Value): Array of {@link SubscriptionDeliveryOption}. Present in delivery_options
+     * mode ([] when no method applies); absent in create mode. Shape $[] (Value): {@link
+     * SubscriptionDeliveryOption}. A delivery method offered for a subscription, with its
+     * availability, price, and the reason it is unavailable if it is.
      */
-    "inventory_routing_source"?: InventoryRoutingSourceRequest;
+    "delivery_methods"?: Array<SubscriptionDeliveryOption>;
     /**
-     * Shape $ (Value): Array of {@link UpdateSubscriptionPlanLineItemRequest}. Replaces all owned
-     * plan line items atomically. Requires expected_version. Omission leaves items unchanged; an
-     * empty array or null is invalid. Include subscription_plan_line_item_id to retain an item;
-     * omit it for a new server-generated ID. Omitted members are removed. Existing subscriptions
-     * keep their snapshots. Retained catalog items with the same source keep their catalog
-     * snapshot; omitted modifiers keep their recorded choices. minItems: 1. Shape $[] (Value):
-     * {@link UpdateSubscriptionPlanLineItemRequest}. A line item to keep or add when updating a
-     * subscription plan. Include `subscription_plan_line_item_id` to keep an existing one.
+     * Shape $ (Value): {@link Address}. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
      */
-    "line_items"?: Array<UpdateSubscriptionPlanLineItemRequest>;
+    "destination_address"?: Address;
     /**
-     * Shape $ (Value): Map of (string or null) or null. Caller-owned metadata. Omit this field to
-     * leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or
-     * set metadata to null to clear all caller-owned metadata. An empty object makes no change.
-     * Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not
-     * returned, and cannot be written through the public API. Shape $.* (Value): string or null.
-     * minLength: 1.
+     * Shape $ (Value): Array of {@link SubscriptionPreviewError}. Present in create mode ([] when
+     * the subscription is valid); absent in delivery_options mode. Shape $[] (Value): {@link
+     * SubscriptionPreviewError}. An error found while previewing a subscription, with a `code`,
+     * message, and the parameter at fault.
      */
-    "metadata"?: Record<string, string | null> | null;
-    /** Shape $ (Value): string. minLength: 1. */
-    "name"?: string;
+    "errors"?: Array<SubscriptionPreviewError>;
+    /** Shape $ (Value): boolean. Present in create mode; absent in delivery_options mode. */
+    "is_valid"?: boolean;
+    /** Shape $ (Value): string.  Value enum: "create", "delivery_options". */
+    "mode": "create" | "delivery_options" | (string & {});
+    /** Shape $ (Value): string. */
+    "subscription_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionPreviewError}. An error found while previewing a
+ * subscription, with a `code`, message, and the parameter at fault.
+ */
+export type SubscriptionPreviewError = {
+    /** Shape $ (Value): string. */
+    "code": string;
     /**
-     * Shape $ (Value): Array of integer. Omission leaves the choices unchanged. Send [] to reset
-     * to [1]. Null is invalid. maxItems: 10. uniqueItems: true. Shape $[] (Value): integer.
-     * minimum: 1. maximum: 100.
+     * Shape $ (Value): Array of {@link ErrorDetail}. Shape $[] (Value): {@link ErrorDetail}. One
+     * specific failure within an error, with a `code` and `message` plus fields that depend on the
+     * code, such as the `param`, resource, quantity, or amount involved.
      */
-    "quantity_options"?: Array<number>;
+    "details"?: Array<ErrorDetail>;
+    /** Shape $ (Value): string. */
+    "message": string;
+    /** Shape $ (Value): string. */
+    "param"?: string;
+};
+/** Shape $ (Value): {@link SubscriptionPreviewResponse}. The response for: Preview subscription. */
+export type SubscriptionPreviewResponse = {
+    /**
+     * Shape $ (Value): {@link SubscriptionPreview} or {@link SubscriptionDeliveryMethodImpact} or
+     * {@link SubscriptionRenewalPreview} or {@link SubscriptionPlanChangePreview}. Shape
+     * $.oneOf[1] (Value): {@link SubscriptionPreview}. A preview of a subscription. In `create`
+     * mode it reports validity and errors; in `delivery_options` mode it lists delivery methods.
+     * Shape $.oneOf[2] (Value): {@link SubscriptionDeliveryMethodImpact}. How a delivery method
+     * change affects subscriptions: current counts and how many would no longer be eligible. Shape
+     * $.oneOf[3] (Value): {@link SubscriptionRenewalPreview}. A preview of a subscription's next
+     * renewal and its estimated pricing. Shape $.oneOf[4] (Value): {@link
+     * SubscriptionPlanChangePreview}. Estimated pricing for a subscription plan change, including
+     * the recurring item subtotal and renewal amounts.
+     */
+    "data": ((SubscriptionPreview)
+        | (SubscriptionDeliveryMethodImpact)
+        | (SubscriptionRenewalPreview)
+        | (SubscriptionPlanChangePreview)
+        | (Record<string, unknown>));
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type SubscriptionPreviewsCreateInput = {
+    /**
+     * Shape $ (Value): {@link CreateSubscriptionPreviewRequestInput}. The request body for:
+     * Preview subscription.
+     */
+    "body": InputValue<CreateSubscriptionPreviewRequestInput>;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a subscription,
+ * including its recurrence and remaining discounted cycles.
+ */
+export type SubscriptionPromotion = {
+    /** Shape $ (Value): string. */
+    "name": string;
+    /**
+     * Shape $ (Value): string or null. The attached promotion code ID; null when no promotion code
+     * was used.
+     */
+    "promotion_code_id": string | null;
+    /** Shape $ (Value): string. */
+    "promotion_id": string;
+    /**
+     * Shape $ (Value): {@link PromotionRecurrence}. How often a promotion's discount repeats on a
+     * subscription: once, for a number of charged payments, or forever.
+     */
+    "recurrence": PromotionRecurrence;
+    /**
+     * Shape $ (Value): integer string or null. Charged cycles remaining for a repeating promotion,
+     * including the next cycle; null for a promotion that lasts forever. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
+     */
+    "remaining_cycles": `${bigint}` | null;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionRenewalEstimate}. Estimated pricing and billing time for a
+ * subscription's next renewal, including items, discounts, shipping, and tax.
+ */
+export type SubscriptionRenewalEstimate = {
+    /**
+     * Shape $ (Value): string or null. Expected billing time, or null when billing is not
+     * scheduled. Format: date-time.
+     */
+    "billing_at": string | null;
+    /**
+     * Shape $ (Value): string. ISO 4217 currency code. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
     /**
      * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
      * an ISO 4217 currency code.
      */
-    "setup_fee_money"?: MoneyValue;
+    "discount_money": MoneyValue;
     /**
-     * Shape $ (Value): string. Active plans accept new signups. Inactive plans refuse new signups
-     * with PLAN_NOT_ACTIVE while existing subscriptions keep renewing. Archived plans are
-     * read-only and their status is set only by DELETE
-     * /v1/subscription-plans/{subscription_plan_id}. Value enum: "active", "inactive".
+     * Shape $ (Value): Array of {@link SubscriptionRenewalEstimateDiscount}. Shape $[] (Value):
+     * {@link SubscriptionRenewalEstimateDiscount}. An estimated renewal discount from a promotion
+     * or credit for a subscription plan change.
      */
-    "status"?: "active" | "inactive" | (string & {});
+    "discounts": Array<SubscriptionRenewalEstimateDiscount>;
     /**
-     * Shape $ (Value): Array of string. Omission leaves the delivery methods unchanged. Send [] to
-     * remove all delivery methods. Null is invalid. Shape $[] (Value): string. minLength: 1.
+     * Shape $ (Value): Array of {@link SubscriptionRenewalEstimateLineItem}. Shape $[] (Value):
+     * {@link SubscriptionRenewalEstimateLineItem}. A subscription item's quantity, subtotal, and
+     * discount in an estimated renewal.
      */
-    "subscription_delivery_method_ids"?: Array<string>;
+    "line_items": Array<SubscriptionRenewalEstimateLineItem>;
+    /**
+     * Shape $ (Value): {@link MoneyValue} or null. Estimated shipping; null for a digital
+     * subscription. Shape $.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. Shape $.anyOf[2] (Value): null.
+     */
+    "shipping_money": ((MoneyValue) | (null));
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 0.
+     */
+    "subscription_cycle": `${bigint}`;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue} or null. Estimated tax; null when no tax address is
+     * available. Shape $.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. Shape $.anyOf[2] (Value): null.
+     */
+    "tax_money": ((MoneyValue) | (null));
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionRenewalEstimateDiscount}. An estimated renewal discount from
+ * a promotion or credit for a subscription plan change.
+ */
+export type SubscriptionRenewalEstimateDiscount = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "name": string;
+    /**
+     * Shape $ (Value): string or null. Promotion ID for a promotion discount; null for unused-time
+     * credit.
+     */
+    "promotion_id": string | null;
+    /** Shape $ (Value): string.  Value enum: "promotion", "plan_change_credit". */
+    "source": "promotion" | "plan_change_credit" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionRenewalEstimateLineItem}. A subscription item's quantity,
+ * subtotal, and discount in an estimated renewal.
+ */
+export type SubscriptionRenewalEstimateLineItem = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "name": string;
+    /**
+     * Shape $ (Value): integer. Whole-number quantity; fractional quantities are not supported.
+     * Format: int32.
+     */
+    "quantity": number;
+    /**
+     * Shape $ (Value): string or null. The saved subscription line ID; null when previewing
+     * replacement plan lines.
+     */
+    "subscription_line_item_id": string | null;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "subtotal_money": MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionRenewalPreview}. A preview of a subscription's next renewal
+ * and its estimated pricing.
+ */
+export type SubscriptionRenewalPreview = {
+    /** Shape $ (Value): string.  Value enum: "next_renewal". */
+    "mode": "next_renewal" | (string & {});
+    /**
+     * Shape $ (Value): {@link SubscriptionRenewalEstimate}. Estimated pricing and billing time for
+     * a subscription's next renewal, including items, discounts, shipping, and tax.
+     */
+    "renewal": SubscriptionRenewalEstimate;
+    /** Shape $ (Value): string. */
+    "subscription_id": string;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionRenewalResult}. The subscription is the primary resource and
+ * expected_version target; order and order_payment_attempt report the renewal outcome.
+ */
+export type SubscriptionRenewalResult = {
+    /**
+     * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
+     * progress.
+     */
+    "order": Order;
+    /**
+     * Shape $ (Value): {@link OrderPaymentAttempt} or null. Shape $.anyOf[1] (Value): {@link
+     * OrderPaymentAttempt}. An attempt to pay an order. Shape $.anyOf[2] (Value): null.
+     */
+    "order_payment_attempt": ((OrderPaymentAttempt) | (null));
+    /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+    "subscription": Subscription;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionRenewalResultResponse}. A response containing
+ * `SubscriptionRenewalResult` data.
+ */
+export type SubscriptionRenewalResultResponse = {
+    /**
+     * Shape $ (Value): {@link SubscriptionRenewalResult}. The subscription is the primary resource
+     * and expected_version target; order and order_payment_attempt report the renewal outcome.
+     */
+    "data": SubscriptionRenewalResult;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** Shape $ (Value): {@link SubscriptionResponse}. A response containing `Subscription` data. */
+export type SubscriptionResponse = {
+    /** Shape $ (Value): {@link Subscription}. A customer's recurring purchase. */
+    "data": Subscription;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionServiceLocation}. The address where a subscription's service
+ * is delivered, with the saved customer address it came from.
+ */
+export type SubscriptionServiceLocation = {
+    /**
+     * Shape $ (Value): {@link Address}. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
+     */
+    "address"?: Address;
+    /** Shape $ (Value): string. */
+    "customer_address_id"?: string;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionServiceLocationInputAddress}. The `address` variant of
+ * `SubscriptionServiceLocationInput`.
+ */
+export type SubscriptionServiceLocationInputAddress = {
+    /**
+     * Shape $ (Value): {@link AddressRequest}. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
+     */
+    "address": AddressRequest;
+    /** Shape $ (Value): string.  Value enum: "address". */
+    "type": "address" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionServiceLocationInputAddressInput}. The `address` variant of
+ * `SubscriptionServiceLocationInput`.
+ */
+export type SubscriptionServiceLocationInputAddressInput = SubscriptionDeliveryDestinationInputAddressInput;
+/**
+ * Shape $ (Value): {@link SubscriptionServiceLocationInputCustomerAddress}. The `customer_address`
+ * variant of `SubscriptionServiceLocationInput`.
+ */
+export type SubscriptionServiceLocationInputCustomerAddress = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "customer_address_id": string;
+    /** Shape $ (Value): string.  Value enum: "customer_address". */
+    "type": "customer_address" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link SubscriptionServiceLocationInputCustomerAddressInput}. The
+ * `customer_address` variant of `SubscriptionServiceLocationInput`.
+ */
+export type SubscriptionServiceLocationInputCustomerAddressInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "customer_address_id": string;
+    /** Shape $ (Value): string.  Value enum: "customer_address". */
+    "type": "customer_address";
+};
+/**
+ * Shape $ (Value): {@link SubscriptionServiceLocationRequest}. Where a subscription's service is
+ * delivered: a saved customer address by ID, or a new address.
+ */
+export type SubscriptionServiceLocationRequest = ((SubscriptionServiceLocationInputCustomerAddress)
+    | (SubscriptionServiceLocationInputAddress)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link SubscriptionServiceLocationRequestInput}. Where a subscription's service
+ * is delivered: a saved customer address by ID, or a new address.
+ */
+export type SubscriptionServiceLocationRequestInput = ((SubscriptionServiceLocationInputCustomerAddressInput)
+    | (SubscriptionServiceLocationInputAddressInput));
+/**
+ * Shape $ (Value): {@link SubscriptionSettings}. Subscription settings: the default billing
+ * schedule owner, dunning retry days and end action, and the backorder email.
+ */
+export type SubscriptionSettings = {
+    /** Shape $ (Value): string.  Value enum: "flint", "external". */
+    "default_billing_schedule_owner"?: "flint" | "external" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "cancel", "pause", "notify_only". */
+    "dunning_end_action"?: "cancel" | "pause" | "notify_only" | (string & {});
     /** Shape $ (Value): integer. Format: int32. */
-    "trial_period_days"?: number;
+    "dunning_retry_days"?: number;
+    /** Shape $ (Value): string.  Value enum: "cancel", "pause", "notify_only". */
+    "external_dunning_end_action"?: "cancel" | "pause" | "notify_only" | (string & {});
+    /** Shape $ (Value): boolean. */
+    "send_backordered_email"?: boolean;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionSettingsRequestRequestInput}. Subscription settings: the
+ * default billing schedule owner, dunning retry days and end action, and the backorder email.
+ */
+export type SubscriptionSettingsRequestRequestInput = {
+    /** Shape $ (Value): string.  Value enum: "flint", "external". */
+    "default_billing_schedule_owner"?: "flint" | "external";
+    /** Shape $ (Value): string.  Value enum: "cancel", "pause", "notify_only". */
+    "dunning_end_action"?: "cancel" | "pause" | "notify_only";
+    /** Shape $ (Value): integer. Format: int32. */
+    "dunning_retry_days"?: number;
+    /** Shape $ (Value): string.  Value enum: "cancel", "pause", "notify_only". */
+    "external_dunning_end_action"?: "cancel" | "pause" | "notify_only";
+    /** Shape $ (Value): boolean. */
+    "send_backordered_email"?: boolean;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionSnapshotMetrics}. The half-open period [period_start_at,
+ * period_end_at) includes its start and excludes its end. Amounts and payments_count use currency;
+ * customer and subscription counts span currencies.
+ */
+export type SubscriptionSnapshotMetrics = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Current mrr_money multiplied by 12, in currency;
+     * independent of the requested period. The half-open period [period_start_at, period_end_at)
+     * includes its start and excludes its end. Amounts and payments_count use currency; customer
+     * and subscription counts span currencies. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "arr_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monthly recurring revenue from current billing
+     * snapshots of active and past_due subscriptions, restricted to currency. Each subscription is
+     * normalized and rounded separately; independent of the requested period. The half-open period
+     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
+     * payments_count use currency; customer and subscription counts span currencies. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "mrr_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link SubscriptionStatusCounts}. Current subscription counts by status
+     * across currencies; independent of the requested period. The half-open period
+     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
+     * payments_count use currency; customer and subscription counts span currencies. Counts of
+     * current subscriptions by status, across currencies.
+     */
+    "status_counts": SubscriptionStatusCounts;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionStatusCounts}. Counts of current subscriptions by status,
+ * across currencies.
+ */
+export type SubscriptionStatusCounts = {
+    /**
+     * Shape $ (Value): integer string. Current subscriptions with this status, across currencies.
+     * Selected by current subscription status, independent of the requested half-open period. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "active_count": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Current subscriptions with this status, across currencies.
+     * Selected by current subscription status, independent of the requested half-open period. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "canceled_count": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Current subscriptions with this status, across currencies.
+     * Selected by current subscription status, independent of the requested half-open period. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "incomplete_count": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Current subscriptions with this status, across currencies.
+     * Selected by current subscription status, independent of the requested half-open period. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "past_due_count": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Current subscriptions with this status, across currencies.
+     * Selected by current subscription status, independent of the requested half-open period. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "paused_count": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Current subscriptions with this status, across currencies.
+     * Selected by current subscription status, independent of the requested half-open period. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "scheduled_count": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Current subscriptions with this status, across currencies.
+     * Selected by current subscription status, independent of the requested half-open period. Use
+     * an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "trialing_count": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionTermsRequest}. Subscription terms from either a subscription
+ * plan or subscription offers, selected by `type`.
+ */
+export type SubscriptionTermsRequest = ((SubscriptionPlanTermsRequest) | (SubscriptionOfferTermsRequest) | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link SubscriptionTermsRequestInput}. Subscription terms from either a
+ * subscription plan or subscription offers, selected by `type`.
+ */
+export type SubscriptionTermsRequestInput = ((SubscriptionPlanTermsRequestInput) | (SubscriptionOfferTermsRequestInput));
+/**
+ * Shape $ (Value): {@link SubscriptionUpcomingDeliveryHold}. A delivery problem detected for an
+ * upcoming renewal that will hold the subscription's delivery, and who can fix it.
+ */
+export type SubscriptionUpcomingDeliveryHold = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "detected_at": string;
+    /** Shape $ (Value): string.  Value enum: "buyer", "merchant". */
+    "fixable_by": "buyer" | "merchant" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "method_unavailable", "destination_not_served",
+     * "rate_unavailable".
+     */
+    "reason": "method_unavailable" | "destination_not_served" | "rate_unavailable" | (string & {});
+    /**
+     * Shape $ (Value): string. Time of the next renewal affected by this delivery issue. Format:
+     * date-time.
+     */
+    "renewal_at": string;
+};
+/**
+ * Shape $ (Value): {@link SubscriptionWindowMetrics}. The half-open period [period_start_at,
+ * period_end_at) includes its start and excludes its end. Amounts and payments_count use currency;
+ * customer and subscription counts span currencies.
+ */
+export type SubscriptionWindowMetrics = {
+    /**
+     * Shape $ (Value): integer string. Subscriptions selected by canceled_at in the period, across
+     * currencies. The half-open period [period_start_at, period_end_at) includes its start and
+     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
+     * span currencies. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64.
+     */
+    "canceled_subscriptions_count": `${bigint}`;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Subscription-sourced payment amounts with a succeeded
+     * payment activity selected by activity created_at in the period, counted once per payment.
+     * Includes recurring charges and setup fees, restricted to currency. The half-open period
+     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
+     * payments_count use currency; customer and subscription counts span currencies. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "collected_money": MoneyValue;
+    /**
+     * Shape $ (Value): integer string. Subscriptions selected by subscription created_at in the
+     * period whose current status is trialing, active, paused, or past_due. Excludes incomplete
+     * and canceled subscriptions; past counts can change with current status. Spans currencies.
+     * The half-open period [period_start_at, period_end_at) includes its start and excludes its
+     * end. Amounts and payments_count use currency; customer and subscription counts span
+     * currencies. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "new_subscriptions_count": `${bigint}`;
+};
+export type SubscriptionsCancelInput = MeCancelSubscriptionInput;
+export type SubscriptionsChangePlanInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link ChangeSubscriptionPlanRequestInput}. The request body for: Change
+     * subscription plan.
+     */
+    "body": InputValue<ChangeSubscriptionPlanRequestInput>;
+};
+export type SubscriptionsCreateAccessLinkInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateSubscriptionAccessLinkRequestInput}. The access a subscription
+     * link gives its buyer. Omit the body or purpose for read-only access.
+     */
+    "body"?: InputValue<CreateSubscriptionAccessLinkRequestInput>;
+};
+export type SubscriptionsCreateInput = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateSubscriptionRequestInput}. The request body for: Create
+     * subscription.
+     */
+    "body": InputValue<CreateSubscriptionRequestInput>;
+};
+export type SubscriptionsCreateLineItemInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link CreateSubscriptionLineItemRequestInput}. The request body for: Add
+     * subscription line item.
+     */
+    "body": InputValue<CreateSubscriptionLineItemRequestInput>;
+};
+export type SubscriptionsCreatePaymentRetryInput = MeCreateSubscriptionPaymentRetryInput;
+export type SubscriptionsDeleteLineItemInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. */
+    "subscription_line_item_id": InputValue<string>;
+    /**
+     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+     * floating-point number. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: InputValue<`${bigint}` | bigint>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+};
+export type SubscriptionsGetInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. [] enum: "customer", "payment_method",
+     * "subscription_plan". Shape $[] (Value): string. Value enum: "customer", "payment_method",
+     * "subscription_plan".
+     */
+    "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+};
+export type SubscriptionsGetPaymentRetryInput = MeGetSubscriptionPaymentRetryInput;
+export type SubscriptionsListInput = {
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "subscription_plan",
+     * "subscription_offer". Shape $[] (Value): string. Value enum: "subscription_plan",
+     * "subscription_offer".
+     */
+    "terms_type"?: InputValue<Array<"subscription_plan" | "subscription_offer">>;
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "trialing", "active", "paused",
+     * "past_due", "canceled", "incomplete", "scheduled". Shape $[] (Value): string. Value enum:
+     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+     */
+    "status"?: InputValue<Array<"trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "flint", "external". Shape $[]
+     * (Value): string. Value enum: "flint", "external".
+     */
+    "billing_schedule_owner"?: InputValue<Array<"flint" | "external">>;
+    /** Shape $ (Value): boolean. */
+    "awaiting_billing_schedule"?: InputValue<boolean>;
+    /** Shape $ (Value): boolean. */
+    "cancel_at_period_end"?: InputValue<boolean>;
+    /** Shape $ (Value): string. */
+    "customer_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "delivery_method_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable". Shape $[] (Value): string. Value enum:
+     * "method_unavailable", "destination_not_served", "rate_unavailable".
+     */
+    "hold_reason"?: InputValue<Array<"method_unavailable" | "destination_not_served" | "rate_unavailable">>;
+    /** Shape $ (Value): string. */
+    "subscription_offer_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "subscription_plan_id"?: InputValue<string>;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "external_reference_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "query"?: InputValue<string>;
+    /**
+     * Shape $ (Value): string. Default: "created_at". Value enum: "created_at", "updated_at",
+     * "next_billing_at".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
+    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "next_billing_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "next_billing_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): boolean. */
+    "needs_attention"?: InputValue<boolean>;
+    /**
+     * Shape $ (Value): Array of string. [] enum: "customer", "payment_method",
+     * "subscription_plan". Shape $[] (Value): string. Value enum: "customer", "payment_method",
+     * "subscription_plan".
+     */
+    "expand"?: InputValue<Array<"customer" | "payment_method" | "subscription_plan">>;
+};
+export type SubscriptionsListPaymentRetriesInput = MeListSubscriptionPaymentRetriesInput;
+export type SubscriptionsPauseInput = MePauseSubscriptionInput;
+export type SubscriptionsRenewInput = MeRenewSubscriptionInput;
+export type SubscriptionsResumeInput = MeResumeSubscriptionInput;
+export type SubscriptionsSkipCycleInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link SkipSubscriptionCycleRequestInput}. The request body for: Skip
+     * subscription cycle.
+     */
+    "body": InputValue<SkipSubscriptionCycleRequestInput>;
+};
+export type SubscriptionsUpdateInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link UpdateSubscriptionRequestInput}. The request body for: Update
+     * subscription.
+     */
+    "body": InputValue<UpdateSubscriptionRequestInput>;
+};
+export type SubscriptionsUpdateLineItemInput = {
+    /** Shape $ (Value): string. */
+    "subscription_id": InputValue<string>;
+    /** Shape $ (Value): string. */
+    "subscription_line_item_id": InputValue<string>;
+    /** Shape $ (Value): string. maxLength: 255. */
+    "Idempotency-Key"?: InputValue<string>;
+    /**
+     * Shape $ (Value): {@link UpdateSubscriptionLineItemRequestInput}. The request body for:
+     * Update subscription line item.
+     */
+    "body": InputValue<UpdateSubscriptionLineItemRequestInput>;
+};
+/**
+ * Shape $ (Value): {@link TaxBreakdown}. The tax calculated for one jurisdiction on an order, line
+ * item, or charge, with the taxable amount, rate or flat amount, and tax.
+ */
+export type TaxBreakdown = ({
+    /** Shape $ (Value): string.  Value enum: "percentage", "flat_amount". */
+    "calculation_type": "percentage" | "flat_amount" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /** Shape $ (Value): string. */
+    "fulfillment_choice_group_id"?: string;
+    /**
+     * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /** Shape $ (Value): string. */
+    "location_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_charge_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_line_item_id"?: string;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent"?: number;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive" | (string & {});
+    /** Shape $ (Value): string. */
+    "tax_breakdown_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax", "retail_delivery_fee". */
+    "tax_type": "sales_tax" | "use_tax" | "retail_delivery_fee" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "standard_rated", "not_taxable", "customer_exempt",
+     * "tax_disabled", "location_required", "calculation_incomplete".
+     */
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
+})
+    & ((Exclude<TaxBreakdownPercentage & object, readonly unknown[]>)
+    | (Exclude<TaxBreakdownFlatAmount & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** Shape $ (Value): {@link TaxBreakdownFlatAmount}. The `flat_amount` variant of `TaxBreakdown`. */
+export type TaxBreakdownFlatAmount = ({
+    /** Shape $ (Value): string.  Value enum: "flat_amount". */
+    "calculation_type": "flat_amount" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "fulfillment_choice_group_id"?: string;
+    /**
+     * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /** Shape $ (Value): string. */
+    "location_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_charge_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_line_item_id"?: string;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent"?: number;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive" | (string & {});
+    /** Shape $ (Value): string. */
+    "tax_breakdown_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax", "retail_delivery_fee". */
+    "tax_type": "sales_tax" | "use_tax" | "retail_delivery_fee" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "standard_rated", "not_taxable", "customer_exempt",
+     * "tax_disabled", "location_required", "calculation_incomplete".
+     */
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "flat_amount". */
+    "calculation_type"?: "flat_amount" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money": MoneyValue;
+}));
+/** Shape $ (Value): {@link TaxBreakdownPercentage}. The `percentage` variant of `TaxBreakdown`. */
+export type TaxBreakdownPercentage = ({
+    /** Shape $ (Value): string.  Value enum: "percentage". */
+    "calculation_type": "percentage" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /** Shape $ (Value): string. */
+    "fulfillment_choice_group_id"?: string;
+    /**
+     * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /** Shape $ (Value): string. */
+    "location_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_charge_id"?: string;
+    /** Shape $ (Value): string. */
+    "order_line_item_id"?: string;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive" | (string & {});
+    /** Shape $ (Value): string. */
+    "tax_breakdown_id": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax", "retail_delivery_fee". */
+    "tax_type": "sales_tax" | "use_tax" | "retail_delivery_fee" | (string & {});
+    /**
+     * Shape $ (Value): string. Value enum: "standard_rated", "not_taxable", "customer_exempt",
+     * "tax_disabled", "location_required", "calculation_incomplete".
+     */
+    "taxability_reason": "standard_rated"
+        | "not_taxable"
+        | "customer_exempt"
+        | "tax_disabled"
+        | "location_required"
+        | "calculation_incomplete"
+        | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "taxable_money": MoneyValue;
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "percentage". */
+    "calculation_type"?: "percentage" | (string & {});
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+}));
+/**
+ * Shape $ (Value): {@link TaxCalculationRequest}. Tax you calculated yourself for a line or
+ * charge: whether prices include tax, and the tax components.
+ */
+export type TaxCalculationRequest = {
+    /**
+     * Shape $ (Value): Array of {@link TaxComponentRequest}. minItems: 1. Shape $[] (Value):
+     * {@link TaxComponentRequest}. One tax component in a `TaxCalculationInput`: a jurisdiction,
+     * tax type, and percent.
+     */
+    "components": Array<TaxComponentRequest>;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link TaxCalculationRequestInput}. Tax you calculated yourself for a line or
+ * charge: whether prices include tax, and the tax components.
+ */
+export type TaxCalculationRequestInput = {
+    /**
+     * Shape $ (Value): Array of {@link TaxComponentRequestInput}. minItems: 1. Shape $[] (Value):
+     * {@link TaxComponentRequestInput}. One tax component in a `TaxCalculationInput`: a
+     * jurisdiction, tax type, and percent.
+     */
+    "components": Array<TaxComponentRequestInput>;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive";
+};
+/**
+ * Shape $ (Value): {@link TaxCalculationRequestRequestInput}. Tax you calculated yourself for a
+ * line or charge: whether prices include tax, and the tax components.
+ */
+export type TaxCalculationRequestRequestInput = {
+    /**
+     * Shape $ (Value): Array of {@link TaxComponentRequestRequestInput}. minItems: 1. Shape $[]
+     * (Value): {@link TaxComponentRequestRequestInput}. One tax component in a
+     * `TaxCalculationInput`: a jurisdiction, tax type, and percent.
+     */
+    "components": Array<TaxComponentRequestRequestInput>;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive";
+};
+/**
+ * Shape $ (Value): {@link TaxComponentRequest}. One tax component in a `TaxCalculationInput`: a
+ * jurisdiction, tax type, and percent.
+ */
+export type TaxComponentRequest = ({
+    /** Shape $ (Value): string.  Value enum: "percentage". */
+    "calculation_type"?: "percentage" | (string & {});
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /**
+     * Shape $ (Value): {@link TaxJurisdiction}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdiction;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax". */
+    "tax_type": "sales_tax" | "use_tax" | (string & {});
+});
+/**
+ * Shape $ (Value): {@link TaxComponentRequestInput}. One tax component in a `TaxCalculationInput`:
+ * a jurisdiction, tax type, and percent.
+ */
+export type TaxComponentRequestInput = ({
+    /** Shape $ (Value): string.  Value enum: "percentage". */
+    "calculation_type"?: "percentage";
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * Shape $ (Value): {@link TaxJurisdictionInput}. A taxing jurisdiction with its level, such as
+     * state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdictionInput;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax". */
+    "tax_type": "sales_tax" | "use_tax";
+})
+    & ({
+    "flat_money"?: never;
+});
+/**
+ * Shape $ (Value): {@link TaxComponentRequestRequestInput}. One tax component in a
+ * `TaxCalculationInput`: a jurisdiction, tax type, and percent.
+ */
+export type TaxComponentRequestRequestInput = ({
+    /** Shape $ (Value): string. Default: "percentage". Value enum: "percentage". */
+    "calculation_type"?: "percentage";
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * Shape $ (Value): {@link TaxJurisdictionRequestRequestInput}. A taxing jurisdiction with its
+     * level, such as state or city, name, state, and country.
+     */
+    "jurisdiction": TaxJurisdictionRequestRequestInput;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax". */
+    "tax_type": "sales_tax" | "use_tax";
+})
+    & ({
+    "flat_money"?: never;
 });

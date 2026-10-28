@@ -10,7 +10,7 @@ namespace Flint;
 final class CheckoutCustomerPrefill extends Model {
     /** @param array{'billing_address'?: mixed, 'email': string, 'shipping_address'?: mixed, 'shipping_recipient_name'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutCustomerPrefill')); }
-    /** Shape $ (Value): {@see Address}. The customer's default billing address. Omitted when the customer has none. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
+    /** Shape $ (Value): {@see Address}. The customer's default billing address. Omitted when the customer has none. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
      */
     public function getBillingAddress(): ?Address { return $this->get('billing_address'); }
@@ -20,12 +20,12 @@ final class CheckoutCustomerPrefill extends Model {
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Shape $ (Value): {@see Address}. The customer's default shipping address. Omitted when the customer has none. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
+    /** Shape $ (Value): {@see Address}. The customer's default shipping address. Omitted when the customer has none. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
      */
     public function getShippingAddress(): ?Address { return $this->get('shipping_address'); }
     public function hasShippingAddress(): bool { return $this->has('shipping_address'); }
-    /** Shape $ (Value): string. Recipient name saved with the customer's default shipping address. Present only with `shipping_address`; omitted when that address was set on the customer without a saved recipient.
+    /** Shape $ (Value): string. Recipient name of the customer's default shipping address. Present whenever `shipping_address` is.
      * @return ?string
      */
     public function getShippingRecipientName(): ?string { return $this->get('shipping_recipient_name'); }

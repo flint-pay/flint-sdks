@@ -2,5 +2,16 @@
 
 ## SubscriptionDeliveryDestinationInputCustomerAddressInput
 
-Request input. Response: [SubscriptionDeliveryDestinationInputCustomerAddress](../models/SubscriptionDeliveryDestinationInputCustomerAddress.md#subscriptiondeliverydestinationinputcustomeraddress). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
+Request input. Response: [SubscriptionServiceLocationInputCustomerAddress](../models/SubscriptionServiceLocationInputCustomerAddress.md#subscriptionservicelocationinputcustomeraddress).
+
+The `customer_address` variant of `SubscriptionDeliveryDestinationInput`.
+
+
+
+
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_address_id` | Required | string | minLength: `1`. pattern: `^caddr_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `type` | Required | string | Values: `"customer_address"`. |
 

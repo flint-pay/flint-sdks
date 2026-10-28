@@ -25,9 +25,9 @@ cancel(payout_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `payout_id` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Optional | [CancelPayoutRequestInput](../models/CancelPayoutRequest.md#cancelpayoutrequest) | The request body for: Cancel a payout. |
+| `body` | Optional | [CancelPayoutRequestInput](../models/CancelPayoutRequestInput.md#cancelpayoutrequestinput) | The request body for: Cancel a payout. |
 
-Body model: [CancelPayoutRequestInput](../models/CancelPayoutRequest.md#cancelpayoutrequest).
+Body model: [CancelPayoutRequestInput](../models/CancelPayoutRequestInput.md#cancelpayoutrequestinput).
 
 #### Response
 
@@ -58,7 +58,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -105,7 +105,7 @@ Body model: [CreatePayoutRequestInput](../models/CreatePayoutRequest.md#createpa
 | `balance_source_type` | Optional | string | Balance source this payout draws from. Flint chooses the source when omitted. Values: `"card"`, `"bank_account"`. |
 | `description` | Optional | string | Your description of the payout, returned on the payout. minLength: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `method` | Optional | string | Payout method. Only standard is accepted; omitted defaults to standard. Values: `"standard"`. |
 | `payout_destination_id` | Optional | string | Destination to pay. It must be active and in the payout's currency. Omit it to pay the currency's default destination. minLength: `1`. |
 | `statement_descriptor` | Optional | string | Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: `1`. |
@@ -139,7 +139,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -214,7 +214,7 @@ const result = await client.payouts.get("example", {}, {  });
 
 ### payouts.list
 
-Returns a paginated list of payouts with optional filters for status, currency, destination, method, and timing.
+Returns a paginated list of payouts with optional filters for status, currency, destination, method, and timing. Default order: created_at descending, then payout_id descending.
 
 `GET /v1/payouts`
 

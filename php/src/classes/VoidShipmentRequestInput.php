@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $reason_message
  * Presence-aware input; omitted fields throw when accessed. */
 final class VoidShipmentRequestInput extends Model {
-    /** @param array{'buyer_notification_behavior'?: string, 'expected_version'?: string, 'occurred_at'?: string|\DateTimeInterface, 'reason_message'?: string, ...}|object $values */
+    /** @param array{'buyer_notification_behavior'?: string, 'expected_version'?: string, 'occurred_at'?: string|\DateTimeInterface, 'reason_message'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('VoidShipmentRequestInput')); }
     /** Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Value enum: "send", "suppress".
      * @return string

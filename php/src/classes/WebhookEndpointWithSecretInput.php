@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read list<string> $installed_merchant_modes
  * @property-read string $partner_app_id
  * @property-read string|\DateTimeInterface $previous_secret_expires_at
+ * @property-read list<string> $signing_methods
  * @property-read string $status
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $url
@@ -21,7 +22,7 @@ namespace Flint;
  * @property-read string $secret
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointWithSecretInput extends Model {
-    /** @param array{'api_version': string, 'api_version_changed_at'?: string|\DateTimeInterface, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string|\DateTimeInterface, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'previous_secret_expires_at'?: string|\DateTimeInterface, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'url': string, 'version': string, 'webhook_endpoint_id': string, 'secret'?: string, ...}|object $values */
+    /** @param array{'api_version': string, 'api_version_changed_at'?: string|\DateTimeInterface, 'api_version_previous'?: string, 'api_version_rollback_expires_at'?: string|\DateTimeInterface, 'created_at'?: string|\DateTimeInterface, 'description'?: string, 'enabled_events': list<string>, 'event_sources'?: list<string>, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'previous_secret_expires_at'?: string|\DateTimeInterface, 'signing_methods': list<string>, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'url': string, 'version': string, 'webhook_endpoint_id': string, 'secret'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointWithSecretInput')); }
     /** Shape $ (Value): string. A dated API version pins this endpoint. The value default follows the endpoint owner's merchant default at delivery time, including retries. Deliveries never use a newer version than the event's recorded version.
      * @return string
@@ -89,6 +90,12 @@ final class WebhookEndpointWithSecretInput extends Model {
      */
     public function getPreviousSecretExpiresAt(): string|\DateTimeInterface { return $this->get('previous_secret_expires_at'); }
     public function hasPreviousSecretExpiresAt(): bool { return $this->has('previous_secret_expires_at'); }
+    /** Shape $ (Value): Array of string. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". Shape $[] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+     * @return list<string>
+     * @throws SdkError When signing_methods is omitted; use hasSigningMethods() or valueOrDefault().
+     */
+    public function getSigningMethods(): array { return $this->get('signing_methods'); }
+    public function hasSigningMethods(): bool { return $this->has('signing_methods'); }
     /** Shape $ (Value): string. Availability of this endpoint. Deleted is returned only by DELETE. Value enum: "active", "inactive", "deleted".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
@@ -119,7 +126,7 @@ final class WebhookEndpointWithSecretInput extends Model {
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** Shape $ (Value): string. One-time signing secret. Present on create and rotation; omitted on an idempotent replay after the secret retention period.
+    /** Shape $ (Value): string. One-time signing secret. Present on create only when hmac is enabled, and on rotation; omitted on an idempotent replay after the secret retention period.
      * @return string
      * @throws SdkError When secret is omitted; use hasSecret() or valueOrDefault().
      */

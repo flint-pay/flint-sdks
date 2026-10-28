@@ -21,7 +21,7 @@ Body model: [CreateOrganizationRequestInput](../models/CreateOrganizationRequest
 
 #### organizations.create body fields
 
-Field definitions: [shared fields](../models/CreateOrganizationRequestInput.md#createorganizationrequestinput).
+Field definitions: [shared fields](../models/CreateOrganizationRequestInput.md#createorganizationrequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput).
 
 #### Response
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -172,7 +172,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `grantMembershipWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -192,7 +192,7 @@ $result = $client->organizations->grantMembership('example', [
 
 ### organizations.list
 
-Returns the organizations accessible to the caller, filtered to the authenticated merchant's organization subtree for external API keys. Pagination uses the last returned sort value and organization_id, so inserting or deleting earlier rows does not shift later pages. Reuse page_token with the same filters and sort; page_size may change.
+Returns the organizations accessible to the caller, filtered to the authenticated merchant's organization subtree for external API keys. Pagination uses the last returned sort value and organization_id, so inserting or deleting earlier rows does not shift later pages. Reuse page_token with the same filters and sort; page_size may change. Default order: created_at descending, then organization_id descending.
 
 `GET /v1/organizations`
 
@@ -253,7 +253,7 @@ $result = $client->organizations->list([], new RequestOptions());
 
 ### organizations.listMemberships
 
-Returns the direct memberships for an organization.
+Returns the direct memberships for an organization. Default order: user_id ascending; this key uniquely orders the results.
 
 `GET /v1/organizations/{organization_id}/memberships`
 
@@ -346,7 +346,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -403,7 +403,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `revokeMembershipWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -438,7 +438,7 @@ Body model: [UpdateOrganizationRequestInput](../models/UpdateOrganizationRequest
 
 #### organizations.update body fields
 
-Field definitions: [shared fields](../models/UpdateOrganizationRequestInput.md#updateorganizationrequestinput).
+Field definitions: [shared fields](../models/UpdateOrganizationRequestInput.md#updateorganizationrequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
@@ -468,7 +468,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

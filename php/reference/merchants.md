@@ -70,7 +70,7 @@ Body model: [UpdateMerchantRequestInput](../models/UpdateMerchantRequestInput.md
 
 #### merchants.update body fields
 
-Field definitions: [shared fields](../models/UpdateMerchantRequestInput.md#updatemerchantrequestinput). Models: [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput), [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput).
+Field definitions: [shared fields](../models/UpdateMerchantRequestInput.md#updatemerchantrequestinput). Models: [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput), [ImageRequestInput](../models/ImageRequestInput.md#imagerequestinput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
@@ -90,7 +90,9 @@ Returned payload: [Merchant](../models/Merchant.md#merchant).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
+| 504 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -100,7 +102,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -13,4 +13,4 @@ const result = await client.me.listFulfillmentEvents(
     order_id: "example",
   }
 );
-console.log(result);
+console.log(result.request_id);

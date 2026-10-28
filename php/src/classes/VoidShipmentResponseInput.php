@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class VoidShipmentResponseInput extends Model {
-    /** @param array{'data': VoidShipmentResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': VoidShipmentResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('VoidShipmentResponseInput')); }
     /** Shape $ (Value): {@see VoidShipmentResultInput}. The voided shipment and its affected packages. The shipment is the primary resource and expected_version target.
      * @return VoidShipmentResultInput|array<array-key, mixed>|\stdClass

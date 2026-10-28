@@ -10,7 +10,7 @@ One item's line in an inventory count, with the quantities Flint expected, the q
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `captured_physical_version` | Required | integer string | Physical version accepted with the latest saved observation. Meaningful once counted_on_hand_quantity is present. Applying the count requires the same physical version. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `captured_physical_version` | Required | integer string | Physical version accepted with the latest saved observation. Meaningful once counted_on_hand_quantity is present. Applying the count requires the same physical version. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
 | `counted_damaged_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `counted_on_hand_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `counted_quality_control_quantity` | Optional | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
@@ -26,5 +26,5 @@ One item's line in an inventory count, with the quantities Flint expected, the q
 | `on_hand_variance` | Optional | integer string | The difference this line applied to the on-hand quantity. Present once the count is applied. A draft or canceled count omits it. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `quality_control_variance` | Optional | integer string | The difference this line applied to the quality-control quantity. Present once the count is applied. A draft or canceled count omits it. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `quarantined_variance` | Optional | integer string | The difference this line applied to the quarantined quantity. Present once the count is applied. A draft or canceled count omits it. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
-| `source_observation_sequence` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `0`. |
+| `source_observation_sequence` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `0`. |
 

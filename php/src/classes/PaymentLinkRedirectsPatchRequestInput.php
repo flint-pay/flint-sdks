@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string|null $success_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkRedirectsPatchRequestInput extends Model {
-    /** @param array{'cancel_url'?: string|null, 'expired_url'?: string|null, 'success_url'?: string|null, ...}|object $values */
+    /** @param array{'cancel_url'?: string|null, 'expired_url'?: string|null, 'success_url'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkRedirectsPatchRequestInput')); }
     /** Shape $ (Value): string or null. Where the buyer goes when they leave checkout without paying. The session stays open until it expires. Absolute HTTPS URL; test mode also accepts HTTP loopback URLs. Up to 2,048 characters. Send null to clear it. Format: uri. minLength: 1. maxLength: 2048.
      * @return string|null

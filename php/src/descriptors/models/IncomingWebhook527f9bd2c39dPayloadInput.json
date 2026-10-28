@@ -1,1 +1,1 @@
-{"shared":"Webhook_payout_destination_disabled_merchant","dependencies":["MerchantWebhookEnvelope","PayoutDestination","SharedCodec373","SharedCodec374","SharedCodec514","Webhook_payout_destination_disabled_merchant"]}
+{"shared":"Webhook_payout_destination_disabled_merchant","dependencies":["MerchantWebhookEnvelope","MetadataMap","PayoutDestination","SharedCodec413","SharedCodec414","SharedCodec551","Webhook_payout_destination_disabled_merchant"]}

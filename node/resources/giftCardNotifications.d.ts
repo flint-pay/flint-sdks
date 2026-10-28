@@ -1,7 +1,7 @@
 import type { InputValue } from '../runtime.js';
 import type { CancelGiftCardNotificationRequestInput } from '../declarations/types-3.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateGiftCardNotificationRequestInput } from '../declarations/types-6.js';
+import type { CreateGiftCardNotificationRequestInput } from '../declarations/types-7.js';
 import type {
     GiftCardNotification,
     GiftCardNotificationListResponse,
@@ -10,10 +10,10 @@ import type {
     GiftCardNotificationsCreateInput,
     GiftCardNotificationsGetInput,
     GiftCardNotificationsListInput
-} from '../declarations/types-19.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-20.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,7 +29,7 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CancelGiftCardNotificationRequestInput } from '../declarations/types-3.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     GiftCardNotification,
     GiftCardNotificationResponse,
@@ -41,20 +41,21 @@ export type {
     GiftCardNotificationDelivery,
     GiftCardNotificationDeliveryAttempt,
     GiftCardNotificationDeliveryEvent,
-    GiftCardPurchaseRecipient,
     GiftCardNotificationRecipientInput
-} from '../declarations/types-19.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-6.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-20.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { CreateGiftCardNotificationRequestInput } from '../declarations/types-7.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCancelGiftCardNotificationRequest } from '../declarations/types-62.js';
-export { makeCreateGiftCardNotificationRequest } from '../declarations/types-63.js';
-export { makeGiftCardNotificationRecipient } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { GiftCardPurchaseRecipient } from '../declarations/types-21.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCancelGiftCardNotificationRequest } from '../declarations/types-65.js';
+export { makeCreateGiftCardNotificationRequest } from '../declarations/types-67.js';
+export { makeGiftCardNotificationRecipient } from '../declarations/types-71.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface GiftCardNotificationsResource {
     /**
  * Cancels a notification before sending starts or after confirmed failure. A sending or
@@ -115,7 +116,8 @@ export interface GiftCardNotificationsResource {
     getWithResponse(gift_card_notification_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<GiftCardNotificationResponse>>;
     /**
  * Lists recipient notification identities, schedules and delivery outcomes. No redemption codes or
- * recipient access tokens are returned.
+ * recipient access tokens are returned. Default order: gift_card_notification_id descending; this
+ * key uniquely orders the results.
  * @see reference/giftCardNotifications.md#giftcardnotificationslist
  * GET /v1/gift-card-notifications
  * @example

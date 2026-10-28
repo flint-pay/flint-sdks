@@ -23,7 +23,7 @@ Request input.
 | `inventory_tracking` | Required | string | Whether sales of this variant consume an inventory item. Values: `"not_tracked"`, `"tracked"`. |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#productvariantinput-line_item_tax_category-values). |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
-| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `modifier_set` | Optional | [ModifierSetInput](../models/ModifierSetInput.md#modifiersetinput) or null | Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. |
 | `modifier_set_id` | Required | string or null | Attached modifier set. Send null on update to remove it. |
 | `name` | Optional | string | Variant name that distinguishes it from the product's other variants. |

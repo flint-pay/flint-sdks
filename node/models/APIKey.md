@@ -10,6 +10,7 @@ A credential used to authenticate API requests.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session or a full-access API key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `api_key_id` | Required | string |  |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_by` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The API key or user that created this key. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Absent when the creator is unavailable. A reference to another resource by `resource_type` and `resource_id`. `created_by`: [field definitions](../models/APIKey.md#apikeycreated_by). |
@@ -20,7 +21,7 @@ A credential used to authenticate API requests.
 | `name` | Required | string | maxLength: `100`. |
 | `revoked_at` | Optional | string | When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. Format: `date-time`. |
 | `sandbox_id` | Optional | string |  |
-| `scopes` | Required | Array of string | Items values: [95 declared values](#apikey-scopes--values). |
+| `scopes` | Required | Array of string | The scopes the key holds now. For full and read_only keys this list grows when Flint adds scopes. Items values: [96 declared values](#apikey-scopes--values). |
 | `status` | Required | string | Current key status. A non-revoked key is expired when expires_at is at or before the current time; otherwise it is active. Revoked keys remain revoked regardless of expires_at. Values: `"active"`, `"expired"`, `"revoked"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
@@ -53,10 +54,10 @@ A credential used to authenticate API requests.
 - `"commerce.gift_cards.redemptions.write"`
 - `"commerce.gift_cards.secrets.write"`
 - `"commerce.gift_cards.write"`
+- `"commerce.inventory.allocation.write"`
+- `"commerce.inventory.policies.write"`
 - `"commerce.inventory.read"`
 - `"commerce.inventory.write"`
-- `"commerce.inventory_locations.write"`
-- `"commerce.inventory_policies.write"`
 - `"commerce.invoices.read"`
 - `"commerce.invoices.write"`
 - `"commerce.orders.read"`
@@ -68,10 +69,10 @@ A credential used to authenticate API requests.
 - `"commerce.refunds.read"`
 - `"commerce.refunds.tax_overrides.write"`
 - `"commerce.refunds.write"`
-- `"commerce.return_policies.write"`
-- `"commerce.return_reasons.write"`
 - `"commerce.returns.operations.write"`
+- `"commerce.returns.policies.write"`
 - `"commerce.returns.read"`
+- `"commerce.returns.reasons.write"`
 - `"commerce.returns.resolutions.write"`
 - `"commerce.returns.write"`
 - `"commerce.subscription_plans.read"`
@@ -90,6 +91,8 @@ A credential used to authenticate API requests.
 - `"developer.resource_timelines.read"`
 - `"developer.sandboxes.read"`
 - `"developer.sandboxes.write"`
+- `"developer.test_clocks.read"`
+- `"developer.test_clocks.write"`
 - `"merchant_billing.read"`
 - `"merchants.account_sessions.write"`
 - `"merchants.locations.read"`
@@ -112,7 +115,6 @@ A credential used to authenticate API requests.
 - `"payments.payment_method_domains.write"`
 - `"payments.payment_methods.read"`
 - `"payments.payment_methods.write"`
-- `"payments.payment_options.read"`
 - `"reports.read"`
 - `"reports.write"`
 - `"risk.controls.write"`
@@ -130,7 +132,7 @@ The API key or user that created this key. An API key creator can belong to anot
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the referenced resource. |
-| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [135 declared values](#apikeycreated_by-resource_type-values). |
+| `resource_type` | Required | [ResourceType](../models/ResourceType.md#resourcetype) | Public resource type: the resource's ID field name without `_id`. Clients must accept values added in future releases. Values: [140 declared values](#apikeycreated_by-resource_type-values). |
 
 #### APIKey.created_by resource_type values
 
@@ -161,6 +163,7 @@ The API key or user that created this key. An API key creator can belong to anot
 - `"delivery_revocation"`
 - `"delivery_selection"`
 - `"delivery_zone"`
+- `"demo_session"`
 - `"device"`
 - `"discount"`
 - `"dispute"`
@@ -180,6 +183,7 @@ The API key or user that created this key. An API key creator can belong to anot
 - `"gift_card_notification"`
 - `"gift_card_redemption"`
 - `"gift_card_transaction"`
+- `"image"`
 - `"inventory_adjustment"`
 - `"inventory_allocation_policy"`
 - `"inventory_allocation_policy_revision"`
@@ -216,6 +220,7 @@ The API key or user that created this key. An API key creator can belong to anot
 - `"package"`
 - `"package_item"`
 - `"partner_app"`
+- `"partner_app_credential"`
 - `"partner_app_install"`
 - `"payment_intent"`
 - `"payment_link"`
@@ -264,6 +269,8 @@ The API key or user that created this key. An API key creator can belong to anot
 - `"subscription_payment_retry"`
 - `"subscription_plan"`
 - `"subscription_plan_line_item"`
+- `"tax_connection"`
+- `"tax_registration"`
 - `"user"`
 - `"webhook_delivery"`
 - `"webhook_endpoint"`

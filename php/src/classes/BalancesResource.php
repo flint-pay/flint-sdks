@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 final class BalancesResource {
     public function __construct(private readonly Runtime $runtime) {}
-    /** Returns the current balance snapshot grouped by currency for the authenticated merchant in the standard list envelope. All balances fit on one page, so next_page_token is omitted.
+    /** Returns the current balance snapshot grouped by currency for the authenticated merchant in the standard list envelope. All balances fit on one page, so next_page_token is omitted. Default order: currency ascending; this key uniquely orders the results.
      * @param array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return BalancesListResponse200
      */

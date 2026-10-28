@@ -62,7 +62,7 @@ const result = await client.inventoryMovements.get("example", {}, {  });
 
 ### inventoryMovements.list
 
-List inventory movements, oldest recorded first. Send expand=inventory_item to render each movement's inventory item inline, so a history table needs no read per row. Filter by idempotency_key to recover the movements a command produced. Send sort_direction=desc to read the newest movements first.
+List inventory movements, oldest recorded first. Send expand=inventory_item to render each movement's inventory item inline, so a history table needs no read per row. Filter by idempotency_key to recover the movements a command produced. Send sort_direction=desc to read the newest movements first. Default order: created_at ascending, then inventory_movement_id ascending.
 
 `GET /v1/inventory-movements`
 

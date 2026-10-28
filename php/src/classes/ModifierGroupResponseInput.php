@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierGroupResponseInput extends Model {
-    /** @param array{'data': ModifierGroupInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': ModifierGroupInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierGroupResponseInput')); }
     /** Shape $ (Value): {@see ModifierGroupInput}. The modifier group returned by this operation. A group of choices that customize an item.
      * @return ModifierGroupInput|array<array-key, mixed>|\stdClass

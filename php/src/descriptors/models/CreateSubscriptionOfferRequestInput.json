@@ -1,1 +1,1 @@
-{"shared":"CreateSubscriptionOfferRequest","dependencies":["CreateSubscriptionOfferRequest","SubscriptionIntervalOption"]}
+{"shared":"CreateSubscriptionOfferRequest","dependencies":["CreateSubscriptionOfferRequest","MetadataRequest","SubscriptionIntervalOption"]}

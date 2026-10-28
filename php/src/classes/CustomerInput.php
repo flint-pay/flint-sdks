@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read AddressInput|array<array-key, mixed>|\stdClass $billing_address
+ * @property-read array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null $billing_address
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $customer_id
  * @property-read string $default_invoice_payment_term_id
@@ -13,23 +13,23 @@ namespace Flint;
  * @property-read string|null $internal_note
  * @property-read bool $is_merchant_verified
  * @property-read string $merchant_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string|null $name
  * @property-read string|null $phone
  * @property-read CustomerReceivablesInput|array<array-key, mixed>|\stdClass $receivables
  * @property-read string|null $segment
- * @property-read AddressInput|array<array-key, mixed>|\stdClass $shipping_address
+ * @property-read array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null $shipping_address
  * @property-read string $status
  * @property-read bool $tax_exempt
- * @property-read array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null $tax_identity
+ * @property-read array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null $tax_identity
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerInput extends Model {
-    /** @param array{'billing_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'default_invoice_payment_term_id'?: string, 'default_payment_method'?: array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'default_payment_method_id': string|null, 'email': string|null, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'is_merchant_verified'?: bool, 'merchant_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string|null, 'phone': string|null, 'receivables'?: CustomerReceivablesInput|array<array-key, mixed>|\stdClass, 'segment'?: string|null, 'shipping_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'status': string, 'tax_exempt'?: bool, 'tax_identity': array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'updated_at'?: string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'billing_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'default_invoice_payment_term_id'?: string, 'default_payment_method'?: array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'default_payment_method_id': string|null, 'email': string|null, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'is_merchant_verified'?: bool, 'merchant_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string|null, 'phone': string|null, 'receivables'?: CustomerReceivablesInput|array<array-key, mixed>|\stdClass, 'segment'?: string|null, 'shipping_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'status': string, 'tax_exempt'?: bool, 'tax_identity': array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null, 'updated_at'?: string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerInput')); }
-    /** Shape $ (Value): {@see AddressInput}. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
-     * @return AddressInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressInput} or null. The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. Null when no saved address is the billing default. Shape $.anyOf[1] (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+     * @return array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null
      * @throws SdkError When billing_address is omitted; use hasBillingAddress() or valueOrDefault().
      */
     public function getBillingAddress(): mixed { return $this->get('billing_address'); }
@@ -94,11 +94,11 @@ final class CustomerInput extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string or null. Customer name, or null when none.
      * @return string|null
@@ -124,8 +124,8 @@ final class CustomerInput extends Model {
      */
     public function getSegment(): string|null { return $this->get('segment'); }
     public function hasSegment(): bool { return $this->has('segment'); }
-    /** Shape $ (Value): {@see AddressInput}. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
-     * @return AddressInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressInput} or null. The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. Null when no saved address is the shipping default. Shape $.anyOf[1] (Value): {@see AddressInput}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+     * @return array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null
      * @throws SdkError When shipping_address is omitted; use hasShippingAddress() or valueOrDefault().
      */
     public function getShippingAddress(): mixed { return $this->get('shipping_address'); }
@@ -143,7 +143,7 @@ final class CustomerInput extends Model {
     public function getTaxExempt(): bool { return $this->get('tax_exempt'); }
     public function hasTaxExempt(): bool { return $this->has('tax_exempt'); }
     /** Shape $ (Value): {@see TaxIdentityInput} or null. Shape $.anyOf[1] (Value): {@see TaxIdentityInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. Shape $.anyOf[2] (Value): null.
-     * @return array{'legal_name': string|null, 'registered_address': array{'city': string, 'country': string, 'line1': string, 'line2'?: string, 'postal_code': string, 'state': string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
+     * @return array{'legal_name': string|null, 'registered_address': array{'city'?: string, 'country': string, 'line1'?: string, 'line2'?: string, 'postal_code'?: string, 'state'?: string, ...}|object|null, 'tax_ids': list<DocumentTaxIDInput|array<array-key, mixed>|\stdClass>, ...}|object|null
      * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
      */
     public function getTaxIdentity(): mixed { return $this->get('tax_identity'); }

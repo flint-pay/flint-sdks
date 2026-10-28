@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string|null $default_line_item_tax_category
  * Presence-aware input; omitted fields throw when accessed. */
 final class TaxSettingsRequestInput extends Model {
-    /** @param array{'default_delivery_tax_category'?: string|null, 'default_delivery_taxable'?: bool, 'default_enabled'?: bool, 'default_line_item_tax_category'?: string|null, ...}|object $values */
+    /** @param array{'default_delivery_tax_category'?: string|null, 'default_delivery_taxable'?: bool, 'default_enabled'?: bool, 'default_line_item_tax_category'?: string|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxSettingsRequestInput')); }
     /** Shape $ (Value): string or null. Charge category inherited by delivery methods that omit charge_tax_category. Null derives the category from the method type. Send null to clear it. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
      * @return string|null

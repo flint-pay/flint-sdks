@@ -12,12 +12,13 @@ namespace Flint;
  * @property-read ?string $key_id
  * @property-read string $name
  * @property-read ?string $secret
+ * @property-read list<string> $signing_methods
  * @property-read string $status
  * @property-read string $updated_at
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryRateCallback extends Model {
-    /** @param array{'circuit_failure_count': int, 'circuit_state': string, 'configuration': mixed, 'created_at': string, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'external_reference_id'?: string, 'key_id'?: string, 'name': string, 'secret'?: string, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
+    /** @param array{'circuit_failure_count': int, 'circuit_state': string, 'configuration': mixed, 'created_at': string, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'external_reference_id'?: string, 'key_id'?: string, 'name': string, 'secret'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at': string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallback')); }
     /** Shape $ (Value): integer. Consecutive callback failures since the last successful response. minimum: 0.
      * @return int
@@ -54,7 +55,7 @@ final class DeliveryRateCallback extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): string.
+    /** Shape $ (Value): string. Initial HMAC signing key ID. Returned only by create when hmac is included.
      * @return ?string
      */
     public function getKeyId(): ?string { return $this->get('key_id'); }
@@ -64,11 +65,16 @@ final class DeliveryRateCallback extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Shape $ (Value): string. Initial signing secret. Returned only by the create response.
+    /** Shape $ (Value): string. Initial HMAC shared secret. Returned only by the create response when signing_methods includes hmac.
      * @return ?string
      */
     public function getSecret(): ?string { return $this->get('secret'); }
     public function hasSecret(): bool { return $this->has('secret'); }
+    /** Shape $ (Value): Array of string. Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". Shape $[] (Value): string. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+     * @return list<string>
+     */
+    public function getSigningMethods(): array { return $this->get('signing_methods'); }
+    public function hasSigningMethods(): bool { return $this->has('signing_methods'); }
     /** Shape $ (Value): string.  Value enum: "active", "inactive", "archived".
      * @return string
      */

@@ -13,6 +13,10 @@ Request input.
 | `completed_at` | Optional | string | Completion evidence timestamp. Format: `date-time`. |
 | `created_at` | Optional | string | When the fulfillment was created, in RFC3339 format. Format: `date-time`. |
 | `customer_id` | Optional | string | Customer receiving this fulfillment, when one is set. |
+| `delivery_choice_group_id` | Required | string or null | Delivery choice group that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. |
+| `delivery_execution_leg_id` | Required | string or null | Execution leg of the selected delivery option that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. |
+| `delivery_method_id` | Required | string or null | Delivery method chosen for this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. Also null for fulfillments created before this field was added. |
+| `delivery_selection_id` | Required | string or null | Delivery selection that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. |
 | `device_id` | Optional | string | Device associated with the fulfillment, when one is recorded. |
 | `digital_details` | Optional | [DigitalFulfillmentDetailsInput](../models/DigitalFulfillmentDetailsInput.md#digitalfulfillmentdetailsinput) | Delivery URL and completion time for a digital fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`. |
 | `dispatched_at` | Optional | string | First time this fulfillment reached dispatched. Format: `date-time`. |
@@ -21,7 +25,7 @@ Request input.
 | `line_items` | Required | Array of [FulfillmentLineItemInput](../models/FulfillmentLineItemInput.md#fulfillmentlineiteminput) | Order lines and quantities allocated to this fulfillment. |
 | `local_delivery_details` | Optional | [DeliveryFulfillmentDetailsInput](../models/DeliveryFulfillmentDetailsInput.md#deliveryfulfillmentdetailsinput) | Courier, delivery window, and handoff details for a local delivery fulfillment. Details of a local delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are omitted for credentials that don't act for the verified customer. |
 | `location_id` | Optional | string | Merchant location responsible for this fulfillment. |
-| `metadata` | Optional | Map of string | Caller-owned key-value metadata associated with the fulfillment. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `order` | Optional | [ExpandedOrderSummaryInput](../models/ExpandedOrderSummaryInput.md#expandedordersummaryinput) or null | Order summary returned when the order relationship is expanded. |
 | `order_id` | Required | string | Order whose items this fulfillment delivers. |
 | `order_number` | Optional | string | Human-readable number of the order this fulfillment belongs to. Omitted when the order has no number. |

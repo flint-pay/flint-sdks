@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionDeliveryMigrationFailureListResponseInput extends Model {
-    /** @param array{'data': list<SubscriptionDeliveryMigrationFailureInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<SubscriptionDeliveryMigrationFailureInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMigrationFailureListResponseInput')); }
     /** Shape $ (Value): Array of {@see SubscriptionDeliveryMigrationFailureInput}. Shape $[] (Value): {@see SubscriptionDeliveryMigrationFailureInput}. A subscription that could not be moved to a new delivery method, with the reason.
      * @return list<SubscriptionDeliveryMigrationFailureInput|array<array-key, mixed>|\stdClass>

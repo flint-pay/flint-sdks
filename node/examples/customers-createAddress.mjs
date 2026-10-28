@@ -9,16 +9,16 @@ const client = new Client({
 const idempotencyKey = crypto.randomUUID();
 
 const result = await client.customers.createAddress(
-  "example",
+  "cus_example",
   {
     address: {
-      city: "example",
+      city: "Springfield",
       country: "US",
-      line1: "example",
-      postal_code: "example",
-      state: "example",
+      line1: "100 Example Street",
+      postal_code: "62701",
+      state: "IL",
     },
-    recipient_name: "example",
+    recipient_name: "Jordan Example",
   },
   { idempotencyKey: idempotencyKey },
 );

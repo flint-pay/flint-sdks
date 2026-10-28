@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $received_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateInvoiceManualPaymentRequestInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: string, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateInvoiceManualPaymentRequestInput')); }
     /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass

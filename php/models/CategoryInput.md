@@ -16,7 +16,7 @@ Request input.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. |
 | `handle` | Required | string | Immutable handle used to assign this category to products and bundles. |
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
-| `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `name` | Required | string | Category name shown to buyers. |
 | `status` | Required | string | Category lifecycle status. Active categories can be assigned; deleted is returned only by DELETE. Values: `"active"`, `"deleted"`. |
 | `targeting_reference_count` | Required | integer string | Number of live targeting references that prevent deleting the category. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |

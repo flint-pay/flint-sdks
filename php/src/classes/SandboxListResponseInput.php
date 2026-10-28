@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read list<DeveloperSandboxInput|array<array-key, mixed>|\stdClass> $data
+ * @property-read list<SandboxInput|array<array-key, mixed>|\stdClass> $data
  * @property-read ResponseMetaInput|array<array-key, mixed>|\stdClass $meta
  * @property-read string $next_page_token
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SandboxListResponseInput extends Model {
-    /** @param array{'data': list<DeveloperSandboxInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<SandboxInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SandboxListResponseInput')); }
-    /** Shape $ (Value): Array of {@see DeveloperSandboxInput}. Shape $[] (Value): {@see DeveloperSandboxInput}. An isolated environment for testing an integration.
-     * @return list<DeveloperSandboxInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): Array of {@see SandboxInput}. Shape $[] (Value): {@see SandboxInput}. An isolated environment for testing an integration.
+     * @return list<SandboxInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */
     public function getData(): array { return $this->get('data'); }

@@ -1,1 +1,1 @@
-{"shared":"CheckoutPrefillRequest","dependencies":["AddressRequest","CheckoutPrefillRequest"]}
+{"shared":"CheckoutPrefillRequest","dependencies":["AddressRequest","CheckoutPrefillRequest","SharedCodec0","SharedCodec1"]}

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ResourceTimelineResponseInput extends Model {
-    /** @param array{'data': ResourceTimelineInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': ResourceTimelineInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineResponseInput')); }
     /** Shape $ (Value): {@see ResourceTimelineInput}. The activity timeline for one resource, such as API requests, webhook events and deliveries, and image changes.
      * @return ResourceTimelineInput|array<array-key, mixed>|\stdClass

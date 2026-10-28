@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNoteAllocationListResponseInput extends Model {
-    /** @param array{'data': list<CreditNoteAllocationInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<CreditNoteAllocationInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNoteAllocationListResponseInput')); }
     /** Shape $ (Value): Array of {@see CreditNoteAllocationInput}. Shape $[] (Value): {@see CreditNoteAllocationInput}. One application of credit to the invoice. Allocations are append-only: a reversal sets reversed_at rather than removing the row.
      * @return list<CreditNoteAllocationInput|array<array-key, mixed>|\stdClass>

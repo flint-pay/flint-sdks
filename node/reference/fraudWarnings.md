@@ -62,7 +62,7 @@ const result = await client.fraudWarnings.get("example", {}, {  });
 
 ### fraudWarnings.list
 
-Lists early fraud warnings that card networks reported on your payments, most recently reported first. Filter with `is_actionable=true` to find warnings a full refund can still resolve before a dispute.
+Lists early fraud warnings that card networks reported on your payments, most recently reported first. Filter with `is_actionable=true` to find warnings a full refund can still resolve before a dispute. Default order: reported_at descending, then fraud_warning_id descending.
 
 `GET /v1/fraud-warnings`
 

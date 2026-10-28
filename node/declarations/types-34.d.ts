@@ -1,1714 +1,1478 @@
-import type { InputValue } from '../runtime.js';
+import type { MetadataRequestInput, MetadataMap } from './types-32.js';
 import type {
-    UpdateOrderChargeRequestInput,
-    UpdateOrderRequestInput,
-    UpdateLineItemRequestInput,
-    UpdateOrganizationRequestInput,
-    UpdatePackageRequestInput,
-    UpdatePackageItemRequestInput
-} from './types-48.js';
-import type {
-    ExpandedOrganizationSummary,
-    Dimensions,
-    ExpandedOrderSummary,
-    DimensionsInput,
-    DeveloperListPartnerInstallsInput
-} from './types-16.js';
-import type { ResponseMeta } from './types-40.js';
-import type { CreateOrganizationRequestInput, CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-7.js';
-import type { GrantOrganizationMembershipRequestInput } from './types-19.js';
-import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationInput } from './types-42.js';
-import type { Weight, WeightInput } from './types-61.js';
-import type { FulfillmentTransitionRequestMarkPackedInput } from './types-18.js';
-import type { VoidPackageRequestInput } from './types-50.js';
-import type { PartnerAppPermissionManifestEntry, PartnerEnvironmentGrant } from './types-35.js';
-export type OrdersUpdateChargeInput = {
-    /** Shape $ (Value): string. */
-    "order_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "order_charge_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    MoneyValueInput,
+    OrderCalculatedChargeTaxInput,
+    MoneyValue,
+    OrderCalculatedChargeTax,
+    OrderChargeInputAmount,
+    OrderChargeInputPercent,
+    OrderChargeInputAmountInput,
+    OrderCalculatedLineItemTax,
+    Order
+} from './types-33.js';
+import type { TaxCalculationRequest, TaxCalculationRequestRequestInput } from './types-49.js';
+import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
+import type { DeliveryPreviewRoutingSourceInput } from './types-14.js';
+import type { BundleComponent } from './types-1.js';
+import type { CategoryReference } from './types-3.js';
+import type { Dimensions } from './types-17.js';
+import type { GiftCardPurchaseSnapshot, Image } from './types-21.js';
+import type { LineItemInventorySnapshot } from './types-30.js';
+import type { PurchasedGiftCard } from './types-41.js';
+import type { SelectedProductOption, SubscribedLine } from './types-47.js';
+import type { Weight } from './types-65.js';
+import type { TextModifierRequest, TextModifierRequestInput } from './types-50.js';
+import type { SubscriptionIntervalOption } from './types-48.js';
+import type { ResponseMeta } from './types-42.js';
+import type { PaymentAttemptGiftCardRedemption, PaymentAttemptPaymentIntent, PaymentErrorSummary } from './types-37.js';
+import type { PendingPaymentAction } from './types-39.js';
+/**
+ * Shape $ (Value): {@link OrderChargeInputPercentInput}. The `percent` variant of
+ * `OrderChargeInput`.
+ */
+export type OrderChargeInputPercentInput = ({
     /**
-     * Shape $ (Value): {@link UpdateOrderChargeRequestInput}. The request body for: Update order
-     * charge.
+     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
      */
-    "body": InputValue<UpdateOrderChargeRequestInput>;
-};
-export type OrdersUpdateInput = {
-    /** Shape $ (Value): string. */
-    "order_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    "amount_money"?: MoneyValueInput;
+    /** Shape $ (Value): string.  Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
     /**
-     * Shape $ (Value): {@link UpdateOrderRequestInput}. The request body for: Update order.
-     * minProperties: 1.
+     * Shape $ (Value): string. Selects a fixed amount or percentage calculation. Value enum:
+     * "percent".
      */
-    "body": InputValue<UpdateOrderRequestInput>;
-};
-export type OrdersUpdateLineItemInput = {
-    /** Shape $ (Value): string. */
-    "order_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "order_line_item_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
+    "calculation_type": "percent";
+    /** Shape $ (Value): string. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "fulfillment_id"?: string;
     /**
-     * Shape $ (Value): {@link UpdateLineItemRequestInput}. The request body for: Update line item.
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
      */
-    "body": InputValue<UpdateLineItemRequestInput>;
+    "metadata"?: MetadataRequestInput;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "name": string;
+    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    "percent": number;
+    /**
+     * Shape $ (Value): {@link OrderCalculatedChargeTaxInput}. Tax settings for an order charge
+     * calculated by Flint or supplied by you, including the charge's tax category and whether it
+     * is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTaxInput;
+    /**
+     * Shape $ (Value): string. Value enum: "service_fee", "delivery_fee", "shipping_fee",
+     * "handling_fee", "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee",
+     * "installation_fee", "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee",
+     * "fulfillment_fee", "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other";
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "percent". */
+    "calculation_type": ("percent") & ("percent");
+    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    "percent": number;
+})
+    & (({
+    "amount_money"?: never;
+})));
+/**
+ * Shape $ (Value): {@link OrderChargeRequest}. A charge you add to an order, such as a delivery or
+ * service fee, set as a fixed amount or a percentage with its tax settings.
+ */
+export type OrderChargeRequest = ({
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** Shape $ (Value): string.  Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount" | (string & {});
+    /**
+     * Shape $ (Value): string. Selects a fixed amount or percentage calculation. Value enum:
+     * "amount", "percent".
+     */
+    "calculation_type": "amount" | "percent" | (string & {});
+    /** Shape $ (Value): string. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "fulfillment_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data for a new or replaced map.
+     * Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
+     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
+     * bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "name": string;
+    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    "percent"?: number;
+    /**
+     * Shape $ (Value): {@link OrderCalculatedChargeTax}. Tax settings for an order charge
+     * calculated by Flint or supplied by you, including the charge's tax category and whether it
+     * is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTax;
+    /**
+     * Shape $ (Value): string. Value enum: "service_fee", "delivery_fee", "shipping_fee",
+     * "handling_fee", "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee",
+     * "installation_fee", "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee",
+     * "fulfillment_fee", "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other"
+        | (string & {});
+})
+    & ((Exclude<OrderChargeInputAmount & object, readonly unknown[]>)
+    | (Exclude<OrderChargeInputPercent & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link OrderChargeRequestInput}. A charge you add to an order, such as a
+ * delivery or service fee, set as a fixed amount or a percentage with its tax settings.
+ */
+export type OrderChargeRequestInput = ({
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValueInput;
+    /** Shape $ (Value): string.  Value enum: "subtotal_pre_discount", "subtotal_post_discount". */
+    "calculation_basis"?: "subtotal_pre_discount" | "subtotal_post_discount";
+    /**
+     * Shape $ (Value): string. Selects a fixed amount or percentage calculation. Value enum:
+     * "amount", "percent".
+     */
+    "calculation_type": "amount" | "percent";
+    /** Shape $ (Value): string. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "fulfillment_id"?: string;
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
+    "name": string;
+    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    "percent"?: number;
+    /**
+     * Shape $ (Value): {@link OrderCalculatedChargeTaxInput}. Tax settings for an order charge
+     * calculated by Flint or supplied by you, including the charge's tax category and whether it
+     * is taxable.
+     */
+    "tax"?: OrderCalculatedChargeTaxInput;
+    /**
+     * Shape $ (Value): string. Value enum: "service_fee", "delivery_fee", "shipping_fee",
+     * "handling_fee", "packaging_fee", "small_order_fee", "service_area_fee", "setup_fee",
+     * "installation_fee", "cleaning_fee", "booking_fee", "reservation_fee", "ticket_fee",
+     * "fulfillment_fee", "restocking_fee", "rush_fee", "other".
+     */
+    "type": "service_fee"
+        | "delivery_fee"
+        | "shipping_fee"
+        | "handling_fee"
+        | "packaging_fee"
+        | "small_order_fee"
+        | "service_area_fee"
+        | "setup_fee"
+        | "installation_fee"
+        | "cleaning_fee"
+        | "booking_fee"
+        | "reservation_fee"
+        | "ticket_fee"
+        | "fulfillment_fee"
+        | "restocking_fee"
+        | "rush_fee"
+        | "other";
+})
+    & ((Exclude<OrderChargeInputAmountInput & object, readonly unknown[]>)
+    | (Exclude<OrderChargeInputPercentInput & object, readonly unknown[]>));
+/**
+ * Shape $ (Value): {@link OrderChargeTaxAssignment}. An externally calculated tax you assign to
+ * one order charge.
+ */
+export type OrderChargeTaxAssignment = {
+    /**
+     * Shape $ (Value): {@link TaxCalculationRequest}. Tax you calculated yourself for a line or
+     * charge: whether prices include tax, and the tax components.
+     */
+    "calculation": TaxCalculationRequest;
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_charge_id": string;
 };
-/** Shape $ (Value): {@link Organization}. An organization that manages merchant accounts. */
-export type Organization = {
+/**
+ * Shape $ (Value): {@link OrderChargeTaxAssignmentInput}. An externally calculated tax you assign
+ * to one order charge.
+ */
+export type OrderChargeTaxAssignmentInput = {
+    /**
+     * Shape $ (Value): {@link TaxCalculationRequestRequestInput}. Tax you calculated yourself for
+     * a line or charge: whether prices include tax, and the tax components.
+     */
+    "calculation": TaxCalculationRequestRequestInput;
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_charge_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderDeliveryDestination}. Where an order is delivered: the address, the
+ * recipient, and where the destination came from.
+ */
+export type OrderDeliveryDestination = {
+    /**
+     * Shape $ (Value): {@link Address}. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
+     */
+    "address": Address;
+    /**
+     * Shape $ (Value): string. Delivery selection that controls this destination, when checkout
+     * collected it.
+     */
+    "delivery_selection_id"?: string;
+    /** Shape $ (Value): string. Time payment froze this destination. Format: date-time. */
+    "frozen_at"?: string;
+    /**
+     * Shape $ (Value): {@link OrderDeliveryDestinationRecipient}. The name and phone number of the
+     * person receiving an order delivery.
+     */
+    "recipient"?: OrderDeliveryDestinationRecipient;
+    /** Shape $ (Value): string.  Value enum: "delivery_selection", "api", "dashboard". */
+    "source": "delivery_selection" | "api" | "dashboard" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link OrderDeliveryDestinationRecipient}. The name and phone number of the
+ * person receiving an order delivery.
+ */
+export type OrderDeliveryDestinationRecipient = {
+    /** Shape $ (Value): string. maxLength: 255. */
+    "name"?: string;
+    /** Shape $ (Value): string. maxLength: 30. */
+    "phone"?: string;
+};
+/**
+ * Shape $ (Value): {@link OrderDeliveryDestinationRecipientRequest}. The recipient name and phone
+ * you supply for an order delivery. Send null to clear a field. minProperties: 1.
+ */
+export type OrderDeliveryDestinationRecipientRequest = {
+    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 255. */
+    "name"?: string | null;
+    /** Shape $ (Value): string or null. Send null to clear it. minLength: 1. maxLength: 30. */
+    "phone"?: string | null;
+};
+/**
+ * Shape $ (Value): {@link OrderDeliveryDestinationRecipientRequestInput}. The recipient name and
+ * phone you supply for an order delivery. Send null to clear a field. minProperties: 1.
+ */
+export type OrderDeliveryDestinationRecipientRequestInput = OrderDeliveryDestinationRecipientRequest;
+/**
+ * Shape $ (Value): {@link OrderDeliveryDestinationRequest}. The delivery destination you set when
+ * creating or updating an order, with an address and an optional recipient.
+ */
+export type OrderDeliveryDestinationRequest = {
+    /**
+     * Shape $ (Value): {@link AddressRequest}. A complete postal address. State and postal_code
+     * are required for US addresses and optional for other countries. Send null or omit line2,
+     * state, and postal_code when the address has none.
+     */
+    "address": AddressRequest;
+    /**
+     * Shape $ (Value): {@link OrderDeliveryDestinationRecipientRequest}. The recipient name and
+     * phone you supply for an order delivery. Send null to clear a field. minProperties: 1.
+     */
+    "recipient"?: OrderDeliveryDestinationRecipientRequest;
+};
+/**
+ * Shape $ (Value): {@link OrderDeliveryDestinationRequestInput}. The delivery destination you set
+ * when creating or updating an order, with an address and an optional recipient.
+ */
+export type OrderDeliveryDestinationRequestInput = {
+    /**
+     * Shape $ (Value): {@link AddressRequestInput}. A complete postal address. State and
+     * postal_code are required for US addresses and optional for other countries. Send null or
+     * omit line2, state, and postal_code when the address has none.
+     */
+    "address": AddressRequestInput;
+    /**
+     * Shape $ (Value): {@link OrderDeliveryDestinationRecipientRequestInput}. The recipient name
+     * and phone you supply for an order delivery. Send null to clear a field. minProperties: 1.
+     */
+    "recipient"?: OrderDeliveryDestinationRecipientRequestInput;
+};
+/**
+ * Shape $ (Value): {@link OrderDiscount}. A discount applied to an order, with its amount, status,
+ * and the line items and charges it covers. It comes from a manual discount or a promotion.
+ */
+export type OrderDiscount = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "applied_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "customer_facing_name"?: string;
+    /** Shape $ (Value): string.  Value enum: "order", "line_item", "service_charge". */
+    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    "order_charge_ids": Array<string>;
+    /**
+     * Shape $ (Value): string. Order discount ID. It starts with ad_. Pass it to POST
+     * /v1/orders/{order_id}/discounts/remove to remove the discount.
+     */
+    "order_discount_id": string;
+    /** Shape $ (Value): string. */
+    "order_id": string;
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    "order_line_item_ids": Array<string>;
+    /**
+     * Shape $ (Value): string. Promotion code used to create this discount. Present only when
+     * source is promotion and a code was used.
+     */
+    "promotion_code"?: string;
+    /**
+     * Shape $ (Value): string. Promotion that created this discount. Present only when source is
+     * promotion.
+     */
+    "promotion_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "manual", "promotion", "plan_change_credit". */
+    "source"?: "manual" | "promotion" | "plan_change_credit" | (string & {});
+    /** Shape $ (Value): string.  Value enum: "pending", "redeemed", "canceled". */
+    "status": "pending" | "redeemed" | "canceled" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link OrderDraftLineItemInventoryDemandRequest}. The quantity of one inventory
+ * item that each unit of a draft order line item uses, supplied when creating the line item.
+ */
+export type OrderDraftLineItemInventoryDemandRequest = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1. maximum: 9999.
+     */
+    "quantity_per_line_item_unit": `${bigint}`;
+};
+/**
+ * Shape $ (Value): {@link OrderDraftLineItemInventoryDemandRequestInput}. The quantity of one
+ * inventory item that each unit of a draft order line item uses, supplied when creating the line
+ * item.
+ */
+export type OrderDraftLineItemInventoryDemandRequestInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "inventory_item_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64. minimum: 1. maximum: 9999.
+     */
+    "quantity_per_line_item_unit": `${bigint}` | bigint;
+};
+/**
+ * Shape $ (Value): {@link OrderDraftLineItemTaxCalculationRequestInput}. A tax calculation you
+ * supply for a draft order line item, made of tax components and a price mode.
+ */
+export type OrderDraftLineItemTaxCalculationRequestInput = {
+    /**
+     * Shape $ (Value): Array of {@link OrderDraftTaxComponentRequestInput}. minItems: 1. Shape $[]
+     * (Value): {@link OrderDraftTaxComponentRequestInput}. One tax component of a draft line item
+     * calculation, with its jurisdiction, tax type, and percentage or flat amount.
+     */
+    "components": Array<OrderDraftTaxComponentRequestInput>;
+    /** Shape $ (Value): string.  Value enum: "additive", "inclusive". */
+    "price_mode": "additive" | "inclusive";
+};
+/**
+ * Shape $ (Value): {@link OrderDraftLineItemTaxRequestInput}. Tax settings you supply for a draft
+ * order line item: its tax category, whether it is taxable, and an optional tax calculation.
+ */
+export type OrderDraftLineItemTaxRequestInput = {
+    /**
+     * Shape $ (Value): {@link OrderDraftLineItemTaxCalculationRequestInput}. A tax calculation you
+     * supply for a draft order line item, made of tax components and a price mode.
+     */
+    "calculation"?: OrderDraftLineItemTaxCalculationRequestInput;
+    /**
+     * Shape $ (Value): string. Flint line-item tax category. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /** Shape $ (Value): boolean. */
+    "taxable"?: boolean;
+};
+/**
+ * Shape $ (Value): {@link OrderDraftTaxComponentRequestInput}. One tax component of a draft line
+ * item calculation, with its jurisdiction, tax type, and percentage or flat amount.
+ */
+export type OrderDraftTaxComponentRequestInput = ({
+    /** Shape $ (Value): string. Default: "percentage". Value enum: "percentage". */
+    "calculation_type"?: "percentage";
+    /**
+     * Shape $ (Value): {@link MoneyValueInput}. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * Shape $ (Value): {@link OrderDraftTaxJurisdictionRequestInput}. The taxing jurisdiction of a
+     * draft tax component, identified by code, level, name, state, and country.
+     */
+    "jurisdiction": OrderDraftTaxJurisdictionRequestInput;
+    /** Shape $ (Value): number. minimum: 0. maximum: 100. multipleOf: 0.0001. */
+    "percent": number;
+    /** Shape $ (Value): string.  Value enum: "sales_tax", "use_tax". */
+    "tax_type": "sales_tax" | "use_tax";
+})
+    & ({
+    "flat_money"?: never;
+});
+/**
+ * Shape $ (Value): {@link OrderDraftTaxJurisdictionRequestInput}. The taxing jurisdiction of a
+ * draft tax component, identified by code, level, name, state, and country.
+ */
+export type OrderDraftTaxJurisdictionRequestInput = {
+    /** Shape $ (Value): string. minLength: 1. */
+    "code": string;
+    /**
+     * Shape $ (Value): string. ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2.
+     * pattern: ^[A-Z]{2}$. Example: "US".
+     */
+    "country": string;
+    /** Shape $ (Value): string.  Value enum: "state", "county", "city", "district". */
+    "level": "state" | "county" | "city" | "district";
+    /** Shape $ (Value): string. minLength: 1. */
+    "name": string;
+    /** Shape $ (Value): string. minLength: 1. */
+    "state": string;
+};
+/**
+ * Shape $ (Value): {@link OrderGiftCardAllocation}. The amount of an order that a gift card
+ * covers.
+ */
+export type OrderGiftCardAllocation = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "gift_card_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderGiftCardAllocationAcceptance}. Accept the exact gift_card_estimate
+ * returned on the current order, including all selected cards and both totals. Requires an
+ * Idempotency-Key. Gift card payments collect the full amount due and may use one processor
+ * payment intent for the processor_money remainder.
+ */
+export type OrderGiftCardAllocationAcceptance = {
+    /**
+     * Shape $ (Value): object. Shape $.amount (Required): integer string. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape $.currency
+     * (Required): string. Value enum: "USD".
+     */
+    "gift_card_money": {
+        /**
+         * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+         * floating-point number. Format: int64. minimum: 0.
+         */
+        "amount": `${bigint}`;
+        /** Shape $ (Value): string.  Value enum: "USD". */
+        "currency": "USD" | (string & {});
+    };
+    /**
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 20. Shape $[] (Value): object.
+     * Shape $[].amount_money (Required): object. Shape $[].amount_money.amount (Required): integer
+     * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. Shape $[].amount_money.currency (Required): string. Value enum: "USD". Shape
+     * $[].gift_card_id (Required): string. minLength: 1. maxLength: 64.
+     */
+    "gift_cards": Array<{
+        /**
+         * Shape $ (Value): object. Shape $.amount (Required): integer string. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape
+         * $.currency (Required): string. Value enum: "USD".
+         */
+        "amount_money": {
+            /**
+             * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+             * floating-point number. Format: int64. minimum: 0.
+             */
+            "amount": `${bigint}`;
+            /** Shape $ (Value): string.  Value enum: "USD". */
+            "currency": "USD" | (string & {});
+        };
+        /** Shape $ (Value): string. minLength: 1. maxLength: 64. */
+        "gift_card_id": string;
+    }>;
+    /**
+     * Shape $ (Value): integer string. Order version used to calculate this gift card allocation.
+     * Read the order again if its version changed. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1.
+     */
+    "order_version": `${bigint}`;
+    /**
+     * Shape $ (Value): object. Shape $.amount (Required): integer string. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape $.currency
+     * (Required): string. Value enum: "USD".
+     */
+    "processor_money": {
+        /**
+         * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+         * floating-point number. Format: int64. minimum: 0.
+         */
+        "amount": `${bigint}`;
+        /** Shape $ (Value): string.  Value enum: "USD". */
+        "currency": "USD" | (string & {});
+    };
+};
+/**
+ * Shape $ (Value): {@link OrderGiftCardAllocationAcceptanceInput}. Accept the exact
+ * gift_card_estimate returned on the current order, including all selected cards and both totals.
+ * Requires an Idempotency-Key. Gift card payments collect the full amount due and may use one
+ * processor payment intent for the processor_money remainder.
+ */
+export type OrderGiftCardAllocationAcceptanceInput = {
+    /**
+     * Shape $ (Value): object. Shape $.amount (Required): integer string. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape $.currency
+     * (Required): string. Value enum: "USD".
+     */
+    "gift_card_money": {
+        /**
+         * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+         * floating-point number. Format: int64. minimum: 0.
+         */
+        "amount": `${bigint}` | bigint;
+        /** Shape $ (Value): string.  Value enum: "USD". */
+        "currency": "USD";
+    };
+    /**
+     * Shape $ (Value): Array of object. minItems: 1. maxItems: 20. Shape $[] (Value): object.
+     * Shape $[].amount_money (Required): object. Shape $[].amount_money.amount (Required): integer
+     * string. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. Shape $[].amount_money.currency (Required): string. Value enum: "USD". Shape
+     * $[].gift_card_id (Required): string. minLength: 1. maxLength: 64.
+     */
+    "gift_cards": Array<{
+        /**
+         * Shape $ (Value): object. Shape $.amount (Required): integer string. Use an integer
+         * string (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape
+         * $.currency (Required): string. Value enum: "USD".
+         */
+        "amount_money": {
+            /**
+             * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+             * floating-point number. Format: int64. minimum: 0.
+             */
+            "amount": `${bigint}` | bigint;
+            /** Shape $ (Value): string.  Value enum: "USD". */
+            "currency": "USD";
+        };
+        /** Shape $ (Value): string. minLength: 1. maxLength: 64. */
+        "gift_card_id": string;
+    }>;
+    /**
+     * Shape $ (Value): integer string. Order version used to calculate this gift card allocation.
+     * Read the order again if its version changed. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 1.
+     */
+    "order_version": `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): object. Shape $.amount (Required): integer string. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64. minimum: 0. Shape $.currency
+     * (Required): string. Value enum: "USD".
+     */
+    "processor_money": {
+        /**
+         * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
+         * floating-point number. Format: int64. minimum: 0.
+         */
+        "amount": `${bigint}` | bigint;
+        /** Shape $ (Value): string.  Value enum: "USD". */
+        "currency": "USD";
+    };
+};
+/**
+ * Shape $ (Value): {@link OrderGiftCardEstimate}. An estimate of how an order total splits between
+ * gift cards and the payment processor, and whether gift cards can pay it.
+ */
+export type OrderGiftCardEstimate = {
+    /** Shape $ (Value): boolean. */
+    "can_pay": boolean;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "gift_card_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link OrderGiftCardAllocation}. Shape $[] (Value): {@link
+     * OrderGiftCardAllocation}. The amount of an order that a gift card covers.
+     */
+    "gift_cards": Array<OrderGiftCardAllocation>;
+    /** Shape $ (Value): boolean. */
+    "is_reserved": boolean;
+    /**
+     * Shape $ (Value): integer string. Order version used to calculate this gift card allocation.
+     * Read the order again if its version changed. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64.
+     */
+    "order_version": `${bigint}`;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "processor_money": MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link OrderGiftCardSelection}. A gift card available to pay an order, with its
+ * available balance and the last four characters of its code.
+ */
+export type OrderGiftCardSelection = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "available_money": MoneyValue;
+    /** Shape $ (Value): string. */
+    "gift_card_id": string;
+    /** Shape $ (Value): string. Last four characters of the card's current code. */
+    "last4": string;
+    /** Shape $ (Value): boolean. */
+    "requires_authorization": boolean;
+};
+/**
+ * Shape $ (Value): {@link OrderGiftCardSettlement}. A gift card redemption applied to an order
+ * payment, with the amount, tip, and gift card.
+ */
+export type OrderGiftCardSettlement = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
-    "metadata"?: Record<string, string>;
+    "created_at": string;
+    /** Shape $ (Value): string. */
+    "gift_card_id": string;
+    /** Shape $ (Value): string. */
+    "gift_card_redemption_id": string;
+    /** Shape $ (Value): string. Last four characters of the card's current code. */
+    "last4": string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tip_money": MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link OrderInventoryRoutingSourceRequestInput}. Where inventory for an order
+ * is allocated from: a fixed location, an allocation policy, or a specific policy revision.
+ */
+export type OrderInventoryRoutingSourceRequestInput = DeliveryPreviewRoutingSourceInput;
+/** Shape $ (Value): {@link OrderLineItem}. An item purchased in an order. */
+export type OrderLineItem = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "base_subtotal_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link BundleComponent}. Shape $[] (Value): {@link
+     * BundleComponent}. An item included in a bundle.
+     */
+    "bundle_components": Array<BundleComponent>;
+    /** Shape $ (Value): string. */
+    "bundle_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link CategoryReference}. Shape $[] (Value): {@link
+     * CategoryReference}. A reference to a product category by ID, handle, and name.
+     */
+    "categories": Array<CategoryReference>;
+    /** Shape $ (Value): string. */
+    "description"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "discount_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link OrderLineItemFulfillmentQuantities}. Current quantities for
+     * each required fulfillment obligation: one entry for a single item or one per bundle
+     * component that requires fulfillment. Quantities use line units for single items and
+     * component units for bundles. required_quantity equals unassigned_quantity +
+     * assigned_quantity + fulfilled_quantity + canceled_quantity + failed_quantity. Omitted when
+     * the line needs no fulfillment or the order's obligations cannot be computed, including older
+     * lines without recorded requirements. Shape $[] (Value): {@link
+     * OrderLineItemFulfillmentQuantities}. Counts of how much of an order line item is assigned,
+     * fulfilled, failed, canceled, or still unassigned for fulfillment.
+     */
+    "fulfillment_quantities"?: Array<OrderLineItemFulfillmentQuantities>;
+    /**
+     * Shape $ (Value): {@link OrderLineItemFulfillmentRequirements}. Fulfillment requirements
+     * fixed when the line item was created. direct describes a single item; components describes
+     * each bundle component. Omitted for older line items without recorded requirements.
+     * Fulfillment requirements for an order line item, given for a single item or for each
+     * component of a bundle.
+     */
+    "fulfillment_requirements"?: OrderLineItemFulfillmentRequirements;
+    /**
+     * Shape $ (Value): {@link GiftCardPurchaseSnapshot}. The gift card purchase details saved on
+     * an order line item: configuration, face value, price paid, and recipient.
+     */
+    "gift_card_purchase"?: GiftCardPurchaseSnapshot;
+    /**
+     * Shape $ (Value): {@link Image}. An image with its `url`, `width`, and `height`, and optional
+     * `alt` text.
+     */
+    "image"?: Image;
+    /**
+     * Shape $ (Value): {@link LineItemInventorySnapshot} or null. Shape $.anyOf[1] (Value): {@link
+     * LineItemInventorySnapshot}. Whether an order line item tracks inventory, and the inventory
+     * item quantities each unit demands. Shape $.anyOf[2] (Value): null.
+     */
+    "inventory_snapshot": ((LineItemInventorySnapshot) | (null));
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data stored on a resource. Keys
+     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
+     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
+     * them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "modifier_total_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link OrderLineItemModifier}. Shape $[] (Value): {@link
+     * OrderLineItemModifier}. A modifier selected on an order line item, with its quantity, price
+     * change, total, and display flags.
+     */
+    "modifiers": Array<OrderLineItemModifier>;
     /** Shape $ (Value): string. */
     "name": string;
     /** Shape $ (Value): string. */
-    "organization_id": string;
-    /**
-     * Shape $ (Value): {@link ExpandedOrganizationSummary} or null. Shape $.anyOf[1] (Value):
-     * {@link ExpandedOrganizationSummary}. An organization's summary fields, such as its name,
-     * status, and parent, returned when the organization is expanded. Shape $.anyOf[2] (Value):
-     * null.
-     */
-    "parent_organization"?: ((ExpandedOrganizationSummary) | (null));
-    /** Shape $ (Value): string. */
-    "parent_organization_id"?: string;
-    /**
-     * Shape $ (Value): string. Current status. Archived: deleted. API keys can no longer read or
-     * list the organization. Value enum: "active", "archived".
-     */
-    "status": "active" | "archived" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Persisted organization configuration and membership
-     * version. Use an integer string (decimal digits), not a floating-point number. Format:
-     * uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
-};
-/** Shape $ (Value): {@link OrganizationListResponse}. A page of `Organization` objects. */
-export type OrganizationListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link Organization}. Shape $[] (Value): {@link Organization}. An
-     * organization that manages merchant accounts.
-     */
-    "data": Array<Organization>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link OrganizationMembership}. A user's membership in an organization, with
- * the role and whether it is active or removed.
- */
-export type OrganizationMembership = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. */
-    "organization_id": string;
-    /** Shape $ (Value): string.  Value enum: "owner", "admin", "operator", "viewer". */
-    "role": "owner" | "admin" | "operator" | "viewer" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "active", "removed". */
-    "status": "active" | "removed" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /** Shape $ (Value): string. */
-    "user_id": string;
-};
-/**
- * Shape $ (Value): {@link OrganizationMembershipListResponse}. A page of `OrganizationMembership`
- * objects.
- */
-export type OrganizationMembershipListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link OrganizationMembership}. Shape $[] (Value): {@link
-     * OrganizationMembership}. A user's membership in an organization, with the role and whether
-     * it is active or removed.
-     */
-    "data": Array<OrganizationMembership>;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/**
- * Shape $ (Value): {@link OrganizationMembershipResponse}. A response containing
- * `OrganizationMembership` data.
- */
-export type OrganizationMembershipResponse = {
-    /**
-     * Shape $ (Value): {@link OrganizationMembership}. A user's membership in an organization,
-     * with the role and whether it is active or removed.
-     */
-    "data": OrganizationMembership;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-/** Shape $ (Value): {@link OrganizationResponse}. A response containing `Organization` data. */
-export type OrganizationResponse = {
-    /** Shape $ (Value): {@link Organization}. An organization that manages merchant accounts. */
-    "data": Organization;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-export type OrganizationsCreateInput = {
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreateOrganizationRequestInput}. The request body for: Create
-     * organization.
-     */
-    "body": InputValue<CreateOrganizationRequestInput>;
-};
-export type OrganizationsGetInput = {
-    /** Shape $ (Value): string. */
-    "organization_id": InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "parent_organization". Shape $[] (Value): string.
-     * Value enum: "parent_organization".
-     */
-    "expand"?: InputValue<Array<"parent_organization">>;
-};
-export type OrganizationsGrantMembershipInput = {
-    /** Shape $ (Value): string. */
-    "organization_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link GrantOrganizationMembershipRequestInput}. The request body for:
-     * Grant organization membership.
-     */
-    "body": InputValue<GrantOrganizationMembershipRequestInput>;
-};
-export type OrganizationsListInput = {
-    /** Shape $ (Value): string. */
-    "parent_organization_id"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "active", "archived". Shape $[]
-     * (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<Array<"active" | "archived">>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): string. Default: "created_at". Value enum: "name", "created_at",
-     * "updated_at".
-     */
-    "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
-    /** Shape $ (Value): string. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "parent_organization". Shape $[] (Value): string.
-     * Value enum: "parent_organization".
-     */
-    "expand"?: InputValue<Array<"parent_organization">>;
-};
-export type OrganizationsListMembershipsInput = {
-    /** Shape $ (Value): string. */
-    "organization_id": InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-};
-export type OrganizationsRemoveInput = {
-    /** Shape $ (Value): string. */
-    "organization_id": InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type OrganizationsRevokeMembershipInput = {
-    /** Shape $ (Value): string. */
-    "organization_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "user_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type OrganizationsUpdateInput = {
-    /** Shape $ (Value): string. */
-    "organization_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdateOrganizationRequestInput}. The request body for: Update
-     * organization. minProperties: 1.
-     */
-    "body": InputValue<UpdateOrganizationRequestInput>;
-};
-/** Shape $ (Value): {@link Package}. A package within a shipment. */
-export type Package = {
-    /** Shape $ (Value): string. Carrier transporting the package. */
-    "carrier"?: string;
-    /** Shape $ (Value): string. Creation timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. Package delivery timestamp. Format: date-time. */
-    "delivered_at"?: string;
-    /**
-     * Shape $ (Value): {@link Dimensions}. Physical length, width, and height of the package.
-     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Null when no estimate is set. Retained after delivery as history. This estimate is
-     * separate from the fulfillment's promised shipment window. Format: date-time.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries.
-     */
-    "external_system"?: string;
-    /** Shape $ (Value): string. Fulfillment whose items are in the package. */
-    "fulfillment_id": string;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. Omitted for a checkout session credential that doesn't act for the customer the
-     * buyer verified.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned key-value metadata associated with the package.
-     * Shape $.* (Value): string.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Order summary returned when the order
-     * relationship is expanded. Shape $.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's
-     * summary fields, including status, payment and refund status, and pricing and settlement
-     * amounts, returned when the order is expanded. Shape $.anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. Order whose items are in the package. */
-    "order_id": string;
-    /** Shape $ (Value): string. Stable identifier of the package. */
-    "package_id": string;
-    /**
-     * Shape $ (Value): string. Return this package belongs to. Present only on packages of return
-     * shipments.
-     */
-    "return_id"?: string;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Return line quantities
-     * allocated to this parcel. Present only on packages of return shipments. Shape $[] (Value):
-     * {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return
-     * shipment or package.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Shape $ (Value): string. Carrier service used for the package. */
-    "service_code"?: string;
-    /** Shape $ (Value): string. Shipment carrying this package. */
-    "shipment_id": string;
-    /** Shape $ (Value): string. Package handoff timestamp. Format: date-time. */
-    "shipped_at"?: string;
-    /**
-     * Shape $ (Value): string. Current package lifecycle state. Package states are the source used
-     * to derive shipment status. - `created`: The package record exists but has not been packed or
-     * handed off. - `packed`: The package is packed and awaiting carrier handoff. - `shipped`: The
-     * package was handed to the carrier. - `in_transit`: The carrier is moving the package through
-     * its network. - `out_for_delivery`: The package is on its final delivery route. -
-     * `delivered`: The carrier reported successful delivery. - `delivery_attempted`: The carrier
-     * attempted delivery but did not complete it. Follow the carrier instructions before retrying
-     * delivery. - `exception`: A carrier exception is blocking normal progress. Resolve the
-     * carrier-reported issue. - `returned`: The package was returned toward or to its origin. -
-     * `voided`: The package was voided and will not continue through delivery. Value enum:
-     * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
-     * "delivery_attempted", "exception", "returned", "voided".
-     */
-    "status": "created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided"
-        | (string & {});
-    /** Shape $ (Value): string. Additional explanation of the package's current status. */
-    "status_reason"?: string;
-    /**
-     * Shape $ (Value): Array of string. Read-only actions currently supported for this package. []
-     * enum: "mark_delivered", "mark_delivery_attempted", "mark_exception", "mark_in_transit",
-     * "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped". Shape $[] (Value):
-     * string. Value enum: "mark_delivered", "mark_delivery_attempted", "mark_exception",
-     * "mark_in_transit", "mark_out_for_delivery", "mark_packed", "mark_returned", "mark_shipped".
-     */
-    "supported_actions": Array<"mark_delivered"
-        | "mark_delivery_attempted"
-        | "mark_exception"
-        | "mark_in_transit"
-        | "mark_out_for_delivery"
-        | "mark_packed"
-        | "mark_returned"
-        | "mark_shipped"
-        | (string & {})>;
-    /**
-     * Shape $ (Value): string. Omitted for a checkout session credential that doesn't act for the
-     * customer the buyer verified.
-     */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. Omitted for a checkout session credential that doesn't act for the customer the
-     * buyer verified.
-     */
-    "tracking_url"?: string;
-    /** Shape $ (Value): string. Last update timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Monotonic package version for expected_version checks. Use
-     * an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
-    /**
-     * Shape $ (Value): {@link Weight}. Physical weight of the package. A weight value in grams,
-     * kilograms, ounces, or pounds, used in delivery profile configuration.
-     */
-    "weight"?: Weight;
-};
-/**
- * Shape $ (Value): {@link PackageCreateInputCreated}. The `created` variant of
- * `PackageCreateInput`.
- */
-export type PackageCreateInputCreated = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link Dimensions}. Package or item dimensions as `length`, `width`, and
-     * `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CreatePackageItemRequest}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequest}. The request body for:
-     * Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequest>;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Required for a package on
-     * a return shipment: allocates quantities from the shipment's return_line_items to this
-     * parcel. Rejected on outbound shipments. Shape $[] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "created". */
-    "status": "created" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used
-     * in delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * Shape $ (Value): {@link PackageCreateInputCreatedInput}. The `created` variant of
- * `PackageCreateInput`.
- */
-export type PackageCreateInputCreatedInput = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link DimensionsInput}. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
-     */
-    "dimensions"?: DimensionsInput;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CreatePackageItemRequestInput}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequestInput}. The request body
-     * for: Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequestInput>;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): Array of {@link ReturnShipmentLineItemAllocationInput}. Required for a
-     * package on a return shipment: allocates quantities from the shipment's return_line_items to
-     * this parcel. Rejected on outbound shipments. Shape $[] (Value): {@link
-     * ReturnShipmentLineItemAllocationInput}. A return line and the quantity placed in a return
-     * shipment or package.
-     */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "created". */
-    "status": "created";
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link WeightInput}. A weight value in grams, kilograms, ounces, or pounds,
-     * used in delivery profile configuration.
-     */
-    "weight"?: WeightInput;
-})
-    & (({
-    "shipped_at"?: never;
-}))
-    & (({
-    "buyer_notification_behavior"?: never;
-}));
-/**
- * Shape $ (Value): {@link PackageCreateInputShipped}. The `shipped` variant of
- * `PackageCreateInput`.
- */
-export type PackageCreateInputShipped = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link Dimensions}. Package or item dimensions as `length`, `width`, and
-     * `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CreatePackageItemRequest}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequest}. The request body for:
-     * Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequest>;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Required for a package on
-     * a return shipment: allocates quantities from the shipment's return_line_items to this
-     * parcel. Rejected on outbound shipments. Shape $[] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "shipped". */
-    "status": "shipped" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used
-     * in delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * Shape $ (Value): {@link PackageCreateInputShippedInput}. The `shipped` variant of
- * `PackageCreateInput`.
- */
-export type PackageCreateInputShippedInput = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link DimensionsInput}. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
-     */
-    "dimensions"?: DimensionsInput;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CreatePackageItemRequestInput}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequestInput}. The request body
-     * for: Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequestInput>;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): Array of {@link ReturnShipmentLineItemAllocationInput}. Required for a
-     * package on a return shipment: allocates quantities from the shipment's return_line_items to
-     * this parcel. Rejected on outbound shipments. Shape $[] (Value): {@link
-     * ReturnShipmentLineItemAllocationInput}. A return line and the quantity placed in a return
-     * shipment or package.
-     */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "shipped". */
-    "status": "shipped";
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link WeightInput}. A weight value in grams, kilograms, ounces, or pounds,
-     * used in delivery profile configuration.
-     */
-    "weight"?: WeightInput;
-})
-    & (({
-    "return_line_items"?: never;
-}));
-/** Shape $ (Value): {@link PackageCreateRequest}. The request body for: Create package. */
-export type PackageCreateRequest = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link Dimensions}. Package or item dimensions as `length`, `width`, and
-     * `height` in the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CreatePackageItemRequest}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequest}. The request body for:
-     * Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequest>;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): Array of {@link ReturnResolutionLineItemRequest}. Required for a package on
-     * a return shipment: allocates quantities from the shipment's return_line_items to this
-     * parcel. Rejected on outbound shipments. Shape $[] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
-     */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "created", "shipped". */
-    "status": "created" | "shipped" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link Weight}. A weight value in grams, kilograms, ounces, or pounds, used
-     * in delivery profile configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<PackageCreateInputCreated & object, readonly unknown[]>)
-    | (Exclude<PackageCreateInputShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** Shape $ (Value): {@link PackageCreateRequestInput}. The request body for: Create package. */
-export type PackageCreateRequestInput = ({
-    /**
-     * Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when
-     * recipient, template, and deduplication rules allow it. Use suppress when another system owns
-     * buyer messaging. Value enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Shape $ (Value): string. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): {@link DimensionsInput}. Package or item dimensions as `length`, `width`,
-     * and `height` in the given `unit`.
-     */
-    "dimensions"?: DimensionsInput;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): string. Caller-owned identifier for this resource in an external system.
-     * Requires external_system. External references are not unique. Use Idempotency-Key for
-     * retries. minLength: 1. maxLength: 255.
-     */
-    "external_reference_id"?: string;
-    /**
-     * Shape $ (Value): string. Name of the external system that external_reference_id belongs to.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * Shape $ (Value): Array of {@link CreatePackageItemRequestInput}. Independent package-item
-     * collection. Inline creation uses the child-create shape and commits atomically; edit items
-     * through the package item routes after creation. Each order line may appear once. minItems:
-     * 1. maxItems: 100. Shape $[] (Value): {@link CreatePackageItemRequestInput}. The request body
-     * for: Create package item.
-     */
-    "items"?: Array<CreatePackageItemRequestInput>;
-    /**
-     * Shape $ (Value): string. Merchant or integration supplied HTTPS shipping-label URL for
-     * authenticated merchant workflows. Non-Flint URLs must include external_system for
-     * provenance. Flint does not currently manage label file hosting or buyer-facing label
-     * downloads. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. Shape $.* (Value): string. minLength: 1.
-     */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): Array of {@link ReturnShipmentLineItemAllocationInput}. Required for a
-     * package on a return shipment: allocates quantities from the shipment's return_line_items to
-     * this parcel. Rejected on outbound shipments. Shape $[] (Value): {@link
-     * ReturnShipmentLineItemAllocationInput}. A return line and the quantity placed in a return
-     * shipment or package.
-     */
-    "return_line_items"?: Array<ReturnShipmentLineItemAllocationInput>;
-    /** Shape $ (Value): string. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Shape $ (Value): string. Package handoff time. Defaults to request time. Only allowed with
-     * status shipped. Format: date-time. minLength: 1.
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /** Shape $ (Value): string.  Value enum: "created", "shipped". */
-    "status": "created" | "shipped";
-    /** Shape $ (Value): string. minLength: 1. */
-    "status_reason"?: string;
-    /** Shape $ (Value): string. minLength: 1. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1.
-     */
-    "tracking_url"?: string;
-    /**
-     * Shape $ (Value): {@link WeightInput}. A weight value in grams, kilograms, ounces, or pounds,
-     * used in delivery profile configuration.
-     */
-    "weight"?: WeightInput;
-})
-    & ((Exclude<PackageCreateInputCreatedInput & object, readonly unknown[]>)
-    | (Exclude<PackageCreateInputShippedInput & object, readonly unknown[]>));
-/** Shape $ (Value): {@link PackageItem}. An order item assigned to a package. */
-export type PackageItem = {
-    /** Shape $ (Value): string. Creation timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): string. */
-    "fulfillment_id": string;
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. */
-    "metadata"?: Record<string, string>;
-    /**
-     * Shape $ (Value): {@link ExpandedOrderSummary} or null. Shape $.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded. Shape
-     * $.anyOf[2] (Value): null.
-     */
-    "order"?: ((ExpandedOrderSummary) | (null));
-    /** Shape $ (Value): string. */
-    "order_id": string;
-    /** Shape $ (Value): string. */
     "order_line_item_id": string;
     /** Shape $ (Value): string. */
-    "package_id": string;
-    /** Shape $ (Value): string. */
-    "package_item_id": string;
+    "product_id"?: string;
+    /**
+     * Shape $ (Value): Array of {@link PurchasedGiftCard}. Masked card identities for fully funded
+     * units of this purchase line. Partial consideration does not issue a card. Shape $[] (Value):
+     * {@link PurchasedGiftCard}. A gift card issued for one unit of a purchased order line item,
+     * with its last four code characters and any card it replaced.
+     */
+    "purchased_gift_cards": Array<PurchasedGiftCard>;
     /**
      * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
      * supported. Use an integer string (decimal digits), not a floating-point number. Format:
      * int64.
      */
     "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "refunded_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): Array of {@link SelectedProductOption}. Shape $[] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options": Array<SelectedProductOption>;
     /** Shape $ (Value): string. */
-    "shipment_id": string;
-    /** Shape $ (Value): string. Last update timestamp. Format: date-time. */
-    "updated_at"?: string;
+    "sku"?: string;
+    /** Shape $ (Value): string.  Value enum: "variant", "bundle". */
+    "source_type"?: "variant" | "bundle" | (string & {});
     /**
-     * Shape $ (Value): integer string. Persisted item version, independent of package shipment and
-     * capacity guards. Use an integer string (decimal digits), not a floating-point number.
-     * Format: uint64. minimum: 1.
+     * Shape $ (Value): {@link SubscribedLine}. Recurring offer and cadence frozen for this line at
+     * signup. The subscription offer and billing interval an order line was bought under, with the
+     * recurring amount.
      */
-    "version": `${bigint}`;
-};
-/** Shape $ (Value): {@link PackageItemListResponse}. A page of `PackageItem` objects. */
-export type PackageItemListResponse = {
+    "subscription"?: SubscribedLine;
+    /** Shape $ (Value): string. Subscription created for this line after the order is paid. */
+    "subscription_id"?: string;
     /**
-     * Shape $ (Value): Array of {@link PackageItem}. Shape $[] (Value): {@link PackageItem}. An
-     * order item assigned to a package.
+     * Shape $ (Value): {@link OrderLineSubscriptionOfferSummary}. Applicable active offer for a
+     * one-time line, or the offer terms frozen for a subscribed line. A subscription offer
+     * attached to an order line item, with its name, discount, and billing interval options.
      */
-    "data": Array<PackageItem>;
+    "subscription_offer"?: OrderLineSubscriptionOfferSummary;
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
      */
-    "meta"?: ResponseMeta;
+    "subtotal_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link OrderCalculatedLineItemTax}. Tax settings for an order line item
+     * calculated by Flint or supplied by you, including the line item tax category and whether it
+     * is taxable.
+     */
+    "tax"?: OrderCalculatedLineItemTax;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "tax_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link Dimensions}. Dimensions of one unit fixed when the line was created.
+     * Omitted when unknown and for bundle lines. Package or item dimensions as `length`, `width`,
+     * and `height` in the given `unit`.
+     */
+    "unit_dimensions"?: Dimensions;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link Weight}. Weight of one unit fixed when the line was created. Omitted
+     * when unknown and for bundle lines. A weight value in grams, kilograms, ounces, or pounds,
+     * used in delivery profile configuration.
+     */
+    "unit_weight"?: Weight;
     /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
+    "variant_id"?: string;
 };
-/** Shape $ (Value): {@link PackageItemResponse}. A response containing `PackageItem` data. */
-export type PackageItemResponse = {
-    /** Shape $ (Value): {@link PackageItem}. An order item assigned to a package. */
-    "data": PackageItem;
+/**
+ * Shape $ (Value): {@link OrderLineItemFulfillmentComponent}. Fulfillment requirements for one
+ * component of a bundle line item, with the component quantity per unit.
+ */
+export type OrderLineItemFulfillmentComponent = {
+    /** Shape $ (Value): string. ID of the bundle component these requirements apply to. */
+    "bundle_component_id": string;
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Shape $ (Value): {@link OrderLineItemFulfillmentProfile} or null. Fulfillment requirements
+     * for this component. Shape $.anyOf[1] (Value): {@link OrderLineItemFulfillmentProfile}.
+     * Whether an order line item requires fulfillment, and the fulfillment types it allows. Shape
+     * $.anyOf[2] (Value): null.
      */
-    "meta"?: ResponseMeta;
+    "profile": ((OrderLineItemFulfillmentProfile) | (null));
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Shape $ (Value): integer string. Number of this component per unit of the order line item;
+     * fractional quantities are not supported. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64.
      */
-    "request_id"?: string;
+    "quantity_per_line_item_unit": `${bigint}`;
 };
-/** Shape $ (Value): {@link PackageListResponse}. A page of `Package` objects. */
-export type PackageListResponse = {
+/**
+ * Shape $ (Value): {@link OrderLineItemFulfillmentProfile}. Whether an order line item requires
+ * fulfillment, and the fulfillment types it allows.
+ */
+export type OrderLineItemFulfillmentProfile = {
     /**
-     * Shape $ (Value): Array of {@link Package}. Shape $[] (Value): {@link Package}. A package
-     * within a shipment.
+     * Shape $ (Value): Array of string. Fulfillment types allowed for this item. Empty when
+     * fulfillment is not required. [] enum: "shipment", "pickup", "local_delivery", "digital",
+     * "service". Shape $[] (Value): string. Value enum: "shipment", "pickup", "local_delivery",
+     * "digital", "service".
      */
-    "data": Array<Package>;
+    "allowed_types": Array<"shipment" | "pickup" | "local_delivery" | "digital" | "service" | (string & {})>;
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Shape $ (Value): string. Whether this item requires fulfillment. Value enum: "none",
+     * "required".
      */
-    "meta"?: ResponseMeta;
-    /** Shape $ (Value): string. */
-    "next_page_token"?: string;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
+    "requirement": "none" | "required" | (string & {});
 };
-/** Shape $ (Value): {@link PackageResponse}. A response containing `Package` data. */
-export type PackageResponse = {
-    /** Shape $ (Value): {@link Package}. A package within a shipment. */
-    "data": Package;
+/**
+ * Shape $ (Value): {@link OrderLineItemFulfillmentQuantities}. Counts of how much of an order line
+ * item is assigned, fulfilled, failed, canceled, or still unassigned for fulfillment.
+ */
+export type OrderLineItemFulfillmentQuantities = {
     /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Quantity owned by a non-terminal fulfillment, including a fulfillment on hold.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64.
      */
-    "meta"?: ResponseMeta;
+    "assigned_quantity": `${bigint}`;
     /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     * Shape $ (Value): string. ID of the bundle component these quantities describe. Omitted for a
+     * single item.
      */
-    "request_id"?: string;
+    "bundle_component_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Quantity owned by canceled or no_show fulfillments. Use an integer string
+     * (decimal digits), not a floating-point number. Format: int64.
+     */
+    "canceled_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Quantity owned by failed fulfillments that kept their quantity. Failed
+     * fulfillments that released quantity own nothing; their quantity becomes unassigned again.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "failed_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Quantity owned by completed fulfillments. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64.
+     */
+    "fulfilled_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Total quantity requiring fulfillment, in line units for a single item or
+     * component units for a bundle component. Equals the sum of the other five quantity fields.
+     * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     */
+    "required_quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Required quantity owned by no fulfillment, in any resolution mode. Includes
+     * quantity released by a failed fulfillment. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64.
+     */
+    "unassigned_quantity": `${bigint}`;
 };
-/** Shape $ (Value): {@link PackageTransitionRequest}. The request body for: Transition package. */
-export type PackageTransitionRequest = ((PackageTransitionRequestMarkDelivered)
-    | (PackageTransitionRequestMarkDeliveryAttempted)
-    | (PackageTransitionRequestMarkException)
-    | (PackageTransitionRequestMarkInTransit)
-    | (PackageTransitionRequestMarkOutForDelivery)
-    | (PackageTransitionRequestMarkPacked)
-    | (PackageTransitionRequestMarkReturned)
-    | (PackageTransitionRequestMarkShipped)
+/**
+ * Shape $ (Value): {@link OrderLineItemFulfillmentRequirements}. Fulfillment requirements for an
+ * order line item, given for a single item or for each component of a bundle.
+ */
+export type OrderLineItemFulfillmentRequirements = {
+    /**
+     * Shape $ (Value): Array of {@link OrderLineItemFulfillmentComponent}. Fulfillment
+     * requirements for each bundle component. Present for bundle lines. Shape $[] (Value): {@link
+     * OrderLineItemFulfillmentComponent}. Fulfillment requirements for one component of a bundle
+     * line item, with the component quantity per unit.
+     */
+    "components"?: Array<OrderLineItemFulfillmentComponent>;
+    /**
+     * Shape $ (Value): {@link OrderLineItemFulfillmentProfile}. Fulfillment requirements for a
+     * single item. Present for non-bundle lines. Whether an order line item requires fulfillment,
+     * and the fulfillment types it allows.
+     */
+    "direct"?: OrderLineItemFulfillmentProfile;
+};
+/**
+ * Shape $ (Value): {@link OrderLineItemModifier}. A modifier selected on an order line item, with
+ * its quantity, price change, total, and display flags.
+ */
+export type OrderLineItemModifier = {
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned metadata. Values can't be empty strings.
+     * Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written
+     * through the public API. Caller-owned key-value data stored on a resource. Keys starting with
+     * flint_ are reserved for Flint and are not returned. Writes follow the limits on
+     * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. Name of the modifier group recorded when this selection was added
+     * to the order line item.
+     */
+    "modifier_group_name": string;
+    /**
+     * Shape $ (Value): string. Identifier of the selected catalog modifier. If its group is owned
+     * by a modifier set (source: inline), read the group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it.
+     */
+    "modifier_id"?: string;
+    /** Shape $ (Value): string. Name of the selected modifier recorded on the order line item. */
+    "name": string;
+    /**
+     * Shape $ (Value): string. Stable identifier of the selected modifier on this order line item.
+     */
+    "order_line_item_modifier_id": string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity": `${bigint}`;
+    /**
+     * Shape $ (Value): boolean. Whether this selection appears in fulfillment details, recorded
+     * when selected.
+     */
+    "show_on_fulfillment": boolean;
+    /**
+     * Shape $ (Value): boolean. Whether this selection appears on buyer receipts, recorded when
+     * selected.
+     */
+    "show_on_receipt": boolean;
+    /**
+     * Shape $ (Value): string. Whether the selection is a catalog list modifier or buyer-entered
+     * text. Value enum: "catalog_modifier", "text".
+     */
+    "source_type": "catalog_modifier" | "text" | (string & {});
+    /**
+     * Shape $ (Value): {@link TextModifierRequest}. Selected text group and buyer-entered value.
+     * Read an inline text group through its owning modifier set. Text a buyer entered for a text
+     * modifier group on an order line item.
+     */
+    "text"?: TextModifierRequest;
+    /** Shape $ (Value): string. Buyer-entered text recorded for a text modifier selection. */
+    "text_value"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Total price added by this selection. Multiplies
+     * unit_price_delta_money by the modifier quantity and, for per_item pricing, by the line item
+     * quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Amount added to the item's unit price for each unit of
+     * this selection, recorded when selected. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "unit_price_delta_money": MoneyValue;
+};
+/**
+ * Shape $ (Value): {@link OrderLineItemModifierInputCatalog}. The `catalog` variant of
+ * `OrderLineItemModifierInput`.
+ */
+export type OrderLineItemModifierInputCatalog = ({
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data for a new or replaced map.
+     * Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
+     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
+     * bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource
+     * reference; accepted spellings follow resource ID validation. minLength: 1.
+     */
+    "modifier_id": string;
+    /**
+     * Shape $ (Value): string. Existing selection ID to retain during replacement. minLength: 1.
+     * pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "order_line_item_modifier_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): {@link TextModifierRequest}. Text a buyer entered for a text modifier group
+     * on an order line item.
+     */
+    "text"?: TextModifierRequest;
+    /** Shape $ (Value): string. Selects the type branch. Value enum: "catalog". */
+    "type": "catalog" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "catalog". */
+    "type": "catalog" | (string & {});
+    /**
+     * Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource
+     * reference; accepted spellings follow resource ID validation. minLength: 1.
+     */
+    "modifier_id": string;
+}));
+/**
+ * Shape $ (Value): {@link OrderLineItemModifierInputCatalogInput}. The `catalog` variant of
+ * `OrderLineItemModifierInput`.
+ */
+export type OrderLineItemModifierInputCatalogInput = ({
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource
+     * reference; accepted spellings follow resource ID validation. minLength: 1.
+     */
+    "modifier_id": string;
+    /**
+     * Shape $ (Value): string. Existing selection ID to retain during replacement. minLength: 1.
+     * pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "order_line_item_modifier_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): {@link TextModifierRequestInput}. Text a buyer entered for a text modifier
+     * group on an order line item.
+     */
+    "text"?: TextModifierRequestInput;
+    /** Shape $ (Value): string. Selects the type branch. Value enum: "catalog". */
+    "type": "catalog";
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "catalog". */
+    "type": ("catalog") & ("catalog");
+    /**
+     * Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource
+     * reference; accepted spellings follow resource ID validation. minLength: 1.
+     */
+    "modifier_id": string;
+})
+    & ({
+    "text"?: never;
+}));
+/**
+ * Shape $ (Value): {@link OrderLineItemModifierInputText}. The `text` variant of
+ * `OrderLineItemModifierInput`.
+ */
+export type OrderLineItemModifierInputText = ({
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data for a new or replaced map.
+     * Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
+     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
+     * bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource
+     * reference; accepted spellings follow resource ID validation. minLength: 1.
+     */
+    "modifier_id"?: string;
+    /**
+     * Shape $ (Value): string. Existing selection ID to retain during replacement. minLength: 1.
+     * pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "order_line_item_modifier_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): {@link TextModifierRequest}. Text a buyer entered for a text modifier group
+     * on an order line item.
+     */
+    "text": TextModifierRequest;
+    /** Shape $ (Value): string. Selects the type branch. Value enum: "text". */
+    "type": "text" | (string & {});
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "text". */
+    "type": "text" | (string & {});
+    /**
+     * Shape $ (Value): {@link TextModifierRequest}. Text a buyer entered for a text modifier group
+     * on an order line item.
+     */
+    "text": TextModifierRequest;
+}));
+/**
+ * Shape $ (Value): {@link OrderLineItemModifierInputTextInput}. The `text` variant of
+ * `OrderLineItemModifierInput`.
+ */
+export type OrderLineItemModifierInputTextInput = ({
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource
+     * reference; accepted spellings follow resource ID validation. minLength: 1.
+     */
+    "modifier_id"?: string;
+    /**
+     * Shape $ (Value): string. Existing selection ID to retain during replacement. minLength: 1.
+     * pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "order_line_item_modifier_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): {@link TextModifierRequestInput}. Text a buyer entered for a text modifier
+     * group on an order line item.
+     */
+    "text": TextModifierRequestInput;
+    /** Shape $ (Value): string. Selects the type branch. Value enum: "text". */
+    "type": "text";
+})
+    & (({
+    /** Shape $ (Value): string.  Value enum: "text". */
+    "type": ("text") & ("text");
+    /**
+     * Shape $ (Value): {@link TextModifierRequestInput}. Text a buyer entered for a text modifier
+     * group on an order line item.
+     */
+    "text": TextModifierRequestInput;
+})
+    & (({
+    "modifier_id"?: never;
+}) & ({
+    "quantity"?: never;
+})));
+/**
+ * Shape $ (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
+ * item: a catalog modifier by ID or a text modifier, with a quantity.
+ */
+export type OrderLineItemModifierRequest = ({
+    /**
+     * Shape $ (Value): {@link MetadataMap}. Caller-owned key-value data for a new or replaced map.
+     * Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
+     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
+     * bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource
+     * reference; accepted spellings follow resource ID validation. minLength: 1.
+     */
+    "modifier_id"?: string;
+    /**
+     * Shape $ (Value): string. Existing selection ID to retain during replacement. minLength: 1.
+     * pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "order_line_item_modifier_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity"?: `${bigint}`;
+    /**
+     * Shape $ (Value): {@link TextModifierRequest}. Text a buyer entered for a text modifier group
+     * on an order line item.
+     */
+    "text"?: TextModifierRequest;
+    /** Shape $ (Value): string. Selects the type branch. Value enum: "catalog", "text". */
+    "type": "catalog" | "text" | (string & {});
+})
+    & ((Exclude<OrderLineItemModifierInputCatalog & object, readonly unknown[]>)
+    | (Exclude<OrderLineItemModifierInputText & object, readonly unknown[]>)
     | (Record<string, unknown>));
 /**
- * Shape $ (Value): {@link PackageTransitionRequestInput}. The request body for: Transition
- * package.
+ * Shape $ (Value): {@link OrderLineItemModifierRequestInput}. A modifier selection you supply on a
+ * line item: a catalog modifier by ID or a text modifier, with a quantity.
  */
-export type PackageTransitionRequestInput = ((PackageTransitionRequestMarkDeliveredInput)
-    | (PackageTransitionRequestMarkDeliveryAttemptedInput)
-    | (PackageTransitionRequestMarkExceptionInput)
-    | (PackageTransitionRequestMarkInTransitInput)
-    | (PackageTransitionRequestMarkOutForDeliveryInput)
-    | (PackageTransitionRequestMarkPackedInput)
-    | (PackageTransitionRequestMarkReturnedInput)
-    | (PackageTransitionRequestMarkShippedInput));
+export type OrderLineItemModifierRequestInput = ({
+    /**
+     * Shape $ (Value): {@link MetadataRequestInput}. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource
+     * reference; accepted spellings follow resource ID validation. minLength: 1.
+     */
+    "modifier_id"?: string;
+    /**
+     * Shape $ (Value): string. Existing selection ID to retain during replacement. minLength: 1.
+     * pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "order_line_item_modifier_id"?: string;
+    /**
+     * Shape $ (Value): integer string. Whole-number quantity; fractional quantities are not
+     * supported. Use an integer string (decimal digits), not a floating-point number. Format:
+     * int64.
+     */
+    "quantity"?: `${bigint}` | bigint;
+    /**
+     * Shape $ (Value): {@link TextModifierRequestInput}. Text a buyer entered for a text modifier
+     * group on an order line item.
+     */
+    "text"?: TextModifierRequestInput;
+    /** Shape $ (Value): string. Selects the type branch. Value enum: "catalog", "text". */
+    "type": "catalog" | "text";
+})
+    & ((Exclude<OrderLineItemModifierInputCatalogInput & object, readonly unknown[]>)
+    | (Exclude<OrderLineItemModifierInputTextInput & object, readonly unknown[]>));
 /**
- * Shape $ (Value): {@link PackageTransitionRequestMarkDelivered}. The `mark_delivered` variant of
- * `PackageTransitionRequest`.
+ * Shape $ (Value): {@link OrderLineItemTax}. A line item's tax category and whether it is taxable.
  */
-export type PackageTransitionRequestMarkDelivered = {
-    /** Shape $ (Value): string.  Value enum: "mark_delivered". */
-    "action": "mark_delivered" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+export type OrderLineItemTax = {
     /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): string. Flint line-item tax category. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
      */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkDeliveredInput}. The `mark_delivered`
- * variant of `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkDeliveredInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_delivered". */
-    "action": "mark_delivered";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkDeliveryAttempted}. The
- * `mark_delivery_attempted` variant of `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkDeliveryAttempted = {
-    /** Shape $ (Value): string.  Value enum: "mark_delivery_attempted". */
-    "action": "mark_delivery_attempted" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
+    /** Shape $ (Value): boolean. */
+    "taxable"?: boolean;
 };
 /**
- * Shape $ (Value): {@link PackageTransitionRequestMarkDeliveryAttemptedInput}. The
- * `mark_delivery_attempted` variant of `PackageTransitionRequest`.
+ * Shape $ (Value): {@link OrderLineItemTaxAssignment}. An externally calculated tax you assign to
+ * one order line item.
  */
-export type PackageTransitionRequestMarkDeliveryAttemptedInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_delivery_attempted". */
-    "action": "mark_delivery_attempted";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
+export type OrderLineItemTaxAssignment = {
     /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): {@link TaxCalculationRequest}. Tax you calculated yourself for a line or
+     * charge: whether prices include tax, and the tax components.
      */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
+    "calculation": TaxCalculationRequest;
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_line_item_id": string;
 };
 /**
- * Shape $ (Value): {@link PackageTransitionRequestMarkException}. The `mark_exception` variant of
- * `PackageTransitionRequest`.
+ * Shape $ (Value): {@link OrderLineItemTaxAssignmentInput}. An externally calculated tax you
+ * assign to one order line item.
  */
-export type PackageTransitionRequestMarkException = {
-    /** Shape $ (Value): string.  Value enum: "mark_exception". */
-    "action": "mark_exception" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+export type OrderLineItemTaxAssignmentInput = {
     /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): {@link TaxCalculationRequestRequestInput}. Tax you calculated yourself for
+     * a line or charge: whether prices include tax, and the tax components.
      */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
+    "calculation": TaxCalculationRequestRequestInput;
+    /** Shape $ (Value): string. minLength: 1. */
+    "order_line_item_id": string;
 };
 /**
- * Shape $ (Value): {@link PackageTransitionRequestMarkExceptionInput}. The `mark_exception`
- * variant of `PackageTransitionRequest`.
+ * Shape $ (Value): {@link OrderLineItemTaxInput}. A line item's tax category and whether it is
+ * taxable.
  */
-export type PackageTransitionRequestMarkExceptionInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_exception". */
-    "action": "mark_exception";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
+export type OrderLineItemTaxInput = {
     /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): string. Flint line-item tax category. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission".
      */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission";
+    /** Shape $ (Value): boolean. */
+    "taxable"?: boolean;
 };
 /**
- * Shape $ (Value): {@link PackageTransitionRequestMarkInTransit}. The `mark_in_transit` variant of
- * `PackageTransitionRequest`.
+ * Shape $ (Value): {@link OrderLineSubscriptionOfferDiscount}. The discount a subscription offer
+ * gives, as a fixed amount or a percentage.
  */
-export type PackageTransitionRequestMarkInTransit = {
-    /** Shape $ (Value): string.  Value enum: "mark_in_transit". */
-    "action": "mark_in_transit" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
+export type OrderLineSubscriptionOfferDiscount = {
     /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
      */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
+    "amount_off_money"?: MoneyValue;
+    /** Shape $ (Value): number. multipleOf: 0.0001. */
+    "percent_off"?: number;
 };
 /**
- * Shape $ (Value): {@link PackageTransitionRequestMarkInTransitInput}. The `mark_in_transit`
- * variant of `PackageTransitionRequest`.
+ * Shape $ (Value): {@link OrderLineSubscriptionOfferSummary}. A subscription offer attached to an
+ * order line item, with its name, discount, and billing interval options.
  */
-export type PackageTransitionRequestMarkInTransitInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_in_transit". */
-    "action": "mark_in_transit";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
+export type OrderLineSubscriptionOfferSummary = {
     /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
+     * Shape $ (Value): Array of {@link SubscriptionIntervalOption}. Shape $[] (Value): {@link
+     * SubscriptionIntervalOption}. A billing interval, such as every 2 months, offered by a
+     * subscription plan.
      */
-    "expected_delivery_at"?: string | globalThis.Date | null;
+    "billing_interval_options": Array<SubscriptionIntervalOption>;
     /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+     * Shape $ (Value): {@link OrderLineSubscriptionOfferDiscount}. The discount a subscription
+     * offer gives, as a fixed amount or a percentage.
      */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkOutForDelivery}. The `mark_out_for_delivery`
- * variant of `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkOutForDelivery = {
-    /** Shape $ (Value): string.  Value enum: "mark_out_for_delivery". */
-    "action": "mark_out_for_delivery" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkOutForDeliveryInput}. The
- * `mark_out_for_delivery` variant of `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkOutForDeliveryInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_out_for_delivery". */
-    "action": "mark_out_for_delivery";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkPacked}. The `mark_packed` variant of
- * `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkPacked = {
-    /** Shape $ (Value): string.  Value enum: "mark_packed". */
-    "action": "mark_packed" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkPackedInput}. The `mark_packed` variant of
- * `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkPackedInput = FulfillmentTransitionRequestMarkPackedInput;
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkReturned}. The `mark_returned` variant of
- * `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkReturned = {
-    /** Shape $ (Value): string.  Value enum: "mark_returned". */
-    "action": "mark_returned" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkReturnedInput}. The `mark_returned` variant
- * of `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkReturnedInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_returned". */
-    "action": "mark_returned";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkShipped}. The `mark_shipped` variant of
- * `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkShipped = {
-    /** Shape $ (Value): string.  Value enum: "mark_shipped". */
-    "action": "mark_shipped" | (string & {});
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}`;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "service_code"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1. maxLength: 2048.
-     */
-    "tracking_url"?: string;
-};
-/**
- * Shape $ (Value): {@link PackageTransitionRequestMarkShippedInput}. The `mark_shipped` variant of
- * `PackageTransitionRequest`.
- */
-export type PackageTransitionRequestMarkShippedInput = {
-    /** Shape $ (Value): string.  Value enum: "mark_shipped". */
-    "action": "mark_shipped";
-    /** Shape $ (Value): string.  Value enum: "send", "suppress". */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "carrier"?: string;
-    /**
-     * Shape $ (Value): string or null. When the carrier or merchant expects this package to
-     * arrive. Past dates are allowed. Send null to clear it; omit to leave it unchanged on updates
-     * and transitions. Format: date-time. minLength: 1.
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Shape $ (Value): integer string. Resource version the caller last read. Use an integer
-     * string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: `${bigint}` | bigint;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. minLength: 1. */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Shape $ (Value): string. Your note explaining this transition. minLength: 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 100. */
-    "service_code"?: string;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "tracking_number"?: string;
-    /**
-     * Shape $ (Value): string. Absolute HTTPS carrier tracking URL. Embedded URL credentials are
-     * rejected. minLength: 1. maxLength: 2048.
-     */
-    "tracking_url"?: string;
-};
-export type PackagesCreateItemInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link CreatePackageItemRequestInput}. The request body for: Create package
-     * item.
-     */
-    "body": InputValue<CreatePackageItemRequestInput>;
-};
-export type PackagesDeleteItemInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "package_item_id": InputValue<string>;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: InputValue<`${bigint}` | bigint>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-export type PackagesGetInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
-     */
-    "expand"?: InputValue<Array<"order">>;
-};
-export type PackagesGetItemInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "package_item_id": InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
-     */
-    "expand"?: InputValue<Array<"order">>;
-};
-export type PackagesListInput = {
-    /** Shape $ (Value): string. */
-    "shipment_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "fulfillment_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "order_id"?: InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "external_system"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "external_reference_id"?: InputValue<string>;
-    /** Shape $ (Value): string. */
-    "query"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): Array of string. minItems: 1. [] enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided". Shape $[] (Value): string. Value enum: "created", "packed", "shipped",
-     * "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
-     * "returned", "voided".
-     */
-    "status"?: InputValue<Array<"created"
-        | "packed"
-        | "shipped"
-        | "in_transit"
-        | "out_for_delivery"
-        | "delivered"
-        | "delivery_attempted"
-        | "exception"
-        | "returned"
-        | "voided">>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "tracking_number"?: InputValue<string>;
-    /** Shape $ (Value): string. minLength: 1. maxLength: 255. */
-    "carrier"?: InputValue<string>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
-     */
-    "expand"?: InputValue<Array<"order">>;
-};
-export type PackagesListPackageItemsInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
-    "page_size"?: InputValue<number>;
-    /** Shape $ (Value): string. */
-    "page_token"?: InputValue<string>;
-    /**
-     * Shape $ (Value): Array of string. [] enum: "order". Shape $[] (Value): string. Value enum:
-     * "order".
-     */
-    "expand"?: InputValue<Array<"order">>;
-};
-export type PackagesTransitionInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link PackageTransitionRequestInput}. The request body for: Transition
-     * package.
-     */
-    "body": InputValue<PackageTransitionRequestInput>;
-};
-export type PackagesUpdateInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link UpdatePackageRequestInput}. The request body for: Update package. */
-    "body": InputValue<UpdatePackageRequestInput>;
-};
-export type PackagesUpdateItemInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /** Shape $ (Value): string. */
-    "package_item_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /**
-     * Shape $ (Value): {@link UpdatePackageItemRequestInput}. The request body for: Update package
-     * item.
-     */
-    "body": InputValue<UpdatePackageItemRequestInput>;
-};
-export type PackagesVoidResourceInput = {
-    /** Shape $ (Value): string. */
-    "package_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-    /** Shape $ (Value): {@link VoidPackageRequestInput}. The request body for: Void package. */
-    "body"?: InputValue<VoidPackageRequestInput>;
-};
-/**
- * Shape $ (Value): {@link PartnerApp}. An application that merchants can authorize to access their
- * accounts.
- */
-export type PartnerApp = {
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "allowed_scopes": Array<string>;
-    /** Shape $ (Value): string. */
-    "api_version": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "api_version_changed_at"?: string;
-    /** Shape $ (Value): string. */
-    "api_version_previous"?: string;
-    /** Shape $ (Value): string. */
-    "client_id": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "default_requested_permissions": Array<string>;
+    "discount"?: OrderLineSubscriptionOfferDiscount;
     /** Shape $ (Value): string. */
     "name": string;
     /** Shape $ (Value): string. */
-    "partner_app_id": string;
-    /**
-     * Shape $ (Value): Array of {@link PartnerAppPermissionManifestEntry}. Shape $[] (Value):
-     * {@link PartnerAppPermissionManifestEntry}. One permission a partner app can request, with a
-     * title, a description, and the Flint scopes it grants.
-     */
-    "permission_manifest": Array<PartnerAppPermissionManifestEntry>;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "previous_secret_expires_at"?: string;
-    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
-    "redirect_uris": Array<string>;
-    /** Shape $ (Value): string.  Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-    /**
-     * Shape $ (Value): integer string. Use an integer string (decimal digits), not a
-     * floating-point number. Format: uint64. minimum: 1.
-     */
-    "version": `${bigint}`;
+    "subscription_offer_id": string;
 };
-/**
- * Shape $ (Value): {@link PartnerAppInstall}. A merchant's authorization of a partner application.
- */
-export type PartnerAppInstall = {
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "created_at"?: string;
+/** Shape $ (Value): {@link OrderListResponse}. A page of `Order` objects. */
+export type OrderListResponse = {
     /**
-     * Shape $ (Value): Array of {@link PartnerEnvironmentGrant}. Shape $[] (Value): {@link
-     * PartnerEnvironmentGrant}. A partner application's authorization to access an environment.
+     * Shape $ (Value): Array of {@link Order}. Shape $[] (Value): {@link Order}. A customer's
+     * purchase and its payment and fulfillment progress.
      */
-    "environment_grants"?: Array<PartnerEnvironmentGrant>;
-    /** Shape $ (Value): string. */
-    "installed_by_user_id"?: string;
-    /** Shape $ (Value): string. */
-    "merchant_id": string;
-    /** Shape $ (Value): string. */
-    "partner_app_id": string;
-    /** Shape $ (Value): string. */
-    "partner_app_install_id": string;
-    /** Shape $ (Value): string. The app’s current name. */
-    "partner_app_name": string;
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "revoked_at"?: string;
-    /** Shape $ (Value): string.  Value enum: "merchant", "partner_app". */
-    "revoked_by"?: "merchant" | "partner_app" | (string & {});
-    /** Shape $ (Value): string. */
-    "revoked_by_user_id"?: string;
-    /** Shape $ (Value): string.  Value enum: "pending_exchange", "active", "revoked". */
-    "status": "pending_exchange" | "active" | "revoked" | (string & {});
-    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
-    "updated_at"?: string;
-};
-/**
- * Shape $ (Value): {@link PartnerAppInstallListResponse}. A page of `PartnerAppInstall` objects.
- */
-export type PartnerAppInstallListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link PartnerAppInstall}. Shape $[] (Value): {@link
-     * PartnerAppInstall}. A merchant's authorization of a partner application.
-     */
-    "data": Array<PartnerAppInstall>;
+    "data": Array<Order>;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1720,43 +1484,133 @@ export type PartnerAppInstallListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
+};
+/** Shape $ (Value): {@link OrderPaymentAttempt}. An attempt to pay an order. */
+export type OrderPaymentAttempt = {
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "completed_at"?: string;
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "expected_outstanding_money": MoneyValue;
+    /**
+     * Shape $ (Value): Array of {@link PaymentAttemptGiftCardRedemption}. Shape $[] (Value):
+     * {@link PaymentAttemptGiftCardRedemption}. A gift card redemption made as part of an order
+     * payment attempt, with the amount, tip, and gift card.
+     */
+    "gift_card_redemptions": Array<PaymentAttemptGiftCardRedemption>;
+    /**
+     * Shape $ (Value): boolean. Whether the attempt can continue through PayOrder with action:
+     * resume and this order_payment_attempt_id after any pending client action is complete. If
+     * false, check status before starting another payment; the attempt may still be in progress.
+     */
+    "is_resumable": boolean;
+    /**
+     * Shape $ (Value): {@link PaymentErrorSummary}. The concluded failure of a payment leg that
+     * failed this attempt. Absent for non-payment failures. A summary of why a payment attempt
+     * failed, with a normalized error code, a message, the failure time, and remediation.
+     */
+    "last_payment_error"?: PaymentErrorSummary;
+    /** Shape $ (Value): string.  Value enum: "payment", "setup", "settlement". */
+    "mode": "payment" | "setup" | "settlement" | (string & {});
+    /** Shape $ (Value): string. */
+    "order_payment_attempt_id": string;
+    /**
+     * Shape $ (Value): Array of {@link PaymentAttemptPaymentIntent}. Shape $[] (Value): {@link
+     * PaymentAttemptPaymentIntent}. A payment intent used as one leg of an order payment attempt,
+     * with its amount, status, tip, and latest error.
+     */
+    "payment_intents": Array<PaymentAttemptPaymentIntent>;
+    /**
+     * Shape $ (Value): {@link OrderPaymentAttemptPaymentMethodSave}. Set when the pay request sent
+     * save_payment_method: true and the attempt paid without saving the payment method. A card
+     * typed into checkout and saved has no entry here; read payment_method_save on the checkout
+     * session for a card saved with a mobile phone number. What became of the buyer's
+     * save_payment_method. The payment does not depend on it.
+     */
+    "payment_method_save"?: OrderPaymentAttemptPaymentMethodSave;
+    /**
+     * Shape $ (Value): Array of {@link PendingPaymentAction}. Shape $[] (Value): {@link
+     * PendingPaymentAction}. Client-side action required before continuing a payment. Resume an
+     * order through PayOrder with order_payment_attempt_id, or continue a standalone PaymentIntent
+     * through its confirm endpoint without a replacement credential.
+     */
+    "pending_actions": Array<PendingPaymentAction>;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "started_at"?: string;
+    /**
+     * Shape $ (Value): string. Value enum: "processing", "requires_action", "requires_capture",
+     * "partially_succeeded", "requires_retry", "finalizing", "succeeded", "failed", "expired",
+     * "canceled".
+     */
+    "status": "processing"
+        | "requires_action"
+        | "requires_capture"
+        | "partially_succeeded"
+        | "requires_retry"
+        | "finalizing"
+        | "succeeded"
+        | "failed"
+        | "expired"
+        | "canceled"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Non-payment reason an attempt failed, was canceled, or expired.
+     * Failed attempts with an unmapped non-payment reason report other. Canceled and expired
+     * attempts include a reason only when it adds information beyond status. New values may be
+     * added. Value enum: "authorization_canceled", "coupon_reservation_failed",
+     * "gift_card_hold_acquisition_failed", "invalid_payment_source", "inventory_unavailable",
+     * "order_changed_before_payment", "order_payment_customer_mismatch", "other",
+     * "payment_authorization_canceled", "payment_authorization_expired",
+     * "payment_confirmation_rejected", "payment_link_capacity_claim_failed",
+     * "payment_link_capacity_validation_failed", "payment_method_activation_pending",
+     * "payment_method_required", "payment_option_not_allowed", "payment_option_unavailable",
+     * "payment_source_binding_failed", "payment_source_conflict", "payment_source_not_updatable",
+     * "payment_source_ownership_mismatch", "resource_guarantee_failed",
+     * "setup_action_unavailable", "setup_hold_acquisition_failed", "setup_result_incomplete",
+     * "tip_allocation_sync_failed", "zero_balance_hold_acquisition_failed".
+     */
+    "status_reason"?: "authorization_canceled"
+        | "coupon_reservation_failed"
+        | "gift_card_hold_acquisition_failed"
+        | "invalid_payment_source"
+        | "inventory_unavailable"
+        | "order_changed_before_payment"
+        | "order_payment_customer_mismatch"
+        | "other"
+        | "payment_authorization_canceled"
+        | "payment_authorization_expired"
+        | "payment_confirmation_rejected"
+        | "payment_link_capacity_claim_failed"
+        | "payment_link_capacity_validation_failed"
+        | "payment_method_activation_pending"
+        | "payment_method_required"
+        | "payment_option_not_allowed"
+        | "payment_option_unavailable"
+        | "payment_source_binding_failed"
+        | "payment_source_conflict"
+        | "payment_source_not_updatable"
+        | "payment_source_ownership_mismatch"
+        | "resource_guarantee_failed"
+        | "setup_action_unavailable"
+        | "setup_hold_acquisition_failed"
+        | "setup_result_incomplete"
+        | "tip_allocation_sync_failed"
+        | "zero_balance_hold_acquisition_failed"
+        | (string & {});
 };
 /**
- * Shape $ (Value): {@link PartnerAppInstallResponse}. A response containing `PartnerAppInstall`
- * data.
+ * Shape $ (Value): {@link OrderPaymentAttemptListResponse}. A page of `OrderPaymentAttempt`
+ * objects.
  */
-export type PartnerAppInstallResponse = {
+export type OrderPaymentAttemptListResponse = {
     /**
-     * Shape $ (Value): {@link PartnerAppInstall}. A merchant's authorization of a partner
-     * application.
+     * Shape $ (Value): Array of {@link OrderPaymentAttempt}. Shape $[] (Value): {@link
+     * OrderPaymentAttempt}. An attempt to pay an order.
      */
-    "data": PartnerAppInstall;
-    /**
-     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
-     * `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id"?: string;
-};
-export type PartnerAppInstallsListInput = DeveloperListPartnerInstallsInput;
-export type PartnerAppInstallsRevokeInput = {
-    /** Shape $ (Value): string. */
-    "partner_app_install_id": InputValue<string>;
-    /** Shape $ (Value): string. maxLength: 255. */
-    "Idempotency-Key"?: InputValue<string>;
-};
-/** Shape $ (Value): {@link PartnerAppListResponse}. A page of `PartnerApp` objects. */
-export type PartnerAppListResponse = {
-    /**
-     * Shape $ (Value): Array of {@link PartnerApp}. Shape $[] (Value): {@link PartnerApp}. An
-     * application that merchants can authorize to access their accounts.
-     */
-    "data": Array<PartnerApp>;
+    "data": Array<OrderPaymentAttempt>;
     /**
      * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
      * `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1768,5 +1622,249 @@ export type PartnerAppListResponse = {
      * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "request_id"?: string;
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentAttemptPaymentMethodSave}. What became of the buyer's
+ * save_payment_method. The payment does not depend on it.
+ */
+export type OrderPaymentAttemptPaymentMethodSave = {
+    /**
+     * Shape $ (Value): string. payment_method_not_saveable: the buyer paid with Apple Pay, Google
+     * Pay, a bank account, or Affirm, and checkout saves only a card typed into it;
+     * save_payment_method_types on the checkout session lists what it saves. other: a reason this
+     * API version does not name. The values can grow. Value enum: "payment_method_not_saveable",
+     * "other".
+     */
+    "reason": "payment_method_not_saveable" | "other" | (string & {});
+    /**
+     * Shape $ (Value): string. not_saved: the payment went ahead without saving the payment
+     * method. The values can grow. Value enum: "not_saved".
+     */
+    "status": "not_saved" | (string & {});
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentAttemptResponse}. A response containing
+ * `OrderPaymentAttempt` data.
+ */
+export type OrderPaymentAttemptResponse = {
+    /** Shape $ (Value): {@link OrderPaymentAttempt}. An attempt to pay an order. */
+    "data": OrderPaymentAttempt;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelection}. Identifies a payment intent to confirm for
+ * an order and the credential to use: a token, a saved payment method, a Stripe confirmation
+ * token, or the attached source.
+ */
+export type OrderPaymentIntentSelection = ((OrderPaymentIntentSelectionToken)
+    | (OrderPaymentIntentSelectionPaymentMethod)
+    | (OrderPaymentIntentSelectionStripeConfirmationToken)
+    | (OrderPaymentIntentSelectionAttached)
+    | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionAttached}. Confirm using the payment source
+ * already attached.
+ */
+export type OrderPaymentIntentSelectionAttached = {
+    /** Shape $ (Value): string.  Value enum: "attached". */
+    "credential_type": "attached" | (string & {});
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionAttachedInput}. Confirm using the payment
+ * source already attached.
+ */
+export type OrderPaymentIntentSelectionAttachedInput = {
+    /** Shape $ (Value): string.  Value enum: "attached". */
+    "credential_type": "attached";
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionInput}. Identifies a payment intent to
+ * confirm for an order and the credential to use: a token, a saved payment method, a Stripe
+ * confirmation token, or the attached source.
+ */
+export type OrderPaymentIntentSelectionInput = ((OrderPaymentIntentSelectionTokenInput)
+    | (OrderPaymentIntentSelectionPaymentMethodInput)
+    | (OrderPaymentIntentSelectionStripeConfirmationTokenInput)
+    | (OrderPaymentIntentSelectionAttachedInput));
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionPaymentMethod}. The `payment_method` variant
+ * of `OrderPaymentIntentSelection`.
+ */
+export type OrderPaymentIntentSelectionPaymentMethod = {
+    /** Shape $ (Value): string.  Value enum: "payment_method". */
+    "credential_type": "payment_method" | (string & {});
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): string. Saved Flint payment method ID belonging to the customer making this
+     * payment. minLength: 1.
+     */
+    "payment_method_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionPaymentMethodInput}. The `payment_method`
+ * variant of `OrderPaymentIntentSelection`.
+ */
+export type OrderPaymentIntentSelectionPaymentMethodInput = {
+    /** Shape $ (Value): string.  Value enum: "payment_method". */
+    "credential_type": "payment_method";
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): string. Saved Flint payment method ID belonging to the customer making this
+     * payment. minLength: 1.
+     */
+    "payment_method_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionStripeConfirmationToken}. The
+ * `stripe_confirmation_token` variant of `OrderPaymentIntentSelection`.
+ */
+export type OrderPaymentIntentSelectionStripeConfirmationToken = {
+    /** Shape $ (Value): string.  Value enum: "stripe_confirmation_token". */
+    "credential_type": "stripe_confirmation_token" | (string & {});
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): object. Stripe credential collected for this payment. Shape
+     * $.confirmation_token (Required): string. Stripe confirmation token you created with
+     * Stripe.js from `payment_collection.stripe`. minLength: 1.
+     */
+    "stripe": {
+        /**
+         * Shape $ (Value): string. Stripe confirmation token you created with Stripe.js from
+         * `payment_collection.stripe`. minLength: 1.
+         */
+        "confirmation_token": string;
+    };
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionStripeConfirmationTokenInput}. The
+ * `stripe_confirmation_token` variant of `OrderPaymentIntentSelection`.
+ */
+export type OrderPaymentIntentSelectionStripeConfirmationTokenInput = {
+    /** Shape $ (Value): string.  Value enum: "stripe_confirmation_token". */
+    "credential_type": "stripe_confirmation_token";
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /**
+     * Shape $ (Value): object. Stripe credential collected for this payment. Shape
+     * $.confirmation_token (Required): string. Stripe confirmation token you created with
+     * Stripe.js from `payment_collection.stripe`. minLength: 1.
+     */
+    "stripe": {
+        /**
+         * Shape $ (Value): string. Stripe confirmation token you created with Stripe.js from
+         * `payment_collection.stripe`. minLength: 1.
+         */
+        "confirmation_token": string;
+    };
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionToken}. The `token` variant of
+ * `OrderPaymentIntentSelection`.
+ */
+export type OrderPaymentIntentSelectionToken = {
+    /** Shape $ (Value): string.  Value enum: "token". */
+    "credential_type": "token" | (string & {});
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1. */
+    "token": string;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentIntentSelectionTokenInput}. The `token` variant of
+ * `OrderPaymentIntentSelection`.
+ */
+export type OrderPaymentIntentSelectionTokenInput = {
+    /** Shape $ (Value): string.  Value enum: "token". */
+    "credential_type": "token";
+    /** Shape $ (Value): string. Payment intent to confirm. minLength: 1. */
+    "payment_intent_id": string;
+    /** Shape $ (Value): string. Opaque processor or browser payment source token. minLength: 1. */
+    "token": string;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentSourceCardSelection}. Card options for the payment source
+ * selected on an order payment intent, including which digital wallets to offer.
+ */
+export type OrderPaymentSourceCardSelection = {
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. minLength: 1. */
+    "digital_wallets"?: Array<string>;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentSourceCardSelectionInput}. Card options for the payment
+ * source selected on an order payment intent, including which digital wallets to offer.
+ */
+export type OrderPaymentSourceCardSelectionInput = OrderPaymentSourceCardSelection;
+/**
+ * Shape $ (Value): {@link OrderPaymentSourceSelection}. The payment source options you choose when
+ * creating an order payment intent.
+ */
+export type OrderPaymentSourceSelection = {
+    /**
+     * Shape $ (Value): {@link OrderPaymentSourceCardSelection}. Card options for the payment
+     * source selected on an order payment intent, including which digital wallets to offer.
+     */
+    "card"?: OrderPaymentSourceCardSelection;
+};
+/**
+ * Shape $ (Value): {@link OrderPaymentSourceSelectionInput}. The payment source options you choose
+ * when creating an order payment intent.
+ */
+export type OrderPaymentSourceSelectionInput = {
+    /**
+     * Shape $ (Value): {@link OrderPaymentSourceCardSelectionInput}. Card options for the payment
+     * source selected on an order payment intent, including which digital wallets to offer.
+     */
+    "card"?: OrderPaymentSourceCardSelectionInput;
+};
+/** Shape $ (Value): {@link OrderResponse}. A response containing `Order` data. */
+export type OrderResponse = {
+    /**
+     * Shape $ (Value): {@link Order}. A customer's purchase and its payment and fulfillment
+     * progress.
+     */
+    "data": Order;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Shape $ (Value): {@link OrderReturnCreditSettlement}. A return credit applied to an order
+ * payment, with the amount and the return and resolution it came from.
+ */
+export type OrderReturnCreditSettlement = {
+    /**
+     * Shape $ (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time. */
+    "created_at": string;
+    /** Shape $ (Value): string. */
+    "return_id": string;
+    /** Shape $ (Value): string. */
+    "return_resolution_id": string;
 };

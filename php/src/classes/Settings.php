@@ -25,7 +25,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class Settings extends Model {
-    /** @param array{'branding'?: mixed, 'checkout'?: mixed, 'created_at'?: string, 'customer_account'?: mixed, 'customer_email_delivery'?: mixed, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: mixed, 'legal'?: mixed, 'merchant_id'?: string, 'metadata'?: \stdClass, 'payment_limits'?: mixed, 'promotions'?: mixed, 'receipts'?: mixed, 'settings_id': string, 'subscriptions'?: mixed, 'tax'?: mixed, 'tax_identity': mixed, 'tipping'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'branding'?: mixed, 'checkout'?: mixed, 'created_at'?: string, 'customer_account'?: mixed, 'customer_email_delivery'?: mixed, 'fulfillment'?: mixed, 'inventory'?: mixed, 'invoices'?: mixed, 'legal'?: mixed, 'merchant_id'?: string, 'metadata'?: mixed, 'payment_limits'?: mixed, 'promotions'?: mixed, 'receipts'?: mixed, 'settings_id': string, 'subscriptions'?: mixed, 'tax'?: mixed, 'tax_identity': mixed, 'tipping'?: mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Settings')); }
     /** Shape $ (Value): {@see BrandingSettings}. A merchant's branding settings: colors, corner radius, and font family. Checkout uses them as its default theme.
      * @return ?BrandingSettings
@@ -77,7 +77,7 @@ final class Settings extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

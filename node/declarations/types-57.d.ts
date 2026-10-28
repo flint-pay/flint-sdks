@@ -1,1963 +1,3042 @@
-import type { GiftCardNotification, GiftCardRedemption, GiftCardTransaction } from './types-19.js';
-import type { PartnerWebhookEnvelope } from './types-35.js';
-import type { MerchantWebhookEnvelope } from './types-31.js';
-import type { GiftCard } from './types-18.js';
-import type { InventoryCount, InventoryLevel } from './types-24.js';
-import type { InventoryReceipt, InventoryReservation, InventoryTransfer } from './types-25.js';
-import type { Invoice, InvoiceDeliveryAttempt } from './types-26.js';
-/**
- * Shape $ (Value): {@link Webhook_gift_card_notification_updated_installed_merchants}. The
- * `gift_card_notification.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_gift_card_notification_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+import type { MerchantWebhookEnvelope } from './types-32.js';
+import type { PartnerWebhookEnvelope } from './types-37.js';
+import type { Refund } from './types-41.js';
+import type { Report, ResponseMeta, ResourceType } from './types-42.js';
+import type { WebhookEvent } from './types-53.js';
+import type { ReturnResource, ReturnReceipt, ReturnResolution } from './types-44.js';
+import type { ReturnDisposition, ReturnInspection } from './types-43.js';
+import type { Shipment, Subscription } from './types-47.js';
+import type { SubscriptionDeliveryMigration, SubscriptionPaymentRetry } from './types-48.js';
+import type { TaxConnection } from './types-50.js';
+import type { InputValue, EventStream, WebhookVerificationOptions as _SdkWebhookVerificationOptions } from '../runtime.js';
+export type WebhookEventRefundSucceeded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardNotification}. A message
-     * sent to a gift card recipient.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardNotification}. A message sent to a gift card recipient.
-         */
-        "object": GiftCardNotification;
+        "object": Refund;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card_notification.updated". */
-    "event_type"?: "gift_card_notification.updated" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "refund.succeeded" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Refund;
+    };
+    "event_type"?: "refund.succeeded" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "refund.succeeded";
 });
-/**
- * Shape $ (Value): {@link Webhook_gift_card_notification_updated_merchant}. The
- * `gift_card_notification.updated` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_gift_card_notification_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventRefundUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardNotification}. A message
-     * sent to a gift card recipient.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardNotification}. A message sent to a gift card recipient.
-         */
-        "object": GiftCardNotification;
+        "object": Refund;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card_notification.updated". */
-    "event_type"?: "gift_card_notification.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_gift_card_redemption_created_installed_merchants}. The
- * `gift_card_redemption.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_gift_card_redemption_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "refund.updated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardRedemption}. Independent
-     * redemption resource. Operational reservations are separate from immutable posted
-     * transactions. Refund captured value with `POST /v1/refunds`, using a `tender_allocations`
-     * entry with `tender_type` `gift_card_redemption` and this redemption's ID. Refunds keep the
-     * redemption `captured` and increase `refunded_money`.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardRedemption}. Independent redemption resource.
-         * Operational reservations are separate from immutable posted transactions. Refund
-         * captured value with `POST /v1/refunds`, using a `tender_allocations` entry with
-         * `tender_type` `gift_card_redemption` and this redemption's ID. Refunds keep the
-         * redemption `captured` and increase `refunded_money`.
-         */
-        "object": GiftCardRedemption;
+        "object": Refund;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card_redemption.created". */
-    "event_type"?: "gift_card_redemption.created" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "refund.updated" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "refund.updated";
 });
-/**
- * Shape $ (Value): {@link Webhook_gift_card_redemption_created_merchant}. The
- * `gift_card_redemption.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_gift_card_redemption_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReportFailed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardRedemption}. Independent
-     * redemption resource. Operational reservations are separate from immutable posted
-     * transactions. Refund captured value with `POST /v1/refunds`, using a `tender_allocations`
-     * entry with `tender_type` `gift_card_redemption` and this redemption's ID. Refunds keep the
-     * redemption `captured` and increase `refunded_money`.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardRedemption}. Independent redemption resource.
-         * Operational reservations are separate from immutable posted transactions. Refund
-         * captured value with `POST /v1/refunds`, using a `tender_allocations` entry with
-         * `tender_type` `gift_card_redemption` and this redemption's ID. Refunds keep the
-         * redemption `captured` and increase `refunded_money`.
-         */
-        "object": GiftCardRedemption;
+        "object": Report;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card_redemption.created". */
-    "event_type"?: "gift_card_redemption.created" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_gift_card_redemption_updated_installed_merchants}. The
- * `gift_card_redemption.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_gift_card_redemption_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "report.failed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardRedemption}. Independent
-     * redemption resource. Operational reservations are separate from immutable posted
-     * transactions. Refund captured value with `POST /v1/refunds`, using a `tender_allocations`
-     * entry with `tender_type` `gift_card_redemption` and this redemption's ID. Refunds keep the
-     * redemption `captured` and increase `refunded_money`.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardRedemption}. Independent redemption resource.
-         * Operational reservations are separate from immutable posted transactions. Refund
-         * captured value with `POST /v1/refunds`, using a `tender_allocations` entry with
-         * `tender_type` `gift_card_redemption` and this redemption's ID. Refunds keep the
-         * redemption `captured` and increase `refunded_money`.
-         */
-        "object": GiftCardRedemption;
+        "object": Report;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card_redemption.updated". */
-    "event_type"?: "gift_card_redemption.updated" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "report.failed" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "report.failed";
 });
-/**
- * Shape $ (Value): {@link Webhook_gift_card_redemption_updated_merchant}. The
- * `gift_card_redemption.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_gift_card_redemption_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReportSucceeded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardRedemption}. Independent
-     * redemption resource. Operational reservations are separate from immutable posted
-     * transactions. Refund captured value with `POST /v1/refunds`, using a `tender_allocations`
-     * entry with `tender_type` `gift_card_redemption` and this redemption's ID. Refunds keep the
-     * redemption `captured` and increase `refunded_money`.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardRedemption}. Independent redemption resource.
-         * Operational reservations are separate from immutable posted transactions. Refund
-         * captured value with `POST /v1/refunds`, using a `tender_allocations` entry with
-         * `tender_type` `gift_card_redemption` and this redemption's ID. Refunds keep the
-         * redemption `captured` and increase `refunded_money`.
-         */
-        "object": GiftCardRedemption;
+        "object": Report;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card_redemption.updated". */
-    "event_type"?: "gift_card_redemption.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_gift_card_transaction_created_installed_merchants}. The
- * `gift_card_transaction.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_gift_card_transaction_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "report.succeeded" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardTransaction}. Immutable
-     * posted financial movement with signed amount, per-card sequence, merchant sequence and
-     * balance snapshots. Corrections create new transactions.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardTransaction}. Immutable posted financial movement with
-         * signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections
-         * create new transactions.
-         */
-        "object": GiftCardTransaction;
+        "object": Report;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card_transaction.created". */
-    "event_type"?: "gift_card_transaction.created" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "report.succeeded" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "report.succeeded";
 });
-/**
- * Shape $ (Value): {@link Webhook_gift_card_transaction_created_merchant}. The
- * `gift_card_transaction.created` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_gift_card_transaction_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+/** Shape $ (Value): {@link WebhookEventResponse}. A response containing `WebhookEvent` data. */
+export type WebhookEventResponse = {
+    /**
+     * Shape $ (Value): {@link WebhookEvent}. An event prepared for delivery to webhook endpoints.
+     */
+    "data": WebhookEvent;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type WebhookEventReturnCanceled = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCardTransaction}. Immutable
-     * posted financial movement with signed amount, per-card sequence, merchant sequence and
-     * balance snapshots. Corrections create new transactions.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCardTransaction}. Immutable posted financial movement with
-         * signed amount, per-card sequence, merchant sequence and balance snapshots. Corrections
-         * create new transactions.
-         */
-        "object": GiftCardTransaction;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card_transaction.created". */
-    "event_type"?: "gift_card_transaction.created" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_gift_card_updated_installed_merchants}. The `gift_card.updated`
- * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
- * payloads.
- */
-export type Webhook_gift_card_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return.canceled" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCard}. Merchant-issued
-     * purchased gift card. Posted balance includes reserved value; available value is balance
-     * minus reservations. Frozen value remains part of outstanding liability. Gift cards are
-     * independent resources and cannot be transferred across merchants or currencies.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCard}. Merchant-issued purchased gift card. Posted balance
-         * includes reserved value; available value is balance minus reservations. Frozen value
-         * remains part of outstanding liability. Gift cards are independent resources and cannot
-         * be transferred across merchants or currencies.
-         */
-        "object": GiftCard;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card.updated". */
-    "event_type"?: "gift_card.updated" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return.canceled" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return.canceled";
 });
-/**
- * Shape $ (Value): {@link Webhook_gift_card_updated_merchant}. The `gift_card.updated` webhook
- * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_gift_card_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnCompleted = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link GiftCard}. Merchant-issued
-     * purchased gift card. Posted balance includes reserved value; available value is balance
-     * minus reservations. Frozen value remains part of outstanding liability. Gift cards are
-     * independent resources and cannot be transferred across merchants or currencies.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link GiftCard}. Merchant-issued purchased gift card. Posted balance
-         * includes reserved value; available value is balance minus reservations. Frozen value
-         * remains part of outstanding liability. Gift cards are independent resources and cannot
-         * be transferred across merchants or currencies.
-         */
-        "object": GiftCard;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "gift_card.updated". */
-    "event_type"?: "gift_card.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_count_applied_installed_merchants}. The
- * `inventory_count.applied` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_inventory_count_applied_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return.completed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryCount}. A physical count
-     * used to reconcile stock.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryCount}. A physical count used to reconcile stock. */
-        "object": InventoryCount;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_count.applied". */
-    "event_type"?: "inventory_count.applied" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return.completed" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return.completed";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_count_applied_merchant}. The `inventory_count.applied`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_inventory_count_applied_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryCount}. A physical count
-     * used to reconcile stock.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryCount}. A physical count used to reconcile stock. */
-        "object": InventoryCount;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_count.applied". */
-    "event_type"?: "inventory_count.applied" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_level_shortage_detected_installed_merchants}. The
- * `inventory_level.shortage_detected` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_level_shortage_detected_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryLevel}. The quantity
-     * state of one inventory item at one Location.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryLevel}. The quantity state of one inventory item at one
-         * Location.
-         */
-        "object": InventoryLevel;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_level.shortage_detected". */
-    "event_type"?: "inventory_level.shortage_detected" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return.created" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return.created";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_level_shortage_detected_merchant}. The
- * `inventory_level.shortage_detected` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_inventory_level_shortage_detected_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnDecisionRecorded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryLevel}. The quantity
-     * state of one inventory item at one Location.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryLevel}. The quantity state of one inventory item at one
-         * Location.
-         */
-        "object": InventoryLevel;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_level.shortage_detected". */
-    "event_type"?: "inventory_level.shortage_detected" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_level_updated_installed_merchants}. The
- * `inventory_level.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_inventory_level_updated_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return.decision_recorded" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryLevel}. The quantity
-     * state of one inventory item at one Location.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryLevel}. The quantity state of one inventory item at one
-         * Location.
-         */
-        "object": InventoryLevel;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_level.updated". */
-    "event_type"?: "inventory_level.updated" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return.decision_recorded" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return.decision_recorded";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_level_updated_merchant}. The `inventory_level.updated`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_inventory_level_updated_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnDispositionCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryLevel}. The quantity
-     * state of one inventory item at one Location.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryLevel}. The quantity state of one inventory item at one
-         * Location.
-         */
-        "object": InventoryLevel;
+        "object": ReturnDisposition;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_level.updated". */
-    "event_type"?: "inventory_level.updated" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_receipt_created_installed_merchants}. The
- * `inventory_receipt.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_inventory_receipt_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_disposition.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReceipt}. Returned units
-     * received into Inventory, from a Return disposition or against the reservation line that
-     * consumed them.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReceipt}. Returned units received into Inventory, from
-         * a Return disposition or against the reservation line that consumed them.
-         */
-        "object": InventoryReceipt;
+        "object": ReturnDisposition;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_receipt.created". */
-    "event_type"?: "inventory_receipt.created" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_disposition.created" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_disposition.created";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_receipt_created_merchant}. The
- * `inventory_receipt.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_inventory_receipt_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnDispositionUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReceipt}. Returned units
-     * received into Inventory, from a Return disposition or against the reservation line that
-     * consumed them.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReceipt}. Returned units received into Inventory, from
-         * a Return disposition or against the reservation line that consumed them.
-         */
-        "object": InventoryReceipt;
+        "object": ReturnDisposition;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_receipt.created". */
-    "event_type"?: "inventory_receipt.created" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_action_required_installed_merchants}. The
- * `inventory_reservation.action_required` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_reservation_action_required_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_disposition.updated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnDisposition;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.action_required". */
-    "event_type"?: "inventory_reservation.action_required" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_disposition.updated" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_disposition.updated";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_action_required_merchant}. The
- * `inventory_reservation.action_required` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_inventory_reservation_action_required_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnInspectionAcceptanceDecided = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnInspection;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.action_required". */
-    "event_type"?: "inventory_reservation.action_required" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_at_risk_installed_merchants}. The
- * `inventory_reservation.at_risk` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_reservation_at_risk_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_inspection.acceptance_decided" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnInspection;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.at_risk". */
-    "event_type"?: "inventory_reservation.at_risk" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_inspection.acceptance_decided" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_inspection.acceptance_decided";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_at_risk_merchant}. The
- * `inventory_reservation.at_risk` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_inventory_reservation_at_risk_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnInspectionCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnInspection;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.at_risk". */
-    "event_type"?: "inventory_reservation.at_risk" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_closed_installed_merchants}. The
- * `inventory_reservation.closed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_reservation_closed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_inspection.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnInspection;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.closed". */
-    "event_type"?: "inventory_reservation.closed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_inspection.created" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_inspection.created";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_closed_merchant}. The
- * `inventory_reservation.closed` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_inventory_reservation_closed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnInspectionSuperseded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnInspection;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.closed". */
-    "event_type"?: "inventory_reservation.closed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_committed_installed_merchants}. The
- * `inventory_reservation.committed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_reservation_committed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_inspection.superseded" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnInspection;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.committed". */
-    "event_type"?: "inventory_reservation.committed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_inspection.superseded" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_inspection.superseded";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_committed_merchant}. The
- * `inventory_reservation.committed` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_inventory_reservation_committed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnReceiptCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnReceipt;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.committed". */
-    "event_type"?: "inventory_reservation.committed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_consumed_installed_merchants}. The
- * `inventory_reservation.consumed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_reservation_consumed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_receipt.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnReceipt;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.consumed". */
-    "event_type"?: "inventory_reservation.consumed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_receipt.created" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_receipt.created";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_consumed_merchant}. The
- * `inventory_reservation.consumed` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_inventory_reservation_consumed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnReceiptSuperseded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnReceipt;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.consumed". */
-    "event_type"?: "inventory_reservation.consumed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_created_installed_merchants}. The
- * `inventory_reservation.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_reservation_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_receipt.superseded" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnReceipt;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.created". */
-    "event_type"?: "inventory_reservation.created" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_receipt.superseded" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_receipt.superseded";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_created_merchant}. The
- * `inventory_reservation.created` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_inventory_reservation_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnReceiptVerified = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnReceipt;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.created". */
-    "event_type"?: "inventory_reservation.created" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_hold_expired_installed_merchants}. The
- * `inventory_reservation.hold_expired` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_reservation_hold_expired_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_receipt.verified" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnReceipt;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.hold_expired". */
-    "event_type"?: "inventory_reservation.hold_expired" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_receipt.verified" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_receipt.verified";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_hold_expired_merchant}. The
- * `inventory_reservation.hold_expired` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_inventory_reservation_hold_expired_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnReopened = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.hold_expired". */
-    "event_type"?: "inventory_reservation.hold_expired" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_released_installed_merchants}. The
- * `inventory_reservation.released` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_inventory_reservation_released_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return.reopened" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.released". */
-    "event_type"?: "inventory_reservation.released" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return.reopened" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return.reopened";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_reservation_released_merchant}. The
- * `inventory_reservation.released` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_inventory_reservation_released_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnResolutionCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryReservation}. A claim on
-     * stock. Quantity moves from held to committed to consumed, and can be released or
-     * reallocated.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InventoryReservation}. A claim on stock. Quantity moves from
-         * held to committed to consumed, and can be released or reallocated.
-         */
-        "object": InventoryReservation;
+        "object": ReturnResolution;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_reservation.released". */
-    "event_type"?: "inventory_reservation.released" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_closed_installed_merchants}. The
- * `inventory_transfer.closed` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_inventory_transfer_closed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_resolution.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": ReturnResolution;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.closed". */
-    "event_type"?: "inventory_transfer.closed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_resolution.created" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_resolution.created";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_closed_merchant}. The
- * `inventory_transfer.closed` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_inventory_transfer_closed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnResolutionUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": ReturnResolution;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.closed". */
-    "event_type"?: "inventory_transfer.closed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_departed_installed_merchants}. The
- * `inventory_transfer.departed` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_inventory_transfer_departed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return_resolution.updated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": ReturnResolution;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.departed". */
-    "event_type"?: "inventory_transfer.departed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return_resolution.updated" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return_resolution.updated";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_departed_merchant}. The
- * `inventory_transfer.departed` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_inventory_transfer_departed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventReturnUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.departed". */
-    "event_type"?: "inventory_transfer.departed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_lost_installed_merchants}. The
- * `inventory_transfer.lost` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_inventory_transfer_lost_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "return.updated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": ReturnResource;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.lost". */
-    "event_type"?: "inventory_transfer.lost" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "return.updated" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "return.updated";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_lost_merchant}. The `inventory_transfer.lost`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_inventory_transfer_lost_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventShipmentCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": Shipment;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.lost". */
-    "event_type"?: "inventory_transfer.lost" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_received_installed_merchants}. The
- * `inventory_transfer.received` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_inventory_transfer_received_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "shipment.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": Shipment;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.received". */
-    "event_type"?: "inventory_transfer.received" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "shipment.created" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "shipment.created";
 });
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_received_merchant}. The
- * `inventory_transfer.received` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_inventory_transfer_received_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventShipmentUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": Shipment;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.received". */
-    "event_type"?: "inventory_transfer.received" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_inventory_transfer_returned_installed_merchants}. The
- * `inventory_transfer.returned` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_inventory_transfer_returned_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "shipment.updated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
+        "object": Shipment;
     };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.returned". */
-    "event_type"?: "inventory_transfer.returned" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "shipment.updated" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "shipment.updated";
 });
 /**
- * Shape $ (Value): {@link Webhook_inventory_transfer_returned_merchant}. The
- * `inventory_transfer.returned` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
+ * Shape $ (Value): {@link WebhookEventSource}. The source of a partner webhook event, selected by
+ * type.
  */
-export type Webhook_inventory_transfer_returned_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InventoryTransfer}. Stock moving
-     * between locations.
-     */
-    "data"?: {
-        /** Shape $ (Value): {@link InventoryTransfer}. Stock moving between locations. */
-        "object": InventoryTransfer;
-    };
-    /** Shape $ (Value): string.  Value enum: "inventory_transfer.returned". */
-    "event_type"?: "inventory_transfer.returned" | (string & {});
+export type WebhookEventSource = ((WebhookEventSourcePartnerApp) | (WebhookEventSourceInstalledMerchants) | (Record<string, unknown>));
+/**
+ * Shape $ (Value): {@link WebhookEventSourceInstalledMerchants}. The installed_merchants source of
+ * a partner webhook event.
+ */
+export type WebhookEventSourceInstalledMerchants = ({
+    /** Shape $ (Value): string. */
+    "environment_grant_id": string;
+    /** Shape $ (Value): string. */
+    "merchant_id": string;
+    /** Shape $ (Value): string.  Value enum: "test", "live". */
+    "mode": "test" | "live" | (string & {});
+    /** Shape $ (Value): string. */
+    "partner_app_install_id": string;
+    /** Shape $ (Value): string. */
+    "sandbox_id"?: string;
+    /** Shape $ (Value): string.  Value enum: "installed_merchants". */
+    "type": "installed_merchants" | (string & {});
 });
 /**
- * Shape $ (Value): {@link Webhook_invoice_collection_block_resolved_installed_merchants}. The
- * `invoice.collection_block_resolved` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
+ * Shape $ (Value): {@link WebhookEventSourcePartnerApp}. The partner_app source of a partner
+ * webhook event.
  */
-export type Webhook_invoice_collection_block_resolved_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSourcePartnerApp = {
+    /** Shape $ (Value): string. */
+    "merchant_id": string;
+    /** Shape $ (Value): string. */
+    "partner_app_install_id": string;
+    /** Shape $ (Value): string.  Value enum: "partner_app". */
+    "type": "partner_app" | (string & {});
+};
+export type WebhookEventSubscriptionActivated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.collection_block_resolved". */
-    "event_type"?: "invoice.collection_block_resolved" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.activated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.activated" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.activated";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_collection_block_resolved_merchant}. The
- * `invoice.collection_block_resolved` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_invoice_collection_block_resolved_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionCanceled = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.collection_block_resolved". */
-    "event_type"?: "invoice.collection_block_resolved" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_collection_blocked_installed_merchants}. The
- * `invoice.collection_blocked` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_invoice_collection_blocked_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription.canceled" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.collection_blocked". */
-    "event_type"?: "invoice.collection_blocked" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.canceled" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.canceled";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_collection_blocked_merchant}. The
- * `invoice.collection_blocked` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type Webhook_invoice_collection_blocked_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionCancellationScheduled = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.collection_blocked". */
-    "event_type"?: "invoice.collection_blocked" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_created_installed_merchants}. The `invoice.created`
- * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
- * payloads.
- */
-export type Webhook_invoice_created_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription.cancellation_scheduled" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.created". */
-    "event_type"?: "invoice.created" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.cancellation_scheduled" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.cancellation_scheduled";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_created_merchant}. The `invoice.created` webhook payload
- * for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_created_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.created". */
-    "event_type"?: "invoice.created" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_credited_installed_merchants}. The `invoice.credited`
- * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
- * payloads.
- */
-export type Webhook_invoice_credited_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.credited". */
-    "event_type"?: "invoice.credited" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.created" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.created";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_credited_merchant}. The `invoice.credited` webhook
- * payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_credited_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionCycleSkipped = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.credited". */
-    "event_type"?: "invoice.credited" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_delivery_attempt_failed_installed_merchants}. The
- * `invoice_delivery_attempt.failed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_delivery_attempt_failed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription.cycle_skipped" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceDeliveryAttempt}. One
-     * attempt to deliver an invoice by email, either the original send or a reminder, with its
-     * recipients and status.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
-         * email, either the original send or a reminder, with its recipients and status.
-         */
-        "object": InvoiceDeliveryAttempt;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice_delivery_attempt.failed". */
-    "event_type"?: "invoice_delivery_attempt.failed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.cycle_skipped" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.cycle_skipped";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_delivery_attempt_failed_merchant}. The
- * `invoice_delivery_attempt.failed` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_invoice_delivery_attempt_failed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionDeliveryActionRequired = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceDeliveryAttempt}. One
-     * attempt to deliver an invoice by email, either the original send or a reminder, with its
-     * recipients and status.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
-         * email, either the original send or a reminder, with its recipients and status.
-         */
-        "object": InvoiceDeliveryAttempt;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice_delivery_attempt.failed". */
-    "event_type"?: "invoice_delivery_attempt.failed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_delivery_attempt_sent_installed_merchants}. The
- * `invoice_delivery_attempt.sent` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_delivery_attempt_sent_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription.delivery_action_required" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceDeliveryAttempt}. One
-     * attempt to deliver an invoice by email, either the original send or a reminder, with its
-     * recipients and status.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
-         * email, either the original send or a reminder, with its recipients and status.
-         */
-        "object": InvoiceDeliveryAttempt;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice_delivery_attempt.sent". */
-    "event_type"?: "invoice_delivery_attempt.sent" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.delivery_action_required" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.delivery_action_required";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_delivery_attempt_sent_merchant}. The
- * `invoice_delivery_attempt.sent` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type Webhook_invoice_delivery_attempt_sent_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionDeliveryMigrationCompleted = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceDeliveryAttempt}. One
-     * attempt to deliver an invoice by email, either the original send or a reminder, with its
-     * recipients and status.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
-         * email, either the original send or a reminder, with its recipients and status.
-         */
-        "object": InvoiceDeliveryAttempt;
+        "object": SubscriptionDeliveryMigration;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice_delivery_attempt.sent". */
-    "event_type"?: "invoice_delivery_attempt.sent" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_delivery_attempt_suppressed_installed_merchants}. The
- * `invoice_delivery_attempt.suppressed` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type Webhook_invoice_delivery_attempt_suppressed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription_delivery_migration.completed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceDeliveryAttempt}. One
-     * attempt to deliver an invoice by email, either the original send or a reminder, with its
-     * recipients and status.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
-         * email, either the original send or a reminder, with its recipients and status.
-         */
-        "object": InvoiceDeliveryAttempt;
+        "object": SubscriptionDeliveryMigration;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice_delivery_attempt.suppressed". */
-    "event_type"?: "invoice_delivery_attempt.suppressed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription_delivery_migration.completed" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription_delivery_migration.completed";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_delivery_attempt_suppressed_merchant}. The
- * `invoice_delivery_attempt.suppressed` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type Webhook_invoice_delivery_attempt_suppressed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionDeliveryPauseUpcoming = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link InvoiceDeliveryAttempt}. One
-     * attempt to deliver an invoice by email, either the original send or a reminder, with its
-     * recipients and status.
-     */
     "data"?: {
-        /**
-         * Shape $ (Value): {@link InvoiceDeliveryAttempt}. One attempt to deliver an invoice by
-         * email, either the original send or a reminder, with its recipients and status.
-         */
-        "object": InvoiceDeliveryAttempt;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice_delivery_attempt.suppressed". */
-    "event_type"?: "invoice_delivery_attempt.suppressed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_issue_failed_installed_merchants}. The
- * `invoice.issue_failed` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type Webhook_invoice_issue_failed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription.delivery_pause_upcoming" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.issue_failed". */
-    "event_type"?: "invoice.issue_failed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.delivery_pause_upcoming" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.delivery_pause_upcoming";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_issue_failed_merchant}. The `invoice.issue_failed`
- * webhook payload for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_issue_failed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionDeliveryUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.issue_failed". */
-    "event_type"?: "invoice.issue_failed" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_issued_installed_merchants}. The `invoice.issued`
- * webhook payload for the `installed_merchants` event source. Fields shared by partner webhook
- * payloads.
- */
-export type Webhook_invoice_issued_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription.delivery_updated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.issued". */
-    "event_type"?: "invoice.issued" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.delivery_updated" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.delivery_updated";
 });
-/**
- * Shape $ (Value): {@link Webhook_invoice_issued_merchant}. The `invoice.issued` webhook payload
- * for the `merchant` event source. Fields shared by merchant webhook payloads.
- */
-export type Webhook_invoice_issued_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type WebhookEventSubscriptionDunningExhausted = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.issued". */
-    "event_type"?: "invoice.issued" | (string & {});
-});
-/**
- * Shape $ (Value): {@link Webhook_invoice_late_fee_assessed_installed_merchants}. The
- * `invoice.late_fee_assessed` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type Webhook_invoice_late_fee_assessed_installed_merchants = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    "event_type"?: "subscription.dunning_exhausted" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
-     */
     "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
+        "object": Subscription;
     };
-    /** Shape $ (Value): string.  Value enum: "invoice.late_fee_assessed". */
-    "event_type"?: "invoice.late_fee_assessed" | (string & {});
-    /**
-     * Shape $ (Value): object. Shape $.environment_grant_id (Required): string. Shape
-     * $.merchant_id (Required): string. Shape $.mode (Required): string. Value enum: "test",
-     * "live". Shape $.partner_app_install_id (Required): string. Shape $.sandbox_id (Optional):
-     * string. Shape $.type (Required): string. Value enum: "installed_merchants".
-     */
+    "event_type"?: "subscription.dunning_exhausted" | (string & {});
     "source"?: ({
-        /** Shape $ (Value): string. */
         "environment_grant_id": string;
-        /** Shape $ (Value): string. */
         "merchant_id": string;
-        /** Shape $ (Value): string.  Value enum: "test", "live". */
         "mode": "test" | "live" | (string & {});
-        /** Shape $ (Value): string. */
         "partner_app_install_id": string;
-        /** Shape $ (Value): string. */
         "sandbox_id"?: string;
-        /** Shape $ (Value): string.  Value enum: "installed_merchants". */
         "type": "installed_merchants" | (string & {});
     });
+})))
+    & {
+    "event_type": "subscription.dunning_exhausted";
+});
+export type WebhookEventSubscriptionPastDue = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.past_due" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.past_due" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.past_due";
+});
+export type WebhookEventSubscriptionPaused = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.paused" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.paused" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.paused";
+});
+export type WebhookEventSubscriptionPaymentRetryCreated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": SubscriptionPaymentRetry;
+    };
+    "event_type"?: "subscription_payment_retry.created" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": SubscriptionPaymentRetry;
+    };
+    "event_type"?: "subscription_payment_retry.created" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription_payment_retry.created";
+});
+export type WebhookEventSubscriptionPaymentRetryFailed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": SubscriptionPaymentRetry;
+    };
+    "event_type"?: "subscription_payment_retry.failed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": SubscriptionPaymentRetry;
+    };
+    "event_type"?: "subscription_payment_retry.failed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription_payment_retry.failed";
+});
+export type WebhookEventSubscriptionPaymentRetrySucceeded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": SubscriptionPaymentRetry;
+    };
+    "event_type"?: "subscription_payment_retry.succeeded" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": SubscriptionPaymentRetry;
+    };
+    "event_type"?: "subscription_payment_retry.succeeded" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription_payment_retry.succeeded";
+});
+export type WebhookEventSubscriptionPaymentSucceeded = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.payment_succeeded" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.payment_succeeded" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.payment_succeeded";
+});
+export type WebhookEventSubscriptionPlanChanged = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.plan_changed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.plan_changed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.plan_changed";
+});
+export type WebhookEventSubscriptionReactivated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.reactivated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.reactivated" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.reactivated";
+});
+export type WebhookEventSubscriptionRenewalUpcoming = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.renewal_upcoming" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.renewal_upcoming" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.renewal_upcoming";
+});
+export type WebhookEventSubscriptionResumed = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.resumed" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.resumed" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.resumed";
+});
+export type WebhookEventSubscriptionTrialEnding = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.trial_ending" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.trial_ending" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.trial_ending";
+});
+export type WebhookEventSubscriptionUpdated = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.updated" | (string & {});
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": Subscription;
+    };
+    "event_type"?: "subscription.updated" | (string & {});
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+        "type": "installed_merchants" | (string & {});
+    });
+})))
+    & {
+    "event_type": "subscription.updated";
+});
+export type WebhookEventTaxConnectionUpdated = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": TaxConnection;
+    };
+    "event_type"?: "tax_connection.updated" | (string & {});
+})
+    & {
+    "event_type": "tax_connection.updated";
 });
 /**
- * Shape $ (Value): {@link Webhook_invoice_late_fee_assessed_merchant}. The
- * `invoice.late_fee_assessed` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
+ * Shape $ (Value): {@link WebhookEventType}. A webhook event type, with a description and the
+ * event sources where it is valid.
  */
-export type Webhook_invoice_late_fee_assessed_merchant = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+export type WebhookEventType = {
+    /** Shape $ (Value): string. Concise semantics for the state transition or event occurrence. */
+    "description": string;
     /**
-     * Shape $ (Value): object. Shape $.object (Required): {@link Invoice}. A bill issued to a
-     * customer.
+     * Shape $ (Value): Array of string. Event source buckets where this event type is valid. []
+     * enum: "merchant", "partner_app", "installed_merchants". Shape $[] (Value): string. Value
+     * enum: "merchant", "partner_app", "installed_merchants".
      */
-    "data"?: {
-        /** Shape $ (Value): {@link Invoice}. A bill issued to a customer. */
-        "object": Invoice;
-    };
-    /** Shape $ (Value): string.  Value enum: "invoice.late_fee_assessed". */
-    "event_type"?: "invoice.late_fee_assessed" | (string & {});
-});
+    "event_sources": Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
+    /**
+     * Shape $ (Value): string. Webhook event type string accepted by compatible endpoint
+     * enabled_events values and webhook event filters. Value enum: "balance.updated",
+     * "balance_transaction.created", "balance_transaction.updated", "bundle.archived",
+     * "bundle.created", "bundle.updated", "category.created", "category.deleted",
+     * "category.updated", "checkout_session.closed", "checkout_session.created",
+     * "checkout_session.expired", "checkout_session.invalidated", "checkout_session.paid",
+     * "checkout_session.partially_paid", "credit_note.created", "credit_note.issued",
+     * "credit_note.updated", "credit_note.voided", "credit_note_allocation.created",
+     * "credit_note_allocation.reversed", "custom_domain.archived", "custom_domain.updated",
+     * "customer.created", "customer.deleted", "customer.updated",
+     * "customer_deletion_request.completed", "customer_deletion_request.created",
+     * "customer_deletion_request.failed", "customer_deletion_request.processing",
+     * "customer_deletion_request.rejected", "delivery_location_set.activated",
+     * "delivery_location_set.archived", "delivery_location_set.created",
+     * "delivery_location_set.deactivated", "delivery_location_set.updated",
+     * "delivery_method.activated", "delivery_method.archived", "delivery_method.created",
+     * "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated",
+     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated",
+     * "delivery_profile.updated", "delivery_rate_callback.activated",
+     * "delivery_rate_callback.archived", "delivery_rate_callback.created",
+     * "delivery_rate_callback.deactivated", "delivery_rate_callback.updated",
+     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated",
+     * "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated",
+     * "delivery_zone.updated", "dispute.created", "dispute.inquiry_closed", "dispute.lost",
+     * "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.won",
+     * "environment_grant.created", "environment_grant.revoked", "fraud_warning.created",
+     * "fraud_warning.updated", "fulfillment.canceled", "fulfillment.completed",
+     * "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
+     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
+     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
+     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
+     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
+     * "inventory_reservation.closed", "inventory_reservation.committed",
+     * "inventory_reservation.consumed", "inventory_reservation.created",
+     * "inventory_reservation.hold_expired", "inventory_reservation.released",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
+     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
+     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
+     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
+     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
+     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
+     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
+     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
+     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
+     * "modifier_set.updated", "order.closed", "order.created",
+     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
+     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
+     * "package.created", "package.updated", "partner_app_install.created",
+     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
+     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
+     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
+     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
+     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
+     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
+     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
+     * "product_variant.archived", "product_variant.created", "product_variant.updated",
+     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
+     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
+     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
+     * "report.succeeded", "return.canceled", "return.completed", "return.created",
+     * "return.decision_recorded", "return.reopened", "return.updated",
+     * "return_disposition.created", "return_disposition.updated",
+     * "return_inspection.acceptance_decided", "return_inspection.created",
+     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
+     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
+     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
+     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
+     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
+     * "subscription.trial_ending", "subscription.updated",
+     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
+     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
+     * "tax_connection.updated".
+     */
+    "event_type": "balance.updated"
+        | "balance_transaction.created"
+        | "balance_transaction.updated"
+        | "bundle.archived"
+        | "bundle.created"
+        | "bundle.updated"
+        | "category.created"
+        | "category.deleted"
+        | "category.updated"
+        | "checkout_session.closed"
+        | "checkout_session.created"
+        | "checkout_session.expired"
+        | "checkout_session.invalidated"
+        | "checkout_session.paid"
+        | "checkout_session.partially_paid"
+        | "credit_note.created"
+        | "credit_note.issued"
+        | "credit_note.updated"
+        | "credit_note.voided"
+        | "credit_note_allocation.created"
+        | "credit_note_allocation.reversed"
+        | "custom_domain.archived"
+        | "custom_domain.updated"
+        | "customer.created"
+        | "customer.deleted"
+        | "customer.updated"
+        | "customer_deletion_request.completed"
+        | "customer_deletion_request.created"
+        | "customer_deletion_request.failed"
+        | "customer_deletion_request.processing"
+        | "customer_deletion_request.rejected"
+        | "delivery_location_set.activated"
+        | "delivery_location_set.archived"
+        | "delivery_location_set.created"
+        | "delivery_location_set.deactivated"
+        | "delivery_location_set.updated"
+        | "delivery_method.activated"
+        | "delivery_method.archived"
+        | "delivery_method.created"
+        | "delivery_method.deactivated"
+        | "delivery_method.updated"
+        | "delivery_profile.activated"
+        | "delivery_profile.archived"
+        | "delivery_profile.created"
+        | "delivery_profile.deactivated"
+        | "delivery_profile.updated"
+        | "delivery_rate_callback.activated"
+        | "delivery_rate_callback.archived"
+        | "delivery_rate_callback.created"
+        | "delivery_rate_callback.deactivated"
+        | "delivery_rate_callback.updated"
+        | "delivery_revocation.created"
+        | "delivery_selection.committed"
+        | "delivery_zone.activated"
+        | "delivery_zone.archived"
+        | "delivery_zone.created"
+        | "delivery_zone.deactivated"
+        | "delivery_zone.updated"
+        | "dispute.created"
+        | "dispute.inquiry_closed"
+        | "dispute.lost"
+        | "dispute.needs_response"
+        | "dispute.prevented"
+        | "dispute.updated"
+        | "dispute.won"
+        | "environment_grant.created"
+        | "environment_grant.revoked"
+        | "fraud_warning.created"
+        | "fraud_warning.updated"
+        | "fulfillment.canceled"
+        | "fulfillment.completed"
+        | "fulfillment.created"
+        | "fulfillment.failed"
+        | "fulfillment.updated"
+        | "fulfillment_event.created"
+        | "gift_card.created"
+        | "gift_card.updated"
+        | "gift_card_load.created"
+        | "gift_card_load.updated"
+        | "gift_card_notification.created"
+        | "gift_card_notification.updated"
+        | "gift_card_redemption.created"
+        | "gift_card_redemption.updated"
+        | "gift_card_transaction.created"
+        | "inventory_count.applied"
+        | "inventory_level.shortage_detected"
+        | "inventory_level.updated"
+        | "inventory_receipt.created"
+        | "inventory_reservation.action_required"
+        | "inventory_reservation.at_risk"
+        | "inventory_reservation.closed"
+        | "inventory_reservation.committed"
+        | "inventory_reservation.consumed"
+        | "inventory_reservation.created"
+        | "inventory_reservation.hold_expired"
+        | "inventory_reservation.released"
+        | "inventory_transfer.closed"
+        | "inventory_transfer.departed"
+        | "inventory_transfer.lost"
+        | "inventory_transfer.received"
+        | "inventory_transfer.returned"
+        | "invoice.collection_block_resolved"
+        | "invoice.collection_blocked"
+        | "invoice.created"
+        | "invoice.credited"
+        | "invoice.issue_failed"
+        | "invoice.issued"
+        | "invoice.late_fee_assessed"
+        | "invoice.late_fee_due"
+        | "invoice.late_fee_waived"
+        | "invoice.marked_uncollectible"
+        | "invoice.overdue"
+        | "invoice.paid"
+        | "invoice.partially_paid"
+        | "invoice.partially_refunded"
+        | "invoice.refunded"
+        | "invoice.reminder_due"
+        | "invoice.reopened"
+        | "invoice.sent"
+        | "invoice.updated"
+        | "invoice.voided"
+        | "invoice_delivery_attempt.failed"
+        | "invoice_delivery_attempt.sent"
+        | "invoice_delivery_attempt.suppressed"
+        | "invoice_manual_payment.created"
+        | "invoice_manual_payment.reversed"
+        | "invoice_payment_attempt.canceled"
+        | "invoice_payment_attempt.expired"
+        | "invoice_payment_attempt.failed"
+        | "invoice_payment_attempt.processing"
+        | "invoice_payment_attempt.settled"
+        | "merchant.readiness_updated"
+        | "merchant.updated"
+        | "merchant_billing_balance.updated"
+        | "merchant_billing_invoice.issued"
+        | "merchant_billing_invoice.updated"
+        | "modifier_group.archived"
+        | "modifier_group.created"
+        | "modifier_group.updated"
+        | "modifier_set.archived"
+        | "modifier_set.created"
+        | "modifier_set.updated"
+        | "order.closed"
+        | "order.created"
+        | "order.inventory_exception_created"
+        | "order.inventory_exception_resolved"
+        | "order.paid"
+        | "order.partially_paid"
+        | "order.partially_refunded"
+        | "order.refunded"
+        | "order.updated"
+        | "package.created"
+        | "package.updated"
+        | "partner_app_install.created"
+        | "partner_app_install.permissions_updated"
+        | "partner_app_install.revoked"
+        | "partner_app_install.updated"
+        | "payment_intent.canceled"
+        | "payment_intent.created"
+        | "payment_intent.expired"
+        | "payment_intent.fulfillment_hold_updated"
+        | "payment_intent.payment_failed"
+        | "payment_intent.processing"
+        | "payment_intent.requires_action"
+        | "payment_intent.requires_capture"
+        | "payment_intent.succeeded"
+        | "payment_intent.updated"
+        | "payment_link.created"
+        | "payment_link.updated"
+        | "payment_method.activated"
+        | "payment_method.archived"
+        | "payment_method.failed"
+        | "payment_review.closed"
+        | "payment_review.opened"
+        | "payment_review.reopened"
+        | "payout.canceled"
+        | "payout.created"
+        | "payout.failed"
+        | "payout.paid"
+        | "payout.reversed"
+        | "payout.updated"
+        | "payout_destination.archived"
+        | "payout_destination.created"
+        | "payout_destination.disabled"
+        | "payout_destination.updated"
+        | "payout_settings.updated"
+        | "product.archived"
+        | "product.created"
+        | "product.updated"
+        | "product_variant.archived"
+        | "product_variant.created"
+        | "product_variant.updated"
+        | "promotion.archived"
+        | "promotion.created"
+        | "promotion.updated"
+        | "promotion_code.archived"
+        | "promotion_code.created"
+        | "promotion_code.updated"
+        | "refund.created"
+        | "refund.failed"
+        | "refund.partially_succeeded"
+        | "refund.succeeded"
+        | "refund.updated"
+        | "report.failed"
+        | "report.succeeded"
+        | "return.canceled"
+        | "return.completed"
+        | "return.created"
+        | "return.decision_recorded"
+        | "return.reopened"
+        | "return.updated"
+        | "return_disposition.created"
+        | "return_disposition.updated"
+        | "return_inspection.acceptance_decided"
+        | "return_inspection.created"
+        | "return_inspection.superseded"
+        | "return_receipt.created"
+        | "return_receipt.superseded"
+        | "return_receipt.verified"
+        | "return_resolution.created"
+        | "return_resolution.updated"
+        | "shipment.created"
+        | "shipment.updated"
+        | "subscription.activated"
+        | "subscription.canceled"
+        | "subscription.cancellation_scheduled"
+        | "subscription.created"
+        | "subscription.cycle_skipped"
+        | "subscription.delivery_action_required"
+        | "subscription.delivery_pause_upcoming"
+        | "subscription.delivery_updated"
+        | "subscription.dunning_exhausted"
+        | "subscription.past_due"
+        | "subscription.paused"
+        | "subscription.payment_succeeded"
+        | "subscription.plan_changed"
+        | "subscription.reactivated"
+        | "subscription.renewal_upcoming"
+        | "subscription.resumed"
+        | "subscription.trial_ending"
+        | "subscription.updated"
+        | "subscription_delivery_migration.completed"
+        | "subscription_payment_retry.created"
+        | "subscription_payment_retry.failed"
+        | "subscription_payment_retry.succeeded"
+        | "tax_connection.updated"
+        | (string & {});
+    /**
+     * Shape $ (Value): string. Whether the event records a resource snapshot or asks you to fetch
+     * current state. Value enum: "snapshot", "notification".
+     */
+    "kind": "snapshot" | "notification" | (string & {});
+    /**
+     * Shape $ (Value): Array of string. Previous names of this type, retained permanently for
+     * reading stored events. Inputs accept only the current event_type. Empty when the type has
+     * never been renamed. Shape $[] (Value): string.
+     */
+    "previous_names": Array<string>;
+    /**
+     * Shape $ (Value): {@link ResourceType}. Public resource type: the resource's ID field name
+     * without `_id`. Clients must accept values added in future releases. Value enum: "api_key",
+     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
+     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
+     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
+     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
+     * "payout", "payout_destination", "payout_settings", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
+     * "report", "report_download", "return", "return_activity", "return_disposition",
+     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
+     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
+     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_connection", "tax_registration", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type": ResourceType;
+};
+/** Shape $ (Value): {@link WebhookEventTypeListResponse}. A page of `WebhookEventType` objects. */
+export type WebhookEventTypeListResponse = {
+    /**
+     * Shape $ (Value): Array of {@link WebhookEventType}. Shape $[] (Value): {@link
+     * WebhookEventType}. A webhook event type, with a description and the event sources where it
+     * is valid.
+     */
+    "data": Array<WebhookEventType>;
+    /**
+     * Shape $ (Value): {@link ResponseMeta}. Metadata returned with a response: the `api_version`,
+     * `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Shape $ (Value): string. */
+    "next_page_token"?: string;
+    /**
+     * Shape $ (Value): string. maxLength: 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type WebhookEventTypesListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 100. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+};
+export type WebhookEventsGetInput = {
+    /** Shape $ (Value): string. */
+    "webhook_event_id": InputValue<string>;
+};
+export type WebhookEventsListInput = {
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "webhook_endpoint_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "pending", "delivered", "failed",
+     * "suppressed". Shape $[] (Value): string. Value enum: "pending", "delivered", "failed",
+     * "suppressed".
+     */
+    "delivery_status"?: InputValue<Array<"pending" | "delivered" | "failed" | "suppressed">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "merchant", "partner_app",
+     * "installed_merchants". Shape $[] (Value): string. Value enum: "merchant", "partner_app",
+     * "installed_merchants".
+     */
+    "event_source"?: InputValue<Array<"merchant" | "partner_app" | "installed_merchants">>;
+    /** Shape $ (Value): string. */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "balance.updated",
+     * "balance_transaction.created", "balance_transaction.updated", "bundle.archived",
+     * "bundle.created", "bundle.updated", "category.created", "category.deleted",
+     * "category.updated", "checkout_session.closed", "checkout_session.created",
+     * "checkout_session.expired", "checkout_session.invalidated", "checkout_session.paid",
+     * "checkout_session.partially_paid", "credit_note.created", "credit_note.issued",
+     * "credit_note.updated", "credit_note.voided", "credit_note_allocation.created",
+     * "credit_note_allocation.reversed", "custom_domain.archived", "custom_domain.updated",
+     * "customer.created", "customer.deleted", "customer.updated",
+     * "customer_deletion_request.completed", "customer_deletion_request.created",
+     * "customer_deletion_request.failed", "customer_deletion_request.processing",
+     * "customer_deletion_request.rejected", "delivery_location_set.activated",
+     * "delivery_location_set.archived", "delivery_location_set.created",
+     * "delivery_location_set.deactivated", "delivery_location_set.updated",
+     * "delivery_method.activated", "delivery_method.archived", "delivery_method.created",
+     * "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated",
+     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated",
+     * "delivery_profile.updated", "delivery_rate_callback.activated",
+     * "delivery_rate_callback.archived", "delivery_rate_callback.created",
+     * "delivery_rate_callback.deactivated", "delivery_rate_callback.updated",
+     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated",
+     * "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated",
+     * "delivery_zone.updated", "dispute.created", "dispute.inquiry_closed", "dispute.lost",
+     * "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.won",
+     * "environment_grant.created", "environment_grant.revoked", "fraud_warning.created",
+     * "fraud_warning.updated", "fulfillment.canceled", "fulfillment.completed",
+     * "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
+     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
+     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
+     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
+     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
+     * "inventory_reservation.closed", "inventory_reservation.committed",
+     * "inventory_reservation.consumed", "inventory_reservation.created",
+     * "inventory_reservation.hold_expired", "inventory_reservation.released",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
+     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
+     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
+     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
+     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
+     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
+     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
+     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
+     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
+     * "modifier_set.updated", "order.closed", "order.created",
+     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
+     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
+     * "package.created", "package.updated", "partner_app_install.created",
+     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
+     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
+     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
+     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
+     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
+     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
+     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
+     * "product_variant.archived", "product_variant.created", "product_variant.updated",
+     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
+     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
+     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
+     * "report.succeeded", "return.canceled", "return.completed", "return.created",
+     * "return.decision_recorded", "return.reopened", "return.updated",
+     * "return_disposition.created", "return_disposition.updated",
+     * "return_inspection.acceptance_decided", "return_inspection.created",
+     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
+     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
+     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
+     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
+     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
+     * "subscription.trial_ending", "subscription.updated",
+     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
+     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
+     * "tax_connection.updated". Shape $[] (Value): string. Value enum: "balance.updated",
+     * "balance_transaction.created", "balance_transaction.updated", "bundle.archived",
+     * "bundle.created", "bundle.updated", "category.created", "category.deleted",
+     * "category.updated", "checkout_session.closed", "checkout_session.created",
+     * "checkout_session.expired", "checkout_session.invalidated", "checkout_session.paid",
+     * "checkout_session.partially_paid", "credit_note.created", "credit_note.issued",
+     * "credit_note.updated", "credit_note.voided", "credit_note_allocation.created",
+     * "credit_note_allocation.reversed", "custom_domain.archived", "custom_domain.updated",
+     * "customer.created", "customer.deleted", "customer.updated",
+     * "customer_deletion_request.completed", "customer_deletion_request.created",
+     * "customer_deletion_request.failed", "customer_deletion_request.processing",
+     * "customer_deletion_request.rejected", "delivery_location_set.activated",
+     * "delivery_location_set.archived", "delivery_location_set.created",
+     * "delivery_location_set.deactivated", "delivery_location_set.updated",
+     * "delivery_method.activated", "delivery_method.archived", "delivery_method.created",
+     * "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated",
+     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated",
+     * "delivery_profile.updated", "delivery_rate_callback.activated",
+     * "delivery_rate_callback.archived", "delivery_rate_callback.created",
+     * "delivery_rate_callback.deactivated", "delivery_rate_callback.updated",
+     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated",
+     * "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated",
+     * "delivery_zone.updated", "dispute.created", "dispute.inquiry_closed", "dispute.lost",
+     * "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.won",
+     * "environment_grant.created", "environment_grant.revoked", "fraud_warning.created",
+     * "fraud_warning.updated", "fulfillment.canceled", "fulfillment.completed",
+     * "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
+     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
+     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
+     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
+     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
+     * "inventory_reservation.closed", "inventory_reservation.committed",
+     * "inventory_reservation.consumed", "inventory_reservation.created",
+     * "inventory_reservation.hold_expired", "inventory_reservation.released",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
+     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
+     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
+     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
+     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
+     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
+     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
+     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
+     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
+     * "modifier_set.updated", "order.closed", "order.created",
+     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
+     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
+     * "package.created", "package.updated", "partner_app_install.created",
+     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
+     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
+     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
+     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
+     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
+     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
+     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
+     * "product_variant.archived", "product_variant.created", "product_variant.updated",
+     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
+     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
+     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
+     * "report.succeeded", "return.canceled", "return.completed", "return.created",
+     * "return.decision_recorded", "return.reopened", "return.updated",
+     * "return_disposition.created", "return_disposition.updated",
+     * "return_inspection.acceptance_decided", "return_inspection.created",
+     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
+     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
+     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
+     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
+     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
+     * "subscription.trial_ending", "subscription.updated",
+     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
+     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
+     * "tax_connection.updated".
+     */
+    "event_type"?: InputValue<Array<"balance.updated"
+        | "balance_transaction.created"
+        | "balance_transaction.updated"
+        | "bundle.archived"
+        | "bundle.created"
+        | "bundle.updated"
+        | "category.created"
+        | "category.deleted"
+        | "category.updated"
+        | "checkout_session.closed"
+        | "checkout_session.created"
+        | "checkout_session.expired"
+        | "checkout_session.invalidated"
+        | "checkout_session.paid"
+        | "checkout_session.partially_paid"
+        | "credit_note.created"
+        | "credit_note.issued"
+        | "credit_note.updated"
+        | "credit_note.voided"
+        | "credit_note_allocation.created"
+        | "credit_note_allocation.reversed"
+        | "custom_domain.archived"
+        | "custom_domain.updated"
+        | "customer.created"
+        | "customer.deleted"
+        | "customer.updated"
+        | "customer_deletion_request.completed"
+        | "customer_deletion_request.created"
+        | "customer_deletion_request.failed"
+        | "customer_deletion_request.processing"
+        | "customer_deletion_request.rejected"
+        | "delivery_location_set.activated"
+        | "delivery_location_set.archived"
+        | "delivery_location_set.created"
+        | "delivery_location_set.deactivated"
+        | "delivery_location_set.updated"
+        | "delivery_method.activated"
+        | "delivery_method.archived"
+        | "delivery_method.created"
+        | "delivery_method.deactivated"
+        | "delivery_method.updated"
+        | "delivery_profile.activated"
+        | "delivery_profile.archived"
+        | "delivery_profile.created"
+        | "delivery_profile.deactivated"
+        | "delivery_profile.updated"
+        | "delivery_rate_callback.activated"
+        | "delivery_rate_callback.archived"
+        | "delivery_rate_callback.created"
+        | "delivery_rate_callback.deactivated"
+        | "delivery_rate_callback.updated"
+        | "delivery_revocation.created"
+        | "delivery_selection.committed"
+        | "delivery_zone.activated"
+        | "delivery_zone.archived"
+        | "delivery_zone.created"
+        | "delivery_zone.deactivated"
+        | "delivery_zone.updated"
+        | "dispute.created"
+        | "dispute.inquiry_closed"
+        | "dispute.lost"
+        | "dispute.needs_response"
+        | "dispute.prevented"
+        | "dispute.updated"
+        | "dispute.won"
+        | "environment_grant.created"
+        | "environment_grant.revoked"
+        | "fraud_warning.created"
+        | "fraud_warning.updated"
+        | "fulfillment.canceled"
+        | "fulfillment.completed"
+        | "fulfillment.created"
+        | "fulfillment.failed"
+        | "fulfillment.updated"
+        | "fulfillment_event.created"
+        | "gift_card.created"
+        | "gift_card.updated"
+        | "gift_card_load.created"
+        | "gift_card_load.updated"
+        | "gift_card_notification.created"
+        | "gift_card_notification.updated"
+        | "gift_card_redemption.created"
+        | "gift_card_redemption.updated"
+        | "gift_card_transaction.created"
+        | "inventory_count.applied"
+        | "inventory_level.shortage_detected"
+        | "inventory_level.updated"
+        | "inventory_receipt.created"
+        | "inventory_reservation.action_required"
+        | "inventory_reservation.at_risk"
+        | "inventory_reservation.closed"
+        | "inventory_reservation.committed"
+        | "inventory_reservation.consumed"
+        | "inventory_reservation.created"
+        | "inventory_reservation.hold_expired"
+        | "inventory_reservation.released"
+        | "inventory_transfer.closed"
+        | "inventory_transfer.departed"
+        | "inventory_transfer.lost"
+        | "inventory_transfer.received"
+        | "inventory_transfer.returned"
+        | "invoice.collection_block_resolved"
+        | "invoice.collection_blocked"
+        | "invoice.created"
+        | "invoice.credited"
+        | "invoice.issue_failed"
+        | "invoice.issued"
+        | "invoice.late_fee_assessed"
+        | "invoice.late_fee_due"
+        | "invoice.late_fee_waived"
+        | "invoice.marked_uncollectible"
+        | "invoice.overdue"
+        | "invoice.paid"
+        | "invoice.partially_paid"
+        | "invoice.partially_refunded"
+        | "invoice.refunded"
+        | "invoice.reminder_due"
+        | "invoice.reopened"
+        | "invoice.sent"
+        | "invoice.updated"
+        | "invoice.voided"
+        | "invoice_delivery_attempt.failed"
+        | "invoice_delivery_attempt.sent"
+        | "invoice_delivery_attempt.suppressed"
+        | "invoice_manual_payment.created"
+        | "invoice_manual_payment.reversed"
+        | "invoice_payment_attempt.canceled"
+        | "invoice_payment_attempt.expired"
+        | "invoice_payment_attempt.failed"
+        | "invoice_payment_attempt.processing"
+        | "invoice_payment_attempt.settled"
+        | "merchant.readiness_updated"
+        | "merchant.updated"
+        | "merchant_billing_balance.updated"
+        | "merchant_billing_invoice.issued"
+        | "merchant_billing_invoice.updated"
+        | "modifier_group.archived"
+        | "modifier_group.created"
+        | "modifier_group.updated"
+        | "modifier_set.archived"
+        | "modifier_set.created"
+        | "modifier_set.updated"
+        | "order.closed"
+        | "order.created"
+        | "order.inventory_exception_created"
+        | "order.inventory_exception_resolved"
+        | "order.paid"
+        | "order.partially_paid"
+        | "order.partially_refunded"
+        | "order.refunded"
+        | "order.updated"
+        | "package.created"
+        | "package.updated"
+        | "partner_app_install.created"
+        | "partner_app_install.permissions_updated"
+        | "partner_app_install.revoked"
+        | "partner_app_install.updated"
+        | "payment_intent.canceled"
+        | "payment_intent.created"
+        | "payment_intent.expired"
+        | "payment_intent.fulfillment_hold_updated"
+        | "payment_intent.payment_failed"
+        | "payment_intent.processing"
+        | "payment_intent.requires_action"
+        | "payment_intent.requires_capture"
+        | "payment_intent.succeeded"
+        | "payment_intent.updated"
+        | "payment_link.created"
+        | "payment_link.updated"
+        | "payment_method.activated"
+        | "payment_method.archived"
+        | "payment_method.failed"
+        | "payment_review.closed"
+        | "payment_review.opened"
+        | "payment_review.reopened"
+        | "payout.canceled"
+        | "payout.created"
+        | "payout.failed"
+        | "payout.paid"
+        | "payout.reversed"
+        | "payout.updated"
+        | "payout_destination.archived"
+        | "payout_destination.created"
+        | "payout_destination.disabled"
+        | "payout_destination.updated"
+        | "payout_settings.updated"
+        | "product.archived"
+        | "product.created"
+        | "product.updated"
+        | "product_variant.archived"
+        | "product_variant.created"
+        | "product_variant.updated"
+        | "promotion.archived"
+        | "promotion.created"
+        | "promotion.updated"
+        | "promotion_code.archived"
+        | "promotion_code.created"
+        | "promotion_code.updated"
+        | "refund.created"
+        | "refund.failed"
+        | "refund.partially_succeeded"
+        | "refund.succeeded"
+        | "refund.updated"
+        | "report.failed"
+        | "report.succeeded"
+        | "return.canceled"
+        | "return.completed"
+        | "return.created"
+        | "return.decision_recorded"
+        | "return.reopened"
+        | "return.updated"
+        | "return_disposition.created"
+        | "return_disposition.updated"
+        | "return_inspection.acceptance_decided"
+        | "return_inspection.created"
+        | "return_inspection.superseded"
+        | "return_receipt.created"
+        | "return_receipt.superseded"
+        | "return_receipt.verified"
+        | "return_resolution.created"
+        | "return_resolution.updated"
+        | "shipment.created"
+        | "shipment.updated"
+        | "subscription.activated"
+        | "subscription.canceled"
+        | "subscription.cancellation_scheduled"
+        | "subscription.created"
+        | "subscription.cycle_skipped"
+        | "subscription.delivery_action_required"
+        | "subscription.delivery_pause_upcoming"
+        | "subscription.delivery_updated"
+        | "subscription.dunning_exhausted"
+        | "subscription.past_due"
+        | "subscription.paused"
+        | "subscription.payment_succeeded"
+        | "subscription.plan_changed"
+        | "subscription.reactivated"
+        | "subscription.renewal_upcoming"
+        | "subscription.resumed"
+        | "subscription.trial_ending"
+        | "subscription.updated"
+        | "subscription_delivery_migration.completed"
+        | "subscription_payment_retry.created"
+        | "subscription_payment_retry.failed"
+        | "subscription_payment_retry.succeeded"
+        | "tax_connection.updated">>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "balance", "balance_transaction",
+     * "bundle", "category", "checkout_session", "credit_note", "credit_note_allocation",
+     * "custom_domain", "customer", "customer_deletion_request", "delivery_location_set",
+     * "delivery_method", "delivery_profile", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "dispute", "environment_grant", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "gift_card", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "inventory_count", "inventory_level",
+     * "inventory_receipt", "inventory_reservation", "inventory_transfer", "invoice",
+     * "invoice_delivery_attempt", "invoice_manual_payment", "invoice_payment_attempt", "merchant",
+     * "merchant_billing_balance", "merchant_billing_invoice", "modifier_group", "modifier_set",
+     * "order", "package", "partner_app_install", "payment_intent", "payment_link",
+     * "payment_method", "payment_review", "payout", "payout_destination", "payout_settings",
+     * "product", "product_variant", "promotion", "promotion_code", "refund", "report", "return",
+     * "return_disposition", "return_inspection", "return_receipt", "return_resolution",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_payment_retry",
+     * "tax_connection". Shape $[] (Value): string. Value enum: "balance", "balance_transaction",
+     * "bundle", "category", "checkout_session", "credit_note", "credit_note_allocation",
+     * "custom_domain", "customer", "customer_deletion_request", "delivery_location_set",
+     * "delivery_method", "delivery_profile", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "dispute", "environment_grant", "fraud_warning",
+     * "fulfillment", "fulfillment_event", "gift_card", "gift_card_load", "gift_card_notification",
+     * "gift_card_redemption", "gift_card_transaction", "inventory_count", "inventory_level",
+     * "inventory_receipt", "inventory_reservation", "inventory_transfer", "invoice",
+     * "invoice_delivery_attempt", "invoice_manual_payment", "invoice_payment_attempt", "merchant",
+     * "merchant_billing_balance", "merchant_billing_invoice", "modifier_group", "modifier_set",
+     * "order", "package", "partner_app_install", "payment_intent", "payment_link",
+     * "payment_method", "payment_review", "payout", "payout_destination", "payout_settings",
+     * "product", "product_variant", "promotion", "promotion_code", "refund", "report", "return",
+     * "return_disposition", "return_inspection", "return_receipt", "return_resolution",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_payment_retry",
+     * "tax_connection".
+     */
+    "resource_type"?: InputValue<Array<"balance"
+        | "balance_transaction"
+        | "bundle"
+        | "category"
+        | "checkout_session"
+        | "credit_note"
+        | "credit_note_allocation"
+        | "custom_domain"
+        | "customer"
+        | "customer_deletion_request"
+        | "delivery_location_set"
+        | "delivery_method"
+        | "delivery_profile"
+        | "delivery_rate_callback"
+        | "delivery_revocation"
+        | "delivery_selection"
+        | "delivery_zone"
+        | "dispute"
+        | "environment_grant"
+        | "fraud_warning"
+        | "fulfillment"
+        | "fulfillment_event"
+        | "gift_card"
+        | "gift_card_load"
+        | "gift_card_notification"
+        | "gift_card_redemption"
+        | "gift_card_transaction"
+        | "inventory_count"
+        | "inventory_level"
+        | "inventory_receipt"
+        | "inventory_reservation"
+        | "inventory_transfer"
+        | "invoice"
+        | "invoice_delivery_attempt"
+        | "invoice_manual_payment"
+        | "invoice_payment_attempt"
+        | "merchant"
+        | "merchant_billing_balance"
+        | "merchant_billing_invoice"
+        | "modifier_group"
+        | "modifier_set"
+        | "order"
+        | "package"
+        | "partner_app_install"
+        | "payment_intent"
+        | "payment_link"
+        | "payment_method"
+        | "payment_review"
+        | "payout"
+        | "payout_destination"
+        | "payout_settings"
+        | "product"
+        | "product_variant"
+        | "promotion"
+        | "promotion_code"
+        | "refund"
+        | "report"
+        | "return"
+        | "return_disposition"
+        | "return_inspection"
+        | "return_receipt"
+        | "return_resolution"
+        | "shipment"
+        | "subscription"
+        | "subscription_delivery_migration"
+        | "subscription_payment_retry"
+        | "tax_connection">>;
+    /** Shape $ (Value): string. */
+    "resource_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "api_request_log_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "request_id"?: InputValue<string>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Shape $ (Value): Array of string. [] enum: "test_events". Shape $[] (Value): string. Value
+     * enum: "test_events".
+     */
+    "include"?: InputValue<Array<"test_events">>;
+};
+export type WebhookEventsListWebhookDeliveriesInput = {
+    /** Shape $ (Value): string. */
+    "webhook_event_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "webhook_endpoint_id"?: InputValue<string>;
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "pending", "delivered", "failed",
+     * "suppressed". Shape $[] (Value): string. Value enum: "pending", "delivered", "failed",
+     * "suppressed".
+     */
+    "status"?: InputValue<Array<"pending" | "delivered" | "failed" | "suppressed">>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): string. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Shape $ (Value): integer. minimum: 1. maximum: 100. Default: 20. */
+    "page_size"?: InputValue<number>;
+    /** Shape $ (Value): string. */
+    "page_token"?: InputValue<string>;
+};
+export type WebhookEventsStreamInput = {
+    /**
+     * Shape $ (Value): Array of string. minItems: 1. [] enum: "balance.updated",
+     * "balance_transaction.created", "balance_transaction.updated", "bundle.archived",
+     * "bundle.created", "bundle.updated", "category.created", "category.deleted",
+     * "category.updated", "checkout_session.closed", "checkout_session.created",
+     * "checkout_session.expired", "checkout_session.invalidated", "checkout_session.paid",
+     * "checkout_session.partially_paid", "credit_note.created", "credit_note.issued",
+     * "credit_note.updated", "credit_note.voided", "credit_note_allocation.created",
+     * "credit_note_allocation.reversed", "custom_domain.archived", "custom_domain.updated",
+     * "customer.created", "customer.deleted", "customer.updated",
+     * "customer_deletion_request.completed", "customer_deletion_request.created",
+     * "customer_deletion_request.failed", "customer_deletion_request.processing",
+     * "customer_deletion_request.rejected", "delivery_location_set.activated",
+     * "delivery_location_set.archived", "delivery_location_set.created",
+     * "delivery_location_set.deactivated", "delivery_location_set.updated",
+     * "delivery_method.activated", "delivery_method.archived", "delivery_method.created",
+     * "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated",
+     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated",
+     * "delivery_profile.updated", "delivery_rate_callback.activated",
+     * "delivery_rate_callback.archived", "delivery_rate_callback.created",
+     * "delivery_rate_callback.deactivated", "delivery_rate_callback.updated",
+     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated",
+     * "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated",
+     * "delivery_zone.updated", "dispute.created", "dispute.inquiry_closed", "dispute.lost",
+     * "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.won",
+     * "fraud_warning.created", "fraud_warning.updated", "fulfillment.canceled",
+     * "fulfillment.completed", "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
+     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
+     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
+     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
+     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
+     * "inventory_reservation.closed", "inventory_reservation.committed",
+     * "inventory_reservation.consumed", "inventory_reservation.created",
+     * "inventory_reservation.hold_expired", "inventory_reservation.released",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
+     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
+     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
+     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
+     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
+     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
+     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
+     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
+     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
+     * "modifier_set.updated", "order.closed", "order.created",
+     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
+     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
+     * "package.created", "package.updated", "payment_intent.canceled", "payment_intent.created",
+     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
+     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
+     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
+     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
+     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
+     * "product_variant.archived", "product_variant.created", "product_variant.updated",
+     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
+     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
+     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
+     * "report.succeeded", "return.canceled", "return.completed", "return.created",
+     * "return.decision_recorded", "return.reopened", "return.updated",
+     * "return_disposition.created", "return_disposition.updated",
+     * "return_inspection.acceptance_decided", "return_inspection.created",
+     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
+     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
+     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
+     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
+     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
+     * "subscription.trial_ending", "subscription.updated",
+     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
+     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
+     * "tax_connection.updated". Shape $[] (Value): string. Value enum: "balance.updated",
+     * "balance_transaction.created", "balance_transaction.updated", "bundle.archived",
+     * "bundle.created", "bundle.updated", "category.created", "category.deleted",
+     * "category.updated", "checkout_session.closed", "checkout_session.created",
+     * "checkout_session.expired", "checkout_session.invalidated", "checkout_session.paid",
+     * "checkout_session.partially_paid", "credit_note.created", "credit_note.issued",
+     * "credit_note.updated", "credit_note.voided", "credit_note_allocation.created",
+     * "credit_note_allocation.reversed", "custom_domain.archived", "custom_domain.updated",
+     * "customer.created", "customer.deleted", "customer.updated",
+     * "customer_deletion_request.completed", "customer_deletion_request.created",
+     * "customer_deletion_request.failed", "customer_deletion_request.processing",
+     * "customer_deletion_request.rejected", "delivery_location_set.activated",
+     * "delivery_location_set.archived", "delivery_location_set.created",
+     * "delivery_location_set.deactivated", "delivery_location_set.updated",
+     * "delivery_method.activated", "delivery_method.archived", "delivery_method.created",
+     * "delivery_method.deactivated", "delivery_method.updated", "delivery_profile.activated",
+     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.deactivated",
+     * "delivery_profile.updated", "delivery_rate_callback.activated",
+     * "delivery_rate_callback.archived", "delivery_rate_callback.created",
+     * "delivery_rate_callback.deactivated", "delivery_rate_callback.updated",
+     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.activated",
+     * "delivery_zone.archived", "delivery_zone.created", "delivery_zone.deactivated",
+     * "delivery_zone.updated", "dispute.created", "dispute.inquiry_closed", "dispute.lost",
+     * "dispute.needs_response", "dispute.prevented", "dispute.updated", "dispute.won",
+     * "fraud_warning.created", "fraud_warning.updated", "fulfillment.canceled",
+     * "fulfillment.completed", "fulfillment.created", "fulfillment.failed", "fulfillment.updated",
+     * "fulfillment_event.created", "gift_card.created", "gift_card.updated",
+     * "gift_card_load.created", "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
+     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
+     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
+     * "inventory_reservation.closed", "inventory_reservation.committed",
+     * "inventory_reservation.consumed", "inventory_reservation.created",
+     * "inventory_reservation.hold_expired", "inventory_reservation.released",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
+     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
+     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
+     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
+     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
+     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
+     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
+     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
+     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
+     * "modifier_set.updated", "order.closed", "order.created",
+     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
+     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
+     * "package.created", "package.updated", "payment_intent.canceled", "payment_intent.created",
+     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
+     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
+     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
+     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
+     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
+     * "product_variant.archived", "product_variant.created", "product_variant.updated",
+     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
+     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
+     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
+     * "report.succeeded", "return.canceled", "return.completed", "return.created",
+     * "return.decision_recorded", "return.reopened", "return.updated",
+     * "return_disposition.created", "return_disposition.updated",
+     * "return_inspection.acceptance_decided", "return_inspection.created",
+     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
+     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
+     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
+     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
+     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
+     * "subscription.trial_ending", "subscription.updated",
+     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
+     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
+     * "tax_connection.updated".
+     */
+    "event_type"?: InputValue<Array<"balance.updated"
+        | "balance_transaction.created"
+        | "balance_transaction.updated"
+        | "bundle.archived"
+        | "bundle.created"
+        | "bundle.updated"
+        | "category.created"
+        | "category.deleted"
+        | "category.updated"
+        | "checkout_session.closed"
+        | "checkout_session.created"
+        | "checkout_session.expired"
+        | "checkout_session.invalidated"
+        | "checkout_session.paid"
+        | "checkout_session.partially_paid"
+        | "credit_note.created"
+        | "credit_note.issued"
+        | "credit_note.updated"
+        | "credit_note.voided"
+        | "credit_note_allocation.created"
+        | "credit_note_allocation.reversed"
+        | "custom_domain.archived"
+        | "custom_domain.updated"
+        | "customer.created"
+        | "customer.deleted"
+        | "customer.updated"
+        | "customer_deletion_request.completed"
+        | "customer_deletion_request.created"
+        | "customer_deletion_request.failed"
+        | "customer_deletion_request.processing"
+        | "customer_deletion_request.rejected"
+        | "delivery_location_set.activated"
+        | "delivery_location_set.archived"
+        | "delivery_location_set.created"
+        | "delivery_location_set.deactivated"
+        | "delivery_location_set.updated"
+        | "delivery_method.activated"
+        | "delivery_method.archived"
+        | "delivery_method.created"
+        | "delivery_method.deactivated"
+        | "delivery_method.updated"
+        | "delivery_profile.activated"
+        | "delivery_profile.archived"
+        | "delivery_profile.created"
+        | "delivery_profile.deactivated"
+        | "delivery_profile.updated"
+        | "delivery_rate_callback.activated"
+        | "delivery_rate_callback.archived"
+        | "delivery_rate_callback.created"
+        | "delivery_rate_callback.deactivated"
+        | "delivery_rate_callback.updated"
+        | "delivery_revocation.created"
+        | "delivery_selection.committed"
+        | "delivery_zone.activated"
+        | "delivery_zone.archived"
+        | "delivery_zone.created"
+        | "delivery_zone.deactivated"
+        | "delivery_zone.updated"
+        | "dispute.created"
+        | "dispute.inquiry_closed"
+        | "dispute.lost"
+        | "dispute.needs_response"
+        | "dispute.prevented"
+        | "dispute.updated"
+        | "dispute.won"
+        | "fraud_warning.created"
+        | "fraud_warning.updated"
+        | "fulfillment.canceled"
+        | "fulfillment.completed"
+        | "fulfillment.created"
+        | "fulfillment.failed"
+        | "fulfillment.updated"
+        | "fulfillment_event.created"
+        | "gift_card.created"
+        | "gift_card.updated"
+        | "gift_card_load.created"
+        | "gift_card_load.updated"
+        | "gift_card_notification.created"
+        | "gift_card_notification.updated"
+        | "gift_card_redemption.created"
+        | "gift_card_redemption.updated"
+        | "gift_card_transaction.created"
+        | "inventory_count.applied"
+        | "inventory_level.shortage_detected"
+        | "inventory_level.updated"
+        | "inventory_receipt.created"
+        | "inventory_reservation.action_required"
+        | "inventory_reservation.at_risk"
+        | "inventory_reservation.closed"
+        | "inventory_reservation.committed"
+        | "inventory_reservation.consumed"
+        | "inventory_reservation.created"
+        | "inventory_reservation.hold_expired"
+        | "inventory_reservation.released"
+        | "inventory_transfer.closed"
+        | "inventory_transfer.departed"
+        | "inventory_transfer.lost"
+        | "inventory_transfer.received"
+        | "inventory_transfer.returned"
+        | "invoice.collection_block_resolved"
+        | "invoice.collection_blocked"
+        | "invoice.created"
+        | "invoice.credited"
+        | "invoice.issue_failed"
+        | "invoice.issued"
+        | "invoice.late_fee_assessed"
+        | "invoice.late_fee_due"
+        | "invoice.late_fee_waived"
+        | "invoice.marked_uncollectible"
+        | "invoice.overdue"
+        | "invoice.paid"
+        | "invoice.partially_paid"
+        | "invoice.partially_refunded"
+        | "invoice.refunded"
+        | "invoice.reminder_due"
+        | "invoice.reopened"
+        | "invoice.sent"
+        | "invoice.updated"
+        | "invoice.voided"
+        | "invoice_delivery_attempt.failed"
+        | "invoice_delivery_attempt.sent"
+        | "invoice_delivery_attempt.suppressed"
+        | "invoice_manual_payment.created"
+        | "invoice_manual_payment.reversed"
+        | "invoice_payment_attempt.canceled"
+        | "invoice_payment_attempt.expired"
+        | "invoice_payment_attempt.failed"
+        | "invoice_payment_attempt.processing"
+        | "invoice_payment_attempt.settled"
+        | "merchant.readiness_updated"
+        | "merchant.updated"
+        | "merchant_billing_balance.updated"
+        | "merchant_billing_invoice.issued"
+        | "merchant_billing_invoice.updated"
+        | "modifier_group.archived"
+        | "modifier_group.created"
+        | "modifier_group.updated"
+        | "modifier_set.archived"
+        | "modifier_set.created"
+        | "modifier_set.updated"
+        | "order.closed"
+        | "order.created"
+        | "order.inventory_exception_created"
+        | "order.inventory_exception_resolved"
+        | "order.paid"
+        | "order.partially_paid"
+        | "order.partially_refunded"
+        | "order.refunded"
+        | "order.updated"
+        | "package.created"
+        | "package.updated"
+        | "payment_intent.canceled"
+        | "payment_intent.created"
+        | "payment_intent.expired"
+        | "payment_intent.fulfillment_hold_updated"
+        | "payment_intent.payment_failed"
+        | "payment_intent.processing"
+        | "payment_intent.requires_action"
+        | "payment_intent.requires_capture"
+        | "payment_intent.succeeded"
+        | "payment_intent.updated"
+        | "payment_link.created"
+        | "payment_link.updated"
+        | "payment_method.activated"
+        | "payment_method.archived"
+        | "payment_method.failed"
+        | "payment_review.closed"
+        | "payment_review.opened"
+        | "payment_review.reopened"
+        | "payout.canceled"
+        | "payout.created"
+        | "payout.failed"
+        | "payout.paid"
+        | "payout.reversed"
+        | "payout.updated"
+        | "payout_destination.archived"
+        | "payout_destination.created"
+        | "payout_destination.disabled"
+        | "payout_destination.updated"
+        | "payout_settings.updated"
+        | "product.archived"
+        | "product.created"
+        | "product.updated"
+        | "product_variant.archived"
+        | "product_variant.created"
+        | "product_variant.updated"
+        | "promotion.archived"
+        | "promotion.created"
+        | "promotion.updated"
+        | "promotion_code.archived"
+        | "promotion_code.created"
+        | "promotion_code.updated"
+        | "refund.created"
+        | "refund.failed"
+        | "refund.partially_succeeded"
+        | "refund.succeeded"
+        | "refund.updated"
+        | "report.failed"
+        | "report.succeeded"
+        | "return.canceled"
+        | "return.completed"
+        | "return.created"
+        | "return.decision_recorded"
+        | "return.reopened"
+        | "return.updated"
+        | "return_disposition.created"
+        | "return_disposition.updated"
+        | "return_inspection.acceptance_decided"
+        | "return_inspection.created"
+        | "return_inspection.superseded"
+        | "return_receipt.created"
+        | "return_receipt.superseded"
+        | "return_receipt.verified"
+        | "return_resolution.created"
+        | "return_resolution.updated"
+        | "shipment.created"
+        | "shipment.updated"
+        | "subscription.activated"
+        | "subscription.canceled"
+        | "subscription.cancellation_scheduled"
+        | "subscription.created"
+        | "subscription.cycle_skipped"
+        | "subscription.delivery_action_required"
+        | "subscription.delivery_pause_upcoming"
+        | "subscription.delivery_updated"
+        | "subscription.dunning_exhausted"
+        | "subscription.past_due"
+        | "subscription.paused"
+        | "subscription.payment_succeeded"
+        | "subscription.plan_changed"
+        | "subscription.reactivated"
+        | "subscription.renewal_upcoming"
+        | "subscription.resumed"
+        | "subscription.trial_ending"
+        | "subscription.updated"
+        | "subscription_delivery_migration.completed"
+        | "subscription_payment_retry.created"
+        | "subscription_payment_retry.failed"
+        | "subscription_payment_retry.succeeded"
+        | "tax_connection.updated">>;
+    /** Shape $ (Value): string. */
+    "after_event_id"?: InputValue<string>;
+    /** Shape $ (Value): string. */
+    "Last-Event-ID"?: InputValue<string>;
+};
+export type WebhookEventsStreamResponse = EventStream;
+/**
+ * Shape $ (Value): {@link WebhookSigningMethod}. jwt uses Flint's public JWKS. hmac uses a shared
+ * secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+ */
+export type WebhookSigningMethod = "jwt" | "hmac" | (string & {});
+/**
+ * Shape $ (Value): {@link WebhookSigningMethodInput}. jwt uses Flint's public JWKS. hmac uses a
+ * shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+ */
+export type WebhookSigningMethodInput = "jwt" | "hmac";
+/**
+ * Shape $ (Value): {@link WebhookStreamDisconnect}. Sent on the webhook event stream before the
+ * server closes it, with the `reason`. After a backpressure disconnect, resume from
+ * `resume_cursor`.
+ */
+export type WebhookStreamDisconnect = {
+    /**
+     * Shape $ (Value): string. Value enum: "ttl", "authorization_changed", "server_error",
+     * "backpressure".
+     */
+    "reason": "ttl" | "authorization_changed" | "server_error" | "backpressure" | (string & {});
+    /**
+     * Shape $ (Value): string. Last event sent before a backpressure disconnect. Reconnect using
+     * this value as Last-Event-ID or after.
+     */
+    "resume_cursor"?: string;
+};
+/**
+ * Shape $ (Value): {@link WebhookStreamGap}. Sent on the webhook event stream when events could
+ * not be replayed from the requested cursor, with a `resume_cursor` to continue from.
+ */
+export type WebhookStreamGap = {
+    /** Shape $ (Value): string.  Value enum: "cursor_unavailable", "payload_expired". */
+    "reason": "cursor_unavailable" | "payload_expired" | (string & {});
+    /** Shape $ (Value): string. */
+    "requested_cursor"?: string;
+    /** Shape $ (Value): string. */
+    "resume_cursor"?: string;
+};
+/**
+ * Shape $ (Value): {@link WebhookStreamReady}. Sent when a webhook event stream connects, with the
+ * current `cursor`.
+ */
+export type WebhookStreamReady = {
+    /** Shape $ (Value): string. */
+    "cursor"?: string;
+};
+/**
+ * Shape $ (Value): {@link WebhookStreamWithheld}. Sent on the webhook event stream in place of an
+ * event that was withheld, such as when the caller lacks a required scope, with the `reason`.
+ */
+export type WebhookStreamWithheld = {
+    /**
+     * Shape $ (Value): string. Value enum: "balance.updated", "balance_transaction.created",
+     * "balance_transaction.updated", "bundle.archived", "bundle.created", "bundle.updated",
+     * "category.created", "category.deleted", "category.updated", "checkout_session.closed",
+     * "checkout_session.created", "checkout_session.expired", "checkout_session.invalidated",
+     * "checkout_session.paid", "checkout_session.partially_paid", "credit_note.created",
+     * "credit_note.issued", "credit_note.updated", "credit_note.voided",
+     * "credit_note_allocation.created", "credit_note_allocation.reversed",
+     * "custom_domain.archived", "custom_domain.updated", "customer.created", "customer.deleted",
+     * "customer.updated", "customer_deletion_request.completed",
+     * "customer_deletion_request.created", "customer_deletion_request.failed",
+     * "customer_deletion_request.processing", "customer_deletion_request.rejected",
+     * "delivery_location_set.activated", "delivery_location_set.archived",
+     * "delivery_location_set.created", "delivery_location_set.deactivated",
+     * "delivery_location_set.updated", "delivery_method.activated", "delivery_method.archived",
+     * "delivery_method.created", "delivery_method.deactivated", "delivery_method.updated",
+     * "delivery_profile.activated", "delivery_profile.archived", "delivery_profile.created",
+     * "delivery_profile.deactivated", "delivery_profile.updated",
+     * "delivery_rate_callback.activated", "delivery_rate_callback.archived",
+     * "delivery_rate_callback.created", "delivery_rate_callback.deactivated",
+     * "delivery_rate_callback.updated", "delivery_revocation.created",
+     * "delivery_selection.committed", "delivery_zone.activated", "delivery_zone.archived",
+     * "delivery_zone.created", "delivery_zone.deactivated", "delivery_zone.updated",
+     * "dispute.created", "dispute.inquiry_closed", "dispute.lost", "dispute.needs_response",
+     * "dispute.prevented", "dispute.updated", "dispute.won", "environment_grant.created",
+     * "environment_grant.revoked", "fraud_warning.created", "fraud_warning.updated",
+     * "fulfillment.canceled", "fulfillment.completed", "fulfillment.created",
+     * "fulfillment.failed", "fulfillment.updated", "fulfillment_event.created",
+     * "gift_card.created", "gift_card.updated", "gift_card_load.created",
+     * "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created", "inventory_count.applied",
+     * "inventory_level.shortage_detected", "inventory_level.updated", "inventory_receipt.created",
+     * "inventory_reservation.action_required", "inventory_reservation.at_risk",
+     * "inventory_reservation.closed", "inventory_reservation.committed",
+     * "inventory_reservation.consumed", "inventory_reservation.created",
+     * "inventory_reservation.hold_expired", "inventory_reservation.released",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned",
+     * "invoice.collection_block_resolved", "invoice.collection_blocked", "invoice.created",
+     * "invoice.credited", "invoice.issue_failed", "invoice.issued", "invoice.late_fee_assessed",
+     * "invoice.late_fee_due", "invoice.late_fee_waived", "invoice.marked_uncollectible",
+     * "invoice.overdue", "invoice.paid", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.suppressed",
+     * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
+     * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
+     * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
+     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
+     * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
+     * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
+     * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
+     * "modifier_set.updated", "order.closed", "order.created",
+     * "order.inventory_exception_created", "order.inventory_exception_resolved", "order.paid",
+     * "order.partially_paid", "order.partially_refunded", "order.refunded", "order.updated",
+     * "package.created", "package.updated", "partner_app_install.created",
+     * "partner_app_install.permissions_updated", "partner_app_install.revoked",
+     * "partner_app_install.updated", "payment_intent.canceled", "payment_intent.created",
+     * "payment_intent.expired", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_intent.updated", "payment_link.created",
+     * "payment_link.updated", "payment_method.activated", "payment_method.archived",
+     * "payment_method.failed", "payment_review.closed", "payment_review.opened",
+     * "payment_review.reopened", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.paid", "payout.reversed", "payout.updated", "payout_destination.archived",
+     * "payout_destination.created", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "product.archived", "product.created", "product.updated",
+     * "product_variant.archived", "product_variant.created", "product_variant.updated",
+     * "promotion.archived", "promotion.created", "promotion.updated", "promotion_code.archived",
+     * "promotion_code.created", "promotion_code.updated", "refund.created", "refund.failed",
+     * "refund.partially_succeeded", "refund.succeeded", "refund.updated", "report.failed",
+     * "report.succeeded", "return.canceled", "return.completed", "return.created",
+     * "return.decision_recorded", "return.reopened", "return.updated",
+     * "return_disposition.created", "return_disposition.updated",
+     * "return_inspection.acceptance_decided", "return_inspection.created",
+     * "return_inspection.superseded", "return_receipt.created", "return_receipt.superseded",
+     * "return_receipt.verified", "return_resolution.created", "return_resolution.updated",
+     * "shipment.created", "shipment.updated", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created", "subscription.cycle_skipped",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.dunning_exhausted", "subscription.past_due",
+     * "subscription.paused", "subscription.payment_succeeded", "subscription.plan_changed",
+     * "subscription.reactivated", "subscription.renewal_upcoming", "subscription.resumed",
+     * "subscription.trial_ending", "subscription.updated",
+     * "subscription_delivery_migration.completed", "subscription_payment_retry.created",
+     * "subscription_payment_retry.failed", "subscription_payment_retry.succeeded",
+     * "tax_connection.updated".
+     */
+    "event_type": "balance.updated"
+        | "balance_transaction.created"
+        | "balance_transaction.updated"
+        | "bundle.archived"
+        | "bundle.created"
+        | "bundle.updated"
+        | "category.created"
+        | "category.deleted"
+        | "category.updated"
+        | "checkout_session.closed"
+        | "checkout_session.created"
+        | "checkout_session.expired"
+        | "checkout_session.invalidated"
+        | "checkout_session.paid"
+        | "checkout_session.partially_paid"
+        | "credit_note.created"
+        | "credit_note.issued"
+        | "credit_note.updated"
+        | "credit_note.voided"
+        | "credit_note_allocation.created"
+        | "credit_note_allocation.reversed"
+        | "custom_domain.archived"
+        | "custom_domain.updated"
+        | "customer.created"
+        | "customer.deleted"
+        | "customer.updated"
+        | "customer_deletion_request.completed"
+        | "customer_deletion_request.created"
+        | "customer_deletion_request.failed"
+        | "customer_deletion_request.processing"
+        | "customer_deletion_request.rejected"
+        | "delivery_location_set.activated"
+        | "delivery_location_set.archived"
+        | "delivery_location_set.created"
+        | "delivery_location_set.deactivated"
+        | "delivery_location_set.updated"
+        | "delivery_method.activated"
+        | "delivery_method.archived"
+        | "delivery_method.created"
+        | "delivery_method.deactivated"
+        | "delivery_method.updated"
+        | "delivery_profile.activated"
+        | "delivery_profile.archived"
+        | "delivery_profile.created"
+        | "delivery_profile.deactivated"
+        | "delivery_profile.updated"
+        | "delivery_rate_callback.activated"
+        | "delivery_rate_callback.archived"
+        | "delivery_rate_callback.created"
+        | "delivery_rate_callback.deactivated"
+        | "delivery_rate_callback.updated"
+        | "delivery_revocation.created"
+        | "delivery_selection.committed"
+        | "delivery_zone.activated"
+        | "delivery_zone.archived"
+        | "delivery_zone.created"
+        | "delivery_zone.deactivated"
+        | "delivery_zone.updated"
+        | "dispute.created"
+        | "dispute.inquiry_closed"
+        | "dispute.lost"
+        | "dispute.needs_response"
+        | "dispute.prevented"
+        | "dispute.updated"
+        | "dispute.won"
+        | "environment_grant.created"
+        | "environment_grant.revoked"
+        | "fraud_warning.created"
+        | "fraud_warning.updated"
+        | "fulfillment.canceled"
+        | "fulfillment.completed"
+        | "fulfillment.created"
+        | "fulfillment.failed"
+        | "fulfillment.updated"
+        | "fulfillment_event.created"
+        | "gift_card.created"
+        | "gift_card.updated"
+        | "gift_card_load.created"
+        | "gift_card_load.updated"
+        | "gift_card_notification.created"
+        | "gift_card_notification.updated"
+        | "gift_card_redemption.created"
+        | "gift_card_redemption.updated"
+        | "gift_card_transaction.created"
+        | "inventory_count.applied"
+        | "inventory_level.shortage_detected"
+        | "inventory_level.updated"
+        | "inventory_receipt.created"
+        | "inventory_reservation.action_required"
+        | "inventory_reservation.at_risk"
+        | "inventory_reservation.closed"
+        | "inventory_reservation.committed"
+        | "inventory_reservation.consumed"
+        | "inventory_reservation.created"
+        | "inventory_reservation.hold_expired"
+        | "inventory_reservation.released"
+        | "inventory_transfer.closed"
+        | "inventory_transfer.departed"
+        | "inventory_transfer.lost"
+        | "inventory_transfer.received"
+        | "inventory_transfer.returned"
+        | "invoice.collection_block_resolved"
+        | "invoice.collection_blocked"
+        | "invoice.created"
+        | "invoice.credited"
+        | "invoice.issue_failed"
+        | "invoice.issued"
+        | "invoice.late_fee_assessed"
+        | "invoice.late_fee_due"
+        | "invoice.late_fee_waived"
+        | "invoice.marked_uncollectible"
+        | "invoice.overdue"
+        | "invoice.paid"
+        | "invoice.partially_paid"
+        | "invoice.partially_refunded"
+        | "invoice.refunded"
+        | "invoice.reminder_due"
+        | "invoice.reopened"
+        | "invoice.sent"
+        | "invoice.updated"
+        | "invoice.voided"
+        | "invoice_delivery_attempt.failed"
+        | "invoice_delivery_attempt.sent"
+        | "invoice_delivery_attempt.suppressed"
+        | "invoice_manual_payment.created"
+        | "invoice_manual_payment.reversed"
+        | "invoice_payment_attempt.canceled"
+        | "invoice_payment_attempt.expired"
+        | "invoice_payment_attempt.failed"
+        | "invoice_payment_attempt.processing"
+        | "invoice_payment_attempt.settled"
+        | "merchant.readiness_updated"
+        | "merchant.updated"
+        | "merchant_billing_balance.updated"
+        | "merchant_billing_invoice.issued"
+        | "merchant_billing_invoice.updated"
+        | "modifier_group.archived"
+        | "modifier_group.created"
+        | "modifier_group.updated"
+        | "modifier_set.archived"
+        | "modifier_set.created"
+        | "modifier_set.updated"
+        | "order.closed"
+        | "order.created"
+        | "order.inventory_exception_created"
+        | "order.inventory_exception_resolved"
+        | "order.paid"
+        | "order.partially_paid"
+        | "order.partially_refunded"
+        | "order.refunded"
+        | "order.updated"
+        | "package.created"
+        | "package.updated"
+        | "partner_app_install.created"
+        | "partner_app_install.permissions_updated"
+        | "partner_app_install.revoked"
+        | "partner_app_install.updated"
+        | "payment_intent.canceled"
+        | "payment_intent.created"
+        | "payment_intent.expired"
+        | "payment_intent.fulfillment_hold_updated"
+        | "payment_intent.payment_failed"
+        | "payment_intent.processing"
+        | "payment_intent.requires_action"
+        | "payment_intent.requires_capture"
+        | "payment_intent.succeeded"
+        | "payment_intent.updated"
+        | "payment_link.created"
+        | "payment_link.updated"
+        | "payment_method.activated"
+        | "payment_method.archived"
+        | "payment_method.failed"
+        | "payment_review.closed"
+        | "payment_review.opened"
+        | "payment_review.reopened"
+        | "payout.canceled"
+        | "payout.created"
+        | "payout.failed"
+        | "payout.paid"
+        | "payout.reversed"
+        | "payout.updated"
+        | "payout_destination.archived"
+        | "payout_destination.created"
+        | "payout_destination.disabled"
+        | "payout_destination.updated"
+        | "payout_settings.updated"
+        | "product.archived"
+        | "product.created"
+        | "product.updated"
+        | "product_variant.archived"
+        | "product_variant.created"
+        | "product_variant.updated"
+        | "promotion.archived"
+        | "promotion.created"
+        | "promotion.updated"
+        | "promotion_code.archived"
+        | "promotion_code.created"
+        | "promotion_code.updated"
+        | "refund.created"
+        | "refund.failed"
+        | "refund.partially_succeeded"
+        | "refund.succeeded"
+        | "refund.updated"
+        | "report.failed"
+        | "report.succeeded"
+        | "return.canceled"
+        | "return.completed"
+        | "return.created"
+        | "return.decision_recorded"
+        | "return.reopened"
+        | "return.updated"
+        | "return_disposition.created"
+        | "return_disposition.updated"
+        | "return_inspection.acceptance_decided"
+        | "return_inspection.created"
+        | "return_inspection.superseded"
+        | "return_receipt.created"
+        | "return_receipt.superseded"
+        | "return_receipt.verified"
+        | "return_resolution.created"
+        | "return_resolution.updated"
+        | "shipment.created"
+        | "shipment.updated"
+        | "subscription.activated"
+        | "subscription.canceled"
+        | "subscription.cancellation_scheduled"
+        | "subscription.created"
+        | "subscription.cycle_skipped"
+        | "subscription.delivery_action_required"
+        | "subscription.delivery_pause_upcoming"
+        | "subscription.delivery_updated"
+        | "subscription.dunning_exhausted"
+        | "subscription.past_due"
+        | "subscription.paused"
+        | "subscription.payment_succeeded"
+        | "subscription.plan_changed"
+        | "subscription.reactivated"
+        | "subscription.renewal_upcoming"
+        | "subscription.resumed"
+        | "subscription.trial_ending"
+        | "subscription.updated"
+        | "subscription_delivery_migration.completed"
+        | "subscription_payment_retry.created"
+        | "subscription_payment_retry.failed"
+        | "subscription_payment_retry.succeeded"
+        | "tax_connection.updated"
+        | (string & {});
+    /** Shape $ (Value): string.  Value enum: "missing_resource_scope", "resource_unattributed". */
+    "reason": "missing_resource_scope" | "resource_unattributed" | (string & {});
+    /** Shape $ (Value): Array of string. Shape $[] (Value): string. */
+    "required_scopes"?: Array<string>;
+    /** Shape $ (Value): string. */
+    "resource_id"?: string;
+    /**
+     * Shape $ (Value): {@link ResourceType}. Public resource type: the resource's ID field name
+     * without `_id`. Clients must accept values added in future releases. Value enum: "api_key",
+     * "api_request_log", "balance", "balance_transaction", "bundle", "bundle_component",
+     * "category", "checkout_session", "checkout_session_customer_verification", "credit_note",
+     * "credit_note_allocation", "custom_domain", "customer", "customer_address",
+     * "customer_deletion_request", "customer_email_preferences", "customer_session",
+     * "customer_verification", "delivery_location_set", "delivery_method", "delivery_profile",
+     * "delivery_quote", "delivery_rate", "delivery_rate_callback", "delivery_revocation",
+     * "delivery_selection", "delivery_zone", "demo_session", "device", "discount", "dispute",
+     * "email_change_request", "environment_grant", "feedback_report", "file", "flint_wallet",
+     * "flint_wallet_card", "fraud_warning", "fulfillment", "fulfillment_event",
+     * "fulfillment_notification", "gift_card", "gift_card_funding_disposition", "gift_card_load",
+     * "gift_card_notification", "gift_card_redemption", "gift_card_transaction", "image",
+     * "inventory_adjustment", "inventory_allocation_policy",
+     * "inventory_allocation_policy_revision", "inventory_count", "inventory_item",
+     * "inventory_level", "inventory_movement", "inventory_receipt", "inventory_reservation",
+     * "inventory_reservation_line", "inventory_transfer", "inventory_transfer_line", "invoice",
+     * "invoice_delivery_attempt", "invoice_late_fee", "invoice_line_item",
+     * "invoice_manual_payment", "invoice_payment_attempt", "invoice_payment_term", "location",
+     * "merchant", "merchant_billing_balance", "merchant_billing_entry",
+     * "merchant_billing_invoice", "modifier", "modifier_group", "modifier_set", "order",
+     * "order_charge", "order_line_item", "order_line_item_modifier", "order_payment_attempt",
+     * "organization", "package", "package_item", "partner_app", "partner_app_credential",
+     * "partner_app_install", "payment_intent", "payment_link", "payment_link_custom_field",
+     * "payment_link_line_item", "payment_method", "payment_method_domain", "payment_review",
+     * "payout", "payout_destination", "payout_settings", "product", "product_option",
+     * "product_option_value", "product_variant", "promotion", "promotion_code",
+     * "purchase_refund_allocation", "refund", "refund_allocation", "refund_line_item_adjustment",
+     * "report", "report_download", "return", "return_activity", "return_disposition",
+     * "return_inspection", "return_inspection_line_item", "return_line_item", "return_policy",
+     * "return_policy_revision", "return_reason", "return_receipt", "return_receipt_line_item",
+     * "return_resolution", "risk_list", "risk_list_item", "risk_rule", "sandbox", "settings",
+     * "shipment", "subscription", "subscription_delivery_migration", "subscription_line_item",
+     * "subscription_offer", "subscription_payment_retry", "subscription_plan",
+     * "subscription_plan_line_item", "tax_connection", "tax_registration", "user",
+     * "webhook_delivery", "webhook_endpoint", "webhook_event", "workload_identity".
+     */
+    "resource_type"?: ResourceType;
+    /** Shape $ (Value): string. */
+    "webhook_event_id": string;
+};
+export type WebhookVerificationOptions = _SdkWebhookVerificationOptions;

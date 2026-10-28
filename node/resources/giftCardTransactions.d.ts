@@ -1,9 +1,9 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { GiftCardTransaction, GiftCardTransactionListResponse, GiftCardTransactionsListInput } from '../declarations/types-19.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { GiftCardTransaction, GiftCardTransactionListResponse, GiftCardTransactionsListInput } from '../declarations/types-21.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -18,20 +18,22 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference, ResourceType } from '../declarations/types-40.js';
-export type { GiftCardTransactionListResponse, GiftCardTransaction, GiftCardTransactionsListInput } from '../declarations/types-19.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta, ResourceReference, ResourceType } from '../declarations/types-42.js';
+export type { GiftCardTransactionListResponse, GiftCardTransaction, GiftCardTransactionsListInput } from '../declarations/types-21.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface GiftCardTransactionsResource {
     /**
  * Lists immutable financial entries across the merchant in ascending merchant_sequence order.
  * Per-card sequences and balance snapshots support reconciliation. Reservations and code
- * replacement never create financial debits.
+ * replacement never create financial debits. Default order: merchant_sequence ascending; this key
+ * uniquely orders the results.
  * @see reference/giftCardTransactions.md#giftcardtransactionslist
  * GET /v1/gift-card-transactions
  * @example

@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $webhook_endpoint_id
- * @property-read array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: string, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'status'?: string, 'url'?: string, ...}|object $body
+ * @property-read array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: string, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'signing_methods'?: list<mixed>, 'status'?: string, 'url'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class WebhookEndpointsUpdateInput extends Model {
-    /** @param array{'webhook_endpoint_id': string, 'Idempotency-Key'?: string, 'body': array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: string, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'status'?: string, 'url'?: string, ...}|object}|object $values */
+    /** @param array{'webhook_endpoint_id': string, 'Idempotency-Key'?: string, 'body': array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: string, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'signing_methods'?: list<mixed>, 'status'?: string, 'url'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEndpointsUpdateInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -21,7 +21,7 @@ final class WebhookEndpointsUpdateInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): object. The request body for: Update webhook endpoint.
-     * @return array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: string, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'status'?: string, 'url'?: string, ...}|object
+     * @return array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: string, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'signing_methods'?: list<mixed>, 'status'?: string, 'url'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

@@ -1,1 +1,1 @@
-{"shared":"CreateProductOptionRequest","dependencies":["CreateProductOptionRequest","CreateProductOptionValueRequest"]}
+{"shared":"CreateProductOptionRequest","dependencies":["CreateProductOptionRequest","CreateProductOptionValueRequest","MetadataRequest"]}

@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class VerifyReturnReceiptLineItemResponseInput extends Model {
-    /** @param array{'data': ReturnReceiptInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': ReturnReceiptInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('VerifyReturnReceiptLineItemResponseInput')); }
     /** Shape $ (Value): {@see ReturnReceiptInput}. A record of returned items arriving at a location.
      * @return ReturnReceiptInput|array<array-key, mixed>|\stdClass

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryInventoryAssignmentRequestInput extends Model {
-    /** @param array{'demand_key': string, 'inventory_item_id': string, 'location_id': string, 'quantity': string, ...}|object $values */
+    /** @param array{'demand_key': string, 'inventory_item_id': string, 'location_id': string, 'quantity': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryInventoryAssignmentRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

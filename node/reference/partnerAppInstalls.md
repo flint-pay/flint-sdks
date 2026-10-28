@@ -4,7 +4,7 @@
 
 ### partnerAppInstalls.list
 
-Lists partner app installs on the authenticated merchant, across live and test mode. Requires a live API key.
+Lists partner app installs on the authenticated merchant, across live and test mode. Requires a live API key. Default order: partner_app_install_id ascending; this key uniquely orders the results.
 
 `GET /v1/partner-app-installs`
 
@@ -22,7 +22,12 @@ list(params?: {
 
 #### Request fields
 
-Field definitions: [shared fields](developer.md#request-fields-14).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `page_size` | Optional | integer | minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string |  |
+| `partner_app_id` | Optional | string |  |
+| `status` | Optional | Array of string | minItems: `1`. Items values: `"pending_exchange"`, `"active"`, `"revoked"`. |
 
 #### Response
 
@@ -109,7 +114,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `revokeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -5,12 +5,12 @@ namespace Flint;
  * @property-read string $barcode
  * @property-read string $delivery_profile_id
  * @property-read string $external_reference_id
- * @property-read GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass $gift_card_configuration
+ * @property-read GiftCardProductConfigurationRequestRequestInput|array<array-key, mixed>|\stdClass $gift_card_configuration
  * @property-read list<ImageRequestInput|array<array-key, mixed>|\stdClass> $images
  * @property-read InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass $inventory_item
  * @property-read string $inventory_item_id
  * @property-read string $line_item_tax_category
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string|null $modifier_set_id
  * @property-read string $name
  * @property-read int $position
@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read WeightInput|array<array-key, mixed>|\stdClass $unit_weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class ProductVariantRequestInput extends Model {
-    /** @param array{'barcode'?: string, 'delivery_profile_id'?: string, 'external_reference_id'?: string, 'gift_card_configuration'?: GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_item'?: InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass, 'inventory_item_id'?: string, 'line_item_tax_category'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'modifier_set_id'?: string|null, 'name'?: string, 'position'?: int, 'selected_options'?: list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'barcode'?: string, 'delivery_profile_id'?: string, 'external_reference_id'?: string, 'gift_card_configuration'?: GiftCardProductConfigurationRequestRequestInput|array<array-key, mixed>|\stdClass, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_item'?: InventoryItemCreateRequestInput|array<array-key, mixed>|\stdClass, 'inventory_item_id'?: string, 'line_item_tax_category'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_set_id'?: string|null, 'name'?: string, 'position'?: int, 'selected_options'?: list<ProductVariantSelectedOptionRequestInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantRequestInput')); }
     /** Shape $ (Value): string. Barcode assigned to this sellable item. minLength: 1. maxLength: 100.
      * @return string
@@ -43,8 +43,8 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): {@see GiftCardProductConfigurationInput}. Only valid for product_type gift_card. Omission creates a fixed denomination at unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode discounted. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
-     * @return GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see GiftCardProductConfigurationRequestRequestInput}. Only valid for product_type gift_card. Omission creates a fixed denomination at unit_price_money. Discounted pricing requires an explicit face_value_money and price_mode discounted. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
+     * @return GiftCardProductConfigurationRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When gift_card_configuration is omitted; use hasGiftCardConfiguration() or valueOrDefault().
      */
     public function getGiftCardConfiguration(): mixed { return $this->get('gift_card_configuration'); }
@@ -73,11 +73,11 @@ final class ProductVariantRequestInput extends Model {
      */
     public function getLineItemTaxCategory(): string { return $this->get('line_item_tax_category'); }
     public function hasLineItemTaxCategory(): bool { return $this->has('line_item_tax_category'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string or null. Attached modifier set. Send null on update to remove it. minLength: 1.
      * @return string|null

@@ -14,7 +14,7 @@ Request input.
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `description` | Optional | string |  |
 | `fulfillment_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `name` | Required | string |  |
 | `order_charge_id` | Required | string |  |
 | `percent` | Optional | number | multipleOf: `0.0001`. |

@@ -6,11 +6,5 @@ Route templates for a merchant-hosted customer account: email preferences, invoi
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `email_preferences` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `invoice` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `order` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `return` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `subscription` | Optional | string or null | Send null to clear it. minLength: `1`. |
+Fields, types, descriptions and enum values: [CustomerAccountRouteTemplatesRequestRequestInput](../models/CustomerAccountRouteTemplatesRequestRequestInput.md#customeraccountroutetemplatesrequestrequestinput).
 

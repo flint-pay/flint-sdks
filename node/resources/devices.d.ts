@@ -10,11 +10,11 @@ import type {
     DevicesListInput,
     DevicesRemoveInput,
     DevicesUpdateInput
-} from '../declarations/types-16.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateDeviceRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-17.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateDeviceRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,8 +29,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateDeviceRequestInput, CreateDeviceRequest } from '../declarations/types-6.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateDeviceRequestInput } from '../declarations/types-6.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     Device,
     DeviceResponse,
@@ -40,17 +40,20 @@ export type {
     DevicesGetInput,
     DevicesListInput,
     DevicesUpdateInput
-} from '../declarations/types-16.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateDeviceRequestInput } from '../declarations/types-48.js';
+} from '../declarations/types-17.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateDeviceRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateDeviceRequest } from '../declarations/types-63.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateDeviceRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateDeviceRequest } from '../declarations/types-67.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateDeviceRequest } from '../declarations/types-77.js';
 export interface DevicesResource {
     /**
  * Creates a device. If an active device already has the hardware_fingerprint, returns 409
@@ -106,7 +109,8 @@ export interface DevicesResource {
      */
     getWithResponse(device_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeviceResponse>>;
     /**
- * Returns a paginated list of devices for the authenticated merchant.
+ * Returns a paginated list of devices for the authenticated merchant. Default order: created_at
+ * descending, then device_id descending.
  * @see reference/devices.md#deviceslist
  * GET /v1/devices
  * @example
@@ -171,7 +175,8 @@ export interface DevicesResource {
     }, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<Device>;
     /**
  * Applies a sparse update to a device. Send null to clear location_id or all metadata. The name
- * field cannot be null. Archived devices return DEVICE_ARCHIVED with current_status archived.
+ * field cannot be null. Archived devices return ACTION_NOT_ALLOWED with reason archived and
+ * current_status archived.
  * @see reference/devices.md#devicesupdate
  * PATCH /v1/devices/{device_id}
  * @example

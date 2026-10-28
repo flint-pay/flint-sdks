@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $last_name
  * Presence-aware input; omitted fields throw when accessed. */
 final class OnboardingStartRequestInput extends Model {
-    /** @param array{'email': string, 'first_name': string, 'last_name': string, ...}|object $values */
+    /** @param array{'email': string, 'first_name': string, 'last_name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingStartRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

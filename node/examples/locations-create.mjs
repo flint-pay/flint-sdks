@@ -11,12 +11,14 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.locations.create(
   {
     address: {
-      city: "example",
+      city: "Springfield",
       country: "US",
-      line1: "example",
+      line1: "100 Example Street",
+      postal_code: "62701",
+      state: "IL",
     },
-    name: "example",
-    timezone: "example",
+    name: "Main Street",
+    timezone: "America/Chicago",
   },
   { idempotencyKey: idempotencyKey },
 );

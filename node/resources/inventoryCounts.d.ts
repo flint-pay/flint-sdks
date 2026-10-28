@@ -12,11 +12,11 @@ import type {
     InventoryCountsListInput,
     InventoryCountsTransitionInput,
     InventoryCountsUpdateInput
-} from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateInventoryCountRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-26.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateInventoryCountRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,7 +32,7 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateInventoryCountRequestInput, CreateInventoryCountRequest } from '../declarations/types-7.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     InventoryCount,
     InventoryCountResponse,
@@ -52,25 +52,27 @@ export type {
     InventoryLevel,
     InventoryItem,
     InventoryCountObservationRequestInput
-} from '../declarations/types-24.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateInventoryCountRequestInput } from '../declarations/types-48.js';
+} from '../declarations/types-26.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateInventoryCountRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { InventorySourceSystem, InventorySourceSystemRequestInput } from '../declarations/types-25.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateInventoryCountRequest } from '../declarations/types-64.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { InventorySourceSystem, InventorySourceSystemRequestInput } from '../declarations/types-27.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export type { MetadataMap } from '../declarations/types-32.js';
+export { makeCreateInventoryCountRequest } from '../declarations/types-67.js';
 export {
     makeInventoryCountObservationRequest,
     makeInventoryCountTransitionRequest,
     makeInventoryCountTransitionRequestApply,
     makeInventoryCountTransitionRequestCancel,
     makeInventorySourceSystemRequest
-} from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateInventoryCountRequest } from '../declarations/types-72.js';
+} from '../declarations/types-71.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateInventoryCountRequest } from '../declarations/types-77.js';
 export interface InventoryCountsResource {
     /**
  * Open a physical count for selected inventory items at one Location. Idempotency is scoped to the
@@ -109,7 +111,8 @@ export interface InventoryCountsResource {
      */
     getWithResponse(inventory_count_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryCountResponse>>;
     /**
- * List inventory counts.
+ * List inventory counts. Default order: inventory_count_id ascending; this key uniquely orders the
+ * results.
  * @see reference/inventoryCounts.md#inventorycountslist
  * GET /v1/inventory-counts
  * @example

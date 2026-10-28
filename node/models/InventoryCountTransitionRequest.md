@@ -11,7 +11,7 @@ The request body for: Transition inventory count.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `action` | Required | string |  |
-| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer string | Optional resource version the caller last read. Enforced when sent. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 
 ### InventoryCountTransitionRequest variant 1: `action` = `"apply"`
 

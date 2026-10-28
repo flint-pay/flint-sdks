@@ -21,7 +21,7 @@ Request input.
 | `inventory_location_id` | Optional | string |  |
 | `inventory_movement_ids` | Required | Array of string |  |
 | `inventory_receipt_id` | Optional | string |  |
-| `metadata` | Required | Map of string |  |
+| `metadata` | Required | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `quantity` | Required | integer string | Whole-number quantity; fractional quantities are not supported. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
 | `reason` | Required | string | Values: `"inspection_result"`, `"return_policy"`, `"warehouse_override"`, `"safety_requirement"`, `"other"`. |

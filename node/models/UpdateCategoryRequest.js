@@ -1,9 +1,10 @@
-import { d2432 as c0 } from '../descriptors/data/96.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d2432 as d2432 } from '../descriptors/data/96.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3251 as c0, d3252 as c1, d3253 as c2 } from '../descriptors/data/131.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d2582 as c3 } from '../descriptors/data/107.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d2582 as d2582 } from '../descriptors/data/107.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d2432;
+const read = d2582;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["UpdateCategoryRequest"]:c0()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MetadataPatchRequest"]:c0(),["SharedCodec1252"]:c1(),["SharedCodec1253"]:c2(),["UpdateCategoryRequest"]:c3()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateCategoryRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

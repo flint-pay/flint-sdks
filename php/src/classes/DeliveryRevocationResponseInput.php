@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRevocationResponseInput extends Model {
-    /** @param array{'data': DeliveryRevocationInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': DeliveryRevocationInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRevocationResponseInput')); }
     /** Shape $ (Value): {@see DeliveryRevocationInput}. A withdrawal of a previously available delivery choice.
      * @return DeliveryRevocationInput|array<array-key, mixed>|\stdClass

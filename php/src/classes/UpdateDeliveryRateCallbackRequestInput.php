@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read string $expected_version
  * @property-read string|null $external_reference_id
  * @property-read string $name
+ * @property-read list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass> $signing_methods
  * @property-read string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateDeliveryRateCallbackRequestInput extends Model {
@@ -17,7 +18,7 @@ final class UpdateDeliveryRateCallbackRequestInput extends Model {
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** Shape $ (Value): integer string. Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
+    /** Shape $ (Value): integer string. Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -35,6 +36,12 @@ final class UpdateDeliveryRateCallbackRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Shape $ (Value): Array of {@see WebhookSigningMethodInput}. Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". Shape $[] (Value): {@see WebhookSigningMethodInput}. jwt uses Flint's public JWKS. hmac uses a shared secret and Standard Webhooks v1. Value enum: "jwt", "hmac".
+     * @return list<WebhookSigningMethodInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When signing_methods is omitted; use hasSigningMethods() or valueOrDefault().
+     */
+    public function getSigningMethods(): array { return $this->get('signing_methods'); }
+    public function hasSigningMethods(): bool { return $this->has('signing_methods'); }
     /** Shape $ (Value): string.  Value enum: "inactive", "active".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

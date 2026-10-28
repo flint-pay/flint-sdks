@@ -26,13 +26,16 @@ Current balances for one currency at observed_at. Available and pending amounts 
 
 Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `amount` | Required | integer string | Signed amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. |
+| `currency` | Required | string | ISO 4217 currency code for this amount. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 
 ### Balance.available_money
 
 Signed amount available for payouts after active payout holds are deducted. Separate from pending_money, reserve_money, and held_money. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](#balanceavailable_by_source_type).
 
 ### Balance.held_money
 
@@ -48,7 +51,7 @@ Field definitions: [Balance.available_by_source_type{}](../models/Balance.md#bal
 
 Signed amount awaiting availability. Separate from available_money; pending_by_source_type breaks down this amount when source details are supplied. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](#balanceavailable_by_source_type).
 
 ### Balance.reserve_money
 

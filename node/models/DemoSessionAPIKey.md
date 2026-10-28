@@ -10,6 +10,6 @@ The API key issued for a demo session, with its `secret_key` and the scopes it g
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `scopes` | Required | Array of string | Items values: [95 declared values](APIKey.md#apikey-scopes--values). |
+| `scopes` | Required | Array of string | Items values: [96 declared values](APIKey.md#apikey-scopes--values). |
 | `secret_key` | Required | string |  |
 

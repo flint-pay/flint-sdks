@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-5.js';
+import type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-6.js';
 import type {
     DeliveryLocationSet,
     DeliveryLocationSetListResponse,
@@ -10,11 +10,11 @@ import type {
     DeliveryLocationSetsListInput,
     DeliveryLocationSetsRemoveInput,
     DeliveryLocationSetsUpdateInput
-} from '../declarations/types-12.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-47.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-13.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,8 +29,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-5.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateDeliveryLocationSetRequestInput } from '../declarations/types-6.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     DeliveryLocationSet,
     DeliveryLocationSetResponse,
@@ -42,18 +42,21 @@ export type {
     DeliveryLocationSetsUpdateInput,
     DeliveryLocationSetConfigurationInput,
     DeliveryLocationSetConfiguration
-} from '../declarations/types-12.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-47.js';
+} from '../declarations/types-13.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateDeliveryLocationSetRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-63.js';
-export { makeDeliveryLocationSetConfiguration } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-72.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateDeliveryLocationSetRequest } from '../declarations/types-66.js';
+export { makeDeliveryLocationSetConfiguration } from '../declarations/types-69.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateDeliveryLocationSetRequest } from '../declarations/types-77.js';
 export interface DeliveryLocationSetsResource {
     /**
  * Delivery location sets pin reusable sets of Locations for allocation or buyer pickup. Creation
@@ -113,7 +116,8 @@ export interface DeliveryLocationSetsResource {
     getWithResponse(delivery_location_set_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<DeliveryLocationSetResponse>>;
     /**
  * Returns delivery location sets in a stable, cursor-paginated order. Archived resources are
- * excluded by default.
+ * excluded by default. Default order: created_at ascending, then delivery_location_set_id
+ * ascending.
  * @see reference/deliveryLocationSets.md#deliverylocationsetslist
  * GET /v1/delivery-location-sets
  * @example

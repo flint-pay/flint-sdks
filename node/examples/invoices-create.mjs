@@ -10,6 +10,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.invoices.create(
   {
+    type: "order",
     order_id: "example",
   },
   { idempotencyKey: idempotencyKey },

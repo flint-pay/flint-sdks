@@ -1,19 +1,19 @@
-import { d3162 as c0 } from '../descriptors/data/125.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3220 as c1 } from '../descriptors/data/128.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3102 as c2, d3103 as c3, d3104 as c4, d3105 as c5, d3106 as c7, d3108 as c9 } from '../descriptors/data/122.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3230 as c6, d3232 as c8, d3238 as c11, d3239 as c17, d3240 as c18, d3241 as c19 } from '../descriptors/data/129.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3312 as c10 } from '../descriptors/data/133.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d119 as c12 } from '../descriptors/data/4.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3013 as c13 } from '../descriptors/data/116.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3251 as c14 } from '../descriptors/data/130.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3294 as c15, d3295 as c16 } from '../descriptors/data/131.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3134 as c20 } from '../descriptors/data/123.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3135 as c21, d3136 as c22, d3137 as c23, d3138 as c24, d3139 as c25, d3140 as c26, d3141 as c27, d3142 as c28, d3143 as c29 } from '../descriptors/data/124.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d119 as d119 } from '../descriptors/data/4.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3345 as c0, d3346 as c16, d3347 as c17 } from '../descriptors/data/137.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3499 as c1, d3500 as c6, d3501 as c10, d3502 as c11 } from '../descriptors/data/146.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3281 as c2, d3282 as c3, d3283 as c4, d3284 as c5, d3285 as c7, d3287 as c9 } from '../descriptors/data/133.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3418 as c8, d3424 as c20, d3425 as c21, d3426 as c22 } from '../descriptors/data/141.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d135 as c12 } from '../descriptors/data/6.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3250 as c13 } from '../descriptors/data/131.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3168 as c14 } from '../descriptors/data/127.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3436 as c15 } from '../descriptors/data/142.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3478 as c18, d3479 as c19 } from '../descriptors/data/143.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3314 as c23, d3315 as c24, d3316 as c25, d3317 as c26, d3318 as c27, d3319 as c28, d3320 as c29, d3321 as c30, d3322 as c31 } from '../descriptors/data/135.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3323 as c32, d3324 as c33, d3325 as c34, d3326 as c35 } from '../descriptors/data/136.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d135 as d135 } from '../descriptors/data/6.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d119;
+const read = d135;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CheckoutBuyerFields"]:c1(),["CheckoutCustomTextWriteConfig"]:c2(),["CheckoutLegalConfigRequest"]:c3(),["CheckoutPaymentConfigRequest"]:c4(),["CheckoutPrefillRequest"]:c5(),["CheckoutPromotionConfig"]:c6(),["CheckoutQuickPayItemRequest"]:c7(),["CheckoutRedirectsRequest"]:c8(),["CheckoutSubscriptionTermsRequest"]:c9(),["CheckoutTaxConfig"]:c10(),["CheckoutTipConfig"]:c11(),["CreateCheckoutSessionRequest"]:c12(),["MoneyValue"]:c13(),["OrderLineItemTax"]:c14(),["SharedCodec47"]:c15(),["SharedCodec48"]:c16(),["SharedCodec63"]:c17(),["SharedCodec64"]:c18(),["SharedCodec65"]:c19(),["SharedCodec66"]:c20(),["SharedCodec67"]:c21(),["SharedCodec68"]:c22(),["SharedCodec69"]:c23(),["SharedCodec70"]:c24(),["SharedCodec71"]:c25(),["SharedCodec72"]:c26(),["SharedCodec73"]:c27(),["SharedCodec74"]:c28(),["ThemeConfigRequest"]:c29()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CheckoutBuyerFieldsRequestRequest"]:c1(),["CheckoutCustomTextWriteConfig"]:c2(),["CheckoutLegalConfigRequest"]:c3(),["CheckoutPaymentConfigRequest"]:c4(),["CheckoutPrefillRequest"]:c5(),["CheckoutPromotionConfigRequestRequest"]:c6(),["CheckoutQuickPayItemRequest"]:c7(),["CheckoutRedirectsRequest"]:c8(),["CheckoutSubscriptionTermsRequest"]:c9(),["CheckoutTaxConfigRequestRequest"]:c10(),["CheckoutTipConfigRequestRequest"]:c11(),["CreateCheckoutSessionRequest"]:c12(),["MetadataRequest"]:c13(),["MoneyValue"]:c14(),["OrderLineItemTax"]:c15(),["SharedCodec0"]:c16(),["SharedCodec1"]:c17(),["SharedCodec61"]:c18(),["SharedCodec62"]:c19(),["SharedCodec79"]:c20(),["SharedCodec80"]:c21(),["SharedCodec81"]:c22(),["SharedCodec82"]:c23(),["SharedCodec83"]:c24(),["SharedCodec84"]:c25(),["SharedCodec85"]:c26(),["SharedCodec86"]:c27(),["SharedCodec87"]:c28(),["SharedCodec88"]:c29(),["SharedCodec89"]:c30(),["SharedCodec90"]:c31(),["SharedCodec91"]:c32(),["SharedCodec92"]:c33(),["SharedCodec93"]:c34(),["ThemeConfigRequest"]:c35()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateCheckoutSessionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

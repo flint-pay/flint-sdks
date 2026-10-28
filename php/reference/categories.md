@@ -21,11 +21,11 @@ Body model: [CreateCategoryRequestInput](../models/CreateCategoryRequestInput.md
 
 #### categories.create body fields
 
-Field definitions: [shared fields](../models/CreateCategoryRequestInput.md#createcategoryrequestinput).
+Field definitions: [shared fields](../models/CreateCategoryRequestInput.md#createcategoryrequestinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput).
 
 #### Response
 
-Returned payload: [Category](../models/CategoryInput.md#categoryinput).
+Returned payload: [Category](../models/Category.md#category).
 
 #### Errors
 
@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -84,7 +84,7 @@ Signature: `get(string|Model $category_id, array|Model|null $params = null, ?Req
 
 #### Response
 
-Returned payload: [Category](../models/CategoryInput.md#categoryinput).
+Returned payload: [Category](../models/Category.md#category).
 
 #### Errors
 
@@ -119,7 +119,7 @@ $result = $client->categories->get('example', [], new RequestOptions());
 
 ### categories.list
 
-List categories.
+List categories. Default order: handle ascending; this key uniquely orders the results.
 
 `GET /v1/categories`
 
@@ -195,7 +195,7 @@ Signature: `remove(string|Model $category_id, array|Model|null $params = null, ?
 
 #### Response
 
-Returned payload: [Category](../models/CategoryInput.md#categoryinput).
+Returned payload: [Category](../models/Category.md#category).
 
 #### Errors
 
@@ -219,7 +219,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -254,11 +254,11 @@ Body model: [UpdateCategoryRequestInput](../models/UpdateCategoryRequestInput.md
 
 #### categories.update body fields
 
-Field definitions: [shared fields](../models/UpdateCategoryRequestInput.md#updatecategoryrequestinput).
+Field definitions: [shared fields](../models/UpdateCategoryRequestInput.md#updatecategoryrequestinput). Models: [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput).
 
 #### Response
 
-Returned payload: [Category](../models/CategoryInput.md#categoryinput).
+Returned payload: [Category](../models/Category.md#category).
 
 #### Errors
 
@@ -284,7 +284,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -1,7 +1,7 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateOrganizationRequestInput } from '../declarations/types-7.js';
-import type { GrantOrganizationMembershipRequestInput } from '../declarations/types-19.js';
+import type { CreateOrganizationRequestInput } from '../declarations/types-8.js';
+import type { GrantOrganizationMembershipRequestInput } from '../declarations/types-21.js';
 import type {
     Organization,
     OrganizationListResponse,
@@ -11,17 +11,19 @@ import type {
     OrganizationResponse,
     OrganizationsCreateInput,
     OrganizationsGetInput,
-    OrganizationsGrantMembershipInput,
+    OrganizationsGrantMembershipInput
+} from '../declarations/types-35.js';
+import type {
     OrganizationsListInput,
     OrganizationsListMembershipsInput,
     OrganizationsRemoveInput,
     OrganizationsRevokeMembershipInput,
     OrganizationsUpdateInput
-} from '../declarations/types-34.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateOrganizationRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-36.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateOrganizationRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,8 +38,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateOrganizationRequestInput, CreateOrganizationRequest } from '../declarations/types-7.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateOrganizationRequestInput } from '../declarations/types-8.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     Organization,
     OrganizationResponse,
@@ -46,27 +48,32 @@ export type {
     OrganizationMembershipListResponse,
     OrganizationListResponse,
     OrganizationsCreateInput,
-    OrganizationsRemoveInput,
     OrganizationsGetInput,
-    OrganizationsGrantMembershipInput,
+    OrganizationsGrantMembershipInput
+} from '../declarations/types-35.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { GrantOrganizationMembershipRequestInput } from '../declarations/types-21.js';
+export type { UpdateOrganizationRequestInput } from '../declarations/types-51.js';
+export type {
+    OrganizationsRemoveInput,
     OrganizationsListMembershipsInput,
     OrganizationsListInput,
     OrganizationsRevokeMembershipInput,
     OrganizationsUpdateInput
-} from '../declarations/types-34.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { GrantOrganizationMembershipRequestInput } from '../declarations/types-19.js';
-export type { UpdateOrganizationRequestInput } from '../declarations/types-48.js';
+} from '../declarations/types-36.js';
 export type { ClientOptions } from '../declarations/types-4.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { ExpandedOrganizationSummary } from '../declarations/types-16.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateOrganizationRequest } from '../declarations/types-64.js';
-export { makeGrantOrganizationMembershipRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeUpdateOrganizationRequest } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ExpandedOrganizationSummary } from '../declarations/types-18.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateOrganizationRequest } from '../declarations/types-68.js';
+export { makeGrantOrganizationMembershipRequest } from '../declarations/types-71.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateOrganizationRequest } from '../declarations/types-77.js';
 export interface OrganizationsResource {
     /**
  * Creates an organization under parent_organization_id. Flint creates each merchant's top-level
@@ -159,7 +166,8 @@ export interface OrganizationsResource {
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<OrganizationMembershipResponse>>;
     /**
- * Returns the direct memberships for an organization.
+ * Returns the direct memberships for an organization. Default order: user_id ascending; this key
+ * uniquely orders the results.
  * @see reference/organizations.md#organizationslistmemberships
  * GET /v1/organizations/{organization_id}/memberships
  * @example
@@ -201,7 +209,8 @@ export interface OrganizationsResource {
  * Returns the organizations accessible to the caller, filtered to the authenticated merchant's
  * organization subtree for external API keys. Pagination uses the last returned sort value and
  * organization_id, so inserting or deleting earlier rows does not shift later pages. Reuse
- * page_token with the same filters and sort; page_size may change.
+ * page_token with the same filters and sort; page_size may change. Default order: created_at
+ * descending, then organization_id descending.
  * @see reference/organizations.md#organizationslist
  * GET /v1/organizations
  * @example

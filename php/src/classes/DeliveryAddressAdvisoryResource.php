@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $role
- * @property-read ?DeliveryAddressRequest $suggested_address
+ * @property-read ?Address $suggested_address
  * @property-read string $verification_state
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryAddressAdvisoryResource extends Model {
@@ -14,10 +14,10 @@ final class DeliveryAddressAdvisoryResource extends Model {
      */
     public function getRole(): string { return $this->get('role'); }
     public function hasRole(): bool { return $this->has('role'); }
-    /** Shape $ (Value): {@see DeliveryAddressRequest}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address you supply for delivery quotes, previews, and selections.
-     * @return ?DeliveryAddressRequest
+    /** Shape $ (Value): {@see Address}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return ?Address
      */
-    public function getSuggestedAddress(): ?DeliveryAddressRequest { return $this->get('suggested_address'); }
+    public function getSuggestedAddress(): ?Address { return $this->get('suggested_address'); }
     public function hasSuggestedAddress(): bool { return $this->has('suggested_address'); }
     /** Shape $ (Value): string.  Value enum: "needs_review", "unverifiable".
      * @return string

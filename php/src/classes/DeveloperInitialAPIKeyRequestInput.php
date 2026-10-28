@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read list<string> $scopes
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeveloperInitialAPIKeyRequestInput extends Model {
-    /** @param array{'name': string, 'scopes'?: list<string>, ...}|object $values */
+    /** @param array{'name': string, 'scopes'?: list<string>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeveloperInitialAPIKeyRequestInput')); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 100.
      * @return string

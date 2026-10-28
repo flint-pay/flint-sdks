@@ -10,7 +10,7 @@ The request body for: Create webhook test event.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [245 declared values](#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | Current event type to send. merchant delivers merchant events; partner_app delivers partner lifecycle events; installed_merchants delivers merchant events permitted by the install read scopes. The event catalog lists event_sources for each type. Values: [246 declared values](#createwebhooktesteventrequest-event_type-values). |
 
 #### CreateWebhookTestEventRequest event_type values
 
@@ -259,4 +259,5 @@ The request body for: Create webhook test event.
 - `"subscription_payment_retry.created"`
 - `"subscription_payment_retry.failed"`
 - `"subscription_payment_retry.succeeded"`
+- `"tax_connection.updated"`
 

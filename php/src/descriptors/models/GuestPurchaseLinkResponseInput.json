@@ -1,1 +1,1 @@
-{"shared":"GuestPurchaseLinkResponse","dependencies":["GuestPurchaseLink","GuestPurchaseLinkResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}
+{"shared":"GuestPurchaseLinkResponse","dependencies":["GuestPurchaseLink","GuestPurchaseLinkResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}

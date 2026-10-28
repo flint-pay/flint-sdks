@@ -6,5 +6,5 @@ An option and value chosen for a product variant, such as size Large.
 
 Request input.
 
-Fields, types, descriptions and enum values: [CreateRefundResultLineItemAllocationsItemSelectedOptionsItem](../models/CreateRefundResultLineItemAllocationsItemSelectedOptionsItem.md#createrefundresultlineitemallocationsitemselectedoptionsitem).
+Fields, types, descriptions and enum values: [ExpandedSubscriptionPlanSummaryLineItemsItemVariantBundleComponentsItemVariantSelectedOptionsItem](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantBundleComponentsItemVariantSelectedOptionsItem.md#expandedsubscriptionplansummarylineitemsitemvariantbundlecomponentsitemvariantselectedoptionsitem).
 

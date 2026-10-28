@@ -26,6 +26,7 @@ $result = $client->products->create([
   ],
   'name' => 'example',
   'product_type' => 'physical',
+  'variant_mode' => 'simple',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->product_id . PHP_EOL;
 echo $result->status . PHP_EOL;

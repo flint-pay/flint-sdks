@@ -14,13 +14,13 @@ namespace Flint;
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
  * @property-read ?CheckoutCustomerPrefill $customer_prefill
+ * @property-read ?CheckoutDerivedDeliveryResource $delivery
  * @property-read list<string> $delivery_method_ids
  * @property-read ?list<CheckoutDeliveryPinnedDependency> $delivery_pinned_dependencies
  * @property-read bool $delivery_selection_required
  * @property-read ?string $expires_at
  * @property-read ?string $expires_in_seconds
  * @property-read ?string $external_reference_id
- * @property-read ?CheckoutDerivedDeliveryResource $fulfillment
  * @property-read ?CheckoutGiftCardChallenge $gift_card_challenge
  * @property-read ExpandedInvoiceSummary|null $invoice
  * @property-read ?string $invoice_id
@@ -70,7 +70,7 @@ namespace Flint;
  * @property-read ?string $checkout_auth_token
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSessionWithSecret extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'closed_reason_message'?: string, 'created_at'?: string, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'customer_prefill'?: mixed, 'delivery_method_ids': list<string>, 'delivery_pinned_dependencies'?: list<mixed>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: string, 'external_reference_id'?: string, 'fulfillment'?: mixed, 'gift_card_challenge'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_icon'?: mixed, 'merchant_id'?: string, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'metadata'?: \stdClass, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_link_image'?: mixed, 'payment_method_save'?: mixed, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: mixed, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at'?: string, 'url'?: string, 'version': string, 'checkout_auth_token'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'closed_reason_message'?: string, 'created_at'?: string, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'customer_prefill'?: mixed, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_pinned_dependencies'?: list<mixed>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: string, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_icon'?: mixed, 'merchant_id'?: string, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_link_image'?: mixed, 'payment_method_save'?: mixed, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: mixed, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at'?: string, 'url'?: string, 'version': string, 'checkout_auth_token'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionWithSecret')); }
     /** Shape $ (Value): {@see OrderPaymentAttempt}. An attempt to pay an order.
      * @return ?OrderPaymentAttempt
@@ -132,6 +132,11 @@ final class CheckoutSessionWithSecret extends Model {
      */
     public function getCustomerPrefill(): ?CheckoutCustomerPrefill { return $this->get('customer_prefill'); }
     public function hasCustomerPrefill(): bool { return $this->has('customer_prefill'); }
+    /** Shape $ (Value): {@see CheckoutDerivedDeliveryResource}. Current delivery choices for Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field does not request a delivery quote. Omitted when the session is not open, has no order, or Flint cannot read its delivery. The delivery options Flint derived for a checkout as a buyer sees them: choice groups, input requirements, and evaluation status.
+     * @return ?CheckoutDerivedDeliveryResource
+     */
+    public function getDelivery(): ?CheckoutDerivedDeliveryResource { return $this->get('delivery'); }
+    public function hasDelivery(): bool { return $this->has('delivery'); }
     /** Shape $ (Value): Array of string. Immutable delivery method assignment captured when the checkout was created. Shape $[] (Value): string.
      * @return list<string>
      */
@@ -162,11 +167,6 @@ final class CheckoutSessionWithSecret extends Model {
      */
     public function getExternalReferenceId(): ?string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): {@see CheckoutDerivedDeliveryResource}. Current fulfillment choices for Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field does not request a delivery quote. Omitted when the session is not open, has no order, or Flint cannot read its delivery. The delivery options Flint derived for a checkout as a buyer sees them: choice groups, input requirements, and evaluation status.
-     * @return ?CheckoutDerivedDeliveryResource
-     */
-    public function getFulfillment(): ?CheckoutDerivedDeliveryResource { return $this->get('fulfillment'); }
-    public function hasFulfillment(): bool { return $this->has('fulfillment'); }
     /** Shape $ (Value): {@see CheckoutGiftCardChallenge}. Where the buyer completes a gift card challenge for this checkout. Returned on single-session reads, session create and update responses, checkout launch results, and customer verification confirmation results while the session is open and can show the challenge. Omitted from lists, webhooks, expanded resources, and delivery selection results. A URL to load in an iframe when applying a gift card returns `GIFT_CARD_CHALLENGE_REQUIRED`.
      * @return ?CheckoutGiftCardChallenge
      */
@@ -217,7 +217,7 @@ final class CheckoutSessionWithSecret extends Model {
      */
     public function getMerchantSupport(): ?CheckoutMerchantSupport { return $this->get('merchant_support'); }
     public function hasMerchantSupport(): bool { return $this->has('merchant_support'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }

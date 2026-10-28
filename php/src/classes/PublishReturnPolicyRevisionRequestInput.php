@@ -8,7 +8,7 @@ namespace Flint;
 final class PublishReturnPolicyRevisionRequestInput extends Model {
     /** @param array{'expected_version': string, 'revision': ReturnPolicyRevisionRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublishReturnPolicyRevisionRequestInput')); }
-    /** Shape $ (Value): integer string. Required current version of the Return policy. A stale value returns RETURN_VERSION_CONFLICT. Publishing increments the policy version. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
+    /** Shape $ (Value): integer string. Required current version of the Return policy. A stale value returns VERSION_CONFLICT. Publishing increments the policy version. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 1.
      * @return string
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

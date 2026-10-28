@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Address where the buyer collects the order. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. |
+| `address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Address where the buyer collects the order. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `curbside_instructions` | Optional | string | Instructions specific to curbside handoff. minLength: `1`. maxLength: `2048`. |
 | `customer_arrived_at` | Optional | string | Buyer-reported arrival time for curbside or counter pickup. Format: `date-time`. minLength: `1`. |
 | `expires_at` | Optional | string | Deadline after which an uncollected pickup should enter merchant review. Format: `date-time`. minLength: `1`. |

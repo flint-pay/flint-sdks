@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware response; omitted optional fields return null. */
 final class WebhookEventPartnerAppInstallPermissionsUpdated extends Model {
-    /** @param array{'api_version': string, 'created_at': string, 'data': object{'object': \stdClass}, 'event_type': string, 'partner_app_id': string, 'payload_version': int, 'source': \stdClass, 'test': bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'api_version': string, 'created_at': string, 'data': object{'object': \stdClass}, 'event_type': string, 'partner_app_id': string, 'payload_version': int, 'source': object{'merchant_id': string, 'partner_app_install_id': string, 'type': string}, 'test': bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookEventPartnerAppInstallPermissionsUpdated')); }
     /** Shape $ (Value): string. Format: date.
      * @return string
@@ -45,7 +45,7 @@ final class WebhookEventPartnerAppInstallPermissionsUpdated extends Model {
      */
     public function getPayloadVersion(): int { return $this->get('payload_version'); }
     public function hasPayloadVersion(): bool { return $this->has('payload_version'); }
-    /** Shape $ (Value): Alternative shapes (see declared variants) and object. Shape $.merchant_id (Required): string. Shape $.partner_app_install_id (Required): string. Shape $.type (Required): string.  Value enum: "partner_app". Shape $.oneOf[1] (Value): object. Shape $.oneOf[1].merchant_id (Required): string. Shape $.oneOf[1].partner_app_install_id (Required): string. Shape $.oneOf[1].type (Required): string.  Value enum: "partner_app". Shape $.oneOf[2] (Value): object. Shape $.oneOf[2].environment_grant_id (Required): string. Shape $.oneOf[2].merchant_id (Required): string. Shape $.oneOf[2].mode (Required): string.  Value enum: "test", "live". Shape $.oneOf[2].partner_app_install_id (Required): string. Shape $.oneOf[2].sandbox_id (Optional): string. Shape $.oneOf[2].type (Required): string.  Value enum: "installed_merchants".
+    /** Shape $ (Value): {@see PartnerWebhookEnvelopeSource} and object. The source of a partner webhook event, selected by type. Shape $.merchant_id (Required): string. Shape $.partner_app_install_id (Required): string. Shape $.type (Required): string.  Value enum: "partner_app". Shape $.oneOf[1] (Value): {@see PartnerWebhookEnvelopeSourcePartnerApp}. The partner_app source of a partner webhook event. Shape $.oneOf[2] (Value): {@see PartnerWebhookEnvelopeSourceInstalledMerchants}. The installed_merchants source of a partner webhook event.
      * @return \stdClass
      */
     public function getSource(): \stdClass { return $this->get('source'); }

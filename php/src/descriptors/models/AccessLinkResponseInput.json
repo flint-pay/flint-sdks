@@ -1,1 +1,1 @@
-{"shared":"AccessLinkResponse","dependencies":["AccessLink","AccessLinkResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec0","SharedCodec1","SharedCodec968"]}
+{"shared":"AccessLinkResponse","dependencies":["AccessLink","AccessLinkResponse","MoneyValue","NextAction","NextActionMerchantAccountSession","ResourceType","ResponseMeta","ResponseWarning","SharedCodec1005","SharedCodec2","SharedCodec3"]}

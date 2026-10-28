@@ -1,1 +1,1 @@
-{"shared":"DeliveryLocationSet","dependencies":["DeliveryLocationSet","DeliveryLocationSetConfiguration"]}
+{"shared":"DeliveryLocationSet","dependencies":["DeliveryLocationSet","DeliveryLocationSetConfiguration","MetadataMap"]}

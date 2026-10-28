@@ -13,7 +13,7 @@ The request body for: Update a risk rule.
 | `action` | Conditional | string | Values: `"allow"`, `"block"`, `"review"`, `"require_3ds"`. |
 | `description` | Conditional | string | minLength: `1`. |
 | `expected_version` | Optional | integer string | Optional risk rule version last read by the caller. Use an integer string (decimal digits), not a floating-point number. Format: `int64`. minimum: `1`. |
-| `predicate` | Conditional | [RiskPredicateNode](../models/RiskPredicateNode.md#riskpredicatenode) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `predicate`: [declared alternatives](../models/CreateRiskPreviewRequest.md#createriskpreviewrequestpredicate). |
+| `predicate` | Conditional | [RiskPredicateNode](../models/RiskPredicateNode.md#riskpredicatenode) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. |
 | `status` | Conditional | string | Values: `"active"`, `"inactive"`. |
 
 ### UpdateRiskRuleRequest variant 1
@@ -43,8 +43,4 @@ anyOf variant 4.
 
 - Required: `status`.
 - Optional: `action`, `description`, `predicate`.
-
-### UpdateRiskRuleRequest.predicate
-
-Declared alternatives: [CreateRiskPreviewRequest.predicate](../models/CreateRiskPreviewRequest.md#createriskpreviewrequestpredicate).
 

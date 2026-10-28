@@ -21,12 +21,13 @@
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
+| `source` | Conditional | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
 
 ### IncomingWebhookbd61ef55b477Payload variant 1: `event_type` = `"payment_link.created"`
 
 oneOf variant 1: The `payment_link.created` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"payment_link.created"`.
@@ -35,6 +36,7 @@ oneOf variant 1: The `payment_link.created` webhook payload for the `merchant` e
 
 oneOf variant 2: The `payment_link.created` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"payment_link.created"`.
@@ -50,6 +52,10 @@ oneOf variant 2: The `payment_link.created` webhook payload for the `installed_m
 A reusable link that opens checkout.
 
 Field definitions: [shared fields](PaymentLink.md#paymentlink).
+
+### IncomingWebhookbd61ef55b477Payload.data.object.buyer_fields
+
+Field definitions: [BuyerCheckoutSession.buyer_fields](../models/BuyerCheckoutSession.md#buyercheckoutsessionbuyer_fields).
 
 ### IncomingWebhookbd61ef55b477Payload.data.object.custom_text
 
@@ -88,6 +94,10 @@ Field definitions: [IncomingWebhook0452cf0e91f7Payload.data.object.inventory_rou
 
 Field definitions: [BuyerCheckoutSession.legal](../models/BuyerCheckoutSession.md#buyercheckoutsessionlegal).
 
+### IncomingWebhookbd61ef55b477Payload.data.object.metadata
+
+Field definitions: [BuyerRefund.metadata](../models/BuyerRefund.md#buyerrefundmetadata).
+
 ### IncomingWebhookbd61ef55b477Payload.data.object.payments
 
 Payment settings for a checkout: the enabled payment options and a note shown with payment.
@@ -97,6 +107,10 @@ Payment settings for a checkout: the enabled payment options and a note shown wi
 | `enabled_payment_options` | Optional | Array of string | Items values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`. |
 | `payment_note` | Optional | string |  |
 
+### IncomingWebhookbd61ef55b477Payload.data.object.promotion_config
+
+Field definitions: [BuyerCheckoutSession.promotion_config](../models/BuyerCheckoutSession.md#buyercheckoutsessionpromotion_config).
+
 ### IncomingWebhookbd61ef55b477Payload.data.object.redirects
 
 Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
@@ -105,7 +119,11 @@ Field definitions: [shared fields](BuyerCheckoutSession.md#buyercheckoutsessionr
 
 ### IncomingWebhookbd61ef55b477Payload.data.object.tax
 
-Field definitions: [CreatePaymentLinkRequest.tax](../models/CreatePaymentLinkRequest.md#createpaymentlinkrequesttax).
+Whether tax is collected for a checkout session or payment link.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `enabled` | Optional | boolean |  |
 
 ### IncomingWebhookbd61ef55b477Payload.data.object.theme
 
@@ -116,6 +134,10 @@ Colors and title applied to a payment link's checkout page.
 | `accent_color` | Optional | string |  |
 | `primary_color` | Optional | string |  |
 | `title` | Optional | string |  |
+
+### IncomingWebhookbd61ef55b477Payload.data.object.tip
+
+Field definitions: [BuyerCheckoutSession.tip](../models/BuyerCheckoutSession.md#buyercheckoutsessiontip).
 
 ### IncomingWebhookbd61ef55b477Payload variant 1.request
 

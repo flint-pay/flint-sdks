@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code': string, 'state': string, ...}|object|null $address
+ * @property-read array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null $address
  * @property-read string|null $curbside_instructions
  * @property-read string|\DateTimeInterface|null $customer_arrived_at
  * @property-read string|\DateTimeInterface|null $expires_at
@@ -18,10 +18,10 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $window_start_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdatePickupFulfillmentDetailsInput extends Model {
-    /** @param array{'address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code': string, 'state': string, ...}|object|null, 'curbside_instructions'?: string|null, 'customer_arrived_at'?: string|\DateTimeInterface|null, 'expires_at'?: string|\DateTimeInterface|null, 'instructions'?: string|null, 'location_name'?: string|null, 'picked_up_at'?: string|\DateTimeInterface|null, 'pickup_window_duration_seconds'?: string|null, 'prep_time_duration_seconds'?: string|null, 'ready_at'?: string|\DateTimeInterface|null, 'timezone'?: string, 'vehicle_description'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null, ...}|object $values */
+    /** @param array{'address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'curbside_instructions'?: string|null, 'customer_arrived_at'?: string|\DateTimeInterface|null, 'expires_at'?: string|\DateTimeInterface|null, 'instructions'?: string|null, 'location_name'?: string|null, 'picked_up_at'?: string|\DateTimeInterface|null, 'pickup_window_duration_seconds'?: string|null, 'prep_time_duration_seconds'?: string|null, 'ready_at'?: string|\DateTimeInterface|null, 'timezone'?: string, 'vehicle_description'?: string|null, 'window_end_at'?: string|\DateTimeInterface|null, 'window_start_at'?: string|\DateTimeInterface|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdatePickupFulfillmentDetailsInput')); }
-    /** Shape $ (Value): {@see AddressRequestInput} or null. Address where the buyer collects the order. Shape $.anyOf[1] (Value): {@see AddressRequestInput}. A postal address you supply when creating or updating a customer, invoice, fulfillment, or delivery selection. Send null for `line2` to clear it. Shape $.anyOf[2] (Value): null.
-     * @return array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code': string, 'state': string, ...}|object|null
+    /** Shape $ (Value): {@see AddressRequestInput} or null. Address where the buyer collects the order. Shape $.anyOf[1] (Value): {@see AddressRequestInput}. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. Shape $.anyOf[2] (Value): null.
+     * @return array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }

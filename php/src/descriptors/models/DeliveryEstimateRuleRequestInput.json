@@ -1,1 +1,1 @@
-{"shared":"DeliveryEstimateRuleRequest","dependencies":["DeliveryAvailability","DeliveryBlackoutInterval","DeliveryBusinessDayRange","DeliveryEstimateRuleRequest","DeliveryScheduleWindowRuleRequest","DeliveryTransitTimeRule","DeliveryWeeklyInterval"]}
+{"shared":"DeliveryEstimateRuleRequest","dependencies":["DeliveryAvailabilityRequestRequest","DeliveryBlackoutIntervalRequestRequest","DeliveryBusinessDayRangeRequestRequest","DeliveryEstimateRuleRequest","DeliveryScheduleWindowRuleRequest","DeliveryTransitTimeRuleRequestRequest","DeliveryWeeklyIntervalRequestRequest"]}

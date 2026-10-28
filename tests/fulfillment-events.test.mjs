@@ -22,7 +22,7 @@ test("buyer fulfillment event helpers require an order before dispatch in Node a
   const server = createServer((req, res) => {
     requests.push(req.url);
     res.writeHead(200, { "content-type": "application/json" });
-    res.end(JSON.stringify({ data: [] }));
+    res.end(JSON.stringify({ data: [], request_id: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D" }));
   });
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   t.after(() => {

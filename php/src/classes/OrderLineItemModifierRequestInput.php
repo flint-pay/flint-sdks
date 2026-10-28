@@ -2,20 +2,21 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $modifier_id
  * @property-read string $order_line_item_modifier_id
  * @property-read string $quantity
  * @property-read TextModifierRequestInput|array<array-key, mixed>|\stdClass $text
+ * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderLineItemModifierRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: string, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemModifierRequestInput')); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. minLength: 1.
      * @return string
@@ -41,4 +42,10 @@ final class OrderLineItemModifierRequestInput extends Model {
      */
     public function getText(): mixed { return $this->get('text'); }
     public function hasText(): bool { return $this->has('text'); }
+    /** Shape $ (Value): string. Selects the type branch. Value enum: "catalog", "text".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
 }

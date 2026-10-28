@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'delivery_location_set_id': string, 'location_id'?: string, 'location_ids'?: list<string>, 'type': string}|object|array{'delivery_location_set_id'?: string, 'location_id'?: string, 'location_ids': list<string>, 'type': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput')); }
     /** Shape $ (Value): string. Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1.
      * @return string

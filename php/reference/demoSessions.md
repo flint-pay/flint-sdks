@@ -52,7 +52,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 
@@ -71,25 +71,28 @@ $result = $client->demoSessions->create([
 
 ### demoSessions.reset
 
-Ends the active or provisioning demo session identified by demo_session_id for this client and provisions a fresh one. A client that lost its create response gets the current demo_session_id from the error on ACTIVE_DEMO_SESSION_EXISTS or DEMO_SESSION_SECRET_REPLAY_EXPIRED. A retry with the same Idempotency-Key and body replays the replacement before checking the current session, including its secret during the secret delivery window. After that window, the retry returns DEMO_SESSION_SECRET_REPLAY_EXPIRED. The daily cap applies only to fresh executions. Omit template to use quickstart; an explicit empty or unsupported value is invalid.
+Ends the active or provisioning demo session identified by demo_session_id for this client and provisions a fresh one. A client that lost its create response gets the current session ID from current_resource.resource_id on ALREADY_EXISTS. A retry with the same Idempotency-Key and body replays the replacement before checking the current session, including its secret during the secret delivery window. After that window, the retry returns ALREADY_EXISTS with the current session reference. The daily cap applies only to fresh executions. Omit template to use quickstart; an explicit empty or unsupported value is invalid.
 
-`POST /v1/demo-sessions/reset`
+`POST /v1/demo-sessions/{demo_session_id}/reset`
 
-Signature: `reset(array|Model $params, ?RequestOptions $options = null)`
+Signature: `reset(string|Model $demo_session_id, array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `demo_session_id` | Required | string |  |
 | `Flint-Challenge-Token` | Required | string |  |
 | `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [ResetDemoSessionRequestInput](../models/ResetDemoSessionRequestInput.md#resetdemosessionrequestinput) | The request body for: Reset demo session. |
+| `body` | Required | [ResetDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput) | The request body for: Reset demo session. |
 
-Body model: [ResetDemoSessionRequestInput](../models/ResetDemoSessionRequestInput.md#resetdemosessionrequestinput).
+Body model: [ResetDemoSessionRequestInput](../models/CreateDemoSessionRequestInput.md#createdemosessionrequestinput).
 
 #### demoSessions.reset body fields
 
-Field definitions: [shared fields](../models/ResetDemoSessionRequestInput.md#resetdemosessionrequestinput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `template` | Optional | string | Omit to use quickstart. An explicit empty or unsupported template is invalid. Default: `"quickstart"`. Values: `"quickstart"`. |
 
 #### Response
 
@@ -101,6 +104,7 @@ Returned payload: [DemoSession](../models/DemoSession.md#demosession).
 | --- | --- | --- |
 | 400 | ValidationError | validation |
 | 401 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
 | 409 | ConflictError | conflict |
 | 410 | ApiError | api |
 | 413 | ApiError | api |
@@ -117,7 +121,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `resetWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authentication).
 
@@ -127,8 +131,7 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->demoSessions->reset([
-  'demo_session_id' => 'example',
+$result = $client->demoSessions->reset('example', [
   'Flint-Challenge-Token' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```

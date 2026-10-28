@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCreditNoteResponseInput extends Model {
-    /** @param array{'data': BuyerCreditNoteInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': BuyerCreditNoteInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCreditNoteResponseInput')); }
     /** Shape $ (Value): {@see BuyerCreditNoteInput}. The buyer-visible view of a credit note. Drafts are never returned, and how much credit is left to allocate is omitted.
      * @return BuyerCreditNoteInput|array<array-key, mixed>|\stdClass

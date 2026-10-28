@@ -21,7 +21,7 @@ namespace Flint;
 final class PickupFulfillmentDetails extends Model {
     /** @param array{'address'?: mixed, 'curbside_instructions'?: string, 'customer_arrived_at'?: string, 'expires_at'?: string, 'instructions'?: string, 'location_name'?: string, 'picked_up_at'?: string, 'pickup_mode'?: string, 'pickup_window_duration_seconds'?: string, 'prep_time_duration_seconds'?: string, 'ready_at'?: string, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string, 'window_start_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PickupFulfillmentDetails')); }
-    /** Shape $ (Value): {@see Address}. Address where the buyer collects the order. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
+    /** Shape $ (Value): {@see Address}. Address where the buyer collects the order. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
      */
     public function getAddress(): ?Address { return $this->get('address'); }

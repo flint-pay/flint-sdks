@@ -8,4 +8,4 @@ const client = new Client({
 const result = await client.organizations.listMemberships(
   "example"
 );
-console.log(result);
+console.log(result.request_id);

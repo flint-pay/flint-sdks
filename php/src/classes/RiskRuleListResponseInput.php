@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class RiskRuleListResponseInput extends Model {
-    /** @param array{'data': list<RiskRuleInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<RiskRuleInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RiskRuleListResponseInput')); }
     /** Shape $ (Value): Array of {@see RiskRuleInput}. Shape $[] (Value): {@see RiskRuleInput}. A rule for assessing and handling payment risk.
      * @return list<RiskRuleInput|array<array-key, mixed>|\stdClass>

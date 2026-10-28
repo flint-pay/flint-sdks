@@ -60,7 +60,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -135,7 +135,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `confirmWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -149,6 +149,79 @@ const result = await client.returnResolutions.confirm("example", {}, { idempoten
 ```
 
 [Complete runnable example](../examples/returnResolutions-confirm.mjs)
+
+### returnResolutions.createCheckoutSession
+
+Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement order linked to this return resolution. Returns 200 when reusing an existing session and 201 when creating one. Omit surface to use hosted. The same surface reuses the open session; changing surface replaces an idle session and is refused while a payment is in progress. Use redirects to set where the buyer goes after paying or canceling. The return_url field is an alias for redirects.success_url on hosted checkout or payment_return_url on embedded checkout and must be an address of the merchant's customer account. A reused session takes a new success destination only until a payment starts, then keeps its existing destination.
+
+`POST /v1/return-resolutions/{return_resolution_id}/checkout-sessions`
+
+Signature:
+
+```typescript
+createCheckoutSession(return_resolution_id: InputValue<string>,
+ params?: (InputValue<GetOrCreateReturnResolutionCheckoutSessionRequestInput> |
+  {
+  "page_origin"?: never;
+  "payment_return_url"?: never;
+  "redirects"?: never;
+  "return_url"?: never;
+  "surface"?: never
+}) & {
+  "Idempotency-Key"?: InputValue<string>
+},
+ options?: RequestOptions<"merchant">)
+```
+
+#### Request fields
+
+Field definitions: [shared fields](me.md#request-fields-10). Models: [GetOrCreateReturnResolutionCheckoutSessionRequestInput](../models/GetOrCreateReturnResolutionCheckoutSessionRequest.md#getorcreatereturnresolutioncheckoutsessionrequest).
+
+#### Response
+
+Returned payload: [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecret.md#checkoutsessionwithsecret) | [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecret.md#checkoutsessionwithsecret).
+
+#### Errors
+
+| Status | Error class | Kind |
+| --- | --- | --- |
+| 400 | ValidationError | validation |
+| 401 | AuthenticationError | authentication |
+| 403 | AuthenticationError | authentication |
+| 404 | NotFoundError | not_found |
+| 409 | ConflictError | conflict |
+| 410 | ApiError | api |
+| 413 | ApiError | api |
+| 415 | ApiError | api |
+| 429 | RateLimitError | rate_limit |
+| 500 | ServerError | server |
+| 503 | ServerError | server |
+| 504 | ServerError | server |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: `createCheckoutSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Deprecated aliases: getOrCreateCheckoutSession.
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.returnResolutions.createCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/returnResolutions-createCheckoutSession.mjs)
 
 ### returnResolutions.get
 
@@ -208,80 +281,9 @@ const result = await client.returnResolutions.get("example", {}, {  });
 
 [Complete runnable example](../examples/returnResolutions-get.mjs)
 
-### returnResolutions.getOrCreateCheckoutSession
-
-Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement order linked to this return resolution. Returns 200 when reusing an existing session and 201 when creating one. Omit surface to use hosted. The same surface reuses the open session; changing surface replaces an idle session and is refused while a payment is in progress. Use redirects to set where the buyer goes after paying or canceling. The return_url field is an alias for redirects.success_url on hosted checkout or payment_return_url on embedded checkout and must be an address of the merchant's customer account. A reused session takes a new success destination only until a payment starts, then keeps its existing destination.
-
-`POST /v1/return-resolutions/{return_resolution_id}/checkout-session`
-
-Signature:
-
-```typescript
-getOrCreateCheckoutSession(return_resolution_id: InputValue<string>,
- params?: (InputValue<GetOrCreateReturnResolutionCheckoutSessionRequestInput> |
-  {
-  "page_origin"?: never;
-  "payment_return_url"?: never;
-  "redirects"?: never;
-  "return_url"?: never;
-  "surface"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-Field definitions: [shared fields](me.md#request-fields-14). Models: [GetOrCreateReturnResolutionCheckoutSessionRequestInput](../models/GetOrCreateReturnResolutionCheckoutSessionRequest.md#getorcreatereturnresolutioncheckoutsessionrequest).
-
-#### Response
-
-Returned payload: [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecret.md#checkoutsessionwithsecret) | [CheckoutSessionWithSecret](../models/CheckoutSessionWithSecret.md#checkoutsessionwithsecret).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-| 504 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `getOrCreateCheckoutSessionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.returnResolutions.getOrCreateCheckoutSession("example", undefined, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/returnResolutions-getOrCreateCheckoutSession.mjs)
-
 ### returnResolutions.list
 
-List resolutions. Filter by corrects_return_resolution_id to retrieve the correction history for a resolution that already settled. Newest first: created_at descending, with return_resolution_id descending as the tiebreak.
+List resolutions. Filter by corrects_return_resolution_id to retrieve the correction history for a resolution that already settled. Newest first: created_at descending, with return_resolution_id descending as the tiebreak. Default order: created_at descending, then return_resolution_id descending.
 
 `GET /v1/return-resolutions`
 
@@ -435,7 +437,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `releaseWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -508,7 +510,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `retryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -558,7 +560,7 @@ Body model: [UpdateReturnResolutionRequestInput](../models/UpdateReturnResolutio
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `gift_card_refund_destination` | Optional | string | Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: `"original"`. Values: `"original"`, `"new_gift_card"`. |
 | `line_items` | Optional | Array of [UpdateReturnResolutionLineItemRequestInput](../models/UpdateReturnResolutionLineItemRequest.md#updatereturnresolutionlineitemrequest) | Requires expected_version. |
-| `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
 | `pricing_basis` | Optional | string | Values: `"original_price"`, `"current_price"`, `"merchant_agreed_price"`. |
 | `replacement_line_items` | Optional | Array of [UpdateReturnReplacementLineItemRequestInput](../models/UpdateReturnReplacementLineItemRequest.md#updatereturnreplacementlineitemrequest) | Requires expected_version. |
 
@@ -590,7 +592,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

@@ -21,12 +21,13 @@
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string |  |
 | `partner_app_id` | Conditional | string |  |
-| `source` | Conditional | Alternative shapes (see declared variants) and object | `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
+| `source` | Conditional | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) and object | The source of a partner webhook event, selected by type. `source`: [declared alternatives](../models/IncomingWebhook019a504a3353Payload.md#incomingwebhook019a504a3353payload-variant-2source). |
 
 ### IncomingWebhook641fbc1fc294Payload variant 1: `event_type` = `"fulfillment.completed"`
 
 oneOf variant 1: The `fulfillment.completed` webhook payload for the `merchant` event source..
 
+- Condition: not (present(`partner_app_id`)).
 - Required: `merchant_id`, `mode`, `request`.
 - Undeclared: `partner_app_id`, `source`.
 - Constraints for `event_type`: Values: `"fulfillment.completed"`.
@@ -35,6 +36,7 @@ oneOf variant 1: The `fulfillment.completed` webhook payload for the `merchant` 
 
 oneOf variant 2: The `fulfillment.completed` webhook payload for the `installed_merchants` event source..
 
+- Condition: not (present(`merchant_id`)).
 - Required: `partner_app_id`, `source`.
 - Undeclared: `merchant_id`, `mode`, `request`.
 - Constraints for `event_type`: Values: `"fulfillment.completed"`.
@@ -56,6 +58,10 @@ Work required to deliver an order's items.
 | `completed_at` | Optional | string | Completion evidence timestamp. Format: `date-time`. |
 | `created_at` | Optional | string | When the fulfillment was created, in RFC3339 format. Format: `date-time`. |
 | `customer_id` | Optional | string | Customer receiving this fulfillment, when one is set. |
+| `delivery_choice_group_id` | Required | string or null | Delivery choice group that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. |
+| `delivery_execution_leg_id` | Required | string or null | Execution leg of the selected delivery option that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. |
+| `delivery_method_id` | Required | string or null | Delivery method chosen for this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. Also null for fulfillments created before this field was added. |
+| `delivery_selection_id` | Required | string or null | Delivery selection that created this fulfillment. Null for fulfillments created by the merchant or through checkout without a delivery quote. |
 | `device_id` | Optional | string | Device associated with the fulfillment, when one is recorded. |
 | `digital_details` | Optional | [DigitalFulfillmentDetails](../models/DigitalFulfillmentDetails.md#digitalfulfillmentdetails) | Delivery URL and completion time for a digital fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`. |
 | `dispatched_at` | Optional | string | First time this fulfillment reached dispatched. Format: `date-time`. |
@@ -64,7 +70,7 @@ Work required to deliver an order's items.
 | `line_items` | Required | Array of [FulfillmentLineItem](../models/FulfillmentLineItem.md#fulfillmentlineitem) | Order lines and quantities allocated to this fulfillment. |
 | `local_delivery_details` | Optional | [DeliveryFulfillmentDetails](../models/DeliveryFulfillmentDetails.md#deliveryfulfillmentdetails) | Courier, delivery window, and handoff details for a local delivery fulfillment. Details of a local delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are omitted for credentials that don't act for the verified customer. |
 | `location_id` | Optional | string | Merchant location responsible for this fulfillment. |
-| `metadata` | Optional | Map of string | Caller-owned key-value metadata associated with the fulfillment. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/Fulfillment.md#fulfillmentmetadata). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null | Order summary returned when the order relationship is expanded. |
 | `order_id` | Required | string | Order whose items this fulfillment delivers. |
 | `order_number` | Optional | string | Human-readable number of the order this fulfillment belongs to. Omitted when the order has no number. |
@@ -118,6 +124,10 @@ Work required to deliver an order's items.
 - `"dispatch"`
 - `"mark_no_show"`
 - `"release_hold"`
+
+### IncomingWebhook641fbc1fc294Payload.data.object.metadata
+
+Field definitions: [Fulfillment.metadata](../models/Fulfillment.md#fulfillmentmetadata).
 
 ### IncomingWebhook641fbc1fc294Payload.data.object.packages[]
 

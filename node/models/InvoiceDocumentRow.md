@@ -43,7 +43,7 @@ One row of an invoice document, such as a subtotal, discount, tax, late fee, pay
 
 The row's signed amount. Informational rows do not contribute to the sum. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](SignedMoneyInput.md#signedmoneyinput).
+Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
 
 ### InvoiceDocumentRow.taxable_money
 

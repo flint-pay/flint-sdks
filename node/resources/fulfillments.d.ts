@@ -1,26 +1,25 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateFulfillmentEventRequestInput } from '../declarations/types-6.js';
-import type { CreateShipmentRequestInput } from '../declarations/types-9.js';
+import type { CreateShipmentRequestInput } from '../declarations/types-10.js';
 import type {
     Fulfillment,
     FulfillmentEvent,
     FulfillmentEventResourceResponse,
     FulfillmentListResponse,
-    FulfillmentResponse
-} from '../declarations/types-17.js';
-import type {
+    FulfillmentResponse,
     FulfillmentsCreateEventInput,
     FulfillmentsCreateShipmentInput,
     FulfillmentsGetInput,
     FulfillmentsListInput,
-    FulfillmentsTransitionInput,
-    FulfillmentsUpdateInput
-} from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse, Shipment, ShipmentResponse } from '../declarations/types-44.js';
-import type { UpdateFulfillmentRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    FulfillmentsTransitionInput
+} from '../declarations/types-19.js';
+import type { FulfillmentsUpdateInput } from '../declarations/types-20.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { Shipment, ShipmentResponse } from '../declarations/types-47.js';
+import type { UpdateFulfillmentRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,76 +35,88 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateFulfillmentEventRequestInput } from '../declarations/types-6.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     FulfillmentEvent,
     FulfillmentEventResourceResponse,
     Fulfillment,
     FulfillmentResponse,
     FulfillmentListResponse,
-    FulfillmentHold,
-    FulfillmentChargeLink,
-    FulfillmentLineItem,
-    FulfillmentOutcome,
-    FulfillmentRecipient,
-    ExpandedShipmentSummary,
-    FulfillmentTransitionRequestCompleteInput,
-    FulfillmentTransitionRequestCancelInput,
-    FulfillmentTransitionRequestHoldInput,
-    FulfillmentTransitionRequestFailInput,
-    FulfillmentTransitionRequestAcceptInput,
-    FulfillmentTransitionRequestDispatchInput,
-    FulfillmentRecipientRequestInput
-} from '../declarations/types-17.js';
-export type {
-    SdkResponse,
-    Shipment,
-    ShipmentResponse,
-    SettlementAmounts,
-    ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails
-} from '../declarations/types-44.js';
-export type { CreateShipmentRequestInput, Credentials } from '../declarations/types-9.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type {
     FulfillmentsTransitionInput,
     FulfillmentsCreateEventInput,
     FulfillmentsCreateShipmentInput,
     FulfillmentsGetInput,
     FulfillmentsListInput,
-    FulfillmentsUpdateInput,
+    FulfillmentHold,
+    FulfillmentChargeLink,
+    FulfillmentLineItem,
+    FulfillmentOutcome,
+    FulfillmentRecipient,
     FulfillmentTransitionRequestInput,
     FulfillmentTransitionRequestReleaseHoldInput,
+    FulfillmentTransitionRequestCompleteInput,
+    FulfillmentTransitionRequestCancelInput,
+    FulfillmentTransitionRequestHoldInput,
     FulfillmentTransitionRequestStartInput,
     FulfillmentTransitionRequestMarkReadyInput,
+    FulfillmentTransitionRequestFailInput,
     FulfillmentTransitionRequestScheduleInput,
+    FulfillmentTransitionRequestAcceptInput,
     FulfillmentTransitionRequestMarkPreparingInput,
     FulfillmentTransitionRequestMarkPickedInput,
     FulfillmentTransitionRequestMarkPackedInput,
-    FulfillmentTransitionRequestMarkNoShowInput
-} from '../declarations/types-18.js';
-export type { UpdateFulfillmentRequestInput, UpdateDigitalFulfillmentDetailsInput } from '../declarations/types-48.js';
-export type { ClientOptions } from '../declarations/types-4.js';
+    FulfillmentTransitionRequestDispatchInput,
+    FulfillmentTransitionRequestMarkNoShowInput,
+    FulfillmentRecipientRequestInput
+} from '../declarations/types-19.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { CreateShipmentRequestInput, CreateShipmentRequestOutboundInput, CreateShipmentRequestReturnInput } from '../declarations/types-10.js';
+export type {
+    Shipment,
+    ShipmentResponse,
+    SettlementAmounts,
+    ServiceFulfillmentDetails,
+    ShipmentFulfillmentDetails
+} from '../declarations/types-47.js';
+export type { _SdkWithoutIdempotency, WeightInput } from '../declarations/types-65.js';
+export type {
+    UpdateFulfillmentRequestInput,
+    UpdateDigitalFulfillmentDetailsInput,
+    UpdateDeliveryFulfillmentDetailsInput
+} from '../declarations/types-51.js';
+export type { FulfillmentsUpdateInput } from '../declarations/types-20.js';
+export type { ClientOptions, CheckoutBuyerContact } from '../declarations/types-4.js';
 export type { AuthMode, Address, AddressRequestInput, AddressRequest } from '../declarations/types-0.js';
-export type { ExpandedOrderSummary, DigitalFulfillmentDetails, ExpandedPackageSummary } from '../declarations/types-16.js';
-export type { CheckoutBuyerContact } from '../declarations/types-3.js';
-export type { PricingAmounts, PickupFulfillmentDetails } from '../declarations/types-37.js';
-export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export type { ReturnShipmentLineItemAllocationInput, ReturnResolutionLineItemRequest } from '../declarations/types-42.js';
-export type { OrderLineItemModifier } from '../declarations/types-32.js';
-export type { TextModifierRequest, UpdateDeliveryFulfillmentDetailsInput } from '../declarations/types-47.js';
-export type { DeliveryFulfillmentDetails } from '../declarations/types-12.js';
-export type { UpdatePickupFulfillmentDetailsInput, UpdateServiceFulfillmentDetailsInput } from '../declarations/types-49.js';
-export { makeAddressRequest } from '../declarations/types-62.js';
-export { makeCreateFulfillmentEventRequest } from '../declarations/types-63.js';
-export { makeCreateShipmentRequest } from '../declarations/types-65.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ExpandedOrderSummary, ExpandedPackageSummary, ExpandedShipmentSummary } from '../declarations/types-18.js';
+export type { PricingAmounts, PickupFulfillmentDetails } from '../declarations/types-39.js';
+export type { MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-32.js';
+export type { PackageCreateRequestInput, PackageCreateInputCreatedInput, PackageCreateInputShippedInput } from '../declarations/types-36.js';
+export type { DimensionsInput, DigitalFulfillmentDetails } from '../declarations/types-17.js';
+export type { CreatePackageItemRequestInput } from '../declarations/types-8.js';
+export type { ReturnShipmentLineItemAllocationRequestRequestInput, ReturnResolutionLineItemRequest } from '../declarations/types-44.js';
+export type { OrderLineItemModifier } from '../declarations/types-34.js';
+export type { TextModifierRequest } from '../declarations/types-50.js';
+export type { DeliveryFulfillmentDetails } from '../declarations/types-13.js';
+export type { UpdatePickupFulfillmentDetailsInput, UpdateServiceFulfillmentDetailsInput } from '../declarations/types-52.js';
+export { makeAddressRequest } from '../declarations/types-65.js';
+export { makeCreateFulfillmentEventRequest } from '../declarations/types-67.js';
 export {
+    makeCreatePackageItemRequest,
+    makeCreateShipmentRequest,
+    makeCreateShipmentRequestOutbound,
+    makeCreateShipmentRequestReturn
+} from '../declarations/types-68.js';
+export {
+    makeDimensions,
     makeFulfillmentRecipientRequest,
     makeFulfillmentTransitionRequest,
-    makeFulfillmentTransitionRequestAccept
-} from '../declarations/types-66.js';
+    makeFulfillmentTransitionRequestAccept,
+    makeFulfillmentTransitionRequestCancel
+} from '../declarations/types-70.js';
 export {
-    makeFulfillmentTransitionRequestCancel,
     makeFulfillmentTransitionRequestComplete,
     makeFulfillmentTransitionRequestDispatch,
     makeFulfillmentTransitionRequestFail,
@@ -118,16 +129,23 @@ export {
     makeFulfillmentTransitionRequestReleaseHold,
     makeFulfillmentTransitionRequestSchedule,
     makeFulfillmentTransitionRequestStart
-} from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeReturnResolutionLineItemRequest, makeReturnShipmentLineItemAllocation } from '../declarations/types-71.js';
+} from '../declarations/types-71.js';
+export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-72.js';
+export {
+    makeMoneyValue,
+    makePackageCreateInputCreated,
+    makePackageCreateInputShipped,
+    makePackageCreateRequest
+} from '../declarations/types-73.js';
+export { makeReturnResolutionLineItemRequest, makeReturnShipmentLineItemAllocationRequestRequest } from '../declarations/types-75.js';
 export {
     makeTextModifierRequest,
     makeUpdateDeliveryFulfillmentDetails,
     makeUpdateDigitalFulfillmentDetails,
-    makeUpdateFulfillmentRequest
-} from '../declarations/types-72.js';
-export { makeUpdatePickupFulfillmentDetails, makeUpdateServiceFulfillmentDetails } from '../declarations/types-73.js';
+    makeUpdateFulfillmentRequest,
+    makeUpdatePickupFulfillmentDetails
+} from '../declarations/types-77.js';
+export { makeUpdateServiceFulfillmentDetails, makeWeight } from '../declarations/types-78.js';
 export interface FulfillmentsResource {
     /**
  * Records an observational event for a fulfillment or one of its shipments or packages. Read
@@ -154,15 +172,16 @@ export interface FulfillmentsResource {
         "Idempotency-Key"?: InputValue<string>;
     }, options?: RequestOptions<"merchant">): Promise<SdkResponse<FulfillmentEventResourceResponse>>;
     /**
- * Creates a shipment execution record under a shipment-type fulfillment. A shipment groups one
- * carrier leg. Create one package under it for each physical parcel, including single-parcel
- * shipments.
+ * Creates a shipment under a shipment fulfillment. For outbound shipments, include 1 to 20
+ * packages to create the parcels atomically and return their IDs. Set each package's status to
+ * shipped to report handoff in the same call. Return shipments cannot include packages.
  * @see reference/fulfillments.md#fulfillmentscreateshipment
  * POST /v1/fulfillments/{fulfillment_id}/shipments
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.fulfillments.createShipment("example", {}, { idempotencyKey: idempotencyKey })
+ * client.fulfillments.createShipment("example", {direction: "outbound"}, { idempotencyKey:
+ * idempotencyKey })
  */
     createShipment(fulfillment_id: InputValue<string>, params: (InputValue<CreateShipmentRequestInput>) & {
         "Idempotency-Key"?: InputValue<string>;
@@ -193,7 +212,8 @@ export interface FulfillmentsResource {
  * Returns a paginated list of fulfillments. Results default to created_at descending, with
  * fulfillment_id descending as the tiebreaker. scheduled_start_at uses the service scheduled start
  * or the start of the pickup, local delivery, or shipment window. For scheduled_start_at and
- * terminal_at, null values sort first ascending and last descending.
+ * terminal_at, null values sort first ascending and last descending. Default order: created_at
+ * descending, then fulfillment_id descending.
  * @see reference/fulfillments.md#fulfillmentslist
  * GET /v1/fulfillments
  * @example

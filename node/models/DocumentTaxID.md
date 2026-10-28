@@ -2,7 +2,7 @@
 
 ## DocumentTaxID
 
-A tax identifier printed on documents, with its country, optional region, identifier type, and value. Flint does not verify the value.
+
 
 
 
@@ -15,4 +15,16 @@ A tax identifier printed on documents, with its country, optional region, identi
 | `identifier_type` | Required | string | Provider-independent identifier type, for example vat, gst, or ein. This is an open vocabulary. minLength: `1`. maxLength: `64`. pattern: `^[a-z][a-z0-9_]*$`. |
 | `region` | Optional | string | minLength: `1`. maxLength: `64`. |
 | `value` | Required | string | Full identifier printed on documents. Not verified by Flint. minLength: `1`. maxLength: `255`. |
+
+### DocumentTaxID variant 1
+
+anyOf variant 1: Declared schema DocumentTaxID. A tax identifier printed on documents, with its country, optional region, identifier type, and value. Flint does not verify the value..
+
+No additional constraints.
+
+### DocumentTaxID variant 2
+
+anyOf variant 2: Declared schema DocumentTaxIDRequestRequest. A tax identifier printed on documents, with its country, optional region, identifier type, and value. Flint does not verify the value..
+
+No additional constraints.
 

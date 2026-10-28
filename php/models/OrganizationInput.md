@@ -9,7 +9,7 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `name` | Required | string |  |
 | `organization_id` | Required | string |  |
 | `parent_organization` | Optional | [ExpandedOrganizationSummaryInput](../models/ExpandedOrganizationSummaryInput.md#expandedorganizationsummaryinput) or null |  |

@@ -12,7 +12,7 @@ Changes to a merchant's invoice settings. Send only the fields to change, and se
 | --- | --- | --- | --- |
 | `autopay_retry_policy` | Optional | [InvoiceAutopayRetryPolicy](../models/InvoiceAutopayRetryPolicy.md#invoiceautopayretrypolicy) or null | Replaced as a whole: send every field you want to keep. |
 | `credit_note_number_prefix` | Optional | string or null | Up to 12 ASCII letters, digits, underscores, or hyphens. Counted before normalization. Send null to clear it. minLength: `1`. maxLength: `12`. pattern: `^[A-Za-z0-9_-]*$`. |
-| `default_collection_mode` | Optional | string or null | Send null to clear it. Values: `"buyer_initiated"`, `"automatic"`, `"external"`, `null`. |
+| `default_collection_mode` | Optional | string or null | Values: `"buyer_initiated"`, `"automatic"`, `"external"`, `null`. |
 | `default_footer` | Optional | string or null | Limited to 4096 characters (Unicode code points), counted before normalization. Send null to clear it. minLength: `1`. maxLength: `4096`. |
 | `default_invoice_payment_term_id` | Optional | string or null | Send null to clear it. minLength: `1`. pattern: `^ipt_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `default_memo` | Optional | string or null | Limited to 4096 characters (Unicode code points), counted before normalization. Send null to clear it. minLength: `1`. maxLength: `4096`. |

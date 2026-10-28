@@ -59,7 +59,7 @@ Methods return the decoded body, except result-mode operations, which return `re
 
 ### paymentIntents.get
 
-Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm with an empty body to retrieve current_payment_action.
+Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm with credential_type attached to retrieve current_payment_action.
 
 ```typescript
 const paymentIntentsGetResult = await client.paymentIntents.get(
@@ -131,4 +131,4 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `node examples/RESOURCE-METHOD.mjs`; examples are checked with TypeScript checkJs.
 
-Package 6.0.0, generated for API 2026-09-07.
+Package 7.0.0, generated for API 2026-09-07.

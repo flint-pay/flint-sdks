@@ -19,6 +19,10 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $input = [
   'payment_intent_id' => 'example',
+  'body' => (object) [
+    'credential_type' => 'token',
+    'payment_source_token' => 'example',
+  ],
 ];
 $result = $client->paymentIntents->confirm($input, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;

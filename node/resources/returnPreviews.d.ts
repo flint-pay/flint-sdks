@@ -1,10 +1,10 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateReturnPreviewData, CreateReturnPreviewRequestInput, CreateReturnPreviewResponse } from '../declarations/types-8.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { ReturnPreviewsCreateInput } from '../declarations/types-41.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+import type { CreateReturnPreviewData, CreateReturnPreviewRequestInput, CreateReturnPreviewResponse } from '../declarations/types-9.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { ReturnPreviewsCreateInput } from '../declarations/types-44.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -25,71 +25,72 @@ export type {
     CreateReturnPreviewResponse,
     CreateReturnEligibilityPreviewRequestInput,
     CreateReturnResolutionPreviewRequestInput,
-    CreateReturnResolutionPreviewRequestStandardInput,
     CreateReturnResolutionPreviewRequestCorrectionInput,
     CreateReturnPreviewRequestEligibilityInput,
     CreateReturnPreviewRequestResolutionInput,
     CreateReturnPreviewDataEligibility,
     CreateReturnPreviewDataResolution
-} from '../declarations/types-8.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type {
-    RequestOptions,
-    ReturnEligibilitySelectionInput,
-    ReturnEligibilityLineItemRequestInput,
-    ReturnEligibilitySelectionAllRemainingFulfilledInput,
-    ReturnEligibilitySelectionLineItemsInput,
-    ReturnEligibilityPreview,
-    ReturnEligibilityPreviewLineItem,
-    ReturnEligibilitySelection,
-    ReturnEligibilityLineItemRequest,
-    ReturnEligibilitySelectionAllRemainingFulfilled,
-    ReturnEligibilitySelectionLineItems,
-    ReturnActor,
-    ResponseMeta,
-    ResponseWarning
-} from '../declarations/types-40.js';
-export type { SdkResponse, SelectedProductOption } from '../declarations/types-44.js';
+} from '../declarations/types-9.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
+export type { SdkResponse } from '../declarations/types-46.js';
 export type {
     ReturnPreviewsCreateInput,
-    ReturnLineItemEligibility,
-    ReturnLineItemDecisionProposal,
-    ReturnPolicyAdjustmentProposal,
-    ReturnReasonSummary,
-    ReturnPolicyEvaluation,
-    ReturnPolicyEvaluationLineItem
-} from '../declarations/types-41.js';
-export type { ClientOptions } from '../declarations/types-4.js';
-export type {
     ReturnResolutionAdjustmentRequestInput,
     ReturnResolutionLineItemRequestInput,
     ReturnReplacementLineItemRequestInput,
     ReturnReplacementLineItemInputVariantInput,
     ReturnReplacementLineItemInputBundleInput,
     ReturnReplacementLineItemInputCustomInput,
+    ReturnReasonSummary,
     ReturnResolutionPreview,
     ReturnResolutionAdjustment,
     ReturnResolutionLineItem,
     ReturnReplacementLineItem
-} from '../declarations/types-42.js';
-export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-31.js';
-export type { AuthMode, BundleComponent, BundleComponentVariantSummary } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { Image } from '../declarations/types-19.js';
-export type { OrderLineItemModifier } from '../declarations/types-32.js';
-export type { TextModifierRequest } from '../declarations/types-47.js';
+} from '../declarations/types-44.js';
+export type { ClientOptions } from '../declarations/types-4.js';
+export type {
+    ReturnEligibilitySelectionInput,
+    ReturnEligibilityLineItemRequestInput,
+    ReturnEligibilitySelectionAllRemainingFulfilledInput,
+    ReturnEligibilitySelectionLineItemsInput,
+    ReturnEligibilityPreview,
+    ReturnEligibilityPreviewLineItem,
+    ReturnLineItemEligibility,
+    ReturnLineItemDecisionProposal,
+    ReturnPolicyAdjustmentProposal,
+    ReturnPolicyEvaluation,
+    ReturnPolicyEvaluationLineItem,
+    ReturnEligibilitySelection,
+    ReturnEligibilityLineItemRequest,
+    ReturnEligibilitySelectionAllRemainingFulfilled,
+    ReturnEligibilitySelectionLineItems,
+    ReturnActor,
+    ResponseWarning
+} from '../declarations/types-43.js';
+export type { MoneyValueInput, MoneyValue, NextAction, NextActionMerchantAccountSession } from '../declarations/types-33.js';
+export type { CreateReturnResolutionPreviewRequestStandardInput } from '../declarations/types-10.js';
+export type { AuthMode } from '../declarations/types-0.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { BundleComponent, BundleComponentVariantSummary } from '../declarations/types-1.js';
+export type { SelectedProductOption } from '../declarations/types-47.js';
+export type { Image } from '../declarations/types-21.js';
+export type { OrderLineItemModifier } from '../declarations/types-34.js';
+export type { MetadataMap } from '../declarations/types-32.js';
+export type { TextModifierRequest } from '../declarations/types-50.js';
 export {
     makeCreateReturnEligibilityPreviewRequest,
     makeCreateReturnPreviewRequest,
     makeCreateReturnPreviewRequestEligibility,
     makeCreateReturnPreviewRequestResolution,
     makeCreateReturnResolutionPreviewRequest,
-    makeCreateReturnResolutionPreviewRequestCorrection
-} from '../declarations/types-64.js';
-export { makeCreateReturnResolutionPreviewRequestStandard } from '../declarations/types-65.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
-export { makeReturnEligibilityLineItemRequest, makeReturnEligibilitySelection } from '../declarations/types-70.js';
+    makeCreateReturnResolutionPreviewRequestCorrection,
+    makeCreateReturnResolutionPreviewRequestStandard
+} from '../declarations/types-68.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export {
+    makeReturnEligibilityLineItemRequest,
+    makeReturnEligibilitySelection,
     makeReturnEligibilitySelectionAllRemainingFulfilled,
     makeReturnEligibilitySelectionLineItems,
     makeReturnReplacementLineItemInputBundle,
@@ -98,8 +99,8 @@ export {
     makeReturnReplacementLineItemRequest,
     makeReturnResolutionAdjustmentRequest,
     makeReturnResolutionLineItemRequest
-} from '../declarations/types-71.js';
-export { makeTextModifierRequest } from '../declarations/types-72.js';
+} from '../declarations/types-75.js';
+export { makeTextModifierRequest } from '../declarations/types-77.js';
 export interface ReturnPreviewsResource {
     /**
  * Preview return eligibility or resolution amounts without creating a Return or reserving

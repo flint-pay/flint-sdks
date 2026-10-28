@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $invoice_id
- * @property-read array{'amount_money': mixed, 'expected_version'?: string, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface, ...}|object $body
+ * @property-read array{'amount_money': mixed, 'expected_version'?: string, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesRecordManualPaymentInput extends Model {
-    /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'body': array{'amount_money': mixed, 'expected_version'?: string, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface, ...}|object}|object $values */
+    /** @param array{'invoice_id': string, 'Idempotency-Key'?: string, 'body': array{'amount_money': mixed, 'expected_version'?: string, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesRecordManualPaymentInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -21,7 +21,7 @@ final class InvoicesRecordManualPaymentInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): object. The request body for: Create invoice manual payment.
-     * @return array{'amount_money': mixed, 'expected_version'?: string, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface, ...}|object
+     * @return array{'amount_money': mixed, 'expected_version'?: string, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

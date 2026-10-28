@@ -3,11 +3,12 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $action
- * @property-read array{'all': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'not': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass}|object|array{'attribute': string, 'operator': string, 'value': string|int|bool}|object|array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'attribute': string, 'operator': string}|object|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|object|array{'attribute': string, 'list_alias': string, 'operator': string}|object|array{'attribute': string, 'operator': string}|object $predicate
+ * @property-read string $mode
+ * @property-read RiskPredicateNodeInput|array<array-key, mixed>|\stdClass $predicate
  * @property-read string $risk_rule_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateRiskPreviewRequestInput extends Model {
-    /** @param mixed $values */
+    /** @param array{'action': string, 'mode': string, 'predicate': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass, 'risk_rule_id'?: string}|object|array{'action'?: string, 'mode': string, 'predicate'?: RiskPredicateNodeInput|array<array-key, mixed>|\stdClass, 'risk_rule_id': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateRiskPreviewRequestInput')); }
     /** Shape $ (Value): string.  Value enum: "allow", "block", "review", "require_3ds".
      * @return string
@@ -15,8 +16,14 @@ final class CreateRiskPreviewRequestInput extends Model {
      */
     public function getAction(): string { return $this->get('action'); }
     public function hasAction(): bool { return $this->has('action'); }
+    /** Shape $ (Value): string. Selects an inline draft or a stored risk rule. Value enum: "inline", "stored_rule".
+     * @return string
+     * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
+     */
+    public function getMode(): string { return $this->get('mode'); }
+    public function hasMode(): bool { return $this->has('mode'); }
     /** Shape $ (Value): {@see RiskPredicateNodeInput}. A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     * @return array{'all': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'any': list<RiskPredicateNodeInput|array<array-key, mixed>|\stdClass>}|object|array{'not': RiskPredicateNodeInput|array<array-key, mixed>|\stdClass}|object|array{'attribute': string, 'operator': string, 'value': string|int|bool}|object|array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'attribute': string, 'operator': string}|object|array{'attribute': string, 'operator': string, 'values': list<string|int|bool>}|object|array{'attribute': string, 'list_alias': string, 'operator': string}|object|array{'attribute': string, 'operator': string}|object
+     * @return RiskPredicateNodeInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When predicate is omitted; use hasPredicate() or valueOrDefault().
      */
     public function getPredicate(): mixed { return $this->get('predicate'); }

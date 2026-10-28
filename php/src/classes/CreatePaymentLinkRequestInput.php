@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass $buyer_fields
+ * @property-read CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass $buyer_fields
  * @property-read string $checkout_session_expires_in_seconds
  * @property-read list<PaymentLinkCustomFieldRequestInput|array<array-key, mixed>|\stdClass> $custom_fields
  * @property-read PaymentLinkCustomTextConfigInput|array<array-key, mixed>|\stdClass $custom_text
@@ -23,19 +23,19 @@ namespace Flint;
  * @property-read string $name
  * @property-read string $payment_link_type
  * @property-read PaymentLinkPaymentConfigInput|array<array-key, mixed>|\stdClass $payments
- * @property-read CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass $promotion_config
+ * @property-read CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass $promotion_config
  * @property-read CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass $redirects
  * @property-read string|\DateTimeInterface $sales_end_at
  * @property-read string $subscription_plan_id
- * @property-read CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass $tax
+ * @property-read CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass $tax
  * @property-read PaymentLinkThemeConfigInput|array<array-key, mixed>|\stdClass $theme
- * @property-read CheckoutTipConfigInput|array<array-key, mixed>|\stdClass $tip
+ * @property-read CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass $tip
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePaymentLinkRequestInput extends Model {
-    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass, 'checkout_session_expires_in_seconds'?: string, 'custom_fields'?: list<PaymentLinkCustomFieldRequestInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: PaymentLinkCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'description'?: string, 'donation_max_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_min_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'image'?: ImageRequestInput|array<array-key, mixed>|\stdClass, 'inactive_message'?: string, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'legal'?: PaymentLinkLegalConfigInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'payment_link_type'?: string, 'payments'?: PaymentLinkPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface, 'subscription_plan_id'?: string, 'tax'?: CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass, 'theme'?: PaymentLinkThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'buyer_fields'?: CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_expires_in_seconds'?: string, 'custom_fields'?: list<PaymentLinkCustomFieldRequestInput|array<array-key, mixed>|\stdClass>, 'custom_text'?: PaymentLinkCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids'?: list<string>, 'description'?: string, 'donation_max_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_min_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'donation_suggested_amount_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'event_config'?: PaymentLinkEventConfigRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'image'?: ImageRequestInput|array<array-key, mixed>|\stdClass, 'inactive_message'?: string, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'legal'?: PaymentLinkLegalConfigInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<PaymentLinkLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'max_completions'?: int, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'payment_link_type'?: string, 'payments'?: PaymentLinkPaymentConfigInput|array<array-key, mixed>|\stdClass, 'promotion_config'?: CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'redirects'?: CheckoutRedirectsRequestInput|array<array-key, mixed>|\stdClass, 'sales_end_at'?: string|\DateTimeInterface, 'subscription_plan_id'?: string, 'tax'?: CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass, 'theme'?: PaymentLinkThemeConfigInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePaymentLinkRequestInput')); }
-    /** Shape $ (Value): {@see CheckoutBuyerFieldsInput}. What checkout asks the buyer for. Each field you leave out uses your checkout settings.
-     * @return CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutBuyerFieldsRequestRequestInput}. What checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * @return CheckoutBuyerFieldsRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_fields is omitted; use hasBuyerFields() or valueOrDefault().
      */
     public function getBuyerFields(): mixed { return $this->get('buyer_fields'); }
@@ -136,7 +136,7 @@ final class CreatePaymentLinkRequestInput extends Model {
      */
     public function getMaxCompletions(): int { return $this->get('max_completions'); }
     public function hasMaxCompletions(): bool { return $this->has('max_completions'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. maxProperties: 44. Shape $.* (Value): string. minLength: 1.
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Metadata pairs plus custom fields must not exceed 44; 6 of the order's 50 pairs are reserved for Flint. Metadata keys and values, custom_field_ keys and largest possible answers, and Flint metadata must fit within 32768 UTF-8 bytes. Text and textarea answers are budgeted at four bytes per Unicode code point, including optional fields. Each checkbox answer is budgeted at five bytes (the length of false). If the combined budget is exceeded, lower max_length on some fields, use fewer custom fields, or reduce metadata. These limits apply to standard and plan links and are checked against the merged configuration on update. maxProperties: 44. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. Shape $.* (Value): string. minLength: 1. maxLength: 4096.
      * @return array<array-key, string>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
@@ -160,8 +160,8 @@ final class CreatePaymentLinkRequestInput extends Model {
      */
     public function getPayments(): mixed { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
-    /** Shape $ (Value): {@see CheckoutPromotionConfigInput}. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
-     * @return CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutPromotionConfigRequestRequestInput}. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes.
+     * @return CheckoutPromotionConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When promotion_config is omitted; use hasPromotionConfig() or valueOrDefault().
      */
     public function getPromotionConfig(): mixed { return $this->get('promotion_config'); }
@@ -184,8 +184,8 @@ final class CreatePaymentLinkRequestInput extends Model {
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Shape $ (Value): {@see CheckoutTaxConfigInput}. Whether tax is collected for a checkout session or payment link.
-     * @return CheckoutTaxConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutTaxConfigRequestRequestInput}. Whether tax is collected for a checkout session or payment link.
+     * @return CheckoutTaxConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }
@@ -196,8 +196,8 @@ final class CreatePaymentLinkRequestInput extends Model {
      */
     public function getTheme(): mixed { return $this->get('theme'); }
     public function hasTheme(): bool { return $this->has('theme'); }
-    /** Shape $ (Value): {@see CheckoutTipConfigInput}. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
-     * @return CheckoutTipConfigInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see CheckoutTipConfigRequestRequestInput}. Tip settings for a checkout: whether tips are enabled, the percent or fixed amount options, the default tip, and custom tips.
+     * @return CheckoutTipConfigRequestRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip is omitted; use hasTip() or valueOrDefault().
      */
     public function getTip(): mixed { return $this->get('tip'); }

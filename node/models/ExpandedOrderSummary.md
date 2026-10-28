@@ -16,6 +16,7 @@ An order's summary fields, including status, payment and refund status, and pric
 | `created_at` | Optional | string | When the order was created, in RFC3339 format. Format: `date-time`. |
 | `customer_id` | Optional | string | Customer associated with the order, when one is set. |
 | `fulfillment_status` | Optional | string | Aggregate progress across the order's fulfillment quantities. Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. |
+| `governing_delivery_selection_id` | Required | string or null | ID of the delivery selection that governs this order. Null when no selection governs the order. |
 | `order_id` | Required | string | Stable identifier of the expanded order. |
 | `order_number` | Optional | string | Human-readable order number for receipts and merchant reference. |
 | `payment_intent_ids` | Optional | Array of string | Payment intents associated with the order. |

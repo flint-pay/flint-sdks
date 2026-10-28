@@ -1,6 +1,6 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
-import type { CreateModifierGroupRequestInput } from '../declarations/types-7.js';
+import type { CreateModifierGroupRequestInput } from '../declarations/types-8.js';
 import type {
     ModifierGroup,
     ModifierGroupListResponse,
@@ -8,13 +8,13 @@ import type {
     ModifierGroupsCreateInput,
     ModifierGroupsGetInput,
     ModifierGroupsListInput,
-    ModifierGroupsRemoveInput,
-    ModifierGroupsUpdateInput
-} from '../declarations/types-31.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateModifierGroupRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+    ModifierGroupsRemoveInput
+} from '../declarations/types-32.js';
+import type { ModifierGroupsUpdateInput } from '../declarations/types-33.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateModifierGroupRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,8 +29,8 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { CreateModifierGroupRequestInput, CreateModifierRequestInput } from '../declarations/types-7.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { CreateModifierGroupRequestInput, CreateModifierRequestInput } from '../declarations/types-8.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     ModifierGroup,
     ModifierGroupResponse,
@@ -39,17 +39,23 @@ export type {
     ModifierGroupsRemoveInput,
     ModifierGroupsGetInput,
     ModifierGroupsListInput,
+    MetadataRequestInput,
+    MetadataMap,
+    Modifier,
+    MetadataPatchRequestInput,
+    MetadataPatchRequest
+} from '../declarations/types-32.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { UpdateModifierGroupRequestInput } from '../declarations/types-51.js';
+export type {
     ModifierGroupsUpdateInput,
     MoneyValueInput,
-    Modifier,
     MoneyValue,
     NextAction,
     NextActionMerchantAccountSession,
     ModifierRequestInput
-} from '../declarations/types-31.js';
-export type { SdkResponse } from '../declarations/types-44.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateModifierGroupRequestInput } from '../declarations/types-48.js';
+} from '../declarations/types-33.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type {
     TextModifierConfigRequestInput,
@@ -57,14 +63,19 @@ export type {
     TextModifierConfigPatchRequestInput,
     TextModifierConfigRequest,
     TextModifierConfigPatchRequest
-} from '../declarations/types-47.js';
+} from '../declarations/types-50.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-6.js';
-export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-64.js';
-export { makeModifierRequest, makeMoneyValue } from '../declarations/types-68.js';
-export { makeTextModifierConfigPatchRequest, makeTextModifierConfigRequest } from '../declarations/types-72.js';
-export { makeUpdateModifierGroupRequest } from '../declarations/types-73.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { CreateInlineModifierGroupRequestInput } from '../declarations/types-7.js';
+export { makeCreateInlineModifierGroupRequest, makeCreateModifierGroupRequest, makeCreateModifierRequest } from '../declarations/types-67.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeModifierRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export {
+    makeTextModifierConfigPatchRequest,
+    makeTextModifierConfigRequest,
+    makeUpdateModifierGroupRequest
+} from '../declarations/types-77.js';
 export interface ModifierGroupsResource {
     /**
  * Create modifier group.
@@ -122,7 +133,7 @@ export interface ModifierGroupsResource {
      */
     getWithResponse(modifier_group_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<ModifierGroupResponse>>;
     /**
- * List modifier groups.
+ * List modifier groups. Default order: created_at descending, then modifier_group_id descending.
  * @see reference/modifierGroups.md#modifiergroupslist
  * GET /v1/modifier-groups
  * @example

@@ -6,4 +6,4 @@ const client = new Client({
   allowInsecureHttp: ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
 });
 const result = await client.returnReceipts.list();
-console.log(result);
+console.log(result.request_id);

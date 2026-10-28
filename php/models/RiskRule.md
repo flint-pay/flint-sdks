@@ -30,40 +30,40 @@ A node in a risk rule condition: a comparison of an attribute, or an `all`, `any
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Conditional | Array of Alternative shapes (see declared variants) | minItems: `1`. maxItems: `50`. `all[]`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-1all). |
-| `any` | Conditional | Array of Alternative shapes (see declared variants) | minItems: `1`. maxItems: `50`. `any[]`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-1all). |
-| `not` | Conditional | Alternative shapes (see declared variants) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `not`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-1all). |
+| `all` | Conditional | Array of Alternative shapes (see declared variants) | minItems: `1`. maxItems: `50`. `all[]`: [field definitions](../models/RiskRule.md#riskrulepredicate). |
+| `any` | Conditional | Array of Alternative shapes (see declared variants) | minItems: `1`. maxItems: `50`. `any[]`: [field definitions](../models/RiskRule.md#riskrulepredicate). |
+| `not` | Conditional | Alternative shapes (see declared variants) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `not`: [field definitions](../models/RiskRule.md#riskrulepredicate). |
 | `attribute` | Conditional | string |  |
 | `operator` | Conditional | string |  |
-| `value` | Conditional | string or integer or boolean | `value`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-1all-variant-4value). |
+| `value` | Conditional | string or integer or boolean | `value`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-4value). |
 | `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `values` | Conditional | Array of (string or integer or boolean) | minItems: `1`. maxItems: `100`. `values[]`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-1all-variant-4value). |
+| `values` | Conditional | Array of (string or integer or boolean) | minItems: `1`. maxItems: `100`. `values[]`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-4value). |
 | `list_alias` | Conditional | string | minLength: `1`. pattern: `^[a-z][a-z0-9_]{0,127}$`. |
 
 ### RiskRule.predicate variant 1
 
-oneOf variant 1.
+oneOf variant 1: The `All` variant of `RiskPredicateNode`..
 
 - Required: `all`.
 - Undeclared: `any`, `not`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskRule.predicate variant 2
 
-oneOf variant 2.
+oneOf variant 2: The `Any` variant of `RiskPredicateNode`..
 
 - Required: `any`.
 - Undeclared: `all`, `not`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskRule.predicate variant 3
 
-oneOf variant 3.
+oneOf variant 3: The `Not` variant of `RiskPredicateNode`..
 
 - Required: `not`.
 - Undeclared: `all`, `any`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
 
 ### RiskRule.predicate variant 4
 
-oneOf variant 4.
+oneOf variant 4: The `Comparison` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`, `value`.
 - Undeclared: `all`, `any`, `not`, `amount_money`, `values`, `list_alias`.
@@ -72,7 +72,7 @@ oneOf variant 4.
 
 ### RiskRule.predicate variant 5: `attribute` = `"amount_money"`
 
-oneOf variant 5.
+oneOf variant 5: The `Money comparison` variant of `RiskPredicateNode`..
 
 - Required: `amount_money`, `attribute`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `values`, `list_alias`.
@@ -81,7 +81,7 @@ oneOf variant 5.
 
 ### RiskRule.predicate variant 6: `operator` = `"in"`
 
-oneOf variant 6.
+oneOf variant 6: The `In` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`, `values`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `list_alias`.
@@ -90,7 +90,7 @@ oneOf variant 6.
 
 ### RiskRule.predicate variant 7: `operator` = `"in_list"`
 
-oneOf variant 7.
+oneOf variant 7: The `In list` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `list_alias`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `values`.
@@ -99,7 +99,7 @@ oneOf variant 7.
 
 ### RiskRule.predicate variant 8: `operator` = `"is_missing"`
 
-oneOf variant 8.
+oneOf variant 8: The `Is missing` variant of `RiskPredicateNode`..
 
 - Required: `attribute`, `operator`.
 - Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `values`, `list_alias`.
@@ -108,135 +108,37 @@ oneOf variant 8.
 
 ### RiskRule.predicate variant 1.all[]
 
-A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
+Field definitions: [RiskRule.predicate](../models/RiskRule.md#riskrulepredicate).
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `all` | Conditional | Array of Alternative shapes (see declared variants) | minItems: `1`. maxItems: `50`. Items: A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `all[]`: [field definitions](../models/RiskRule.md#riskrulepredicate). |
-| `any` | Conditional | Array of Alternative shapes (see declared variants) | minItems: `1`. maxItems: `50`. Items: A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `any[]`: [field definitions](../models/RiskRule.md#riskrulepredicate). |
-| `not` | Conditional | Alternative shapes (see declared variants) | A node in a risk rule condition: a comparison of an attribute, or an `all`, `any`, or `not` group of other nodes. `not`: [field definitions](../models/RiskRule.md#riskrulepredicate). |
-| `attribute` | Conditional | string |  |
-| `operator` | Conditional | string |  |
-| `value` | Conditional | string or integer or boolean | `value`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-1all-variant-4value). |
-| `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `values` | Conditional | Array of (string or integer or boolean) | minItems: `1`. maxItems: `100`. `values[]`: [declared alternatives](../models/RiskRule.md#riskrulepredicate-variant-1all-variant-4value). |
-| `list_alias` | Conditional | string | minLength: `1`. pattern: `^[a-z][a-z0-9_]{0,127}$`. |
-
-### RiskRule.predicate variant 1.all[] variant 1
-
-oneOf variant 1.
-
-- Required: `all`.
-- Undeclared: `any`, `not`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
-
-### RiskRule.predicate variant 1.all[] variant 2
-
-oneOf variant 2.
-
-- Required: `any`.
-- Undeclared: `all`, `not`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
-
-### RiskRule.predicate variant 1.all[] variant 3
-
-oneOf variant 3.
-
-- Required: `not`.
-- Undeclared: `all`, `any`, `attribute`, `operator`, `value`, `amount_money`, `values`, `list_alias`.
-
-### RiskRule.predicate variant 1.all[] variant 4
-
-oneOf variant 4.
-
-- Required: `attribute`, `operator`, `value`.
-- Undeclared: `all`, `any`, `not`, `amount_money`, `values`, `list_alias`.
-- Constraints for `attribute`: minLength: `1`. maxLength: `280`.
-- Constraints for `operator`: Values: `"eq"`, `"neq"`, `"gt"`, `"gte"`, `"lt"`, `"lte"`.
-
-### RiskRule.predicate variant 1.all[] variant 5: `attribute` = `"amount_money"`
-
-oneOf variant 5.
-
-- Required: `amount_money`, `attribute`, `operator`.
-- Undeclared: `all`, `any`, `not`, `value`, `values`, `list_alias`.
-- Constraints for `attribute`: Values: `"amount_money"`.
-- Constraints for `operator`: Values: `"eq"`, `"neq"`, `"gt"`, `"gte"`, `"lt"`, `"lte"`.
-
-### RiskRule.predicate variant 1.all[] variant 6: `operator` = `"in"`
-
-oneOf variant 6.
-
-- Required: `attribute`, `operator`, `values`.
-- Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `list_alias`.
-- Constraints for `attribute`: minLength: `1`. maxLength: `280`.
-- Constraints for `operator`: Values: `"in"`.
-
-### RiskRule.predicate variant 1.all[] variant 7: `operator` = `"in_list"`
-
-oneOf variant 7.
-
-- Required: `attribute`, `list_alias`, `operator`.
-- Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `values`.
-- Constraints for `attribute`: minLength: `1`. maxLength: `280`.
-- Constraints for `operator`: Values: `"in_list"`.
-
-### RiskRule.predicate variant 1.all[] variant 8: `operator` = `"is_missing"`
-
-oneOf variant 8.
-
-- Required: `attribute`, `operator`.
-- Undeclared: `all`, `any`, `not`, `value`, `amount_money`, `values`, `list_alias`.
-- Constraints for `attribute`: minLength: `1`. maxLength: `280`.
-- Constraints for `operator`: Values: `"is_missing"`.
-
-### RiskRule.predicate variant 1.all[] variant 1.all[]
+### RiskRule.predicate variant 2.any[]
 
 Field definitions: [RiskRule.predicate](../models/RiskRule.md#riskrulepredicate).
 
-### RiskRule.predicate variant 1.all[] variant 2.any[]
+### RiskRule.predicate variant 3.not
 
 Field definitions: [RiskRule.predicate](../models/RiskRule.md#riskrulepredicate).
 
-### RiskRule.predicate variant 1.all[] variant 3.not
+### RiskRule.predicate variant 4.value
 
-Field definitions: [RiskRule.predicate](../models/RiskRule.md#riskrulepredicate).
-
-### RiskRule.predicate variant 1.all[] variant 4.value
-
-### RiskRule.predicate variant 1.all[] variant 4.value variant 1
+### RiskRule.predicate variant 4.value variant 1
 
 oneOf variant 1.
 
 - Value shape: string. minLength: `1`. 
 
-### RiskRule.predicate variant 1.all[] variant 4.value variant 2
+### RiskRule.predicate variant 4.value variant 2
 
 oneOf variant 2.
 
 - Value shape: integer.  
 
-### RiskRule.predicate variant 1.all[] variant 4.value variant 3
+### RiskRule.predicate variant 4.value variant 3
 
 oneOf variant 3.
 
 - Value shape: boolean.  
 
-### RiskRule.predicate variant 1.all[] variant 6.values[]
-
-Declared alternatives: [RiskRule.predicate variant 1.all[] variant 4.value](../models/RiskRule.md#riskrulepredicate-variant-1all-variant-4value).
-
-### RiskRule.predicate variant 2.any[]
-
-Declared alternatives: [RiskRule.predicate variant 1.all[]](../models/RiskRule.md#riskrulepredicate-variant-1all).
-
-### RiskRule.predicate variant 3.not
-
-Declared alternatives: [RiskRule.predicate variant 1.all[]](../models/RiskRule.md#riskrulepredicate-variant-1all).
-
-### RiskRule.predicate variant 4.value
-
-Declared alternatives: [RiskRule.predicate variant 1.all[] variant 4.value](../models/RiskRule.md#riskrulepredicate-variant-1all-variant-4value).
-
 ### RiskRule.predicate variant 6.values[]
 
-Declared alternatives: [RiskRule.predicate variant 1.all[] variant 4.value](../models/RiskRule.md#riskrulepredicate-variant-1all-variant-4value).
+Declared alternatives: [RiskRule.predicate variant 4.value](../models/RiskRule.md#riskrulepredicate-variant-4value).
 

@@ -54,7 +54,7 @@ $result = $client->merchantBillingBalances->get('example', [], new RequestOption
 
 ### merchantBillingBalances.list
 
-Returns what the merchant currently owes Flint and owns as account credit by currency. All balances fit on one page, so next_page_token is omitted.
+Returns what the merchant currently owes Flint and owns as account credit by currency. All balances fit on one page, so next_page_token is omitted. Default order: merchant_billing_balance_id descending; this key uniquely orders the results.
 
 `GET /v1/merchant-billing-balances`
 

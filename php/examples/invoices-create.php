@@ -18,6 +18,7 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->invoices->create([
+  'type' => 'order',
   'order_id' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->invoice_id . PHP_EOL;

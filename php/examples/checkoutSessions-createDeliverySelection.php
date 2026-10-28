@@ -20,7 +20,6 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->checkoutSessions->createDeliverySelection('example', [
   'choices' => [],
   'delivery_quote_id' => 'example',
-  'expected_delivery_selection_id' => 'example',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->checkout_session->checkout_session_id . PHP_EOL;
 echo $result->checkout_session->status . PHP_EOL;

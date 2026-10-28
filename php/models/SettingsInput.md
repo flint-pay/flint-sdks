@@ -18,7 +18,7 @@ Request input.
 | `invoices` | Optional | [InvoiceSettingsInput](../models/InvoiceSettingsInput.md#invoicesettingsinput) | Merchant defaults for invoices, including numbering prefixes, default memo and footer, collection mode, reminders, and autopay retries. |
 | `legal` | Optional | [LegalSettingsInput](../models/LegalSettingsInput.md#legalsettingsinput) | Merchant legal links and terms settings: contract, refund policy, shipping policy, and terms of service URLs, and whether buyers must accept the terms. |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `payment_limits` | Optional | [PaymentLimitSettingsInput](../models/PaymentLimitSettingsInput.md#paymentlimitsettingsinput) | Optional merchant limits that can lower Flint's payment-option and surface policy limits. |
 | `promotions` | Optional | [PromotionSettingsInput](../models/PromotionSettingsInput.md#promotionsettingsinput) | Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order. |
 | `receipts` | Optional | [ReceiptSettingsInput](../models/ReceiptSettingsInput.md#receiptsettingsinput) | Receipt settings: whether receipts are emailed automatically, whether they are itemized, and the header and footer text. |

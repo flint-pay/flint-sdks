@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ?Address $billing_address
+ * @property-read Address|null $billing_address
  * @property-read ?string $created_at
  * @property-read string $customer_id
  * @property-read ?string $default_invoice_payment_term_id
@@ -18,7 +18,7 @@ namespace Flint;
  * @property-read string|null $phone
  * @property-read ?CustomerReceivables $receivables
  * @property-read string|null $segment
- * @property-read ?Address $shipping_address
+ * @property-read Address|null $shipping_address
  * @property-read string $status
  * @property-read ?bool $tax_exempt
  * @property-read TaxIdentity|null $tax_identity
@@ -26,12 +26,12 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class Customer extends Model {
-    /** @param array{'billing_address'?: mixed, 'created_at'?: string, 'customer_id': string, 'default_invoice_payment_term_id'?: string, 'default_payment_method'?: mixed, 'default_payment_method_id': string|null, 'email': string|null, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'is_merchant_verified'?: bool, 'merchant_id'?: string, 'metadata'?: \stdClass, 'name': string|null, 'phone': string|null, 'receivables'?: mixed, 'segment'?: string|null, 'shipping_address'?: mixed, 'status': string, 'tax_exempt'?: bool, 'tax_identity': mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'billing_address': mixed, 'created_at'?: string, 'customer_id': string, 'default_invoice_payment_term_id'?: string, 'default_payment_method'?: mixed, 'default_payment_method_id': string|null, 'email': string|null, 'external_reference_id'?: string|null, 'internal_note'?: string|null, 'is_merchant_verified'?: bool, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string|null, 'phone': string|null, 'receivables'?: mixed, 'segment'?: string|null, 'shipping_address': mixed, 'status': string, 'tax_exempt'?: bool, 'tax_identity': mixed, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('Customer')); }
-    /** Shape $ (Value): {@see Address}. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
-     * @return ?Address
+    /** Shape $ (Value): {@see Address} or null. The customer's default billing address: a copy of the address of the saved address marked is_default_billing. Read-only; change it through /v1/customers/{customer_id}/addresses. Flint taxes orders with no other tax location at this address. Null when no saved address is the billing default. Shape $.anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+     * @return Address|null
      */
-    public function getBillingAddress(): ?Address { return $this->get('billing_address'); }
+    public function getBillingAddress(): Address|null { return $this->get('billing_address'); }
     public function hasBillingAddress(): bool { return $this->has('billing_address'); }
     /** Shape $ (Value): string. RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -83,7 +83,7 @@ final class Customer extends Model {
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Shape $ (Value): Map of string. Shape $.* (Value): string.
+    /** Shape $ (Value): {@see MetadataMap}. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
@@ -108,10 +108,10 @@ final class Customer extends Model {
      */
     public function getSegment(): string|null { return $this->get('segment'); }
     public function hasSegment(): bool { return $this->has('segment'); }
-    /** Shape $ (Value): {@see Address}. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
-     * @return ?Address
+    /** Shape $ (Value): {@see Address} or null. The customer's default shipping address: a copy of the address of the saved address marked is_default_shipping. Read-only; change it through /v1/customers/{customer_id}/addresses. Checkout prefills it. Null when no saved address is the shipping default. Shape $.anyOf[1] (Value): {@see Address}. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. Shape $.anyOf[2] (Value): null.
+     * @return Address|null
      */
-    public function getShippingAddress(): ?Address { return $this->get('shipping_address'); }
+    public function getShippingAddress(): Address|null { return $this->get('shipping_address'); }
     public function hasShippingAddress(): bool { return $this->has('shipping_address'); }
     /** Shape $ (Value): string.  Value enum: "active", "deletion_processing", "deleted".
      * @return string

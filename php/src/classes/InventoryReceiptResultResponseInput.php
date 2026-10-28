@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReceiptResultResponseInput extends Model {
-    /** @param array{'data': InventoryReceiptResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': InventoryReceiptResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReceiptResultResponseInput')); }
     /** Shape $ (Value): {@see InventoryReceiptResultInput}. Inventory receipt and the levels it changed. inventory_receipt is the primary resource and expected_version target.
      * @return InventoryReceiptResultInput|array<array-key, mixed>|\stdClass

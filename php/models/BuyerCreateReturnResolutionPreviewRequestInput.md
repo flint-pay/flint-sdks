@@ -10,6 +10,6 @@ Request input.
 | --- | --- | --- | --- |
 | `line_items` | Required | Array of [ReturnResolutionLineItemRequestInput](../models/ReturnResolutionLineItemRequestInput.md#returnresolutionlineitemrequestinput) | minItems: `1`. |
 | `replacement_line_items` | Optional | Array of [BuyerReturnReplacementLineItemRequestInput](../models/BuyerReturnReplacementLineItemRequestInput.md#buyerreturnreplacementlineitemrequestinput) |  |
-| `resolution_type` | Required | string | Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`. |
+| `resolution_type` | Required | string | The proposed resolution type. For store_credit, send a nonempty line_items list and omit replacement_line_items. Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. |
 | `return_id` | Required | string | minLength: `1`. |
 

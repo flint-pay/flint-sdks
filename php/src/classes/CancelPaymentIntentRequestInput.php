@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $expected_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class CancelPaymentIntentRequestInput extends Model {
-    /** @param array{'cancellation_reason'?: string, 'expected_version'?: string, ...}|object $values */
+    /** @param array{'cancellation_reason'?: string, 'expected_version'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CancelPaymentIntentRequestInput')); }
     /** Shape $ (Value): string. Optional merchant-supplied cancellation reason. Value enum: "requested_by_customer", "duplicate", "fraudulent", "abandoned".
      * @return string

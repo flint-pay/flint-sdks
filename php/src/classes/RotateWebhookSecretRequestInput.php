@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $expire_previous_secret_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class RotateWebhookSecretRequestInput extends Model {
-    /** @param array{'expected_version'?: string, 'expire_previous_secret_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'expected_version'?: string, 'expire_previous_secret_at'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RotateWebhookSecretRequestInput')); }
     /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string

@@ -1,1 +1,1 @@
-{"shared":"ProductOption","dependencies":["ProductOption","ProductOptionValue"]}
+{"shared":"ProductOption","dependencies":["MetadataMap","ProductOption","ProductOptionValue"]}

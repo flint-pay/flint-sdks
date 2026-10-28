@@ -52,7 +52,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createEventWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -71,7 +71,7 @@ $result = $client->fulfillments->createEvent('example', [
 
 ### fulfillments.createShipment
 
-Creates a shipment execution record under a shipment-type fulfillment. A shipment groups one carrier leg. Create one package under it for each physical parcel, including single-parcel shipments.
+Creates a shipment under a shipment fulfillment. For outbound shipments, include 1 to 20 packages to create the parcels atomically and return their IDs. Set each package's status to shipped to report handoff in the same call. Return shipments cannot include packages.
 
 `POST /v1/fulfillments/{fulfillment_id}/shipments`
 
@@ -91,42 +91,33 @@ Body model: [CreateShipmentRequestInput](../models/CreateShipmentRequestInput.md
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `direction` | Optional | string | Values: `"outbound"`, `"return"`. |
+| `direction` | Required | string | Values: `"outbound"`, `"return"`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. maxLength: `255`. |
 | `external_system` | Optional | string | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
+| `packages` | Optional | Array of [PackageCreateRequestInput](../models/PackageCreateRequestInput.md#packagecreaterequestinput) | Creates packages atomically with an outbound shipment. Items are optional per package. Created packages are included in the response. minItems: `1`. maxItems: `20`. |
 | `return_id` | Optional | string | minLength: `1`. |
-| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationInput](../models/ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput) |  |
+| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationRequestRequestInput](../models/ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput) | minItems: `1`. |
 
 #### fulfillments.createShipment body oneOf variant 1
 
+The `outbound` variant of `CreateShipmentRequest`.
 
+Body model: [CreateShipmentRequestOutboundInput](../models/CreateShipmentRequestOutboundInput.md#createshipmentrequestoutboundinput).
 
 #### fulfillments.createShipment body oneOf variant 1 fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `direction` | Optional | string | Values: `"outbound"`. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. maxLength: `255`. |
-| `external_system` | Optional | string | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
-| `return_id` | Optional | string | minLength: `1`. |
-| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationInput](../models/ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput) |  |
+Field definitions: [shared fields](../models/CreateShipmentRequestOutboundInput.md#createshipmentrequestoutboundinput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [PackageCreateRequestInput](../models/PackageCreateRequestInput.md#packagecreaterequestinput), [ReturnShipmentLineItemAllocationRequestRequestInput](../models/ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput).
 
 #### fulfillments.createShipment body oneOf variant 2
 
+The `return` variant of `CreateShipmentRequest`.
 
+Body model: [CreateShipmentRequestReturnInput](../models/CreateShipmentRequestReturnInput.md#createshipmentrequestreturninput).
 
 #### fulfillments.createShipment body oneOf variant 2 fields
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `direction` | Required | string | Values: `"return"`. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. maxLength: `255`. |
-| `external_system` | Optional | string | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
-| `return_id` | Required | string | minLength: `1`. |
-| `return_line_items` | Required | Array of [ReturnShipmentLineItemAllocationInput](../models/ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput) | minItems: `1`. |
+Field definitions: [shared fields](../models/CreateShipmentRequestReturnInput.md#createshipmentrequestreturninput). Models: [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput), [PackageCreateRequestInput](../models/PackageCreateRequestInput.md#packagecreaterequestinput), [ReturnShipmentLineItemAllocationRequestRequestInput](../models/ReturnShipmentLineItemAllocationRequestRequestInput.md#returnshipmentlineitemallocationrequestrequestinput).
 
 #### Response
 
@@ -156,7 +147,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createShipmentWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -166,7 +157,9 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->fulfillments->createShipment('example', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+$result = $client->fulfillments->createShipment('example', [
+  'direction' => 'outbound',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
 [Complete runnable example](../examples/fulfillments-createShipment.php)
@@ -224,7 +217,7 @@ $result = $client->fulfillments->get('example', [], new RequestOptions());
 
 ### fulfillments.list
 
-Returns a paginated list of fulfillments. Results default to created_at descending, with fulfillment_id descending as the tiebreaker. scheduled_start_at uses the service scheduled start or the start of the pickup, local delivery, or shipment window. For scheduled_start_at and terminal_at, null values sort first ascending and last descending.
+Returns a paginated list of fulfillments. Results default to created_at descending, with fulfillment_id descending as the tiebreaker. scheduled_start_at uses the service scheduled start or the start of the pickup, local delivery, or shipment window. For scheduled_start_at and terminal_at, null values sort first ascending and last descending. Default order: created_at descending, then fulfillment_id descending.
 
 `GET /v1/fulfillments`
 
@@ -490,7 +483,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `transitionWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -531,7 +524,7 @@ Body model: [UpdateFulfillmentRequestInput](../models/UpdateFulfillmentRequestIn
 
 #### fulfillments.update body fields
 
-Field definitions: [shared fields](../models/UpdateFulfillmentRequestInput.md#updatefulfillmentrequestinput). Models: [UpdateDigitalFulfillmentDetailsInput](../models/UpdateDigitalFulfillmentDetailsInput.md#updatedigitalfulfillmentdetailsinput), [UpdateDeliveryFulfillmentDetailsInput](../models/UpdateDeliveryFulfillmentDetailsInput.md#updatedeliveryfulfillmentdetailsinput), [UpdatePickupFulfillmentDetailsInput](../models/UpdatePickupFulfillmentDetailsInput.md#updatepickupfulfillmentdetailsinput), [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequestInput.md#fulfillmentrecipientrequestinput), [UpdateServiceFulfillmentDetailsInput](../models/UpdateServiceFulfillmentDetailsInput.md#updateservicefulfillmentdetailsinput).
+Field definitions: [shared fields](../models/UpdateFulfillmentRequestInput.md#updatefulfillmentrequestinput). Models: [UpdateDigitalFulfillmentDetailsInput](../models/UpdateDigitalFulfillmentDetailsInput.md#updatedigitalfulfillmentdetailsinput), [UpdateDeliveryFulfillmentDetailsInput](../models/UpdateDeliveryFulfillmentDetailsInput.md#updatedeliveryfulfillmentdetailsinput), [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput), [UpdatePickupFulfillmentDetailsInput](../models/UpdatePickupFulfillmentDetailsInput.md#updatepickupfulfillmentdetailsinput), [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequestInput.md#fulfillmentrecipientrequestinput), [UpdateServiceFulfillmentDetailsInput](../models/UpdateServiceFulfillmentDetailsInput.md#updateservicefulfillmentdetailsinput).
 
 #### Response
 
@@ -561,7 +554,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

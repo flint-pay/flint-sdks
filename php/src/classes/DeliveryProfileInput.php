@@ -8,14 +8,14 @@ namespace Flint;
  * @property-read string $delivery_profile_id
  * @property-read DeliveryProfileDiagnosticsInput|array<array-key, mixed>|\stdClass $diagnostics
  * @property-read string $external_reference_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $status
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfileInput extends Model {
-    /** @param array{'configuration': DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: DeliveryProfileDiagnosticsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
+    /** @param array{'configuration': DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: DeliveryProfileDiagnosticsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileInput')); }
     /** Shape $ (Value): {@see DeliveryProfileConfigurationInput}. Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
      * @return DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass
@@ -53,11 +53,11 @@ final class DeliveryProfileInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Merchant-facing profile name.
      * @return string

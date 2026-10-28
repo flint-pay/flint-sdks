@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ModifierGroupListResponseInput extends Model {
-    /** @param array{'data': list<ModifierGroupInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<ModifierGroupInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ModifierGroupListResponseInput')); }
     /** Shape $ (Value): Array of {@see ModifierGroupInput}. Modifier groups matching the request filters for this page. Shape $[] (Value): {@see ModifierGroupInput}. A group of choices that customize an item.
      * @return list<ModifierGroupInput|array<array-key, mixed>|\stdClass>

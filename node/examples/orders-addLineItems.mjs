@@ -13,6 +13,7 @@ const result = await client.orders.addLineItems(
   {
     line_items: [
       {
+        type: "variant",
         variant_id: "example",
       },
     ],

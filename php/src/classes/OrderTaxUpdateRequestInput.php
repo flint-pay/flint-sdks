@@ -9,8 +9,8 @@ namespace Flint;
  * @property-read OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass $location
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxUpdateRequestInput extends Model {
-    /** @param mixed $values */
-    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxUpdateRequestInput')); }
+    /** @param array{'calculation'?: OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'charge_calculations'?: list<OrderChargeTaxAssignmentInput|array<array-key, mixed>|\stdClass>, 'enabled'?: bool, 'line_item_calculations'?: list<OrderLineItemTaxAssignmentInput|array<array-key, mixed>|\stdClass>, 'location'?: OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxUpdateRequestInput')); }
     /** Shape $ (Value): {@see OrderTaxCalculationRequestInput}. How tax is calculated on an order: automatically, or externally with the tax components you supply.
      * @return OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When calculation is omitted; use hasCalculation() or valueOrDefault().

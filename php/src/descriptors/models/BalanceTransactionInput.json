@@ -1,1 +1,1 @@
-{"shared":"BalanceTransaction","dependencies":["BalanceTransaction","CheckoutBuyerContact","ExpandedOrderSummary","MoneyValue","PricingAmounts","ResourceReference","ResourceType","SettlementAmounts","SharedCodec5","SignedMoney"]}
+{"shared":"BalanceTransaction","dependencies":["BalanceTransaction","CheckoutBuyerContact","ExpandedOrderSummary","MoneyValue","PricingAmounts","ResourceReference","ResourceType","SettlementAmounts","SharedCodec11","SignedMoney"]}

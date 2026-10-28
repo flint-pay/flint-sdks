@@ -12,7 +12,7 @@ const result = await client.developer.createSandboxAPIKey(
   "example",
   {
     name: "example",
-    scopes: [],
+    access: "full",
   },
   { idempotencyKey: idempotencyKey },
 );

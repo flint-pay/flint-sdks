@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read CallerSuppliedDeliveryOutcomeRequestInput|array<array-key, mixed>|\stdClass $outcome
  * Presence-aware input; omitted fields throw when accessed. */
 final class CallerSuppliedDeliveryMethodResultRequestInput extends Model {
-    /** @param array{'delivery_choice_group_id': string, 'delivery_method_revision_id': string, 'outcome': CallerSuppliedDeliveryOutcomeRequestInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'delivery_choice_group_id': string, 'delivery_method_revision_id': string, 'outcome': CallerSuppliedDeliveryOutcomeRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CallerSuppliedDeliveryMethodResultRequestInput')); }
     /** Shape $ (Value): string. minLength: 1.
      * @return string

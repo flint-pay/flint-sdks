@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [Address](../models/Address.md#address) | Address where the buyer collects the order. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients. `address`: [field definitions](../models/PickupFulfillmentDetails.md#pickupfulfillmentdetailsaddress). |
+| `address` | Optional | [Address](../models/Address.md#address) | Address where the buyer collects the order. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/PickupFulfillmentDetails.md#pickupfulfillmentdetailsaddress). |
 | `curbside_instructions` | Optional | string | Instructions specific to curbside handoff. maxLength: `2048`. |
 | `customer_arrived_at` | Optional | string | Buyer-reported arrival time for curbside or counter pickup. Format: `date-time`. |
 | `expires_at` | Optional | string | Deadline after which an uncollected pickup should enter merchant review. Format: `date-time`. |
@@ -26,7 +26,7 @@ Response model.
 
 ### PickupFulfillmentDetails.address
 
-Address where the buyer collects the order. A postal address, as returned on customers, invoices, tax locations, and fulfillment recipients.
+Address where the buyer collects the order. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
 
 Field definitions: [shared fields](AddressInput.md#addressinput).
 

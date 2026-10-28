@@ -1,1 +1,1 @@
-{"shared":"CreateOrganizationRequest","dependencies":["CreateOrganizationRequest"]}
+{"shared":"CreateOrganizationRequest","dependencies":["CreateOrganizationRequest","MetadataRequest"]}

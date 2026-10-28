@@ -13,7 +13,7 @@ namespace Flint;
  * @property-read ?Image $image
  * @property-read ?string $inactive_message
  * @property-read ?CheckoutLegalConfig $legal
- * @property-read ?list<\stdClass> $line_items
+ * @property-read list<\stdClass|PublicPaymentLinkLineItemsItemBundle|PublicPaymentLinkLineItemsItemCustomFixed|PublicPaymentLinkLineItemsItemCustomVariable>|null $line_items
  * @property-read ?int $max_completions
  * @property-read string $name
  * @property-read string $payment_link_id
@@ -84,7 +84,7 @@ final class PublicPaymentLink extends Model {
     public function getLegal(): ?CheckoutLegalConfig { return $this->get('legal'); }
     public function hasLegal(): bool { return $this->has('legal'); }
     /** Shape $ (Value): Array of {@see PaymentLinkLineItem}. Shape $[] (Value): {@see PaymentLinkLineItem}. A line item on a payment link, sold from a catalog variant, a bundle, or an ad hoc name and price, with quantity and price rules.
-     * @return ?list<\stdClass>
+     * @return list<\stdClass|PublicPaymentLinkLineItemsItemBundle|PublicPaymentLinkLineItemsItemCustomFixed|PublicPaymentLinkLineItemsItemCustomVariable>|null
      */
     public function getLineItems(): ?array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }

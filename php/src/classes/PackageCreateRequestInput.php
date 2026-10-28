@@ -10,8 +10,8 @@ namespace Flint;
  * @property-read string $external_system
  * @property-read list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass> $items
  * @property-read string $label_url
- * @property-read array<array-key, string>|\stdClass $metadata
- * @property-read list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass> $return_line_items
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
+ * @property-read list<ReturnShipmentLineItemAllocationRequestRequestInput|array<array-key, mixed>|\stdClass> $return_line_items
  * @property-read string $service_code
  * @property-read string|\DateTimeInterface $shipped_at
  * @property-read string $status
@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read WeightInput|array<array-key, mixed>|\stdClass $weight
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackageCreateRequestInput extends Model {
-    /** @param array{'buyer_notification_behavior'?: string, 'carrier'?: string, 'dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'external_reference_id'?: string, 'external_system'?: string, 'items'?: list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>, 'label_url'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'return_line_items'?: list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>, 'service_code'?: string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: WeightInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'buyer_notification_behavior'?: string, 'carrier'?: string, 'dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'expected_delivery_at'?: string|\DateTimeInterface|null, 'external_reference_id'?: string, 'external_system'?: string, 'items'?: list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>, 'label_url'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'return_line_items'?: list<ReturnShipmentLineItemAllocationRequestRequestInput|array<array-key, mixed>|\stdClass>, 'service_code'?: string, 'shipped_at'?: string|\DateTimeInterface, 'status': string, 'status_reason'?: string, 'tracking_number'?: string, 'tracking_url'?: string, 'weight'?: WeightInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageCreateRequestInput')); }
     /** Shape $ (Value): string. Controls buyer email handling. Omit or use send to send when recipient, template, and deduplication rules allow it. Use suppress when another system owns buyer messaging. Value enum: "send", "suppress".
      * @return string
@@ -71,14 +71,14 @@ final class PackageCreateRequestInput extends Model {
      */
     public function getLabelUrl(): string { return $this->get('label_url'); }
     public function hasLabelUrl(): bool { return $this->has('label_url'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Shape $ (Value): Array of {@see ReturnShipmentLineItemAllocationInput}. Required for a package on a return shipment: allocates quantities from the shipment's return_line_items to this parcel. Rejected on outbound shipments. Shape $[] (Value): {@see ReturnShipmentLineItemAllocationInput}. A return line and the quantity placed in a return shipment or package.
-     * @return list<ReturnShipmentLineItemAllocationInput|array<array-key, mixed>|\stdClass>
+    /** Shape $ (Value): Array of {@see ReturnShipmentLineItemAllocationRequestRequestInput}. Required for a package on a return shipment: allocates quantities from the shipment's return_line_items to this parcel. Rejected on outbound shipments. Shape $[] (Value): {@see ReturnShipmentLineItemAllocationRequestRequestInput}. A return line and the quantity placed in a return shipment or package.
+     * @return list<ReturnShipmentLineItemAllocationRequestRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When return_line_items is omitted; use hasReturnLineItems() or valueOrDefault().
      */
     public function getReturnLineItems(): array { return $this->get('return_line_items'); }

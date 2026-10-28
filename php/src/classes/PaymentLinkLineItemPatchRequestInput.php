@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read bool $allow_quantity_adjustment
  * @property-read bool $allow_unit_price_adjustment
  * @property-read string $bundle_id
+ * @property-read string|null $default_variant_id
  * @property-read string $description
  * @property-read string $key
  * @property-read int $max_quantity
@@ -16,8 +17,10 @@ namespace Flint;
  * @property-read int $quantity
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $suggested_unit_price_money_options
  * @property-read OrderLineItemTaxInput|array<array-key, mixed>|\stdClass $tax
+ * @property-read string $type
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * @property-read string $variant_id
+ * @property-read list<string> $variant_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkLineItemPatchRequestInput extends Model {
     /** @param mixed $values */
@@ -40,6 +43,12 @@ final class PaymentLinkLineItemPatchRequestInput extends Model {
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
+    /** Shape $ (Value): string or null. Variant selected when the page opens and used at resolve when the buyer omits a selection. Must be in variant_ids. Omit it to require a buyer selection. Send null to clear it. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return string|null
+     * @throws SdkError When default_variant_id is omitted; use hasDefaultVariantId() or valueOrDefault().
+     */
+    public function getDefaultVariantId(): string|null { return $this->get('default_variant_id'); }
+    public function hasDefaultVariantId(): bool { return $this->has('default_variant_id'); }
     /** Shape $ (Value): string. minLength: 1. maxLength: 2048.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
@@ -106,6 +115,12 @@ final class PaymentLinkLineItemPatchRequestInput extends Model {
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
+    /** Shape $ (Value): string.  Value enum: "variant", "bundle", "custom_fixed", "custom_variable".
+     * @return string
+     * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
+     */
+    public function getType(): string { return $this->get('type'); }
+    public function hasType(): bool { return $this->has('type'); }
     /** Shape $ (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
@@ -118,4 +133,10 @@ final class PaymentLinkLineItemPatchRequestInput extends Model {
      */
     public function getVariantId(): string { return $this->get('variant_id'); }
     public function hasVariantId(): bool { return $this->has('variant_id'); }
+    /** Shape $ (Value): Array of string. Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1. maxItems: 100. uniqueItems: true. Shape $[] (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * @return list<string>
+     * @throws SdkError When variant_ids is omitted; use hasVariantIds() or valueOrDefault().
+     */
+    public function getVariantIds(): array { return $this->get('variant_ids'); }
+    public function hasVariantIds(): bool { return $this->has('variant_ids'); }
 }

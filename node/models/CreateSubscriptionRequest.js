@@ -1,15 +1,14 @@
-import { d3162 as c0 } from '../descriptors/data/125.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d5148 as c1 } from '../descriptors/data/236.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d3293 as c2, d3294 as c13, d3295 as c14 } from '../descriptors/data/131.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4206 as c3, d4207 as c15, d4208 as c16 } from '../descriptors/data/179.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d5160 as c4, d5161 as c5, d5162 as c8, d5163 as c9, d5164 as c10, d5165 as c11, d5166 as c12, d5167 as c17, d5168 as c18, d5169 as c21 } from '../descriptors/data/237.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d4432 as c6, d4433 as c7, d4435 as c19, d4436 as c20 } from '../descriptors/data/194.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d5170 as c22, d5171 as c23 } from '../descriptors/data/238.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
-import { d5148 as d5148 } from '../descriptors/data/236.js?sdk=fac4b718d892e7da91e9078fbe8a70d0df1d443420d01e46d9daffedbb5651c4';
+import { d3345 as c0, d3346 as c4, d3347 as c5 } from '../descriptors/data/137.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5449 as c1 } from '../descriptors/data/257.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3477 as c2, d3478 as c14, d3479 as c15 } from '../descriptors/data/143.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d3250 as c3 } from '../descriptors/data/131.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5461 as c6, d5462 as c7, d5463 as c10, d5464 as c11, d5465 as c12, d5466 as c13, d5467 as c16, d5468 as c17, d5469 as c20, d5470 as c21, d5471 as c22 } from '../descriptors/data/258.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d4674 as c8, d4675 as c9, d4677 as c18, d4678 as c19 } from '../descriptors/data/211.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
+import { d5449 as d5449 } from '../descriptors/data/257.js?sdk=194b876b01c2554c1bd60c273767aef1ba2f61ae9b1052b5a6e20187b96e1abc';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5148;
+const read = d5449;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CreateSubscriptionRequest"]:c1(),["DeliverySelectionRecipientRequest"]:c2(),["OrderDeliveryDestinationAddressRequest"]:c3(),["SharedCodec1144"]:c4(),["SharedCodec1145"]:c5(),["SharedCodec1146"]:c6(),["SharedCodec1147"]:c7(),["SharedCodec1158"]:c8(),["SharedCodec1159"]:c9(),["SharedCodec1160"]:c10(),["SharedCodec1161"]:c11(),["SharedCodec235"]:c12(),["SharedCodec47"]:c13(),["SharedCodec48"]:c14(),["SharedCodec973"]:c15(),["SharedCodec974"]:c16(),["SubscriptionBillingScheduleRequest"]:c17(),["SubscriptionBillingStartRequest"]:c18(),["SubscriptionDeliveryDestinationRequest"]:c19(),["SubscriptionDeliveryRequest"]:c20(),["SubscriptionOfferLineItemRequest"]:c21(),["SubscriptionServiceLocationRequest"]:c22(),["SubscriptionTermsRequest"]:c23()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["AddressRequest"]:c0(),["CreateSubscriptionRequest"]:c1(),["DeliverySelectionRecipientRequest"]:c2(),["MetadataRequest"]:c3(),["SharedCodec0"]:c4(),["SharedCodec1"]:c5(),["SharedCodec1215"]:c6(),["SharedCodec1216"]:c7(),["SharedCodec1217"]:c8(),["SharedCodec1218"]:c9(),["SharedCodec1235"]:c10(),["SharedCodec1236"]:c11(),["SharedCodec1237"]:c12(),["SharedCodec265"]:c13(),["SharedCodec61"]:c14(),["SharedCodec62"]:c15(),["SubscriptionBillingScheduleRequest"]:c16(),["SubscriptionBillingStartRequest"]:c17(),["SubscriptionDeliveryDestinationRequest"]:c18(),["SubscriptionDeliveryRequest"]:c19(),["SubscriptionOfferLineItemRequest"]:c20(),["SubscriptionServiceLocationRequest"]:c21(),["SubscriptionTermsRequest"]:c22()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateSubscriptionRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

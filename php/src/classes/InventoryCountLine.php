@@ -23,7 +23,7 @@ namespace Flint;
 final class InventoryCountLine extends Model {
     /** @param array{'captured_physical_version': string, 'counted_damaged_quantity'?: string, 'counted_on_hand_quantity'?: string, 'counted_quality_control_quantity'?: string, 'counted_quarantined_quantity'?: string, 'damaged_variance'?: string, 'expected_damaged_quantity'?: string, 'expected_on_hand_quantity'?: string, 'expected_quality_control_quantity'?: string, 'expected_quarantined_quantity'?: string, 'inventory_count_line_id': string, 'inventory_item_id': string, 'inventory_movement_id'?: string, 'on_hand_variance'?: string, 'quality_control_variance'?: string, 'quarantined_variance'?: string, 'source_observation_sequence'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryCountLine')); }
-    /** Shape $ (Value): integer string. Physical version accepted with the latest saved observation. Meaningful once counted_on_hand_quantity is present. Applying the count requires the same physical version. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Physical version accepted with the latest saved observation. Meaningful once counted_on_hand_quantity is present. Applying the count requires the same physical version. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      * @return string
      */
     public function getCapturedPhysicalVersion(): string { return $this->get('captured_physical_version'); }
@@ -103,7 +103,7 @@ final class InventoryCountLine extends Model {
      */
     public function getQuarantinedVariance(): ?string { return $this->get('quarantined_variance'); }
     public function hasQuarantinedVariance(): bool { return $this->has('quarantined_variance'); }
-    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Use an integer string (decimal digits), not a floating-point number. Format: int64. minimum: 0.
      * @return ?string
      */
     public function getSourceObservationSequence(): ?string { return $this->get('source_observation_sequence'); }

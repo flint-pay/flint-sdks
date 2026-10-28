@@ -17,7 +17,7 @@ Request input.
 
 ### DeliveryProfileConfigurationRequestInput variant 1: `requirement` = `"none"`
 
-oneOf variant 1.
+oneOf variant 1: The `none` variant of `DeliveryProfileConfigurationInput`..
 
 - Condition: not (at least one(present(`resolution_mode`); present(`allowed_types`); present(`origin_policy`); present(`combination_policy`); present(`splitting_policy`))).
 - Optional: `allowed_types`, `combination_policy`, `origin_policy`, `resolution_mode`, `splitting_policy`.
@@ -25,7 +25,7 @@ oneOf variant 1.
 
 ### DeliveryProfileConfigurationRequestInput variant 2: `requirement` = `"required"`, `resolution_mode` = `"quote"`
 
-oneOf variant 2.
+oneOf variant 2: The `required` variant of `DeliveryProfileConfigurationInput`.; oneOf variant 1: The `quote` variant of `DeliveryProfileConfigurationInputRequired`..
 
 - Required: `allowed_types`, `combination_policy`, `origin_policy`, `resolution_mode`, `splitting_policy`.
 - Constraints for `allowed_types`: Items values: `"shipment"`, `"pickup"`, `"local_delivery"`.
@@ -34,7 +34,7 @@ oneOf variant 2.
 
 ### DeliveryProfileConfigurationRequestInput variant 3: `requirement` = `"required"`, `resolution_mode` = `"manual"`
 
-oneOf variant 3.
+oneOf variant 2: The `required` variant of `DeliveryProfileConfigurationInput`.; oneOf variant 2: The `manual` variant of `DeliveryProfileConfigurationInputRequired`..
 
 - Condition: not (at least one(present(`origin_policy`); present(`combination_policy`); present(`splitting_policy`))).
 - Required: `allowed_types`, `resolution_mode`.

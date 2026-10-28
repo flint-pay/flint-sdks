@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string $capture_method
  * @property-read string $customer_id
  * @property-read string $external_reference_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read list<string> $payment_options
  * @property-read string $payment_return_url
  * @property-read string $receipt_email
@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $transaction_purpose
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreatePaymentIntentRequestInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: array<array-key, string>|\stdClass, 'payment_options': list<string>, 'payment_return_url'?: string, 'receipt_email'?: string, 'tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'transaction_purpose'?: string, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'payment_options': list<string>, 'payment_return_url'?: string, 'receipt_email'?: string, 'tip_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'transaction_purpose'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePaymentIntentRequestInput')); }
     /** Shape $ (Value): {@see MoneyValueInput}. Amount to request from the buyer, including any tip_money. With capture_method manual, this is the hold amount, and you can capture less of it later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -40,11 +40,11 @@ final class CreatePaymentIntentRequestInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Shape $.* (Value): string. minLength: 1.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataRequestInput}. Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50.
+     * @return MetadataRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): Array of string. Payment options the buyer can use. Name at least one. minItems: 1. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". Shape $[] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return list<string>

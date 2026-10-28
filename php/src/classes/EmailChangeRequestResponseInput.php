@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class EmailChangeRequestResponseInput extends Model {
-    /** @param array{'data': EmailChangeRequestInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': EmailChangeRequestInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailChangeRequestResponseInput')); }
     /** Shape $ (Value): {@see EmailChangeRequestInput}. A request to change a customer's email address.
      * @return EmailChangeRequestInput|array<array-key, mixed>|\stdClass

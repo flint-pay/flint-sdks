@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $fulfillment_id
- * @property-read array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string, ...}|object $body
+ * @property-read array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsCreateEventInput extends Model {
-    /** @param array{'fulfillment_id': string, 'Idempotency-Key'?: string, 'body': array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string, ...}|object}|object $values */
+    /** @param array{'fulfillment_id': string, 'Idempotency-Key'?: string, 'body': array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentsCreateEventInput')); }
     /** Shape $ (Value): string.
      * @return string
@@ -21,7 +21,7 @@ final class FulfillmentsCreateEventInput extends Model {
     public function getIdempotencyKey(): string { return $this->get('Idempotency-Key'); }
     public function hasIdempotencyKey(): bool { return $this->has('Idempotency-Key'); }
     /** Shape $ (Value): object. The request body for: Create fulfillment event.
-     * @return array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string, ...}|object
+     * @return array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

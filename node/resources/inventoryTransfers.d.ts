@@ -1,22 +1,24 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateInventoryTransferRequestInput } from '../declarations/types-7.js';
-import type { InventoryTransfer } from '../declarations/types-25.js';
 import type {
+    InventoryTransfer,
     InventoryTransferListResponse,
     InventoryTransferResponse,
     InventoryTransferResult,
-    InventoryTransferResultResponse,
+    InventoryTransferResultResponse
+} from '../declarations/types-27.js';
+import type {
     InventoryTransfersCreateInput,
     InventoryTransfersGetInput,
     InventoryTransfersListInput,
     InventoryTransfersTransitionInput,
     InventoryTransfersUpdateInput
-} from '../declarations/types-26.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { UpdateInventoryTransferRequestInput } from '../declarations/types-48.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-28.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { UpdateInventoryTransferRequestInput } from '../declarations/types-51.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,51 +34,56 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateInventoryTransferRequestInput } from '../declarations/types-7.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
-export type { InventoryTransfer, InventoryProvenanceRequestInput, InventorySourceSystemRequestInput } from '../declarations/types-25.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
+    InventoryTransfer,
     InventoryTransferResponse,
     InventoryTransferListResponse,
-    InventoryTransfersTransitionInput,
     InventoryTransferResult,
     InventoryTransferResultResponse,
-    InventoryTransfersCreateInput,
-    InventoryTransfersGetInput,
-    InventoryTransfersListInput,
-    InventoryTransfersUpdateInput,
     InventoryTransferLineRequestInput,
     InventoryTransferLine,
     InventoryTransferTransitionRequestInput,
     InventoryTransferTransitionRequestDepartInput,
+    InventorySourceSystemRequestInput,
+    InventoryTransferTransitionRequestCancelInput
+} from '../declarations/types-27.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type {
+    InventoryTransfersTransitionInput,
+    InventoryTransfersCreateInput,
+    InventoryTransfersGetInput,
+    InventoryTransfersListInput,
+    InventoryTransfersUpdateInput,
     InventoryTransferTransitionRequestReceiveInput,
     InventoryTransferTransitionRequestReturnToOriginInput,
-    InventoryTransferTransitionRequestReportLossInput,
-    InventoryTransferTransitionRequestCancelInput
-} from '../declarations/types-26.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { UpdateInventoryTransferRequestInput } from '../declarations/types-48.js';
+    InventoryTransferTransitionRequestReportLossInput
+} from '../declarations/types-28.js';
+export type { UpdateInventoryTransferRequestInput } from '../declarations/types-51.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export type { InventoryLevel, InventoryItem } from '../declarations/types-24.js';
-export { makeCreateInventoryTransferRequest } from '../declarations/types-64.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export type { InventoryProvenanceRequestInput, InventoryLevel, InventoryItem } from '../declarations/types-26.js';
+export type { MetadataMap } from '../declarations/types-32.js';
+export { makeCreateInventoryTransferRequest } from '../declarations/types-67.js';
 export {
     makeInventoryProvenanceRequest,
     makeInventorySourceSystemRequest,
     makeInventoryTransferLineRequest,
     makeInventoryTransferTransitionRequest,
-    makeInventoryTransferTransitionRequestCancel,
-    makeInventoryTransferTransitionRequestDepart
-} from '../declarations/types-67.js';
+    makeInventoryTransferTransitionRequestCancel
+} from '../declarations/types-71.js';
 export {
+    makeInventoryTransferTransitionRequestDepart,
     makeInventoryTransferTransitionRequestReceive,
     makeInventoryTransferTransitionRequestReportLoss,
-    makeInventoryTransferTransitionRequestReturnToOrigin,
-    makeMoneyValue
-} from '../declarations/types-68.js';
-export { makeUpdateInventoryTransferRequest } from '../declarations/types-72.js';
+    makeInventoryTransferTransitionRequestReturnToOrigin
+} from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
+export { makeUpdateInventoryTransferRequest } from '../declarations/types-77.js';
 export interface InventoryTransfersResource {
     /**
  * Create a planned stock transfer between two Locations. Creates a draft and moves no stock, so
@@ -117,7 +124,8 @@ export interface InventoryTransfersResource {
      */
     getWithResponse(inventory_transfer_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryTransferResponse>>;
     /**
- * List inventory transfers.
+ * List inventory transfers. Default order: inventory_transfer_id ascending; this key uniquely
+ * orders the results.
  * @see reference/inventoryTransfers.md#inventorytransferslist
  * GET /v1/inventory-transfers
  * @example

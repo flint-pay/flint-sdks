@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerSubscriptionPaymentRetryListResponseInput extends Model {
-    /** @param array{'data': list<BuyerSubscriptionPaymentRetryInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<BuyerSubscriptionPaymentRetryInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerSubscriptionPaymentRetryListResponseInput')); }
     /** Shape $ (Value): Array of {@see BuyerSubscriptionPaymentRetryInput}. Shape $[] (Value): {@see BuyerSubscriptionPaymentRetryInput}. A retry of a past-due payment on the buyer's subscription. Includes, when available, the buyer's order and a failure they can act on. Omits the store's idempotency keys and payment attempt IDs.
      * @return list<BuyerSubscriptionPaymentRetryInput|array<array-key, mixed>|\stdClass>

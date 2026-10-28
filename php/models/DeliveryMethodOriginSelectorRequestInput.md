@@ -24,9 +24,10 @@ oneOf variant 1: The `fixed_location` variant of `DeliveryMethodOriginSelectorIn
 
 ### DeliveryMethodOriginSelectorRequestInput variant 2: `type` = `"allocated_origin_group"`
 
-oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1.
+oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1: The Delivery location set selector for a allocated_origin_group delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`location_ids`))).
 - Required: `delivery_location_set_id`.
 - Optional: `location_id`, `location_ids`.
 - Constraints for `location_ids`: minItems: `1`. maxItems: `25`. uniqueItems: `true`.
@@ -34,9 +35,10 @@ oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSe
 
 ### DeliveryMethodOriginSelectorRequestInput variant 3: `type` = `"allocated_origin_group"`
 
-oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2.
+oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2: The Locations selector for a allocated_origin_group delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`delivery_location_set_id`))).
 - Required: `location_ids`.
 - Optional: `delivery_location_set_id`, `location_id`.
 - Constraints for `location_ids`: minItems: `1`. maxItems: `25`. uniqueItems: `true`.
@@ -44,9 +46,10 @@ oneOf variant 2: The `allocated_origin_group` variant of `DeliveryMethodOriginSe
 
 ### DeliveryMethodOriginSelectorRequestInput variant 4: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1.
+oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 1: The Delivery location set selector for a pickup_location_collection delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`location_ids`))).
 - Required: `delivery_location_set_id`.
 - Optional: `location_id`, `location_ids`.
 - Constraints for `location_ids`: minItems: `1`. maxItems: `1000`. uniqueItems: `true`.
@@ -54,9 +57,10 @@ oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOrig
 
 ### DeliveryMethodOriginSelectorRequestInput variant 5: `type` = `"pickup_location_collection"`
 
-oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2.
+oneOf variant 3: The `pickup_location_collection` variant of `DeliveryMethodOriginSelectorInput`.; oneOf variant 2: The Locations selector for a pickup_location_collection delivery origin..
 
 - Condition: not (present(`location_id`)).
+- Condition: not (at least one(present(`location_id`); present(`delivery_location_set_id`))).
 - Required: `location_ids`.
 - Optional: `delivery_location_set_id`, `location_id`.
 - Constraints for `location_ids`: minItems: `1`. maxItems: `1000`. uniqueItems: `true`.

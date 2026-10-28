@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $template
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateDemoSessionRequestInput extends Model {
-    /** @param array{'template'?: string, ...}|object $values */
+    /** @param array{'template'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDemoSessionRequestInput')); }
     /** Shape $ (Value): string. Omit to use quickstart. An explicit empty or unsupported template is invalid. Default: "quickstart". Value enum: "quickstart".
      * @return string

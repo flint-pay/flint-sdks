@@ -10,7 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `data` | Required | [Settings](../models/Settings.md#settings) | The settings for one scope (organization, merchant, location, or device), grouped by area such as checkout, tax, receipts, and tipping. `data`: [field definitions](../models/SettingsGetEffectiveResponse200.md#settingsgeteffectiveresponse200data). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
-| `request_id` | Optional | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `request_id` | Required | string | maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### SettingsGetEffectiveResponse200.data
 
@@ -28,7 +28,7 @@ The settings for one scope (organization, merchant, location, or device), groupe
 | `invoices` | Optional | [InvoiceSettings](../models/InvoiceSettings.md#invoicesettings) | Merchant defaults for invoices, including numbering prefixes, default memo and footer, collection mode, reminders, and autopay retries. |
 | `legal` | Optional | [LegalSettings](../models/LegalSettings.md#legalsettings) | Merchant legal links and terms settings: contract, refund policy, shipping policy, and terms of service URLs, and whether buyers must accept the terms. |
 | `merchant_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
 | `payment_limits` | Optional | [PaymentLimitSettings](../models/PaymentLimitSettings.md#paymentlimitsettings) | Optional merchant limits that can lower Flint's payment-option and surface policy limits. |
 | `promotions` | Optional | [PromotionSettings](../models/PromotionSettings.md#promotionsettings) | Merchant promotion settings: whether automatic promotions and codes are enabled, and how many promotions can apply to one order. |
 | `receipts` | Optional | [ReceiptSettings](../models/ReceiptSettings.md#receiptsettings) | Receipt settings: whether receipts are emailed automatically, whether they are itemized, and the header and footer text. |
@@ -39,6 +39,10 @@ The settings for one scope (organization, merchant, location, or device), groupe
 | `tipping` | Optional | [TippingSettings](../models/TippingSettings.md#tippingsettings) | Tipping settings: percent and fixed tip options, the preselected tip, and whether custom tips are allowed. `tipping`: [field definitions](../models/SettingsGetEffectiveResponse200.md#settingsgeteffectiveresponse200datatipping). |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `version` | Required | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+
+### SettingsGetEffectiveResponse200.data.metadata
+
+Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
 
 ### SettingsGetEffectiveResponse200.data.tax_identity
 

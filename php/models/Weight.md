@@ -6,5 +6,5 @@ A weight value in grams, kilograms, ounces, or pounds, used in delivery profile 
 
 Response model.
 
-Fields, types, descriptions and enum values: [WeightInput](../models/WeightInput.md#weightinput).
+Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantUnitWeight](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantUnitWeight.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantunitweight).
 

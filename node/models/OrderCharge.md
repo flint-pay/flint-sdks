@@ -16,7 +16,7 @@ An additional charge applied to an order.
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `description` | Optional | string |  |
 | `fulfillment_id` | Optional | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BuyerRefund.md#buyerrefundmetadata). |
 | `name` | Required | string |  |
 | `order_charge_id` | Required | string |  |
 | `percent` | Optional | number | multipleOf: `0.0001`. |
@@ -34,6 +34,10 @@ Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.c
 ### OrderCharge.applied_money
 
 Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[].flat_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponentsflat_money).
+
+### OrderCharge.metadata
+
+Field definitions: [BuyerRefund.metadata](../models/BuyerRefund.md#buyerrefundmetadata).
 
 ### OrderCharge.refunded_money
 

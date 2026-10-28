@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass> $choice_groups
  * @property-read string $currency
  * @property-read list<string> $delivery_method_ids
- * @property-read DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass $destination_address
+ * @property-read AddressInput|array<array-key, mixed>|\stdClass $destination_address
  * @property-read string|\DateTimeInterface $evaluated_at
  * @property-read string $evaluation_status
  * @property-read string|\DateTimeInterface $expires_at
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $pickup_location_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryPreviewInput extends Model {
-    /** @param array{'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'choice_groups': list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'pickup_location_id'?: string}|object $values */
+    /** @param array{'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'choice_groups': list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'pickup_location_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewInput')); }
     /** Shape $ (Value): {@see DeliveryBuyerLocationResourceInput}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote.
      * @return DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass
@@ -43,8 +43,8 @@ final class DeliveryPreviewInput extends Model {
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** Shape $ (Value): {@see DeliveryAddressResourceInput}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. An address as returned on delivery quotes, selections, previews, and pickup locations.
-     * @return DeliveryAddressResourceInput|array<array-key, mixed>|\stdClass
+    /** Shape $ (Value): {@see AddressInput}. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return AddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }

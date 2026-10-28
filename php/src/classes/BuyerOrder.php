@@ -21,7 +21,7 @@ namespace Flint;
  * @property-read list<OrderGiftCardSettlement> $gift_card_settlements
  * @property-read bool $gift_card_tender_enabled
  * @property-read list<OrderGiftCardSelection> $gift_cards
- * @property-read ?string $governing_delivery_selection_id
+ * @property-read string|null $governing_delivery_selection_id
  * @property-read list<BuyerOrderLineItem> $line_items
  * @property-read ?string $merchant_id
  * @property-read string $order_id
@@ -50,7 +50,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerOrder extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id'?: string, 'line_items': list<mixed>, 'merchant_id'?: string, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids': list<string>, 'payment_link_id'?: string, 'payment_status': string, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription_cycle'?: string, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan_id'?: string, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at'?: string, 'version': string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'closed_at'?: string, 'closed_reason'?: string, 'created_at'?: string, 'customer_id'?: string, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id': string|null, 'line_items': list<mixed>, 'merchant_id'?: string, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids': list<string>, 'payment_link_id'?: string, 'payment_status': string, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription_cycle'?: string, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan_id'?: string, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at'?: string, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrder')); }
     /** Shape $ (Value): {@see BuyerOrderPaymentAttempt}. An attempt to pay an order.
      * @return ?BuyerOrderPaymentAttempt
@@ -147,10 +147,10 @@ final class BuyerOrder extends Model {
      */
     public function getGiftCards(): array { return $this->get('gift_cards'); }
     public function hasGiftCards(): bool { return $this->has('gift_cards'); }
-    /** Shape $ (Value): string. ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Read with GET /v1/orders/{order_id}; other order responses may omit this field. While present, change the destination through the delivery selection. Omitted when no selection governs the order.
-     * @return ?string
+    /** Shape $ (Value): string or null. ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection.
+     * @return string|null
      */
-    public function getGoverningDeliverySelectionId(): ?string { return $this->get('governing_delivery_selection_id'); }
+    public function getGoverningDeliverySelectionId(): string|null { return $this->get('governing_delivery_selection_id'); }
     public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
     /** Shape $ (Value): Array of {@see BuyerOrderLineItem}. Shape $[] (Value): {@see BuyerOrderLineItem}. An item purchased in an order.
      * @return list<BuyerOrderLineItem>

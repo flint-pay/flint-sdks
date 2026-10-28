@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read bool $is_itemized
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReceiptSettingsRequestInput extends Model {
-    /** @param array{'auto_email_enabled'?: bool, 'footer_text'?: string|null, 'header_text'?: string|null, 'is_itemized'?: bool, ...}|object $values */
+    /** @param array{'auto_email_enabled'?: bool, 'footer_text'?: string|null, 'header_text'?: string|null, 'is_itemized'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReceiptSettingsRequestInput')); }
     /** Shape $ (Value): boolean. Whether Flint automatically emails a receipt after a successful payment.
      * @return bool

@@ -1,19 +1,18 @@
 import type { InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-4.js';
 import type { CreateInventoryReceiptRequestInput } from '../declarations/types-7.js';
+import type { InventoryReceipt, InventoryReceiptListResponse } from '../declarations/types-26.js';
 import type {
-    InventoryReceipt,
-    InventoryReceiptListResponse,
     InventoryReceiptResponse,
     InventoryReceiptResult,
     InventoryReceiptResultResponse,
     InventoryReceiptsCreateInput,
     InventoryReceiptsGetInput,
     InventoryReceiptsListInput
-} from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-40.js';
-import type { SdkResponse } from '../declarations/types-44.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
+} from '../declarations/types-27.js';
+import type { RequestOptions } from '../declarations/types-42.js';
+import type { SdkResponse } from '../declarations/types-46.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,31 +28,36 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type { CreateInventoryReceiptRequestInput } from '../declarations/types-7.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-62.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning } from '../declarations/types-40.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-65.js';
+export type { RequestOptions, ResponseMeta } from '../declarations/types-42.js';
 export type {
     InventoryReceiptResult,
     InventoryReceiptResultResponse,
-    InventoryReceipt,
     InventoryReceiptResponse,
-    InventoryReceiptListResponse,
     InventoryReceiptsCreateInput,
     InventoryReceiptsGetInput,
     InventoryReceiptsListInput,
-    InventoryReceiptLineRequestInput,
     InventorySourceSystemRequestInput,
-    InventoryReceiptLine,
     InventorySourceSystem
-} from '../declarations/types-25.js';
-export type { SdkResponse } from '../declarations/types-44.js';
+} from '../declarations/types-27.js';
+export type { SdkResponse } from '../declarations/types-46.js';
+export type {
+    InventoryReceipt,
+    InventoryReceiptListResponse,
+    InventoryReceiptLineRequestInput,
+    InventoryLevel,
+    InventoryItem,
+    InventoryReceiptLine
+} from '../declarations/types-26.js';
 export type { ClientOptions } from '../declarations/types-4.js';
 export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-9.js';
-export type { InventoryLevel, InventoryItem } from '../declarations/types-24.js';
-export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-31.js';
-export { makeCreateInventoryReceiptRequest } from '../declarations/types-64.js';
-export { makeInventoryReceiptLineRequest, makeInventorySourceSystemRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-68.js';
+export type { Credentials } from '../declarations/types-11.js';
+export type { MetadataMap } from '../declarations/types-32.js';
+export type { ResponseWarning } from '../declarations/types-43.js';
+export type { NextAction, NextActionMerchantAccountSession, MoneyValue } from '../declarations/types-33.js';
+export { makeCreateInventoryReceiptRequest } from '../declarations/types-67.js';
+export { makeInventoryReceiptLineRequest, makeInventorySourceSystemRequest } from '../declarations/types-71.js';
+export { makeMoneyValue } from '../declarations/types-73.js';
 export interface InventoryReceiptsResource {
     /**
  * Record a completed inventory receipt and disposition. This is a downstream stock effect, not the
@@ -92,7 +96,8 @@ export interface InventoryReceiptsResource {
     getWithResponse(inventory_receipt_id: InputValue<string>, params?: {}, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<SdkResponse<InventoryReceiptResponse>>;
     /**
  * List completed inventory receipt effects. Use typed Return filters for reconciliation when the
- * receipt was created by Returns.
+ * receipt was created by Returns. Default order: inventory_receipt_id ascending; this key uniquely
+ * orders the results.
  * @see reference/inventoryReceipts.md#inventoryreceiptslist
  * GET /v1/inventory-receipts
  * @example

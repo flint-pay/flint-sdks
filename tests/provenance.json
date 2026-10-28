@@ -52,11 +52,11 @@
   "apiVersion": "2026-09-07",
   "fullSpec": {
     "repository": "flint-pay/flint",
-    "revision": "2d3123e047db0aba5dc4e3d9393c954ef3745fa0",
+    "revision": "0f83faf086dd659e279da39ae653918b38450ae5",
     "source": "web/apps/developers/src/generated/openapi.json",
-    "sourceSha256": "fb22668725233fa5f54a03ef96294e18f4e35f88b93a80d47228e4b95a04fdca",
+    "sourceSha256": "e8fff8a6422b34e3142deea2983568beb1a7cccc697f02368b4931e331c6dd1e",
     "apiVersion": "2026-09-07",
-    "basis": "Unmodified public versioned export (-version 2026-09-07) from a clean worktree at Flint main 2d3123e0, byte-identical to the committed developers export. 34 commits after the production-deployed 366e50d4 that published 4.0.0 pins.",
+    "basis": "Unmodified public versioned export (-version 2026-09-07) at Flint main 0f83faf0, byte-identical to the committed developers export. Includes canonical path naming (flint#2453), required union tags (FLI-420), optional non-US address state and postal_code, buyer store credit return previews and closed request schemas (flint#2505).",
     "generatorFixtureSource": {
       "repository": "flint-pay/sdk-generator",
       "revision": "314de2ee5975e3a5cc7cf385babd23b84eb489fa",
@@ -66,15 +66,16 @@
     "profileCorrections": {
       "authentication": "Exact complete security alternatives for five modes; checkoutToken uses CheckoutSessionBearer. The apiKey shortcut sends merchant/BearerAuth. The merchantKey mode is removed because the export no longer declares ApiKeyHeader (X-API-Key).",
       "requestStyle": "Preserve positional IDs and flat params except 13 operations with non-object union bodies, which require object-style {path IDs, body} inputs. The exact overrides are recorded in the common profile.",
-      "releasePolicy": "semver, version 5.0.0; single-attempt requests and caller-supplied idempotency keys. Shared capability defaults do not enable automatic retries or keys.",
-      "methodCompatibility": "Keep previous same-ID and same-route-rename public resource/method bindings. Eight cross-resource moved methods remain primary bindings under their published 3.0.0 names; no paymentReviews, giftCards.adjustBalance/cashOut, or merchantBillingInvoices replacements are added. invoices.reverseManualPayment is already canonical. Only Location publishGeography/updateInventory are deprecated aliases of locations.update. Action-dependent inventory names are removed; expose only inventoryCounts.transition and inventoryReservations.transition.",
+      "releasePolicy": "semver, version 7.0.0; retries and idempotency keys derived from each operation's idempotency class (scripts/profiles.mjs).",
+      "methodCompatibility": "Keep previous same-ID and same-route-rename public resource/method bindings. Eight cross-resource moved methods remain primary bindings under their published 3.0.0 names; no paymentReviews, giftCards.adjustBalance/cashOut, or merchantBillingInvoices replacements are added. invoices.reverseManualPayment is already canonical. Only Location publishGeography/updateInventory are deprecated aliases of locations.update. Action-dependent inventory names are removed; expose only inventoryCounts.transition and inventoryReservations.transition. In 7.0.0 the developer sandbox, auth context, request log, resource timeline and partner app methods keep their names on the canonical paths (cross-resource moves). Same-resource renames keep the 5.x names as deprecated aliases: me.listFlintWalletPaymentMethods, me.listPayments, me.getPayment, invoices.getOrCreateCheckoutSession, returnResolutions.getOrCreateCheckoutSession and checkoutSessions.getDeliverySelectionHistory.",
       "paymentIntents": "Create/get payloads expose payment fields directly; current source nullability applies without overrides.",
       "webhooks": "Resources use data.object and exact int64 strings, including amounts beyond the safe native integer range.",
       "risk": "Plural values is required; obsolete singular-value and nullability overrides are absent.",
       "models": "Port the current fixture model-name collision resolutions without source constraint overrides.",
       "examples": "Port current synthetic fixture request examples and strict shared HTTP/model cases; test provider errors through real clients.",
       "httpFixtures": "Current generator fixtures, with explicit synthetic keys for required-key operations because production keeps automatic keys disabled.",
-      "generatorAliasLimitation": "Generator 314de2ee supports deprecated method aliases only within one resource, and cannot bind or constrain fixed request-body values. Cross-resource deprecated aliases are unsupported; production primary bindings preserve the eight existing names instead. The five action-dependent inventory aliases are intentionally omitted."
+      "generatorAliasLimitation": "Generator 314de2ee supports deprecated method aliases only within one resource, and cannot bind or constrain fixed request-body values. Cross-resource deprecated aliases are unsupported; production primary bindings preserve the eight existing names instead. The five action-dependent inventory aliases are intentionally omitted.",
+      "overrides": "Exact-equivalent JSON Pointer overrides in the common profile: int64 format instead of unsafe 2^63-1 bounds, a lookahead-free pattern for the flint_ metadata key reservation, not/required instead of false property schemas on PartnerAppCredential, and single-key alternatives for the recursive DeliveryEligibilityExpression and DeliveryZoneConfiguration unions. See spec/README.md."
     },
     "operationMigrations": [
       {
@@ -480,7 +481,8 @@
       "addOrderCharge": "createOrderCharge",
       "listCurrentAPIKeyRequestLogs": "listAPIRequestLogs",
       "addReturnLineItem": "createReturnLineItem",
-      "waiveReturnLineInspection": "waiveReturnLineItemInspection"
+      "waiveReturnLineInspection": "waiveReturnLineItemInspection",
+      "getCheckoutSessionDeliverySelectionHistory": "getCheckoutSessionDeliverySelection"
     },
     "excludedFormOperations": [
       "authorizeCLIDevice",
@@ -494,21 +496,43 @@
       "basis": "The five genuinely removed operations are explicitly removed by their source commits and developer changelogs. Their old public routes and registered handlers are absent at the production revision. Historical changelog references describe earlier versions, not current availability."
     },
     "mainChanges": {
-      "basis": "Contract differences between the production pin of published 4.0.0 (366e50d4) and main 2d3123e0 that change SDK bindings; released as 5.0.0.",
+      "basis": "Contract differences between main 2d3123e0 (published 5.0.0 through 6.0.0) and main 0f83faf0 that change SDK bindings; released as 7.0.0.",
       "removedOperations": {
-        "cancelOrderPayment": "orders.cancelPayment removed; use paymentIntents.cancel.",
-        "captureOrderPayment": "orders.capturePayment removed; use paymentIntents.capture.",
-        "issueDeveloperSandboxTestKey": "developer.issueSandboxTestKey removed; POST /v1/developer/sandboxes/{sandbox_id}/api-keys is developer.createSandboxAPIKey."
+        "listDeveloperPartnerInstalls": "developer.listPartnerInstalls removed; use partnerAppInstalls.list (GET /v1/partner-app-installs).",
+        "setDefaultCustomerAddress": "customers.setDefaultAddress removed; use customers.updateAddress with is_default_shipping or is_default_billing.",
+        "setDefaultMeAddress": "me.setDefaultAddress removed; use me.updateAddress with is_default_shipping or is_default_billing.",
+        "changeSubscriptionPaymentMethod": "subscriptions.changePaymentMethod removed; use subscriptions.update with payment_method_id.",
+        "reactivateSubscription": "subscriptions.reactivate removed; use subscriptions.update with cancel_at_period_end false.",
+        "updateSubscriptionBillingSchedule": "subscriptions.updateBillingSchedule removed; use subscriptions.update with billing_schedule.",
+        "changeMeSubscriptionPaymentMethod": "me.changeSubscriptionPaymentMethod removed; use me.updateSubscription.",
+        "changeMeSubscriptionBillingInterval": "me.changeSubscriptionBillingInterval removed; use me.updateSubscription.",
+        "changeMeSubscriptionDelivery": "me.changeSubscriptionDelivery removed; use me.updateSubscription.",
+        "changeMeSubscriptionQuantity": "me.changeSubscriptionQuantity removed; use me.updateSubscription.",
+        "reactivateMeSubscription": "me.reactivateSubscription removed; use me.updateSubscription with cancel_at_period_end false."
+      },
+      "renamedOperations": {
+        "getDeveloperAuthContext": "getAuthContext: developer.getAuthContext, GET /v1/auth-context.",
+        "listDeveloperSandboxes": "listSandboxes: developer.listSandboxes, /v1/sandboxes (create, get, delete, reset and createSandboxAPIKey likewise).",
+        "listDeveloperPartnerApps": "listPartnerApps: developer.listPartnerApps, /v1/partner-apps (all partner app and install methods likewise).",
+        "listMeFlintWalletPaymentMethods": "listMeFlintWalletCards: me.listFlintWalletCards, alias listFlintWalletPaymentMethods.",
+        "listMePayments": "listMePaymentIntents: me.listPaymentIntents, alias listPayments.",
+        "getMePayment": "getMePaymentIntent: me.getPaymentIntent, alias getPayment.",
+        "getOrCreateInvoiceCheckoutSession": "createInvoiceCheckoutSession: invoices.createCheckoutSession, alias getOrCreateCheckoutSession.",
+        "getOrCreateReturnResolutionCheckoutSession": "createReturnResolutionCheckoutSession: returnResolutions.createCheckoutSession, alias getOrCreateCheckoutSession."
       },
       "addedOperations": {
-        "createSandboxAPIKey": "developer.createSandboxAPIKey (onboarding and merchant modes).",
-        "listMeSubscriptionPaymentRetries": "me.listSubscriptionPaymentRetries (customer mode), returning the page body like subscriptions.listPaymentRetries."
+        "listPartnerAppCredentials": "developer.listPartnerAppCredentials, createPartnerAppCredential, getPartnerAppCredential, deletePartnerAppCredential.",
+        "listCheckoutSessionDeliverySelections": "checkoutSessions.listDeliverySelections.",
+        "listDeliveryRevocations": "deliveryRevocations.list.",
+        "acceptDispute": "disputes.accept.",
+        "getTaxConnection": "taxConnection.get, connect, disconnect, listRegistrations, createRegistration, getRegistration, updateRegistration, deleteRegistration."
       },
       "movedRoutes": [
-        "listPayoutDestinations, getPayoutDestination, updatePayoutDestination and deletePayoutDestination move to /v1/payout-destinations; methods unchanged.",
-        "refreshMerchantAccountSession moves to POST /v1/merchant-account-session-refreshes; method unchanged."
-      ],
-      "removedSecurityScheme": "ApiKeyHeader"
+        "createMeFlintWalletStoreSetup moves to /v1/me/flint-wallet/cards/{flint_wallet_card_id}/store-setups; method unchanged.",
+        "createMeInvoiceCheckoutSession and createMeReturnResolutionCheckoutSession move to .../checkout-sessions; methods unchanged.",
+        "listAPIRequestLogs, getAPIRequestLog and getResourceTimeline move to /v1/api-request-logs and /v1/resource-timelines; methods unchanged.",
+        "resetDemoSession moves to /v1/demo-sessions/{demo_session_id}/reset; method unchanged."
+      ]
     }
   }
 }

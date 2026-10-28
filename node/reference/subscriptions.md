@@ -51,7 +51,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -65,69 +65,6 @@ const result = await client.subscriptions.cancel("example", {}, { idempotencyKey
 ```
 
 [Complete runnable example](../examples/subscriptions-cancel.mjs)
-
-### subscriptions.changePaymentMethod
-
-Changes the subscription to an active payment method owned by the same customer. The payment method's usage must be off_session. Send expected_version to reject a concurrent change. A card whose setup hasn't finished returns 409 PAYMENT_METHOD_NOT_READY. Retry the same request with the same Idempotency-Key once setup finishes.
-
-`POST /v1/subscriptions/{subscription_id}/payment-method`
-
-Signature:
-
-```typescript
-changePaymentMethod(subscription_id: InputValue<string>,
- params: (InputValue<ChangeSubscriptionPaymentMethodRequestInput>) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-Field definitions: [shared fields](me.md#request-fields-4). Models: [ChangeSubscriptionPaymentMethodRequestInput](../models/ChangeSubscriptionPaymentMethodRequest.md#changesubscriptionpaymentmethodrequest).
-
-#### Response
-
-Returned payload: [Subscription](../models/Subscription.md#subscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `changePaymentMethodWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.subscriptions.changePaymentMethod("example", {payment_method_id: "example"}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/subscriptions-changePaymentMethod.mjs)
 
 ### subscriptions.changePlan
 
@@ -189,7 +126,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `changePlanWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -238,9 +175,9 @@ Body model: [CreateSubscriptionRequestInput](../models/CreateSubscriptionRequest
 | `customer_id` | Required | string | minLength: `1`. |
 | `delivery` | Optional | [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequest.md#subscriptiondeliveryrequest) | The delivery preference to set on a subscription: delivery method, type, destination, and recipient. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `payment_method_id` | Optional | string | minLength: `1`. |
-| `service_location` | Optional | [SubscriptionServiceLocationRequestInput](../models/SubscriptionServiceLocationRequest.md#subscriptionservicelocationrequest) | Where a subscription's service is delivered: a saved customer address by ID, or a new address. |
+| `service_location` | Optional | [SubscriptionServiceLocationRequestInput](../models/SubscriptionServiceLocationRequestInput.md#subscriptionservicelocationrequestinput) | Where a subscription's service is delivered: a saved customer address by ID, or a new address. |
 | `terms` | Required | [SubscriptionTermsRequestInput](../models/SubscriptionTermsRequest.md#subscriptiontermsrequest) | Subscription terms from either a subscription plan or subscription offers, selected by `type`. |
 
 #### Response
@@ -273,7 +210,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -349,7 +286,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createAccessLinkWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -438,6 +375,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -448,7 +386,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -518,7 +456,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createPaymentRetryWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -576,6 +514,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 410 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -586,7 +525,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `deleteLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -720,7 +659,7 @@ const result = await client.subscriptions.getPaymentRetry("example", "example", 
 
 ### subscriptions.list
 
-Returns a paginated list of subscriptions for the authenticated merchant. Subscriptions without a next_billing_at never match next_billing_after or next_billing_before, and sort last with sort_by=next_billing_at in either direction.
+Returns a paginated list of subscriptions for the authenticated merchant. Subscriptions without a next_billing_at never match next_billing_after or next_billing_before, and sort last with sort_by=next_billing_at in either direction. Default order: created_at descending, then subscription_id descending.
 
 `GET /v1/subscriptions`
 
@@ -834,7 +773,7 @@ const result = await client.subscriptions.list({}, {  });
 
 ### subscriptions.listPaymentRetries
 
-Returns a subscription's manual payment retries, newest first.
+Returns a subscription's manual payment retries, newest first. Default order: created_at descending, then subscription_payment_retry_id descending.
 
 `GET /v1/subscriptions/{subscription_id}/payment-retries`
 
@@ -852,7 +791,7 @@ listPaymentRetries(subscription_id: InputValue<string>,
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-55).
+Field definitions: [shared fields](me.md#request-fields-51).
 
 #### Response
 
@@ -909,7 +848,7 @@ pause(subscription_id: InputValue<string>,
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-57). Models: [PauseSubscriptionRequestInput](../models/PauseSubscriptionRequest.md#pausesubscriptionrequest).
+Field definitions: [shared fields](me.md#request-fields-53). Models: [PauseSubscriptionRequestInput](../models/PauseSubscriptionRequest.md#pausesubscriptionrequest).
 
 #### Response
 
@@ -940,7 +879,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `pauseWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -954,71 +893,6 @@ const result = await client.subscriptions.pause("example", {}, { idempotencyKey:
 ```
 
 [Complete runnable example](../examples/subscriptions-pause.mjs)
-
-### subscriptions.reactivate
-
-Clears a pending cancellation without changing the current billing period. Alternatively, PATCH the subscription with cancel_at_period_end set to false. Send expected_version to reject a concurrent change.
-
-`POST /v1/subscriptions/{subscription_id}/reactivate`
-
-Signature:
-
-```typescript
-reactivate(subscription_id: InputValue<string>,
- params?: (InputValue<ResourceVersionRequestInput> | {
-  "expected_version"?: never
-}) & {
-  "Idempotency-Key"?: InputValue<string>
-},
- options?: RequestOptions<"merchant">)
-```
-
-#### Request fields
-
-Field definitions: [shared fields](me.md#request-fields-58). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
-
-#### Response
-
-Returned payload: [Subscription](../models/Subscription.md#subscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `reactivateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.subscriptions.reactivate("example", undefined, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/subscriptions-reactivate.mjs)
 
 ### subscriptions.renew
 
@@ -1038,7 +912,7 @@ renew(subscription_id: InputValue<string>,
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-61). Models: [RenewSubscriptionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
+Field definitions: [shared fields](me.md#request-fields-56). Models: [RenewSubscriptionRequestInput](../models/SkipMeSubscriptionCycleRequestInput.md#skipmesubscriptioncyclerequestinput).
 
 #### Response
 
@@ -1070,7 +944,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `renewWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key required — [policy 1](../RUNTIME.md#idempotency).
+Idempotent: key required — [policy 2](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1087,7 +961,7 @@ const result = await client.subscriptions.renew("example", {}, { idempotencyKey:
 
 ### subscriptions.resume
 
-Asks Flint to resume a paused subscription. Returns 202 while the subscription is still paused, with resume_requested_at set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, use reactivate.
+Asks Flint to resume a paused subscription. Returns 202 while the subscription is still paused, with resume_requested_at set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with 409 ACTION_NOT_ALLOWED. To undo a scheduled cancellation, PATCH the subscription with cancel_at_period_end set to false.
 
 `POST /v1/subscriptions/{subscription_id}/resume`
 
@@ -1105,7 +979,7 @@ resume(subscription_id: InputValue<string>,
 
 #### Request fields
 
-Field definitions: [shared fields](me.md#request-fields-58). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](me.md#request-fields-57). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 
@@ -1125,6 +999,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 | 504 | ServerError | server |
 
@@ -1136,7 +1011,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `resumeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1209,7 +1084,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `skipCycleWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1226,7 +1101,7 @@ const result = await client.subscriptions.skipCycle("example", {}, { idempotency
 
 ### subscriptions.update
 
-Updates metadata, external_reference_id, payment_method_id, delivery, billing interval, quantity, or cancel_at_period_end: false to undo a scheduled cancellation. Send billing_interval and billing_interval_count together. A billing_schedule update must be the only mutable field. Delivery, cadence and quantity changes apply to future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines through the line-items collection.
+Updates metadata, external_reference_id, payment_method_id, delivery, billing interval, quantity, or cancel_at_period_end: false to undo a scheduled cancellation. Send billing_interval and billing_interval_count together. A billing_schedule update must be the only mutable field. Delivery, cadence and quantity changes apply to future unpaid renewals. Send expected_version to reject concurrent changes. Schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel, change the plan with /change-plan, and manage lines through the line-items collection. A card whose setup hasn't finished returns 409 ACTION_NOT_ALLOWED with reason status_not_reached. Once setup finishes, send a new request with a new Idempotency-Key.
 
 `PATCH /v1/subscriptions/{subscription_id}`
 
@@ -1261,7 +1136,7 @@ Body model: [UpdateSubscriptionRequestInput](../models/UpdateSubscriptionRequest
 | `delivery` | Optional | [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequest.md#subscriptiondeliveryrequest) | The delivery preference to set on a subscription: delivery method, type, destination, and recipient. |
 | `expected_version` | Optional | integer string | Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `metadata` | Optional | Map of (string or null) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Map values: minLength: `1`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `payment_method_id` | Optional | string | minLength: `1`. |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
 
@@ -1283,6 +1158,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -1293,7 +1169,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -1307,87 +1183,6 @@ const result = await client.subscriptions.update("example", {}, { idempotencyKey
 ```
 
 [Complete runnable example](../examples/subscriptions-update.mjs)
-
-### subscriptions.updateBillingSchedule
-
-Sets the next billing date, clears an external schedule while it awaits a date, or transfers schedule ownership. Moving a Flint-owned next_billing_at sets billing_anchor_day to its UTC day unless you send an explicit anchor. Transferring an external schedule to Flint with a next billing date follows the same rule. An unchanged date and owner preserve the anchor. The response carries the updated subscription. Send expected_version to reject a concurrent change.
-
-`PATCH /v1/subscriptions/{subscription_id}/billing-schedule`
-
-Signature: `updateBillingSchedule(input: SubscriptionsUpdateBillingScheduleInput, options?: RequestOptions)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `subscription_id` | Required | string |  |
-| `Idempotency-Key` | Optional | string | maxLength: `255`. |
-| `body` | Required | [UpdateSubscriptionBillingScheduleRequestInput](../models/UpdateSubscriptionBillingScheduleRequest.md#updatesubscriptionbillingschedulerequest) | A closed owner-specific billing schedule update. |
-
-Body model: [UpdateSubscriptionBillingScheduleRequestInput](../models/UpdateSubscriptionBillingScheduleRequest.md#updatesubscriptionbillingschedulerequest).
-
-#### subscriptions.updateBillingSchedule body oneOf variant 1
-
-The `flint` variant of `UpdateSubscriptionBillingScheduleRequest`.
-
-Body model: [UpdateSubscriptionBillingScheduleRequestFlintInput](../models/UpdateSubscriptionBillingScheduleRequestFlint.md#updatesubscriptionbillingschedulerequestflint).
-
-#### subscriptions.updateBillingSchedule body oneOf variant 1 fields
-
-Field definitions: [shared fields](../models/UpdateSubscriptionBillingScheduleRequestFlint.md#updatesubscriptionbillingschedulerequestflint).
-
-#### subscriptions.updateBillingSchedule body oneOf variant 2
-
-The `external` variant of `UpdateSubscriptionBillingScheduleRequest`.
-
-Body model: [UpdateSubscriptionBillingScheduleRequestExternalInput](../models/UpdateSubscriptionBillingScheduleRequestExternal.md#updatesubscriptionbillingschedulerequestexternal).
-
-#### subscriptions.updateBillingSchedule body oneOf variant 2 fields
-
-Field definitions: [shared fields](../models/UpdateSubscriptionBillingScheduleRequestExternal.md#updatesubscriptionbillingschedulerequestexternal).
-
-#### Response
-
-Returned payload: [Subscription](../models/Subscription.md#subscription).
-
-#### Errors
-
-| Status | Error class | Kind |
-| --- | --- | --- |
-| 400 | ValidationError | validation |
-| 401 | AuthenticationError | authentication |
-| 403 | AuthenticationError | authentication |
-| 404 | NotFoundError | not_found |
-| 409 | ConflictError | conflict |
-| 410 | ApiError | api |
-| 413 | ApiError | api |
-| 415 | ApiError | api |
-| 429 | RateLimitError | rate_limit |
-| 500 | ServerError | server |
-| 503 | ServerError | server |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: `updateBillingScheduleWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.subscriptions.updateBillingSchedule({subscription_id: "example", body: {owner: "flint", next_billing_at: "2026-01-01T00:00:00Z"}}, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/subscriptions-updateBillingSchedule.mjs)
 
 ### subscriptions.updateLineItem
 
@@ -1439,6 +1234,7 @@ Returned payload: [Subscription](../models/Subscription.md#subscription).
 | 415 | ApiError | api |
 | 429 | RateLimitError | rate_limit |
 | 500 | ServerError | server |
+| 502 | ServerError | server |
 | 503 | ServerError | server |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
@@ -1449,7 +1245,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateLineItemWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

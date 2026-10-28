@@ -19,7 +19,7 @@ Response model.
 | `paid_at` | Optional | string | When the invoice was paid. Removed if a reversed collection reopens it. Format: `date-time`. |
 | `period_end_at` | Required | string | Exclusive invoice billing period end as an RFC 3339 UTC instant. Format: `date-time`. |
 | `period_start_at` | Required | string | Inclusive invoice billing period start as an RFC 3339 UTC instant. Format: `date-time`. |
-| `status` | Required | string | Collection state of the invoice. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. Values: `"draft"`, `"open"`, `"collecting"`, `"paid"`, `"delinquent"`, `"void"`, `"written_off"`. |
+| `status` | Required | string | Collection state of the invoice: open, paid, or written_off. Flint issues an invoice as open and marks it paid once collected; a reversed collection returns it to open, and written_off means Flint stopped collecting it. Values: `"open"`, `"paid"`, `"written_off"`. |
 | `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Sum of the subscription line items, before credit. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What the invoice charges: subtotal_money minus credit_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `updated_at` | Required | string | When the invoice last changed. Format: `date-time`. |

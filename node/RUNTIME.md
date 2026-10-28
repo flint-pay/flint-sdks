@@ -1,6 +1,6 @@
 # Flint Public API runtime guide
 
-Package 6.0.0; API 2026-09-07.
+Package 7.0.0; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 
@@ -196,8 +196,8 @@ The response field `error.remediation.retry` controls body-driven retries for de
 
 | Policy | Header | Retention | Scope |
 | --- | --- | --- | --- |
-| 1 | `Idempotency-Key` | As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent. | Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters. |
-| 2 | `Idempotency-Key` | At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request. | Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters. |
+| 1 | `Idempotency-Key` | At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request. | Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters. |
+| 2 | `Idempotency-Key` | As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent. | Authenticated context, environment, HTTP endpoint and caller key; the canonical request fingerprint includes target resource IDs and request parameters. |
 
 Only operations declaring idempotency accept idempotencyKey. Persist a key with the original input before the first attempt and reuse it for the same action. When automatic keys are enabled, the SDK creates one per call and reuses it across attempts; automatic keys do not span separate calls. Resolved keys are exposed on errors and response metadata, including not_sent failures after key resolution.
 
@@ -218,19 +218,13 @@ const client = new Client({
 });
 const idempotencyKey = process.env.API_IDEMPOTENCY_KEY;
 if (!idempotencyKey) throw new Error("Set API_IDEMPOTENCY_KEY to the key saved with this action");
-const result = await client.giftCardAdjustments.create(
+const result = await client.disputes.accept(
   "example",
-  {
-    amount_money: {
-      amount: "100",
-      currency: "USD",
-    },
-    reason: "complimentary",
-  },
+  {},
   { idempotencyKey: idempotencyKey, maxAttempts: 1 },
 );
-console.log(result.gift_card.gift_card_id);
-console.log(result.gift_card.merchant_id);
+console.log(result.dispute_id);
+console.log(result.merchant_id);
 ```
 
 ## Pagination and polling

@@ -8,7 +8,7 @@ namespace Flint;
  * @property-read string $request_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerAddressListResponseInput extends Model {
-    /** @param array{'data': list<CustomerAddressInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id'?: string, ...}|object $values */
+    /** @param array{'data': list<CustomerAddressInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerAddressListResponseInput')); }
     /** Shape $ (Value): Array of {@see CustomerAddressInput}. Shape $[] (Value): {@see CustomerAddressInput}. An address saved on a customer's profile.
      * @return list<CustomerAddressInput|array<array-key, mixed>|\stdClass>

@@ -21,7 +21,13 @@ Body model: [CreateCategoryRequestInput](../models/CreateCategoryRequest.md#crea
 
 #### categories.create body fields
 
-Field definitions: [shared fields](../models/CreateCategoryRequest.md#createcategoryrequest).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `description` | Optional | string | Description of the category. minLength: `1`. maxLength: `2048`. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `handle` | Optional | string | Unique category handle, using lowercase letters, digits, and single hyphens between words. Cannot be changed after creation. minLength: `1`. maxLength: `100`. pattern: `^[a-z0-9]+(-[a-z0-9]+)*$`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
+| `name` | Required | string | Category name shown to buyers. minLength: `1`. maxLength: `100`. |
 
 #### Response
 
@@ -51,7 +57,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -117,7 +123,7 @@ const result = await client.categories.get("example", {}, {  });
 
 ### categories.list
 
-List categories.
+List categories. Default order: handle ascending; this key uniquely orders the results.
 
 `GET /v1/categories`
 
@@ -243,7 +249,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `removeWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -286,7 +292,13 @@ Body model: [UpdateCategoryRequestInput](../models/UpdateCategoryRequest.md#upda
 
 #### categories.update body fields
 
-Field definitions: [shared fields](../models/UpdateCategoryRequest.md#updatecategoryrequest).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `description` | Optional | string or null | Send null to clear it. minLength: `1`. maxLength: `2048`. |
+| `expected_version` | Optional | integer string | Category version last read by the caller. Optional for updates. Use an integer string (decimal digits), not a floating-point number. Format: `uint64`. minimum: `1`. |
+| `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
+| `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
+| `name` | Optional | string | Category name shown to buyers. minLength: `1`. maxLength: `100`. |
 
 #### Response
 
@@ -316,7 +328,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `updateWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 

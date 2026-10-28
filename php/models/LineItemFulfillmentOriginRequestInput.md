@@ -6,8 +6,5 @@ Where a line item ships or is fulfilled from: a fixed location, inventory routin
 
 Request input.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `location_id` | Optional | string | minLength: `1`. |
-| `origin_policy_type` | Required | string | Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
+Fields, types, descriptions and enum values: [DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantFulfillmentOriginPolicy](../models/DeliveryPreviewsCreateResponse200DataDeliveryOptionsLineItemsItemVariantFulfillmentOriginPolicy.md#deliverypreviewscreateresponse200datadeliveryoptionslineitemsitemvariantfulfillmentoriginpolicy).
 

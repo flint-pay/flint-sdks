@@ -48,7 +48,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `cancelWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -112,7 +112,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: `createWithResponse`. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic — [policy 2](../RUNTIME.md#idempotency).
+Idempotent: key automatic — [policy 1](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -184,7 +184,7 @@ $result = $client->giftCardNotifications->get('example', [], new RequestOptions(
 
 ### giftCardNotifications.list
 
-Lists recipient notification identities, schedules and delivery outcomes. No redemption codes or recipient access tokens are returned.
+Lists recipient notification identities, schedules and delivery outcomes. No redemption codes or recipient access tokens are returned. Default order: gift_card_notification_id descending; this key uniquely orders the results.
 
 `GET /v1/gift-card-notifications`
 

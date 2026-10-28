@@ -15,7 +15,7 @@ Response model.
 | `fulfillment_event_id` | Optional | string |  |
 | `fulfillment_id` | Required | string |  |
 | `fulfillment_notification_id` | Required | string |  |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | Map of string | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata). |
 | `notification_type` | Required | string | Values: [14 declared values](FulfillmentNotificationInput.md#fulfillmentnotificationinput-notification_type-values). |
 | `order` | Optional | [ExpandedOrderSummary](../models/ExpandedOrderSummary.md#expandedordersummary) or null |  |
 | `order_id` | Required | string |  |
@@ -37,4 +37,8 @@ Response model.
 - `"template_not_configured"`
 - `"merchant_managed_email"`
 - `"recipient_unsubscribed"`
+
+### FulfillmentNotification.metadata
+
+Field definitions: [ReturnsCancelResponse200.data.metadata](../models/ReturnsCancelResponse200.md#returnscancelresponse200datametadata).
 

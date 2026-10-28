@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $external_reference_id
  * @property-read string $inventory_item_id
- * @property-read array<array-key, string>|\stdClass $metadata
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $sku
  * @property-read string $status
@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryItemInput extends Model {
-    /** @param array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': array<array-key, string>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
+    /** @param array{'barcode'?: string, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'inventory_item_id': string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'sku'?: string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryItemInput')); }
     /** Shape $ (Value): string. Optional searchable barcode.
      * @return string
@@ -40,11 +40,11 @@ final class InventoryItemInput extends Model {
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Shape $ (Value): Map of string. Caller-owned metadata. Shape $.* (Value): string.
-     * @return array<array-key, string>|\stdClass
+    /** Shape $ (Value): {@see MetadataMapInput}. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
-    public function getMetadata(): array|object { return $this->get('metadata'); }
+    public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
     /** Shape $ (Value): string. Merchant-facing inventory item name.
      * @return string
@@ -70,7 +70,7 @@ final class InventoryItemInput extends Model {
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Shape $ (Value): integer string. Optimistic-concurrency version for item writes. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 0.
+    /** Shape $ (Value): integer string. Optimistic-concurrency version for item writes. Use an integer string (decimal digits), not a floating-point number. Format: uint64. minimum: 1.
      * @return string
      * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
      */

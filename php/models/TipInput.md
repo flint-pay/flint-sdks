@@ -12,7 +12,7 @@ Request input.
 | `created_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `description` | Optional | string |  |
 | `effective_amount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `metadata` | Optional | Map of string |  |
+| `metadata` | Optional | [MetadataMapInput](../models/MetadataMapInput.md#metadatamapinput) | Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. |
 | `name` | Optional | string |  |
 | `order_tip_id` | Required | string |  |
 | `payment_intent_allocations` | Required | Array of [TipPaymentIntentAllocationInput](../models/TipPaymentIntentAllocationInput.md#tippaymentintentallocationinput) |  |
