@@ -90,7 +90,7 @@ After publication:
 
    Dist-tag OIDC is supported by npm with the minimum versions above; the publisher must separately authorize it. Do not republish the package to repair a tag.
 3. Confirm Packagist shows the expected version and source commit. Test installation from both registries in a fresh consumer. Prereleases must be requested explicitly by Composer consumers.
-4. Open the Flint docs refresh PR: from a fresh Flint checkout, run `node web/apps/developers/scripts/refresh-node-sdk-methods.mjs` (FLI-532), review the generated method catalogue, and submit it as a PR.
+4. For stable releases, open the Flint docs refresh PR; skip this step for prereleases so the docs continue to match npm `latest`. From a fresh Flint checkout, run `node web/apps/developers/scripts/refresh-node-sdk-methods.mjs` (FLI-532), review the generated method catalogue, and submit it as a PR.
 
 npm may report a successful publication while the package is still being processed. Registry lookups and installs can return `E404` or `ETARGET` for a few minutes. Wait for processing to finish and retry the lookup; do not republish or change the version solely because of this delay.
 
