@@ -562,6 +562,8 @@ Generated type names change. Code that only calls methods doesn't need changes; 
 
 When a response schema uses `$ref`, both SDKs reuse that declared component instead of adding a per-operation wrapper. For example, the response envelope for `apiKeys.create` is `CreateAPIKeyResponse`; the envelope for `apiKeys.get` is `APIKeyResponse`. Calls still return the payload described in [Results](#results-carry-lastresponse).
 
+In Node, requests that used `ReturnSourceSystemInput` and `makeReturnSourceSystem` now use `ReturnSourceSystemRequestInput` and `makeReturnSourceSystemRequest`. Keep `ReturnSourceSystem` for response values.
+
 `event_type` on each event type is now its exact literal, such as `"order.paid"`, so `if (event.event_type === "order.paid")` narrows the event.
 
 ## Examples and the default host
