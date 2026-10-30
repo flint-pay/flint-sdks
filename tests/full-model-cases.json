@@ -337,7 +337,7 @@
   },
   {
     "name": "Money retains exact amount beyond the JavaScript safe integer range",
-    "model": "Money",
+    "model": "MoneyValue",
     "value": { "amount": "9007199254740993", "currency": "USD" },
     "valid": true
   },

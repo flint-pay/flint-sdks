@@ -255,16 +255,16 @@ echo "Installed root Composer package: all operations passed.\\n";
           "check-attr",
           "export-ignore",
           "--",
-          "node/package.json",
-          "spec/openapi.json",
-          ".generated/sdk/.sdk-generator.json",
+          "node",
+          "spec",
+          ".generated",
           "php/src/Client.php",
           "composer.json",
         ],
         root,
       );
-      assert.match(attributes, /node\/package.json: export-ignore: set/);
-      assert.match(attributes, /spec\/openapi.json: export-ignore: set/);
+      assert.match(attributes, /node: export-ignore: set/);
+      assert.match(attributes, /spec: export-ignore: set/);
       assert.match(
         attributes,
         /php\/src\/Client.php: export-ignore: unspecified/,
